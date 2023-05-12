@@ -95,7 +95,10 @@ Blockly.Msg.EVENT_WHENKEYPRESSED_RIGHT = 'right arrow';
 Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN = 'down arrow';
 Blockly.Msg.EVENT_WHENKEYPRESSED_UP = 'up arrow';
 Blockly.Msg.EVENT_WHENKEYPRESSED_ANY = 'any';
-
+Blockly.Msg.EVENT_CHECKCOLOR = '%1 color is %2';
+Blockly.Msg.EVENT_KEYJUDEMENT = 'when %1 %2';
+Blockly.Msg.EVENT_TILTS = 'When the intelligent hub tilts %1';
+Blockly.Msg.EVENT_KEYPRESS = 'When the %1 button is %2';
 // Looks blocks
 Blockly.Msg.LOOKS_SAYFORSECS = 'say %1 for %2 seconds';
 Blockly.Msg.LOOKS_SAY = 'say %1';
@@ -139,9 +142,44 @@ Blockly.Msg.LOOKS_NEXTBACKDROP_BLOCK = 'next backdrop';
 Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
-
+// combined motor blocks
+Blockly.Msg.STARTING_COMBINED_MOTOR = "%1 set the running motor to %2 %3";
+Blockly.Msg.DIRECTION_MOTOR = "%1 start moving %2";
+Blockly.Msg.TURN_COMBINED_MOTOR = "%1 %2 %3 move %4 %5";
+Blockly.Msg.LINE_COMBINED_MOTOR = "%1 %2 move %3 %4";
+Blockly.Msg.STOP_COMBINED_MOTOR = "%1 stop motion";
+Blockly.Msg.MOVE_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move %4 %5";
+Blockly.Msg.MOVESTEP_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move";
+Blockly.Msg.MOVEPOWER_COMBINED_MOTOR = "Starting at 2% %% power for% 3% 4 movement";
+Blockly.Msg.STOPPING_COMBINED_MOTOR = "%1 When setting the running motor to stop %2";
+// Motor blocks
+Blockly.Msg.BACK = 'back';
+Blockly.Msg.ADVANCE = 'advance';
+Blockly.Msg.LEFT = 'turnleft';
+Blockly.Msg.RIGHT = 'turnright';
+Blockly.Msg.CENTIMETRE = 'centimetre';
+Blockly.Msg.INCH = 'inch';
+Blockly.Msg.CIRCLE = 'circle';
+Blockly.Msg.SECONDS = 'seconds';
+Blockly.Msg.ANGLE = 'angle';
+Blockly.Msg.PATH = 'path';
+Blockly.Msg.CLOCKWISE = 'clockwise';
+Blockly.Msg.ANTICLOCKWISE = 'anticlockwise';
+Blockly.Msg.RETARDATION = 'retardation';
+Blockly.Msg.STILL = 'still';
+Blockly.Msg.FLOAT = 'float';
+Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
+Blockly.Msg.ANGLE_MOTOR = '%1 %2 angle';
+Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 %5";
+Blockly.Msg.SPEED_MOTOR = "%1 %2 set speed to %3 %%";
+Blockly.Msg.STOP_MOTOR = '%1 %2 stop motor';
+Blockly.Msg.STARTING_MOTOR = '%1 %2 %3 starting motor';
+Blockly.Msg.RELATIVE_POSITION = "%1 %2 Set the relative position of the motor %3";
+Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
+Blockly.Msg.MOTION_MOVE9STEPS = 'move 9 steps';
 Blockly.Msg.MOTION_TURNLEFT = 'turn %1 %2 degrees';
 Blockly.Msg.MOTION_TURNRIGHT = 'turn %1 %2 degrees';
 Blockly.Msg.MOTION_POINTINDIRECTION = 'point in direction %1';
@@ -219,8 +257,40 @@ Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
-
+Blockly.Msg.RED = 'red';
+Blockly.Msg.GREEN = 'green';
+Blockly.Msg.BLUE = 'blue';
+Blockly.Msg.BLACK = 'black';
+Blockly.Msg.WHITE = 'white';
+Blockly.Msg.PRESS = 'press';
+Blockly.Msg.UNPRESS = 'unpress';
+Blockly.Msg.PLEFT = 'left';
+Blockly.Msg.PRIGHT = 'right';
+Blockly.Msg.UP = 'up';
+Blockly.Msg.DOWN = 'down';
 // Sensing blocks
+Blockly.Msg.SENSING_RESET_TIMER = 'Reset Timer';
+Blockly.Msg.SENSING_TIMER = 'Timer';
+Blockly.Msg.SENSING_READ_ANALOG = 'Pin %1 analog value';
+Blockly.Msg.SENSING_WRITE_ANALOG = 'Pin %1 analog value %2';
+Blockly.Msg.SENSING_WRITE_PIN = 'Pin %1 value %2';
+Blockly.Msg.SENSING_READ_PIN = 'Read pin %1 value';
+Blockly.Msg.SENSING_COMPASS = 'Compass pointing';
+Blockly.Msg.SENSING_MAGNETISM = 'Magnetism %1';
+Blockly.Msg.SENSING_MAGNETIC_CALIBRATION = 'Magnetic field calibration';
+Blockly.Msg.SENSING_GYROSCOPE_ATTITUDE = 'attitude %1';
+Blockly.Msg.SENSING_GYROSCOPE_ACCELERATION = 'acceleration %1 G';
+Blockly.Msg.SENSING_KEY_PRESS = '%1 key is %2';
+Blockly.Msg.SENSING_KEY_JUDGMENT = 'key %1 %2';
+Blockly.Msg.SENSING_SOUND_INTENSITY = 'Obtain sound intensity';
+Blockly.Msg.SENSING_ULTRASONIC_DETECTION = 'Ultrasonic %1 obtain distance value';
+Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT = '%1 Ultrasonic judgment %2 %3 %%?';
+Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = 'line %1 looks %2';
+Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION = '%1 Reflected light';
+Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT = '%1 Reflected light judgment %2 %3 %%?';
+Blockly.Msg.SENSING_COLOR_DETECTIONRGB = '%1 color is %2';
+Blockly.Msg.SENSING_COLOR_DETECTION = '%1 color';
+Blockly.Msg.SENSING_COLOR_JUDGMENT = '%1 color is %2';
 Blockly.Msg.SENSING_TOUCHINGOBJECT = 'touching %1?';
 Blockly.Msg.SENSING_TOUCHINGOBJECT_POINTER = 'mouse-pointer';
 Blockly.Msg.SENSING_TOUCHINGOBJECT_EDGE = 'edge';
@@ -279,8 +349,20 @@ Blockly.Msg.SOUND_SETVOLUMETO = 'set volume to %1%';
 Blockly.Msg.SOUND_VOLUME = 'volume';
 Blockly.Msg.SOUND_RECORD = 'record...';
 
+//Matrix blocks
+Blockly.Msg.MATRIX_LAMP = '%1 %2 light %3 the color is %4';
+Blockly.Msg.STOP_MATRIX_LAMP = "%1 %2 turn off pixel lights";
+Blockly.Msg.SET_MATRIX_LAMP = "%1 %2 set the brightness of the pixel light to %3 %%";
+Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 Set Pixels x %2 y %3 %4";
+Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
+Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
+Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";
+Blockly.Msg.OPEN = "turn on";
+Blockly.Msg.CLOSE = "turn off";
 // Category labels
+Blockly.Msg.CATEGORY_MATRIX = 'Matrix Lamp';
 Blockly.Msg.CATEGORY_MOTION = 'Motion';
+Blockly.Msg.CATEGORY_MOTOR = 'Motor';
 Blockly.Msg.CATEGORY_LOOKS = 'Looks';
 Blockly.Msg.CATEGORY_SOUND = 'Sound';
 Blockly.Msg.CATEGORY_EVENTS = 'Events';
@@ -310,7 +392,7 @@ Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = 'Say something...';
 Blockly.Msg.COLOUR_HUE_LABEL = 'Color';
 Blockly.Msg.COLOUR_SATURATION_LABEL = 'Saturation';
 Blockly.Msg.COLOUR_BRIGHTNESS_LABEL = 'Brightness';
-
+Blockly.Msg.SILDER = 'Rate/Speed';
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = 'Change value:';

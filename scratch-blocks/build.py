@@ -229,7 +229,9 @@ class Gen_compressed(threading.Thread):
     self.gen_blocks("horizontal")
     self.gen_blocks("vertical")
     self.gen_blocks("common")
-
+    # self.gen_generator("arduino")
+    # self.gen_generator("python")
+    self.gen_generator("cake")
   def gen_core(self, vertical):
     if vertical:
       target_filename = 'blockly_compressed_vertical.js'
@@ -297,6 +299,28 @@ class Gen_compressed(threading.Thread):
     remove = "var Blockly={Blocks:{}};"
     self.do_compile(params, target_filename, filenames, remove)
 
+  def gen_generator(self, language):
+    target_filename = language + "_compressed.js"
+    # Define the parameters for the POST request.
+    params = [
+        ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
+      ]
+
+    # Read in all the source files.
+    # Add Blockly.Generator to be compatible with the compiler.
+    params.append(("js_file", os.path.join("build", "gen_generators.js")))
+
+    filenames = glob.glob(
+        os.path.join("generators", language, "*.js"))
+    filenames.insert(0, os.path.join("generators", language + ".js"))
+    for filename in filenames:
+      params.append(("js_file", filename))
+    filenames.insert(0, "[goog.provide]")
+
+    # Remove Blockly.Generator to be compatible with Blockly.
+    remove = "var Blockly={Generator:{}};"
+    self.do_compile(params, target_filename, filenames, remove)
+
   def do_compile(self, params, target_filename, filenames, remove):
     if self.closure_env["closure_compiler"] == REMOTE_COMPILER:
       do_compile = self.do_compile_remote
@@ -324,11 +348,30 @@ class Gen_compressed(threading.Thread):
 
       # Build the final args array by prepending CLOSURE_COMPILER_NPM to
       # dash_args and dropping any falsy members
-      args = []
-      for group in [[CLOSURE_COMPILER_NPM], dash_args]:
-        args.extend(filter(lambda item: item, group))
+      # Use a flagfile into the closure compiler.To fix the compilation problems due to commands exceeding 8191 characters in Windows Environment.
+      if(os.name == "nt"):
+        tmp_data = " ".join(dash_args)
+        tmp_data_list = list(tmp_data)
+        n_pos = [i for i, x in enumerate(tmp_data_list) if x == "\\"]
+        for x in range(len(n_pos)):
+          tmp_data_list.insert(n_pos[len(n_pos) - x - 1], "\\")
+        tmp_data = "".join(tmp_data_list)
 
-      proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        f_name = target_filename + ".config"
+        temp_f = open(f_name, "w")
+        temp_f.write(tmp_data)
+        temp_f.close()
+
+        args = [closure_compiler, "--flagfile", f_name]
+
+        proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+      else:
+        args = []
+        for group in [[CLOSURE_COMPILER_NPM], dash_args]:
+          args.extend(filter(lambda item: item, group))
+
+          proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
       (stdout, stderr) = proc.communicate()
 
       # Build the JSON response.
@@ -426,7 +469,13 @@ class Gen_compressed(threading.Thread):
         print("FATAL ERROR: Compiler did not return compiledCode.")
         sys.exit(1)
 
-      code = HEADER + "\n" + json_data["compiledCode"]
+      compiledCode = json_data["compiledCode"]
+
+      if (compiledCode.find("new Blockly.Generator") != -1):
+        code = HEADER + "\nlet Blockly = require(\'scratch-blocks\');\n\n" + compiledCode
+      else:
+        code = HEADER + "\n" + compiledCode
+
       code = code.replace(remove, "")
 
       # Trim down Google's (and only Google's) Apache licences.
@@ -471,6 +520,8 @@ class Gen_compressed(threading.Thread):
         print("SUCCESS: " + target_filename)
         print("Size changed from %d KB to %d KB (%d%%)." % (
             original_kb, compressed_kb, ratio))
+        if(os.name == "nt"):
+          os.remove(target_filename + ".config")
       else:
         print("UNKNOWN ERROR")
 
@@ -571,7 +622,10 @@ if __name__ == "__main__":
 
     # Sanity check the local compiler
     test_args = [closure_compiler, os.path.join("build", "test_input.js")]
-    test_proc = subprocess.Popen(test_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    if(os.name == "nt"):
+      test_proc = subprocess.Popen(test_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    else:
+      test_proc = subprocess.Popen(test_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     (stdout, _) = test_proc.communicate()
     assert stdout == read(os.path.join("build", "test_expect.js"))
 

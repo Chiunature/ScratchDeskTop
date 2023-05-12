@@ -1,0 +1,1 @@
+goog.provider('Blockly.StaticTyping')

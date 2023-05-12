@@ -33,7 +33,7 @@ Blockly.Blocks['sensing_touchingobject'] = {
    * Block to Report if its touching a Object.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_TOUCHINGOBJECT,
       "args0": [
@@ -53,7 +53,7 @@ Blockly.Blocks['sensing_touchingobjectmenu'] = {
    * "Touching [Object]" Block Menu.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [
@@ -76,7 +76,7 @@ Blockly.Blocks['sensing_touchingcolor'] = {
    * Block to Report if its touching a certain Color.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_TOUCHINGCOLOR,
       "args0": [
@@ -96,7 +96,7 @@ Blockly.Blocks['sensing_coloristouchingcolor'] = {
    * Block to Report if a color is touching a certain Color.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_COLORISTOUCHINGCOLOR,
       "args0": [
@@ -120,7 +120,7 @@ Blockly.Blocks['sensing_distanceto'] = {
    * Block to Report distance to another Object.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_DISTANCETO,
       "args0": [
@@ -140,7 +140,7 @@ Blockly.Blocks['sensing_distancetomenu'] = {
    * "Distance to [Object]" Block Menu.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [
@@ -162,7 +162,7 @@ Blockly.Blocks['sensing_askandwait'] = {
    * Block to ask a question and wait
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_ASKANDWAIT,
       "args0": [
@@ -182,7 +182,7 @@ Blockly.Blocks['sensing_answer'] = {
    * Block to report answer
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_ANSWER,
       "category": Blockly.Categories.sensing,
@@ -197,7 +197,7 @@ Blockly.Blocks['sensing_keypressed'] = {
    * Block to Report if a key is pressed.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_KEYPRESSED,
       "args0": [
@@ -217,7 +217,7 @@ Blockly.Blocks['sensing_keyoptions'] = {
    * Options for Keys
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [
@@ -280,7 +280,7 @@ Blockly.Blocks['sensing_mousedown'] = {
    * Block to Report if the mouse is down.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_MOUSEDOWN,
       "category": Blockly.Categories.sensing,
@@ -294,7 +294,7 @@ Blockly.Blocks['sensing_mousex'] = {
    * Block to report mouse's x position
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_MOUSEX,
       "category": Blockly.Categories.sensing,
@@ -308,7 +308,7 @@ Blockly.Blocks['sensing_mousey'] = {
    * Block to report mouse's y position
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_MOUSEY,
       "category": Blockly.Categories.sensing,
@@ -322,7 +322,7 @@ Blockly.Blocks['sensing_setdragmode'] = {
    * Block to set drag mode.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_SETDRAGMODE,
       "args0": [
@@ -346,7 +346,7 @@ Blockly.Blocks['sensing_loudness'] = {
    * Block to report loudness
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_LOUDNESS,
       "category": Blockly.Categories.sensing,
@@ -363,7 +363,7 @@ Blockly.Blocks['sensing_loud'] = {
    * 1.4 projects.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_LOUD,
       "category": Blockly.Categories.sensing,
@@ -377,7 +377,7 @@ Blockly.Blocks['sensing_timer'] = {
    * Block to report timer
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_TIMER,
       "category": Blockly.Categories.sensing,
@@ -392,7 +392,7 @@ Blockly.Blocks['sensing_resettimer'] = {
    * Block to reset timer
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_RESETTIMER,
       "category": Blockly.Categories.sensing,
@@ -406,7 +406,7 @@ Blockly.Blocks['sensing_of_object_menu'] = {
    * "* of _" object menu.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [
@@ -431,7 +431,7 @@ Blockly.Blocks['sensing_of'] = {
    * Block to report properties of sprites.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_OF,
       "args0": [
@@ -468,7 +468,7 @@ Blockly.Blocks['sensing_current'] = {
    * Block to Report the current option.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_CURRENT,
       "args0": [
@@ -498,7 +498,7 @@ Blockly.Blocks['sensing_dayssince2000'] = {
    * Block to report days since 2000
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_DAYSSINCE2000,
       "category": Blockly.Categories.sensing,
@@ -512,7 +512,7 @@ Blockly.Blocks['sensing_username'] = {
    * Block to report user's username
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_USERNAME,
       "category": Blockly.Categories.sensing,
@@ -529,11 +529,924 @@ Blockly.Blocks['sensing_userid'] = {
    * projects.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_USERID,
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_color_judgment'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_color_judgment",
+      "message0": Blockly.Msg.SENSING_COLOR_JUDGMENT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "COLOR"
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_color_detection'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_color_detection",
+      "message0": Blockly.Msg.SENSING_COLOR_DETECTION,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_color_detectionRGB'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_color_detectionRGB",
+      "message0": Blockly.Msg.SENSING_COLOR_DETECTIONRGB,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "color",
+          "options": [
+            [
+              Blockly.Msg.RED,
+              "red"
+            ],
+            [
+              Blockly.Msg.GREEN,
+              "green"
+            ],
+            [
+              Blockly.Msg.BLUE,
+              "blue"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_reflected_light_judgment'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_reflected_light_judgment",
+      "message0": Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "judgment",
+          "options": [
+            [
+              ">",
+              ">"
+            ],
+            [
+              "<",
+              "<"
+            ],
+            [
+              "=",
+              "="
+            ]
+          ]
+        },
+        {
+          "type": "field_input",
+          "name": "value",
+          "text": "0"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_reflected_light_detection'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_reflected_light_detection",
+      "message0": Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_line_inspection_judgment'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_line_inspection_judgment",
+      "message0": Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "line",
+          "options": [
+            [
+              Blockly.Msg.BLACK,
+              "black"
+            ],
+            [
+              Blockly.Msg.WHITE,
+              "white"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_ultrasonic_judgment'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_ultrasonic_judgment",
+      "message0": Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "A",
+              "A"
+            ],
+            [
+              "B",
+              "B"
+            ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ]
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "judgment",
+          "options": [
+            [
+              ">",
+              ">"
+            ],
+            [
+              "<",
+              "<"
+            ],
+            [
+              "=",
+              "="
+            ]
+          ]
+        },
+        {
+          "type": "field_input",
+          "name": "value",
+          "text": "0"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_ultrasonic_detection'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_ultrasonic_detection",
+      "message0": Blockly.Msg.SENSING_ULTRASONIC_DETECTION,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_sound_intensity'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_sound_intensity",
+      "message0": Blockly.Msg.SENSING_SOUND_INTENSITY,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_key_judgment'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_key_judgment",
+      "message0": Blockly.Msg.SENSING_KEY_JUDGMENT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "status",
+          "options": [
+            [
+              Blockly.Msg.PRESS,
+              "press"
+            ],
+            [
+              Blockly.Msg.UNPRESS,
+              "unpress"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_key_press'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_key_press",
+      "message0": Blockly.Msg.SENSING_KEY_PRESS,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              Blockly.Msg.PLEFT,
+              "left"
+            ],
+            [
+              Blockly.Msg.PRIGHT,
+              "right"
+            ],
+            [
+              Blockly.Msg.UP,
+              "up"
+            ],
+            [
+              Blockly.Msg.DOWN,
+              "down"
+            ],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "status",
+          "options": [
+            [
+              Blockly.Msg.PRESS,
+              "press"
+            ],
+            [
+              Blockly.Msg.UNPRESS,
+              "unpress"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_gyroscope_acceleration'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_gyroscope_acceleration",
+      "message0": Blockly.Msg.SENSING_GYROSCOPE_ACCELERATION,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "directiion",
+          "options": [
+            [
+              "X",
+              "X"
+            ],
+            [
+              "Y",
+              "Y"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_gyroscope_attitude'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_gyroscope_attitude",
+      "message0": Blockly.Msg.SENSING_GYROSCOPE_ATTITUDE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "attitude",
+          "options": [
+            [
+              Blockly.Msg.PLEFT,
+              "left"
+            ],
+            [
+              Blockly.Msg.PRIGHT,
+              "right"
+            ],
+            [
+              Blockly.Msg.UP,
+              "up"
+            ],
+            [
+              Blockly.Msg.DOWN,
+              "down"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_gyroscope_angle'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_gyroscope_angle",
+      "message0": Blockly.Msg.SENSING_GYROSCOPE_ANGLE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              Blockly.Msg.PLEFT,
+              "left"
+            ],
+            [
+              Blockly.Msg.PRIGHT,
+              "right"
+            ],
+            [
+              Blockly.Msg.UP,
+              "up"
+            ],
+            [
+              Blockly.Msg.DOWN,
+              "down"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_magnetic_calibration'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_magnetic_calibration",
+      "message0": Blockly.Msg.SENSING_MAGNETIC_CALIBRATION,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_magnetism'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_magnetism",
+      "message0": Blockly.Msg.SENSING_MAGNETISM,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "direction",
+          "options": [
+            [
+              "X",
+              "X"
+            ],
+            [
+              "Y",
+              "Y"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_compass'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_compass",
+      "message0": Blockly.Msg.SENSING_COMPASS,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_read_pin'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_read_pin",
+      "message0": Blockly.Msg.SENSING_READ_PIN,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_write_pin'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_write_pin",
+      "message0": Blockly.Msg.SENSING_WRITE_PIN,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+        {
+          "type": "field_number",
+          "name": "pin",
+          "value": 15,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_write_analog'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_write_analog",
+      "message0": Blockly.Msg.SENSING_WRITE_ANALOG,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+        {
+          "type": "field_number",
+          "name": "pin",
+          "value": 15,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_read_analog'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_read_analog",
+      "message0": Blockly.Msg.SENSING_READ_ANALOG,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PORT",
+          "options": [
+            [
+              "P0",
+              "P0"
+            ],
+            [
+              "P1",
+              "P1"
+            ],
+            [
+              "P2",
+              "P2"
+            ],
+            [
+              "P3",
+              "P3"
+            ],
+            [
+              "P4",
+              "P4"
+            ],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_timer'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_timer",
+      "message0": Blockly.Msg.SENSING_TIMER,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_reset_timer'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_reset_timer",
+      "message0": Blockly.Msg.SENSING_RESET_TIMER,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
     });
   }
 };
