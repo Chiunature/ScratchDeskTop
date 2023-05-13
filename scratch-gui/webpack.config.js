@@ -209,7 +209,8 @@ module.exports = [
             },
             externals: {
                 'react': 'react',
-                'react-dom': 'react-dom'
+                'react-dom': 'react-dom',
+                'electron': 'electron'
             },
             module: {
                 rules: base.module.rules.concat([

@@ -43,7 +43,7 @@
     opacity: 0;
 }
 .scratch-logo {
-    height:  1.6rem;
+    height: 1.6rem;
     vertical-align: middle;
 }
 
@@ -52,12 +52,12 @@
 }
 
 .language-icon {
-    height:  1.5rem;
+    height: 1.5rem;
     vertical-align: middle;
 }
 
 .language-caret {
-    margin: 0 .125rem;
+    margin: 0 0.125rem;
 }
 
 .language-menu {
@@ -128,13 +128,13 @@
 }
 
 .divider {
-    margin: 0 .5rem;
+    margin: 0 0.5rem;
     height: 34px;
 }
 
 .author-info {
-    margin-left: .25rem;
-    margin-right: .6875rem;
+    margin-left: 0.25rem;
+    margin-right: 0.6875rem;
 }
 
 .menu-bar-button {
@@ -142,14 +142,14 @@
 }
 
 .remix-button {
-    background-color: $pen-primary
+    background-color: $pen-primary;
 }
 
 .remix-button-icon {
     height: 1.25rem;
 }
 
-.coming-soon >:not(.coming-soon-tooltip) {
+.coming-soon > :not(.coming-soon-tooltip) {
     opacity: 0.5;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .mystuff-icon {
-    margin: 0 .25rem;
+    margin: 0 0.25rem;
     height: 1rem;
 }
 
@@ -172,15 +172,16 @@
     margin-right: 0.35rem;
 }
 
-.account-nav-menu, .mystuff-button {
-    padding: 0 .25rem;
+.account-nav-menu,
+.mystuff-button {
+    padding: 0 0.25rem;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .profile-icon {
-    margin: 0 .25rem;
+    margin: 0 0.25rem;
     width: $menu-bar-button-size;
     border-radius: $form-radius;
 }
@@ -191,11 +192,11 @@
 }
 
 [dir="ltr"] .dropdown-caret-icon {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
 }
 
 [dir="rtl"] .dropdown-caret-icon {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
 }
 
 .disabled {
@@ -203,26 +204,33 @@
 }
 
 .mystuff > a {
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 45%;
-  padding-right: 10px;
-  padding-left: 10px;
-  width: 30px;
-  overflow: hidden;
-  text-indent: 50px;
-  white-space: nowrap;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 45%;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 30px;
+    overflow: hidden;
+    text-indent: 50px;
+    white-space: nowrap;
 }
 .mystuff > a:hover {
-  background-size: 50%;
+    background-size: 50%;
 }
 
 .mystuff > a {
-  background-image: url("/images/mystuff.png");
+    background-image: url("/images/mystuff.png");
 }
 
 .about-icon {
     height: 1.25rem;
     margin: 0.5rem;
     vertical-align: middle;
+}
+.hide {
+    display: none !important;
+}
+
+.generator {
+    margin: 0 30px;
 }

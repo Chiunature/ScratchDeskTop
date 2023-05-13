@@ -1,23 +1,24 @@
+import ScratchBlocks from 'scratch-blocks';
+// import 'scratch-blocks/python_compressed';
+// import 'scratch-blocks/arduino_compressed';
+import 'scratch-blocks/cake_compressed';
 /**
  * Connect scratch blocks with the vm
  * @param {VirtualMachine} vm - The scratch vm
- * @param {Bool} useCatBlocks - Whether to use cat blocks rendering of ScratchBlocks
  * @return {ScratchBlocks} ScratchBlocks connected with the vm
  */
-export default function (vm, useCatBlocks) {
-    const ScratchBlocks = useCatBlocks ? require('cat-blocks') : require('scratch-blocks');
+export default function (vm) {
+    // console.log(vm)
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
             message0: '%1',
-            args0: [
-                {
-                    type: 'field_dropdown',
-                    name: name,
-                    options: function () {
-                        return start.concat(menuOptionsFn());
-                    }
+            args0: [{
+                type: 'field_dropdown',
+                name: name,
+                options: function () {
+                    return start.concat(menuOptionsFn());
                 }
-            ],
+            }],
             inputsInline: true,
             output: 'String',
             colour: colors.secondary,
@@ -30,15 +31,13 @@ export default function (vm, useCatBlocks) {
     const jsonForHatBlockMenu = function (hatName, name, menuOptionsFn, colors, start) {
         return {
             message0: hatName,
-            args0: [
-                {
-                    type: 'field_dropdown',
-                    name: name,
-                    options: function () {
-                        return start.concat(menuOptionsFn());
-                    }
+            args0: [{
+                type: 'field_dropdown',
+                name: name,
+                options: function () {
+                    return start.concat(menuOptionsFn());
                 }
-            ],
+            }],
             colour: colors.primary,
             colourSecondary: colors.secondary,
             colourTertiary: colors.tertiary,
@@ -50,19 +49,18 @@ export default function (vm, useCatBlocks) {
     const jsonForSensingMenus = function (menuOptionsFn) {
         return {
             message0: ScratchBlocks.Msg.SENSING_OF,
-            args0: [
-                {
-                    type: 'field_dropdown',
-                    name: 'PROPERTY',
-                    options: function () {
-                        return menuOptionsFn();
-                    }
-
-                },
-                {
-                    type: 'input_value',
-                    name: 'OBJECT'
+            args0: [{
+                type: 'field_dropdown',
+                name: 'PROPERTY',
+                options: function () {
+                    return menuOptionsFn();
                 }
+
+            },
+            {
+                type: 'input_value',
+                name: 'OBJECT'
+            }
             ],
             output: true,
             colour: ScratchBlocks.Colours.sensing.primary,
@@ -73,7 +71,9 @@ export default function (vm, useCatBlocks) {
     };
 
     const soundsMenu = function () {
-        let menu = [['', '']];
+        let menu = [
+            ['', '']
+        ];
         if (vm.editingTarget && vm.editingTarget.sprite.sounds.length > 0) {
             menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.name]);
         }
@@ -88,7 +88,9 @@ export default function (vm, useCatBlocks) {
         if (vm.editingTarget && vm.editingTarget.getCostumes().length > 0) {
             return vm.editingTarget.getCostumes().map(costume => [costume.name, costume.name]);
         }
-        return [['', '']];
+        return [
+            ['', '']
+        ];
     };
 
     const backdropsMenu = function () {
@@ -97,11 +99,15 @@ export default function (vm, useCatBlocks) {
         const random = ScratchBlocks.ScratchMsgs.translate('LOOKS_RANDOMBACKDROP', 'random backdrop');
         if (vm.runtime.targets[0] && vm.runtime.targets[0].getCostumes().length > 0) {
             return vm.runtime.targets[0].getCostumes().map(costume => [costume.name, costume.name])
-                .concat([[next, 'next backdrop'],
+                .concat([
+                    [next, 'next backdrop'],
                     [previous, 'previous backdrop'],
-                    [random, 'random backdrop']]);
+                    [random, 'random backdrop']
+                ]);
         }
-        return [['', '']];
+        return [
+            ['', '']
+        ];
     };
 
     const backdropNamesMenu = function () {
@@ -109,7 +115,9 @@ export default function (vm, useCatBlocks) {
         if (stage && stage.getCostumes().length > 0) {
             return stage.getCostumes().map(costume => [costume.name, costume.name]);
         }
-        return [['', '']];
+        return [
+            ['', '']
+        ];
     };
 
     const spriteMenu = function () {
@@ -132,12 +140,16 @@ export default function (vm, useCatBlocks) {
         if (vm.editingTarget && vm.editingTarget.isStage) {
             const menu = spriteMenu();
             if (menu.length === 0) {
-                return [['', '']]; // Empty menu matches Scratch 2 behavior
+                return [
+                    ['', '']
+                ]; // Empty menu matches Scratch 2 behavior
             }
             return menu;
         }
         const myself = ScratchBlocks.ScratchMsgs.translate('CONTROL_CREATECLONEOF_MYSELF', 'myself');
-        return [[myself, '_myself_']].concat(spriteMenu());
+        return [
+            [myself, '_myself_']
+        ].concat(spriteMenu());
     };
 
     const soundColors = ScratchBlocks.Colours.sounds;
@@ -251,7 +263,9 @@ export default function (vm, useCatBlocks) {
                     // If we still don't have a block, just return an empty list . This happens during
                     // scratch blocks construction.
                     if (!sensingOfBlock) {
-                        return [['', '']];
+                        return [
+                            ['', '']
+                        ];
                     }
                     // The block was in the flyout so look up future block info there.
                     lookupBlocks = vm.runtime.flyoutBlocks;
@@ -285,7 +299,9 @@ export default function (vm, useCatBlocks) {
                 const spriteVariableMenuItems = spriteVariableOptions.map(variable => [variable, variable]);
                 return spriteOptions.concat(spriteVariableMenuItems);
             }
-            return [['', '']];
+            return [
+                ['', '']
+            ];
         };
 
         const json = jsonForSensingMenus(menuFn);

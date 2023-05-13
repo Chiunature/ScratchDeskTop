@@ -7,7 +7,7 @@
 }
 
 .drag-over:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -18,7 +18,7 @@
     transition: all 0.25s ease;
 }
 
-.blocks :global(.injectionDiv){
+.blocks :global(.injectionDiv) {
     position: absolute;
     top: 0;
     right: 0;
@@ -74,7 +74,6 @@
     border-left: 1px solid $ui-black-transparent;
 }
 
-
 .blocks :global(.blocklyBlockDragSurface) {
     /*
         Fix an issue where the drag surface was preventing hover events for sharing blocks.
@@ -96,4 +95,13 @@
 .blocks :global(.blocklyMinimalBody) {
     min-width: auto;
     min-height: auto;
+}
+.blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
+    transform: translate(345px, 2.5px) !important;
+}
+.blocks
+    :global(
+        .blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect
+    ) {
+    width: 300px !important;
 }

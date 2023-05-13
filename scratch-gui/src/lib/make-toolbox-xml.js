@@ -142,11 +142,11 @@ const motion = function (isInitialSetup, isStage, targetId) {
 const xmlEscape = function (unsafe) {
     return unsafe.replace(/[<>&'"]/g, c => {
         switch (c) {
-        case '<': return '&lt;';
-        case '>': return '&gt;';
-        case '&': return '&amp;';
-        case '\'': return '&apos;';
-        case '"': return '&quot;';
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
         }
     });
 };
@@ -347,6 +347,16 @@ const events = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
         <block type="event_whenflagclicked"/>
+        ${blockSeparator}
+        <block type="event_checkcolor">
+            <value name="COLOR">
+                <shadow type="colour_picker"/>
+            </value>
+        </block>
+        <block type="event_keyjudement" />
+        <block type="event_tilts" />
+        <block type="event_keypress" />
+        ${blockSeparator}
         <block type="event_whenkeypressed">
         </block>
         ${isStage ? `
@@ -434,6 +444,33 @@ const sensing = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
         ${isStage ? '' : `
+            <block type="sensing_color_judgment">
+                <value name="COLOR">
+                    <shadow type="colour_picker"/>
+                </value>
+            </block>
+            <block type="sensing_color_detection"></block>
+            <block type="sensing_color_detectionRGB"></block>
+            <block type="sensing_reflected_light_judgment"></block>
+            <block type="sensing_reflected_light_detection"></block>
+            <block type="sensing_line_inspection_judgment"></block>
+            <block type="sensing_ultrasonic_judgment"></block>
+            <block type="sensing_ultrasonic_detection"></block>
+            <block type="sensing_sound_intensity"></block>
+            <block type="sensing_key_judgment"></block>
+            <block type="sensing_key_press"></block>
+            <block type="sensing_gyroscope_acceleration"></block>
+            <block type="sensing_gyroscope_attitude"></block>
+            <block type="sensing_magnetic_calibration"></block>
+            <block type="sensing_magnetism"></block>
+            <block type="sensing_compass"></block>
+            <block type="sensing_read_pin"></block>
+            <block type="sensing_write_pin"></block>
+            <block type="sensing_read_analog"></block>
+            <block type="sensing_write_analog"></block>
+            <block type="sensing_timer"></block>
+            <block type="sensing_reset_timer"></block>
+            ${blockSeparator}
             <block type="sensing_touchingobject">
                 <value name="TOUCHINGOBJECTMENU">
                     <shadow type="sensing_touchingobjectmenu"/>
@@ -710,10 +747,99 @@ const myBlocks = function () {
         id="myBlocks"
         colour="#FF6680"
         secondaryColour="#FF4D6A"
-        custom="PROCEDURE">
+        >
     </category>
     `;
 };
+
+const motor = function (isInitialSetup, isStage, targetId) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        'MOTOR_STAGE_SELECTED',
+        'Stage selected: no motor blocks'
+    );
+    return `
+    <category
+        name="%{BKY_CATEGORY_MOTOR}"
+        id="motor"
+        colour="#4C97FF" 
+        secondaryColour="#3373CC">
+        ${isStage ? `
+        <label text="${stageSelected}"></label>
+        ` : `
+        <block type="starting_motor"></block>
+        <block type="stop_motor"></block>
+        <block type="speed_motor"></block>
+        <block type="specifiedunit_motor"></block>
+        <block type="specifiedangle_motor"></block>
+        <block type="relative_position"></block>
+        <block type="specified_manner"></block>
+        <block type="rate_motor"></block>
+        <block type="angle_motor"></block>
+        `}
+    </category>
+    `;
+}
+
+const combined_motor = function (isInitialSetup, isStage, targetId) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        'MOTOR_STAGE_SELECTED',
+        'Stage selected: no motor blocks'
+    );
+    return `
+    <category
+        name="%{BKY_CATEGORY_COMBINED_MOTOR}"
+        id="combined_motor"
+        colour="#D65CD6" secondaryColour="#BD42BD">
+        ${isStage ? `
+        <label text="${stageSelected}"></label>
+        ` : `
+        <block type="starting_combined_motor"></block>
+        <block type="direction_combined_motor"></block>
+        <block type="speed_combined_motor"></block>
+        <block type="turn_combined_motor"></block>
+        <block type="line_combined_motor"></block>
+        <block type="stop_combined_motor"></block>
+        <block type="move_combined_motor"></block>
+        <block type="movestep_combined_motor"></block>
+        <block type="movepower_combined_motor"></block>
+        <block type="stopping_combined_motor"></block>
+        `}
+    </category>
+    `;
+}
+
+const matrix = function (isInitialSetup, isStage, targetId) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        'MOTOR_STAGE_SELECTED',
+        'Stage selected: no motor blocks'
+    );
+    return `
+    <category
+        name="%{BKY_CATEGORY_MATRIX}"
+        id="matrix"
+        colour="#9966FF" secondaryColour="#774DCB">
+        ${isStage ? `
+        <label text="${stageSelected}"></label>
+        ` : `
+        <block type="matrix_lamp">
+            <value name="COLOR">
+                <shadow type="colour_picker"/>
+            </value>
+        </block>
+        <block type="stop_matrix_lamp"></block>
+        <block type="set_matrix_lamp"></block>
+        <block type="single_matrix_lamp"></block>
+        <block type="text_matrix_lamp"></block>
+        <block type="setRGB_matrix_lamp">
+            <value name="COLOR">
+                <shadow type="colour_picker"/>
+            </value>
+        </block>
+        <block type="useRGB_matrix_lamp"></block>
+        `}
+    </category>
+    `;
+}
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -762,11 +888,14 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
     const operatorsXML = moveCategory('operators') || operators(isInitialSetup, isStage, targetId);
     const variablesXML = moveCategory('data') || variables(isInitialSetup, isStage, targetId);
     const myBlocksXML = moveCategory('procedures') || myBlocks(isInitialSetup, isStage, targetId);
-
+    const motorXML = moveCategory('motor') || motor(isInitialSetup, isStage, targetId);
+    const combined_motorXML = moveCategory('combined_motor') || combined_motor(isInitialSetup, isStage, targetId);
+    const matrixXML = moveCategory('matrix') || matrix(isInitialSetup, isStage, targetId);
     const everything = [
         xmlOpen,
-        motionXML, gap,
-        looksXML, gap,
+        motorXML, gap,
+        combined_motorXML, gap,
+        matrixXML, gap,
         soundXML, gap,
         eventsXML, gap,
         controlXML, gap,
