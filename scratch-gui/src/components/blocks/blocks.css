@@ -67,6 +67,7 @@
 .blocks :global(.blocklyFlyout) {
     border-right: 1px solid $ui-black-transparent;
     box-sizing: content-box;
+    min-width: 300px;
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
