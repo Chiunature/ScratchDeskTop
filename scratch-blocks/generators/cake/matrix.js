@@ -33,57 +33,54 @@ Blockly.cake['matrix'] = function (block) {
 };
 
 Blockly.cake['matrix_lamp'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
     let lamp = block.getFieldValue('lamp');
-    let color = block.getFieldValue('COLOR');
-    // console.log(lamp);
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_lamp("${lamp}", ${color.replace(/\'/g, '"')});\n`;
     return code;
 };
 
 Blockly.cake['stop_matrix_lamp'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_stop_lamp()\n`;
     return code;
 };
 
 Blockly.cake['set_matrix_lamp'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
-    let brightness = block.getFieldValue('brightness');
+    let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_set_lamp(${brightness});\n`;
     return code;
 };
 
 Blockly.cake['single_matrix_lamp'] = function (block) {
     let x = block.getFieldValue('x');
     let y = block.getFieldValue('y');
-    let brightness = block.getFieldValue('brightness');
+    let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_single_lamp(${x}, ${y}, ${brightness});\n`;
     return code;
 };
 
 Blockly.cake['text_matrix_lamp'] = function (block) {
     let text = block.getFieldValue('text');
+    let direction = block.getFieldValue('direction');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_text_lamp("${text}", "${direction}");\n`;
     return code;
 };
 
 Blockly.cake['setRGB_matrix_lamp'] = function (block) {
-    let brightness = block.getFieldValue('brightness');
-    let color = block.getFieldValue('COLOR');
+    let order = block.getFieldValue('order');
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_setRGB_lamp(${order}, ${color.replace(/\'/g, '"')});\n`;
     return code;
 };
 
 Blockly.cake['useRGB_matrix_lamp'] = function (block) {
-    let switchSelect = block.getFieldValue('switch');
+    let switchSelect = block.getFieldValue('SWITCH');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `matrix_useRGB_lamp("${switchSelect}");\n`;
     return code;
 };

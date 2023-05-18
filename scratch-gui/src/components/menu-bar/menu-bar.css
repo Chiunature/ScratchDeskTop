@@ -39,6 +39,14 @@
     align-items: center;
     flex-grow: 1;
 }
+.main-menu-two {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-grow: 1;
+}
 .inactive {
     opacity: 0;
 }

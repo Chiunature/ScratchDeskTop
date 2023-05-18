@@ -15,7 +15,7 @@
 goog.provide('Blockly.FieldSlider');
 
 goog.require('Blockly.FieldNumber');
-goog.require('goog.userAgent');
+
 /**
  * Class for an number slider field.
  * @param {string|number=} opt_value The initial value of the field. Should
@@ -97,15 +97,14 @@ Blockly.FieldSlider.prototype.showEditor_ = function () {
     sliderInput.setAttribute('step', this.precision_);
     sliderInput.setAttribute('value', this.getValue());
     sliderInput.className = 'scratchFieldSlider';
-
-    sliderInput.style.setProperty('--trackColor', this.sourceBlock_.getColourTertiary());
+    sliderInput.style.setProperty('--trackColor', this.sourceBlock_.parentBlock_.getColourTertiary());
     editor.appendChild(sliderInput);
     this.sliderInput_ = sliderInput;
 
     Blockly.DropDownDiv.getContentDiv().appendChild(editor);
-    Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
+    Blockly.DropDownDiv.setColour(this.sourceBlock_.parentBlock_.getColour(),
         this.sourceBlock_.getColourTertiary());
-    Blockly.DropDownDiv.setCategory(this.sourceBlock_.getCategory());
+    Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
     Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
     this.boundEvents_.push(Blockly.bindEvent_(

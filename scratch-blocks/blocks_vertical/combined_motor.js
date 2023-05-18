@@ -185,12 +185,8 @@ Blockly.Blocks['speed_combined_motor'] = {
                     ]
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "SPEED",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 }
             ],
             "category": Blockly.Categories.combined_motor,
@@ -408,20 +404,12 @@ Blockly.Blocks['move_combined_motor'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "left",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "right",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 },
                 {
                     "type": "field_number",
@@ -482,20 +470,12 @@ Blockly.Blocks['movestep_combined_motor'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "left",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "right",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 }
             ],
             "category": Blockly.Categories.combined_motor,
@@ -523,12 +503,8 @@ Blockly.Blocks['movepower_combined_motor'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "power",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 },
                 {
                     "type": "field_dropdown",

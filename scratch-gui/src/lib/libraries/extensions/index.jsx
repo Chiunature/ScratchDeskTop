@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import musicIconURL from './music/music.png';
 import musicInsetIconURL from './music/music-small.svg';
@@ -47,6 +47,28 @@ import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
 export default [
+    {
+        name: (
+            <FormattedMessage
+                defaultMessage="Music"
+                description="Name for the 'Music' extension"
+                id="gui.extension.music.name"
+            />
+        ),
+        extensionId: 'music',
+        iconURL: musicIconURL,
+        insetIconURL: musicInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Play instruments and drums."
+                description="Description for the 'Music' extension"
+                id="gui.extension.music.description"
+            />
+        ),
+        featured: true
+    },
+]
+/*export default [
     {
         name: (
             <FormattedMessage
@@ -318,4 +340,4 @@ export default [
         ),
         helpLink: 'https://scratch.mit.edu/vernier'
     }
-];
+];*/

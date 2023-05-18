@@ -26,31 +26,9 @@ Blockly.Blocks['matrix_lamp'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
-                    "name": "PORT",
-                    "options": [
-                        [
-                            "M1",
-                            "M1"
-                        ],
-                        [
-                            "M2",
-                            "M2"
-                        ],
-                        [
-                            "M3",
-                            "M3"
-                        ],
-                        [
-                            "M4",
-                            "M4"
-                        ]
-                    ]
-                },
-                {
                     "type": "field_matrix",
                     "name": "lamp",
-                    "matrix": ""
+                    "matrix": "1111111111111111111111111111111111111111111111111111111111111111"
                 },
                 {
                     "type": "input_value",
@@ -60,7 +38,7 @@ Blockly.Blocks['matrix_lamp'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_pen", "colours_looks", "shape_statement"],
         });
     }
 };
@@ -82,28 +60,6 @@ Blockly.Blocks['stop_matrix_lamp'] = {
                     "height": 24,
                     "alt": "*",
                     "flipRtl": false
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "PORT",
-                    "options": [
-                        [
-                            "M1",
-                            "M1"
-                        ],
-                        [
-                            "M2",
-                            "M2"
-                        ],
-                        [
-                            "M3",
-                            "M3"
-                        ],
-                        [
-                            "M4",
-                            "M4"
-                        ]
-                    ]
                 },
             ],
             "category": Blockly.Categories.matrix,
@@ -133,35 +89,9 @@ Blockly.Blocks['set_matrix_lamp'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
-                    "name": "PORT",
-                    "options": [
-                        [
-                            "M1",
-                            "M1"
-                        ],
-                        [
-                            "M2",
-                            "M2"
-                        ],
-                        [
-                            "M3",
-                            "M3"
-                        ],
-                        [
-                            "M4",
-                            "M4"
-                        ]
-                    ]
+                    "type": "input_value",
+                    "name": "brightness"
                 },
-                {
-                    "type": "field_slider",
-                    "name": "brightness",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
-                }
             ],
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
@@ -204,12 +134,8 @@ Blockly.Blocks['single_matrix_lamp'] = {
                     "max": 5
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "brightness",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 }
             ],
             "category": Blockly.Categories.matrix,

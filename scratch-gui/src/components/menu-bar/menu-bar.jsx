@@ -553,6 +553,16 @@ class MenuBar extends React.Component {
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div>
                     <Divider className={classNames(styles.divider)} />
+                    <div className={classNames(styles.menuBarItem, styles.growable)}>
+                        <MenuBarItemTooltip
+                            enable
+                            id="title-field"
+                        >
+                            <ProjectTitleInput
+                                className={classNames(styles.titleFieldGrowable)}
+                            />
+                        </MenuBarItemTooltip>
+                    </div>
                     {/* {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
                             <MenuBarItemTooltip
@@ -626,17 +636,22 @@ class MenuBar extends React.Component {
                         ) : [])}
                     </div>
                 </div>
-                <div
-                    className={classNames(styles.menuBarItem, styles.hoverable, styles.generator, {
-                        [styles.active]: ''
-                    })}
-                    onClick={() => this.props.onSetGen(this.props.isGen)}
-                >代码生成器(Generator)
-                    {/* <FormattedMessage
-                        defaultMessage="Generator"
-                        description="Code generator"
-                        id="gui.menuBar.generator"
-                    /> */}
+                <div className={classNames(styles.mainMenuTwo)}>
+                    <div
+                        className={classNames(styles.menuBarItem, styles.hoverable, styles.generator, {
+                            [styles.active]: ''
+                        })}
+                        onClick={() => this.props.onSetGen(this.props.isGen)}
+                    >代码生成器(Generator)
+                    </div>
+                    <Divider className={classNames(styles.divider)} />
+                    <div
+                        className={classNames(styles.menuBarItem, styles.hoverable, styles.generator, {
+                            [styles.active]: ''
+                        })}
+                        onClick={() => this.props.onSetGen(this.props.isGen)}
+                    >主题(Theme)
+                    </div>
                 </div>
                 {/* show the proper UI in the account menu, given whether the user is
                 logged in, and whether a session is available to log in with */}

@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import { connect } from 'react-redux';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import {
     getIsAnyCreatingNewState,
     getIsShowingWithoutId
 } from '../reducers/project-state';
-import {setProjectTitle} from '../reducers/project-title';
+import { setProjectTitle } from '../reducers/project-title';
 
 const messages = defineMessages({
     defaultProjectTitle: {
         id: 'gui.gui.defaultProjectTitle',
         description: 'Default title for project',
-        defaultMessage: 'Scratch Project'
+        defaultMessage: 'Drluck Project'
     }
 });
 
@@ -23,10 +23,10 @@ const messages = defineMessages({
  */
 const TitledHOC = function (WrappedComponent) {
     class TitledComponent extends React.Component {
-        componentDidMount () {
+        componentDidMount() {
             this.handleReceivedProjectTitle(this.props.projectTitle);
         }
-        componentDidUpdate (prevProps) {
+        componentDidUpdate(prevProps) {
             if (this.props.projectTitle !== prevProps.projectTitle) {
                 this.handleReceivedProjectTitle(this.props.projectTitle);
             }
@@ -43,15 +43,16 @@ const TitledHOC = function (WrappedComponent) {
                 this.props.onUpdateProjectTitle(this.props.reduxProjectTitle);
             }
         }
-        handleReceivedProjectTitle (requestedTitle) {
+        handleReceivedProjectTitle(requestedTitle) {
             let newTitle = requestedTitle;
             if (newTitle === null || typeof newTitle === 'undefined') {
-                newTitle = this.props.intl.formatMessage(messages.defaultProjectTitle);
+                // newTitle = this.props.intl.formatMessage(messages.defaultProjectTitle);
+                newTitle = "Drluck";
             }
             this.props.onChangedProjectTitle(newTitle);
             return newTitle;
         }
-        render () {
+        render() {
             const {
                 /* eslint-disable no-unused-vars */
                 intl,
@@ -86,7 +87,7 @@ const TitledHOC = function (WrappedComponent) {
     };
 
     TitledComponent.defaultProps = {
-        onUpdateProjectTitle: () => {}
+        onUpdateProjectTitle: () => { }
     };
 
     const mapStateToProps = state => {

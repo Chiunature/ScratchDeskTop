@@ -140,7 +140,7 @@ Blockly.cake.finish = function (code) {
   code = '\n' + code;
 
   // Convert the definitions dictionary into a list.
-  var includes = ['#define HIGH 1', '#define LOW 0', "#include <string>", "typedef bool boolean;", "typedef std::string String;"];
+  var includes = ["#include <stdio.h>", "#include <stdlib.h>", "#include <string.h>"];
   var declarations = [];
   var defines = [];
   var func_definitions = [];

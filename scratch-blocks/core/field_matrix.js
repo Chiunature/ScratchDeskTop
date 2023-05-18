@@ -35,7 +35,7 @@ goog.require('Blockly.DropDownDiv');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldMatrix = function(matrix) {
+Blockly.FieldMatrix = function (matrix) {
   Blockly.FieldMatrix.superClass_.constructor.call(this, matrix);
   this.addArgType('matrix');
   /**
@@ -52,10 +52,10 @@ Blockly.FieldMatrix = function(matrix) {
   this.ledButtons_ = [];
   /**
    * String for storing current matrix value.
-   * @type {!String]
+   * @type {!String}
    * @private
    */
-  this.matrix_ = '';
+  this.matrix_ = matrix;
   /**
    * SVGElement for LED matrix in editor.
    * @type {?SVGElement}
@@ -127,7 +127,7 @@ goog.inherits(Blockly.FieldMatrix, Blockly.Field);
  * @package
  * @nocollapse
  */
-Blockly.FieldMatrix.fromJson = function(options) {
+Blockly.FieldMatrix.fromJson = function (options) {
   return new Blockly.FieldMatrix(options['matrix']);
 };
 
@@ -136,7 +136,7 @@ Blockly.FieldMatrix.fromJson = function(options) {
  * @type {number}
  * @const
  */
-Blockly.FieldMatrix.THUMBNAIL_SIZE = 26;
+Blockly.FieldMatrix.THUMBNAIL_SIZE = 30;
 
 /**
  * Fixed size of each matrix thumbnail node, in px.
@@ -178,7 +178,7 @@ Blockly.FieldMatrix.MATRIX_NODE_RADIUS = 4;
  * @type {number}
  * @const
  */
-Blockly.FieldMatrix.MATRIX_NODE_PAD = 5;
+Blockly.FieldMatrix.MATRIX_NODE_PAD = 8;
 
 /**
  * String with 25 '0' chars.
@@ -186,7 +186,7 @@ Blockly.FieldMatrix.MATRIX_NODE_PAD = 5;
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ZEROS = '0000000000000000000000000';
+Blockly.FieldMatrix.ZEROS = '0000000000000000000000000000000000000000000000000000000000000000';
 
 /**
  * String with 25 '1' chars.
@@ -194,16 +194,23 @@ Blockly.FieldMatrix.ZEROS = '0000000000000000000000000';
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ONES = '1111111111111111111111111';
+Blockly.FieldMatrix.ONES = '1111111111111111111111111111111111111111111111111111111111111111';
 
 /**
  * Called when the field is placed on a block.
  * @param {Block} block The owning block.
  */
-Blockly.FieldMatrix.prototype.init = function() {
+Blockly.FieldMatrix.prototype.init = function () {
   if (this.fieldGroup_) {
     // Matrix menu has already been initialized once.
     return;
+  }
+
+  // Change the color to parent block color.
+  if (this.sourceBlock_.getParent()) {
+    var parentBlock = this.sourceBlock_.getParent();
+    this.sourceBlock_.setColour(parentBlock.getColour(), parentBlock.getColourSecondary(),
+      parentBlock.getColourTertiary());
   }
 
   // Build the DOM.
@@ -214,7 +221,8 @@ Blockly.FieldMatrix.prototype.init = function() {
   this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
 
   var thumbX = Blockly.BlockSvg.DROPDOWN_ARROW_PADDING / 2;
-  var thumbY = (this.size_.height - Blockly.FieldMatrix.THUMBNAIL_SIZE) / 2;
+  // var thumbY = (this.size_.height - Blockly.FieldMatrix.THUMBNAIL_SIZE) / 2;
+  var thumbY = -4;
   var thumbnail = Blockly.utils.createSvgElement('g', {
     'transform': 'translate(' + thumbX + ', ' + thumbY + ')',
     'pointer-events': 'bounding-box', 'cursor': 'pointer'
@@ -222,8 +230,8 @@ Blockly.FieldMatrix.prototype.init = function() {
   this.ledThumbNodes_ = [];
   var nodeSize = Blockly.FieldMatrix.THUMBNAIL_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.THUMBNAIL_NODE_PAD;
-  for (var i = 0; i < 5; i++) {
-    for (var n = 0; n < 5; n++) {
+  for (var i = 0; i < 8; i++) {
+    for (var n = 0; n < 8; n++) {
       var attr = {
         'x': ((nodeSize + nodePad) * n) + nodePad,
         'y': ((nodeSize + nodePad) * i) + nodePad,
@@ -231,7 +239,7 @@ Blockly.FieldMatrix.prototype.init = function() {
         'rx': nodePad, 'ry': nodePad
       };
       this.ledThumbNodes_.push(
-          Blockly.utils.createSvgElement('rect', attr, thumbnail)
+        Blockly.utils.createSvgElement('rect', attr, thumbnail)
       );
     }
     thumbnail.style.cursor = 'default';
@@ -245,16 +253,16 @@ Blockly.FieldMatrix.prototype.init = function() {
     this.arrow_ = Blockly.utils.createSvgElement('image', {
       'height': Blockly.FieldMatrix.ARROW_SIZE + 'px',
       'width': Blockly.FieldMatrix.ARROW_SIZE + 'px',
-      'transform': 'translate(' + arrowX + ', ' + arrowY + ')'
+      'transform': 'translate(' + (arrowX + 3) + ', ' + (arrowY + 2) + ')'
     }, this.fieldGroup_);
     this.arrow_.setAttributeNS('http://www.w3.org/1999/xlink',
-        'xlink:href', Blockly.mainWorkspace.options.pathToMedia +
-        'dropdown-arrow.svg');
+      'xlink:href', Blockly.mainWorkspace.options.pathToMedia +
+    'dropdown-arrow.svg');
     this.arrow_.style.cursor = 'default';
   }
 
   this.mouseDownWrapper_ = Blockly.bindEventWithChecks_(
-      this.getClickTarget_(), 'mousedown', this, this.onMouseDown_);
+    this.getClickTarget_(), 'mousedown', this, this.onMouseDown_);
 };
 
 /**
@@ -262,15 +270,15 @@ Blockly.FieldMatrix.prototype.init = function() {
  * @param {string} matrix The new matrix value represented by a 25-bit integer.
  * @override
  */
-Blockly.FieldMatrix.prototype.setValue = function(matrix) {
+Blockly.FieldMatrix.prototype.setValue = function (matrix) {
   if (!matrix || matrix === this.matrix_) {
     return;  // No change
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.matrix_, matrix));
+      this.sourceBlock_, 'field', this.name, this.matrix_, matrix));
   }
-  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 25 - matrix.length);
+  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 64 - matrix.length);
   this.matrix_ = matrix;
   this.updateMatrix_();
 };
@@ -279,7 +287,7 @@ Blockly.FieldMatrix.prototype.setValue = function(matrix) {
  * Get the value from this matrix menu.
  * @return {string} Current matrix value.
  */
-Blockly.FieldMatrix.prototype.getValue = function() {
+Blockly.FieldMatrix.prototype.getValue = function () {
   return String(this.matrix_);
 };
 
@@ -287,14 +295,14 @@ Blockly.FieldMatrix.prototype.getValue = function() {
  * Show the drop-down menu for editing this field.
  * @private
  */
-Blockly.FieldMatrix.prototype.showEditor_ = function() {
+Blockly.FieldMatrix.prototype.showEditor_ = function () {
   // If there is an existing drop-down someone else owns, hide it immediately and clear it.
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.DropDownDiv.clearContent();
   var div = Blockly.DropDownDiv.getContentDiv();
   // Build the SVG DOM.
-  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 5) +
-    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 6);
+  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 8) +
+    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 9);
   this.matrixStage_ = Blockly.utils.createSvgElement('svg', {
     'xmlns': 'http://www.w3.org/2000/svg',
     'xmlns:html': 'http://www.w3.org/1999/xhtml',
@@ -305,8 +313,8 @@ Blockly.FieldMatrix.prototype.showEditor_ = function() {
   }, div);
   // Create the 5x5 matrix
   this.ledButtons_ = [];
-  for (var i = 0; i < 5; i++) {
-    for (var n = 0; n < 5; n++) {
+  for (var i = 0; i < 8; i++) {
+    for (var n = 0; n < 8; n++) {
       var x = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * n) +
         (Blockly.FieldMatrix.MATRIX_NODE_PAD * (n + 1));
       var y = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * i) +
@@ -341,14 +349,14 @@ Blockly.FieldMatrix.prototype.showEditor_ = function() {
   div.appendChild(buttonDiv);
 
   Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
-      this.sourceBlock_.getColourTertiary());
+    this.sourceBlock_.getColourTertiary());
   Blockly.DropDownDiv.setCategory(this.sourceBlock_.getCategory());
   Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
   this.matrixTouchWrapper_ =
-      Blockly.bindEvent_(this.matrixStage_, 'mousedown', this, this.onMouseDown);
+    Blockly.bindEvent_(this.matrixStage_, 'mousedown', this, this.onMouseDown);
   this.clearButtonWrapper_ =
-      Blockly.bindEvent_(clearButton, 'click', this, this.clearMatrix_);
+    Blockly.bindEvent_(clearButton, 'click', this, this.clearMatrix_);
   this.fillButtonWrapper_ =
     Blockly.bindEvent_(fillButton, 'click', this, this.fillMatrix_);
 
@@ -357,7 +365,7 @@ Blockly.FieldMatrix.prototype.showEditor_ = function() {
 
 };
 
-this.nodeCallback_ = function(e, num) {
+this.nodeCallback_ = function (e, num) {
   console.log(num);
 };
 
@@ -366,7 +374,7 @@ this.nodeCallback_ = function(e, num) {
  * @param {string} fill The color to fill the matrix nodes.
  * @return {SvgElement} The button svg element.
  */
-Blockly.FieldMatrix.prototype.createButton_ = function(fill) {
+Blockly.FieldMatrix.prototype.createButton_ = function (fill) {
   var button = Blockly.utils.createSvgElement('svg', {
     'xmlns': 'http://www.w3.org/2000/svg',
     'xmlns:html': 'http://www.w3.org/1999/xhtml',
@@ -395,7 +403,7 @@ Blockly.FieldMatrix.prototype.createButton_ = function(fill) {
  * Redraw the matrix with the current value.
  * @private
  */
-Blockly.FieldMatrix.prototype.updateMatrix_ = function() {
+Blockly.FieldMatrix.prototype.updateMatrix_ = function () {
   for (var i = 0; i < this.matrix_.length; i++) {
     if (this.matrix_[i] === '0') {
       this.fillMatrixNode_(this.ledButtons_, i, this.sourceBlock_.colourSecondary_);
@@ -411,7 +419,7 @@ Blockly.FieldMatrix.prototype.updateMatrix_ = function() {
  * Clear the matrix.
  * @param {!Event} e Mouse event.
  */
-Blockly.FieldMatrix.prototype.clearMatrix_ = function(e) {
+Blockly.FieldMatrix.prototype.clearMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ZEROS);
 };
@@ -420,7 +428,7 @@ Blockly.FieldMatrix.prototype.clearMatrix_ = function(e) {
  * Fill the matrix.
  * @param {!Event} e Mouse event.
  */
-Blockly.FieldMatrix.prototype.fillMatrix_ = function(e) {
+Blockly.FieldMatrix.prototype.fillMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ONES);
 };
@@ -431,29 +439,29 @@ Blockly.FieldMatrix.prototype.fillMatrix_ = function(e) {
  * @param {!number} index The index of the matrix node.
  * @param {!string} fill The fill colour in '#rrggbb' format.
  */
-Blockly.FieldMatrix.prototype.fillMatrixNode_ = function(node, index, fill) {
+Blockly.FieldMatrix.prototype.fillMatrixNode_ = function (node, index, fill) {
   if (!node || !node[index] || !fill) return;
   node[index].setAttribute('fill', fill);
 };
 
-Blockly.FieldMatrix.prototype.setLEDNode_ = function(led, state) {
-  if (led < 0 || led > 24) return;
+Blockly.FieldMatrix.prototype.setLEDNode_ = function (led, state) {
+  if (led < 0 || led > 63) return;
   var matrix = this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
   this.setValue(matrix);
 };
 
-Blockly.FieldMatrix.prototype.fillLEDNode_ = function(led) {
-  if (led < 0 || led > 24) return;
+Blockly.FieldMatrix.prototype.fillLEDNode_ = function (led) {
+  if (led < 0 || led > 63) return;
   this.setLEDNode_(led, '1');
 };
 
-Blockly.FieldMatrix.prototype.clearLEDNode_ = function(led) {
-  if (led < 0 || led > 24) return;
+Blockly.FieldMatrix.prototype.clearLEDNode_ = function (led) {
+  if (led < 0 || led > 63) return;
   this.setLEDNode_(led, '0');
 };
 
-Blockly.FieldMatrix.prototype.toggleLEDNode_ = function(led) {
-  if (led < 0 || led > 24) return;
+Blockly.FieldMatrix.prototype.toggleLEDNode_ = function (led) {
+  if (led < 0 || led > 63) return;
   if (this.matrix_.charAt(led) === '0') {
     this.setLEDNode_(led, '1');
   } else {
@@ -465,7 +473,7 @@ Blockly.FieldMatrix.prototype.toggleLEDNode_ = function(led) {
  * Toggle matrix nodes on and off.
  * @param {!Event} e Mouse event.
  */
-Blockly.FieldMatrix.prototype.onMouseDown = function(e) {
+Blockly.FieldMatrix.prototype.onMouseDown = function (e) {
   this.matrixMoveWrapper_ =
     Blockly.bindEvent_(document.body, 'mousemove', this, this.onMouseMove);
   this.matrixReleaseWrapper_ =
@@ -488,7 +496,7 @@ Blockly.FieldMatrix.prototype.onMouseDown = function(e) {
  * Unbind mouse move event and clear the paint style.
  * @param {!Event} e Mouse move event.
  */
-Blockly.FieldMatrix.prototype.onMouseUp = function() {
+Blockly.FieldMatrix.prototype.onMouseUp = function () {
   Blockly.unbindEvent_(this.matrixMoveWrapper_);
   Blockly.unbindEvent_(this.matrixReleaseWrapper_);
   this.paintStyle_ = null;
@@ -498,7 +506,7 @@ Blockly.FieldMatrix.prototype.onMouseUp = function() {
  * Toggle matrix nodes on and off by dragging mouse.
  * @param {!Event} e Mouse move event.
  */
-Blockly.FieldMatrix.prototype.onMouseMove = function(e) {
+Blockly.FieldMatrix.prototype.onMouseMove = function (e) {
   e.preventDefault();
   if (this.paintStyle_) {
     var led = this.checkForLED_(e);
@@ -516,7 +524,7 @@ Blockly.FieldMatrix.prototype.onMouseMove = function(e) {
  * @param {!Event} e Mouse move event.
  * @return {number} The matching matrix node or -1 for none.
  */
-Blockly.FieldMatrix.prototype.checkForLED_ = function(e) {
+Blockly.FieldMatrix.prototype.checkForLED_ = function (e) {
   var bBox = this.matrixStage_.getBoundingClientRect();
   var nodeSize = Blockly.FieldMatrix.MATRIX_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.MATRIX_NODE_PAD;
@@ -537,9 +545,9 @@ Blockly.FieldMatrix.prototype.checkForLED_ = function(e) {
  * @return {!Function} Closure to call on destruction of the WidgetDiv.
  * @private
  */
-Blockly.FieldMatrix.prototype.dispose_ = function() {
+Blockly.FieldMatrix.prototype.dispose_ = function () {
   var thisField = this;
-  return function() {
+  return function () {
     Blockly.FieldMatrix.superClass_.dispose_.call(thisField)();
     thisField.matrixStage_ = null;
     if (thisField.mouseDownWrapper_) {

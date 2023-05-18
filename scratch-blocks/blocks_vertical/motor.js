@@ -166,12 +166,8 @@ Blockly.Blocks['speed_motor'] = {
                     ]
                 },
                 {
-                    "type": "field_slider",
+                    "type": "input_value",
                     "name": "SPEED",
-                    "value": "0",
-                    "precision": 1,
-                    "min": "0",
-                    "max": "100"
                 }
             ],
             "category": Blockly.Categories.motor,

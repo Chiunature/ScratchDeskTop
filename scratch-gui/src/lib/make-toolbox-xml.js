@@ -359,13 +359,6 @@ const events = function (isInitialSetup, isStage) {
         ${blockSeparator}
         <block type="event_whenkeypressed">
         </block>
-        ${isStage ? `
-            <block type="event_whenstageclicked"/>
-        ` : `
-            <block type="event_whenthisspriteclicked"/>
-        `}
-        <block type="event_whenbackdropswitchesto">
-        </block>
         ${blockSeparator}
         <block type="event_whengreaterthan">
             <value name="VALUE">
@@ -419,21 +412,6 @@ const control = function (isInitialSetup, isStage) {
         ${blockSeparator}
         <block type="control_stop"/>
         ${blockSeparator}
-        ${isStage ? `
-            <block type="control_create_clone_of">
-                <value name="CLONE_OPTION">
-                    <shadow type="control_create_clone_of_menu"/>
-                </value>
-            </block>
-        ` : `
-            <block type="control_start_as_clone"/>
-            <block type="control_create_clone_of">
-                <value name="CLONE_OPTION">
-                    <shadow type="control_create_clone_of_menu"/>
-                </value>
-            </block>
-            <block type="control_delete_this_clone"/>
-        `}
         ${categorySeparator}
     </category>
     `;
@@ -471,71 +449,20 @@ const sensing = function (isInitialSetup, isStage) {
             <block type="sensing_timer"></block>
             <block type="sensing_reset_timer"></block>
             ${blockSeparator}
-            <block type="sensing_touchingobject">
-                <value name="TOUCHINGOBJECTMENU">
-                    <shadow type="sensing_touchingobjectmenu"/>
-                </value>
-            </block>
-            <block type="sensing_touchingcolor">
-                <value name="COLOR">
-                    <shadow type="colour_picker"/>
-                </value>
-            </block>
-            <block type="sensing_coloristouchingcolor">
-                <value name="COLOR">
-                    <shadow type="colour_picker"/>
-                </value>
-                <value name="COLOR2">
-                    <shadow type="colour_picker"/>
-                </value>
-            </block>
-            <block type="sensing_distanceto">
-                <value name="DISTANCETOMENU">
-                    <shadow type="sensing_distancetomenu"/>
-                </value>
-            </block>
-            ${blockSeparator}
+            
         `}
-        ${isInitialSetup ? '' : `
-            <block id="askandwait" type="sensing_askandwait">
-                <value name="QUESTION">
-                    <shadow type="text">
-                        <field name="TEXT">${name}</field>
-                    </shadow>
-                </value>
-            </block>
-        `}
-        <block id="answer" type="sensing_answer"/>
+       
         ${blockSeparator}
         <block type="sensing_keypressed">
             <value name="KEY_OPTION">
                 <shadow type="sensing_keyoptions"/>
             </value>
         </block>
-        <block type="sensing_mousedown"/>
-        <block type="sensing_mousex"/>
-        <block type="sensing_mousey"/>
-        ${isStage ? '' : `
-            ${blockSeparator}
-            '<block type="sensing_setdragmode" id="sensing_setdragmode"></block>'+
-            ${blockSeparator}
-        `}
         ${blockSeparator}
         <block id="loudness" type="sensing_loudness"/>
         ${blockSeparator}
-        <block id="timer" type="sensing_timer"/>
-        <block type="sensing_resettimer"/>
-        ${blockSeparator}
-        <block id="of" type="sensing_of">
-            <value name="OBJECT">
-                <shadow id="sensing_of_object_menu" type="sensing_of_object_menu"/>
-            </value>
-        </block>
-        ${blockSeparator}
         <block id="current" type="sensing_current"/>
         <block type="sensing_dayssince2000"/>
-        ${blockSeparator}
-        <block type="sensing_username"/>
         ${categorySeparator}
     </category>
     `;
@@ -768,7 +695,11 @@ const motor = function (isInitialSetup, isStage, targetId) {
         ` : `
         <block type="starting_motor"></block>
         <block type="stop_motor"></block>
-        <block type="speed_motor"></block>
+        <block type="speed_motor">
+            <value name="SPEED">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
         <block type="specifiedunit_motor"></block>
         <block type="specifiedangle_motor"></block>
         <block type="relative_position"></block>
@@ -795,13 +726,35 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
         ` : `
         <block type="starting_combined_motor"></block>
         <block type="direction_combined_motor"></block>
-        <block type="speed_combined_motor"></block>
+        <block type="speed_combined_motor">
+            <value name="SPEED">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
         <block type="turn_combined_motor"></block>
         <block type="line_combined_motor"></block>
         <block type="stop_combined_motor"></block>
-        <block type="move_combined_motor"></block>
-        <block type="movestep_combined_motor"></block>
-        <block type="movepower_combined_motor"></block>
+        <block type="move_combined_motor">
+            <value name="left">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+            <value name="right">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
+        <block type="movestep_combined_motor">
+            <value name="left">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+            <value name="right">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
+        <block type="movepower_combined_motor">
+            <value name="power">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
         <block type="stopping_combined_motor"></block>
         `}
     </category>
@@ -827,14 +780,17 @@ const matrix = function (isInitialSetup, isStage, targetId) {
             </value>
         </block>
         <block type="stop_matrix_lamp"></block>
-        <block type="set_matrix_lamp"></block>
-        <block type="single_matrix_lamp"></block>
-        <block type="text_matrix_lamp"></block>
-        <block type="setRGB_matrix_lamp">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
+        <block type="set_matrix_lamp">
+            <value name="brightness">
+                <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
+        <block type="single_matrix_lamp">
+            <value name="brightness">
+                <shadow type="math_0to100_number"></shadow>
+            </value>
+        </block>
+        <block type="text_matrix_lamp"></block>
         <block type="useRGB_matrix_lamp"></block>
         `}
     </category>
