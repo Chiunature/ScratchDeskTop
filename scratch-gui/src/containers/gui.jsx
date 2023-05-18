@@ -39,7 +39,7 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
 import { setIsScratchDesktop } from '../lib/isScratchDesktop.js';
-import { setGen } from '../reducers/mode.js';
+import { setGen, setPicker } from '../reducers/mode.js';
 
 class GUI extends React.Component {
     componentDidMount() {
@@ -105,7 +105,6 @@ GUI.propTypes = {
     isLoading: PropTypes.bool,
     isScratchDesktop: PropTypes.bool,
     isShowingProject: PropTypes.bool,
-    isTotallyNormal: PropTypes.bool,
     loadingStateVisible: PropTypes.bool,
     onProjectLoaded: PropTypes.func,
     onSeeCommunity: PropTypes.func,
@@ -120,7 +119,6 @@ GUI.propTypes = {
 
 GUI.defaultProps = {
     isScratchDesktop: false,
-    isTotallyNormal: false,
     onStorageInit: storageInstance => storageInstance.addOfficialScratchWebStores(),
     onProjectLoaded: () => { },
     onUpdateProjectId: () => { },
@@ -162,6 +160,7 @@ const mapDispatchToProps = dispatch => ({
     onActivateTab: tab => {
         dispatch(activateTab(tab));
         dispatch(setGen(true));
+        dispatch(setPicker(true));
     },
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),

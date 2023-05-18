@@ -41,6 +41,8 @@ import costumesIcon from './icon--costumes.svg';
 import soundsIcon from './icon--sounds.svg';
 import Generator from '../../components/generators/generators.jsx'
 import errorBoundaryHOC from '../../lib/error-boundary-hoc.jsx';
+import ColorPicker from '../color-picker/color-picker.jsx';
+import { setPicker } from '../../reducers/mode.js';
 const messages = defineMessages({
     addExtension: {
         id: 'gui.gui.addExtension',
@@ -113,6 +115,7 @@ const GUIComponent = props => {
         onTelemetryModalCancel,
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
+        onSetPicker,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -122,12 +125,12 @@ const GUIComponent = props => {
         vm,
         isGen,
         code,
+        isPicker,
         ...componentProps
     } = omit(props, 'dispatch');
     if (children) {
         return <Box {...componentProps}>{children}</Box>;
     }
-    console.log(costumesTabVisible);
     const tabClassNames = {
         tabs: styles.tabs,
         tab: classNames(tabStyles.reactTabsTab, styles.tab),
@@ -360,6 +363,13 @@ const GUIComponent = props => {
                                     </Box> */}
                                 </>}
                         </Box>
+
+                        <Box className={classNames(styles.stageAndTargetWrapper, styles[stageSize])}>
+                            {isPicker ?
+                                <ColorPicker isPicker={isPicker} onSetPicker={onSetPicker} /> :
+                                <></>
+                            }
+                        </Box>
                     </Box>
                 </Box>
                 <DragLayer />
@@ -456,14 +466,18 @@ const mapStateToProps = state => ({
     // This is the button's mode, as opposed to the actual current state
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     isGen: state.scratchGui.mode.isGen,
-    code: state.scratchGui.mode.code
+    code: state.scratchGui.mode.code,
+    isPicker: state.scratchGui.mode.isPicker
 });
-
+const mapDispatchToProps = dispatch => ({
+    onSetPicker: isPicker => dispatch(setPicker(isPicker))
+});
 // export default injectIntl(connect(
 //     mapStateToProps
 // )(GUIComponent));
 export default errorBoundaryHOC('GUI')(
     injectIntl(connect(
-        mapStateToProps
+        mapStateToProps,
+        mapDispatchToProps
     )(GUIComponent))
 );

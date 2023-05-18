@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {compose} from 'redux';
+import { compose } from 'redux';
 
 import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
@@ -22,7 +22,11 @@ const handleTelemetryModalOptIn = () => {
 const handleTelemetryModalOptOut = () => {
     log('User opted out of telemetry');
 };
-
+const getStorage = () => {
+    let theme = localStorage.getItem('themeColor');
+    return theme ? theme : '#4C97FF';
+}
+document.body.style.setProperty('--motion-primary', getStorage());
 /*
  * Render the GUI playground. This is a separate function because importing anything
  * that instantiates the VM causes unsupported browsers to crash

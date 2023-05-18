@@ -61,6 +61,7 @@
         "query-string": "^5.1.1",
         "raw-loader": "^0.5.1",
         "react": "^16.0.0",
+        "react-color": "^2.19.3",
         "react-contextmenu": "2.9.4",
         "react-dom": "^16.0.0",
         "react-draggable": "3.0.5",

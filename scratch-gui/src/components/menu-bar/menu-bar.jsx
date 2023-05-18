@@ -30,7 +30,7 @@ import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
 import { openTipsLibrary } from '../../reducers/modals';
-import { setGen, setPlayer } from '../../reducers/mode';
+import { setGen, setPlayer, setPicker } from '../../reducers/mode';
 import {
     autoUpdateProject,
     getIsUpdating,
@@ -649,7 +649,7 @@ class MenuBar extends React.Component {
                         className={classNames(styles.menuBarItem, styles.hoverable, styles.generator, {
                             [styles.active]: ''
                         })}
-                        onClick={() => this.props.onSetGen(this.props.isGen)}
+                        onClick={() => this.props.onSetPicker(this.props.isPicker)}
                     >主题(Theme)
                     </div>
                 </div>
@@ -888,7 +888,8 @@ const mapStateToProps = (state, ownProps) => {
         userOwnsProject: ownProps.authorUsername && user &&
             (ownProps.authorUsername === user.username),
         vm: state.scratchGui.vm,
-        isGen: state.scratchGui.mode.isGen
+        isGen: state.scratchGui.mode.isGen,
+        isPicker: state.scratchGui.mode.isPicker
     };
 };
 
@@ -913,6 +914,7 @@ const mapDispatchToProps = dispatch => ({
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onSetGen: isGen => dispatch(setGen(isGen)),
+    onSetPicker: isPicker => dispatch(setPicker(isPicker)),
 });
 
 export default compose(
