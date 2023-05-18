@@ -552,17 +552,7 @@ class MenuBar extends React.Component {
                         />
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div>
-                    <Divider className={classNames(styles.divider)} />
-                    <div className={classNames(styles.menuBarItem, styles.growable)}>
-                        <MenuBarItemTooltip
-                            enable
-                            id="title-field"
-                        >
-                            <ProjectTitleInput
-                                className={classNames(styles.titleFieldGrowable)}
-                            />
-                        </MenuBarItemTooltip>
-                    </div>
+                    {/* <Divider className={classNames(styles.divider)} /> */}
                     {/* {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
                             <MenuBarItemTooltip
@@ -634,6 +624,18 @@ class MenuBar extends React.Component {
                                 <CommunityButton className={styles.menuBarButton} />
                             </MenuBarItemTooltip>
                         ) : [])}
+                    </div>
+                </div>
+                <div className={classNames(styles.mainMenuTwo)}>
+                    <div className={classNames(styles.menuBarItem, styles.growable)}>
+                        <MenuBarItemTooltip
+                            enable
+                            id="title-field"
+                        >
+                            <ProjectTitleInput
+                                className={classNames(styles.titleFieldGrowable)}
+                            />
+                        </MenuBarItemTooltip>
                     </div>
                 </div>
                 <div className={classNames(styles.mainMenuTwo)}>

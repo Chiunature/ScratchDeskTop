@@ -3,8 +3,9 @@ import { HuePicker, SketchPicker } from 'react-color';
 import classNames from 'classnames';
 import styles from './color-picker.css';
 import '../../css/colors.css';
+let initColor = localStorage.getItem('themeColor') ? localStorage.getItem('themeColor') : '#4c97ff';
 const ColorPicker = props => {
-    let [color, setColor] = useState('#4C97FF');
+    let [color, setColor] = useState(initColor);
     let picker = useRef();
     useEffect(() => {
         addListeners();

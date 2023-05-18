@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, intlShape, injectIntl} from 'react-intl';
-import {setProjectTitle} from '../../reducers/project-title';
+import { defineMessages, intlShape, injectIntl } from 'react-intl';
+import { setProjectTitle } from '../../reducers/project-title';
 
 import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
 import Input from '../forms/input.jsx';
@@ -33,6 +33,7 @@ const ProjectTitleInput = ({
         type="text"
         value={projectTitle}
         onSubmit={onSubmit}
+        readOnly
     />
 );
 

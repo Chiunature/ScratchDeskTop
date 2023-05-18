@@ -10,22 +10,22 @@ function createWindow() {
     //创建浏览器窗口,宽高自定义具体大小你开心就好
     mainWindow = new BrowserWindow({ width: 1430, height: 800 })
 
-    /* 
-     * 加载应用-----  electron-quick-start中默认的加载入口
-    */
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'build/index.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
-    // 加载应用----适用于 react 项目
-    // mainWindow.loadURL('http://127.0.0.1:8603/');
-
-    // 打开开发者工具，默认不打开
-    // mainWindow.webContents.openDevTools()
-
     //关闭默认菜单
-    if (app.isPackaged) Menu.setApplicationMenu(null);
+    if (app.isPackaged) {
+        Menu.setApplicationMenu(null);
+        /* 
+            加载应用-----  electron-quick-start中默认的加载入口
+        */
+        mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'build/index.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    } else {
+        mainWindow.loadURL('http://127.0.0.1:8601/');
+        // 打开开发者工具，默认不打开
+        mainWindow.webContents.openDevTools()
+    }
 
     // 关闭window时触发下列事件.
     mainWindow.on('close', function (e) {
