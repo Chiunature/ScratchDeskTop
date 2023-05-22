@@ -14,7 +14,6 @@ Blockly.Blocks['matrix_lamp'] = {
      */
     init: function () {
         this.jsonInit({
-            "type": "matrix_lamp",
             "message0": Blockly.Msg.MATRIX_LAMP,
             "args0": [
                 {
@@ -43,14 +42,13 @@ Blockly.Blocks['matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['stop_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_stop'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "stop_matrix_lamp",
             "message0": Blockly.Msg.STOP_MATRIX_LAMP,
             "args0": [
                 {
@@ -70,14 +68,13 @@ Blockly.Blocks['stop_matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['set_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_set'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "set_matrix_lamp",
             "message0": Blockly.Msg.SET_MATRIX_LAMP,
             "args0": [
                 {
@@ -101,14 +98,13 @@ Blockly.Blocks['set_matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['single_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_single'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "single_matrix_lamp",
             "message0": Blockly.Msg.SINGLE_MATRIX_LAMP,
             "args0": [
                 {
@@ -146,14 +142,13 @@ Blockly.Blocks['single_matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['text_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_text'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "text_matrix_lamp",
             "message0": Blockly.Msg.TEXT_MATRIX_LAMP,
             "args0": [
                 {
@@ -220,14 +215,13 @@ Blockly.Blocks['text_matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['setRGB_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_setRGB'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "setRGB_matrix_lamp",
             "message0": Blockly.Msg.SETRGB_MATRIX_LAMP,
             "args0": [
                 {
@@ -256,14 +250,13 @@ Blockly.Blocks['setRGB_matrix_lamp'] = {
     }
 };
 
-Blockly.Blocks['useRGB_matrix_lamp'] = {
+Blockly.Blocks['matrix_lamp_useRGB'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "useRGB_matrix_lamp",
             "message0": Blockly.Msg.USERGB_MATRIX_LAMP,
             "args0": [
                 {

@@ -693,19 +693,19 @@ const motor = function (isInitialSetup, isStage, targetId) {
         ${isStage ? `
         <label text="${stageSelected}"></label>
         ` : `
-        <block type="starting_motor"></block>
-        <block type="stop_motor"></block>
-        <block type="speed_motor">
+        <block type="motor_starting"></block>
+        <block type="motor_stop"></block>
+        <block type="motor_speed">
             <value name="SPEED">
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="specifiedunit_motor"></block>
-        <block type="specifiedangle_motor"></block>
-        <block type="relative_position"></block>
-        <block type="specified_manner"></block>
-        <block type="rate_motor"></block>
-        <block type="angle_motor"></block>
+        <block type="motor_specifiedunit"></block>
+        <block type="motor_specifiedangle"></block>
+        <block type="motor_relative_position"></block>
+        <block type="motor_specified_manner"></block>
+        <block type="motor_rate"></block>
+        <block type="motor_angle"></block>
         `}
     </category>
     `;
@@ -714,7 +714,7 @@ const motor = function (isInitialSetup, isStage, targetId) {
 const combined_motor = function (isInitialSetup, isStage, targetId) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         'MOTOR_STAGE_SELECTED',
-        'Stage selected: no motor blocks'
+        'Stage selected: no combined_motor blocks'
     );
     return `
     <category
@@ -724,17 +724,17 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
         ${isStage ? `
         <label text="${stageSelected}"></label>
         ` : `
-        <block type="starting_combined_motor"></block>
-        <block type="direction_combined_motor"></block>
-        <block type="speed_combined_motor">
+        <block type="combined_motor_starting"></block>
+        <block type="combined_motor_direction"></block>
+        <block type="combined_motor_speed">
             <value name="SPEED">
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="turn_combined_motor"></block>
-        <block type="line_combined_motor"></block>
-        <block type="stop_combined_motor"></block>
-        <block type="move_combined_motor">
+        <block type="combined_motor_turn"></block>
+        <block type="combined_motor_line"></block>
+        <block type="combined_motor_stop"></block>
+        <block type="combined_motor_move">
             <value name="left">
                 <shadow type="math_0to100_number"></shadow>
             </value>
@@ -742,7 +742,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="movestep_combined_motor">
+        <block type="combined_motor_movestep">
             <value name="left">
                 <shadow type="math_0to100_number"></shadow>
             </value>
@@ -750,12 +750,12 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="movepower_combined_motor">
+        <block type="combined_motor_movepower">
             <value name="power">
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="stopping_combined_motor"></block>
+        <block type="combined_motor_stopping"></block>
         `}
     </category>
     `;
@@ -764,7 +764,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
 const matrix = function (isInitialSetup, isStage, targetId) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         'MOTOR_STAGE_SELECTED',
-        'Stage selected: no motor blocks'
+        'Stage selected: no matrix blocks'
     );
     return `
     <category
@@ -779,19 +779,19 @@ const matrix = function (isInitialSetup, isStage, targetId) {
                 <shadow type="colour_picker"/>
             </value>
         </block>
-        <block type="stop_matrix_lamp"></block>
-        <block type="set_matrix_lamp">
+        <block type="matrix_lamp_stop"></block>
+        <block type="matrix_lamp_set">
             <value name="brightness">
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="single_matrix_lamp">
+        <block type="matrix_lamp_single">
             <value name="brightness">
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="text_matrix_lamp"></block>
-        <block type="useRGB_matrix_lamp"></block>
+        <block type="matrix_lamp_text"></block>
+        <block type="matrix_lamp_useRGB"></block>
         `}
     </category>
     `;

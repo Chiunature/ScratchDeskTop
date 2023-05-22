@@ -7,14 +7,13 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
-Blockly.Blocks['starting_motor'] = {
+Blockly.Blocks['motor_starting'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "starting_motor",
             "message0": Blockly.Msg.STARTING_MOTOR,
             "args0": [
                 {
@@ -78,14 +77,13 @@ Blockly.Blocks['starting_motor'] = {
     }
 };
 
-Blockly.Blocks['stop_motor'] = {
+Blockly.Blocks['motor_stop'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "stop_motor",
             "message0": Blockly.Msg.STOP_MOTOR,
             "args0": [
                 {
@@ -125,14 +123,13 @@ Blockly.Blocks['stop_motor'] = {
     }
 };
 
-Blockly.Blocks['speed_motor'] = {
+Blockly.Blocks['motor_speed'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "speed_motor",
             "message0": Blockly.Msg.SPEED_MOTOR,
             "args0": [
                 {
@@ -176,14 +173,13 @@ Blockly.Blocks['speed_motor'] = {
     }
 };
 
-Blockly.Blocks['specifiedunit_motor'] = {
+Blockly.Blocks['motor_specifiedunit'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "specifiedunit_motor",
             "message0": Blockly.Msg.SPECIFIEDUNIT_MOTOR,
             "args0": [
                 {
@@ -270,14 +266,13 @@ Blockly.Blocks['specifiedunit_motor'] = {
     }
 };
 
-Blockly.Blocks['specifiedangle_motor'] = {
+Blockly.Blocks['motor_specifiedangle'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "specifiedangle_motor",
             "message0": Blockly.Msg.SPECIFIEDANGLE_MOTOR,
             "args0": [
                 {
@@ -343,14 +338,13 @@ Blockly.Blocks['specifiedangle_motor'] = {
     }
 };
 
-Blockly.Blocks['relative_position'] = {
+Blockly.Blocks['motor_relative_position'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "relative_position",
             "message0": Blockly.Msg.RELATIVE_POSITION,
             "args0": [
                 {
@@ -395,14 +389,13 @@ Blockly.Blocks['relative_position'] = {
     }
 };
 
-Blockly.Blocks['specified_manner'] = {
+Blockly.Blocks['motor_specified_manner'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "specified_manner",
             "message0": Blockly.Msg.SPECIFIED_MANNER,
             "args0": [
                 {
@@ -460,14 +453,13 @@ Blockly.Blocks['specified_manner'] = {
     }
 };
 
-Blockly.Blocks['rate_motor'] = {
+Blockly.Blocks['motor_rate'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "rate_motor",
             "message0": Blockly.Msg.RATE_MOTOR,
             "args0": [
                 {
@@ -507,14 +499,13 @@ Blockly.Blocks['rate_motor'] = {
     }
 };
 
-Blockly.Blocks['angle_motor'] = {
+Blockly.Blocks['motor_angle'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "angle_motor",
             "message0": Blockly.Msg.ANGLE_MOTOR,
             "args0": [
                 {

@@ -7,14 +7,13 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
-Blockly.Blocks['starting_combined_motor'] = {
+Blockly.Blocks['combined_motor_starting'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "starting_combined_motor",
             "message0": Blockly.Msg.STARTING_COMBINED_MOTOR,
             "args0": [
                 {
@@ -77,14 +76,13 @@ Blockly.Blocks['starting_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['direction_combined_motor'] = {
+Blockly.Blocks['combined_motor_direction'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "direction_combined_motor",
             "message0": Blockly.Msg.DIRECTION_MOTOR,
             "args0": [
                 {
@@ -144,14 +142,13 @@ Blockly.Blocks['direction_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['speed_combined_motor'] = {
+Blockly.Blocks['combined_motor_speed'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "speed_combined_motor",
             "message0": Blockly.Msg.SPEED_MOTOR,
             "args0": [
                 {
@@ -195,14 +192,13 @@ Blockly.Blocks['speed_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['turn_combined_motor'] = {
+Blockly.Blocks['combined_motor_turn'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "turn_combined_motor",
             "message0": Blockly.Msg.TURN_COMBINED_MOTOR,
             "args0": [
                 {
@@ -280,14 +276,13 @@ Blockly.Blocks['turn_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['line_combined_motor'] = {
+Blockly.Blocks['combined_motor_line'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "line_combined_motor",
             "message0": Blockly.Msg.LINE_COMBINED_MOTOR,
             "args0": [
                 {
@@ -360,14 +355,13 @@ Blockly.Blocks['line_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['stop_combined_motor'] = {
+Blockly.Blocks['combined_motor_stop'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "stop_combined_motor",
             "message0": Blockly.Msg.STOP_COMBINED_MOTOR,
             "args0": [
                 {
@@ -385,14 +379,13 @@ Blockly.Blocks['stop_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['move_combined_motor'] = {
+Blockly.Blocks['combined_motor_move'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "move_combined_motor",
             "message0": Blockly.Msg.MOVE_COMBINED_MOTOR,
             "args0": [
                 {
@@ -451,14 +444,13 @@ Blockly.Blocks['move_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['movestep_combined_motor'] = {
+Blockly.Blocks['combined_motor_movestep'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "movestep_combined_motor",
             "message0": Blockly.Msg.MOVESTEP_COMBINED_MOTOR,
             "args0": [
                 {
@@ -484,14 +476,13 @@ Blockly.Blocks['movestep_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['movepower_combined_motor'] = {
+Blockly.Blocks['combined_motor_movepower'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "movepower_combined_motor",
             "message0": Blockly.Msg.MOVEPOWER_COMBINED_MOTOR,
             "args0": [
                 {
@@ -560,14 +551,13 @@ Blockly.Blocks['movepower_combined_motor'] = {
     }
 };
 
-Blockly.Blocks['stopping_combined_motor'] = {
+Blockly.Blocks['combined_motor_stopping'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "type": "stopping_combined_motor",
             "message0": Blockly.Msg.STOPPING_COMBINED_MOTOR,
             "args0": [
                 {
