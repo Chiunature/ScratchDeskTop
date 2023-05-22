@@ -40,20 +40,20 @@ Blockly.cake['matrix_lamp'] = function (block) {
     return code;
 };
 
-Blockly.cake['stop_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_stop'] = function (block) {
     // TODO: Assemble cake into code variable.
     let code = `matrix_stop_lamp()\n`;
     return code;
 };
 
-Blockly.cake['set_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_set'] = function (block) {
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `matrix_set_lamp(${brightness});\n`;
     return code;
 };
 
-Blockly.cake['single_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_single'] = function (block) {
     let x = block.getFieldValue('x');
     let y = block.getFieldValue('y');
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
@@ -62,7 +62,7 @@ Blockly.cake['single_matrix_lamp'] = function (block) {
     return code;
 };
 
-Blockly.cake['text_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_text'] = function (block) {
     let text = block.getFieldValue('text');
     let direction = block.getFieldValue('direction');
     // TODO: Assemble cake into code variable.
@@ -70,7 +70,7 @@ Blockly.cake['text_matrix_lamp'] = function (block) {
     return code;
 };
 
-Blockly.cake['setRGB_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_setRGB'] = function (block) {
     let order = block.getFieldValue('order');
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     // TODO: Assemble cake into code variable.
@@ -78,7 +78,7 @@ Blockly.cake['setRGB_matrix_lamp'] = function (block) {
     return code;
 };
 
-Blockly.cake['useRGB_matrix_lamp'] = function (block) {
+Blockly.cake['matrix_lamp_useRGB'] = function (block) {
     let switchSelect = block.getFieldValue('SWITCH');
     // TODO: Assemble cake into code variable.
     let code = `matrix_useRGB_lamp("${switchSelect}");\n`;
