@@ -42,7 +42,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
 
 Blockly.cake['matrix_lamp_stop'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `matrix_stop_lamp()\n`;
+    let code = `matrix_stop_lamp();\n`;
     return code;
 };
 
