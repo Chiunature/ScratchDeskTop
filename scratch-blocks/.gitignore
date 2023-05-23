@@ -14,12 +14,12 @@ common.pyc
 /nbproject/private/
 
 # Unused by scratch-blocks
-dart_compressed.js
-javascript_compressed.js
-lua_compressed.js
-php_compressed.js
-python_compressed.js
-cake_compressed.js
+/dart_compressed.js
+/javascript_compressed.js
+/lua_compressed.js
+/php_compressed.js
+/python_compressed.js
+/cake_compressed.js
 # Editor
 .vscode
 
@@ -36,11 +36,7 @@ cake_compressed.js
 /blocks_compressed_horizontal.js
 /blocks_compressed_vertical.js
 /blocks_compressed.js
-/gh-pages/main.js
-/gh-pages/playgrounds
-/gh-pages/Gemfile.lock
-/gh-pages/closure-library
-/gh-pages/_site
+/gh-pages
 /*compiler*.jar
 /local_blockly_compressed_vertical.js
 /chromedriver
