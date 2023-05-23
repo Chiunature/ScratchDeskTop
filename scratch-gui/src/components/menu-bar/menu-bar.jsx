@@ -72,7 +72,10 @@ import remixIcon from './icon--remix.svg';
 import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 import aboutIcon from './icon--about.svg';
-
+import unconnectedIcon from './icon--unconnected.svg';
+import themeIcon from './icon--theme.svg';
+import connectedIcon from './icon--connected.svg';
+import genIcon from './icon--generator.svg';
 import scratchLogo from './scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
@@ -552,6 +555,33 @@ class MenuBar extends React.Component {
                         />
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div>
+                    <Divider className={classNames(styles.divider)} />
+                    <div
+                        className={classNames(styles.menuBarItem, styles.hoverable)}
+                        onMouseUp={this.handleConnectionMouseUp}
+                    >
+                        {this.props.peripheralName ? (
+                            <React.Fragment>
+                                <img
+                                    className={styles.connectedIcon}
+                                    src={connectedIcon}
+                                />
+                                {this.props.peripheralName}
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <img
+                                    className={styles.unconnectedIcon}
+                                    src={unconnectedIcon}
+                                />
+                                <FormattedMessage
+                                    defaultMessage="Unconnected"
+                                    description="Text for menubar unconnected button"
+                                    id="gui.menuBar.noConnection"
+                                />
+                            </React.Fragment>
+                        )}
+                    </div>
                     {/* <Divider className={classNames(styles.divider)} /> */}
                     {/* {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
@@ -644,7 +674,16 @@ class MenuBar extends React.Component {
                             [styles.active]: ''
                         })}
                         onClick={() => this.props.onSetGen(this.props.isGen)}
-                    >代码生成器(Generator)
+                    >
+                        <img
+                            className={styles.unconnectedIcon}
+                            src={genIcon}
+                        />
+                        <FormattedMessage
+                            defaultMessage="Generator"
+                            description="Text for menubar Generator button"
+                            id="gui.menuBar.Generator"
+                        />
                     </div>
                     <Divider className={classNames(styles.divider)} />
                     <div
@@ -652,7 +691,16 @@ class MenuBar extends React.Component {
                             [styles.active]: ''
                         })}
                         onClick={() => this.props.onSetPicker(this.props.isPicker)}
-                    >主题(Theme)
+                    >
+                        <img
+                            className={styles.unconnectedIcon}
+                            src={themeIcon}
+                        />
+                        <FormattedMessage
+                            defaultMessage="Theme"
+                            description="Text for menubar Theme button"
+                            id="gui.menuBar.Theme"
+                        />
                     </div>
                 </div>
                 {/* show the proper UI in the account menu, given whether the user is
