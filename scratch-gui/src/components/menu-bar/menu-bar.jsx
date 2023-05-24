@@ -29,7 +29,7 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-import { openTipsLibrary } from '../../reducers/modals';
+import { openTipsLibrary, openConnectionModal } from '../../reducers/modals';
 import { setGen, setPlayer, setPicker } from '../../reducers/mode';
 import {
     autoUpdateProject,
@@ -79,6 +79,7 @@ import genIcon from './icon--generator.svg';
 import scratchLogo from './scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
+import { showAlertWithTimeout } from '../../reducers/alerts';
 
 const ariaMessages = defineMessages({
     language: {
@@ -174,7 +175,8 @@ class MenuBar extends React.Component {
             'handleLanguageMouseUp',
             'handleRestoreOption',
             'getSaveToComputerHandler',
-            'restoreOptionMessage'
+            'restoreOptionMessage',
+            'handleConnectionMouseUp'
         ]);
     }
     componentDidMount() {
@@ -337,6 +339,13 @@ class MenuBar extends React.Component {
             callback();
             this.props.onRequestCloseAbout();
         };
+    }
+    handleConnectionMouseUp() {
+        if (this.props.deviceId) {
+            this.props.onOpenConnectionModal();
+        } else {
+            this.props.onDeviceIsEmpty();
+        }
     }
     render() {
         const saveNowMessage = (
@@ -904,6 +913,8 @@ MenuBar.propTypes = {
     onToggleLoginOpen: PropTypes.func,
     onSetGen: PropTypes.func,
     projectTitle: PropTypes.string,
+    peripheralName: PropTypes.string,
+    deviceId: PropTypes.string,
     renderLogin: PropTypes.func,
     sessionExists: PropTypes.bool,
     shouldSaveBeforeTransition: PropTypes.func,
@@ -939,7 +950,10 @@ const mapStateToProps = (state, ownProps) => {
             (ownProps.authorUsername === user.username),
         vm: state.scratchGui.vm,
         isGen: state.scratchGui.mode.isGen,
-        isPicker: state.scratchGui.mode.isPicker
+        isPicker: state.scratchGui.mode.isPicker,
+        peripheralName: state.scratchGui.connectionModal.peripheralName,
+        deviceId: state.scratchGui.device.deviceId,
+        deviceName: state.scratchGui.device.deviceName
     };
 };
 
@@ -965,6 +979,8 @@ const mapDispatchToProps = dispatch => ({
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onSetGen: isGen => dispatch(setGen(isGen)),
     onSetPicker: isPicker => dispatch(setPicker(isPicker)),
+    onOpenConnectionModal: () => dispatch(openConnectionModal()),
+    onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, 'selectADeviceFirst')
 });
 
 export default compose(
