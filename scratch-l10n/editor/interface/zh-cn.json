@@ -256,6 +256,7 @@
   "gui.alerts.cloudInfo": "请注意，云变量只支持数字，不能存放字母和符号。{learnMoreLink}",
   "gui.alerts.cloudInfoLearnMore": "进一步了解。",
   "gui.alerts.importing": "正在导入……",
+  "gui.alerts.selectADeviceFirst": "请先选择一个设备",
   "gui.defaultProject.meow": "喵",
   "gui.defaultProject.variable": "我的变量",
   "gui.howtos.intro-move-sayhello-hat.name": "入门",

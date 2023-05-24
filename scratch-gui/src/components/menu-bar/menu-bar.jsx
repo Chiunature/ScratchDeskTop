@@ -341,7 +341,7 @@ class MenuBar extends React.Component {
         };
     }
     handleConnectionMouseUp() {
-        if (this.props.deviceId) {
+        if (!this.props.deviceId) {
             this.props.onOpenConnectionModal();
         } else {
             this.props.onDeviceIsEmpty();
@@ -665,7 +665,7 @@ class MenuBar extends React.Component {
                         ) : [])}
                     </div>
                 </div>
-                <div className={classNames(styles.mainMenuTwo)}>
+                <div className={classNames(styles.mainMenuInp)}>
                     <div className={classNames(styles.menuBarItem, styles.growable)}>
                         <MenuBarItemTooltip
                             enable

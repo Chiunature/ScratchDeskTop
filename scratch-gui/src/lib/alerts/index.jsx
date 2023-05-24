@@ -212,7 +212,22 @@ const alerts = [
         ),
         iconSpinner: true,
         level: AlertLevels.SUCCESS
-    }
+    },
+    {
+        alertId: 'selectADeviceFirst',
+        alertType: AlertTypes.STANDARD,
+        clearList: ['selectADeviceFirst'],
+        closeButton: true,
+        content: (
+            <FormattedMessage
+                defaultMessage="Plese select a device first"
+                description="Message indicating that device is not selected"
+                id="gui.alerts.selectADeviceFirst"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 5
+    },
 ];
 
 export {

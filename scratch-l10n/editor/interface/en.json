@@ -256,6 +256,7 @@
   "gui.alerts.cloudInfo": "Please note, cloud variables only support numbers, not letters or symbols. {learnMoreLink}",
   "gui.alerts.cloudInfoLearnMore": "Learn more.",
   "gui.alerts.importing": "Importing…",
+  "gui.alerts.selectADeviceFirst": "Plese select a device first",
   "gui.defaultProject.meow": "Meow",
   "gui.defaultProject.variable": "my variable",
   "gui.howtos.intro-move-sayhello-hat.name": "Getting Started",

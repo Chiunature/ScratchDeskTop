@@ -25,6 +25,7 @@ can set a width for example or what it should do in a flex box (eg. grow).
     /* color: $ui-white; */
     font-weight: bold;
     font-size: 0.8rem;
+    cursor: unset;
 }
 
 .title-field::placeholder {
@@ -38,11 +39,11 @@ can set a width for example or what it should do in a flex box (eg. grow).
     background-color: hsla(0, 100%, 100%, 0.5);
 } */
 
-.title-field:focus {
+/* .title-field:focus {
     outline: none;
     border: 1px solid $ui-transparent;
     -webkit-box-shadow: 0 0 0 calc($space * 0.5) $ui-white-transparent;
     box-shadow: 0 0 0 calc($space * 0.5) $ui-white-transparent;
     background-color: $ui-white;
     color: $text-primary;
-}
+} */
