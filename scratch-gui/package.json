@@ -2,7 +2,7 @@
     "name": "scratch-gui",
     "version": "0.1.0",
     "description": "GraphicaL User Interface for creating and running Scratch 3.0 projects",
-    "main": "electron.js",
+    "main": "main.js",
     "scripts": {
         "build": "npm run clean && webpack --colors --bail",
         "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
@@ -87,6 +87,7 @@
         "scratch-storage": "2.0.1",
         "scratch-svg-renderer": "0.2.0-prerelease.20210727023023",
         "scratch-vm": "0.2.0-prerelease.20220523235552",
+        "serialport": "^11.0.0",
         "startaudiocontext": "1.2.1",
         "style-loader": "^0.23.0",
         "text-encoding": "0.7.0",
@@ -162,7 +163,7 @@
         "files": [
             "build/**/*",
             "node_modules/**/*",
-            "electron.js"
+            "main.js"
         ],
         "nsis": {
             "oneClick": false,

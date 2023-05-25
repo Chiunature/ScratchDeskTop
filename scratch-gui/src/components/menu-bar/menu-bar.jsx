@@ -341,6 +341,13 @@ class MenuBar extends React.Component {
         };
     }
     handleConnectionMouseUp() {
+        let userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf(' electron/') > -1) {
+            window.electron.ipcRenderer.send("connect", true);
+            window.electron.ipcRenderer.once("connected", (event, arg) => {
+                console.log(arg);
+            });
+        }
         if (!this.props.deviceId) {
             this.props.onOpenConnectionModal();
         } else {
