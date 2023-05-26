@@ -318,3 +318,21 @@ $fade-out-distance: 15px;
 :global(.ReactModal__Body--open) {
     overflow: hidden;
 }
+
+.upload-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--motion-primary);
+    opacity: .8;
+    text-align: center;
+    position: fixed;
+    right: 40px;
+    top: 100px;
+    z-index: 30;
+}
+
+.upload-btn:hover {
+    opacity: 1;
+    box-shadow: 0 0 5px 3px #d4d4d4;
+}

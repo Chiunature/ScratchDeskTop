@@ -78,6 +78,7 @@ class ConnectionModal extends React.Component {
                 checked: false,
             }));
             this.props.onGetSerialList(list);
+            window.electron.ipcRenderer.send("disconnected");
             this.props.onCancel();
         }
     }
@@ -120,6 +121,7 @@ class ConnectionModal extends React.Component {
             this.props.port.friendlyName
         );
         this.props.onCancel();
+        window.electron.ipcRenderer.send("connected", this.props.port);
         // this.setState({
         //     phase: PHASES.connected,
         // });
