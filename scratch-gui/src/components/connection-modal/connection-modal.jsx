@@ -13,6 +13,7 @@ import ErrorStep from "./error-step.jsx";
 import UnavailableStep from "./unavailable-step.jsx";
 
 import styles from "./connection-modal.css";
+import SerialportList from "./serialport-list.jsx";
 
 const PHASES = keyMirror({
     scanning: null,
@@ -33,7 +34,12 @@ const ConnectionModalComponent = (props) => (
         onRequestClose={props.onCancel}
     >
         <Box className={styles.body}>
-            {props.phase === PHASES.scanning && !props.useAutoScan && (
+            {props.serialList.length === 0 &&
+                props.phase === PHASES.unavailable && (
+                    <UnavailableStep {...props} />
+                )}
+            {props.serialList.length > 0 && <SerialportList {...props} />}
+            {/* {props.phase === PHASES.scanning && !props.useAutoScan && (
                 <ScanningStep {...props} />
             )}
             {props.phase === PHASES.scanning && props.useAutoScan && (
@@ -44,7 +50,7 @@ const ConnectionModalComponent = (props) => (
             {props.phase === PHASES.error && <ErrorStep {...props} />}
             {props.phase === PHASES.unavailable && (
                 <UnavailableStep {...props} />
-            )}
+            )} */}
         </Box>
     </Modal>
 );

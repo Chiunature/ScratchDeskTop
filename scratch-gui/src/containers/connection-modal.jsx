@@ -9,7 +9,13 @@ import analytics from "../lib/analytics";
 import extensionData from "../lib/libraries/extensions/index.jsx";
 import { connect } from "react-redux";
 import { closeConnectionModal } from "../reducers/modals";
-
+import {
+    ChangeSerialList,
+    setPort,
+    setConnectionModalPeripheralName,
+    clearConnectionModalPeripheralName,
+    getSerialList,
+} from "../reducers/connection-modal";
 class ConnectionModal extends React.Component {
     constructor(props) {
         super(props);
@@ -21,6 +27,7 @@ class ConnectionModal extends React.Component {
             "handleDisconnect",
             "handleError",
             "handleHelp",
+            "handleSelectport",
         ]);
         this.state = {
             extension: extensionData.find(
@@ -65,6 +72,12 @@ class ConnectionModal extends React.Component {
         try {
             this.props.vm.disconnectPeripheral(this.props.extensionId);
         } finally {
+            this.props.onClearConnectionModalPeripheralName();
+            let list = this.props.serialList.map((el) => ({
+                ...el,
+                checked: false,
+            }));
+            this.props.onGetSerialList(list);
             this.props.onCancel();
         }
     }
@@ -103,14 +116,18 @@ class ConnectionModal extends React.Component {
         }
     }
     handleConnected() {
-        this.setState({
-            phase: PHASES.connected,
-        });
-        analytics.event({
-            category: "extensions",
-            action: "connected",
-            label: this.props.extensionId,
-        });
+        this.props.onSetConnectionModalPeripheralName(
+            this.props.port.friendlyName
+        );
+        this.props.onCancel();
+        // this.setState({
+        //     phase: PHASES.connected,
+        // });
+        // analytics.event({
+        //     category: "extensions",
+        //     action: "connected",
+        //     label: this.props.extensionId,
+        // });
     }
     handleHelp() {
         window.open(this.state.extension.helpLink, "_blank");
@@ -119,6 +136,10 @@ class ConnectionModal extends React.Component {
             action: "help",
             label: this.props.extensionId,
         });
+    }
+    handleSelectport(port, index) {
+        this.props.onSetPort(port);
+        this.props.onChangeSerialList([...this.props.serialList], index);
     }
     render() {
         return (
@@ -140,6 +161,7 @@ class ConnectionModal extends React.Component {
                     this.state.extension.connectionTipIconURL
                 }
                 extensionId={this.props.extensionId}
+                serialList={this.props.serialList}
                 name={this.state.extension && this.state.extension.name}
                 phase={this.state.phase}
                 title={this.props.extensionId}
@@ -153,6 +175,7 @@ class ConnectionModal extends React.Component {
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}
                 onScanning={this.handleScanning}
+                onSelectport={this.handleSelectport}
             />
         );
     }
@@ -166,12 +189,22 @@ ConnectionModal.propTypes = {
 
 const mapStateToProps = (state) => ({
     extensionId: state.scratchGui.connectionModal.extensionId,
+    serialList: state.scratchGui.connectionModal.serialList,
+    port: state.scratchGui.connectionModal.port,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => {
         dispatch(closeConnectionModal());
     },
+    onChangeSerialList: (serialList, index) =>
+        dispatch(ChangeSerialList(serialList, index)),
+    onSetPort: (port) => dispatch(setPort(port)),
+    onSetConnectionModalPeripheralName: (peripheralName) =>
+        dispatch(setConnectionModalPeripheralName(peripheralName)),
+    onClearConnectionModalPeripheralName: () =>
+        dispatch(clearConnectionModalPeripheralName()),
+    onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

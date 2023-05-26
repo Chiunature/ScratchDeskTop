@@ -1,38 +1,55 @@
-const SET_ID = 'scratch-gui/connection-modal/setId';
-const SET_NAME = 'scratch-gui/connection-modal/setName';
-const CLEAR_NAME = 'scratch-gui/connection-modal/clearName';
-const SET_REALTIME_PROTOCAL_CONNECTION = 'scratch-gui/connection-modal/setRealtimeConnection';
-const SET_LIST_ALL = 'scratch-gui/connection-modal/setListAll';
-
+const SET_ID = "scratch-gui/connection-modal/setId";
+const SET_NAME = "scratch-gui/connection-modal/setName";
+const CLEAR_NAME = "scratch-gui/connection-modal/clearName";
+const SET_REALTIME_PROTOCAL_CONNECTION =
+    "scratch-gui/connection-modal/setRealtimeConnection";
+const SET_LIST_ALL = "scratch-gui/connection-modal/setListAll";
+const GET_SERIAL_LIST = "scratch-gui/connection-modal/getSerialList";
+const CHANGE_SERIAL_LIST = "scratch-gui/connection-modal/changeSerialList";
+const SET_PORT = "scratch-gui/connection-modal/setPort";
 const initialState = {
     extensionId: null,
     peripheralName: null,
     realtimeConnection: false,
-    isListAll: false
+    isListAll: false,
+    serialList: [],
+    port: {},
 };
 
 const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
+    if (typeof state === "undefined") state = initialState;
     switch (action.type) {
         case SET_ID:
             return Object.assign({}, state, {
-                extensionId: action.extensionId
+                extensionId: action.extensionId,
             });
         case SET_NAME:
             return Object.assign({}, state, {
-                peripheralName: action.peripheralName
+                peripheralName: action.peripheralName,
             });
         case CLEAR_NAME:
             return Object.assign({}, state, {
-                peripheralName: null
+                peripheralName: null,
             });
         case SET_REALTIME_PROTOCAL_CONNECTION:
             return Object.assign({}, state, {
-                realtimeConnection: action.isConnected
+                realtimeConnection: action.isConnected,
             });
         case SET_LIST_ALL:
             return Object.assign({}, state, {
-                isListAll: action.isListAll
+                isListAll: action.isListAll,
+            });
+        case GET_SERIAL_LIST:
+            return Object.assign({}, state, {
+                serialList: action.serialList,
+            });
+        case CHANGE_SERIAL_LIST:
+            return Object.assign({}, state, {
+                serialList: action.serialList,
+            });
+        case SET_PORT:
+            return Object.assign({}, state, {
+                port: action.port,
             });
         default:
             return state;
@@ -41,37 +58,64 @@ const reducer = function (state, action) {
 const setConnectionModalPeripheralName = function (peripheralName) {
     return {
         type: SET_NAME,
-        peripheralName: peripheralName
+        peripheralName: peripheralName,
     };
 };
 
 const clearConnectionModalPeripheralName = function () {
     return {
-        type: CLEAR_NAME
+        type: CLEAR_NAME,
     };
 };
 
 const setRealtimeConnection = function (isConnected) {
     return {
         type: SET_REALTIME_PROTOCAL_CONNECTION,
-        isConnected: isConnected
+        isConnected: isConnected,
     };
 };
 
 const setListAll = function (isListAll) {
     return {
         type: SET_LIST_ALL,
-        isListAll: isListAll
+        isListAll: isListAll,
+    };
+};
+
+const getSerialList = function (serialList) {
+    return {
+        type: GET_SERIAL_LIST,
+        serialList: serialList,
+    };
+};
+
+const ChangeSerialList = function (serialList, index) {
+    serialList.map((el, num) => {
+        if (num === index) {
+            el.checked = !el.checked;
+        } else {
+            el.checked = false;
+        }
+    });
+    return {
+        type: CHANGE_SERIAL_LIST,
+        serialList: serialList,
     };
 };
 
 const setConnectionModalExtensionId = function (extensionId) {
     return {
         type: SET_ID,
-        extensionId: extensionId
+        extensionId: extensionId,
     };
 };
 
+const setPort = function (port) {
+    return {
+        type: SET_PORT,
+        port: port,
+    };
+};
 export {
     reducer as default,
     initialState as connectionModalInitialState,
@@ -79,5 +123,8 @@ export {
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
     setRealtimeConnection,
-    setListAll
+    setListAll,
+    getSerialList,
+    ChangeSerialList,
+    setPort,
 };
