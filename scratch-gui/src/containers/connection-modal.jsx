@@ -78,6 +78,7 @@ class ConnectionModal extends React.Component {
                 checked: false,
             }));
             this.props.onGetSerialList(list);
+            this.props.onSetPort(null);
             window.electron.ipcRenderer.send("disconnected");
             this.props.onCancel();
         }
@@ -162,6 +163,8 @@ class ConnectionModal extends React.Component {
                     this.state.extension &&
                     this.state.extension.connectionTipIconURL
                 }
+                peripheralName={this.props.peripheralName}
+                port={this.props.port}
                 extensionId={this.props.extensionId}
                 serialList={this.props.serialList}
                 name={this.state.extension && this.state.extension.name}
@@ -193,6 +196,7 @@ const mapStateToProps = (state) => ({
     extensionId: state.scratchGui.connectionModal.extensionId,
     serialList: state.scratchGui.connectionModal.serialList,
     port: state.scratchGui.connectionModal.port,
+    peripheralName: state.scratchGui.connectionModal.peripheralName,
 });
 
 const mapDispatchToProps = (dispatch) => ({

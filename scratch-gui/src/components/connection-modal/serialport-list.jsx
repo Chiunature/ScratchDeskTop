@@ -52,12 +52,27 @@ const SerialportList = (props) => (
                         styles.connectionButton
                     )}
                     onClick={props.onConnected}
+                    disabled={
+                        props.port &&
+                        props.port.friendlyName !== props.peripheralName
+                            ? false
+                            : true
+                    }
                 >
-                    <FormattedMessage
-                        defaultMessage="Connect"
-                        description="Button to start connecting to a specific device"
-                        id="gui.connection.connect"
-                    />
+                    {props.peripheralName &&
+                    props.port.friendlyName === props.peripheralName ? (
+                        <FormattedMessage
+                            defaultMessage="Connected"
+                            description="Message indicating that a device was connected"
+                            id="gui.connection.connected"
+                        />
+                    ) : (
+                        <FormattedMessage
+                            defaultMessage="Connect"
+                            description="Button to start connecting to a specific device"
+                            id="gui.connection.connect"
+                        />
+                    )}
                 </button>
                 <button
                     className={classNames(
@@ -65,6 +80,7 @@ const SerialportList = (props) => (
                         styles.connectionButton
                     )}
                     onClick={props.onDisconnect}
+                    disabled={props.peripheralName ? false : true}
                 >
                     <FormattedMessage
                         defaultMessage="Disconnect"

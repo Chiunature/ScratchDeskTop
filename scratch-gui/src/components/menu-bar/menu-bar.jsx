@@ -364,29 +364,7 @@ class MenuBar extends React.Component {
                 let newarr = arg.map((el) => ({ ...el, checked: false }));
                 this.props.onGetSerialList(newarr);
             });
-            if (!this.props.deviceId) {
-                this.props.onOpenConnectionModal();
-            } else {
-                this.props.onDeviceIsEmpty();
-            }
-        } else {
-            navigator.serial.requestPort().then((port) => {
-                console.log(port);
-                port.open({ baudRate: 9600 });
-                while (port.readable) {
-                    let reader = port.readable.getReader();
-                    reader.read().then((res) => {
-                        let { value, done } = res;
-                        if (done) {
-                            // 接收完毕，串口解锁
-                            reader.releaseLock();
-                        }
-                        if (value) {
-                            console.log(value);
-                        }
-                    });
-                }
-            });
+            this.props.onOpenConnectionModal();
         }
     }
     render() {

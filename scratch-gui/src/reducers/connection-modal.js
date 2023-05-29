@@ -13,7 +13,7 @@ const initialState = {
     realtimeConnection: false,
     isListAll: false,
     serialList: [],
-    port: {},
+    port: null,
 };
 
 const reducer = function (state, action) {
