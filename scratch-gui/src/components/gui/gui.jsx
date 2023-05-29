@@ -48,7 +48,7 @@ import uploadIcon from "./icon--upload.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ColorPicker from "../color-picker/color-picker.jsx";
-import { setPicker } from "../../reducers/mode.js";
+import ButtonComponent from "../button/button.jsx";
 const messages = defineMessages({
     addExtension: {
         id: "gui.gui.addExtension",
@@ -129,6 +129,7 @@ const GUIComponent = (props) => {
         targetIsStage,
         telemetryModalVisible,
         tipsLibraryVisible,
+        handleCompile,
         vm,
         isGen,
         code,
@@ -223,6 +224,7 @@ const GUIComponent = (props) => {
                             <ButtonComponent
                                 className={styles.uploadBtn}
                                 iconSrc={uploadIcon}
+                                onClick={() => handleCompile(code)}
                             />
                         ) : null}
                         <MenuBar
@@ -522,14 +524,8 @@ GUIComponent.defaultProps = {
 const mapStateToProps = (state) => ({
     // This is the button's mode, as opposed to the actual current state
     stageSizeMode: state.scratchGui.stageSize.stageSize,
-    isGen: state.scratchGui.mode.isGen,
-    code: state.scratchGui.mode.code,
-    isPicker: state.scratchGui.mode.isPicker,
-    peripheralName: state.scratchGui.connectionModal.peripheralName,
 });
-const mapDispatchToProps = (dispatch) => ({
-    onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
-});
+const mapDispatchToProps = (dispatch) => ({});
 // export default injectIntl(connect(
 //     mapStateToProps
 // )(GUIComponent));
