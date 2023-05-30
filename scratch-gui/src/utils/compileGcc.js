@@ -3,7 +3,7 @@
  * @Author: jiang
  * @Date: 2023-05-29 14:28:01
  * @LastEditors: jiang
- * @LastEditTime: 2023-05-30 10:10:06
+ * @LastEditTime: 2023-05-30 14:38:05
  */
 const fs = window.fs;
 const path = window.path;
@@ -14,7 +14,11 @@ const str =
 function writeFile(buffer, callback) {
     fs.mkdir(`./codes/cake/`, { recursive: true }, (err) => {
         if (err) return callback(err);
-        let file = `./codes/cake/` + `test${Date.now().toString(36)}.c`;
+        let file = path.join(
+            __dirname,
+            "/scratch/scratch-gui/codes/cake/",
+            `test${Date.now().toString(36)}.c`
+        );
         fs.writeFile(file, buffer, function (err) {
             return callback(err, file);
         });
@@ -35,7 +39,7 @@ function compile(file) {
         if (error) return;
         let res = stdout.slice(5).split(";");
         let p = ph.replace(/\//g, "\\\\");
-        let gcc = `gcc -o ${file.replace(/\.+c/g, ".bin")} ${file}`;
+        let gcc = `cd ${ph} && gcc -o ${file.replace(/\.+c/g, ".bin")} ${file}`;
         //如果设置了就跳过直接执行编译，没有就设置之后再执行编译
         if (res.includes(p)) {
             processCMD(gcc, (error, stdout) => {
@@ -43,11 +47,8 @@ function compile(file) {
             });
             return;
         } else {
-            processCMD(`setx "path" "${ph};%path%"`, (error, stdout) => {
-                if (error) return;
-                processCMD(gcc, (error, stdout) => {
-                    console.log(error, stdout);
-                });
+            processCMD(gcc, (error, stdout) => {
+                console.log(error, stdout);
             });
         }
     });
