@@ -15,13 +15,35 @@ function writeFile(buffer, callback) {
 }
 
 function compile(file) {
-    let ph = `./mingw64/bin`;
-    process.exec(
-        `gcc -o ${file.replace(/\.+c/g, ".bin")} ${file}`,
-        (error, stdout, stderr) => {
-            console.log(error, stdout, stderr);
+    let ph = path.resolve(__dirname, "/scratch/scratch-gui/mingw64/bin");
+    //先获取环境变量看看有没有设置
+    process.exec(`set path`, (error, stdout, stderr) => {
+        let res = stdout.slice(5).split(";");
+        let p = ph.replace(/\//g, "\\\\");
+        //如果设置了就跳过直接执行编译，没有就设置之后再执行编译
+        if (res.includes(p)) {
+            process.exec(
+                `gcc -o ${file.replace(/\.+c/g, ".bin")} ${file}`,
+                (error, stdout, stderr) => {
+                    console.log(error, stdout, stderr);
+                }
+            );
+            return;
+        } else {
+            process.exec(
+                `setx "path" "${ph};%path%"`,
+                (error, stdout, stderr) => {
+                    if (error) return;
+                    process.exec(
+                        `gcc -o ${file.replace(/\.+c/g, ".bin")} ${file}`,
+                        (error, stdout, stderr) => {
+                            console.log(error, stdout, stderr);
+                        }
+                    );
+                }
+            );
         }
-    );
+    });
 }
 
 //运行编译器参数是传入的C语言代码
