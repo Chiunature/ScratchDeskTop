@@ -3,11 +3,11 @@ const path = require("path");
 const url = require("url");
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
+
 const parser = new ReadlineParser({ delimiter: "\r\n" });
+let mainWindow, port;
 
-// 保持window对象的全局引用,避免JavaScript对象被垃圾回收时,窗口被自动关闭.
-let mainWindow, port, timer;
-
+//获取串口列表
 function getList() {
     ipcMain.on("connect", (event, arg) => {
         if (arg) {
@@ -49,24 +49,33 @@ function linkToSerial(serial) {
     });
 }
 
+function writeData(data) {
+    port.write(data);
+}
+
+//分段上传
+function uploadSlice(data) {
+    // 将data分段，每段大小512b
+    const chunkSize = 512;
+    if (data.length < chunkSize) {
+        writeData(data);
+    } else {
+        for (let i = 0; i < data.length; i += chunkSize) {
+            const chunk = data.slice(i, i + chunkSize);
+            writeData(chunk);
+        }
+    }
+}
+
 //发送数据
 function sendToSerial() {
     ipcMain.on("writeData", (event, data) => {
-        port.write(data, (err) => {
-            if (err) {
-                console.log("Sending data failed:", err.message);
-            } else {
-                console.log("Sent data:", data);
-            }
+        uploadSlice(data);
+        port.drain((err) => {
+            if (err) throw err;
+            console.log("Sending completed!");
+            event.reply("completed", false);
         });
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            port.drain((err) => {
-                if (err) throw err;
-                console.log("Sending completed!");
-                event.reply("completed", false);
-            });
-        }, 500);
     });
 }
 

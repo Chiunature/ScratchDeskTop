@@ -227,6 +227,7 @@ const GUIComponent = (props) => {
                                 className={styles.uploadBtn}
                                 iconSrc={completed ? loadIcon : uploadIcon}
                                 onClick={() => handleCompile(code)}
+                                disabled={completed}
                             />
                         ) : null}
                         <MenuBar
