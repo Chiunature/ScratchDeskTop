@@ -6,7 +6,7 @@ const { ReadlineParser } = require("@serialport/parser-readline");
 const parser = new ReadlineParser({ delimiter: "\r\n" });
 
 // 保持window对象的全局引用,避免JavaScript对象被垃圾回收时,窗口被自动关闭.
-let mainWindow;
+let mainWindow, port, timer;
 
 function getList() {
     ipcMain.on("connect", (event, arg) => {
@@ -17,13 +17,13 @@ function getList() {
         }
     });
 }
-
+//连接串口
 function connectSerial() {
     ipcMain.on("connected", (event, arg) => {
         linkToSerial(arg);
     });
 }
-
+//断开连接
 function disconnectSerial(port) {
     ipcMain.on("disconnected", () => {
         if (port.isOpen) port.close();
@@ -31,9 +31,9 @@ function disconnectSerial(port) {
 }
 
 function linkToSerial(serial) {
-    const port = new SerialPort({
+    port = new SerialPort({
         path: serial.path,
-        baudRate: 9600,
+        baudRate: 115200,
     });
     port.on("open", () => {
         console.log("the serialport is opened.");
@@ -42,23 +42,31 @@ function linkToSerial(serial) {
     parser.on("data", (data) => {
         console.log("the received data is:", data);
     });
+    sendToSerial();
     disconnectSerial(port);
     port.on("close", () => {
         console.log("the serialport is closed.");
     });
 }
 
-function sendToSerial(data) {
-    port.write(data, (err) => {
-        if (err) {
-            console.log("Sending data failed:", err.message);
-        } else {
-            console.log("Sent data:", data);
-        }
-    });
-    port.drain((err) => {
-        if (err) return;
-        console.log("Sending completed!");
+//发送数据
+function sendToSerial() {
+    ipcMain.on("writeData", (event, data) => {
+        port.write(data, (err) => {
+            if (err) {
+                console.log("Sending data failed:", err.message);
+            } else {
+                console.log("Sent data:", data);
+            }
+        });
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            port.drain((err) => {
+                if (err) throw err;
+                console.log("Sending completed!");
+                event.reply("completed", false);
+            });
+        }, 500);
     });
 }
 
@@ -91,7 +99,7 @@ function createWindow() {
             })
         );
     } else {
-        mainWindow.loadURL("http://127.0.0.1:8602/");
+        mainWindow.loadURL("http://127.0.0.1:8601/");
         // 打开开发者工具，默认不打开
         mainWindow.webContents.openDevTools();
     }

@@ -45,6 +45,7 @@ import codeIcon from "./icon--code.svg";
 import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
 import uploadIcon from "./icon--upload.svg";
+import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ColorPicker from "../color-picker/color-picker.jsx";
@@ -129,11 +130,12 @@ const GUIComponent = (props) => {
         targetIsStage,
         telemetryModalVisible,
         tipsLibraryVisible,
-        handleCompile,
         vm,
         isGen,
         code,
         isPicker,
+        completed,
+        handleCompile,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -223,7 +225,7 @@ const GUIComponent = (props) => {
                         {peripheralName ? (
                             <ButtonComponent
                                 className={styles.uploadBtn}
-                                iconSrc={uploadIcon}
+                                iconSrc={completed ? loadIcon : uploadIcon}
                                 onClick={() => handleCompile(code)}
                             />
                         ) : null}

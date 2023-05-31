@@ -37,13 +37,21 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setPicker } from "../reducers/mode.js";
+
 import { runGcc } from "../utils/compileGcc.js";
+import { setCompleted } from "../reducers/connection-modal.js";
 
 class GUI extends React.Component {
     componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
+        let userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf("electron/") > -1) {
+            window.electron.ipcRenderer.on("completed", (event, arg) => {
+                this.props.onSetCompleted(arg);
+            });
+        }
     }
     componentDidUpdate(prevProps) {
         if (
@@ -60,6 +68,7 @@ class GUI extends React.Component {
     }
     handleCompile(str) {
         runGcc(str);
+        this.props.onSetCompleted(true);
     }
     render() {
         if (this.props.isError) {
@@ -92,7 +101,7 @@ class GUI extends React.Component {
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
-                handleCompile={this.handleCompile}
+                handleCompile={this.handleCompile.bind(this)}
             >
                 {children}
             </GUIComponent>
@@ -166,6 +175,7 @@ const mapStateToProps = (state) => {
         isGen: state.scratchGui.mode.isGen,
         isPicker: state.scratchGui.mode.isPicker,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
+        completed: state.scratchGui.connectionModal.completed,
     };
 };
 
@@ -182,6 +192,7 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseCostumeLibrary: () => dispatch(closeCostumeLibrary()),
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
+    onSetCompleted: (completed) => dispatch(setCompleted(completed)),
 });
 
 const ConnectedGUI = injectIntl(

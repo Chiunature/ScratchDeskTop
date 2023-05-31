@@ -7,6 +7,7 @@ const SET_LIST_ALL = "scratch-gui/connection-modal/setListAll";
 const GET_SERIAL_LIST = "scratch-gui/connection-modal/getSerialList";
 const CHANGE_SERIAL_LIST = "scratch-gui/connection-modal/changeSerialList";
 const SET_PORT = "scratch-gui/connection-modal/setPort";
+const SET_COMPLETED = "scratch-gui/connection-modal/completed";
 const initialState = {
     extensionId: null,
     peripheralName: null,
@@ -14,6 +15,7 @@ const initialState = {
     isListAll: false,
     serialList: [],
     port: null,
+    completed: false,
 };
 
 const reducer = function (state, action) {
@@ -50,6 +52,10 @@ const reducer = function (state, action) {
         case SET_PORT:
             return Object.assign({}, state, {
                 port: action.port,
+            });
+        case SET_COMPLETED:
+            return Object.assign({}, state, {
+                completed: action.completed,
             });
         default:
             return state;
@@ -116,6 +122,13 @@ const setPort = function (port) {
         port: port,
     };
 };
+
+const setCompleted = function (completed) {
+    return {
+        type: SET_COMPLETED,
+        completed: completed,
+    };
+};
 export {
     reducer as default,
     initialState as connectionModalInitialState,
@@ -127,4 +140,5 @@ export {
     getSerialList,
     ChangeSerialList,
     setPort,
+    setCompleted,
 };
