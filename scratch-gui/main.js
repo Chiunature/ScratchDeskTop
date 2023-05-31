@@ -5,7 +5,7 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const parser = new ReadlineParser({ delimiter: "\r\n" });
-let mainWindow, port;
+let mainWindow, port, timer;
 
 //获取串口列表
 function getList() {
@@ -71,11 +71,14 @@ function uploadSlice(data) {
 function sendToSerial() {
     ipcMain.on("writeData", (event, data) => {
         uploadSlice(data);
-        port.drain((err) => {
-            if (err) throw err;
-            console.log("Sending completed!");
-            event.reply("completed", false);
-        });
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            port.drain((err) => {
+                if (err) throw err;
+                console.log("Sending completed!");
+                event.reply("completed", false);
+            });
+        }, 300);
     });
 }
 
