@@ -78,7 +78,7 @@ function sendToSerial() {
                 console.log("Sending completed!");
                 event.reply("completed", false);
             });
-        }, 300);
+        }, 0);
     });
 }
 

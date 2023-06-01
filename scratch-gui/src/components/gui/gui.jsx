@@ -378,7 +378,7 @@ const GUIComponent = (props) => {
                                         <TabPanel
                                             className={tabClassNames.tabPanel}
                                         >
-                                            {costumesTabVisible ? (
+                                            {soundsTabVisible ? (
                                                 <SoundTab vm={vm} />
                                             ) : null}
                                         </TabPanel>
