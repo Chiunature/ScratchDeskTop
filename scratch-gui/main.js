@@ -1,4 +1,11 @@
-const { app, BrowserWindow, dialog, Menu, ipcMain } = require("electron");
+const {
+    app,
+    BrowserWindow,
+    dialog,
+    Menu,
+    ipcMain,
+    Notification,
+} = require("electron");
 const path = require("path");
 const url = require("url");
 const { SerialPort } = require("serialport");
@@ -31,6 +38,7 @@ function disconnectSerial(port) {
 }
 
 function linkToSerial(serial) {
+    if (port) port.close();
     port = new SerialPort({
         path: serial.path,
         baudRate: 115200,
@@ -75,7 +83,9 @@ function sendToSerial() {
         timer = setTimeout(() => {
             port.drain((err) => {
                 if (err) throw err;
-                console.log("Sending completed!");
+                if (Notification.isSupported()) {
+                    new Notification({ body: "Sending completed!" }).show();
+                }
                 event.reply("completed", false);
             });
         }, 0);
@@ -115,7 +125,6 @@ function createWindow() {
         // 打开开发者工具，默认不打开
         mainWindow.webContents.openDevTools();
     }
-
     //获取串口列表
     getList();
     //连接串口

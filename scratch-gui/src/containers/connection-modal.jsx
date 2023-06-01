@@ -15,6 +15,7 @@ import {
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
     getSerialList,
+    setCompleted,
 } from "../reducers/connection-modal";
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -143,6 +144,7 @@ class ConnectionModal extends React.Component {
     handleSelectport(port, index) {
         this.props.onSetPort(port);
         this.props.onChangeSerialList([...this.props.serialList], index);
+        this.props.onSetCompleted(false);
     }
     render() {
         return (
@@ -211,6 +213,7 @@ const mapDispatchToProps = (dispatch) => ({
     onClearConnectionModalPeripheralName: () =>
         dispatch(clearConnectionModalPeripheralName()),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
+    onSetCompleted: (completed) => dispatch(setCompleted(completed)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);
