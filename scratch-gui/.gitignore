@@ -4,7 +4,8 @@
 # NPM
 /node_modules
 npm-*
-
+/mingw64
+/pack
 # Testing
 /.nyc_output
 /coverage

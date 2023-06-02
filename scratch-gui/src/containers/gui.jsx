@@ -37,10 +37,10 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setPicker } from "../reducers/mode.js";
-
+import { ipc } from "../utils/ipcRender.js";
 import { runGcc } from "../utils/compileGcc.js";
 import { setCompleted } from "../reducers/connection-modal.js";
-
+import { showAlertWithTimeout } from "../reducers/alerts";
 class GUI extends React.Component {
     componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
@@ -48,8 +48,12 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
-            window.electron.ipcRenderer.on("completed", (event, arg) => {
-                this.props.onSetCompleted(arg);
+            ipc({
+                eventName: "completed",
+                callback: (event, arg) => {
+                    this.props.onSetCompleted(arg.result);
+                    this.props.onShowCompletedAlert(arg.msg);
+                },
             });
         }
     }
@@ -69,6 +73,7 @@ class GUI extends React.Component {
     handleCompile(str) {
         runGcc(str);
         this.props.onSetCompleted(true);
+        this.props.onShowCompletedAlert("uploading");
     }
     render() {
         if (this.props.isError) {
@@ -193,6 +198,7 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
+    onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
 });
 
 const ConnectedGUI = injectIntl(

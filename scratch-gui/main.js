@@ -1,11 +1,4 @@
-const {
-    app,
-    BrowserWindow,
-    dialog,
-    Menu,
-    ipcMain,
-    Notification,
-} = require("electron");
+const { app, BrowserWindow, dialog, Menu, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 const { SerialPort } = require("serialport");
@@ -27,25 +20,32 @@ function getList() {
 //连接串口
 function connectSerial() {
     ipcMain.on("connected", (event, arg) => {
-        linkToSerial(arg);
+        linkToSerial(arg, event);
     });
 }
 //断开连接
 function disconnectSerial(port) {
-    ipcMain.on("disconnected", () => {
+    ipcMain.on("disconnected", (event) => {
         if (port.isOpen) port.close();
+        event.reply("closed", "disconnect");
     });
 }
 
-function linkToSerial(serial) {
+function linkToSerial(serial, event) {
     if (port) port.close();
-    port = new SerialPort({
-        path: serial.path,
-        baudRate: 115200,
-    });
-    port.on("open", () => {
-        console.log("the serialport is opened.");
-    });
+    port = new SerialPort(
+        {
+            path: serial.path,
+            baudRate: 115200,
+        },
+        (err) => {
+            if (err) {
+                event.reply("open", "failedConnected");
+            } else {
+                event.reply("open", "successfullyConnected");
+            }
+        }
+    );
     port.pipe(parser);
     parser.on("data", (data) => {
         console.log("the received data is:", data);
@@ -53,11 +53,13 @@ function linkToSerial(serial) {
     sendToSerial();
     disconnectSerial(port);
     port.on("close", () => {
+        port = null;
         console.log("the serialport is closed.");
     });
 }
 
 function writeData(data) {
+    console.log(data);
     port.write(data);
 }
 
@@ -82,11 +84,17 @@ function sendToSerial() {
         clearTimeout(timer);
         timer = setTimeout(() => {
             port.drain((err) => {
-                if (err) throw err;
-                if (Notification.isSupported()) {
-                    new Notification({ body: "Sending completed!" }).show();
+                if (err) {
+                    event.reply("completed", {
+                        result: false,
+                        msg: "uploadError",
+                    });
+                } else {
+                    event.reply("completed", {
+                        result: false,
+                        msg: "uploadSuccess",
+                    });
                 }
-                event.reply("completed", false);
             });
         }, 0);
     });

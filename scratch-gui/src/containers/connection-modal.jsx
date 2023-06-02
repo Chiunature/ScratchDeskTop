@@ -9,6 +9,7 @@ import analytics from "../lib/analytics";
 import extensionData from "../lib/libraries/extensions/index.jsx";
 import { connect } from "react-redux";
 import { closeConnectionModal } from "../reducers/modals";
+import { showAlertWithTimeout } from "../reducers/alerts";
 import {
     ChangeSerialList,
     setPort,
@@ -17,6 +18,8 @@ import {
     getSerialList,
     setCompleted,
 } from "../reducers/connection-modal";
+import { ipc } from "../utils/ipcRender.js";
+
 class ConnectionModal extends React.Component {
     constructor(props) {
         super(props);
@@ -80,7 +83,8 @@ class ConnectionModal extends React.Component {
             }));
             this.props.onGetSerialList(list);
             this.props.onSetPort(null);
-            window.electron.ipcRenderer.send("disconnected");
+            ipc({ sendName: "disconnected" });
+            this.props.onShowDisonnectAlert("disconnect");
             this.props.onCancel();
         }
     }
@@ -123,7 +127,15 @@ class ConnectionModal extends React.Component {
             this.props.port.friendlyName
         );
         this.props.onCancel();
-        window.electron.ipcRenderer.send("connected", this.props.port);
+        ipc({
+            sendName: "connected",
+            sendParams: this.props.port,
+            eventName: "open",
+            callback: (event, arg) => {
+                this.props.onShowConnectAlert(arg);
+            },
+        });
+
         // this.setState({
         //     phase: PHASES.connected,
         // });
@@ -214,6 +226,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(clearConnectionModalPeripheralName()),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
+    onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);
