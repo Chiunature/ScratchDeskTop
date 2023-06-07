@@ -1,104 +1,17 @@
-const { app, BrowserWindow, dialog, Menu, ipcMain } = require("electron");
+/*
+ * @Description: New features
+ * @Author: jiang
+ * @Date: 2023-06-05 14:43:50
+ * @LastEditors: jiang
+ * @LastEditTime: 2023-06-07 10:35:08
+ * 
+ */
+const { app, BrowserWindow, dialog, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
-const { SerialPort } = require("serialport");
-const { ReadlineParser } = require("@serialport/parser-readline");
+const { getList, connectSerial } = require("./src/utils/serialport");
 
-const parser = new ReadlineParser({ delimiter: "\r\n" });
-let mainWindow, port, timer;
-
-//获取串口列表
-function getList() {
-    ipcMain.on("connect", (event, arg) => {
-        if (arg) {
-            SerialPort.list().then((res) => {
-                event.reply("connected", res);
-            });
-        }
-    });
-}
-//连接串口
-function connectSerial() {
-    ipcMain.on("connected", (event, arg) => {
-        linkToSerial(arg, event);
-    });
-}
-//断开连接
-function disconnectSerial(port) {
-    ipcMain.on("disconnected", (event) => {
-        if (port.isOpen) port.close();
-        event.reply("closed", "disconnect");
-    });
-}
-
-function linkToSerial(serial, event) {
-    if (port) port.close();
-    port = new SerialPort(
-        {
-            path: serial.path,
-            baudRate: 115200,
-        },
-        (err) => {
-            if (err) {
-                event.reply("open", "failedConnected");
-            } else {
-                event.reply("open", "successfullyConnected");
-            }
-        }
-    );
-    port.pipe(parser);
-    parser.on("data", (data) => {
-        console.log("the received data is:", data);
-    });
-    sendToSerial();
-    disconnectSerial(port);
-    port.on("close", () => {
-        port = null;
-        console.log("the serialport is closed.");
-    });
-}
-
-function writeData(data) {
-    console.log(data);
-    port.write(data);
-}
-
-//分段上传
-function uploadSlice(data) {
-    // 将data分段，每段大小512b
-    const chunkSize = 512;
-    if (data.length < chunkSize) {
-        writeData(data);
-    } else {
-        for (let i = 0; i < data.length; i += chunkSize) {
-            const chunk = data.slice(i, i + chunkSize);
-            writeData(chunk);
-        }
-    }
-}
-
-//发送数据
-function sendToSerial() {
-    ipcMain.on("writeData", (event, data) => {
-        uploadSlice(data);
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            port.drain((err) => {
-                if (err) {
-                    event.reply("completed", {
-                        result: false,
-                        msg: "uploadError",
-                    });
-                } else {
-                    event.reply("completed", {
-                        result: false,
-                        msg: "uploadSuccess",
-                    });
-                }
-            });
-        }, 0);
-    });
-}
+let mainWindow;
 
 function createWindow() {
     //创建浏览器窗口,宽高自定义具体大小你开心就好

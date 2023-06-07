@@ -295,7 +295,14 @@ const alerts = [
     {
         alertId: "successfullyConnected",
         alertType: AlertTypes.STANDARD,
-        clearList: ["successfullyConnected"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Successfully connected"
@@ -309,7 +316,14 @@ const alerts = [
     {
         alertId: "failedConnected",
         alertType: AlertTypes.STANDARD,
-        clearList: ["failedConnected"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Failed connected"
@@ -323,7 +337,14 @@ const alerts = [
     {
         alertId: "disconnect",
         alertType: AlertTypes.STANDARD,
-        clearList: ["disconnect"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Disconnect"
@@ -337,7 +358,14 @@ const alerts = [
     {
         alertId: "uploadError",
         alertType: AlertTypes.STANDARD,
-        clearList: ["uploadSuccess", "uploadError", "uploading"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Upload error"
@@ -351,7 +379,14 @@ const alerts = [
     {
         alertId: "uploading",
         alertType: AlertTypes.STANDARD,
-        clearList: ["uploadSuccess", "uploadError", "uploading"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Uploading..."
@@ -365,7 +400,14 @@ const alerts = [
     {
         alertId: "uploadSuccess",
         alertType: AlertTypes.STANDARD,
-        clearList: ["uploadSuccess", "uploadError", "uploading"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Upload success"
