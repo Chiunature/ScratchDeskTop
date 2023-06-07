@@ -3,7 +3,7 @@
  * @Author: jiang
  * @Date: 2023-06-07 08:58:20
  * @LastEditors: jiang
- * @LastEditTime: 2023-06-07 10:30:06
+ * @LastEditTime: 2023-06-07 16:00:07
  * @params: {
  *  mainWindow: 主进程
  *  port: 串口
@@ -78,6 +78,7 @@ function writeData(data, str) {
     console.log('write ==>', data);
     sign = str;
     port.write(data);
+    port.flush();
 }
 //校验和发送数据
 function verify(chunk, callback) {
@@ -147,6 +148,7 @@ function checkData(len, str) {
 
 //分段上传
 function uploadSlice(data) {
+    chunkBuffer = [];
     // 将data分段，每段大小512b
     const chunkSize = 512;
     if (data.length < chunkSize) {
@@ -168,7 +170,6 @@ function sendToSerial() {
         clearTimeout(timer);
         timer = setTimeout(() => {
             port.drain((err) => {
-                port.flush();
                 if (err) {
                     event.reply("completed", {
                         result: false,

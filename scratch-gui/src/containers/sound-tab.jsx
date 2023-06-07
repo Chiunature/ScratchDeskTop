@@ -38,6 +38,7 @@ import {
 
 import {setRestore} from '../reducers/restore-deletion';
 import {showStandardAlert, closeAlertWithId} from '../reducers/alerts';
+import { setGen } from '../reducers/mode.js';
 
 class SoundTab extends React.Component {
     constructor (props) {
@@ -56,7 +57,9 @@ class SoundTab extends React.Component {
         ]);
         this.state = {selectedSoundIndex: 0};
     }
-
+    componentDidMount() {
+        this.props.onSetGen();
+    }
     componentWillReceiveProps (nextProps) {
         const {
             editingTarget,
@@ -329,7 +332,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch(setRestore(restoreState));
     },
     onCloseImporting: () => dispatch(closeAlertWithId('importingAsset')),
-    onShowImporting: () => dispatch(showStandardAlert('importingAsset'))
+    onShowImporting: () => dispatch(showStandardAlert('importingAsset')),
+    onSetGen: () => dispatch(setGen(true))
 });
 
 export default errorBoundaryHOC('Sound Tab')(
