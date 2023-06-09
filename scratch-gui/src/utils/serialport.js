@@ -3,7 +3,7 @@
  * @Author: jiang
  * @Date: 2023-06-07 08:58:20
  * @LastEditors: jiang
- * @LastEditTime: 2023-06-07 16:00:07
+ * @LastEditTime: 2023-06-09 17:55:33
  * @params: {
  *  mainWindow: 主进程
  *  port: 串口
@@ -45,7 +45,7 @@ function connectSerial() {
 function disconnectSerial(port) {
     ipcMain.on("disconnected", (event) => {
         if (port.isOpen) port.close();
-        event.reply("closed", "disconnect");
+        // event.reply("closed", "disconnect");
     });
 }
 
@@ -70,6 +70,7 @@ function linkToSerial(serial, event) {
     disconnectSerial(port);
     port.on("close", () => {
         port = null;
+        event.reply("closed", "disconnect");
         console.log("the serialport is closed.");
     });
 }

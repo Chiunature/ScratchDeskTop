@@ -45,6 +45,7 @@ class ConnectionModal extends React.Component {
     componentDidMount() {
         this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
+        ipc({ eventName: "closed", callback: () => this.handleDisconnect()});
     }
     componentWillUnmount() {
         this.props.vm.removeListener(
