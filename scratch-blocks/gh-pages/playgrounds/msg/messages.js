@@ -143,15 +143,15 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 // combined motor blocks
-Blockly.Msg.STARTING_COMBINED_MOTOR = "%1 set the running motor to %2 %3";
+Blockly.Msg.COMBINED_MOTOR_STARTING = "%1 set the running motor to %2 %3";
 Blockly.Msg.DIRECTION_MOTOR = "%1 start moving %2";
-Blockly.Msg.TURN_COMBINED_MOTOR = "%1 %2 %3 move %4 %5";
-Blockly.Msg.LINE_COMBINED_MOTOR = "%1 %2 move %3 %4";
-Blockly.Msg.STOP_COMBINED_MOTOR = "%1 stop motion";
-Blockly.Msg.MOVE_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move %4 %5";
-Blockly.Msg.MOVESTEP_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move";
-Blockly.Msg.MOVEPOWER_COMBINED_MOTOR = "Starting at 2% %% power for% 3% 4 movement";
-Blockly.Msg.STOPPING_COMBINED_MOTOR = "%1 When setting the running motor to stop %2";
+Blockly.Msg.COMBINED_MOTOR_TURN = "%1 %2 %3 move %4 %5";
+Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 move %3 %4";
+Blockly.Msg.COMBINED_MOTOR_STOP = "%1 stop motion";
+Blockly.Msg.COMBINED_MOTOR_MOVE = "%1 at a speed of %2 and %3 %% to move %4 %5";
+Blockly.Msg.COMBINED_MOTOR_MOVESTEP = "%1 at a speed of %2 and %3 %% to move";
+Blockly.Msg.COMBINED_MOTOR_MOVEPOWER = "%1 Starting at %2 %% power for %3 %4 movement";
+Blockly.Msg.COMBINED_MOTOR_STOPPING = "%1 When setting the running motor to stop %2";
 // Motor blocks
 Blockly.Msg.BACK = 'back';
 Blockly.Msg.ADVANCE = 'advance';
@@ -362,6 +362,7 @@ Blockly.Msg.CLOSE = "turn off";
 // Category labels
 Blockly.Msg.CATEGORY_MATRIX = 'Matrix Lamp';
 Blockly.Msg.CATEGORY_MOTION = 'Motion';
+Blockly.Msg.CATEGORY_COMBINED_MOTOR = 'Combination Motor';
 Blockly.Msg.CATEGORY_MOTOR = 'Motor';
 Blockly.Msg.CATEGORY_LOOKS = 'Looks';
 Blockly.Msg.CATEGORY_SOUND = 'Sound';

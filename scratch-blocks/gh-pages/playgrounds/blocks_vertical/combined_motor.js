@@ -14,7 +14,7 @@ Blockly.Blocks['combined_motor_starting'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.STARTING_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_STARTING,
             "args0": [
                 {
                     "type": "field_image",
@@ -199,7 +199,7 @@ Blockly.Blocks['combined_motor_turn'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.TURN_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_TURN,
             "args0": [
                 {
                     "type": "field_image",
@@ -283,7 +283,7 @@ Blockly.Blocks['combined_motor_line'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.LINE_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_LINE,
             "args0": [
                 {
                     "type": "field_image",
@@ -362,7 +362,7 @@ Blockly.Blocks['combined_motor_stop'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.STOP_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_STOP,
             "args0": [
                 {
                     "type": "field_image",
@@ -386,7 +386,7 @@ Blockly.Blocks['combined_motor_move'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.MOVE_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_MOVE,
             "args0": [
                 {
                     "type": "field_image",
@@ -451,7 +451,7 @@ Blockly.Blocks['combined_motor_movestep'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.MOVESTEP_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_MOVESTEP,
             "args0": [
                 {
                     "type": "field_image",
@@ -483,7 +483,7 @@ Blockly.Blocks['combined_motor_movepower'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.MOVEPOWER_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_MOVEPOWER,
             "args0": [
                 {
                     "type": "field_image",
@@ -558,7 +558,7 @@ Blockly.Blocks['combined_motor_stopping'] = {
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.STOPPING_COMBINED_MOTOR,
+            "message0": Blockly.Msg.COMBINED_MOTOR_STOPPING,
             "args0": [
                 {
                     "type": "field_image",
