@@ -4,6 +4,7 @@
     margin: 45px 0 20px;
     position: relative;
 }
+
 .gen-txt {
     display: inline-block;
     width: 480px;
@@ -14,5 +15,19 @@
     position: absolute;
     top: 0;
     right: 10px;
+    z-index: 30;
+}
+
+[dir="rtl"] .gen-txt {
+    display: inline-block;
+    width: 480px;
+    height: 100%;
+    border: 1px solid #e6e6e6;
+    outline: none;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    right: unset;
+    left: 10px;
     z-index: 30;
 }

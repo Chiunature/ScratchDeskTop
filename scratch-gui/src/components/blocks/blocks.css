@@ -73,6 +73,7 @@
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
     border-right: none;
     border-left: 1px solid $ui-black-transparent;
+    min-width: 300px;
 }
 
 .blocks :global(.blocklyBlockDragSurface) {
@@ -81,7 +82,8 @@
         This does not prevent user interaction on the blocks themselves.
     */
     pointer-events: none;
-    z-index: $z-index-drag-layer; /* make blocks match gui drag layer */
+    z-index: $z-index-drag-layer;
+    /* make blocks match gui drag layer */
 }
 
 /*
@@ -97,12 +99,16 @@
     min-width: auto;
     min-height: auto;
 }
+
 .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     transform: translate(345px, 2.5px) !important;
 }
-.blocks
-    :global(
-        .blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect
-    ) {
+
+.blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
     width: 300px !important;
+}
+
+
+[dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
+    display: none !important;
 }

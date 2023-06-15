@@ -21,6 +21,7 @@ const LanguageSelector = ({currentLocale, label, onChange}) => (
                     <option
                         key={locale}
                         value={locale}
+                        className={currentLocale===locale ? styles.languageActive : ''}
                     >
                         {locales[locale].name}
                     </option>
