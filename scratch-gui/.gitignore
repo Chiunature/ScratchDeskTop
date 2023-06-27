@@ -5,6 +5,7 @@
 /node_modules
 npm-*
 /mingw64
+/gcc-arm-none-eabi
 /pack
 # Testing
 /.nyc_output

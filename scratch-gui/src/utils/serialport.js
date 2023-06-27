@@ -44,8 +44,10 @@ function connectSerial() {
 //断开连接
 function disconnectSerial(port) {
     ipcMain.on("disconnected", (event) => {
-        if (port.isOpen) port.close();
-        // event.reply("closed", "disconnect");
+        if (port.isOpen) {
+            clearSerialPortBuffer();
+            port.close();
+        }
     });
 }
 
@@ -70,16 +72,28 @@ function linkToSerial(serial, event) {
     disconnectSerial(port);
     port.on("close", () => {
         port = null;
+        parser = null;
         event.reply("closed", "disconnect");
         console.log("the serialport is closed.");
     });
 }
-
+//写入数据
 function writeData(data, str) {
     console.log('write ==>', data);
     sign = str;
-    port.write(data);
-    port.flush();
+    port.write(data, (err) => {
+        if (err) throw err;
+    });
+}
+//清除缓存
+function clearSerialPortBuffer() {
+    port.flush(err => {
+        if (err) {
+            console.log('clear failed:', err);
+        } else {
+            console.log('the cache is clear');
+        }
+    });
 }
 //校验和发送数据
 function verify(chunk, callback) {
@@ -119,7 +133,7 @@ function verify(chunk, callback) {
 function received(event) {
     parser.on("data", (chunk) => {
         if (!chunk) {
-            port.flush();
+            clearSerialPortBuffer();
             event.reply("completed", {
                 result: false,
                 msg: "uploadError",
@@ -134,6 +148,13 @@ function received(event) {
             if (chunkIndex === chunkBuffer.length + 1) {
                 writeData(arr3, null);
                 chunkIndex++;
+            } else if (chunkIndex === chunkBuffer.length + 2) {
+                chunkIndex = 0;
+                clearSerialPortBuffer();
+                event.reply("completed", {
+                    result: false,
+                    msg: "uploadSuccess",
+                });
             }
         }
     });
@@ -149,8 +170,8 @@ function checkData(len, str) {
 
 //分段上传
 function uploadSlice(data) {
-    chunkBuffer = [];
     // 将data分段，每段大小512b
+    chunkBuffer = [];
     const chunkSize = 512;
     if (data.length < chunkSize) {
         chunkBuffer.push(data);
@@ -164,26 +185,16 @@ function uploadSlice(data) {
 
 //发送数据
 function sendToSerial() {
-    ipcMain.on("writeData", (event, data) => {
-        uploadSlice(data);
+    ipcMain.once("writeData", (event, data) => {
         received(event);
+        uploadSlice(data);
         writeData(arr1, 'Boot_Update');
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            port.drain((err) => {
-                if (err) {
-                    event.reply("completed", {
-                        result: false,
-                        msg: "uploadError",
-                    });
-                } else {
-                    event.reply("completed", {
-                        result: false,
-                        msg: "uploadSuccess",
-                    });
-                }
-            });
-        }, 0);
+        // clearTimeout(timer);
+        // timer = setTimeout(() => {
+        //     port.drain((err) => {
+        //         console.log(err);
+        //     });
+        // }, 0);
     });
 }
 
