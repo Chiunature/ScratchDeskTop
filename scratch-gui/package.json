@@ -164,7 +164,8 @@
             "build/**/*",
             "node_modules/**/*",
             "main.js",
-            "preload.js"
+            "preload.js",
+            "serialport.js"
         ],
         "nsis": {
             "oneClick": false,

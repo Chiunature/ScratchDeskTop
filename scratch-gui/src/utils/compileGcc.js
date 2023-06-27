@@ -4,12 +4,13 @@ const path = window.path;
 const process = window.child_process;
 const makeCommand = 'make';
 const makeOptions = ['all'];
-const makefile = path.join(__dirname, 'makefile');
-const command = `${makeCommand} -f "${makefile}" ${makeOptions.join(' ')}`;
+const cmd = `cd ./gcc-arm-none-eabi/bin/myLED&&${makeCommand} ${makeOptions.join(' ')}`;
 
-const str =
-    "#include <stdio.h>\n" + 'int main()\n {\n printf("Hello, World!"); \n}';
+// const str ="#include <stdio.h>\n" + 'int main()\n {\n printf("Hello, World!"); \n}';
 
+const str = 'int main()\n {\n printf("Hello, World!"); \n}';
+
+//将c语言代码写入文件
 function writeFiles(buffer, callback) {
     fs.mkdir(`./gcc-arm-none-eabi/bin/codes/cake/`, { recursive: true }, (err) => {
         if (err) return callback(err);
@@ -21,6 +22,7 @@ function writeFiles(buffer, callback) {
     });
 }
 
+//执行cmd命令
 function processCMD(commend, callback) {
     process.exec(commend, (error, stdout, stderr) => {
         if (error) return callback(error);
@@ -28,15 +30,13 @@ function processCMD(commend, callback) {
     });
 }
 
+//获取Bin文件数据准备通信
 function compile(file) {
-    let ph = "./gcc-arm-none-eabi/bin";
-    let gcc = `cd ${ph} && ${command}`;
-    processCMD(gcc, (error, stdout) => {
+    processCMD(cmd, (error, stdout) => {
         if (error) return console.error(`exec error: ${error}`);
         console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
         // getFiles(path.join(ph, file.replace(/\.+c/g, ".bin")));
-        getFiles("./gcc-arm-none-eabi/bin/codes/cake/LED_Power_Teset.bin");
+        getFiles("./gcc-arm-none-eabi/bin/myLED/build/myLED.bin");
     });
 }
 

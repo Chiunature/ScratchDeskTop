@@ -3,7 +3,7 @@
  * @Author: jiang
  * @Date: 2023-06-07 08:58:20
  * @LastEditors: jiang
- * @LastEditTime: 2023-06-09 17:55:33
+ * @LastEditTime: 2023-06-15 15:30:17
  * @params: {
  *  mainWindow: 主进程
  *  port: 串口
@@ -15,7 +15,6 @@
  *  sign: 检验标识
  * }
  */
-const Get_CRC = require("./get_crc");
 const { SerialPort } = require("serialport");
 const { ByteLengthParser } = require('@serialport/parser-byte-length');
 const { ipcMain } = require("electron");
@@ -35,12 +34,14 @@ function getList() {
         }
     });
 }
+
 //连接串口
 function connectSerial() {
     ipcMain.on("connected", (event, arg) => {
         linkToSerial(arg, event);
     });
 }
+
 //断开连接
 function disconnectSerial(port) {
     ipcMain.on("disconnected", (event) => {
@@ -51,6 +52,35 @@ function disconnectSerial(port) {
     });
 }
 
+//数据转buffer
+function toArrayBuffer(buf) {
+    let view = [];
+    for (let i = 0; i < buf.length; ++i) {
+        view.push(buf[i]);
+    }
+    return view;
+}
+
+//检测数据并转buffer形式
+function Get_CRC(data) {
+    let arr = [];
+    if (!Array.isArray(data)) {
+        arr = toArrayBuffer(data);
+    } else {
+        arr = [...data];
+    }
+    if (data.length < 8) {
+        let crc = 0;
+        for (let i = 0; i < data.length; i++) {
+            crc += data[i];
+        }
+        crc &= 0xff;
+        arr.push(crc);
+    }
+    return arr;
+}
+
+//连接串口
 function linkToSerial(serial, event) {
     if (port) port.close();
     port = new SerialPort(
@@ -77,6 +107,7 @@ function linkToSerial(serial, event) {
         console.log("the serialport is closed.");
     });
 }
+
 //写入数据
 function writeData(data, str) {
     console.log('write ==>', data);
@@ -85,6 +116,7 @@ function writeData(data, str) {
         if (err) throw err;
     });
 }
+
 //清除缓存
 function clearSerialPortBuffer() {
     port.flush(err => {
@@ -95,6 +127,7 @@ function clearSerialPortBuffer() {
         }
     });
 }
+
 //校验和发送数据
 function verify(chunk, callback) {
     switch (sign) {
