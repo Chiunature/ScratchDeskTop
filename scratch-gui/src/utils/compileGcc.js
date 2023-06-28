@@ -3,21 +3,18 @@ const fs = window.fs;
 const path = window.path;
 const process = window.child_process;
 const makeCommand = 'make';
+const makefile = './myLED';
 const makeOptions = ['all'];
-const cmd = `cd ./gcc-arm-none-eabi/bin/myLED&&${makeCommand} ${makeOptions.join(' ')}`;
-
-// const str ="#include <stdio.h>\n" + 'int main()\n {\n printf("Hello, World!"); \n}';
-
-const str = 'int main()\n {\n printf("Hello, World!"); \n}';
+const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 
 //将c语言代码写入文件
 function writeFiles(buffer, callback) {
     fs.mkdir(`./gcc-arm-none-eabi/bin/codes/cake/`, { recursive: true }, (err) => {
         if (err) return callback(err);
-        let cname = `./codes/cake/test${Date.now().toString(36)}.c`;
-        let file = path.join(`./gcc-arm-none-eabi/bin`, cname);
-        fs.writeFile(file, buffer, function (err) {
-            return callback(err, cname);
+        // let cname = `./codes/cake/test${Date.now().toString(36)}.c`;
+        let file = path.join(`./gcc-arm-none-eabi/bin/myLED/USER/`, 'main.c');
+        fs.writeFile(file, buffer, (err) => {
+            return callback(err);
         });
     });
 }
@@ -31,7 +28,7 @@ function processCMD(commend, callback) {
 }
 
 //获取Bin文件数据准备通信
-function compile(file) {
+function compile() {
     processCMD(cmd, (error, stdout) => {
         if (error) return console.error(`exec error: ${error}`);
         console.log(`stdout: ${stdout}`);
@@ -40,13 +37,15 @@ function compile(file) {
     });
 }
 
-
 //运行编译器参数是传入的C语言代码
-function runGcc(buffer = str) {
-    writeFiles(buffer, (err, file) => {
-        if (err) return;
+function runGcc(buffer) {
+    const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
+    let match = pattern.exec(buffer);
+    let code = `#include "stm32f10x.h"\n#include "stdio.h"\n#include "stm32f10x_gpio.h"\n#include "delay.h"\n#include "stm32f10x_usart.h"\n#define LED_Troger (*(void (*)())0x8030001)\n#define Delay_500ms (*(void (*)())0x8030081)\n#define printf_usart (*(void (*)(char *))0x8030161)\nint main(void) {\n SCB->VTOR = FLASH_BASE | 0x20000;\nDelay_500ms();\nDelay_500ms();\nprintf_usart(" jump to App1 OK!");\n${match[2]}\nwhile (1){\n LED_Troger();\n}\n}`;
+    writeFiles(code, (err) => {
+        if (err) return Error(err);
         console.info("write success");
-        if (file) compile(file);
+        compile();
     });
 }
 
