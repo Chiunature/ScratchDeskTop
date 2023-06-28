@@ -256,3 +256,11 @@ Blockly.cake.scrub_ = function (block, code) {
   var nextCode = this.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
+
+Blockly.cake.stringToHex = function (string) {
+  // 将字符串按照每八个字符一组进行分割
+  const chunks = string.match(/.{1,8}/g);
+  // 将每组元素转换成0xff这种格式的十六进制
+  const hexChunks = chunks.map(chunk => "0x" + parseInt(chunk, 2).toString(16).padStart(2, '0'));
+  return hexChunks;
+}
