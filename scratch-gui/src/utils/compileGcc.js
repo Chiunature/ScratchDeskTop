@@ -9,13 +9,9 @@ const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 
 //将c语言代码写入文件
 function writeFiles(buffer, callback) {
-    fs.mkdir(`./gcc-arm-none-eabi/bin/codes/cake/`, { recursive: true }, (err) => {
-        if (err) return callback(err);
-        // let cname = `./codes/cake/test${Date.now().toString(36)}.c`;
-        let file = path.join(`./gcc-arm-none-eabi/bin/myLED/USER/`, 'main.c');
-        fs.writeFile(file, buffer, (err) => {
-            return callback(err);
-        });
+    let file = path.join(`./gcc-arm-none-eabi/bin/myLED/USER/`, 'main.c');
+    fs.writeFile(file, buffer, (err) => {
+        return callback(err);
     });
 }
 
