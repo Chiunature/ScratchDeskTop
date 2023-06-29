@@ -35,7 +35,7 @@ const ColorPicker = (props) => {
         document.removeEventListener("mouseup", handleClick);
     };
     return (
-        <div className={classNames(styles.colorPicker)} ref={picker}>
+        <div className={classNames(styles.colorPicker, props.isPicker ? '' : styles.colorHide)} ref={picker}>
             <SketchPicker color={color} onChange={handleChangeComplete} />
             <br />
             <HuePicker color={color} onChange={handleChangeComplete} />

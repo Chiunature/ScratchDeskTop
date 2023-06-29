@@ -44,9 +44,7 @@
         much better ways to solve that (e.g. undo #2124, remove this flex-basis entirely). However, they run their own
         risks of breaking things, so let's just leave this as-is for the time being.
     */
-    flex-basis: calc(
-        1024px - 408px - (($space + $stage-standard-border-width) * 2)
-    );
+    flex-basis: calc(1024px - 408px - (($space + $stage-standard-border-width) * 2));
     flex-grow: 1;
     flex-shrink: 0;
     position: relative;
@@ -57,7 +55,8 @@
 
 .tab-list {
     height: $stage-menu-height;
-    width: 250px; /* Match width of the toolbox */
+    width: 250px;
+    /* Match width of the toolbox */
     display: flex;
     align-items: flex-end;
     flex-shrink: 0;
@@ -113,9 +112,11 @@
 .tab:nth-of-type(1) {
     z-index: 3;
 }
+
 .tab:nth-of-type(2) {
     z-index: 2;
 }
+
 .tab:nth-of-type(3) {
     z-index: 1;
 }
@@ -128,7 +129,8 @@
     height: 90%;
     color: $motion-primary;
     background-color: $ui-white;
-    z-index: 4; /* Make sure selected is always above */
+    z-index: 4;
+    /* Make sure selected is always above */
 }
 
 .tab img {
@@ -220,7 +222,8 @@
     flex-basis: 0;
 
     padding-top: $space;
-    min-height: 0; /* this makes it work in Firefox */
+    min-height: 0;
+    /* this makes it work in Firefox */
 
     /*
         For making the sprite-selector a scrollable pane
@@ -241,7 +244,8 @@
     background: var(--motion-primary);
 
     border: 1px solid var(--motion-primary);
-    box-sizing: content-box; /* To match scratch-block vertical toolbox borders */
+    box-sizing: content-box;
+    /* To match scratch-block vertical toolbox borders */
 }
 
 $fade-out-distance: 15px;
@@ -274,7 +278,7 @@ $fade-out-distance: 15px;
     transform: scaleX(-1);
 }
 
-.extension-button > div {
+.extension-button>div {
     margin-top: 0;
 }
 
@@ -299,6 +303,7 @@ $fade-out-distance: 15px;
     position: relative;
     z-index: $z-index-menu-bar;
 }
+
 /* Alerts */
 
 .alerts-container {
@@ -327,8 +332,8 @@ $fade-out-distance: 15px;
     opacity: .8;
     text-align: center;
     position: fixed;
-    right: 40px;
-    top: 100px;
+    right: 6%;
+    top: 15%;
     z-index: 30;
 }
 

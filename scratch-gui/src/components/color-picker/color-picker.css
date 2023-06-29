@@ -28,3 +28,7 @@
     box-shadow: 0 0 10px #a19f9f;
     z-index: 30;
 }
+
+.color-hide {
+    display: none;
+}

@@ -50,6 +50,7 @@ import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ColorPicker from "../color-picker/color-picker.jsx";
 import ButtonComponent from "../button/button.jsx";
+import Cirle from "../button/cirle.jsx";
 const messages = defineMessages({
     addExtension: {
         id: "gui.gui.addExtension",
@@ -228,7 +229,9 @@ const GUIComponent = (props) => {
                                 iconSrc={completed ? loadIcon : uploadIcon}
                                 onClick={() => handleCompile(code)}
                                 disabled={completed}
-                            />
+                            >
+                                <Cirle completed={completed}/>
+                            </ButtonComponent>
                         ) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
@@ -421,14 +424,10 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    {isPicker ? (
                                         <ColorPicker
                                             isPicker={isPicker}
                                             onSetPicker={onSetPicker}
                                         />
-                                    ) : (
-                                        <></>
-                                    )}
                                 </Box>
                             </Box>
                         </Box>
