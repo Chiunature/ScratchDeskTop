@@ -24,8 +24,8 @@ const ColorPicker = (props) => {
         localStorage.setItem("themeColor", theme);
     };
     const handleClick = (e) => {
-        if (props.isPicker && !picker.current.contains(e.target)) {
-            props.onSetPicker(props.isPicker);
+        if (!props.isPicker && !picker.current.contains(e.target)) {
+            props.onSetPicker(!props.isPicker);
         }
     };
     const addListeners = () => {
