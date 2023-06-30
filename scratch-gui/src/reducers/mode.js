@@ -3,6 +3,7 @@ const SET_PLAYER = 'scratch-gui/mode/SET_PLAYER';
 const SET_GEN = 'scratch-gui/mode/SET_GEN';
 const GET_CODE = 'scratch-gui/mode/GET_CODE';
 const SET_PICKER = 'scratch-gui/mode/SET_PICKER';
+const SET_ISCOMPLETE = 'scratch-gui/mode/SET_ISCOMPLETE';
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -10,7 +11,8 @@ const initialState = {
     hasEverEnteredEditor: true,
     isGen: false,
     code: "",
-    isPicker: false
+    isPicker: false,
+    isComplete: false
 };
 
 const reducer = function (state, action) {
@@ -36,6 +38,10 @@ const reducer = function (state, action) {
         case SET_PICKER:
             return Object.assign({}, state, {
                 isPicker: action.isPicker
+            });
+        case SET_ISCOMPLETE:
+            return Object.assign({}, state, {
+                isComplete: action.isComplete
             });
         default:
             return state;
@@ -72,6 +78,12 @@ const setPicker = function (isPicker) {
         isPicker: !isPicker
     };
 };
+const setIsComplete = function (isComplete) {
+    return {
+        type: SET_ISCOMPLETE,
+        isComplete: isComplete
+    };
+};
 export {
     reducer as default,
     initialState as modeInitialState,
@@ -79,5 +91,6 @@ export {
     setPlayer,
     setGen,
     getCode,
-    setPicker
+    setPicker,
+    setIsComplete
 };

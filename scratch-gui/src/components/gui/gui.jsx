@@ -46,6 +46,7 @@ import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
 import uploadIcon from "./icon--upload.svg";
 import loadIcon from "./icon--load.svg";
+import yesIcon from "./icon--yes.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ColorPicker from "../color-picker/color-picker.jsx";
@@ -125,6 +126,7 @@ const GUIComponent = (props) => {
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
         onSetPicker,
+        onSetIsComplete,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -136,6 +138,7 @@ const GUIComponent = (props) => {
         code,
         isPicker,
         completed,
+        isComplete,
         handleCompile,
         ...componentProps
     } = omit(props, "dispatch");
@@ -224,14 +227,23 @@ const GUIComponent = (props) => {
                             />
                         ) : null}
                         {peripheralName ? (
-                            <ButtonComponent
-                                className={styles.uploadBtn}
-                                iconSrc={completed ? loadIcon : uploadIcon}
-                                onClick={() => handleCompile(code)}
-                                disabled={completed}
-                            >
-                                <Cirle completed={completed}/>
-                            </ButtonComponent>
+                            <div className={classNames(styles.btnCon)}>
+                                <div className={classNames(styles.btnBox)}>
+                                    <ButtonComponent
+                                        className={classNames(styles.uploadBtn)}
+                                        iconSrc={completed ? loadIcon : uploadIcon}
+                                        onClick={() => handleCompile(code)}
+                                        disabled={completed}
+                                    >
+                                        <Cirle completed={completed}/>
+                                    </ButtonComponent>
+                                    {isComplete ? <ButtonComponent
+                                        className={classNames(styles.yesBtn, isComplete ? styles.yesBtnSpin : '')}
+                                        iconSrc={yesIcon}
+                                        disabled={true}
+                                    />:<></>}
+                                </div>
+                            </div>
                         ) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}

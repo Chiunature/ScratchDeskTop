@@ -38,6 +38,7 @@
     top: 0;
     left: 0;
     opacity: .7;
+    transition: all 3s;
 }
 
 .circle1,
@@ -99,5 +100,5 @@
 }
 
 .hide {
-    display: none;
+    opacity: 0;
 }

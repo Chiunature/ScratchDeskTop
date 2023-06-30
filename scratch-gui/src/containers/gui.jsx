@@ -36,7 +36,7 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setPicker } from "../reducers/mode.js";
+import { setGen, setIsComplete, setPicker } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import { runGcc } from "../utils/compileGcc.js";
 import { setCompleted } from "../reducers/connection-modal.js";
@@ -53,6 +53,10 @@ class GUI extends React.Component {
                 callback: (event, arg) => {
                     this.props.onSetCompleted(arg.result);
                     this.props.onShowCompletedAlert(arg.msg);
+                    this.props.onSetIsComplete(true);
+                    setTimeout(() => {
+                        this.props.onSetIsComplete(false);
+                    }, 1000);
                 },
             });
         }
@@ -181,6 +185,7 @@ const mapStateToProps = (state) => {
         isPicker: state.scratchGui.mode.isPicker,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         completed: state.scratchGui.connectionModal.completed,
+        isComplete: state.scratchGui.mode.isComplete
     };
 };
 
@@ -199,6 +204,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete))
 });
 
 const ConnectedGUI = injectIntl(

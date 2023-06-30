@@ -113,7 +113,10 @@ function writeData(data, str) {
     console.log('write ==>', data);
     sign = str;
     port.write(data, (err) => {
-        if (err) throw err;
+        if (err) {
+            ipcMain.removeListener("writeData");
+            throw err;
+        }
     });
 }
 
@@ -165,6 +168,7 @@ function verify(chunk, callback) {
 //接受数据
 function received(event) {
     parser.on("data", (chunk) => {
+        ipcMain.removeListener("writeData");
         if (!chunk) {
             clearSerialPortBuffer();
             event.reply("completed", {
@@ -218,7 +222,7 @@ function uploadSlice(data) {
 
 //发送数据
 function sendToSerial() {
-    ipcMain.once("writeData", (event, data) => {
+    ipcMain.on("writeData", (event, data) => {
         received(event);
         uploadSlice(data);
         writeData(arr1, 'Boot_Update');
