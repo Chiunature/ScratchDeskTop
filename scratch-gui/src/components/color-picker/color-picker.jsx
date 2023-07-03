@@ -10,9 +10,9 @@ const ColorPicker = (props) => {
     let [color, setColor] = useState(initColor);
     let picker = useRef();
     useEffect(() => {
-        addListeners();
+        document.addEventListener("mouseup", handleClick);
         return () => {
-            removeListeners();
+            document.removeEventListener("mouseup", handleClick);
         };
     }, []);
     const handleChangeComplete = (color) => {
@@ -24,15 +24,7 @@ const ColorPicker = (props) => {
         localStorage.setItem("themeColor", theme);
     };
     const handleClick = (e) => {
-        if (!props.isPicker && !picker.current.contains(e.target)) {
-            props.onSetPicker(!props.isPicker);
-        }
-    };
-    const addListeners = () => {
-        document.addEventListener("mouseup", handleClick);
-    };
-    const removeListeners = () => {
-        document.removeEventListener("mouseup", handleClick);
+        if (!props.isPicker && !picker.current.contains(e.target)) props.onSetPicker(!props.isPicker);
     };
     return (
         <div className={classNames(styles.colorPicker, props.isPicker ? '' : styles.colorHide)} ref={picker}>

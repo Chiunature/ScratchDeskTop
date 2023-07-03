@@ -39,6 +39,7 @@
     align-items: center;
     flex-grow: 1;
 }
+
 .main-menu-two {
     display: flex;
     flex-direction: row;
@@ -47,6 +48,7 @@
     align-items: center;
     flex-grow: 1;
 }
+
 .main-menu-inp {
     display: flex;
     flex-direction: row;
@@ -55,9 +57,11 @@
     align-items: center;
     flex-grow: 1;
 }
+
 .inactive {
     opacity: 0;
 }
+
 .scratch-logo {
     height: 1.6rem;
     vertical-align: middle;
@@ -165,7 +169,7 @@
     height: 1.25rem;
 }
 
-.coming-soon > :not(.coming-soon-tooltip) {
+.coming-soon> :not(.coming-soon-tooltip) {
     opacity: 0.5;
 }
 
@@ -187,6 +191,7 @@
 .help-icon {
     margin-right: 0.35rem;
 }
+
 .unconnected-icon {
     width: 20px;
     margin-right: 0.35rem;
@@ -196,6 +201,7 @@
     height: 20px;
     margin-right: 0.35rem;
 }
+
 .account-nav-menu,
 .mystuff-button {
     padding: 0 0.25rem;
@@ -227,7 +233,7 @@
     opacity: 0.5;
 }
 
-.mystuff > a {
+.mystuff>a {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 45%;
@@ -238,11 +244,12 @@
     text-indent: 50px;
     white-space: nowrap;
 }
-.mystuff > a:hover {
+
+.mystuff>a:hover {
     background-size: 50%;
 }
 
-.mystuff > a {
+.mystuff>a {
     background-image: url("/images/mystuff.png");
 }
 
@@ -251,10 +258,15 @@
     margin: 0.5rem;
     vertical-align: middle;
 }
+
 .hide {
     display: none !important;
 }
 
 .generator {
+    margin: 0 30px;
+}
+
+.theme {
     margin: 0 30px;
 }

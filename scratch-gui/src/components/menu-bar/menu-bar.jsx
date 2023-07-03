@@ -809,9 +809,7 @@ class MenuBar extends React.Component {
                                 [styles.active]: "",
                             }
                         )}
-                        onClick={() =>
-                            this.props.onSetPicker(this.props.isPicker)
-                        }
+                        onClick={() => this.props.onSetPicker(this.props.isPicker)}
                     >
                         <img
                             className={styles.unconnectedIcon}

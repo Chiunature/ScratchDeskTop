@@ -194,7 +194,6 @@ const mapDispatchToProps = (dispatch) => ({
     onActivateTab: (tab) => {
         dispatch(activateTab(tab));
         dispatch(setGen(true));
-        dispatch(setPicker(true));
     },
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),
