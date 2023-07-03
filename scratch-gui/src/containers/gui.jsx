@@ -54,9 +54,7 @@ class GUI extends React.Component {
                     this.props.onSetCompleted(arg.result);
                     this.props.onShowCompletedAlert(arg.msg);
                     this.props.onSetIsComplete(true);
-                    setTimeout(() => {
-                        this.props.onSetIsComplete(false);
-                    }, 1000);
+                    setTimeout(() => this.props.onSetIsComplete(false), 2000);
                 },
             });
         }

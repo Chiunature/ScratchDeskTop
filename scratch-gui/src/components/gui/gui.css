@@ -387,4 +387,5 @@ $fade-out-distance: 15px;
     /* transform: rotateY(-360deg); */
     animation: hiding 1s ease-in-out;
     animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
