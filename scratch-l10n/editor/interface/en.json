@@ -130,6 +130,7 @@
   "gui.menuBar.noConnection": "Unconnected",
   "gui.menuBar.Generator": "Generator",
   "gui.menuBar.Theme": "Theme",
+  "gui.menuBar.settings": "Settings",
   "gui.modal.help": "Help",
   "gui.modal.back": "Back",
   "gui.monitor.listMonitor.empty": "(empty)",

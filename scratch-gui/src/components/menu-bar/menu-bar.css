@@ -125,6 +125,7 @@
 }
 
 .file-group .menu-bar-item {
+    margin: 0 .25rem;
     padding: 0 0.75rem;
 }
 
@@ -269,4 +270,24 @@
 
 .theme {
     margin: 0 30px;
+}
+
+.collapsible-label {
+    margin: 0 .5rem 0 .25rem;
+}
+
+[dir="rtl"] .collapsible-label {
+    margin: 0 0.25rem 0 0.5rem;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .tutorials-label,
+    .collapsible-label {
+        display: none;
+    }
+
+    .help-icon {
+        margin-right: 0;
+    }
 }

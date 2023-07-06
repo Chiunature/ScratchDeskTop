@@ -130,6 +130,7 @@
   "gui.menuBar.noConnection": "没有连接",
   "gui.menuBar.Generator": "代码生成器",
   "gui.menuBar.Theme": "主题",
+  "gui.menuBar.settings": "设置",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",

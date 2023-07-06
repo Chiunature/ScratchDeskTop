@@ -18,15 +18,16 @@ import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import CommunityButton from "./community-button.jsx";
 import ShareButton from "./share-button.jsx";
+import SettingsMenu from './settings-menu.jsx';
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
-import LanguageSelector from "../../containers/language-selector.jsx";
+// import LanguageSelector from "../../containers/language-selector.jsx";
 import SaveStatus from "./save-status.jsx";
 import ProjectWatcher from "../../containers/project-watcher.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
 import { MenuItem, MenuSection } from "../menu/menu.jsx";
 import ProjectTitleInput from "./project-title-input.jsx";
-import AuthorInfo from "./author-info.jsx";
+// import AuthorInfo from "./author-info.jsx";
 import AccountNav from "../../containers/account-nav.jsx";
 import LoginDropdown from "./login-dropdown.jsx";
 import SB3Downloader from "../../containers/sb3-downloader.jsx";
@@ -64,6 +65,9 @@ import {
     openLoginMenu,
     closeLoginMenu,
     loginMenuOpen,
+    settingsMenuOpen,
+    openSettingsMenu,
+    closeSettingsMenu
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
@@ -82,7 +86,7 @@ import themeIcon from "./icon--theme.svg";
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import scratchLogo from "./scratch-logo.svg";
-
+import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
 
@@ -435,31 +439,13 @@ class MenuBar extends React.Component {
                                 src="http://175.178.211.236:8099/uploads/appearance/logo/1/images.jfif"
                             />
                         </div>
-                        {this.props.canChangeLanguage && (
-                            <div
-                                className={classNames(
-                                    styles.menuBarItem,
-                                    styles.hoverable,
-                                    styles.languageMenu
-                                )}
-                            >
-                                <div>
-                                    <img
-                                        className={styles.languageIcon}
-                                        src={languageIcon}
-                                    />
-                                    <img
-                                        className={styles.languageCaret}
-                                        src={dropdownCaret}
-                                    />
-                                </div>
-                                <LanguageSelector
-                                    label={this.props.intl.formatMessage(
-                                        ariaMessages.language
-                                    )}
-                                />
-                            </div>
-                        )}
+                        { this.props.canChangeLanguage && <SettingsMenu
+                            canChangeLanguage={this.props.canChangeLanguage}
+                            isRtl={this.props.isRtl}
+                            onRequestClose={this.props.onRequestCloseSettings}
+                            onRequestOpen={this.props.onClickSettings}
+                            settingsMenuOpen={this.props.settingsMenuOpen}
+                        />}
                         {this.props.canManageFiles && (
                             <div
                                 className={classNames(
@@ -472,11 +458,14 @@ class MenuBar extends React.Component {
                                 )}
                                 onMouseUp={this.props.onClickFile}
                             >
-                                <FormattedMessage
-                                    defaultMessage="File"
-                                    description="Text for file dropdown menu"
-                                    id="gui.menuBar.file"
-                                />
+                               <img src={fileIcon} />
+                                <span className={styles.collapsibleLabel}>
+                                    <FormattedMessage
+                                        defaultMessage="File"
+                                        description="Text for file dropdown menu"
+                                        id="gui.menuBar.file"
+                                    />
+                                </span>
                                 <MenuBarMenu
                                     className={classNames(styles.menuBarMenu)}
                                     open={this.props.fileMenuOpen}
@@ -1028,6 +1017,8 @@ MenuBar.propTypes = {
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
     onRequestCloseLanguage: PropTypes.func,
+    onRequestCloseSettings: PropTypes.func,
+    onClickSettings: PropTypes.func,
     onRequestCloseLogin: PropTypes.func,
     onSeeCommunity: PropTypes.func,
     onShare: PropTypes.func,
@@ -1042,6 +1033,7 @@ MenuBar.propTypes = {
     shouldSaveBeforeTransition: PropTypes.func,
     showComingSoon: PropTypes.bool,
     userOwnsProject: PropTypes.bool,
+    settingsMenuOpen: PropTypes.bool,
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
 };
@@ -1060,6 +1052,7 @@ const mapStateToProps = (state, ownProps) => {
         accountMenuOpen: accountMenuOpen(state),
         fileMenuOpen: fileMenuOpen(state),
         editMenuOpen: editMenuOpen(state),
+        settingsMenuOpen: settingsMenuOpen(state),
         isRtl: state.locales.isRtl,
         isUpdating: getIsUpdating(loadingState),
         isShowingProject: getIsShowingProject(loadingState),
@@ -1095,6 +1088,8 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),
+    onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
+    onClickSettings: () => dispatch(openSettingsMenu()),
     onClickLogin: () => dispatch(openLoginMenu()),
     onRequestCloseLogin: () => dispatch(closeLoginMenu()),
     onRequestOpenAbout: () => dispatch(openAboutMenu()),

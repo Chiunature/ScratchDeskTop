@@ -130,6 +130,7 @@
     "gui.menuBar.Generator": "代碼生成器",
     "gui.menuBar.Theme": "主題",
     "gui.menuBar.noConnection": "沒有連接",
+    "gui.menuBar.settings": "設置",
     "gui.modal.help": "幫助",
     "gui.modal.back": "返回",
     "gui.monitor.listMonitor.empty": "(empty)",
