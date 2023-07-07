@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Legg ut",
     "gui.menuBar.Generator": "Codegenerator",
     "gui.menuBar.Theme": "Emne",
+    "gui.menuBar.settings": "Innstillinger",
     "gui.menuBar.noConnection": "Ingen tilkobling",
     "gui.modal.help": "Hjelp",
     "gui.modal.back": "Tilbake",

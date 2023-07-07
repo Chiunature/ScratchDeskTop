@@ -129,6 +129,7 @@
     "gui.menuBar.share": "แชร์",
     "gui.menuBar.Generator": "เครื่องกำเนิดไฟฟ้ารหัส",
     "gui.menuBar.Theme": "หัวข้อ",
+    "gui.menuBar.settings": "การตั้งค่า",
     "gui.menuBar.noConnection": "ไม่มีการเชื่อมต่อ",
     "gui.modal.help": "ช่วยเหลือ",
     "gui.modal.back": "ย้อนกลับ",

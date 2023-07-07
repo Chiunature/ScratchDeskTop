@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Rakiy",
     "gui.menuBar.Generator": "Koodi generaator",
     "gui.menuBar.Theme": "teema",
+    "gui.menuBar.settings": "Allichinakuna",
     "gui.menuBar.noConnection": "Ühendus puudub",
     "gui.modal.help": "yanapay",
     "gui.modal.back": "hipaman",

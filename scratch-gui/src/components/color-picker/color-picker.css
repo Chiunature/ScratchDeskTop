@@ -29,6 +29,10 @@
     z-index: 30;
 }
 
+[dir="rtl"] .color-hide {
+    display: none;
+}
+
 .color-hide {
     display: none;
 }

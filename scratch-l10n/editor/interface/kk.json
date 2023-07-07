@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Бөлісу",
     "gui.menuBar.Generator": "Code Generator",
     "gui.menuBar.Theme": "Theme",
+    "gui.menuBar.settings": "Параметрлер",
     "gui.menuBar.noConnection": "NoConnection",
     "gui.modal.help": "Көмек",
     "gui.modal.back": "Артқа",

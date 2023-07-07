@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Хуваалцах",
     "gui.menuBar.Generator": "Код үүсгэгч",
     "gui.menuBar.Theme": "Сэдэв",
+    "gui.menuBar.settings": "Тохиргоо",
     "gui.menuBar.noConnection": "Холболт байхгүй байна",
     "gui.modal.help": "Тусламж",
     "gui.modal.back": "Буцах",

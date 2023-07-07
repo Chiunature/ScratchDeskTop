@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Ulashish",
     "gui.menuBar.Generator": "Kod ishlab chiqaruvchi",
     "gui.menuBar.Theme": "Mavzu",
+    "gui.menuBar.settings": "Sozlama",
     "gui.menuBar.noConnection": "Hech qanday aloqa yo'q",
     "gui.modal.help": "Yordam",
     "gui.modal.back": "Orqaga",

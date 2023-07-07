@@ -129,6 +129,7 @@
     "gui.menuBar.share": "共有する",
     "gui.menuBar.Generator": "コードジェネレータ",
     "gui.menuBar.Theme": "トピック＃トピック＃",
+    "gui.menuBar.settings": "設定",
     "gui.menuBar.noConnection": "接続なし",
     "gui.modal.help": "ヘルプ",
     "gui.modal.back": "戻る",

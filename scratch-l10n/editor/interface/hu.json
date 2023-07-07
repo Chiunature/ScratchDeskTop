@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Megosztás",
     "gui.menuBar.Generator": "Kódgenerátor",
     "gui.menuBar.Theme": "téma",
+    "gui.menuBar.settings": "Beállítások",
     "gui.menuBar.noConnection": "Nincs kapcsolat",
     "gui.modal.help": "Súgó",
     "gui.modal.back": "Vissza",

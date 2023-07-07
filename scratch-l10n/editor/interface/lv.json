@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Kopīgot",
     "gui.menuBar.Generator": "Kodu ģenerators",
     "gui.menuBar.Theme": "Tēma",
+    "gui.menuBar.settings": "Iestatījumi",
     "gui.menuBar.noConnection": "Nav savienojuma",
     "gui.modal.help": "Palīdzība",
     "gui.modal.back": "Atpakaļ",

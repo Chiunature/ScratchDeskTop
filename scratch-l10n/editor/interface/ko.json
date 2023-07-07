@@ -129,6 +129,7 @@
     "gui.menuBar.share": "공유",
     "gui.menuBar.Generator": "코드 생성기",
     "gui.menuBar.Theme": "주제",
+    "gui.menuBar.settings": "설정",
     "gui.menuBar.noConnection": "연결 없음",
     "gui.modal.help": "도움말",
     "gui.modal.back": "뒤로",

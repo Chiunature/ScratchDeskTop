@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Deila",
     "gui.menuBar.Generator": "Kóðvirkja",
     "gui.menuBar.Theme": "þema",
+    "gui.menuBar.settings": "Stillingar",
     "gui.menuBar.noConnection": "Engin tenging",
     "gui.modal.help": "Hjálp",
     "gui.modal.back": "Til baka",

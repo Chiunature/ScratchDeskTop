@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Deel",
     "gui.menuBar.Generator": "Kode- Opsteller",
     "gui.menuBar.Theme": "Muster",
+    "gui.menuBar.settings": "Instellings",
     "gui.menuBar.noConnection": "Keen Verbinnen",
     "gui.modal.help": "Help",
     "gui.modal.back": "Terug",

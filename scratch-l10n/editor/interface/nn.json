@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Legg ut",
     "gui.menuBar.Generator": "Kode generator",
     "gui.menuBar.Theme": "thema",
+    "gui.menuBar.settings": "Instellingen",
     "gui.menuBar.noConnection": "Geen verbinding",
     "gui.modal.help": "Hjelp",
     "gui.modal.back": "Tilbake",

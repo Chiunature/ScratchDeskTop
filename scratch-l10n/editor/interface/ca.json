@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Comparteix",
     "gui.menuBar.Generator": "Generador de codis",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Pengaturan",
     "gui.menuBar.noConnection": "No hi ha connexió",
     "gui.modal.help": "Ajuda",
     "gui.modal.back": "Enrere",

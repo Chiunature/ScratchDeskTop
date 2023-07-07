@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Co-roinn",
     "gui.menuBar.Generator": "Generador de codis",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Roghainnean",
     "gui.menuBar.noConnection": "No hi ha connexió",
     "gui.modal.help": "Cobhair",
     "gui.modal.back": "Air ais",

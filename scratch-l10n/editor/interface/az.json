@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Paylaş",
     "gui.menuBar.Generator": "Kod generatörü",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Ayarlar",
     "gui.menuBar.noConnection": "Bağlantı yok",
     "gui.modal.help": "Yardım",
     "gui.modal.back": "Geri",

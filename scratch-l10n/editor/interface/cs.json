@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Sdílet",
     "gui.menuBar.Generator": "Generátor kódu",
     "gui.menuBar.Theme": "téma",
+    "gui.menuBar.settings": "Nastavení",
     "gui.menuBar.noConnection": "Žádné spojení",
     "gui.modal.help": "Pomoc",
     "gui.modal.back": "Zpět",

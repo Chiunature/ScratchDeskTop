@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Ibahagi",
     "gui.menuBar.Generator": "Koodi generaator",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Mga Setting",
     "gui.menuBar.noConnection": "Tiada sambungan",
     "gui.modal.help": "Tulong",
     "gui.modal.back": "Balik",

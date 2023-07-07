@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Dela",
     "gui.menuBar.Generator": "Kodgenerator",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Inställningar",
     "gui.menuBar.noConnection": "Ingen anslutning",
     "gui.modal.help": "Hjälp",
     "gui.modal.back": "Tillbaka",

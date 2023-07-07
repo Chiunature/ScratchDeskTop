@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Delen",
     "gui.menuBar.Generator": "Codegenerator",
     "gui.menuBar.Theme": "thema",
+    "gui.menuBar.settings": "Instellingen",
     "gui.menuBar.noConnection": "Geen verbinding",
     "gui.modal.help": "Help",
     "gui.modal.back": "Terug",

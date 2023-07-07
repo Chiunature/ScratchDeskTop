@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Diele",
     "gui.menuBar.Generator": "Koade generator",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Ynstellings",
     "gui.menuBar.noConnection": "Gjin ferbining",
     "gui.modal.help": "Help",
     "gui.modal.back": "Werom",

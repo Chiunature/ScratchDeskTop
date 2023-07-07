@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Deli",
     "gui.menuBar.Generator": "Generator kode",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Postavke",
     "gui.menuBar.noConnection": "Nema veze",
     "gui.modal.help": "Pomoč",
     "gui.modal.back": "Nazaj",

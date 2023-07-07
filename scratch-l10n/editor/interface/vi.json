@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Chia sẻ",
     "gui.menuBar.Generator": "Trình tạo mã",
     "gui.menuBar.Theme": "Chủ đề",
+    "gui.menuBar.settings": "Cài đặt",
     "gui.menuBar.noConnection": "Không kết nối",
     "gui.modal.help": "Trợ giúp",
     "gui.modal.back": "Trở về",

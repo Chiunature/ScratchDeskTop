@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Udostępnij",
     "gui.menuBar.Generator": "Generator kodu",
     "gui.menuBar.Theme": "motyw",
+    "gui.menuBar.settings": "Ustawienia",
     "gui.menuBar.noConnection": "Brak połączenia",
     "gui.modal.help": "Pomoc",
     "gui.modal.back": "Powrót",

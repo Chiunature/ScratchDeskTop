@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Rhannu",
     "gui.menuBar.Generator": "Creuwr côd",
     "gui.menuBar.Theme": "thema",
+    "gui.menuBar.settings" : "Gosodiadau",
     "gui.menuBar.noConnection": "Dim cysylltiad",
     "gui.modal.help": "Cymorth",
     "gui.modal.back": "Nôl",

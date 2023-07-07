@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Bagikan",
     "gui.menuBar.Generator": "Generator kode",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Tetapan",
     "gui.menuBar.noConnection": "Tidak ada koneksi",
     "gui.modal.help": "Bantuan",
     "gui.modal.back": "Kembali",

@@ -129,6 +129,7 @@
     "gui.menuBar.share": "শেয়ার",
     "gui.menuBar.Generator": "কোড জেনারেটর",
     "gui.menuBar.Theme": "থিম",
+    "gui.menuBar.settings": "সেটিংস",
     "gui.menuBar.noConnection": "কোন সংযোগ নেই",
     "gui.modal.help": "সাহায্য",
     "gui.modal.back": "পিছনে",

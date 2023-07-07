@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Jaa",
     "gui.menuBar.Generator": "Koodingeneraattori",
     "gui.menuBar.Theme": "teema",
+    "gui.menuBar.settings": "Asetukset",
     "gui.menuBar.noConnection": "Ei yhteyttä",
     "gui.modal.help": "Apua",
     "gui.modal.back": "Takaisin",

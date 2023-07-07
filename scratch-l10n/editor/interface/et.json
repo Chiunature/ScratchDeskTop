@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Jaga",
     "gui.menuBar.Generator": "Koodi generaator",
     "gui.menuBar.Theme": "Tema",
+    "gui.menuBar.settings": "Seaded",
     "gui.menuBar.noConnection": "No hay conexión",
     "gui.modal.help": "Abi",
     "gui.modal.back": "Tagasi",

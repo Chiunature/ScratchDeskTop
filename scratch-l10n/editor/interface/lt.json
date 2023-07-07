@@ -129,6 +129,7 @@
     "gui.menuBar.share": "Dalintis",
     "gui.menuBar.Generator": "Penjana kod",
     "gui.menuBar.Theme": "tema",
+    "gui.menuBar.settings": "Nustatymai",
     "gui.menuBar.noConnection": "Tiada sambungan",
     "gui.modal.help": "Pagalba",
     "gui.modal.back": "Atgal",
