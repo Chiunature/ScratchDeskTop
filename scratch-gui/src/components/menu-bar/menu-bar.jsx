@@ -13,12 +13,11 @@ import bowser from "bowser";
 import React from "react";
 
 import VM from "scratch-vm";
-
+import SettingsMenu from './settings-menu.jsx';
 import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import CommunityButton from "./community-button.jsx";
 import ShareButton from "./share-button.jsx";
-import SettingsMenu from './settings-menu.jsx';
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 // import LanguageSelector from "../../containers/language-selector.jsx";
@@ -36,7 +35,7 @@ import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
 import { getSerialList } from "../../reducers/connection-modal";
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
-import { setGen, setPlayer, setPicker } from "../../reducers/mode";
+import { setGen, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
     getIsUpdating,
@@ -79,7 +78,6 @@ import mystuffIcon from "./icon--mystuff.png";
 import profileIcon from "./icon--profile.png";
 import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
-import languageIcon from "../language-selector/language-icon.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
 import themeIcon from "./icon--theme.svg";
@@ -458,7 +456,7 @@ class MenuBar extends React.Component {
                                 )}
                                 onMouseUp={this.props.onClickFile}
                             >
-                               <img src={fileIcon} />
+                                <img src={fileIcon} />
                                 <span className={styles.collapsibleLabel}>
                                     <FormattedMessage
                                         defaultMessage="File"
@@ -788,28 +786,6 @@ class MenuBar extends React.Component {
                             id="gui.menuBar.Generator"
                         />
                     </div>
-                    <Divider className={classNames(styles.divider)} />
-                    <div
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator,
-                            {
-                                [styles.active]: "",
-                            }
-                        )}
-                        onClick={() => this.props.onSetPicker(this.props.isPicker)}
-                    >
-                        <img
-                            className={styles.unconnectedIcon}
-                            src={themeIcon}
-                        />
-                        <FormattedMessage
-                            defaultMessage="Theme"
-                            description="Text for menubar Theme button"
-                            id="gui.menuBar.Theme"
-                        />
-                    </div>
                 </div>
                 {/* show the proper UI in the account menu, given whether the user is
                 logged in, and whether a session is available to log in with */}
@@ -1017,9 +993,9 @@ MenuBar.propTypes = {
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
     onRequestCloseLanguage: PropTypes.func,
+    onRequestCloseLogin: PropTypes.func,
     onRequestCloseSettings: PropTypes.func,
     onClickSettings: PropTypes.func,
-    onRequestCloseLogin: PropTypes.func,
     onSeeCommunity: PropTypes.func,
     onShare: PropTypes.func,
     onStartSelectingFileUpload: PropTypes.func,
@@ -1030,10 +1006,10 @@ MenuBar.propTypes = {
     deviceId: PropTypes.string,
     renderLogin: PropTypes.func,
     sessionExists: PropTypes.bool,
+    settingsMenuOpen: PropTypes.bool,
     shouldSaveBeforeTransition: PropTypes.func,
     showComingSoon: PropTypes.bool,
     userOwnsProject: PropTypes.bool,
-    settingsMenuOpen: PropTypes.bool,
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
 };
@@ -1069,7 +1045,6 @@ const mapStateToProps = (state, ownProps) => {
             ownProps.authorUsername === user.username,
         vm: state.scratchGui.vm,
         isGen: state.scratchGui.mode.isGen,
-        isPicker: state.scratchGui.mode.isPicker,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         deviceId: state.scratchGui.device.deviceId,
         deviceName: state.scratchGui.device.deviceName,
@@ -1088,19 +1063,18 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),
-    onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
-    onClickSettings: () => dispatch(openSettingsMenu()),
     onClickLogin: () => dispatch(openLoginMenu()),
     onRequestCloseLogin: () => dispatch(closeLoginMenu()),
     onRequestOpenAbout: () => dispatch(openAboutMenu()),
     onRequestCloseAbout: () => dispatch(closeAboutMenu()),
+    onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
+    onClickSettings: () => dispatch(openSettingsMenu()),
     onClickNew: (needSave) => dispatch(requestNewProject(needSave)),
     onClickRemix: () => dispatch(remixProject()),
     onClickSave: () => dispatch(manualUpdateProject()),
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onSetGen: (isGen) => dispatch(setGen(isGen)),
-    onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),

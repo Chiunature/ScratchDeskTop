@@ -51,6 +51,7 @@ const rootMenu = new Menu('root')
     .addChild(
         new Menu(MENU_SETTINGS)
             .addChild(new Menu(MENU_LANGUAGE))
+            .addChild(new Menu(MENU_THEME))
     )
     .addChild(new Menu(MENU_FILE))
     .addChild(new Menu(MENU_EDIT))
@@ -141,9 +142,9 @@ const openSettingsMenu = () => openMenu(MENU_SETTINGS);
 const closeSettingsMenu = () => closeMenu(MENU_SETTINGS);
 const settingsMenuOpen = state => state.scratchGui.menus[MENU_SETTINGS];
 
-// const openThemeMenu = () => openMenu(MENU_THEME);
-// const closeThemeMenu = () => closeMenu(MENU_THEME);
-// const themeMenuOpen = state => state.scratchGui.menus[MENU_THEME];
+const openThemeMenu = () => openMenu(MENU_THEME);
+const closeThemeMenu = () => closeMenu(MENU_THEME);
+const themeMenuOpen = state => state.scratchGui.menus[MENU_THEME];
 
 export {
     reducer as default,
@@ -171,5 +172,8 @@ export {
     modeMenuOpen,
     openSettingsMenu,
     closeSettingsMenu,
-    settingsMenuOpen
+    settingsMenuOpen,
+    openThemeMenu,
+    closeThemeMenu,
+    themeMenuOpen
 };

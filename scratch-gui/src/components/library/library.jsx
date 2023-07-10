@@ -224,7 +224,7 @@ class LibraryComponent extends React.Component {
                             insetIconURL={dataItem.insetIconURL}
                             internetConnectionRequired={dataItem.internetConnectionRequired}
                             isPlaying={this.state.playingItem === index}
-                            key={typeof dataItem.name === 'string' ? dataItem.name : dataItem.rawURL}
+                            key={index}
                             name={dataItem.name}
                             showPlayButton={this.props.showPlayButton}
                             onMouseEnter={this.handleMouseEnter}

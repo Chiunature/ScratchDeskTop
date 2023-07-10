@@ -52,7 +52,6 @@
 .main-menu-inp {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     flex-wrap: nowrap;
     align-items: center;
     flex-grow: 1;

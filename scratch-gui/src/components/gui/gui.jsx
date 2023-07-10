@@ -45,8 +45,8 @@ import codeIcon from "./icon--code.svg";
 import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
 import uploadIcon from "./icon--upload.svg";
-import loadIcon from "./icon--load.svg";
 import yesIcon from "./icon--yes.svg";
+import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ColorPicker from "../color-picker/color-picker.jsx";
@@ -125,7 +125,6 @@ const GUIComponent = (props) => {
         onTelemetryModalCancel,
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
-        onSetPicker,
         onSetIsComplete,
         showComingSoon,
         soundsTabVisible,
@@ -136,7 +135,6 @@ const GUIComponent = (props) => {
         vm,
         isGen,
         code,
-        isPicker,
         completed,
         isComplete,
         handleCompile,
@@ -428,18 +426,6 @@ const GUIComponent = (props) => {
                                     </Box> */}
                                         </>
                                     )}
-                                </Box>
-
-                                <Box
-                                    className={classNames(
-                                        styles.stageAndTargetWrapper,
-                                        styles[stageSize]
-                                    )}
-                                >
-                                        <ColorPicker
-                                            isPicker={isPicker}
-                                            onSetPicker={onSetPicker}
-                                        />
                                 </Box>
                             </Box>
                         </Box>

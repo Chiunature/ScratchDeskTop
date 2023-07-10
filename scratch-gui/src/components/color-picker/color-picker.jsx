@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { HuePicker, SketchPicker } from "react-color";
 import classNames from "classnames";
 import styles from "./color-picker.css";
@@ -6,15 +6,8 @@ import "../../css/colors.css";
 let initColor = localStorage.getItem("themeColor")
     ? localStorage.getItem("themeColor")
     : "#4c97ff";
-const ColorPicker = (props) => {
+const ColorPicker = () => {
     let [color, setColor] = useState(initColor);
-    let picker = useRef();
-    useEffect(() => {
-        document.addEventListener("mouseup", handleClick);
-        return () => {
-            document.removeEventListener("mouseup", handleClick);
-        };
-    }, []);
     const handleChangeComplete = (color) => {
         document.body.style.setProperty("--motion-primary", color.hex);
         setColor(color.hex);
@@ -23,14 +16,11 @@ const ColorPicker = (props) => {
     const setStorage = (theme) => {
         localStorage.setItem("themeColor", theme);
     };
-    const handleClick = (e) => {
-        if (!props.isPicker && !picker.current.contains(e.target)) props.onSetPicker(!props.isPicker);
-    };
     return (
-        <div className={classNames(styles.colorPicker, props.isPicker ? '' : styles.colorHide)} ref={picker}>
+        <div className={classNames(styles.colorPicker)}>
             <SketchPicker color={color} onChange={handleChangeComplete} />
-            <br />
-            <HuePicker color={color} onChange={handleChangeComplete} />
+            {/* <br />
+            <HuePicker color={color} onChange={handleChangeComplete} /> */}
         </div>
     );
 };

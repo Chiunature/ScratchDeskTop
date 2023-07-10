@@ -36,7 +36,7 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setIsComplete, setPicker } from "../reducers/mode.js";
+import { setGen, setIsComplete } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import { runGcc } from "../utils/compileGcc.js";
 import { setCompleted } from "../reducers/connection-modal.js";
@@ -180,7 +180,6 @@ const mapStateToProps = (state) => {
         vm: state.scratchGui.vm,
         code: state.scratchGui.mode.code,
         isGen: state.scratchGui.mode.isGen,
-        isPicker: state.scratchGui.mode.isPicker,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         completed: state.scratchGui.connectionModal.completed,
         isComplete: state.scratchGui.mode.isComplete
@@ -198,7 +197,6 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseBackdropLibrary: () => dispatch(closeBackdropLibrary()),
     onRequestCloseCostumeLibrary: () => dispatch(closeCostumeLibrary()),
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
-    onSetPicker: (isPicker) => dispatch(setPicker(isPicker)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete))

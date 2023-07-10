@@ -13,6 +13,7 @@ import styles from './settings-menu.css';
 
 import dropdownCaret from './dropdown-caret.svg';
 import settingsIcon from './icon--settings.svg';
+import PickerMenu from './picker-menu.jsx';
 
 const SettingsMenu = ({
     canChangeLanguage,
@@ -46,6 +47,7 @@ const SettingsMenu = ({
         >
             <MenuSection>
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} />}
+                <PickerMenu/>
             </MenuSection>
         </MenuBarMenu>
     </div>

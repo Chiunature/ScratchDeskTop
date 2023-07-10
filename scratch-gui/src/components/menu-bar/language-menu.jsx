@@ -44,7 +44,6 @@ class LanguageMenu extends React.PureComponent {
     }
 
     render () {
-        console.log(locales);
         return (
             <MenuItem
                 expanded={this.props.menuOpen}
