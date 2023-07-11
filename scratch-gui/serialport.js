@@ -13,6 +13,7 @@
  *  chunkBuffer: bin文件数据缓存
  *  chunkIndex: 切片下标
  *  sign: 检验标识
+ *  checkTimer: 检测是否超时的延时器
  * }
  */
 const { SerialPort } = require("serialport");
@@ -22,7 +23,7 @@ const { ipcMain } = require("electron");
 const arr1 = [0xa0, 0xa1, 0xcc, 0xff, 0xff, 0xff, 0xff, 0x09];
 const arr3 = [0xa0, 0xa1, 0x5c, 0xff, 0xff, 0xff, 0xff, 0x99];
 
-let port, timer, parser, crc, chunkBuffer = [], chunkIndex = 0, sign;
+let port, timer, parser, crc, chunkBuffer = [], chunkIndex = 0, sign, checkTimer;
 
 //获取串口列表
 function getList() {
@@ -80,7 +81,7 @@ function Get_CRC(data) {
     return arr;
 }
 
-//侦听错误处理
+//侦听编译时的错误处理
 function listenError() {
     ipcMain.on("transmission-error", (event) => {
         event.reply("completed", {
@@ -99,7 +100,6 @@ function listenPortClosed(event) {
         registeredEvents.forEach((eventName) => ipcMain.removeListener(eventName));
         registeredEvents.length = 0;
         event.reply("closed", "disconnect");
-        console.log("the serialport is closed.");
     });
 }
 
@@ -128,12 +128,20 @@ function linkToSerial(serial, event) {
 }
 
 //写入数据
-function writeData(data, str) {
+function writeData(data, str, event) {
     console.log('write ==>', data);
     sign = str;
-    port.write(data, (err) => {
-        if (err) throw err;
-    });
+    port.write(data);
+    if (sign === 'Boot_Update') {
+        checkTimer = setTimeout(() => {
+            event.reply("completed", {
+                result: false,
+                msg: "uploadTimeout",
+            });
+        }, 3000);
+    } else {
+        clearTimeout(checkTimer);
+    }
 }
 
 //清除缓存
@@ -242,7 +250,7 @@ function sendToSerial() {
         timer = setTimeout(() => {
             received(event);
             uploadSlice(data);
-            writeData(arr1, 'Boot_Update');
+            writeData(arr1, 'Boot_Update', event);
         }, 0);
     });
 }

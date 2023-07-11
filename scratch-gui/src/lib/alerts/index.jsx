@@ -418,6 +418,28 @@ const alerts = [
         level: AlertLevels.SUCCESS,
         maxDisplaySecs: 1,
     },
+    {
+        alertId: "uploadTimeout",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "uploadTimeout"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Upload Timeout"
+                description="Message indicating that upload progress is timeout"
+                id="gui.alerts.uploadTimeout"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 1,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };
