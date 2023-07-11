@@ -80,6 +80,29 @@ function Get_CRC(data) {
     return arr;
 }
 
+//侦听错误处理
+function listenError() {
+    ipcMain.on("transmission-error", (event) => {
+        event.reply("completed", {
+            result: false,
+            msg: "uploadError",
+        });
+    })
+}
+
+//侦听串口关闭
+function listenPortClosed(event) {
+    const registeredEvents = ["connect", "connected", "disconnected", "transmission-error", "writeData"];
+    port.on("close", () => {
+        port = null;
+        parser = null;
+        registeredEvents.forEach((eventName) => ipcMain.removeListener(eventName));
+        registeredEvents.length = 0;
+        event.reply("closed", "disconnect");
+        console.log("the serialport is closed.");
+    });
+}
+
 //连接串口
 function linkToSerial(serial, event) {
     if (port) port.close();
@@ -98,14 +121,10 @@ function linkToSerial(serial, event) {
         }
     );
     parser = port.pipe(new ByteLengthParser({ length: 8 }));
+    listenError();
     sendToSerial();
     disconnectSerial(port);
-    port.on("close", () => {
-        port = null;
-        parser = null;
-        event.reply("closed", "disconnect");
-        console.log("the serialport is closed.");
-    });
+    listenPortClosed(event);
 }
 
 //写入数据
@@ -185,7 +204,7 @@ function received(event) {
                 chunkIndex = 0;
                 clearSerialPortBuffer();
                 event.reply("completed", {
-                    result: false,
+                    result: true,
                     msg: "uploadSuccess",
                 });
             }
@@ -225,8 +244,6 @@ function sendToSerial() {
             uploadSlice(data);
             writeData(arr1, 'Boot_Update');
         }, 0);
-        return;
-        // timer = setTimeout(() => port.drain((err) => console.log(err)), 0);
     });
 }
 

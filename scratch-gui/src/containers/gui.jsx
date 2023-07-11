@@ -51,10 +51,15 @@ class GUI extends React.Component {
             ipc({
                 eventName: "completed",
                 callback: (event, arg) => {
-                    this.props.onSetCompleted(arg.result);
                     this.props.onShowCompletedAlert(arg.msg);
-                    this.props.onSetIsComplete(true);
-                    setTimeout(() => this.props.onSetIsComplete(false), 2000);
+                    if(arg.result) {
+                        this.props.onSetIsComplete(true);
+                        setTimeout(() => {
+                            this.props.onSetIsComplete(false);
+                        }, 1000);
+                    }else {
+                        this.props.onSetCompleted(false);
+                    }
                 },
             });
         }
