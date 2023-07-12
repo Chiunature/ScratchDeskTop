@@ -37,18 +37,14 @@ class Serialport {
     getList() {
         ipcMain.on("connect", (event, arg) => {
             if (arg) {
-                SerialPort.list().then((res) => {
-                    event.reply("connected", res);
-                });
+                SerialPort.list().then((res) => event.reply("connected", res));
             }
         });
     }
 
     //连接串口
     connectSerial() {
-        ipcMain.on("connected", (event, arg) => {
-            this.linkToSerial(arg, event);
-        });
+        ipcMain.on("connected", (event, arg) => this.linkToSerial(arg, event));
     }
 
     //断开连接
@@ -91,12 +87,7 @@ class Serialport {
 
     //侦听编译时的错误处理
     listenError() {
-        ipcMain.on("transmission-error", (event) => {
-            event.reply("completed", {
-                result: false,
-                msg: "uploadError",
-            });
-        })
+        ipcMain.on("transmission-error", (event) => event.reply("completed", { result: false, msg: "uploadError" }))
     }
 
     //侦听串口关闭
@@ -141,12 +132,7 @@ class Serialport {
         this.sign = str;
         this.port.write(data);
         if (this.sign === 'Boot_Update') {
-            this.checkTimer = setTimeout(() => {
-                event.reply("completed", {
-                    result: false,
-                    msg: "uploadTimeout",
-                });
-            }, 5000);
+            this.checkTimer = setTimeout(() => event.reply("completed", { result: false, msg: "uploadTimeout" }), 3000);
         } else {
             clearTimeout(this.checkTimer);
         }
@@ -168,13 +154,11 @@ class Serialport {
         switch (this.sign) {
             case 'Boot_Update':
                 //触发第一个块信息长度计算
-                if (chunk[chunk.length - 1] === 0x09) checkData(this.chunkBuffer[this.chunkIndex].length, 'Block');
+                if (chunk[chunk.length - 1] === 0x09) this.checkData(this.chunkBuffer[this.chunkIndex].length, 'Block');
                 break;
             case 'Block':
                 //块信息长度之后触发，写入块
-                if (this.crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) {
-                    this.writeData(this.chunkBuffer[this.chunkIndex], `BlockRes`);
-                }
+                if (this.crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) this.writeData(this.chunkBuffer[this.chunkIndex], `BlockRes`);
                 break;
             case 'BlockRes':
                 //写入块后，得到返回，再写入返回
@@ -202,10 +186,7 @@ class Serialport {
         this.parser.on("data", (chunk) => {
             if (!chunk) {
                 this.clearSerialPortBuffer();
-                event.reply("completed", {
-                    result: false,
-                    msg: "uploadError",
-                });
+                event.reply("completed", { result: false, msg: "uploadError" });
                 return;
             } else {
                 chunk = this.Get_CRC(chunk);
@@ -219,10 +200,7 @@ class Serialport {
                 } else if (this.chunkIndex === this.chunkBuffer.length + 2) {
                     this.chunkIndex = 0;
                     this.clearSerialPortBuffer();
-                    event.reply("completed", {
-                        result: true,
-                        msg: "uploadSuccess",
-                    });
+                    event.reply("completed", { result: true, msg: "uploadSuccess" });
                 }
             }
         });
