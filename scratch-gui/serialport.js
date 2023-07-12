@@ -23,239 +23,246 @@ const { ipcMain } = require("electron");
 const arr1 = [0xa0, 0xa1, 0xcc, 0xff, 0xff, 0xff, 0xff, 0x09];
 const arr3 = [0xa0, 0xa1, 0x5c, 0xff, 0xff, 0xff, 0xff, 0x99];
 
-let port, timer, parser, crc, chunkBuffer = [], chunkIndex = 0, sign, checkTimer;
+class Serialport {
+    port;
+    timer;
+    parser;
+    crc;
+    chunkBuffer = [];
+    chunkIndex = 0;
+    sign;
+    checkTimer;
 
-//获取串口列表
-function getList() {
-    ipcMain.on("connect", (event, arg) => {
-        if (arg) {
-            SerialPort.list().then((res) => {
-                event.reply("connected", res);
-            });
-        }
-    });
-}
-
-//连接串口
-function connectSerial() {
-    ipcMain.on("connected", (event, arg) => {
-        linkToSerial(arg, event);
-    });
-}
-
-//断开连接
-function disconnectSerial(port) {
-    ipcMain.on("disconnected", (event) => {
-        if (port.isOpen) {
-            clearSerialPortBuffer();
-            port.close();
-        }
-    });
-}
-
-//数据转buffer
-function toArrayBuffer(buf) {
-    let view = [];
-    for (let i = 0; i < buf.length; ++i) {
-        view.push(buf[i]);
-    }
-    return view;
-}
-
-//检测数据并转buffer形式
-function Get_CRC(data) {
-    let arr = [];
-    if (!Array.isArray(data)) {
-        arr = toArrayBuffer(data);
-    } else {
-        arr = [...data];
-    }
-    if (data.length < 8) {
-        let crc = 0;
-        for (let i = 0; i < data.length; i++) {
-            crc += data[i];
-        }
-        crc &= 0xff;
-        arr.push(crc);
-    }
-    return arr;
-}
-
-//侦听编译时的错误处理
-function listenError() {
-    ipcMain.on("transmission-error", (event) => {
-        event.reply("completed", {
-            result: false,
-            msg: "uploadError",
+    //获取串口列表
+    getList() {
+        ipcMain.on("connect", (event, arg) => {
+            if (arg) {
+                SerialPort.list().then((res) => {
+                    event.reply("connected", res);
+                });
+            }
         });
-    })
-}
-
-//侦听串口关闭
-function listenPortClosed(event) {
-    const registeredEvents = ["connect", "connected", "disconnected", "transmission-error", "writeData"];
-    port.on("close", () => {
-        port = null;
-        parser = null;
-        registeredEvents.forEach((eventName) => ipcMain.removeListener(eventName));
-        registeredEvents.length = 0;
-        event.reply("closed", "disconnect");
-    });
-}
-
-//连接串口
-function linkToSerial(serial, event) {
-    if (port) port.close();
-    port = new SerialPort(
-        {
-            path: serial.path,
-            baudRate: 115200,
-        },
-        (err) => {
-            if (err) {
-                port = null;
-                event.reply("open", "failedConnected");
-            } else {
-                event.reply("open", "successfullyConnected");
-            }
-        }
-    );
-    parser = port.pipe(new ByteLengthParser({ length: 8 }));
-    listenError();
-    sendToSerial();
-    disconnectSerial(port);
-    listenPortClosed(event);
-}
-
-//写入数据
-function writeData(data, str, event) {
-    console.log('write ==>', data);
-    sign = str;
-    port.write(data);
-    if (sign === 'Boot_Update') {
-        checkTimer = setTimeout(() => {
-            event.reply("completed", {
-                result: false,
-                msg: "uploadTimeout",
-            });
-        }, 3000);
-    } else {
-        clearTimeout(checkTimer);
     }
-}
 
-//清除缓存
-function clearSerialPortBuffer() {
-    port.flush(err => {
-        if (err) {
-            console.log('clear failed:', err);
+    //连接串口
+    connectSerial() {
+        ipcMain.on("connected", (event, arg) => {
+            this.linkToSerial(arg, event);
+        });
+    }
+
+    //断开连接
+    disconnectSerial(port) {
+        ipcMain.on("disconnected", (event) => {
+            if (port.isOpen) {
+                this.clearSerialPortBuffer();
+                port.close();
+            }
+        });
+    }
+
+    //数据转buffer
+    toArrayBuffer(buf) {
+        let view = [];
+        for (let i = 0; i < buf.length; ++i) {
+            view.push(buf[i]);
+        }
+        return view;
+    }
+
+    //检测数据并转buffer形式
+    Get_CRC(data) {
+        let arr = [];
+        if (!Array.isArray(data)) {
+            arr = toArrayBuffer(data);
         } else {
-            console.log('the cache is clear');
+            arr = [...data];
         }
-    });
-}
-
-//校验和发送数据
-function verify(chunk, callback) {
-    switch (sign) {
-        case 'Boot_Update':
-            //触发第一个块信息长度计算
-            if (chunk[chunk.length - 1] === 0x09) checkData(chunkBuffer[chunkIndex].length, 'Block');
-            break;
-        case 'Block':
-            //块信息长度之后触发，写入块
-            if (crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) {
-                writeData(chunkBuffer[chunkIndex], `BlockRes`);
+        if (data.length < 8) {
+            let crc = 0;
+            for (let i = 0; i < data.length; i++) {
+                crc += data[i];
             }
-            break;
-        case 'BlockRes':
-            //写入块后，得到返回，再写入返回
-            if (crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) {
-                chunk[0] = 0xa0;
-                chunk[1] = 0xa1;
-                writeData(chunk, `BlockNext`);
-            }
-            break;
-        case `BlockNext`:
-            //写入返回后得到返回，触发下一个块信息长度计算
-            if (crc && chunk[0] === 0xa1 && chunk[1] === 0xa0 && chunkIndex < chunkBuffer.length) {
-                checkData(chunkBuffer[chunkIndex].length, 'Block');
-            }
-            break;
-        default:
-            break;
+            crc &= 0xff;
+            arr.push(crc);
+        }
+        return arr;
     }
-    if (sign === 'BlockNext' && chunk) return callback(true);
-    return callback(false);
-}
 
-//接受数据
-function received(event) {
-    parser.on("data", (chunk) => {
-        if (!chunk) {
-            clearSerialPortBuffer();
+    //侦听编译时的错误处理
+    listenError() {
+        ipcMain.on("transmission-error", (event) => {
             event.reply("completed", {
                 result: false,
                 msg: "uploadError",
             });
-            return;
-        } else {
-            chunk = Get_CRC(chunk);
-            console.log("the received data is:", chunk);
-            verify(chunk, (flag) => {
-                if (flag && chunkIndex <= chunkBuffer.length) chunkIndex++;
-            });
-            if (chunkIndex === chunkBuffer.length + 1) {
-                writeData(arr3, null);
-                chunkIndex++;
-            } else if (chunkIndex === chunkBuffer.length + 2) {
-                chunkIndex = 0;
-                clearSerialPortBuffer();
+        })
+    }
+
+    //侦听串口关闭
+    listenPortClosed(event) {
+        const registeredEvents = ["connect", "connected", "disconnected", "transmission-error", "writeData"];
+        this.port.on("close", () => {
+            this.port = null;
+            this.parser = null;
+            registeredEvents.forEach((eventName) => ipcMain.removeListener(eventName));
+            registeredEvents.length = 0;
+            event.reply("closed", "disconnect");
+        });
+    }
+
+    //连接串口
+    linkToSerial(serial, event) {
+        if (this.port) this.port.close();
+        this.port = new SerialPort(
+            {
+                path: serial.path,
+                baudRate: 115200,
+            },
+            (err) => {
+                if (err) {
+                    this.port = null;
+                    event.reply("open", "failedConnected");
+                } else {
+                    event.reply("open", "successfullyConnected");
+                }
+            }
+        );
+        this.parser = this.port.pipe(new ByteLengthParser({ length: 8 }));
+        this.listenError();
+        this.sendToSerial();
+        this.disconnectSerial(this.port);
+        this.listenPortClosed(event);
+    }
+
+    //写入数据
+    writeData(data, str, event) {
+        console.log('write ==>', data);
+        this.sign = str;
+        this.port.write(data);
+        if (this.sign === 'Boot_Update') {
+            this.checkTimer = setTimeout(() => {
                 event.reply("completed", {
-                    result: true,
-                    msg: "uploadSuccess",
+                    result: false,
+                    msg: "uploadTimeout",
                 });
+            }, 5000);
+        } else {
+            clearTimeout(this.checkTimer);
+        }
+    }
+
+    //清除缓存
+    clearSerialPortBuffer() {
+        this.port.flush(err => {
+            if (err) {
+                console.log('clear failed:', err);
+            } else {
+                console.log('the cache is clear');
+            }
+        });
+    }
+
+    //校验和发送数据
+    verify(chunk, callback) {
+        switch (this.sign) {
+            case 'Boot_Update':
+                //触发第一个块信息长度计算
+                if (chunk[chunk.length - 1] === 0x09) checkData(this.chunkBuffer[this.chunkIndex].length, 'Block');
+                break;
+            case 'Block':
+                //块信息长度之后触发，写入块
+                if (this.crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) {
+                    this.writeData(this.chunkBuffer[this.chunkIndex], `BlockRes`);
+                }
+                break;
+            case 'BlockRes':
+                //写入块后，得到返回，再写入返回
+                if (this.crc && chunk[0] === 0xa1 && chunk[1] === 0xa0) {
+                    chunk[0] = 0xa0;
+                    chunk[1] = 0xa1;
+                    this.writeData(chunk, `BlockNext`);
+                }
+                break;
+            case `BlockNext`:
+                //写入返回后得到返回，触发下一个块信息长度计算
+                if (this.crc && chunk[0] === 0xa1 && chunk[1] === 0xa0 && this.chunkIndex < this.chunkBuffer.length) {
+                    this.checkData(this.chunkBuffer[this.chunkIndex].length, 'Block');
+                }
+                break;
+            default:
+                break;
+        }
+        if (this.sign === 'BlockNext' && chunk) return callback(true);
+        return callback(false);
+    }
+
+    //接受数据
+    received(event) {
+        this.parser.on("data", (chunk) => {
+            if (!chunk) {
+                this.clearSerialPortBuffer();
+                event.reply("completed", {
+                    result: false,
+                    msg: "uploadError",
+                });
+                return;
+            } else {
+                chunk = this.Get_CRC(chunk);
+                console.log("the received data is:", chunk);
+                this.verify(chunk, (flag) => {
+                    if (flag && this.chunkIndex <= this.chunkBuffer.length) this.chunkIndex++;
+                });
+                if (this.chunkIndex === this.chunkBuffer.length + 1) {
+                    this.writeData(arr3, null);
+                    this.chunkIndex++;
+                } else if (this.chunkIndex === this.chunkBuffer.length + 2) {
+                    this.chunkIndex = 0;
+                    this.clearSerialPortBuffer();
+                    event.reply("completed", {
+                        result: true,
+                        msg: "uploadSuccess",
+                    });
+                }
+            }
+        });
+    }
+
+    //发送bin信息长度
+    checkData(len, str) {
+        let arr2 = [0xa0, 0xa1, 0x5a, (len >> 8), (len & 0xff), 0xff, 0xff];
+        let newarr = this.Get_CRC(arr2);
+        this.crc = newarr[newarr.length - 1];
+        this.writeData(newarr, str);
+    }
+
+    //分段上传
+    uploadSlice(data) {
+        // 将data分段，每段大小512b
+        this.chunkBuffer = [];
+        const chunkSize = 512;
+        if (data.length < chunkSize) {
+            this.chunkBuffer.push(data);
+        } else {
+            for (let i = 0; i < data.length; i += chunkSize) {
+                let chunk = data.slice(i, i + chunkSize);
+                this.chunkBuffer.push(chunk);
             }
         }
-    });
-}
+    }
 
-//发送bin信息长度
-function checkData(len, str) {
-    let arr2 = [0xa0, 0xa1, 0x5a, (len >> 8), (len & 0xff), 0xff, 0xff];
-    let newarr = Get_CRC(arr2);
-    crc = newarr[newarr.length - 1];
-    writeData(newarr, str);
-}
-
-//分段上传
-function uploadSlice(data) {
-    // 将data分段，每段大小512b
-    chunkBuffer = [];
-    const chunkSize = 512;
-    if (data.length < chunkSize) {
-        chunkBuffer.push(data);
-    } else {
-        for (let i = 0; i < data.length; i += chunkSize) {
-            let chunk = data.slice(i, i + chunkSize);
-            chunkBuffer.push(chunk);
-        }
+    //发送数据
+    sendToSerial() {
+        ipcMain.on("writeData", (event, data) => {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                this.received(event);
+                this.uploadSlice(data);
+                this.writeData(arr1, 'Boot_Update', event);
+            }, 0);
+        });
     }
 }
 
-//发送数据
-function sendToSerial() {
-    ipcMain.on("writeData", (event, data) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            received(event);
-            uploadSlice(data);
-            writeData(arr1, 'Boot_Update', event);
-        }, 0);
-    });
-}
 
-module.exports = {
-    getList,
-    connectSerial
-}
+module.exports = Serialport

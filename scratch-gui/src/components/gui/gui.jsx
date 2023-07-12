@@ -408,10 +408,7 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    {isGen ? (
-                                        <Generator code={code} />
-                                    ) : (
-                                        <>
+                                    <Generator code={code} isGen={isGen}/>
                                             {/* <StageWrapper
                                         isFullScreen={isFullScreen}
                                         isRendererSupported={isRendererSupported}
@@ -424,8 +421,6 @@ const GUIComponent = (props) => {
                                             vm={vm}
                                         />
                                     </Box> */}
-                                        </>
-                                    )}
                                 </Box>
                             </Box>
                         </Box>

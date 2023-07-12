@@ -14,17 +14,16 @@
 }
 
 [dir="rtl"] .color-picker {
-    width: 345px;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
     box-sizing: border-box;
-    background-color: white;
+    /* background-color: white;
     position: fixed;
-    left: 0;
-    top: 50px;
+    right: 0;
+    top: 50px; */
     box-shadow: 0 0 10px #a19f9f;
     z-index: 30;
 }

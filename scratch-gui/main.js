@@ -9,7 +9,7 @@
 const { app, BrowserWindow, dialog, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
-const { getList, connectSerial } = require(path.join(__dirname, 'serialport.js'));
+const Serialport = require(path.join(__dirname, 'serialport.js'));
 
 let mainWindow;
 
@@ -27,7 +27,7 @@ function createWindow() {
             preload: path.join(__dirname, "preload.js"),
         },
     });
-
+    let sp = new Serialport();
     //关闭默认菜单
     if (app.isPackaged) {
         Menu.setApplicationMenu(null);
@@ -47,9 +47,9 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     //获取串口列表
-    getList();
+    sp.getList();
     //连接串口
-    connectSerial();
+    sp.connectSerial();
 
     // 关闭window时触发下列事件.
     mainWindow.on("close", function (e) {
