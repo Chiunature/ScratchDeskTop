@@ -203,6 +203,17 @@ class Serialport {
         });
     }
 
+    //防抖函数
+    debounce(func, delay) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+
     //发送bin信息长度
     checkData(len, str) {
         let arr2 = [0xa0, 0xa1, 0x5a, (len >> 8), (len & 0xff), 0xff, 0xff];
@@ -226,15 +237,17 @@ class Serialport {
         }
     }
 
-    //发送数据
+    //开始上传
+    startUpload(event, data) {
+        this.received(event);
+        this.uploadSlice(data);
+        this.writeData(arr1, 'Boot_Update', event);
+    }
+
+    //向串口发送数据
     sendToSerial() {
         ipcMain.on("writeData", (event, data) => {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                this.received(event);
-                this.uploadSlice(data);
-                this.writeData(arr1, 'Boot_Update', event);
-            }, 0);
+            this.debounce(this.startUpload(event, data), 0);
         });
     }
 }
