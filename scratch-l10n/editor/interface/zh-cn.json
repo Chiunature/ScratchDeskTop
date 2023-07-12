@@ -263,6 +263,7 @@
   "gui.alerts.uploadError": "发送失败",
   "gui.alerts.uploading": "发送中...",
   "gui.alerts.uploadSuccess": "发送成功",
+  "gui.alerts.uploadTimeout": "发送超时",
   "gui.defaultProject.meow": "喵",
   "gui.defaultProject.variable": "我的变量",
   "gui.howtos.intro-move-sayhello-hat.name": "入门",
