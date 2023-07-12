@@ -131,11 +131,7 @@ class Serialport {
         console.log('write ==>', data);
         this.sign = str;
         this.port.write(data);
-        if (this.sign === 'Boot_Update') {
-            this.checkTimer = setTimeout(() => event.reply("completed", { result: false, msg: "uploadTimeout" }), 3000);
-        } else {
-            clearTimeout(this.checkTimer);
-        }
+        this.checkTimer = setTimeout(() => event.reply("completed", { result: false, msg: "uploadTimeout" }), 3000);
     }
 
     //清除缓存
@@ -184,6 +180,7 @@ class Serialport {
     //接受数据
     received(event) {
         this.parser.on("data", (chunk) => {
+            clearTimeout(this.checkTimer);
             if (!chunk) {
                 this.clearSerialPortBuffer();
                 event.reply("completed", { result: false, msg: "uploadError" });
