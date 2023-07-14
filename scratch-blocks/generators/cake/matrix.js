@@ -38,7 +38,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     let lp = Blockly.cake.stringToHex(lamp);
     let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = `char Font[] = {${lp}};\nint color = ${cr.replace(/\'/g, '"')};\nmatrix_lamp(Font, color);\n`;
+    let code = `char Font[] = {${lp}};\nint color = ${cr.replace(/\'/g, '"')};\nmatrix_lamp(NULL, Font, color);\n`;
     return code;
 };
 
