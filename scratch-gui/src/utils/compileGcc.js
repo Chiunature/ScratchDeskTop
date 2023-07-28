@@ -1,4 +1,3 @@
-import { getFiles } from "./readFile";
 import { handlerError } from "./ipcRender";
 const fs = window.fs;
 const path = window.path;
@@ -26,9 +25,13 @@ function processCMD(commend, callback) {
 //获取Bin文件数据准备通信
 function compile() {
     processCMD(cmd, (stdout) => {
-        console.log(`stdout: ${stdout}`);
-        // getFiles(path.join(ph, file.replace(/\.+c/g, ".bin")));
-        getFiles("./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin");
+        // console.log(`stdout: ${stdout}`);
+        try {
+            let data = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin");
+            window.electron.ipcRenderer.send("writeData", data);
+        } catch (error) {
+            handlerError(error);
+        }
     });
 }
 
