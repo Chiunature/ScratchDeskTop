@@ -12,6 +12,7 @@
  *  sign: 检验标识
  *  intervalTimer: 等待响应之后的延时器
  *  timeOutTimer: 检测指令是否成功有返回
+ *  receiveData: 接受的数据
  * }
  */
 const { SerialPort } = require("serialport");
@@ -27,7 +28,7 @@ class Serialport {
     chunkBuffer = [];
     chunkIndex = 0;
     sign;
-    startData;
+    receiveData;
     intervalTimer;
     timeOutTimer;
 
@@ -206,10 +207,10 @@ class Serialport {
         this.parser.on("data", (chunk) => {
             try {
                 this.clearTimer();
-                this.startData = chunk;
-                console.log("the received data is:", this.startData);
-                if (this.startData && this.sign && this.verification(this.startData)) this.processReceivedData(this.Get_CRC(this.startData), event);
-                else if (!this.verification(this.startData)) this.checkOverTime(event);
+                this.receiveData = chunk;
+                console.log("the received data is:", this.receiveData);
+                if (this.receiveData && this.sign && this.verification(this.receiveData)) this.processReceivedData(this.Get_CRC(this.receiveData), event);
+                else if (!this.verification(this.receiveData)) this.checkOverTime(event);
             } catch (error) {
                 console.log(error);
                 this.clearSerialPortBuffer();
@@ -231,8 +232,7 @@ class Serialport {
                 if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x01 && data[4] == 0xf1 && data[5] == 0x00 && data[6] == 0x7b && data[7] == 0xa5) return true;
                 else return false;
             case 'Boot_End':
-                if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x00 && data[4] == 0xf2 && data[5] == 0x00 && data[6] == 0x7b && data[7] == 0xa5) return true;
-                else return false;
+                return true;
             case 'Boot_Compelete':
                 return true;
             default:
@@ -259,7 +259,6 @@ class Serialport {
                 this.writeData(arr3, 'Boot_Compelete', event);
                 break;
             case 'Boot_Compelete':
-                clearTimeout(this.timeOutTimer);
                 this.timeOutTimer = setTimeout(() => {
                     event.reply("completed", { result: true, msg: "uploadSuccess" });
                     this.clearSerialPortBuffer();
