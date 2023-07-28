@@ -232,7 +232,6 @@ class Serialport {
                 if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x01 && data[4] == 0xf1 && data[5] == 0x00 && data[6] == 0x7b && data[7] == 0xa5) return true;
                 else return false;
             case 'Boot_End':
-                return true;
             case 'Boot_Compelete':
                 return true;
             default:
@@ -262,7 +261,7 @@ class Serialport {
                 this.timeOutTimer = setTimeout(() => {
                     event.reply("completed", { result: true, msg: "uploadSuccess" });
                     this.clearSerialPortBuffer();
-                }, 100);
+                }, 1000);
                 break;
             default:
                 break;
