@@ -29,7 +29,6 @@ class Serialport {
     chunkIndex = 0;
     sign;
     receiveData;
-    intervalTimer;
     timeOutTimer;
 
     //获取串口列表
@@ -144,17 +143,14 @@ class Serialport {
     //检测是否超时
     checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
-            clearInterval(this.intervalTimer);
             event.reply("completed", { result: false, msg: "uploadTimeout" });
-            this.timeOutTimer = null;
+            this.clearSerialPortBuffer();
         }, 3000);
     }
 
     //清除所有定时器和延时器
     clearTimer() {
-        clearInterval(this.intervalTimer);
         clearTimeout(this.timeOutTimer);
-        this.intervalTimer = null;
         this.timeOutTimer = null;
     }
 
@@ -163,7 +159,6 @@ class Serialport {
         if (this.port && this.port.isOpen) this.port.flush();
         this.sign = null;
         this.chunkIndex = 0;
-        this.intervalTimer = null;
         this.timeOutTimer = null;
     }
 
