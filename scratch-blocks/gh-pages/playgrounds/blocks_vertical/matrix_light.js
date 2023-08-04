@@ -37,7 +37,7 @@ Blockly.Blocks['matrix_lamp'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_pen", "colours_looks", "shape_statement"],
+            "extensions": ["colours_pen", "colours_matrix", "shape_statement"],
         });
     }
 };
@@ -63,7 +63,7 @@ Blockly.Blocks['matrix_lamp_stop'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
@@ -93,7 +93,7 @@ Blockly.Blocks['matrix_lamp_set'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
@@ -137,7 +137,7 @@ Blockly.Blocks['matrix_lamp_single'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
@@ -168,7 +168,7 @@ Blockly.Blocks['matrix_lamp_text'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
@@ -203,7 +203,7 @@ Blockly.Blocks['matrix_lamp_setRGB'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
@@ -243,7 +243,7 @@ Blockly.Blocks['matrix_lamp_useRGB'] = {
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
             "secondaryColour": "#774DCB",
-            "extensions": ["colours_looks", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };

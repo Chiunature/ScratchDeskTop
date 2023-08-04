@@ -11,7 +11,7 @@ const motion = function (isInitialSetup, isStage, targetId) {
         "Stage selected: no motion blocks"
     );
     return `
-    <category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">
+    <category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#64c7f0" secondaryColour="#3373CC">
         ${isStage
             ? `
         <label text="${stageSelected}"></label>
@@ -316,7 +316,7 @@ const looks = function (
 
 const sound = function (isInitialSetup, isStage, targetId, soundName) {
     return `
-    <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">
+    <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#a981a4" secondaryColour="#BD42BD">
         <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
             <value name="SOUND_MENU">
                 <shadow type="sound_sounds_menu">
@@ -371,7 +371,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName) {
 
 const events = function (isInitialSetup, isStage) {
     return `
-    <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
+    <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#cd758f" secondaryColour="#be637f">
         
         ${blockSeparator}
         <block type="event_checkcolor">
@@ -412,7 +412,7 @@ const events = function (isInitialSetup, isStage) {
 
 const control = function (isInitialSetup, isStage) {
     return `
-    <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">
+    <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#e76564" secondaryColour="#CF8B17">
         <block type="control_wait">
             <value name="DURATION">
                 <shadow type="math_positive_number">
@@ -448,7 +448,7 @@ const sensing = function (isInitialSetup, isStage) {
         "What's your name?"
     );
     return `
-    <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
+    <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#f18e2f" secondaryColour="#ffffff">
         ${isStage
             ? ""
             : `
@@ -509,7 +509,7 @@ const operators = function (isInitialSetup) {
         "a"
     );
     return `
-    <category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">
+    <category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#f5b44a" secondaryColour="#389438">
         <block type="operator_add">
             <value name="NUM1">
                 <shadow type="math_number">
@@ -699,7 +699,7 @@ const variables = function () {
     <category
         name="%{BKY_CATEGORY_VARIABLES}"
         id="variables"
-        colour="#FF8C1A"
+        colour="#dac461"
         secondaryColour="#DB6E00"
         custom="VARIABLE">
     </category>
@@ -711,7 +711,7 @@ const myBlocks = function () {
     <category
         name="%{BKY_CATEGORY_MYBLOCKS}"
         id="myBlocks"
-        colour="#FF6680"
+        colour="#82be97"
         secondaryColour="#FF4D6A"
         >
     </category>
@@ -727,7 +727,7 @@ const motor = function (isInitialSetup, isStage, targetId) {
     <category
         name="%{BKY_CATEGORY_MOTOR}"
         id="motor"
-        colour="#4C97FF" 
+        colour="#64c7f0" 
         secondaryColour="#3373CC">
         ${isStage
             ? `
@@ -762,7 +762,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
     <category
         name="%{BKY_CATEGORY_COMBINED_MOTOR}"
         id="combined_motor"
-        colour="#D65CD6" secondaryColour="#BD42BD">
+        colour="#2388ca" secondaryColour="#BD42BD">
         ${isStage
             ? `
         <label text="${stageSelected}"></label>
@@ -815,7 +815,7 @@ const matrix = function (isInitialSetup, isStage, targetId) {
     <category
         name="%{BKY_CATEGORY_MATRIX}"
         id="matrix"
-        colour="#9966FF" secondaryColour="#774DCB">
+        colour="#7986b8" secondaryColour="#774DCB">
         ${isStage
             ? `
         <label text="${stageSelected}"></label>

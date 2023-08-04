@@ -71,7 +71,7 @@ Blockly.Blocks['combined_motor_starting'] = {
             ],
             "category": Blockly.Categories.combined_motor,
             "colour": 315,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -137,7 +137,7 @@ Blockly.Blocks['combined_motor_direction'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -187,7 +187,7 @@ Blockly.Blocks['combined_motor_speed'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -271,7 +271,7 @@ Blockly.Blocks['combined_motor_turn'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -350,7 +350,7 @@ Blockly.Blocks['combined_motor_line'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -374,7 +374,7 @@ Blockly.Blocks['combined_motor_stop'] = {
                 },
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -439,7 +439,7 @@ Blockly.Blocks['combined_motor_move'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -471,7 +471,7 @@ Blockly.Blocks['combined_motor_movestep'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -546,7 +546,7 @@ Blockly.Blocks['combined_motor_movepower'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };
@@ -588,7 +588,7 @@ Blockly.Blocks['combined_motor_stopping'] = {
                 }
             ],
             "category": Blockly.Categories.combined_motor,
-            "extensions": ["colours_sounds", "shape_statement"],
+            "extensions": ["colours_combined_motor", "shape_statement"],
         });
     }
 };

@@ -80,7 +80,7 @@ import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
-import themeIcon from "./icon--theme.svg";
+
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import scratchLogo from "./scratch-logo.svg";
@@ -414,7 +414,7 @@ class MenuBar extends React.Component {
             <Box className={classNames(this.props.className, styles.menuBar)}>
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        {/* <div className={classNames(styles.menuBarItem)}>
+                        <div className={classNames(styles.menuBarItem)}>
                             <img
                                 alt="Scratch"
                                 className={classNames(styles.scratchLogo, {
@@ -424,23 +424,6 @@ class MenuBar extends React.Component {
                                 src={this.props.logo}
                                 onClick={this.props.onClickLogo}
                             />
-                        </div> */}
-                        <div className={classNames(styles.menuBarItem)}>
-                            {/* <img
-                                alt="Dr.luck"
-                                className={classNames(styles.scratchLogo, {
-                                    [styles.clickable]:
-                                        typeof this.props.onClickLogo !==
-                                        "undefined",
-                                })}
-                                draggable={false}
-                                src="http://175.178.211.236:8099/uploads/appearance/logo/1/images.jfif"
-                            /> */}
-                            <h1 className={classNames(styles.scratchLogo, {
-                                    [styles.clickable]:
-                                        typeof this.props.onClickLogo !==
-                                        "undefined",
-                                })}>EST3.0</h1>
                         </div>
                         { this.props.canChangeLanguage && <SettingsMenu
                             canChangeLanguage={this.props.canChangeLanguage}

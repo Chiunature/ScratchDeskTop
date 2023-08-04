@@ -14,10 +14,11 @@
     border-style: solid;
     border-color: $ui-black-transparent;
     border-radius: 2rem;
-
+    user-select: none;
     outline: none;
     cursor: text;
-    transition: 0.25s ease-out; /* @todo: standardize with var */
+    transition: 0.25s ease-out;
+    /* @todo: standardize with var */
     box-shadow: none;
 
     /*
@@ -31,14 +32,14 @@
     min-width: 0;
 }
 
-.input-form:hover {
+/* .input-form:hover {
     border-color: $motion-primary;
-}
+} */
 
-.input-form:focus {
+/* .input-form:focus {
     border-color: $motion-primary;
     box-shadow: 0 0 0 0.25rem $motion-transparent;
-}
+} */
 
 .input-small {
     width: 3rem;

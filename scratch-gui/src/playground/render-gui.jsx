@@ -24,7 +24,7 @@ const handleTelemetryModalOptOut = () => {
 };
 const getStorage = () => {
     let theme = localStorage.getItem('themeColor');
-    return theme ? theme : '#4C97FF';
+    return theme ? theme : '#7986b8';
 }
 document.body.style.setProperty('--motion-primary', getStorage());
 /*

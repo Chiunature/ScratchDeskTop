@@ -29,7 +29,7 @@ goog.require('Blockly.Blocks');
  */
 
 Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: none">' +
-  '<category name="%{BKY_CATEGORY_MOTOR}" id="motor" colour="#4C97FF" secondaryColour="#3373CC">' +
+  '<category name="%{BKY_CATEGORY_MOTOR}" id="motor" colour="#64c7f0" secondaryColour="#3373CC">' +
   '<block type="starting_motor" id="starting_motor">' +
   '</block>' +
   '<block type="stop_motor" id="stop_motor">' +
@@ -90,7 +90,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
   '<block type="useRGB_matrix_lamp">' +
   '</block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">' +
+  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#64c7f0" secondaryColour="#3373CC">' +
   '<block type="motion_movesteps" id="motion_movesteps">' +
   '<value name="STEPS">' +
   '<shadow type="math_number">' +

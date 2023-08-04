@@ -112,3 +112,11 @@
 [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     display: none !important;
 }
+
+.blocks :global(.scratchCategoryItemBubble) {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 20%;
+    margin: 0 auto 0.125rem;
+}

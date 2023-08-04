@@ -26,9 +26,19 @@ Blockly.Colours = {
   // SVG colours: these must be specificed in #RRGGBB style
   // To add an opacity, this must be specified as a separate property (for SVG fill-opacity)
   "motion": {
-    "primary": "#4C97FF",
+    "primary": "#64c7f0",
+    "secondary": "#4280D7",
+    "tertiary": "#00b0f9"
+  },
+  "combined_motor": {
+    "primary": "#2388ca",
     "secondary": "#4280D7",
     "tertiary": "#3373CC"
+  },
+  "matrix": {
+    "primary": "#7986b8",
+    "secondary": "#855CD6",
+    "tertiary": "#6877b3"
   },
   "looks": {
     "primary": "#9966FF",
@@ -36,24 +46,24 @@ Blockly.Colours = {
     "tertiary": "#774DCB"
   },
   "sounds": {
-    "primary": "#CF63CF",
-    "secondary": "#C94FC9",
-    "tertiary": "#BD42BD"
+    "primary": "#a981a4",
+    "secondary": "#8f6e8a",
+    "tertiary": "#8f6e8a"
   },
   "control": {
-    "primary": "#FFAB19",
+    "primary": "#e76564",
     "secondary": "#EC9C13",
-    "tertiary": "#CF8B17"
+    "tertiary": "#cf5959"
   },
   "event": {
-    "primary": "#FFBF00",
-    "secondary": "#E6AC00",
-    "tertiary": "#CC9900"
+    "primary": "#cd758f",
+    "secondary": "#be637f",
+    "tertiary": "#be637f"
   },
   "sensing": {
-    "primary": "#5CB1D6",
+    "primary": "#f18e2f",
     "secondary": "#47A8D1",
-    "tertiary": "#2E8EB8"
+    "tertiary": "#d67214"
   },
   "pen": {
     "primary": "#0fBD8C",
@@ -61,24 +71,24 @@ Blockly.Colours = {
     "tertiary": "#0B8E69"
   },
   "operators": {
-    "primary": "#59C059",
+    "primary": "#f5b44a",
     "secondary": "#46B946",
-    "tertiary": "#389438"
+    "tertiary": "#e49e2f"
   },
   "data": {
-    "primary": "#FF8C1A",
+    "primary": "#dac461",
     "secondary": "#FF8000",
-    "tertiary": "#DB6E00"
+    "tertiary": "#c29e00"
   },
   // This is not a new category, but rather for differentiation
   // between lists and scalar variables.
   "data_lists": {
-    "primary": "#FF661A",
+    "primary": "#dac461",
     "secondary": "#FF5500",
-    "tertiary": "#E64D00"
+    "tertiary": "#c29e00"
   },
   "more": {
-    "primary": "#FF6680",
+    "primary": "#82be97",
     "secondary": "#FF4D6A",
     "tertiary": "#FF3355"
   },
@@ -119,12 +129,12 @@ Blockly.Colours = {
  * @param {!Object} colours Dictionary of colour properties and new values.
  * @package
  */
-Blockly.Colours.overrideColours = function(colours) {
+Blockly.Colours.overrideColours = function (colours) {
   // Colour overrides provided by the injection
   if (colours) {
     for (var colourProperty in colours) {
       if (colours.hasOwnProperty(colourProperty) &&
-          Blockly.Colours.hasOwnProperty(colourProperty)) {
+        Blockly.Colours.hasOwnProperty(colourProperty)) {
         // If a property is in both colours option and Blockly.Colours,
         // set the Blockly.Colours value to the override.
         // Override Blockly category color object properties with those
@@ -135,7 +145,7 @@ Blockly.Colours.overrideColours = function(colours) {
             if (colourPropertyValue.hasOwnProperty(colourSequence) &&
               Blockly.Colours[colourProperty].hasOwnProperty(colourSequence)) {
               Blockly.Colours[colourProperty][colourSequence] =
-                  colourPropertyValue[colourSequence];
+                colourPropertyValue[colourSequence];
             }
           }
         } else {
