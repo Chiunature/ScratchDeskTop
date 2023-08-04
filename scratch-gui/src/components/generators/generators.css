@@ -7,7 +7,7 @@
 
 .gen-txt {
     display: inline-block;
-    width: 400px;
+    width: 420px;
     height: 95%;
     border: 1px solid #e6e6e6;
     outline: none;
@@ -17,7 +17,7 @@
     right: 0;
     z-index: 30;
     transition: all .5s ease;
-    transform: translateX(400px);
+    transform: translateX(420px);
 }
 
 .gen-slate {
@@ -26,7 +26,7 @@
 
 [dir="rtl"] .gen-txt {
     display: inline-block;
-    width: 400px;
+    width: 420px;
     height: 95%;
     border: 1px solid #e6e6e6;
     outline: none;
@@ -36,7 +36,7 @@
     left: 0;
     z-index: 30;
     transition: all .5s ease;
-    transform: translateX(-400px);
+    transform: translateX(-420px);
 }
 
 [dir="rtl"] .gen-slate {

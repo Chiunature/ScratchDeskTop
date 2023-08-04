@@ -26,7 +26,7 @@ import { closeExtensionLibrary, openSoundRecorder, openConnectionModal } from '.
 import { activateCustomProcedures, deactivateCustomProcedures } from '../reducers/custom-procedures';
 import { setConnectionModalExtensionId } from '../reducers/connection-modal';
 import { updateMetrics } from '../reducers/workspace-metrics';
-
+import Compile from "../utils/compileGcc.js";
 import {
     activateTab,
     SOUNDS_TAB_INDEX
@@ -130,7 +130,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener(this.workspaceToCode)
+        this.workspace.addChangeListener(debounce(this.workspaceToCode, 500));
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
@@ -139,18 +139,26 @@ class Blocks extends React.Component {
             this.setLocale();
         }
     }
+    debounced(func, delay) {
+        let timerId;
+        return function (...args) {
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
     workspaceToCode() {
         let code;
+        let cp = new Compile();
         try {
             const generatorName = 'cake';
-            // console.log(this.workspace)
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
-            // console.log(code)
         } catch (e) {
             code = e.message;
         }
-        // console.log('workspaceToCode-------', code)
         this.props.getCode(code);
+        if(code) this.debounced(cp.runGcc(code), 5000);
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (

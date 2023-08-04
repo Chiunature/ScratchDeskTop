@@ -12,13 +12,12 @@
  *  sign: 检验标识
  *  intervalTimer: 等待响应之后的延时器
  *  timeOutTimer: 检测指令是否成功有返回
- *  receiveData: 接受的数据
  * }
  */
 const { SerialPort } = require("serialport");
 const { ByteLengthParser } = require('@serialport/parser-byte-length');
 const { ipcMain } = require("electron");
-
+const { spawn } = require("child_process");
 const arr1 = [0x5a, 0x97, 0x98, 0x00, 0xf0, 0x00, 0x79, 0xa5];
 const arr3 = [0x5a, 0x97, 0x98, 0x00, 0xf2, 0x00, 0x7b, 0xa5];
 
@@ -30,7 +29,7 @@ class Serialport {
     sign;
     receiveData;
     timeOutTimer;
-
+    serial;
     //获取串口列表
     getList() {
         ipcMain.on("connect", (event, arg) => {
@@ -46,12 +45,12 @@ class Serialport {
     //断开连接
     disconnectSerial() {
         ipcMain.on("disconnected", (event, arg) => {
-            if (this.port && arg && this.port.isOpen) this.port.close();
+            if (arg) event.reply("closed", "disconnect");
         });
     }
 
     //连接串口
-    linkToSerial(serial, event) {
+    linkToSerial(serial, event, sign) {
         if (this.port) this.port = null;
         this.port = new SerialPort(
             {
@@ -59,20 +58,20 @@ class Serialport {
                 baudRate: 115200
             },
             (err) => {
-                if (err) {
+                if (err && !sign) {
                     event.reply("open", { res: false, msg: "failedConnected" });
                     console.log(err);
-                } else {
+                } else if (!err && !sign) {
                     event.reply("open", { res: true, msg: "successfullyConnected" });
                 }
             }
         );
-        this.parser = this.port.pipe(new ByteLengthParser({ length: 8 }));
-        this.listenError();
-        this.sendToSerial();
-        this.disconnectSerial(event);
-        this.listenPortClosed(event);
+        this.serial = serial;
+        this.parser = this.port.pipe(new ByteLengthParser({ length: 17 }));
         this.autoRead(event);
+        this.sendToSerial();
+        this.listenError();
+        this.listenPortClosed(event);
     }
 
     //侦听编译时的错误处理
@@ -83,9 +82,13 @@ class Serialport {
     //侦听串口关闭
     listenPortClosed(event) {
         this.port.on("close", () => {
-            this.clearSerialPortBuffer();
-            this.port = null;
-            event.reply("closed", "disconnect");
+            if (this.serial) {
+                this.linkToSerial(this.serial, event, true);
+            } else {
+                this.clearSerialPortBuffer();
+                this.port = null;
+                event.reply("closed", "disconnect");
+            }
         });
     }
 
@@ -159,14 +162,31 @@ class Serialport {
         if (this.port && this.port.isOpen) this.port.flush();
         this.sign = null;
         this.chunkIndex = 0;
+        this.serial = null;
         this.timeOutTimer = null;
     }
 
     //开始上传
-    startUpload(event, data) {
-        this.clearSerialPortBuffer();
-        this.uploadSlice(data, 256);
-        this.writeData(arr1, 'Boot_Start', event);
+    startUpload(event) {
+        let dir = `./gcc-arm-none-eabi/bin/LB_USER`;
+        let workerProcess = spawn("SerialDownload", [this.serial.path], { cwd: dir });
+        workerProcess.stdout.on('data', function (data) {
+            console.log('stdout: ' + data);
+            clearTimeout(this.timeOutTimer);
+            this.timeOutTimer = setTimeout(() => {
+                event.reply("completed", { result: true, msg: "uploadSuccess" });
+                this.timeOutTimer = null;
+                workerProcess.kill();
+            }, 3000);
+        });
+
+        workerProcess.stderr.on('data', function (data) {
+            console.log('stderr: ' + data);
+        });
+
+        workerProcess.on('close', function (code) {
+            console.log('process exited:', code);
+        });
     }
 
     //防抖防止重复发送数据
@@ -182,7 +202,7 @@ class Serialport {
 
     //向串口发送数据
     sendToSerial() {
-        ipcMain.on("writeData", (event, data) => this.debounce(this.startUpload(event, data), 100));
+        ipcMain.on("writeData", (event) => this.debounce(this.startUpload(event), 100));
     }
 
     //发bin数据
@@ -196,6 +216,12 @@ class Serialport {
         }
     }
 
+    //对接收数据的错误处理
+    handleReadError(event) {
+        this.clearSerialPortBuffer();
+        event.reply("completed", { result: false, msg: "uploadError" });
+    }
+
     //自动接收数据
     autoRead(event) {
         if (!this.port) return;
@@ -204,15 +230,15 @@ class Serialport {
                 this.clearTimer();
                 this.receiveData = chunk;
                 console.log("the received data is:", this.receiveData);
-                if (this.receiveData && this.sign && this.verification(this.receiveData)) this.processReceivedData(this.Get_CRC(this.receiveData), event);
-                else if (!this.verification(this.receiveData)) this.checkOverTime(event);
+                //     if (this.receiveData && this.sign && this.verification(this.receiveData)) this.processReceivedData(this.Get_CRC(this.receiveData), event);
+                //     else if (!this.verification(this.receiveData)) this.checkOverTime(event);
             } catch (error) {
                 console.log(error);
-                this.clearSerialPortBuffer();
-                event.reply("completed", { result: false, msg: "uploadError" });
+                this.handleReadError(event);
             }
         });
     }
+
 
     //校验数据
     verification(data) {

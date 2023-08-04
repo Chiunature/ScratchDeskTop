@@ -12,12 +12,11 @@ const motion = function (isInitialSetup, isStage, targetId) {
     );
     return `
     <category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
         <label text="${stageSelected}"></label>
         `
-                : `
+            : `
         <block type="motion_movesteps">
             <value name="STEPS">
                 <shadow type="math_number">
@@ -171,10 +170,9 @@ const looks = function (
     const hmm = ScratchBlocks.ScratchMsgs.translate("LOOKS_HMM", "Hmm...");
     return `
     <category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF" secondaryColour="#774DCB">
-        ${
-            isStage
-                ? ""
-                : `
+        ${isStage
+            ? ""
+            : `
         <block type="looks_sayforsecs">
             <value name="MESSAGE">
                 <shadow type="text">
@@ -216,9 +214,8 @@ const looks = function (
         ${blockSeparator}
         `
         }
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
             <block type="looks_switchbackdropto">
                 <value name="BACKDROP">
                     <shadow type="looks_backdrops">
@@ -235,7 +232,7 @@ const looks = function (
             </block>
             <block type="looks_nextbackdrop"/>
         `
-                : `
+            : `
             <block id="${targetId}_switchcostumeto" type="looks_switchcostumeto">
                 <value name="COSTUME">
                     <shadow type="looks_costume">
@@ -286,10 +283,9 @@ const looks = function (
         </block>
         <block type="looks_cleargraphiceffects"/>
         ${blockSeparator}
-        ${
-            isStage
-                ? ""
-                : `
+        ${isStage
+            ? ""
+            : `
             <block type="looks_show"/>
             <block type="looks_hide"/>
         ${blockSeparator}
@@ -303,12 +299,11 @@ const looks = function (
             </block>
         `
         }
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
             <block id="backdropnumbername" type="looks_backdropnumbername"/>
         `
-                : `
+            : `
             <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>
             <block id="backdropnumbername" type="looks_backdropnumbername"/>
             <block id="${targetId}_size" type="looks_size"/>
@@ -377,7 +372,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName) {
 const events = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
-        <block type="event_whenflagclicked"/>
+        
         ${blockSeparator}
         <block type="event_checkcolor">
             <value name="COLOR">
@@ -388,8 +383,7 @@ const events = function (isInitialSetup, isStage) {
         <block type="event_tilts" />
         <block type="event_keypress" />
         ${blockSeparator}
-        <block type="event_whenkeypressed">
-        </block>
+        
         ${blockSeparator}
         <block type="event_whengreaterthan">
             <value name="VALUE">
@@ -455,10 +449,9 @@ const sensing = function (isInitialSetup, isStage) {
     );
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
-        ${
-            isStage
-                ? ""
-                : `
+        ${isStage
+            ? ""
+            : `
             <block type="sensing_color_judgment">
                 <value name="COLOR">
                     <shadow type="colour_picker"/>
@@ -620,10 +613,9 @@ const operators = function (isInitialSetup) {
         <block type="operator_or"/>
         <block type="operator_not"/>
         ${blockSeparator}
-        ${
-            isInitialSetup
-                ? ""
-                : `
+        ${isInitialSetup
+            ? ""
+            : `
             <block type="operator_join">
                 <value name="STRING1">
                     <shadow type="text">
@@ -737,12 +729,11 @@ const motor = function (isInitialSetup, isStage, targetId) {
         id="motor"
         colour="#4C97FF" 
         secondaryColour="#3373CC">
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
         <label text="${stageSelected}"></label>
         `
-                : `
+            : `
         <block type="motor_starting"></block>
         <block type="motor_stop"></block>
         <block type="motor_speed">
@@ -772,12 +763,11 @@ const combined_motor = function (isInitialSetup, isStage, targetId) {
         name="%{BKY_CATEGORY_COMBINED_MOTOR}"
         id="combined_motor"
         colour="#D65CD6" secondaryColour="#BD42BD">
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
         <label text="${stageSelected}"></label>
         `
-                : `
+            : `
         <block type="combined_motor_starting"></block>
         <block type="combined_motor_direction"></block>
         <block type="combined_motor_speed">
@@ -826,12 +816,11 @@ const matrix = function (isInitialSetup, isStage, targetId) {
         name="%{BKY_CATEGORY_MATRIX}"
         id="matrix"
         colour="#9966FF" secondaryColour="#774DCB">
-        ${
-            isStage
-                ? `
+        ${isStage
+            ? `
         <label text="${stageSelected}"></label>
         `
-                : `
+            : `
         <block type="matrix_lamp">
             <value name="COLOR">
                 <shadow type="colour_picker"/>

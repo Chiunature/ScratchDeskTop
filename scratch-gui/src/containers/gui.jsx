@@ -38,7 +38,7 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
-import { runGcc } from "../utils/compileGcc.js";
+import Compile from "../utils/compileGcc.js";
 import { setCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 class GUI extends React.Component {
@@ -79,7 +79,8 @@ class GUI extends React.Component {
         }
     }
     handleCompile(str) {
-        runGcc(str);
+        let cp = new Compile();
+        cp.sendToSerial();
         this.props.onSetCompleted(true);
         this.props.onShowCompletedAlert("uploading");
     }

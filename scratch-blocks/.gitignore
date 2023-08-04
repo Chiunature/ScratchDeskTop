@@ -12,7 +12,7 @@ common.pyc
 *.pyc
 *.komodoproject
 /nbproject/private/
-
+/gh-pages
 # Unused by scratch-blocks
 /dart_compressed.js
 /javascript_compressed.js

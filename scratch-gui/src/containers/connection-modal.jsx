@@ -45,7 +45,7 @@ class ConnectionModal extends React.Component {
     componentDidMount() {
         this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
-        ipc({ eventName: "closed", callback: () => this.handleDisconnect("disconnect")});
+        // ipc({ eventName: "closed", callback: () => this.handleDisconnect("disconnect")});
     }
     componentWillUnmount() {
         this.props.vm.removeListener(
@@ -84,8 +84,8 @@ class ConnectionModal extends React.Component {
             }));
             this.props.onGetSerialList(list);
             this.props.onSetPort(null);
-            ipc({ sendName: "disconnected" ,sendParams: true});
-            this.props.onShowDisonnectAlert(msg);
+            // ipc({ sendName: "disconnected" ,sendParams: true});
+            this.props.onShowDisonnectAlert("disconnect");
             this.props.onCancel();
         }
     }

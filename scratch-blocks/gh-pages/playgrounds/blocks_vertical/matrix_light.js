@@ -164,48 +164,6 @@ Blockly.Blocks['matrix_lamp_text'] = {
                     "name": "text",
                     "text": ""
                 },
-                {
-                    "type": "field_dropdown",
-                    "name": "direction",
-                    "options": [
-                        [
-                            {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                                "width": 20,
-                                "height": 20,
-                                "alt": Blockly.Msg.PLEFT
-                            },
-                            "left"
-                        ],
-                        [
-                            {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
-                                "width": 20,
-                                "height": 20,
-                                "alt": Blockly.Msg.PRIGHT
-                            },
-                            "right"
-                        ],
-                        [
-                            {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                                "width": 20,
-                                "height": 20,
-                                "alt": Blockly.Msg.UP
-                            },
-                            "up"
-                        ],
-                        [
-                            {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                                "width": 20,
-                                "height": 20,
-                                "alt": Blockly.Msg.DOWN
-                            },
-                            "down"
-                        ],
-                    ]
-                },
             ],
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",
