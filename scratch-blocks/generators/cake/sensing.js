@@ -7,23 +7,25 @@ goog.require('Blockly.cake');
 Blockly.cake['sensing_color_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let color = block.getFieldValue('COLOR');
+    let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `int sensing_color = ${cr.replace(/\'/g, '')};\nSensing_color_judgment(${dropdown_port}, sensing_color);\n`;
     return code;
 };
 
 Blockly.cake['sensing_color_detection'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `Sensing_color_detection(${dropdown_port})\n`;
     return code;
 };
 
 Blockly.cake['sensing_color_detectionRGB'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let dropdown_color = block.getFieldValue('color');
+    let cr = dropdown_color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `int detectionRGB = ${cr.replace(/\'/g, '')};\nSensing_color_detectionRGB(${dropdown_port}, detectionRGB)\n`;
     return code;
 };
 
@@ -32,14 +34,14 @@ Blockly.cake['sensing_reflected_light_judgment'] = function (block) {
     let dropdown_judgment = block.getFieldValue('judgment');
     let inp = block.getFieldValue('value');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `Sensing_Reflected_light_judgment(${dropdown_port}, ${dropdown_judgment}, ${inp})\n`;
     return code;
 };
 
 Blockly.cake['sensing_reflected_light_detection'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `Sensing_reflected_light_detection(${dropdown_port})\n`;
     return code;
 };
 
