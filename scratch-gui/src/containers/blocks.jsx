@@ -18,7 +18,8 @@ import { BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES } from '../lib/layout-constan
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
-
+import {DEFAULT_THEME, getColorsForTheme, themeMap} from '../lib/themes';
+import {injectExtensionBlockTheme, injectExtensionCategoryTheme} from '../lib/themes/blockHelpers';
 import { connect } from 'react-redux';
 import { updateToolbox } from '../reducers/toolbox';
 import { activateColorPicker } from '../reducers/color-picker';
@@ -83,7 +84,8 @@ class Blocks extends React.Component {
         this.ScratchBlocks.recordSoundCallback = this.handleOpenSoundRecorder;
 
         this.state = {
-            prompt: null
+            prompt: null,
+            timerId: null
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
@@ -95,7 +97,7 @@ class Blocks extends React.Component {
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
-            { rtl: this.props.isRtl, toolbox: this.props.toolboxXML }
+            {rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme)}
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
         // console.log(this.ScratchBlocks.Python)
@@ -130,7 +132,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener(debounce(this.workspaceToCode, 500));
+        this.workspace.addChangeListener(this.workspaceToCode);
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
@@ -140,10 +142,9 @@ class Blocks extends React.Component {
         }
     }
     debounced(func, delay) {
-        let timerId;
+        clearTimeout(this.state.timerId);
         return function (...args) {
-            clearTimeout(timerId);
-            timerId = setTimeout(() => {
+            this.state.timerId = setTimeout(() => {
                 func.apply(this, args);
             }, delay);
         };
@@ -355,23 +356,27 @@ class Blocks extends React.Component {
     onVisualReport(data) {
         this.workspace.reportValue(data.id, data.value);
     }
-    getToolboxXML() {
+    getToolboxXML () {
         // Use try/catch because this requires digging pretty deep into the VM
         // Code inside intentionally ignores several error situations (no stage, etc.)
         // Because they would get caught by this try/catch
         try {
-            let { editingTarget: target, runtime } = this.props.vm;
+            let {editingTarget: target, runtime} = this.props.vm;
             const stage = runtime.getTargetForStage();
             if (!target) target = stage; // If no editingTarget, use the stage
 
             const stageCostumes = stage.getCostumes();
             const targetCostumes = target.getCostumes();
             const targetSounds = target.getSounds();
-            const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML(target);
+            const dynamicBlocksXML = injectExtensionCategoryTheme(
+                this.props.vm.runtime.getBlocksXML(target),
+                this.props.theme
+            );
             return makeToolboxXML(false, target.isStage, target.id, dynamicBlocksXML,
                 targetCostumes[targetCostumes.length - 1].name,
                 stageCostumes[stageCostumes.length - 1].name,
-                targetSounds.length > 0 ? targetSounds[targetSounds.length - 1].name : ''
+                targetSounds.length > 0 ? targetSounds[targetSounds.length - 1].name : '',
+                getColorsForTheme(this.props.theme)
             );
         } catch {
             return null;
@@ -450,7 +455,7 @@ class Blocks extends React.Component {
                     if (blockInfo.info && blockInfo.info.isDynamic) {
                         dynamicBlocksInfo.push(blockInfo);
                     } else if (blockInfo.json) {
-                        staticBlocksJson.push(blockInfo.json);
+                        staticBlocksJson.push(injectExtensionBlockTheme(blockInfo.json, this.props.theme));
                     }
                     // otherwise it's a non-block entry such as '---'
                 });
@@ -657,6 +662,7 @@ Blocks.propTypes = {
         collapse: PropTypes.bool
     }),
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
+    theme: PropTypes.oneOf(Object.keys(themeMap)),
     toolboxXML: PropTypes.string,
     updateMetrics: PropTypes.func,
     updateToolboxState: PropTypes.func,
@@ -696,7 +702,8 @@ Blocks.defaultOptions = {
 
 Blocks.defaultProps = {
     isVisible: true,
-    options: Blocks.defaultOptions
+    options: Blocks.defaultOptions,
+    theme: DEFAULT_THEME
 };
 
 const mapStateToProps = state => ({

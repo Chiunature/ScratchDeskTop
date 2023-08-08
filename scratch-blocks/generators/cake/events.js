@@ -152,9 +152,10 @@ Blockly.cake['event_whenmicrobitgesture'] = function (block) {
 
 Blockly.cake['event_checkcolor'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
-    let color = block.getFieldValue('COLOR');
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
+    let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `int checkColor = ${cr.replace(/\'/g, '')};\nevent_checkcolor(${dropdown_port}, checkColor);\n`;
     return code;
 };
 
@@ -162,14 +163,14 @@ Blockly.cake['event_keyjudement'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `event_keyjudement(${dropdown_port}, ${status});\n`;
     return code;
 };
 
 Blockly.cake['event_tilts'] = function (block) {
     let dropdown_direction = block.getFieldValue('direction');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `event_tilts(${dropdown_direction});\n`;
     return code;
 };
 
@@ -177,6 +178,35 @@ Blockly.cake['event_keypress'] = function (block) {
     let dropdown_direction = block.getFieldValue('direction');
     let status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = '...\n';
+    let code = `event_keypress(${dropdown_direction}, ${status});\n`;
+    return code;
+};
+
+Blockly.cake['event_whengreaterthan'] = function (block) {
+    let menu = block.getFieldValue('WHENGREATERTHANMENU');
+    let value = Blockly.cake.valueToCode(block, "VALUE", Blockly.cake.ORDER_ATOMIC);
+    // TODO: Assemble cake into code variable.
+    let code = `event_whengreaterthan(${menu}, ${value});\n`;
+    return code;
+};
+
+Blockly.cake['event_whenbroadcastreceived'] = function (block) {
+    let broadcast = block.getFieldValue('BROADCAST_OPTION');
+    // TODO: Assemble cake into code variable.
+    let code = `event_whenbroadcastreceived(${broadcast});\n`;
+    return code;
+};
+
+Blockly.cake['event_broadcast'] = function (block) {
+    let broadcast = block.getFieldValue('BROADCAST_INPUT');
+    // TODO: Assemble cake into code variable.
+    let code = `event_broadcast(${broadcast});\n`;
+    return code;
+};
+
+Blockly.cake['event_broadcastandwait'] = function (block) {
+    let broadcast = block.getFieldValue('BROADCAST_INPUT');
+    // TODO: Assemble cake into code variable.
+    let code = `event_broadcastandwait(${broadcast});\n`;
     return code;
 };

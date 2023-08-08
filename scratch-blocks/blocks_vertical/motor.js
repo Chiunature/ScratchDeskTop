@@ -324,14 +324,10 @@ Blockly.Blocks['motor_specifiedangle'] = {
                     ]
                 },
                 {
-                    "type": "field_angle",
+                    "type": "input_value",
                     "name": "ANGLE",
-                    "angle": 0
                 }
             ],
-            "colour": Blockly.Colours.motion.secondary,
-            "colourSecondary": Blockly.Colours.motion.secondary,
-            "colourTertiary": Blockly.Colours.motion.tertiary,
             "category": Blockly.Categories.motor,
             "extensions": ["colours_motion", "shape_statement"],
         });

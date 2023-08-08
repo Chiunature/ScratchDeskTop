@@ -29,7 +29,7 @@ Blockly.cake['combined_motor_speed'] = function (block) {
 
 Blockly.cake['combined_motor_turn'] = function (block) {
     let dropdown_spin = block.getFieldValue('SPIN');
-    let angle = block.getFieldValue('angle');
+    let angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
     let distance = block.getFieldValue('distance');
     let unit = block.getFieldValue('unit');
     // TODO: Assemble cake into code variable.
@@ -73,7 +73,7 @@ Blockly.cake['combined_motor_movestep'] = function (block) {
 Blockly.cake['combined_motor_movepower'] = function (block) {
     let power = Blockly.cake.valueToCode(block, "power", Blockly.cake.ORDER_NONE);
     let direction = block.getFieldValue('direction');
-    let angle = block.getFieldValue('angle');
+    let angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `combined_motor_movepower(${power}, "${direction}", ${angle});\n`;
     return code;

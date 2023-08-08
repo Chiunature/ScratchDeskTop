@@ -234,9 +234,8 @@ Blockly.Blocks['combined_motor_turn'] = {
                     ]
                 },
                 {
-                    "type": "field_angle",
-                    "name": "angle",
-                    "angle": 0
+                    "type": "input_value",
+                    "name": "ANGLE",
                 },
                 {
                     "type": "field_number",
@@ -540,9 +539,8 @@ Blockly.Blocks['combined_motor_movepower'] = {
                     ]
                 },
                 {
-                    "type": "field_angle",
-                    "name": "angle",
-                    "angle": 0
+                    "type": "input_value",
+                    "name": "ANGLE",
                 }
             ],
             "category": Blockly.Categories.combined_motor,

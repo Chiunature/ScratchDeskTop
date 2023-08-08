@@ -38,7 +38,7 @@ import TelemetryModal from "../telemetry-modal/telemetry-modal.jsx";
 
 import layout, { STAGE_SIZE_MODES } from "../../lib/layout-constants";
 import { resolveStageSize } from "../../lib/screen-utils";
-
+import {themeMap} from '../../lib/themes';
 import styles from "./gui.css";
 import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
@@ -49,7 +49,7 @@ import yesIcon from "./icon--yes.svg";
 import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
-import ColorPicker from "../color-picker/color-picker.jsx";
+
 import ButtonComponent from "../button/button.jsx";
 import Cirle from "../button/cirle.jsx";
 const messages = defineMessages({
@@ -77,8 +77,10 @@ const GUIComponent = (props) => {
         backpackHost,
         backpackVisible,
         blocksTabVisible,
+        blocksId,
         cardsVisible,
         canChangeLanguage,
+        canChangeTheme,
         canCreateNew,
         canEditTitle,
         canManageFiles,
@@ -135,6 +137,7 @@ const GUIComponent = (props) => {
         vm,
         isGen,
         code,
+        theme,
         completed,
         isComplete,
         handleCompile,
@@ -249,6 +252,8 @@ const GUIComponent = (props) => {
                             authorThumbnailUrl={authorThumbnailUrl}
                             authorUsername={authorUsername}
                             canChangeLanguage={canChangeLanguage}
+                            blocksId={blocksId}
+                            canChangeTheme={canChangeTheme}
                             canCreateCopy={canCreateCopy}
                             canCreateNew={canCreateNew}
                             canEditTitle={canEditTitle}
@@ -346,13 +351,15 @@ const GUIComponent = (props) => {
                                                 className={styles.blocksWrapper}
                                             >
                                                 <Blocks
+                                                    key={`${blocksId}/${theme}`}
                                                     canUseCloud={canUseCloud}
                                                     grow={1}
                                                     isVisible={blocksTabVisible}
                                                     options={{
-                                                        media: `${basePath}static/blocks-media/`,
+                                                        media: `${basePath}static/${themeMap[theme].blocksMediaFolder}/`
                                                     }}
                                                     stageSize={stageSize}
+                                                    theme={theme}
                                                     vm={vm}
                                                 />
                                             </Box>
@@ -444,6 +451,7 @@ GUIComponent.propTypes = {
     basePath: PropTypes.string,
     blocksTabVisible: PropTypes.bool,
     canChangeLanguage: PropTypes.bool,
+    canChangeTheme: PropTypes.bool,
     canCreateCopy: PropTypes.bool,
     canCreateNew: PropTypes.bool,
     canEditTitle: PropTypes.bool,
@@ -491,6 +499,7 @@ GUIComponent.propTypes = {
     soundsTabVisible: PropTypes.bool,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
     targetIsStage: PropTypes.bool,
+    theme: PropTypes.string,
     telemetryModalVisible: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
@@ -499,7 +508,9 @@ GUIComponent.defaultProps = {
     backpackHost: null,
     backpackVisible: false,
     basePath: "./",
+    blocksId: 'original',
     canChangeLanguage: true,
+    canChangeTheme: true,
     canCreateNew: false,
     canEditTitle: false,
     canManageFiles: true,
@@ -518,7 +529,9 @@ GUIComponent.defaultProps = {
 
 const mapStateToProps = (state) => ({
     // This is the button's mode, as opposed to the actual current state
+    blocksId: state.scratchGui.timeTravel.year.toString(),
     stageSizeMode: state.scratchGui.stageSize.stageSize,
+    theme: state.scratchGui.theme.theme
 });
 const mapDispatchToProps = (dispatch) => ({});
 // export default injectIntl(connect(
