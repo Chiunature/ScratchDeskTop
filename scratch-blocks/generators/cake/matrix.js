@@ -38,20 +38,20 @@ Blockly.cake['matrix_lamp'] = function (block) {
     let lp = Blockly.cake.stringToHex(lamp);
     let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = `char Font[] = {${lp}};\nint color = ${cr.replace(/\'/g, '')};\nmatrix_lamp(NULL, Font, color);\n`;
+    let code = `char Font[] = {${lp}};\nint color = ${cr.replace(/\'/g, '')};\nmatrix_lamp(Font, color);\n`;
     return code;
 };
 
 Blockly.cake['matrix_lamp_stop'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `matrix_stop_lamp(NULL);\n`;
+    let code = `matrix_stop_lamp();\n`;
     return code;
 };
 
 Blockly.cake['matrix_lamp_set'] = function (block) {
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_set_lamp(NULL, "${brightness}");\n`;
+    let code = `matrix_set_lamp("${brightness}");\n`;
     return code;
 };
 

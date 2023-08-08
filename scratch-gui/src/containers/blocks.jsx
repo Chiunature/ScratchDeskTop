@@ -46,7 +46,7 @@ const addFunctionListener = (object, property, callback) => {
 const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
-
+let timerId;
 class Blocks extends React.Component {
     constructor(props) {
         super(props);
@@ -84,8 +84,7 @@ class Blocks extends React.Component {
         this.ScratchBlocks.recordSoundCallback = this.handleOpenSoundRecorder;
 
         this.state = {
-            prompt: null,
-            timerId: null
+            prompt: null
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
@@ -132,7 +131,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener(this.workspaceToCode);
+        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type, this.ScratchBlocks.Events.END_DRAG));
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
@@ -141,15 +140,8 @@ class Blocks extends React.Component {
             this.setLocale();
         }
     }
-    debounced(func, delay) {
-        clearTimeout(this.state.timerId);
-        return function (...args) {
-            this.state.timerId = setTimeout(() => {
-                func.apply(this, args);
-            }, delay);
-        };
-    }
-    workspaceToCode() {
+    
+    workspaceToCode(type, status) {
         let code;
         let cp = new Compile();
         try {
@@ -159,7 +151,14 @@ class Blocks extends React.Component {
             code = e.message;
         }
         this.props.getCode(code);
-        if(code) this.debounced(cp.runGcc(code), 5000);
+        const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
+        let match = pattern.exec(code);
+        if(code && match[2] !== '\n\n' && (type == status)) {
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+                cp.runGcc(match[2]);
+            }, 5000);
+        }
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (

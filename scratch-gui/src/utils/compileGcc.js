@@ -13,9 +13,8 @@ let currentProcess, startSend;
 class Compile {
 
     //将c语言代码写入文件
-    writeFiles(buffer) {
-        let file = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'Aplication.c');
-        fs.writeFileSync(file, buffer);
+    writeFiles(path, buffer) {
+        fs.writeFileSync(path, buffer);
         return true;
     }
 
@@ -42,37 +41,39 @@ class Compile {
     //编译
     compile() {
         this.processCMD(cmd).then(res => {
-            console.log(res);
             startSend = true;
         }).catch(error => {
             handlerError(error);
         });
     }
 
+    //处理任务
+    programmerTasks() {
+        let taskFile = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'ProgrammerTasks.c');
+        let readRes = fs.readFileSync(taskFile, 'utf8');
+        let arr = readRes.split(';');
+        console.log(arr[9]);
+    }
+
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, flag = false) {
         startSend = flag;
-        const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
-        let match = pattern.exec(buffer);
-        if (!buffer || match[2] === '\n\n') return;
-        let code = `#include "main.h"\nvoid Matrix_LampTask(void *parameter)\n{while (1)\n{\n${match[2]}\nvTaskDelay(50);\n}\n}`;
-        let res = this.writeFiles(code);
-        if (res) this.executeFunction(this.compile);
-    }
-
-    //获取bing文件数据准备通信
-    readBin() {
-        let data = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin");
-        window.electron.ipcRenderer.send("writeData", data);
+        //将生成的C代码写入特定的C文件
+        let code = `#include "main.h"\nvoid Matrix_LampTask(void *parameter)\n{\nwhile (1)\n{${buffer}vTaskDelay(50);\n}\n}`;
+        let filePath = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'Aplication.c');
+        let writeAppRes = this.writeFiles(filePath, code);
+        // this.programmerTasks();
+        if (writeAppRes) this.executeFunction(this.compile);
     }
 
     sendToSerial() {
         if (!startSend) {
             eventEmitter.on('success', (res) => {
-                this.readBin();
+                console.log(res);
+                window.electron.ipcRenderer.send("writeData");
             });
         } else {
-            this.readBin();
+            window.electron.ipcRenderer.send("writeData");
         }
     }
 }
