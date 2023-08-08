@@ -84,8 +84,8 @@ const blockColors = {
     more: {
         "primary": "#82be97",
         "secondary": "#FF4D6A",
-        "tertiary": "#FF3355",
-        "quaternary": "#FF3355"
+        "tertiary": "#82be97",
+        "quaternary": "#82be97"
     },
     text: "#575E75",
     workspace: "#F9F9F9",

@@ -68,12 +68,14 @@
     border-right: 1px solid $ui-black-transparent;
     box-sizing: content-box;
     min-width: 300px;
+    transform: translate(65px, 0px) !important;
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
     border-right: none;
     border-left: 1px solid $ui-black-transparent;
     min-width: 300px;
+    transform: translate(720px, 0px) !important;
 }
 
 .blocks :global(.blocklyBlockDragSurface) {

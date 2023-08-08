@@ -713,7 +713,7 @@ const myBlocks = function (colors) {
         id="myBlocks"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}"
-        >
+        custom="PROCEDURE">
     </category>
     `;
 };
