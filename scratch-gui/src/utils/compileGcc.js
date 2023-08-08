@@ -55,7 +55,7 @@ class Compile {
         const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
         let match = pattern.exec(buffer);
         if (!buffer || match[2] === '\n\n') return;
-        let code = `#include "main.h"\nvoid USER_Aplication(void)\n{\n${match[2]}\n}`;
+        let code = `#include "main.h"\nvoid Matrix_LampTask(void *parameter)\n{while (1)\n{\n${match[2]}\nvTaskDelay(50);\n}\n}`;
         let res = this.writeFiles(code);
         if (res) this.executeFunction(this.compile);
     }

@@ -485,12 +485,6 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
         }
        
         ${blockSeparator}
-        <block type="sensing_keypressed">
-            <value name="KEY_OPTION">
-                <shadow type="sensing_keyoptions"/>
-            </value>
-        </block>
-        ${blockSeparator}
         <block id="loudness" type="sensing_loudness"/>
         ${blockSeparator}
         <block id="current" type="sensing_current"/>

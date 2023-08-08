@@ -350,7 +350,7 @@ Blockly.Blocks['sensing_loudness'] = {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_LOUDNESS,
       "category": Blockly.Categories.sensing,
-      "checkboxInFlyout": true,
+      "checkboxInFlyout": false,
       "extensions": ["colours_sensing", "output_number"]
     });
   }
@@ -381,7 +381,7 @@ Blockly.Blocks['sensing_timer'] = {
     this.jsonInit({
       "message0": Blockly.Msg.SENSING_TIMER,
       "category": Blockly.Categories.sensing,
-      "checkboxInFlyout": true,
+      "checkboxInFlyout": false,
       "extensions": ["colours_sensing", "output_number"]
     });
   }
@@ -487,7 +487,7 @@ Blockly.Blocks['sensing_current'] = {
         }
       ],
       "category": Blockly.Categories.sensing,
-      "checkboxInFlyout": true,
+      "checkboxInFlyout": false,
       "extensions": ["colours_sensing", "output_number"]
     });
   }

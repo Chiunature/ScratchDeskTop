@@ -163,7 +163,7 @@ Blockly.cake['operator_mathop'] = function (block) {
     var mode = block.getFieldValue('OPERATOR');
     var arg0 = Blockly.cake.valueToCode(block, 'NUM', Blockly.cake.ORDER_FUNCTION_CALL) || '0';
 
-    Blockly.cake.imports_["math"] = "import math";
+    // Blockly.cake.imports_["math"] = "import math";
 
     var code = '';
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
