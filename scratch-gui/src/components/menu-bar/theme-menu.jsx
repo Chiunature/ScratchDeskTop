@@ -62,10 +62,10 @@ const ThemeMenu = ({
                 />
                 <span className={styles.submenuLabel}>
                     <FormattedMessage
-                        defaultMessage="Color Mode"
-                        description="Color mode sub-menu"
-                        id="gui.menuBar.colorMode"
-                    />
+                                defaultMessage="Theme"
+                                description="Text for menubar Theme button"
+                                id="gui.menuBar.Theme"
+                            />
                 </span>
                 <img
                     className={styles.expandCaret}
@@ -107,7 +107,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     onChangeTheme: theme => {
         dispatch(setTheme(theme));
         ownProps.onRequestCloseSettings();
-        persistTheme(theme);
+        persistTheme(theme, themeMap[theme]);
     },
     onRequestOpen: () => dispatch(openThemeMenu())
 });

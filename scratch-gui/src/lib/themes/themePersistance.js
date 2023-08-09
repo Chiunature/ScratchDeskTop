@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 
-import {DEFAULT_THEME, HIGH_CONTRAST_THEME} from '.';
+import { DEFAULT_THEME, HIGH_CONTRAST_THEME } from '.';
 
 const PREFERS_HIGH_CONTRAST_QUERY = '(prefers-contrast: more)';
 const COOKIE_KEY = 'scratchtheme';
@@ -28,6 +28,9 @@ const persistTheme = theme => {
     if (!isValidTheme(theme)) {
         throw new Error(`Invalid theme: ${theme}`);
     }
+
+    document.body.style.setProperty("--motion-primary", themeInfo.colors.themeColor);
+    localStorage.setItem("themeColor", themeInfo.colors.themeColor);
 
     if (systemPreferencesTheme() === theme) {
         // Clear the cookie to represent using the system preferences

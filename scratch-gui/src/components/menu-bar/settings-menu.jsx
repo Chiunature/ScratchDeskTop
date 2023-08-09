@@ -48,7 +48,7 @@ const SettingsMenu = ({
         >
             <MenuSection>
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} />}
-                <PickerMenu/>
+                {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
             </MenuSection>
         </MenuBarMenu>

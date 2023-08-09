@@ -33,6 +33,7 @@ import {
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
 import { getCode } from '../reducers/mode';
+import { handlerError } from '../utils/ipcRender';
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -147,18 +148,17 @@ class Blocks extends React.Component {
         try {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
+            const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
+            let match = pattern.exec(code);
+            if(code && match[2] !== '\n\n' && (type == status)) {
+                clearTimeout(timerId);
+                timerId = setTimeout(() => cp.runGcc(match[2].split("\n\n")), 5000);
+            }
         } catch (e) {
             code = e.message;
+            handlerError(code);
         }
         this.props.getCode(code);
-        const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
-        let match = pattern.exec(code);
-        if(code && match[2] !== '\n\n' && (type == status)) {
-            clearTimeout(timerId);
-            timerId = setTimeout(() => {
-                cp.runGcc(match[2]);
-            }, 5000);
-        }
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (
