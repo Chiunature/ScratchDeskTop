@@ -121,7 +121,8 @@ const blockColors = {
     valueReportBackground: '#FFFFFF',
     valueReportBorder: '#AAAAAA',
     menuHover: 'rgba(0, 0, 0, 0.2)',
-    themeColor: "#4C97FF"
+    themeColor: "#4C97FF",
+    modalColor: "hsla(214.86, 100%, 64.9%, .9)"
 };
 
 const extensions = {

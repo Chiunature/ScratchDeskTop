@@ -22,11 +22,16 @@ const handleTelemetryModalOptIn = () => {
 const handleTelemetryModalOptOut = () => {
     log('User opted out of telemetry');
 };
-const getStorage = () => {
+const getThemeStorage = () => {
     let theme = localStorage.getItem('themeColor');
     return theme ? theme : '#7986b8';
 }
-document.body.style.setProperty('--motion-primary', getStorage());
+const getModalStorage = () => {
+    let modal = localStorage.getItem('modalColor');
+    return modal ? modal : 'hsla(227.62, 29.73%, 59.8%, .9)';
+}
+document.body.style.setProperty('--motion-primary', getThemeStorage());
+document.body.style.setProperty('--modal-overlay', getModalStorage());
 /*
  * Render the GUI playground. This is a separate function because importing anything
  * that instantiates the VM causes unsupported browsers to crash

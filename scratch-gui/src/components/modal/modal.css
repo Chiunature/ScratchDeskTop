@@ -9,7 +9,8 @@
     right: 0;
     bottom: 0;
     z-index: $z-index-modal;
-    background-color: $ui-modal-overlay;
+    /* background-color: $ui-modal-overlay; */
+    background-color: var(--modal-overlay);
 }
 
 .modal-content * {

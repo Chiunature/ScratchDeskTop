@@ -30,7 +30,9 @@ const persistTheme = theme => {
     }
 
     document.body.style.setProperty("--motion-primary", themeInfo.colors.themeColor);
+    document.body.style.setProperty("--modal-overlay", themeInfo.colors.modalColor);
     localStorage.setItem("themeColor", themeInfo.colors.themeColor);
+    localStorage.setItem("modalColor", themeInfo.colors.modalColor);
 
     if (systemPreferencesTheme() === theme) {
         // Clear the cookie to represent using the system preferences
