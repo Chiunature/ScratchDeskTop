@@ -78,6 +78,7 @@ class Compile {
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, flag = false) {
+        console.log(buffer);
         startSend = flag;
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {

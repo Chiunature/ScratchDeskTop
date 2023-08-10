@@ -24,7 +24,7 @@ const detectTheme = () => {
     return systemPreferencesTheme();
 };
 
-const persistTheme = theme => {
+const persistTheme = (theme, themeInfo) => {
     if (!isValidTheme(theme)) {
         throw new Error(`Invalid theme: ${theme}`);
     }

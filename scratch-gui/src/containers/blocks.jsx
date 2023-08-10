@@ -35,6 +35,7 @@ import {
 import { getCode } from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
+
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
     object[property] = function (...args) {
@@ -148,9 +149,10 @@ class Blocks extends React.Component {
         try {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
+            let hasBlocks = this.workspace.getTopBlocks(false).length > 0;
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
-            if(code && match[2] !== '\n\n' && (type == status)) {
+            if(hasBlocks && match[2] !== '\n\n' && (type == status)) {
                 clearTimeout(timerId);
                 timerId = setTimeout(() => cp.runGcc(match[2].split("\n\n")), 5000);
             }
@@ -742,7 +744,7 @@ const mapDispatchToProps = dispatch => ({
     updateMetrics: metrics => {
         dispatch(updateMetrics(metrics));
     },
-    getCode: code => dispatch(getCode(code))
+    getCode: code => dispatch(getCode(code)),
 });
 
 export default errorBoundaryHOC('Blocks')(
