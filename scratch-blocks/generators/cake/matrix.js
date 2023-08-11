@@ -67,7 +67,7 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
 Blockly.cake['matrix_lamp_text'] = function (block) {
     let text = block.getFieldValue('text');
     // let direction = block.getFieldValue('direction');
-    let t = Blockly.cake.charToHexMatrix(text);
+    let t = Blockly.cake.charToHexArray(text);
     let arr = t.map(el => {
         return '0x' + el;
     });

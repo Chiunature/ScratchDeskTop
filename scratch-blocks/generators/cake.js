@@ -267,43 +267,19 @@ Blockly.cake.stringToHex = function (string) {
   return hexChunks;
 }
 
-Blockly.cake.charToHexMatrix = function (char) {
-  const utf8Array = Blockly.cake.stringToUtf8ByteArray(char);
-  // 将UTF8数组转换成二进制字符串
-  let binaryStr = '';
-  for (let i = 0; i < utf8Array.length; i++) {
-    binaryStr += utf8Array[i].toString(2).padStart(8, '0');
-  }
-  // 将二进制字符串转成8x8矩阵
-  const matrix = [];
-  for (let i = 0; i < 8; i++) {
-    let binarySlice = binaryStr.slice(i * 8, (i + 1) * 8);
-    if (!binarySlice) binarySlice = 0;
-    const hex = parseInt(binarySlice, 2).toString(16).toUpperCase();
-    matrix[i] = hex.padStart(2, '0');
-  }
-  return matrix;
-}
+Blockly.cake.charToHexArray = function (char) {
+  let charCode = char.charCodeAt(0);
+  let hexString = charCode.toString(16).padStart(4, '0');
+  let hexArray = [];
 
-Blockly.cake.stringToUtf8ByteArray = function (str) {
-  const arr = [];
-  for (let i = 0; i < str.length; i++) {
-    let code = str.charCodeAt(i);
-    if (code <= 0x7f) {
-      arr.push(code);
-    } else if (code <= 0x7ff) {
-      arr.push((code >> 6) | 0b11000000);
-      arr.push((code & 0b111111) | 0b10000000);
-    } else if (code <= 0xffff) {
-      arr.push((code >> 12) | 0b11100000);
-      arr.push(((code >> 6) & 0b111111) | 0b10000000);
-      arr.push((code & 0b111111) | 0b10000000);
-    } else {
-      arr.push((code >> 18) | 0b11110000);
-      arr.push(((code >> 12) & 0b111111) | 0b10000000);
-      arr.push(((code >> 6) & 0b111111) | 0b10000000);
-      arr.push((code & 0b111111) | 0b10000000);
-    }
+  for (let i = 0; i < hexString.length; i += 2) {
+    let hex = hexString.substring(i, i + 2);
+    hexArray.push(hex);
   }
-  return arr;
+
+  while (hexArray.length < 8) {
+    hexArray.unshift('ff');
+  }
+
+  return hexArray;
 }

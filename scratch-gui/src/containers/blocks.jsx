@@ -133,7 +133,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type, this.ScratchBlocks.Events.END_DRAG));
+        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
@@ -143,7 +143,7 @@ class Blocks extends React.Component {
         }
     }
     
-    workspaceToCode(type, status) {
+    workspaceToCode(type) {
         let code;
         let cp = new Compile();
         try {
@@ -153,7 +153,7 @@ class Blocks extends React.Component {
             let hasBlocks = this.workspace.getTopBlocks().length > 0;
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
-            if(hasBlocks && match[2] !== '\n\n' && (type == status)) {
+            if(hasBlocks && match[2] !== '\n\n' && (type == "endDrag" || type == 'change')) {
                 clearTimeout(timerId);
                 timerId = setTimeout(() => cp.runGcc(match[2].split("\n\n")), 5000);
             }
