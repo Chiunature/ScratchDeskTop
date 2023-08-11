@@ -4,14 +4,20 @@ goog.provide('Blockly.cake.sound');
 
 goog.require('Blockly.cake');
 
-Blockly.cake['sound_playuntildone'] = function (block) {
+
+Blockly.cake['sound_sounds_menu'] = function (block) {
     let sound = block.getFieldValue('SOUND_MENU');
-    return `sound_playuntildone(${sound});\n`;
+    return sound;
+}
+
+Blockly.cake['sound_playuntildone'] = function (block) {
+    let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
+    return `sound_playuntildone("${sound}");\n`;
 }
 
 Blockly.cake['sound_play'] = function (block) {
-    let sound = block.getFieldValue('SOUND_MENU');
-    return `sound_play(${sound});\n`;
+    let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
+    return `sound_play("${sound}");\n`;
 }
 
 Blockly.cake['sound_stopallsounds'] = function (block) {

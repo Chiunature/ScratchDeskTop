@@ -190,23 +190,32 @@ Blockly.cake['event_whengreaterthan'] = function (block) {
     return code;
 };
 
+//暂不支持中文
 Blockly.cake['event_whenbroadcastreceived'] = function (block) {
-    let broadcast = block.getFieldValue('BROADCAST_OPTION');
+    let broadcast = Blockly.cake.variableDB_.getName(block.getFieldValue('BROADCAST_OPTION'),
+        Blockly.Variables.NAME_TYPE);
     // TODO: Assemble cake into code variable.
-    let code = `event_whenbroadcastreceived(${broadcast});\n`;
+    let code = `event_whenbroadcastreceived("${broadcast}");\n`;
     return code;
 };
 
 Blockly.cake['event_broadcast'] = function (block) {
-    let broadcast = block.getFieldValue('BROADCAST_INPUT');
+    let broadcast = Blockly.cake.valueToCode(block, "BROADCAST_INPUT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `event_broadcast(${broadcast});\n`;
+    let code = `event_broadcast("${broadcast}");\n`;
     return code;
 };
 
 Blockly.cake['event_broadcastandwait'] = function (block) {
-    let broadcast = block.getFieldValue('BROADCAST_INPUT');
+    let broadcast = Blockly.cake.valueToCode(block, "BROADCAST_INPUT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `event_broadcastandwait(${broadcast});\n`;
+    let code = `event_broadcastandwait("${broadcast}");\n`;
     return code;
+};
+
+Blockly.cake['event_broadcast_menu'] = function (block) {
+    // TODO: Assemble cake into code variable.
+    let varName = Blockly.cake.variableDB_.getName(block.getFieldValue('BROADCAST_OPTION'),
+        Blockly.Variables.NAME_TYPE);
+    return [varName, Blockly.cake.ORDER_ATOMIC];
 };

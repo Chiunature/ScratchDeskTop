@@ -68,10 +68,12 @@ Blockly.cake.ORDER_LOGICAL_NOT = 3;    // !
 Blockly.cake.ORDER_BITWISE_NOT = 3;    // ~
 Blockly.cake.ORDER_UNARY_PLUS = 3;     // +
 Blockly.cake.ORDER_UNARY_NEGATION = 3; // -
+Blockly.cake.ORDER_UNARY_SIGN = 4;
 Blockly.cake.ORDER_MULTIPLICATION = 5; // *
 Blockly.cake.ORDER_DIVISION = 5;       // /
 Blockly.cake.ORDER_MODULUS = 5;        // %
 Blockly.cake.ORDER_ADDITION = 6;       // +
+Blockly.cake.ORDER_ADDITIVE = 6;
 Blockly.cake.ORDER_SUBTRACTION = 6;    // -
 Blockly.cake.ORDER_BITWISE_SHIFT = 7;  // << >>
 Blockly.cake.ORDER_RELATIONAL = 8;     // < <= > >=
