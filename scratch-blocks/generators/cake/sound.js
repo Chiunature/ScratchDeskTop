@@ -27,13 +27,13 @@ Blockly.cake['sound_stopallsounds'] = function (block) {
 Blockly.cake['sound_seteffectto'] = function (block) {
     let effect = block.getFieldValue('EFFECT');
     let value = Blockly.cake.valueToCode(block, "VALUE", Blockly.cake.ORDER_ATOMIC);
-    return `sound_seteffectto(${effect}, ${value});\n`;
+    return `sound_seteffectto("${effect}", ${value});\n`;
 }
 
 Blockly.cake['sound_changeeffectby'] = function (block) {
     let effect = block.getFieldValue('EFFECT');
     let value = Blockly.cake.valueToCode(block, "VALUE", Blockly.cake.ORDER_ATOMIC);
-    return `sound_changeeffectby(${effect}, ${value});\n`;
+    return `sound_changeeffectby("${effect}", ${value});\n`;
 }
 
 Blockly.cake['sound_cleareffects'] = function (block) {
