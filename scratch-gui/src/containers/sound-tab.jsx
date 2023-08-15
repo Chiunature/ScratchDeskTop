@@ -221,34 +221,40 @@ class SoundTab extends React.Component {
                 id: 'gui.soundTab.addSoundFromLibrary'
             }
         });
-
+        const arr = [
+            {
+                title: intl.formatMessage(messages.addSound),
+                img: addSoundFromLibraryIcon,
+                onClick: onNewSoundFromLibraryClick
+            }, 
+            // {
+            //     title: intl.formatMessage(messages.fileUploadSound),
+            //     img: fileUploadIcon,
+            //     onClick: this.handleFileUploadClick,
+            //     fileAccept: '.wav, .mp3',
+            //     fileChange: this.handleSoundUpload,
+            //     fileInput: this.setFileInput,
+            //     fileMultiple: true
+            // }, 
+            {
+                title: intl.formatMessage(messages.surpriseSound),
+                img: surpriseIcon,
+                onClick: this.handleSurpriseSound
+            }, 
+            // {
+            //     title: intl.formatMessage(messages.recordSound),
+            //     img: addSoundFromRecordingIcon,
+            //     onClick: onNewSoundFromRecordingClick
+            // }, 
+            {
+                title: intl.formatMessage(messages.addSound),
+                img: searchIcon,
+                onClick: onNewSoundFromLibraryClick
+            }
+        ];
         return (
             <AssetPanel
-                buttons={[{
-                    title: intl.formatMessage(messages.addSound),
-                    img: addSoundFromLibraryIcon,
-                    onClick: onNewSoundFromLibraryClick
-                }, {
-                    title: intl.formatMessage(messages.fileUploadSound),
-                    img: fileUploadIcon,
-                    onClick: this.handleFileUploadClick,
-                    fileAccept: '.wav, .mp3',
-                    fileChange: this.handleSoundUpload,
-                    fileInput: this.setFileInput,
-                    fileMultiple: true
-                }, {
-                    title: intl.formatMessage(messages.surpriseSound),
-                    img: surpriseIcon,
-                    onClick: this.handleSurpriseSound
-                }, {
-                    title: intl.formatMessage(messages.recordSound),
-                    img: addSoundFromRecordingIcon,
-                    onClick: onNewSoundFromRecordingClick
-                }, {
-                    title: intl.formatMessage(messages.addSound),
-                    img: searchIcon,
-                    onClick: onNewSoundFromLibraryClick
-                }]}
+                buttons={arr}
                 dragType={DragConstants.SOUND}
                 isRtl={isRtl}
                 items={sounds}
