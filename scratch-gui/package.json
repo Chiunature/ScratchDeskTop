@@ -165,7 +165,8 @@
             "node_modules/**/*",
             "main.js",
             "preload.js",
-            "serialport.js"
+            "serialport.js",
+            "launch.html"
         ],
         "nsis": {
             "oneClick": false,

@@ -3,74 +3,101 @@
  * @Author: jiang
  * @Date: 2023-06-05 14:43:50
  * @LastEditors: jiang
- * @LastEditTime: 2023-06-07 10:35:08
+ * @LastEditTime: 2023-06-06 18:30:58
  * 
  */
 const { app, BrowserWindow, dialog, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
-const Serialport = require(path.join(__dirname, 'serialport.js'));
+const Serialport = require(path.join(__dirname, "serialport.js"));
 
-let mainWindow;
+let mainWindow, loadingWindow;
+
+function showLoading() {
+    return new Promise((resolve, reject) => {
+        loadingWindow = new BrowserWindow({
+            width: 640,
+            height: 440,
+            frame: false,
+            transparent: true
+        });
+        loadingWindow.loadFile(path.join(__dirname, "launch.html"));
+        loadingWindow.show()
+        resolve();
+    });
+};
 
 function createWindow() {
-    //创建浏览器窗口,宽高自定义具体大小你开心就好
-    mainWindow = new BrowserWindow({
-        width: 1430,
-        height: 800,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-            javascript: true,
-            plugins: true,
-            webSecurity: false,
-            preload: path.join(__dirname, "preload.js"),
-        },
-    });
-    let sp = new Serialport();
-    //关闭默认菜单
-    if (app.isPackaged) {
-        Menu.setApplicationMenu(null);
-        /* 
-            加载应用-----  electron-quick-start中默认的加载入口
-        */
-        mainWindow.loadURL(
-            url.format({
-                pathname: path.join(__dirname, "build/index.html"),
-                protocol: "file:",
-                slashes: true,
-            })
-        );
-    } else {
-        mainWindow.loadURL("http://127.0.0.1:8601/");
-        // 打开开发者工具，默认不打开
-        mainWindow.webContents.openDevTools();
-    }
-    //获取串口列表
-    sp.getList();
-    //连接串口
-    sp.connectSerial();
-
-    // 关闭window时触发下列事件.
-    mainWindow.on("close", function (e) {
-        let index = dialog.showMessageBoxSync({
-            type: "info",
-            title: "The changes you made may not be saved",
-            message: "你所做的更改可能未保存",
-            buttons: ["取消(cancel)", "确定(confirm)"],
+    return new Promise((resolve, reject) => {
+        mainWindow = new BrowserWindow({
+            width: 1430,
+            height: 800,
+            show: false,
+            webPreferences: {
+                nativeWindowOpen: true,
+                nodeIntegration: true,
+                contextIsolation: false,
+                javascript: true,
+                plugins: true,
+                webSecurity: false,
+                preload: path.join(__dirname, "preload.js"),
+            },
         });
-        if (index === 0) {
-            e.preventDefault(); //阻止默认行为
-            return;
+        let sp = new Serialport();
+        //关闭默认菜单
+        if (app.isPackaged) {
+            Menu.setApplicationMenu(null);
+            /* 
+                加载应用-----  electron-quick-start中默认的加载入口
+            */
+            mainWindow.loadURL(
+                url.format({
+                    pathname: path.join(__dirname, "build/index.html"),
+                    protocol: "file:",
+                    slashes: true,
+                })
+            );
         } else {
-            mainWindow = null;
-            app.exit(); //exit()直接关闭客户端，不会执行quit();
+            mainWindow.loadURL("http://127.0.0.1:8601/");
+            // 打开开发者工具，默认不打开
+            mainWindow.webContents.openDevTools();
         }
+
+        //获取串口列表
+        sp.getList();
+        //连接串口
+        sp.connectSerial();
+
+        mainWindow.once("ready-to-show", () => {
+            loadingWindow.hide();
+            loadingWindow.close();
+            mainWindow.show();
+        });
+
+        // 关闭window时触发下列事件.
+        mainWindow.on("close", function (e) {
+            let index = dialog.showMessageBoxSync({
+                type: "info",
+                title: "The changes you made may not be saved",
+                message: "你所做的更改可能未保存",
+                buttons: ["取消(cancel)", "确定(confirm)"],
+            });
+            if (index === 0) {
+                e.preventDefault(); //阻止默认行为
+                return;
+            } else {
+                mainWindow = null;
+                app.exit(); //exit()直接关闭客户端，不会执行quit();
+            }
+        });
     });
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
-app.on("ready", createWindow);
+app.on("ready", async () => {
+    await showLoading();
+    await createWindow();
+});
 
 // 所有窗口关闭时退出应用.
 app.on("window-all-closed", function () {
