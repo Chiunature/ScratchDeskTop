@@ -397,6 +397,9 @@ const events = function (isInitialSetup, isStage, targetId, colors) {
         </block>
         ${blockSeparator}
         <block type="event_whenbroadcastreceived">
+            <value name="BROADCAST_INPUT">
+                <shadow type="event_broadcast_menu"></shadow>
+            </value>
         </block>
         <block type="event_broadcast">
             <value name="BROADCAST_INPUT">

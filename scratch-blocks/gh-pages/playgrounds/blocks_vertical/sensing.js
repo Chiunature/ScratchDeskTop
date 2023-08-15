@@ -567,7 +567,7 @@ Blockly.Blocks['sensing_color_judgment'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {
@@ -610,7 +610,7 @@ Blockly.Blocks['sensing_color_detection'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
       ],
@@ -649,7 +649,7 @@ Blockly.Blocks['sensing_color_detectionRGB'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {
@@ -706,7 +706,7 @@ Blockly.Blocks['sensing_reflected_light_judgment'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {
@@ -768,7 +768,7 @@ Blockly.Blocks['sensing_reflected_light_detection'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
       ],
@@ -864,7 +864,7 @@ Blockly.Blocks['sensing_ultrasonic_judgment'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {

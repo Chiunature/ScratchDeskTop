@@ -75,7 +75,7 @@ Blockly.Blocks['event_checkcolor'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {
@@ -116,7 +116,7 @@ Blockly.Blocks['event_keyjudement'] = {
             [
               "D",
               "D"
-            ]
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
         {
@@ -314,10 +314,8 @@ Blockly.Blocks['event_whenbroadcastreceived'] = {
       "message0": Blockly.Msg.EVENT_WHENBROADCASTRECEIVED,
       "args0": [
         {
-          "type": "field_variable",
-          "name": "BROADCAST_OPTION",
-          "variableTypes": [Blockly.BROADCAST_MESSAGE_VARIABLE_TYPE],
-          "variable": Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME
+          "type": "input_value",
+          "name": "BROADCAST_INPUT"
         }
       ],
       "category": Blockly.Categories.event,
