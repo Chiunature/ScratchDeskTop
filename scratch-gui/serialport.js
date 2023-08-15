@@ -15,7 +15,7 @@
  * }
  */
 const { SerialPort } = require("serialport");
-const { ByteLengthParser } = require('@serialport/parser-byte-length');
+// const { ByteLengthParser } = require('@serialport/parser-byte-length');
 const { ipcMain } = require("electron");
 const { spawn } = require("child_process");
 
@@ -49,27 +49,9 @@ class Serialport {
 
     //连接串口
     linkToSerial(serial, event, sign) {
-        if (this.port) this.port = null;
-        this.port = new SerialPort(
-            {
-                path: serial.path,
-                baudRate: 115200
-            },
-            (err) => {
-                if (err && !sign) {
-                    event.reply("open", { res: false, msg: "failedConnected" });
-                    console.log(err);
-                } else if (!err && !sign) {
-                    event.reply("open", { res: true, msg: "successfullyConnected" });
-                }
-            }
-        );
-        this.serial = serial;
-        this.parser = this.port.pipe(new ByteLengthParser({ length: 17 }));
-        this.autoRead(event);
         this.sendToSerial();
         this.listenError();
-        this.listenPortClosed(event);
+        this.disconnectSerial();
     }
 
     //侦听编译时的错误处理
@@ -78,7 +60,7 @@ class Serialport {
     }
 
     //侦听串口关闭
-    listenPortClosed(event) {
+    /* listenPortClosed(event) {
         this.port.on("close", () => {
             if (this.serial) {
                 this.linkToSerial(this.serial, event, true);
@@ -88,25 +70,25 @@ class Serialport {
                 event.reply("closed", "disconnect");
             }
         });
-    }
+    } */
 
     //检测是否超时
-    checkOverTime(event) {
+    /* checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
             event.reply("completed", { result: false, msg: "uploadTimeout" });
             this.clearSerialPortBuffer();
         }, 3000);
-    }
+    } */
 
 
     //清除缓存
-    clearSerialPortBuffer() {
+    /* clearSerialPortBuffer() {
         if (this.port && this.port.isOpen) this.port.flush();
         this.sign = null;
         this.chunkIndex = 0;
         this.serial = null;
         this.timeOutTimer = null;
-    }
+    } */
 
     //开始上传
     startUpload(event) {
@@ -124,6 +106,7 @@ class Serialport {
 
         workerProcess.stderr.on('data', function (data) {
             console.log('stderr: ' + data);
+            this.handleReadError(event);
         });
 
         workerProcess.on('close', function (code) {
@@ -149,12 +132,12 @@ class Serialport {
 
     //对接收数据的错误处理
     handleReadError(event) {
-        this.clearSerialPortBuffer();
+        // this.clearSerialPortBuffer();
         event.reply("completed", { result: false, msg: "uploadError" });
     }
 
     //自动接收数据
-    autoRead(event) {
+    /* autoRead(event) {
         if (!this.port) return;
         this.parser.on("data", (chunk) => {
             try {
@@ -165,7 +148,7 @@ class Serialport {
                 this.handleReadError(event);
             }
         });
-    }
+    } */
 
 
 }
