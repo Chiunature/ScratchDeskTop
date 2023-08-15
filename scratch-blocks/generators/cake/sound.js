@@ -7,7 +7,7 @@ goog.require('Blockly.cake');
 
 Blockly.cake['sound_sounds_menu'] = function (block) {
     let sound = block.getFieldValue('SOUND_MENU');
-    return sound;
+    return [sound, Blockly.cake.ORDER_ATOMIC];
 }
 
 Blockly.cake['sound_playuntildone'] = function (block) {
