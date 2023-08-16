@@ -49,6 +49,7 @@ class Serialport {
 
     //连接串口
     linkToSerial(serial, event, sign) {
+        this.serial = serial;
         this.sendToSerial();
         this.listenError();
         this.disconnectSerial();

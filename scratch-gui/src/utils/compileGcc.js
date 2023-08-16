@@ -52,12 +52,21 @@ class Compile {
     }
 
     //处理任务
-    programmerTasks(filePath, str) {
+    programmerTasks(filePath, taskStr, headStr) {
         let readRes = fs.readFileSync(filePath, 'utf8');
         let arr = readRes.split(';');
-        let newStr = "\nTask_Info user_task[] = {" + str + "\n}";
-        arr[9] = newStr;
-        return arr.join(";");
+        let newStr = "\nTask_Info user_task[] = {" + taskStr + "\n}";
+        let newArr = arr.reduce((pre, el) => {
+            if (headStr.indexOf(el.replace(/\\r\\n/, '')) == -1) {
+                if (el.search("Task_Info user_task") != -1) {
+                    el = newStr;
+                }
+                pre.push(el);
+            }
+            return pre;
+        }, []);
+        newArr[0] = newArr[0] + ";" + headStr;
+        return newArr.join(";");
     }
 
     //将生成的C代码写入特定的C文件
@@ -69,27 +78,27 @@ class Compile {
     }
 
     //并发任务操作
-    handleTask(taskStr) {
+    handleTask(headStr, taskStr) {
         let taskFile = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'ProgrammerTasks.c');
-        let parserCode = this.programmerTasks(taskFile, taskStr);
+        let parserCode = this.programmerTasks(taskFile, taskStr, headStr);
         let writeTaskRes = this.writeFiles(taskFile, parserCode);
         return writeTaskRes;
     }
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, flag = false) {
-        console.log(buffer);
         startSend = flag;
-        let codeStr = '', taskStr = '';
+        let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
             if (el) {
+                headStr += `\r\nextern void Task${index}(void *parameter)${index === buffer.length - 1 ? '' : ';'}`;
                 codeStr += `Task${index}(void *parameter)\n{\nwhile (1)\n{\n${el}\nvTaskDelay(50);\n}\n}\n`;
                 taskStr += `\n{\r\n\t\t.Task_Name = "Task${index}",\r\n\t\t.Task_StackSize = 128,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = Task${index},\r\n},\n`;
             }
         });
 
         let appRes = this.handleCode(codeStr);
-        let taskRes = this.handleTask(taskStr);
+        let taskRes = this.handleTask(headStr, taskStr);
 
         //编译
         if (appRes && taskRes) this.executeFunction(this.compile);
@@ -97,15 +106,17 @@ class Compile {
 
     sendToSerial() {
         if (!startSend) {
-            eventEmitter.on('success', (res) => {
-                console.log(res);
-                window.electron.ipcRenderer.send("writeData");
-            });
+            eventEmitter.on('success', () => window.electron.ipcRenderer.send("writeData"));
         } else {
             window.electron.ipcRenderer.send("writeData");
         }
     }
 }
 
+//全局监听错误信息
+eventEmitter.on('error', (res) => {
+    handlerError(res);
+    window.electron.ipcRenderer.send("transmission-error");
+});
 
 export default Compile;

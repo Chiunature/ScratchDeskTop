@@ -154,7 +154,7 @@ class Blocks extends React.Component {
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
             clearTimeout(timerId);
-            if(hasBlocks && match[2] !== '\n\n' && (type == 'move' || type == 'change')) {
+            if(hasBlocks && match[2] !== '\n\n' && (type == 'move' || type == 'change' || type == 'delete')) {
                 timerId = setTimeout(() => cp.runGcc(match[2].split("\n\n")), 5000);
             }
         } catch (e) {
