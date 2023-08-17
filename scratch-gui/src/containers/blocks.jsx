@@ -145,7 +145,6 @@ class Blocks extends React.Component {
     
     workspaceToCode(type) {
         let code;
-        let cp = new Compile();
         try {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
@@ -155,11 +154,34 @@ class Blocks extends React.Component {
             let match = pattern.exec(code);
             clearTimeout(timerId);
             if(hasBlocks && match[2] !== '\n\n' && (type == 'move' || type == 'change' || type == 'delete')) {
-                timerId = setTimeout(() => cp.runGcc(match[2].split("\n\n")), 5000);
+                timerId = setTimeout(() => this.parserTask(this.workspace, match[2].split("\n\n")), 5000);
             }
         } catch (e) {
             handlerError(code);
         }
+    }
+    
+    //解析任务
+    parserTask(workspace, arr) {
+        let cp = new Compile();
+        let list = workspace.getTopBlocks();
+        let newArr = arr.filter(el => el!='');
+        let i = 0 ,j = 0 , que = [], newList = [];
+        while (i < list.length) {
+            que.push(newArr[i]);
+
+            if(list[i].startHat_) {
+                if(i > 0) j++;
+                newList[j] = que.shift();
+            }else if(newList[j]) {
+                newList[j] += '\n' + que.shift();
+            }else {
+                newList.push(que.shift());
+            }
+
+            i++;
+        }
+        if(newList.length > 0) cp.runGcc(newList);
     }
     
     shouldComponentUpdate(nextProps, nextState) {

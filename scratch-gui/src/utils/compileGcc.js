@@ -88,13 +88,10 @@ class Compile {
         startSend = flag;
         let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
-            if (el) {
-                headStr += `\r\nextern void Task${index}(void *parameter)${index === buffer.length - 1 ? '' : ';'}`;
-                codeStr += `Task${index}(void *parameter)\n{\nwhile (1)\n{\n${el}\nvTaskDelay(50);\n}\n}\n`;
-                taskStr += `\n{\r\n\t\t.Task_Name = "Task${index}",\r\n\t\t.Task_StackSize = 128,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = Task${index},\r\n},\n`;
-            }
+            headStr += `\r\nextern void Task${index}(void *parameter)${index === buffer.length - 1 ? '' : ';'}`;
+            codeStr += `Task${index}(void *parameter)\n{\nwhile (1)\n{\n${el}\nvTaskDelay(50);\n}\n}\n`;
+            taskStr += `\n{\r\n\t\t.Task_Name = "Task${index}",\r\n\t\t.Task_StackSize = 128,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = Task${index},\r\n},\n`;
         });
-
         let appRes = this.handleCode(codeStr);
         let taskRes = this.handleTask(headStr, taskStr);
 
