@@ -57,10 +57,8 @@ class Compile {
         let arr = readRes.split(';');
         let newStr = "\nTask_Info user_task[] = {" + taskStr + "\n}";
         let newArr = arr.reduce((pre, el) => {
-            if (headStr.indexOf(el.replace(/\\r\\n/, '')) == -1) {
-                if (el.search("Task_Info user_task") != -1) {
-                    el = newStr;
-                }
+            if (el.search("extern void Task") == -1) {
+                if (el.search("Task_Info user_task") != -1) el = newStr;
                 pre.push(el);
             }
             return pre;
