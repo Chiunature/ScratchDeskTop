@@ -79,8 +79,7 @@ class GUI extends React.Component {
         }
     }
     handleCompile(str) {
-        let cp = new Compile();
-        cp.sendToSerial();
+        new Compile().sendToSerial();
         this.props.onSetCompleted(true);
         this.props.onShowCompletedAlert("uploading");
     }

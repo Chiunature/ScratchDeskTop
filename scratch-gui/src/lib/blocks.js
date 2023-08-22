@@ -75,12 +75,12 @@ export default function (vm) {
             ['', '']
         ];
         if (vm.editingTarget && vm.editingTarget.sprite.sounds.length > 0) {
-            menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.name]);
+            menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.assetId]);
         }
-        menu.push([
-            ScratchBlocks.ScratchMsgs.translate('SOUND_RECORD', 'record...'),
-            ScratchBlocks.recordSoundCallback
-        ]);
+        // menu.push([
+        //     ScratchBlocks.ScratchMsgs.translate('SOUND_RECORD', 'record...'),
+        //     ScratchBlocks.recordSoundCallback
+        // ]);
         return menu;
     };
 

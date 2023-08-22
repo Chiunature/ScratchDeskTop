@@ -163,7 +163,6 @@ class Blocks extends React.Component {
     
     //解析任务
     parserTask(workspace, arr) {
-        let cp = new Compile();
         let list = workspace.getTopBlocks();
         let newArr = arr.filter(el => el!='');
         let i = 0 ,j = 0 , que = [], newList = [];
@@ -175,13 +174,11 @@ class Blocks extends React.Component {
                 newList[j] = que.shift();
             }else if(newList[j]) {
                 newList[j] += '\n' + que.shift();
-            }else {
-                newList.push(que.shift());
             }
 
             i++;
         }
-        if(newList.length > 0) cp.runGcc(newList);
+        if(newList.length > 0) new Compile().runGcc(newList);
     }
     
     shouldComponentUpdate(nextProps, nextState) {
