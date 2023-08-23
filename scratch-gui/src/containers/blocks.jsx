@@ -600,6 +600,8 @@ class Blocks extends React.Component {
             onRequestCloseCustomProcedures,
             toolboxXML,
             updateMetrics: updateMetricsProp,
+            getCode,
+            setCompileList,
             workspaceMetrics,
             ...props
         } = this.props;

@@ -105,12 +105,15 @@ class GUI extends React.Component {
             onStorageInit,
             onUpdateProjectId,
             onVmInit,
+            onSetCompleted,
+            onShowCompletedAlert,
             projectHost,
             projectId,
             /* eslint-enable no-unused-vars */
             children,
             fetchingProject,
             isLoading,
+            compileList,
             loadingStateVisible,
             ...componentProps
         } = this.props;
@@ -143,6 +146,8 @@ GUI.propTypes = {
     onStorageInit: PropTypes.func,
     onUpdateProjectId: PropTypes.func,
     onVmInit: PropTypes.func,
+    onSetCompleted: PropTypes.func,
+    onShowCompletedAlert: PropTypes.func,
     projectHost: PropTypes.string,
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     telemetryModalVisible: PropTypes.bool,
