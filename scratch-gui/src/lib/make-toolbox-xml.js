@@ -322,16 +322,12 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
     secondaryColour="${colors.tertiary}">
         <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
             <value name="SOUND_MENU">
-                <shadow type="sound_sounds_menu">
-                    <field name="SOUND_MENU">${soundName}</field>
-                </shadow>
+                <shadow type="sound_sounds_menu"></shadow>
             </value>
         </block>
         <block id="${targetId}_sound_play" type="sound_play">
             <value name="SOUND_MENU">
-                <shadow type="sound_sounds_menu">
-                    <field name="SOUND_MENU">${soundName}</field>
-                </shadow>
+                <shadow type="sound_sounds_menu"></shadow>
             </value>
         </block>
         <block type="sound_stopallsounds"/>
