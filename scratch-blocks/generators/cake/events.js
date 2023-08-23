@@ -155,7 +155,7 @@ Blockly.cake['event_checkcolor'] = function (block) {
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = `int checkColor = ${cr.replace(/\'/g, '')};\nevent_checkcolor(${dropdown_port}, checkColor);\n`;
+    let code = `int checkColor = ${cr.replace(/\'/g, '')};\nevent_checkcolor('${dropdown_port}', checkColor);\n`;
     return code;
 };
 
@@ -163,7 +163,7 @@ Blockly.cake['event_keyjudement'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = `event_keyjudement(${dropdown_port}, ${status});\n`;
+    let code = `event_keyjudement('${dropdown_port}', ${status});\n`;
     return code;
 };
 

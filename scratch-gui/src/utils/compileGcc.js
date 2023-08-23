@@ -22,15 +22,6 @@ class Compile {
         }
     }
 
-    executeFunction(fn, ...args) {
-        try {
-            let result = fn.apply(this, args);
-            eventEmitter.emit('success', result);
-        } catch (error) {
-            eventEmitter.emit('error', error);
-        }
-    }
-
     //执行cmd命令
     processCMD(commend) {
         if (currentProcess) currentProcess.kill();
@@ -46,8 +37,9 @@ class Compile {
     compile() {
         this.processCMD(cmd).then(res => {
             startSend = true;
+            eventEmitter.emit('success');
         }).catch(error => {
-            handlerError(error);
+            eventEmitter.emit('error', error);
         });
     }
 
@@ -96,7 +88,7 @@ class Compile {
         let taskRes = this.handleTask(headStr, taskStr);
 
         //编译
-        if (appRes && taskRes) this.executeFunction(this.compile);
+        if (appRes && taskRes) this.compile();
     }
 
     sendToSerial() {
