@@ -134,6 +134,7 @@ const GUIComponent = (props) => {
         targetIsStage,
         telemetryModalVisible,
         tipsLibraryVisible,
+        extensionLibraryContent,
         vm,
         isGen,
         code,
@@ -378,6 +379,7 @@ const GUIComponent = (props) => {
                                                     onClick={
                                                         onExtensionButtonClick
                                                     }
+                                                    disabled={extensionLibraryContent.length > 0 ? false : true}
                                                 >
                                                     <img
                                                         className={

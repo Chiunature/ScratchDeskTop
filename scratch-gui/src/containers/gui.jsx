@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import VM from "scratch-vm";
 import { injectIntl, intlShape } from "react-intl";
-
+import extensionLibraryContent from '../lib/libraries/extensions/index.jsx';
 import ErrorBoundaryHOC from "../lib/error-boundary-hoc.jsx";
 import { getIsError, getIsShowingProject } from "../reducers/project-state";
 import {
@@ -119,6 +119,7 @@ class GUI extends React.Component {
         } = this.props;
         return (
             <GUIComponent
+                extensionLibraryContent={extensionLibraryContent}
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}

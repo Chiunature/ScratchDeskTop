@@ -462,6 +462,28 @@ const alerts = [
         level: AlertLevels.WARN,
         maxDisplaySecs: 1,
     },
+    {
+        alertId: "noExtensions",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "uploadTimeout"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="No additional extensions available"
+                description="No additional extensions currently available"
+                id="gui.alerts.noExtensions"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 1,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };
