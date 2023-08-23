@@ -518,5 +518,5 @@
   "gui.sharedMessages.replaceProjectWarning": "Replace contents of the current project?",
   "gui.sharedMessages.loadFromComputerTitle": "Load from your computer",
   "gui.gui.defaultProjectTitle": "Scratch Project",
-  "gui.alerts.workspaceEmpty": "Workspace is Empty"
+  "gui.alerts.workspaceEmpty": "Workspace is Empty or No starting event header"
 }

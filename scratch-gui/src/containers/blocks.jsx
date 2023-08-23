@@ -26,7 +26,7 @@ import { activateColorPicker } from '../reducers/color-picker';
 import { closeExtensionLibrary, openSoundRecorder, openConnectionModal } from '../reducers/modals';
 import { activateCustomProcedures, deactivateCustomProcedures } from '../reducers/custom-procedures';
 import { setConnectionModalExtensionId } from '../reducers/connection-modal';
-import { updateMetrics } from '../reducers/workspace-metrics';
+import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
 import Compile from "../utils/compileGcc.js";
 import {
     activateTab,
@@ -149,6 +149,7 @@ class Blocks extends React.Component {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
             this.props.getCode(code);
+            this.props.setWorkspace(this.workspace);
             let hasBlocks = this.workspace.getTopBlocks().length > 0;
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
@@ -602,6 +603,7 @@ class Blocks extends React.Component {
             updateMetrics: updateMetricsProp,
             getCode,
             setCompileList,
+            setWorkspace,
             workspaceMetrics,
             ...props
         } = this.props;
@@ -664,6 +666,7 @@ Blocks.propTypes = {
     onRequestCloseExtensionLibrary: PropTypes.func,
     getCode: PropTypes.func,
     setCompileList: PropTypes.func,
+    setWorkspace: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
         zoom: PropTypes.shape({
@@ -769,7 +772,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch(updateMetrics(metrics));
     },
     getCode: code => dispatch(getCode(code)),
-    setCompileList: compileList => dispatch(setCompileList(compileList))
+    setCompileList: compileList => dispatch(setCompileList(compileList)),
+    setWorkspace: workspace => dispatch(setWorkspace(workspace))
 });
 
 export default errorBoundaryHOC('Blocks')(

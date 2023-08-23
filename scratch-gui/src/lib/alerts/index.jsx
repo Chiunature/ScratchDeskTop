@@ -416,7 +416,7 @@ const alerts = [
             />
         ),
         level: AlertLevels.SUCCESS,
-        maxDisplaySecs: 1,
+        maxDisplaySecs: 3,
     },
     {
         alertId: "uploadTimeout",
@@ -454,13 +454,13 @@ const alerts = [
         ],
         content: (
             <FormattedMessage
-                defaultMessage="Workspace is Empty"
-                description="Workspace is Empty"
+                defaultMessage="Workspace is Empty or No starting event header"
+                description="Workspace is Emptyor No starting event header"
                 id="gui.alerts.workspaceEmpty"
             />
         ),
         level: AlertLevels.WARN,
-        maxDisplaySecs: 1,
+        maxDisplaySecs: 3,
     },
     {
         alertId: "noExtensions",
@@ -482,7 +482,7 @@ const alerts = [
             />
         ),
         level: AlertLevels.WARN,
-        maxDisplaySecs: 1,
+        maxDisplaySecs: 3,
     },
 ];
 

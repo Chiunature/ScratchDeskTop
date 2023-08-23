@@ -518,5 +518,5 @@
     "gui.sharedMessages.replaceProjectWarning": "是否取代現有專案？",
     "gui.sharedMessages.loadFromComputerTitle": "從你的電腦挑選",
     "gui.gui.defaultProjectTitle": "Scratch 專案",
-    "gui.alerts.workspaceEmpty": "工作區不能為空"
+    "gui.alerts.workspaceEmpty": "工作區為空或無起始事件頭"
 }
