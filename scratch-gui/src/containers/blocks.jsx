@@ -32,7 +32,7 @@ import {
     activateTab,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-import { getCode } from '../reducers/mode';
+import { getCode, setCompileList} from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
 
@@ -154,7 +154,9 @@ class Blocks extends React.Component {
             let match = pattern.exec(code);
             clearTimeout(timerId);
             if(hasBlocks && match[2] !== '\n\n' && (type == 'move' || type == 'change' || type == 'delete')) {
-                timerId = setTimeout(() => this.parserTask(this.workspace, match[2].split("\n\n")), 5000);
+                let arr = match[2].split("\n\n");
+                this.props.setCompileList(arr);
+                timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
             }
         } catch (e) {
             handlerError(code);
@@ -659,6 +661,7 @@ Blocks.propTypes = {
     onRequestCloseCustomProcedures: PropTypes.func,
     onRequestCloseExtensionLibrary: PropTypes.func,
     getCode: PropTypes.func,
+    setCompileList: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
         zoom: PropTypes.shape({
@@ -764,6 +767,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(updateMetrics(metrics));
     },
     getCode: code => dispatch(getCode(code)),
+    setCompileList: compileList => dispatch(setCompileList(compileList))
 });
 
 export default errorBoundaryHOC('Blocks')(

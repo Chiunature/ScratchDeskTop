@@ -3,6 +3,7 @@ const SET_PLAYER = 'scratch-gui/mode/SET_PLAYER';
 const SET_GEN = 'scratch-gui/mode/SET_GEN';
 const GET_CODE = 'scratch-gui/mode/GET_CODE';
 const SET_ISCOMPLETE = 'scratch-gui/mode/SET_ISCOMPLETE';
+const SET_COMPILELIST = 'scratch-gui/mode/SET_COMPILELIST'
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -10,7 +11,8 @@ const initialState = {
     hasEverEnteredEditor: true,
     isGen: false,
     code: "",
-    isComplete: false
+    isComplete: false,
+    compileList: []
 };
 
 const reducer = function (state, action) {
@@ -36,6 +38,10 @@ const reducer = function (state, action) {
         case SET_ISCOMPLETE:
             return Object.assign({}, state, {
                 isComplete: action.isComplete
+            });
+        case SET_COMPILELIST:
+            return Object.assign({}, state, {
+                compileList: action.compileList
             });
         default:
             return state;
@@ -66,7 +72,12 @@ const getCode = function (code) {
         code: code
     }
 };
-
+const setCompileList = function (compileList) {
+    return {
+        type: SET_COMPILELIST,
+        compileList: compileList
+    }
+};
 const setIsComplete = function (isComplete) {
     return {
         type: SET_ISCOMPLETE,
@@ -80,5 +91,6 @@ export {
     setPlayer,
     setGen,
     getCode,
-    setIsComplete
+    setIsComplete,
+    setCompileList
 };

@@ -50,6 +50,7 @@ class Serialport {
     //连接串口
     linkToSerial(serial, event, sign) {
         this.serial = serial;
+        event.reply("open", { res: true, msg: "successfullyConnected" });
         this.sendToSerial();
         this.listenError();
         this.disconnectSerial();

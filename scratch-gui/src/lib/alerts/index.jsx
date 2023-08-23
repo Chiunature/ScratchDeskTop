@@ -440,6 +440,28 @@ const alerts = [
         level: AlertLevels.WARN,
         maxDisplaySecs: 1,
     },
+    {
+        alertId: "workspaceEmpty",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "uploadTimeout"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Workspace is Empty"
+                description="Workspace is Empty"
+                id="gui.alerts.workspaceEmpty"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 1,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

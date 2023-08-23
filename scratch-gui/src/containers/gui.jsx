@@ -79,9 +79,13 @@ class GUI extends React.Component {
         }
     }
     handleCompile(str) {
-        new Compile().sendToSerial();
-        this.props.onSetCompleted(true);
-        this.props.onShowCompletedAlert("uploading");
+        if(this.props.compileList.length === 0) {
+            this.props.onShowCompletedAlert("workspaceEmpty");
+        }else {
+            new Compile().sendToSerial();
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+        }
     }
     render() {
         if (this.props.isError) {
@@ -188,7 +192,8 @@ const mapStateToProps = (state) => {
         isGen: state.scratchGui.mode.isGen,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         completed: state.scratchGui.connectionModal.completed,
-        isComplete: state.scratchGui.mode.isComplete
+        isComplete: state.scratchGui.mode.isComplete,
+        compileList: state.scratchGui.mode.compileList
     };
 };
 
