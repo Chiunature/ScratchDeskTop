@@ -166,6 +166,20 @@ const GUIComponent = (props) => {
         isRendererSupported = Renderer.isSupported();
     }
 
+    const codeEditorOptions = {
+        wordWrap: "on", //是否自动换行
+        readOnly: true, //是否只读
+        folding: true, // 是否折叠
+        foldingHighlight: true, // 折叠等高线
+        disableLayerHinting: true, // 等宽优化
+        emptySelectionClipboard: false, // 空选择剪切板
+        selectionClipboard: false, // 选择剪切板
+        automaticLayout: true, // 自动布局
+        minimap: {
+            enabled: true //开启小地图
+        }
+    }
+
     return (
         <MediaQuery minWidth={layout.fullSizeMinWidth}>
             {(isFullSize) => {
@@ -417,7 +431,7 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    <Generator code={code} isGen={isGen}/>
+                                    <Generator code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions= {codeEditorOptions} codeEditorTheme="vs"/>
                                             {/* <StageWrapper
                                         isFullScreen={isFullScreen}
                                         isRendererSupported={isRendererSupported}

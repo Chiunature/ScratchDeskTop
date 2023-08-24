@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 // PostCss
 var autoprefixer = require('autoprefixer');
@@ -13,6 +14,7 @@ var postcssVars = require('postcss-simple-vars');
 var postcssImport = require('postcss-import');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
+const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -28,7 +30,7 @@ const base = {
         chunkFilename: 'chunks/[name].js'
     },
     resolve: {
-        symlinks: false
+        symlinks: false,
     },
     module: {
         rules: [{
@@ -56,6 +58,7 @@ const base = {
         },
         {
             test: /\.css$/,
+            exclude: MONACO_DIR,
             use: [{
                 loader: 'style-loader'
             }, {
@@ -79,6 +82,15 @@ const base = {
                     }
                 }
             }]
+        },
+        {
+            test: /\.ttf$/,
+            use: ["file-loader"]
+        },
+        {
+            test: /\.css$/,
+            include: MONACO_DIR,
+            use: ['style-loader', 'css-loader']
         }]
     },
     optimization: {
@@ -88,7 +100,12 @@ const base = {
             })
         ]
     },
-    plugins: []
+    plugins: [
+        new MonacoWebpackPlugin({
+            languages: ['c', 'cpp', 'python', 'lua', 'javascript'],
+            features: ['!gotoSymbol']
+        })
+    ]
 };
 
 if (!process.env.CI) {
