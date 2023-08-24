@@ -23,8 +23,22 @@ Blockly.cake['sensing_color_detection'] = function (block) {
 Blockly.cake['sensing_color_detectionRGB'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let color = block.getFieldValue('color');
+    let rgb;
+    switch (color) {
+        case "red":
+            rgb = '0xFF0000'
+            break;
+        case "green":
+            rgb = '0x00FF00'
+            break;
+        case "blue":
+            rgb = '0x0000FF'
+            break;
+        default:
+            break;
+    }
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_detectionRGB("${dropdown_port}", "${color}")`;
+    let code = `Sensing_color_detectionRGB("${dropdown_port}", ${rgb.replace(/\'/g, '')})`;
     return code;
 };
 

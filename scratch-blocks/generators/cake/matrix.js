@@ -51,7 +51,7 @@ Blockly.cake['matrix_lamp_stop'] = function (block) {
 Blockly.cake['matrix_lamp_set'] = function (block) {
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_set_lamp("${brightness}");\n`;
+    let code = `matrix_set_lamp('${brightness}');\n`;
     return code;
 };
 
@@ -60,7 +60,7 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
     let y = block.getFieldValue('y');
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_single_lamp(${x}, ${y}, ${brightness});\n`;
+    let code = `matrix_single_lamp('${x}', '${y}', '${brightness}');\n`;
     return code;
 };
 
