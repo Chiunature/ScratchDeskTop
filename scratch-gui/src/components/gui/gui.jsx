@@ -234,7 +234,7 @@ const GUIComponent = (props) => {
                                     <ButtonComponent
                                         className={classNames(styles.uploadBtn)}
                                         iconSrc={completed ? loadIcon : uploadIcon}
-                                        onClick={() => handleCompile(code)}
+                                        onClick={() => handleCompile()}
                                         disabled={completed}
                                     >
                                         <Cirle completed={completed}/>

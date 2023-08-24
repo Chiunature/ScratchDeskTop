@@ -34,12 +34,13 @@ class Compile {
     }
 
     //编译
-    compile() {
+    compile(isUpload) {
         this.processCMD(cmd).then(res => {
             startSend = true;
             eventEmitter.emit('success');
         }).catch(error => {
-            eventEmitter.emit('error', error);
+            handlerError(error);
+            if (isUpload) window.electron.ipcRenderer.send("transmission-error");
         });
     }
 
@@ -76,7 +77,7 @@ class Compile {
     }
 
     //运行编译器参数是传入的C语言代码
-    runGcc(buffer, flag = false) {
+    runGcc(buffer, isUpload = false, flag = false) {
         startSend = flag;
         let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
@@ -88,7 +89,7 @@ class Compile {
         let taskRes = this.handleTask(headStr, taskStr);
 
         //编译
-        if (appRes && taskRes) this.compile();
+        if (appRes && taskRes) this.compile(isUpload);
     }
 
     sendToSerial() {
@@ -100,10 +101,5 @@ class Compile {
     }
 }
 
-//全局监听错误信息
-eventEmitter.on('error', (res) => {
-    handlerError(res);
-    window.electron.ipcRenderer.send("transmission-error");
-});
 
 export default Compile;

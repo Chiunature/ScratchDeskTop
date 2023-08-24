@@ -78,12 +78,12 @@ class GUI extends React.Component {
             this.props.onProjectLoaded();
         }
     }
-    handleCompile(str) {
+    handleCompile() {
         let list = this.props.workspace.getTopBlocks();
-        let flag = list.some(el => el.startHat_);
-        if(this.props.compileList.length === 0 || !flag) {
+        let hasStart = list.some(el => el.startHat_);
+        if(this.props.compileList.length === 0 || !hasStart) {
             this.props.onShowCompletedAlert("workspaceEmpty");
-        }else if(flag) {
+        }else if(hasStart) {
             new Compile().sendToSerial();
             this.props.onSetCompleted(true);
             this.props.onShowCompletedAlert("uploading");

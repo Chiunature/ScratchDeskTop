@@ -181,7 +181,7 @@ class Blocks extends React.Component {
 
             i++;
         }
-        if(newList.length > 0) new Compile().runGcc(newList);
+        if(newList.length > 0) new Compile().runGcc(newList,this.props.completed);
     }
     
     shouldComponentUpdate(nextProps, nextState) {
@@ -745,7 +745,8 @@ const mapStateToProps = state => ({
     messages: state.locales.messages,
     toolboxXML: state.scratchGui.toolbox.toolboxXML,
     customProceduresVisible: state.scratchGui.customProcedures.active,
-    workspaceMetrics: state.scratchGui.workspaceMetrics
+    workspaceMetrics: state.scratchGui.workspaceMetrics,
+    completed: state.scratchGui.mode.completed,
 });
 
 const mapDispatchToProps = dispatch => ({
