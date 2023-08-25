@@ -248,16 +248,15 @@ const GUIComponent = (props) => {
                                     <ButtonComponent
                                         className={classNames(styles.uploadBtn)}
                                         iconSrc={completed ? loadIcon : uploadIcon}
-                                        onClick={() => handleCompile()}
-                                        disabled={completed}
                                     >
                                         <Cirle completed={completed}/>
                                     </ButtonComponent>
-                                    {isComplete ? <ButtonComponent
-                                        className={classNames(styles.yesBtn, isComplete ? styles.yesBtnSpin : '')}
+                                    <ButtonComponent
+                                        className={classNames(styles.yesBtn, isComplete ?  '': styles.yesBtnSpin)}
                                         iconSrc={yesIcon}
-                                        disabled={true}
-                                    />:<></>}
+                                        onClick={() => handleCompile()}
+                                        disabled={completed}
+                                    />
                                 </div>
                             </div>
                         ) : null}

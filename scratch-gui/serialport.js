@@ -20,12 +20,12 @@ const { ipcMain } = require("electron");
 const { spawn } = require("child_process");
 
 class Serialport {
-    port;
-    parser;
-    chunkBuffer = [];
-    chunkIndex = 0;
-    sign;
-    receiveData;
+    // port;
+    // parser;
+    // chunkBuffer = [];
+    // chunkIndex = 0;
+    // sign;
+    // receiveData;
     timeOutTimer;
     serial;
     //获取串口列表
@@ -41,24 +41,24 @@ class Serialport {
     }
 
     //断开连接
-    disconnectSerial() {
+    /* disconnectSerial() {
         ipcMain.on("disconnected", (event, arg) => {
             if (arg) event.reply("closed", "disconnect");
         });
-    }
+    } */
 
     //连接串口
     linkToSerial(serial, event, sign) {
+        const eventList = ipcMain.eventNames();
         this.serial = serial;
         event.reply("open", { res: true, msg: "successfullyConnected" });
-        this.sendToSerial();
-        this.listenError();
-        this.disconnectSerial();
+        this.sendToSerial(eventList, "writeData");
+        this.listenError(eventList, "transmission-error");
     }
 
     //侦听编译时的错误处理
-    listenError() {
-        ipcMain.on("transmission-error", (event) => event.reply("completed", { result: false, msg: "uploadError" }));
+    listenError(eventList, eventName) {
+        if (!eventList.includes(eventName)) ipcMain.on(eventName, (event) => event.reply("completed", { result: false, msg: "uploadError" }));
     }
 
     //侦听串口关闭
@@ -116,25 +116,13 @@ class Serialport {
         });
     }
 
-    //防抖防止重复发送数据
-    debounce(func, delay) {
-        let timerId;
-        return function (...args) {
-            clearTimeout(timerId);
-            timerId = setTimeout(() => {
-                func.apply(this, args);
-            }, delay);
-        };
-    }
-
     //向串口发送数据
-    sendToSerial() {
-        ipcMain.on("writeData", (event) => this.debounce(this.startUpload(event), 100));
+    sendToSerial(eventList, eventName) {
+        if (!eventList.includes(eventName)) ipcMain.on(eventName, (event) => this.startUpload(event));
     }
 
     //对接收数据的错误处理
     handleReadError(event) {
-        // this.clearSerialPortBuffer();
         event.reply("completed", { result: false, msg: "uploadError" });
     }
 

@@ -746,7 +746,7 @@ const mapStateToProps = state => ({
     toolboxXML: state.scratchGui.toolbox.toolboxXML,
     customProceduresVisible: state.scratchGui.customProcedures.active,
     workspaceMetrics: state.scratchGui.workspaceMetrics,
-    completed: state.scratchGui.mode.completed,
+    completed: state.scratchGui.connectionModal.completed,
 });
 
 const mapDispatchToProps = dispatch => ({

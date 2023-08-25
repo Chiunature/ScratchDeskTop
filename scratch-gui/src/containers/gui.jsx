@@ -57,7 +57,7 @@ class GUI extends React.Component {
                         setTimeout(() => {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
-                        }, 1000);
+                        }, 3000);
                     }else {
                         this.props.onSetCompleted(false);
                     }
@@ -84,7 +84,7 @@ class GUI extends React.Component {
         if(this.props.compileList.length === 0 || !hasStart) {
             this.props.onShowCompletedAlert("workspaceEmpty");
         }else if(hasStart) {
-            new Compile().sendToSerial();
+            new Compile().sendSerial();
             this.props.onSetCompleted(true);
             this.props.onShowCompletedAlert("uploading");
         }

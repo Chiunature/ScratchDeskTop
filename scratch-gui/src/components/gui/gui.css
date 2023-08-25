@@ -360,9 +360,12 @@ $fade-out-distance: 15px;
         opacity: 1;
     }
 
+    75% {
+        opacity: 0;
+    }
+
     100% {
         display: none;
-        opacity: 0;
     }
 }
 
@@ -374,9 +377,10 @@ $fade-out-distance: 15px;
     position: absolute;
     left: 0;
     top: 0;
+    opacity: 1;
     /* transform: rotateY(-180deg);
     backface-visibility: hidden; */
-    /* transition: 0.5s ease-in-out; */
+    transition: 3s ease-in-out;
 }
 
 .upload-btn-spin {
@@ -384,8 +388,8 @@ $fade-out-distance: 15px;
 }
 
 .yes-btn-spin {
+    opacity: 0;
     /* transform: rotateY(-360deg); */
-    animation: hiding 1s ease-in-out;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    /* animation: hiding 1s linear; */
+    /* animation-iteration-count: 1; */
 }

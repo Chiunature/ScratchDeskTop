@@ -39,6 +39,7 @@ class Compile {
             startSend = true;
             eventEmitter.emit('success');
         }).catch(error => {
+            startSend = true;
             handlerError(error);
             if (isUpload) window.electron.ipcRenderer.send("transmission-error");
         });
@@ -92,7 +93,7 @@ class Compile {
         if (appRes && taskRes) this.compile(isUpload);
     }
 
-    sendToSerial() {
+    sendSerial() {
         if (!startSend) {
             eventEmitter.on('success', () => window.electron.ipcRenderer.send("writeData"));
         } else {
