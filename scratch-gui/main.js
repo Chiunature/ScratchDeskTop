@@ -16,8 +16,8 @@ let mainWindow, loadingWindow;
 function showLoading() {
     return new Promise((resolve, reject) => {
         loadingWindow = new BrowserWindow({
-            width: 640,
-            height: 440,
+            width: 840,
+            height: 540,
             frame: false,
             transparent: true
         });

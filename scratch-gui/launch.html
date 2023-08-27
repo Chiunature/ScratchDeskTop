@@ -18,63 +18,9 @@
             color: white;
         }
 
-        .logo {
-            position: absolute;
-            top: 0;
-            left: 50px;
-            color: white;
-        }
-
-        .logo:nth-child(3) {
-            top: 50px;
-        }
-
         h2 {
             text-align: center;
             line-height: 200px;
-        }
-
-        .c1,
-        .c2 {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-        }
-
-        .c1 {
-            width: 134px;
-            height: 134px;
-            margin: -67px 0 0 -67px;
-            background: url("./static/c1.png") no-repeat center;
-            animation: c1 8s linear infinite;
-        }
-
-        .c2 {
-            width: 84px;
-            height: 84px;
-            margin: -110px 0 0 50px;
-            background: url("./static/c2.png") no-repeat center;
-            animation: c2 5s linear infinite;
-        }
-
-        @keyframes c1 {
-            0% {
-                transform: rotate(0);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes c2 {
-            0% {
-                transform: rotate(0);
-            }
-
-            100% {
-                transform: rotate(-360deg);
-            }
         }
 
         .launch-box .loading {
@@ -85,13 +31,14 @@
             text-align: center;
             position: absolute;
             left: 50%;
-            bottom: 50px;
+            bottom: 15px;
             margin-left: -60px;
         }
 
         .launch-box {
             position: relative;
-            background: rgba(0, 116, 217, 1);
+            background: url(./static/est.png) no-repeat;
+            background-size: cover;
         }
 
         .version {
@@ -104,10 +51,10 @@
 
         .progress-bar {
             position: absolute;
-            height: 5px;
+            height: 7px;
             left: 0;
             width: 0;
-            bottom: 30px;
+            bottom: 0;
             background-color: white;
         }
     </style>
@@ -115,14 +62,10 @@
 
 <body>
     <div class="launch-box">
-        <div class="c1"></div>
-        <div class="c2"></div>
         <div class="loading">loading <span id="percent">0%</span></div>
         <div class="progress-bar" id="processBar"></div>
-        <span class="version" id="version"></span>
     </div>
-    <h1 class="logo">Dr.luck</h1>
-    <h1 class="logo">乐博士</h1>
+
     <script>
         let processBar = document.getElementById('processBar');
         let percent = document.getElementById('percent');

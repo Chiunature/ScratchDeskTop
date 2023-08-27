@@ -50,10 +50,10 @@ const blockColors = {
         "quaternary": "#be637f"
     },
     sensing: {
-        "primary": "#f18e2f",
-        "secondary": "#f18e2f",
-        "tertiary": "#d67214",
-        "quaternary": "#d67214"
+        "primary": "#ecc0ab",
+        "secondary": "#eca888",
+        "tertiary": "#eca888",
+        "quaternary": "#eca888"
     },
     pen: {
         "primary": "#0fBD8C",
@@ -68,18 +68,18 @@ const blockColors = {
         "quaternary": "#e49e2f"
     },
     data: {
-        "primary": "#dac461",
-        "secondary": "#FF8000",
-        "tertiary": "#c29e00",
-        "quaternary": "#c29e00"
+        "primary": "#a5c9e9",
+        "secondary": "#84ace9",
+        "tertiary": "#84ace9",
+        "quaternary": "#84ace9"
     },
     // This is not a new category, but rather for differentiation
     // between lists and scalar variables.
     data_lists: {
-        "primary": "#dac461",
-        "secondary": "#FF5500",
-        "tertiary": "#c29e00",
-        "quaternary": "#c29e00"
+        "primary": "#a5c9e9",
+        "secondary": "#84ace9",
+        "tertiary": "#84ace9",
+        "quaternary": "#84ace9"
     },
     more: {
         "primary": "#82be97",
