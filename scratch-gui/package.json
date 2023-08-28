@@ -19,7 +19,7 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "electron:build": "electron-builder --win --x64"
+        "electron:build": "electron-builder"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -156,16 +156,24 @@
         }
     },
     "build": {
-        "productName": "drluck",
-        "appId": "com.drluck.eletest",
-        "copyright": "cd©20211209",
+        "productName": "EST3.0",
+        "appId": "com.est3.eletest",
+        "copyright": "cd©20230828",
         "directories": {
             "buildResources": "./",
             "output": "pack"
         },
+        "extraFiles": [
+            {
+              "from": "gcc-arm-none-eabi",
+              "to": "./gcc-arm-none-eabi"
+            }
+        ],
         "files": [
             "build/**/*",
             "node_modules/**/*",
+            "static/**/*",
+            "src/utils/**/*",
             "main.js",
             "preload.js",
             "serialport.js",
@@ -175,23 +183,18 @@
             "oneClick": false,
             "allowElevation": true,
             "allowToChangeInstallationDirectory": true,
-            "installerIcon": "./drluck.jpg",
-            "uninstallerIcon": "./drluck.jpg",
-            "installerHeaderIcon": "./drluck.jpg",
+            "installerIcon": "./favicon.ico",
+            "uninstallerIcon": "./favicon.ico",
+            "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "perMachine": true,
-            "shortcutName": "drluck"
+            "shortcutName": "EST3.0",
+            "runAfterFinish": false
         },
         "win": {
-            "icon": "./drluck.jpg",
+            "icon": "./favicon.ico",
             "target": [
-                {
-                    "target": "nsis",
-                    "arch": [
-                        "ia32"
-                    ]
-                }
+                "nsis"
             ]
         }
     }

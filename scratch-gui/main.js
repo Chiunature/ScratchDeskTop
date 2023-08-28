@@ -9,7 +9,7 @@
 const { app, BrowserWindow, dialog, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
-const Serialport = require(path.join(__dirname, "serialport.js"));
+const Serialport = require(path.join(__dirname, "src/utils/serialport.js"));
 
 let mainWindow, loadingWindow;
 
