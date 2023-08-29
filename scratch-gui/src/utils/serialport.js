@@ -75,29 +75,27 @@ class Serialport {
     } */
 
     //检测是否超时
-    /* checkOverTime(event) {
+    checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
             event.reply("completed", { result: false, msg: "uploadTimeout" });
             this.clearSerialPortBuffer();
-        }, 3000);
-    } */
+        }, 5000);
+    }
 
 
     //清除缓存
-    /* clearSerialPortBuffer() {
-        if (this.port && this.port.isOpen) this.port.flush();
-        this.sign = null;
-        this.chunkIndex = 0;
+    clearSerialPortBuffer() {
         this.serial = null;
         this.timeOutTimer = null;
-    } */
+    }
 
     //开始上传
     startUpload(event) {
+        this.checkOverTime(event);
         let dir = `./gcc-arm-none-eabi/bin/LB_USER`;
         let workerProcess = spawn("SerialDownload", [this.serial.path], { cwd: dir });
         workerProcess.stdout.on('data', function (data) {
-            console.log('stdout: ' + data);
+            // console.log('stdout: ' + data);
             clearTimeout(this.timeOutTimer);
             this.timeOutTimer = setTimeout(() => {
                 event.reply("completed", { result: true, msg: "uploadSuccess" });

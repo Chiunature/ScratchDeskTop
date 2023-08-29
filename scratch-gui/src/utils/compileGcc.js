@@ -18,6 +18,7 @@ class Compile {
             fs.writeFileSync(path, buffer);
             return true;
         } catch (error) {
+            handlerError(error);
             return false;
         }
     }
