@@ -56,7 +56,7 @@ CodeEditorComponent.propTypes = {
         })
     }),
     height: PropTypes.number,
-    width: PropTypes.number.isRequired,
+    width: PropTypes.number,
     onChange: PropTypes.func,
     editorWillMount: PropTypes.func,
     editorDidMount: PropTypes.func,

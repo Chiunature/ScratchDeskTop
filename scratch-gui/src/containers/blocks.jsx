@@ -160,7 +160,7 @@ class Blocks extends React.Component {
                 timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
             }
         } catch (e) {
-            handlerError(code);
+            handlerError(e + '\n' + code);
         }
     }
     
@@ -605,6 +605,7 @@ class Blocks extends React.Component {
             setCompileList,
             setWorkspace,
             workspaceMetrics,
+            completed,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -697,7 +698,8 @@ Blocks.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     workspaceMetrics: PropTypes.shape({
         targets: PropTypes.objectOf(PropTypes.object)
-    })
+    }),
+    completed: PropTypes.bool
 };
 
 Blocks.defaultOptions = {

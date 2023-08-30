@@ -95,7 +95,7 @@ Blockly.cake.ORDER_NONE = 99;          // (...)
  * @type ?string
  */
 Blockly.cake.INFINITE_LOOP_TRAP = null;
-Blockly.cake.INDENT = '';
+Blockly.cake.INDENT = '  ';
 Blockly.cake.firstLoop = true;
 /**
  * Initialize the database of variable names.
