@@ -105,7 +105,12 @@ Blockly.cake['control_if_else'] = function (block) {
 Blockly.cake['control_wait_until'] = function (block) {
   var argument = Blockly.cake.valueToCode(block, 'CONDITION',
     Blockly.cake.ORDER_UNARY_POSTFIX) || 'False';
+
+  var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
+  branch = Blockly.cake.addLoopTrap(branch, block.id);
+
   var code = "while (" + argument + ") {\n";
+  code += branch;
   code += Blockly.cake.INDENT + "}\n";
   return code;
 };
