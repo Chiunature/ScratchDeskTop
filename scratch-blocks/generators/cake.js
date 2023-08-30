@@ -283,3 +283,15 @@ Blockly.cake.charToHexArray = function (char) {
 
   return hexArray;
 }
+
+Blockly.cake.isVal = function (val) {
+  let newArg;
+  if (val.indexOf('int') == -1 && typeof val !== 'string') {
+    newArg = val;
+  } else if (val.indexOf('int') == -1 && typeof val === 'string') {
+    newArg = val;
+  } else {
+    newArg = val.split('int ')[1];
+  }
+  return newArg;
+}

@@ -167,7 +167,7 @@ const GUIComponent = (props) => {
     }
 
     const codeEditorOptions = {
-        wordWrap: "on", //是否自动换行
+        wordWrap: "off", //是否自动换行
         readOnly: true, //是否只读
         folding: true, // 是否折叠
         foldingHighlight: true, // 折叠等高线
