@@ -6,12 +6,32 @@
  * @LastEditTime: 2023-06-06 18:30:58
  * 
  */
-const { app, BrowserWindow, dialog, Menu } = require("electron");
+const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 const Serialport = require(path.join(__dirname, "src/utils/serialport.js"));
 
-let mainWindow, loadingWindow;
+let mainWindow, loadingWindow, progressInterval;
+
+const options = {
+    nativeWindowOpen: true,
+    nodeIntegration: true,
+    contextIsolation: false,
+    javascript: true,
+    plugins: true,
+    webSecurity: false,
+    preload: path.join(__dirname, "preload.js"),
+}
+
+function progress() {
+    let c = 0;
+    progressInterval = setInterval(() => {
+        c++;
+        loadingWindow.setProgressBar(c);
+        loadingWindow.webContents.send("progress", c);
+        if (c == 100) clearInterval(progressInterval);
+    }, 20);
+}
 
 function showLoading() {
     return new Promise((resolve, reject) => {
@@ -19,10 +39,12 @@ function showLoading() {
             width: 840,
             height: 540,
             frame: false,
-            transparent: true
+            transparent: true,
+            webPreferences: options,
         });
         loadingWindow.loadFile(path.join(__dirname, "launch.html"));
-        loadingWindow.show()
+        loadingWindow.show();
+        progress();
         resolve();
     });
 };
@@ -33,15 +55,7 @@ function createWindow() {
             width: 1430,
             height: 800,
             show: false,
-            webPreferences: {
-                nativeWindowOpen: true,
-                nodeIntegration: true,
-                contextIsolation: false,
-                javascript: true,
-                plugins: true,
-                webSecurity: false,
-                preload: path.join(__dirname, "preload.js"),
-            },
+            webPreferences: options,
         });
         let sp = new Serialport();
         //关闭默认菜单
@@ -68,10 +82,16 @@ function createWindow() {
         //连接串口
         sp.connectSerial();
 
+        //点击logo打开官网
+        ipcMain.on('open-url', (event, url) => {
+            shell.openExternal(url);
+        });
+
         mainWindow.once("ready-to-show", () => {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
+            clearInterval(progressInterval);
         });
 
         // 关闭window时触发下列事件.

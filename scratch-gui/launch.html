@@ -70,12 +70,10 @@
         let processBar = document.getElementById('processBar');
         let percent = document.getElementById('percent');
         let progress = 0;
-        let t = setInterval(() => {
-            progress++;
+        window.electron.ipcRenderer.on('progress', (event, progress) => {
             processBar.style.width = progress + '%';
             percent.innerHTML = Math.floor(progress) + '%';
-            if (progress == 100) clearInterval(t);
-        }, 20);
+        });
     </script>
 </body>
 
