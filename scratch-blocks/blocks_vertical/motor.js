@@ -310,10 +310,6 @@ Blockly.Blocks['motor_specifiedangle'] = {
                     "name": "SPIN",
                     "options": [
                         [
-                            Blockly.Msg.PATH,
-                            "path"
-                        ],
-                        [
                             Blockly.Msg.CLOCKWISE,
                             "clockwise"
                         ],

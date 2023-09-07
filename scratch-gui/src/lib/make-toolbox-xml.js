@@ -749,7 +749,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="motor_relative_position"></block>
         <block type="motor_specified_manner"></block>
         <block type="motor_rate"></block>
-        <block type="motor_angle"></block>
         `
         }
     </category>
