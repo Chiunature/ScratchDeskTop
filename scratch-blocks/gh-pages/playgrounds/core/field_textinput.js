@@ -176,7 +176,7 @@ Blockly.FieldTextInput.prototype.setText = function(newText) {
     const pattern = /[\u4e00-\u9fff]+/g;
     const matches = newText.match(pattern);
     if(matches !== null) {
-      newText = '';
+      newText = null;
       return;
     }
   }

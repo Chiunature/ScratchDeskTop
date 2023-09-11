@@ -370,9 +370,9 @@ Blockly.Blocks['motor_relative_position'] = {
                     ]
                 },
                 {
-                    "type": "field_input",
+                    "type": "field_number",
                     "name": "position",
-                    "text": "0"
+                    "value": 0
                 }
             ],
             "category": Blockly.Categories.motor,
