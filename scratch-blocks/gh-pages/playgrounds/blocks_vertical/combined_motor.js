@@ -7,25 +7,6 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
-Blockly.Blocks['dynamic_dropdown'] = {
-    init: function() {
-      var input = this.appendDummyInput()
-        .appendField('day')
-        .appendField(new Blockly.FieldDropdown(
-          this.generateOptions), 'DAY');
-    },
-  
-    generateOptions: function() {
-      var options = [];
-      var now = Date.now();
-      for(var i = 0; i < 7; i++) {
-        var dateString = String(new Date(now)).substring(0, 3);
-        options.push([dateString, dateString.toUpperCase()]);
-        now += 24 * 60 * 60 * 1000;
-      }
-      return options;
-    }
-  };
 
 Blockly.Blocks['combined_motorOne_menu'] = {
     /**
@@ -39,16 +20,15 @@ Blockly.Blocks['combined_motorOne_menu'] = {
           {
             "type": "field_dropdown",
             "name": "COMBINED_MOTORONE_MENU",
-            "options": function() {
-                    var options = [];
-                    var now = Date.now();
-                    for(var i = 0; i < 7; i++) {
-                        var dateString = String(new Date(now)).substring(0, 3);
-                        options.push([dateString, dateString.toUpperCase()]);
-                        now += 24 * 60 * 60 * 1000;
-                    }
-                    return options;
-              }
+            "options": [
+                ["A", "A"],
+                ["C", "C"],
+                ["D", "D"], 
+                ["E", "E"], 
+                ["F", "F"], 
+                ["G", "G"], 
+                ["H", "H"]
+            ]
           }
         ],
         "colour": Blockly.Colours.combined_motor.secondary,
@@ -72,7 +52,6 @@ Blockly.Blocks['combined_motorOne_menu'] = {
             "type": "field_dropdown",
             "name": "COMBINED_MOTORTWO_MENU",
             "options": [
-                ["A", "A"],
                 ["B", "B"],
                 ["C", "C"],
                 ["D", "D"], 
@@ -116,6 +95,34 @@ Blockly.Blocks['combined_motor_starting'] = {
                     "type": "input_value",
                     "name": "PORT2",
                 },
+                /* {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORONE_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["B", "B"],
+                        ["C", "C"],
+                        ["D", "D"], 
+                        ["E", "E"], 
+                        ["F", "F"], 
+                        ["G", "G"], 
+                        ["H", "H"]
+                    ]
+                },
+                {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORTWO_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["B", "B"],
+                        ["C", "C"],
+                        ["D", "D"], 
+                        ["E", "E"], 
+                        ["F", "F"], 
+                        ["G", "G"], 
+                        ["H", "H"]
+                    ]
+                  } */
             ],
             "category": Blockly.Categories.combined_motor,
             "extensions": ["colours_combined_motor", "shape_statement"],

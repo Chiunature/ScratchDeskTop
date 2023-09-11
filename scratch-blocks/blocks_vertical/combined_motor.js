@@ -22,7 +22,6 @@ Blockly.Blocks['combined_motorOne_menu'] = {
             "name": "COMBINED_MOTORONE_MENU",
             "options": [
                 ["A", "A"],
-                ["B", "B"],
                 ["C", "C"],
                 ["D", "D"], 
                 ["E", "E"], 
@@ -53,7 +52,6 @@ Blockly.Blocks['combined_motorOne_menu'] = {
             "type": "field_dropdown",
             "name": "COMBINED_MOTORTWO_MENU",
             "options": [
-                ["A", "A"],
                 ["B", "B"],
                 ["C", "C"],
                 ["D", "D"], 
@@ -97,6 +95,34 @@ Blockly.Blocks['combined_motor_starting'] = {
                     "type": "input_value",
                     "name": "PORT2",
                 },
+                /* {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORONE_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["B", "B"],
+                        ["C", "C"],
+                        ["D", "D"], 
+                        ["E", "E"], 
+                        ["F", "F"], 
+                        ["G", "G"], 
+                        ["H", "H"]
+                    ]
+                },
+                {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORTWO_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["B", "B"],
+                        ["C", "C"],
+                        ["D", "D"], 
+                        ["E", "E"], 
+                        ["F", "F"], 
+                        ["G", "G"], 
+                        ["H", "H"]
+                    ]
+                  } */
             ],
             "category": Blockly.Categories.combined_motor,
             "extensions": ["colours_combined_motor", "shape_statement"],

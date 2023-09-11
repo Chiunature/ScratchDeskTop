@@ -105,77 +105,6 @@ class Blocks extends React.Component {
         this.oneValue = null;
         this.twoValue = null;
     }
-    combinedMotorOneMenu(vm, value) {
-        let children = vm.svgGroup_.children;
-        if(children && children.item(1)) this.twoValue = children.item(1).textContent;
-
-        if(value) {
-            let newMenu = menu.filter(el => !el.includes(value));
-            return newMenu;
-        }else {
-            return [
-                ["A", "A"],
-                ["C", "C"],
-                ["D", "D"], 
-                ["E", "E"], 
-                ["F", "F"], 
-                ["G", "G"], 
-                ["H", "H"]
-            ];
-        }
-    }
-    combinedMotorTwoMenu(vm, value) {
-        let children = vm.svgGroup_.children;
-        if(children && children.item(1)) this.oneValue = children.item(1).textContent;
-
-        if(value) {
-            let newMenu = menu.filter(el => !el.includes(value));
-            return newMenu;
-        }else {
-            return [
-                ["B", "B"],
-                ["C", "C"],
-                ["D", "D"], 
-                ["E", "E"], 
-                ["F", "F"], 
-                ["G", "G"], 
-                ["H", "H"]
-            ];
-        }
-    }
-
-    jsonForCombinedMotorMenu (name, menuOptionsFn, colors = this.ScratchBlocks.Colours.combined_motor) {
-        return {
-            message0: '%1',
-            args0: [{
-                type: 'field_dropdown',
-                name: name,
-                options: function () {
-                    return menuOptionsFn();
-                }
-            }],
-            inputsInline: true,
-            output: 'String',
-            colour: colors.primary,
-            colourSecondary: colors.primary,
-            colourTertiary: colors.tertiary,
-        };
-    };
-
-    changeCombinedMenu() {
-        let vm = this;
-        
-        this.ScratchBlocks.Blocks.combined_motorOne_menu.init = function () {
-            const json = vm.jsonForCombinedMotorMenu('COMBINED_MOTORONE_MENU', () => vm.combinedMotorOneMenu(this, vm.oneValue));
-            this.jsonInit(json);
-        }
-
-        this.ScratchBlocks.Blocks.combined_motorTwo_menu.init = function () {
-            const json = vm.jsonForCombinedMotorMenu('COMBINED_MOTORTWO_MENU', () => vm.combinedMotorTwoMenu(this, vm.twoValue));
-            this.jsonInit(json);
-        }
-       
-    }
 
     componentDidMount() {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
@@ -219,10 +148,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener((event) => {
-            this.changeCombinedMenu();
-            this.workspaceToCode(event.type);
-        });
+        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues

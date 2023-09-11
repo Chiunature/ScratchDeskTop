@@ -157,13 +157,28 @@ Blockly.FieldDropdown.prototype.init = function() {
   this.text_ = null;
   this.setText(text);
 };
-
+Blockly.FieldDropdown.prototype.combinedMotorMenu = function (options, value) {
+  let newMenu = options.filter(el => !el.includes(value));
+    return newMenu;
+}
 /**
  * Create a dropdown menu under the text.
  * @private
  */
 Blockly.FieldDropdown.prototype.showEditor_ = function() {
   var options = this.getOptions();
+
+  const menuOptions = [
+    ["A", "A"],
+    ["B", "B"],
+    ["C", "C"],
+    ["D", "D"], 
+    ["E", "E"], 
+    ["F", "F"], 
+    ["G", "G"], 
+    ["H", "H"],
+  ];
+
   if (options.length == 0) return;
 
   this.dropDownOpen_ = true;
@@ -174,6 +189,14 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
   var contentDiv = Blockly.DropDownDiv.getContentDiv();
 
   var thisField = this;
+ 
+  if(this.sourceBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorOne_menu") {
+      let value = this.sourceBlock_.parentBlock_.childBlocks_[1].inputList[0].fieldRow[0].value_;
+      options = this.combinedMotorMenu(menuOptions, value);
+  }else if(this.sourceBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorTwo_menu") {
+      let value = this.sourceBlock_.parentBlock_.childBlocks_[0].inputList[0].fieldRow[0].value_;
+      options = this.combinedMotorMenu(menuOptions, value);
+  }
 
   function callback(e) {
     var menu = this;
