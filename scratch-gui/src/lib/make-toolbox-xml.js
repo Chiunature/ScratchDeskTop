@@ -368,13 +368,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
     `;
 };
 
-const events = function (isInitialSetup, isStage, targetId, colors) {
-    return `
-    <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
-        
-        ${blockSeparator}
-        <block type="event_checkcolor">
+{/* <block type="event_checkcolor">
             <value name="COLOR">
                 <shadow type="colour_picker"/>
             </value>
@@ -392,25 +386,32 @@ const events = function (isInitialSetup, isStage, targetId, colors) {
                 </shadow>
             </value>
         </block>
-        ${blockSeparator}
-        <block type="event_whenbroadcastreceived">
-            <value name="BROADCAST_INPUT">
-                <shadow type="event_broadcast_menu"></shadow>
-            </value>
-        </block>
-        <block type="event_broadcast">
-            <value name="BROADCAST_INPUT">
-                <shadow type="event_broadcast_menu"></shadow>
-            </value>
-        </block>
-        <block type="event_broadcastandwait">
-            <value name="BROADCAST_INPUT">
-              <shadow type="event_broadcast_menu"></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-    </category>
-    `;
+        ${blockSeparator} */}
+const events = function (isInitialSetup, isStage, targetId, colors) {
+    return `
+            <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
+            secondaryColour="${colors.tertiary}">
+                ${blockSeparator}
+                <block type="event_whenflagclicked"/>
+                ${blockSeparator}
+                <block type="event_whenbroadcastreceived">
+                    <value name="BROADCAST_INPUT">
+                        <shadow type="event_broadcast_menu"></shadow>
+                    </value>
+                </block>
+                <block type="event_broadcast">
+                    <value name="BROADCAST_INPUT">
+                        <shadow type="event_broadcast_menu"></shadow>
+                    </value>
+                </block>
+                <block type="event_broadcastandwait">
+                    <value name="BROADCAST_INPUT">
+                      <shadow type="event_broadcast_menu"></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+            </category>
+            `;
 };
 
 const control = function (isInitialSetup, isStage, targetId, colors) {
@@ -495,18 +496,9 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
 };
 
 const operators = function (isInitialSetup, colors) {
-    const apple = ScratchBlocks.ScratchMsgs.translate(
-        "OPERATORS_JOIN_APPLE",
-        "apple"
-    );
-    const banana = ScratchBlocks.ScratchMsgs.translate(
-        "OPERATORS_JOIN_BANANA",
-        "banana"
-    );
-    const letter = ScratchBlocks.ScratchMsgs.translate(
-        "OPERATORS_LETTEROF_APPLE",
-        "a"
-    );
+    const apple = "apple";
+    const banana = "banana";
+    const letter = "a";
     return `
     <category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="${colors.primary}"
     secondaryColour="${colors.tertiary}">

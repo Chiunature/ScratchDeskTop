@@ -172,6 +172,15 @@ Blockly.FieldTextInput.prototype.setValue = function(newValue) {
  * @param {*} newText New text.
  */
 Blockly.FieldTextInput.prototype.setText = function(newText) {
+  if(newText) {
+    const pattern = /[\u4e00-\u9fff]+/g;
+    const matches = newText.match(pattern);
+    if(matches !== null) {
+      newText = '';
+      return;
+    }
+  }
+
   if (newText === null) {
     // No change if null.
     return;
