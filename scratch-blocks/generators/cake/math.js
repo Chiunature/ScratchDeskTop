@@ -267,4 +267,5 @@ Blockly.cake['math_int9_number'] = Blockly.cake['math_number'];
 Blockly.cake['math_uint10_number'] = Blockly.cake['math_number'];
 Blockly.cake['math_int11_number'] = Blockly.cake['math_number'];
 Blockly.cake['math_0to100_number'] = Blockly.cake['math_number'];
+Blockly.cake['math_-100to100_number'] = Blockly.cake['math_number'];
 Blockly.cake['math_half_angle'] = Blockly.cake['math_number'];

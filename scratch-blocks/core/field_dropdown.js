@@ -174,7 +174,6 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
   var contentDiv = Blockly.DropDownDiv.getContentDiv();
 
   var thisField = this;
-
   function callback(e) {
     var menu = this;
     var menuItem = e.target;

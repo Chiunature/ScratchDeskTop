@@ -18,8 +18,8 @@ import { BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES } from '../lib/layout-constan
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
-import {DEFAULT_THEME, getColorsForTheme, themeMap} from '../lib/themes';
-import {injectExtensionBlockTheme, injectExtensionCategoryTheme} from '../lib/themes/blockHelpers';
+import { DEFAULT_THEME, getColorsForTheme, themeMap } from '../lib/themes';
+import { injectExtensionBlockTheme, injectExtensionCategoryTheme } from '../lib/themes/blockHelpers';
 import { connect } from 'react-redux';
 import { updateToolbox } from '../reducers/toolbox';
 import { activateColorPicker } from '../reducers/color-picker';
@@ -32,7 +32,7 @@ import {
     activateTab,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-import { getCode, setCompileList} from '../reducers/mode';
+import { getCode, setCompileList } from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
 
@@ -48,7 +48,19 @@ const addFunctionListener = (object, property, callback) => {
 const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
+
 let timerId;
+
+const menu = [
+    ["A", "A"],
+    ["B", "B"],
+    ["C", "C"],
+    ["D", "D"], 
+    ["E", "E"], 
+    ["F", "F"], 
+    ["G", "G"], 
+    ["H", "H"]
+];
 class Blocks extends React.Component {
     constructor(props) {
         super(props);
@@ -90,7 +102,81 @@ class Blocks extends React.Component {
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
+        this.oneValue = null;
+        this.twoValue = null;
     }
+    combinedMotorOneMenu(vm, value) {
+        let children = vm.svgGroup_.children;
+        if(children && children.item(1)) this.twoValue = children.item(1).textContent;
+
+        if(value) {
+            let newMenu = menu.filter(el => !el.includes(value));
+            return newMenu;
+        }else {
+            return [
+                ["A", "A"],
+                ["C", "C"],
+                ["D", "D"], 
+                ["E", "E"], 
+                ["F", "F"], 
+                ["G", "G"], 
+                ["H", "H"]
+            ];
+        }
+    }
+    combinedMotorTwoMenu(vm, value) {
+        let children = vm.svgGroup_.children;
+        if(children && children.item(1)) this.oneValue = children.item(1).textContent;
+
+        if(value) {
+            let newMenu = menu.filter(el => !el.includes(value));
+            return newMenu;
+        }else {
+            return [
+                ["B", "B"],
+                ["C", "C"],
+                ["D", "D"], 
+                ["E", "E"], 
+                ["F", "F"], 
+                ["G", "G"], 
+                ["H", "H"]
+            ];
+        }
+    }
+
+    jsonForCombinedMotorMenu (name, menuOptionsFn, colors = this.ScratchBlocks.Colours.combined_motor) {
+        return {
+            message0: '%1',
+            args0: [{
+                type: 'field_dropdown',
+                name: name,
+                options: function () {
+                    return menuOptionsFn();
+                }
+            }],
+            inputsInline: true,
+            output: 'String',
+            colour: colors.primary,
+            colourSecondary: colors.primary,
+            colourTertiary: colors.tertiary,
+        };
+    };
+
+    changeCombinedMenu() {
+        let vm = this;
+        
+        this.ScratchBlocks.Blocks.combined_motorOne_menu.init = function () {
+            const json = vm.jsonForCombinedMotorMenu('COMBINED_MOTORONE_MENU', () => vm.combinedMotorOneMenu(this, vm.oneValue));
+            this.jsonInit(json);
+        }
+
+        this.ScratchBlocks.Blocks.combined_motorTwo_menu.init = function () {
+            const json = vm.jsonForCombinedMotorMenu('COMBINED_MOTORTWO_MENU', () => vm.combinedMotorTwoMenu(this, vm.twoValue));
+            this.jsonInit(json);
+        }
+       
+    }
+
     componentDidMount() {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
@@ -98,10 +184,10 @@ class Blocks extends React.Component {
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
-            {rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme)}
+            { rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme) }
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
-        // console.log(this.ScratchBlocks.Python)
+        
         // Register buttons under new callback keys for creating variables,
         // lists, and procedures from extensions.
 
@@ -133,7 +219,10 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
+        this.workspace.addChangeListener((event) => {
+            this.changeCombinedMenu();
+            this.workspaceToCode(event.type);
+        });
 
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
@@ -142,7 +231,7 @@ class Blocks extends React.Component {
             this.setLocale();
         }
     }
-    
+
     workspaceToCode(type) {
         let code;
         try {
@@ -153,7 +242,7 @@ class Blocks extends React.Component {
             let hasBlocks = this.workspace.getTopBlocks().length > 0;
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
-            if(hasBlocks && match[2] !== '\n\n' && (type === 'move' || type === 'change' || type === 'delete')) {
+            if (hasBlocks && match[2] !== '\n\n' && (type === 'move' || type === 'change' || type === 'delete')) {
                 clearTimeout(timerId);
                 let arr = match[2].split("\n\n");
                 this.props.setCompileList(arr);
@@ -163,27 +252,27 @@ class Blocks extends React.Component {
             handlerError(e + '\n' + code);
         }
     }
-    
+
     //解析任务
     parserTask(workspace, arr) {
         let list = workspace.getTopBlocks();
-        let newArr = arr.filter(el => el!='');
-        let i = 0 ,j = 0 , que = [], newList = [];
+        let newArr = arr.filter(el => el != '');
+        let i = 0, j = 0, que = [], newList = [];
         while (i < list.length) {
             que.push(newArr[i]);
 
-            if(list[i].startHat_) {
-                if(i > 0) j++;
+            if (list[i].startHat_) {
+                if (i > 0) j++;
                 newList[j] = que.shift();
-            }else if(newList[j]) {
+            } else if (newList[j]) {
                 newList[j] += '\n' + que.shift();
             }
 
             i++;
         }
-        if(newList.length > 0) new Compile().runGcc(newList,this.props.completed);
+        if (newList.length > 0) new Compile().runGcc(newList, this.props.completed);
     }
-    
+
     shouldComponentUpdate(nextProps, nextState) {
         return (
             this.state.prompt !== nextState.prompt ||
@@ -379,12 +468,12 @@ class Blocks extends React.Component {
     onVisualReport(data) {
         this.workspace.reportValue(data.id, data.value);
     }
-    getToolboxXML () {
+    getToolboxXML() {
         // Use try/catch because this requires digging pretty deep into the VM
         // Code inside intentionally ignores several error situations (no stage, etc.)
         // Because they would get caught by this try/catch
         try {
-            let {editingTarget: target, runtime} = this.props.vm;
+            let { editingTarget: target, runtime } = this.props.vm;
             const stage = runtime.getTargetForStage();
             if (!target) target = stage; // If no editingTarget, use the stage
 

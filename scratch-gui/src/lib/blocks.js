@@ -8,7 +8,7 @@ import 'scratch-blocks/cake_compressed';
  * @return {ScratchBlocks} ScratchBlocks connected with the vm
  */
 export default function (vm) {
-    // console.log(vm)
+    
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
             message0: '%1',
