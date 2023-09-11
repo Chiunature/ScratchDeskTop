@@ -31,7 +31,7 @@ Blockly.Blocks['combined_motorOne_menu'] = {
             ]
           }
         ],
-        "colour": Blockly.Colours.combined_motor.secondary,
+        "colour": Blockly.Colours.combined_motor.primary,
         "colourSecondary": Blockly.Colours.combined_motor.secondary,
         "colourTertiary": Blockly.Colours.combined_motor.tertiary,
         "extensions": ["output_string"]
@@ -62,7 +62,7 @@ Blockly.Blocks['combined_motorOne_menu'] = {
             ]
           }
         ],
-        "colour": Blockly.Colours.combined_motor.secondary,
+        "colour": Blockly.Colours.combined_motor.primary,
         "colourSecondary": Blockly.Colours.combined_motor.secondary,
         "colourTertiary": Blockly.Colours.combined_motor.tertiary,
         "extensions": ["output_string"]

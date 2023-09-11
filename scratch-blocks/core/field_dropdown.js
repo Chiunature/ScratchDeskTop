@@ -190,10 +190,10 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
 
   var thisField = this;
  
-  if(this.sourceBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorOne_menu") {
+  if(this.sourceBlock_ && this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorOne_menu") {
       let value = this.sourceBlock_.parentBlock_.childBlocks_[1].inputList[0].fieldRow[0].value_;
       options = this.combinedMotorMenu(menuOptions, value);
-  }else if(this.sourceBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorTwo_menu") {
+  }else if(this.sourceBlock_ && this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type == "combined_motor_starting"  && this.sourceBlock_.type == "combined_motorTwo_menu") {
       let value = this.sourceBlock_.parentBlock_.childBlocks_[0].inputList[0].fieldRow[0].value_;
       options = this.combinedMotorMenu(menuOptions, value);
   }
