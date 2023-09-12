@@ -6,10 +6,9 @@ goog.require('Blockly.cake');
 
 Blockly.cake['sensing_color_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
-    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
-    let cr = color.replace(/\#/g, '0x');
+    let color = block.getFieldValue("COLOR");
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_judgment("${dropdown_port}", ${cr.replace(/\'/g, '')})`;
+    let code = `Sensing_color_judgment("${dropdown_port}", ${color})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 

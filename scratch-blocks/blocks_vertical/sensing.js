@@ -571,8 +571,16 @@ Blockly.Blocks['sensing_color_judgment'] = {
           ]
         },
         {
-          "type": "input_value",
-          "name": "COLOR"
+          "type": "field_dropdown",
+          "name": "COLOR",
+          "options": [
+            [Blockly.Msg.RED, "0xFF0000"],
+            [Blockly.Msg.GREEN, "0x00FF00"],
+            [Blockly.Msg.BLUE, "0x0000FF"],
+            [Blockly.Msg.YELLOW, "0xFFFF00"],
+            [Blockly.Msg.DARKRED, "0x910000"],
+            [Blockly.Msg.BROWN, "0x804000"],
+          ]
         },
       ],
       "category": Blockly.Categories.sensing,
@@ -912,25 +920,21 @@ Blockly.Blocks['sensing_ultrasonic_detection'] = {
           "name": "PORT",
           "options": [
             [
-              "P0",
-              "P0"
+              "A",
+              "A"
             ],
             [
-              "P1",
-              "P1"
+              "B",
+              "B"
             ],
             [
-              "P2",
-              "P2"
+              "C",
+              "C"
             ],
             [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
-            ],
+              "D",
+              "D"
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
         },
       ],
@@ -970,24 +974,12 @@ Blockly.Blocks['sensing_key_judgment'] = {
           "name": "PORT",
           "options": [
             [
-              "P0",
-              "P0"
+              Blockly.Msg.PLEFT,
+              "left"
             ],
             [
-              "P1",
-              "P1"
-            ],
-            [
-              "P2",
-              "P2"
-            ],
-            [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
+              Blockly.Msg.PRIGHT,
+              "right"
             ],
           ]
         },
@@ -1087,6 +1079,10 @@ Blockly.Blocks['sensing_gyroscope_acceleration'] = {
               "Y",
               "Y"
             ],
+            [
+              "Z",
+              "Z"
+            ],
           ]
         },
       ],
@@ -1111,20 +1107,20 @@ Blockly.Blocks['sensing_gyroscope_attitude'] = {
           "name": "attitude",
           "options": [
             [
-              Blockly.Msg.PLEFT,
-              "left"
+              Blockly.Msg.FLOATING,
+              "Floating"
             ],
             [
-              Blockly.Msg.PRIGHT,
-              "right"
+              Blockly.Msg.ROLL,
+              "Roll"
             ],
             [
-              Blockly.Msg.UP,
-              "up"
+              Blockly.Msg.YAW,
+              "Yaw"
             ],
             [
-              Blockly.Msg.DOWN,
-              "down"
+              Blockly.Msg.ANGLES,
+              "Angles"
             ],
           ]
         },

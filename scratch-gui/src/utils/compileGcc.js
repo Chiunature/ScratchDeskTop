@@ -8,9 +8,13 @@ const makeCommand = 'make';
 const makefile = './LB_USER';
 const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 const eventEmitter = new EventEmitter();
-let currentProcess, startSend;
 
 class Compile {
+
+    constructor() {
+        this.currentProcess;
+        this.startSend;
+    }
 
     //将c语言代码写入文件
     writeFiles(path, buffer) {
@@ -25,9 +29,9 @@ class Compile {
 
     //执行cmd命令
     processCMD(commend) {
-        if (currentProcess) currentProcess.kill();
+        if (this.currentProcess) this.currentProcess.kill();
         return new Promise((resolve, reject) => {
-            currentProcess = process.exec(commend, (error, stdout) => {
+            this.currentProcess = process.exec(commend, (error, stdout) => {
                 if (error) reject(error);
                 else resolve(stdout);
             });
@@ -37,10 +41,11 @@ class Compile {
     //编译
     compile(isUpload) {
         this.processCMD(cmd).then(res => {
-            startSend = true;
+            console.log(res);
+            this.startSend = true;
             eventEmitter.emit('success');
         }).catch(error => {
-            startSend = true;
+            this.startSend = true;
             handlerError(error);
             if (isUpload) window.electron.ipcRenderer.send("transmission-error");
         });
@@ -80,7 +85,7 @@ class Compile {
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, isUpload = false, flag = false) {
-        startSend = flag;
+        this.startSend = flag;
         let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
             headStr += `\r\nextern void Task${index}(void *parameter)${index === buffer.length - 1 ? '' : ';'}`;
@@ -95,7 +100,7 @@ class Compile {
     }
 
     sendSerial() {
-        if (!startSend) {
+        if (!this.startSend) {
             eventEmitter.on('success', () => window.electron.ipcRenderer.send("writeData"));
         } else {
             window.electron.ipcRenderer.send("writeData");

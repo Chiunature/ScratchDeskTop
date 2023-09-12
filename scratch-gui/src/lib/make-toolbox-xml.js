@@ -446,7 +446,20 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     </category>
     `;
 };
-
+{/*
+    <block type="sensing_key_judgment"></block> 
+    <block type="sensing_line_inspection_judgment"></block>
+    <block type="sensing_magnetic_calibration"></block>
+    <block type="sensing_magnetism"></block>
+    <block type="sensing_compass"></block>
+    <block type="sensing_timer"></block>
+    <block type="sensing_reset_timer"></block>
+    ${blockSeparator}
+    <block id="loudness" type="sensing_loudness"/>
+    ${blockSeparator}
+    <block id="current" type="sensing_current"/>
+    <block type="sensing_dayssince2000"/>
+*/}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     const name = ScratchBlocks.ScratchMsgs.translate(
         "SENSING_ASK_TEXT",
@@ -458,38 +471,20 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
         ${isStage
             ? ""
             : `
-            <block type="sensing_color_judgment">
-                <value name="COLOR">
-                    <shadow type="colour_picker"/>
-                </value>
-            </block>
+            <block type="sensing_color_judgment"></block>
             <block type="sensing_color_detection"></block>
             <block type="sensing_color_detectionRGB"></block>
             <block type="sensing_reflected_light_judgment"></block>
             <block type="sensing_reflected_light_detection"></block>
-            <block type="sensing_line_inspection_judgment"></block>
             <block type="sensing_ultrasonic_judgment"></block>
             <block type="sensing_ultrasonic_detection"></block>
             <block type="sensing_sound_intensity"></block>
-            <block type="sensing_key_judgment"></block>
             <block type="sensing_key_press"></block>
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
-            <block type="sensing_magnetic_calibration"></block>
-            <block type="sensing_magnetism"></block>
-            <block type="sensing_compass"></block>
-            <block type="sensing_timer"></block>
-            <block type="sensing_reset_timer"></block>
             ${blockSeparator}
-            
         `
         }
-       
-        ${blockSeparator}
-        <block id="loudness" type="sensing_loudness"/>
-        ${blockSeparator}
-        <block id="current" type="sensing_current"/>
-        <block type="sensing_dayssince2000"/>
         ${categorySeparator}
     </category>
     `;

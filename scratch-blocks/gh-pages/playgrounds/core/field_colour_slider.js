@@ -332,7 +332,7 @@ Blockly.FieldColourSlider.prototype.showEditor_ = function() {
   this.brightnessSlider_.setMoveToPointEnabled(true);
   this.brightnessSlider_.render(div);
 
-  if (Blockly.FieldColourSlider.activateEyedropper_) {
+  /* if (Blockly.FieldColourSlider.activateEyedropper_) {
     var button = document.createElement('button');
     button.setAttribute('class', 'scratchEyedropper');
     var image = document.createElement('img');
@@ -342,7 +342,7 @@ Blockly.FieldColourSlider.prototype.showEditor_ = function() {
     Blockly.FieldColourSlider.eyedropperEventData_ =
         Blockly.bindEventWithChecks_(button, 'click', this,
             this.activateEyedropperInternal_);
-  }
+  } */
 
   Blockly.DropDownDiv.setColour('#ffffff', '#dddddd');
   Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
