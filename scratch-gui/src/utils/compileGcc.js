@@ -1,19 +1,26 @@
+
 import { handlerError } from "./ipcRender";
 const fs = window.fs;
 const path = window.path;
 const process = window.child_process;
 const { EventEmitter } = window.events;
+const electron = window.electron;
 
 const makeCommand = 'make';
 const makefile = './LB_USER';
 const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 const eventEmitter = new EventEmitter();
 
-class Compile {
+class Compile{
 
     constructor() {
         this.currentProcess;
-        this.startSend;
+        this.startSend = true;
+    }
+
+    //控制编译前、编译中、编译后通信
+    setStartSend(val) {
+        this.startSend = val;
     }
 
     //将c语言代码写入文件
@@ -47,7 +54,7 @@ class Compile {
         }).catch(error => {
             this.startSend = true;
             handlerError(error);
-            if (isUpload) window.electron.ipcRenderer.send("transmission-error");
+            if (isUpload) electron.ipcRenderer.send("transmission-error");
         });
     }
 
@@ -58,12 +65,16 @@ class Compile {
         let newStr = "\nTask_Info user_task[] = {" + taskStr + "\n}";
         let newArr = arr.reduce((pre, el) => {
             if (el.search("extern void Task") == -1) {
-                if (el.search("Task_Info user_task") != -1) el = newStr;
+                if (el.search("Task_Info user_task") != -1) {
+                    el = newStr;
+                }
                 pre.push(el);
             }
             return pre;
         }, []);
-        newArr[0] = newArr[0] + ";" + headStr;
+        let headList = headStr.split(';');
+        headList.splice(-1, 1);
+        newArr.splice(1, 0, ...headList);
         return newArr.join(";");
     }
 
@@ -84,29 +95,63 @@ class Compile {
     }
 
     //运行编译器参数是传入的C语言代码
-    runGcc(buffer, isUpload = false, flag = false) {
-        this.startSend = flag;
+    runGcc(buffer, isUpload = false) {
         let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
-            headStr += `\r\nextern void Task${index}(void *parameter)${index === buffer.length - 1 ? '' : ';'}`;
-            codeStr += `Task${index}(void *parameter)\n{\nwhile (1)\n{\n${el}\nvTaskDelay(50);\n}\n}\n`;
+            headStr += `\r\nextern void Task${index}(void *parameter);`;
+            codeStr += `Task${index}(void *parameter)\n{\n${el}\nwhile (1)\n{\nvTaskDelay(50);\n}\n}\n`;
             taskStr += `\n{\r\n\t\t.Task_Name = "Task${index}",\r\n\t\t.Task_StackSize = 128,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = Task${index},\r\n},\n`;
         });
+
         let appRes = this.handleCode(codeStr);
         let taskRes = this.handleTask(headStr, taskStr);
+        console.log(appRes, taskRes);
 
         //编译
         if (appRes && taskRes) this.compile(isUpload);
     }
 
-    sendSerial() {
-        if (!this.startSend) {
-            eventEmitter.on('success', () => window.electron.ipcRenderer.send("writeData"));
-        } else {
-            window.electron.ipcRenderer.send("writeData");
+    //获取bing文件数据准备通信
+    readBin(verifyType) {
+        try {
+            let fileData, flag, fileName;
+            if(verifyType === 'SOURCE') {
+                let str = '';
+                let files = fs.readdirSync("./gcc-arm-none-eabi/bin/LB_FWLIB/music");
+                files.map(el => {
+                    if (el.indexOf("Meow") != -1) str = `./gcc-arm-none-eabi/bin/LB_FWLIB/music/${el}`;
+                });
+                fileData = fs.readFileSync(str);
+                fileName = "Meow";
+            }else {
+                fileName = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_FWLIB/boot/registryApp.txt", 'utf8');
+                fileData = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin");
+                flag = this.writeFiles("./gcc-arm-none-eabi/bin/LB_FWLIB/app/LB_USER.bin", fileData);
+            }
+
+            if(fileData) electron.ipcRenderer.send("writeData", { binData: fileData, verifyType, fileName });
+
+        } catch (error) {
+            handlerError(error);
+            electron.ipcRenderer.send("transmission-error");
+        }
+        
+    }
+
+    sendSerial(verifyType) {
+        if(verifyType === 'SOURCE') {
+            this.readBin(verifyType);
+            return
+        }else {
+            if (!this.startSend) {
+                eventEmitter.on('success', () => this.readBin(verifyType));
+                return;
+            }else {
+                this.readBin(verifyType);
+            }
         }
     }
 }
 
 
-export default Compile;
+export default new Compile();

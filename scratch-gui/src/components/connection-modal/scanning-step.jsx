@@ -1,4 +1,4 @@
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -33,14 +33,14 @@ const ScanningStep = props => (
                 ) : (
                     <div className={styles.peripheralTilePane}>
                         {props.peripheralList.map(peripheral =>
-                            (<PeripheralTile
-                                connectionSmallIconURL={props.connectionSmallIconURL}
-                                key={peripheral.peripheralId}
-                                name={peripheral.name}
-                                peripheralId={peripheral.peripheralId}
-                                rssi={peripheral.rssi}
-                                onConnecting={props.onConnecting}
-                            />)
+                        (<PeripheralTile
+                            connectionSmallIconURL={props.connectionSmallIconURL}
+                            key={peripheral.peripheralId}
+                            name={peripheral.name}
+                            peripheralId={peripheral.peripheralId}
+                            rssi={peripheral.rssi}
+                            onConnecting={props.onConnecting}
+                        />)
                         )}
                     </div>
                 )
@@ -57,9 +57,9 @@ const ScanningStep = props => (
         <Box className={styles.bottomArea}>
             <Box className={classNames(styles.bottomAreaItem, styles.instructions)}>
                 <FormattedMessage
-                    defaultMessage="Select your device in the list above."
-                    description="Prompt for choosing a device to connect to"
-                    id="gui.connection.scanning.instructions"
+                    defaultMessage="Searching..."
+                    description="Label indicating that search is in progress"
+                    id="gui.connection.connecting-searchbutton"
                 />
             </Box>
             <Dots

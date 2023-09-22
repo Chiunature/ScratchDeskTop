@@ -46,7 +46,7 @@ const SerialportList = (props) => (
             <Box
                 className={classNames(styles.bottomAreaItem, styles.buttonRow)}
             >
-                <button
+                {/* <button
                     className={classNames(
                         styles.blueButton,
                         styles.connectionButton
@@ -87,7 +87,21 @@ const SerialportList = (props) => (
                         description="Button to disconnect the device"
                         id="gui.connection.disconnect"
                     />
-                </button>
+                </button> */}
+                <button
+                    className={classNames(
+                        styles.redButton,
+                        styles.connectionButton
+                    )}
+                    disabled={props.version == localStorage.getItem('version') ? true : false}
+                    onClick={props.onUpdate}
+                >
+                    <FormattedMessage
+                        defaultMessage="Firmware opgradering"
+                        description="Firmware opgradering"
+                        id="gui.connection.firmware"
+                    />
+                </button> 
             </Box>
         </Box>
     </Box>

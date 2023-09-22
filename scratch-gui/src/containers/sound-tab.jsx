@@ -39,6 +39,7 @@ import {
 import {setRestore} from '../reducers/restore-deletion';
 import {showStandardAlert, closeAlertWithId} from '../reducers/alerts';
 import { setGen } from '../reducers/mode.js';
+import { setSoundArr } from '../reducers/connection-modal.js';
 
 class SoundTab extends React.Component {
     constructor (props) {
@@ -181,7 +182,8 @@ class SoundTab extends React.Component {
             isRtl,
             vm,
             onNewSoundFromLibraryClick,
-            onNewSoundFromRecordingClick
+            onNewSoundFromRecordingClick,
+            onSetSoundArr
         } = this.props;
 
         if (!vm.editingTarget) {
@@ -198,7 +200,6 @@ class SoundTab extends React.Component {
                 dragPayload: sound
             }
         )) : [];
-
         const messages = defineMessages({
             fileUploadSound: {
                 defaultMessage: 'Upload Sound',
@@ -221,6 +222,7 @@ class SoundTab extends React.Component {
                 id: 'gui.soundTab.addSoundFromLibrary'
             }
         });
+
         const arr = [
             {
                 title: intl.formatMessage(messages.addSound),
@@ -278,6 +280,7 @@ class SoundTab extends React.Component {
                         vm={this.props.vm}
                         onNewSound={this.handleNewSound}
                         onRequestClose={this.props.onRequestCloseSoundLibrary}
+                        onSetSoundArr = {onSetSoundArr}
                     />
                 ) : null}
             </AssetPanel>
@@ -296,6 +299,7 @@ SoundTab.propTypes = {
     onNewSoundFromRecordingClick: PropTypes.func.isRequired,
     onRequestCloseSoundLibrary: PropTypes.func.isRequired,
     onShowImporting: PropTypes.func.isRequired,
+    onSetSoundArr: PropTypes.func,
     soundLibraryVisible: PropTypes.bool,
     soundRecorderVisible: PropTypes.bool,
     sprites: PropTypes.shape({
@@ -339,7 +343,8 @@ const mapDispatchToProps = dispatch => ({
     },
     onCloseImporting: () => dispatch(closeAlertWithId('importingAsset')),
     onShowImporting: () => dispatch(showStandardAlert('importingAsset')),
-    onSetGen: () => dispatch(setGen(true))
+    onSetGen: () => dispatch(setGen(true)),
+    onSetSoundArr: (sound) => dispatch(setSoundArr(sound))
 });
 
 export default errorBoundaryHOC('Sound Tab')(

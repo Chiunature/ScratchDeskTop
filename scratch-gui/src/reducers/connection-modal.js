@@ -8,6 +8,9 @@ const GET_SERIAL_LIST = "scratch-gui/connection-modal/getSerialList";
 const CHANGE_SERIAL_LIST = "scratch-gui/connection-modal/changeSerialList";
 const SET_PORT = "scratch-gui/connection-modal/setPort";
 const SET_COMPLETED = "scratch-gui/connection-modal/completed";
+const SET_SOUNDARR = "scratch-gui/connection-modal/soundArr";
+const SET_ISCONNECTEDSERIAL = "scratch-gui/connection-modal/isConnectedSerial";
+const SET_VERSION = "scratch-gui/connection-modal/version";
 const initialState = {
     extensionId: null,
     peripheralName: null,
@@ -16,6 +19,19 @@ const initialState = {
     serialList: [],
     port: null,
     completed: false,
+    isConnectedSerial: false,
+    version: '',
+    soundArr: [{
+        assetId: "83c36d806dc92327b9e7049a565c6bff",
+        data:null,
+        dataFormat:"wav",
+        format:"",
+        md5:"83c36d806dc92327b9e7049a565c6bff.wav",
+        name:"喵",
+        rate:48000,
+        sampleCount:40681,
+        soundId:""
+    }]
 };
 
 const reducer = function (state, action) {
@@ -56,6 +72,24 @@ const reducer = function (state, action) {
         case SET_COMPLETED:
             return Object.assign({}, state, {
                 completed: action.completed,
+            });
+        case SET_SOUNDARR:
+            state.soundArr.push(action.sound);
+            let obj = {};
+            let newArr = state.soundArr.reduce((prev, curr) => {
+                obj[curr.assetId] ? '' : obj[curr.assetId] = true && prev.push(curr);
+                return prev;
+            }, []);
+            return Object.assign({}, state, {
+                soundArr: newArr,
+            });
+        case SET_ISCONNECTEDSERIAL:
+            return Object.assign({}, state, {
+                isConnectedSerial: action.isConnectedSerial,
+            });
+        case SET_VERSION:
+            return Object.assign({}, state, {
+                version: action.version,
             });
         default:
             return state;
@@ -116,6 +150,13 @@ const setConnectionModalExtensionId = function (extensionId) {
     };
 };
 
+const setIsConnectedSerial = function (isConnectedSerial) {
+    return {
+        type: SET_ISCONNECTEDSERIAL,
+        isConnectedSerial: isConnectedSerial,
+    };
+};
+
 const setPort = function (port) {
     return {
         type: SET_PORT,
@@ -129,6 +170,21 @@ const setCompleted = function (completed) {
         completed: completed,
     };
 };
+
+const setSoundArr = function (sound) {
+    return {
+        type: SET_SOUNDARR,
+        sound: sound,
+    };
+};
+
+const setVersion = function (version) {
+    return {
+        type: SET_VERSION,
+        version: version,
+    };
+};
+
 export {
     reducer as default,
     initialState as connectionModalInitialState,
@@ -141,4 +197,7 @@ export {
     ChangeSerialList,
     setPort,
     setCompleted,
+    setSoundArr,
+    setIsConnectedSerial,
+    setVersion
 };

@@ -13,6 +13,7 @@ import { showAlertWithTimeout } from "../reducers/alerts";
 import {
     ChangeSerialList,
     setPort,
+    setIsConnectedSerial,
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
     getSerialList,
@@ -32,6 +33,7 @@ class ConnectionModal extends React.Component {
             "handleError",
             "handleHelp",
             "handleSelectport",
+            "handleUpdate"
         ]);
         this.state = {
             extension: extensionData.find(
@@ -42,25 +44,40 @@ class ConnectionModal extends React.Component {
                 : PHASES.scanning,
         };
     }
+
     componentDidMount() {
         this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
+        this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
     }
+
     componentWillUnmount() {
         this.props.vm.removeListener(
             "PERIPHERAL_CONNECTED",
             this.handleConnected
         );
         this.props.vm.removeListener(
+            "PERIPHERAL_DISCONNECTED",
+            this.handleDisconnect
+        );
+        this.props.vm.removeListener(
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
     }
+
+    componentDidUpdate(preProps) {
+        if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
+            this.handleConnected();
+        }
+    }
+
     handleScanning() {
         this.setState({
             phase: PHASES.scanning,
         });
     }
+
     handleConnecting(peripheralId) {
         this.props.vm.connectPeripheral(this.props.extensionId, peripheralId);
         this.setState({
@@ -72,22 +89,21 @@ class ConnectionModal extends React.Component {
             label: this.props.extensionId,
         });
     }
-    handleDisconnect(msg) {
+
+    handleDisconnect(msg = "disconnect") {
         try {
             this.props.vm.disconnectPeripheral(this.props.extensionId);
         } finally {
             this.props.onClearConnectionModalPeripheralName();
-            let list = this.props.serialList.map((el) => ({
-                ...el,
-                checked: false,
-            }));
-            this.props.onGetSerialList(list);
+            this.props.onGetSerialList([]);
             this.props.onSetPort(null);
-            this.props.onShowDisonnectAlert("disconnect");
-            this.props.onCancel();
+            this.props.onSetIsConnectedSerial(false);
+            this.props.onShowDisonnectAlert(msg);
+            // this.props.onCancel();
             ipc({ sendName: "disconnected"});
         }
     }
+
     handleCancel() {
         try {
             // If we're not connected to a peripheral, close the websocket so we stop scanning.
@@ -101,6 +117,7 @@ class ConnectionModal extends React.Component {
             this.props.onCancel();
         }
     }
+
     handleError() {
         // Assume errors that come in during scanning phase are the result of not
         // having scratch-link installed.
@@ -122,11 +139,10 @@ class ConnectionModal extends React.Component {
             });
         }
     }
+
     handleConnected() {
-        this.props.onSetConnectionModalPeripheralName(
-            this.props.port.friendlyName
-        );
-        this.props.onCancel();
+        if(!this.props.port) return;
+        this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
         ipc({
             sendName: "connected",
             sendParams: this.props.port,
@@ -149,6 +165,7 @@ class ConnectionModal extends React.Component {
         //     label: this.props.extensionId,
         // });
     }
+
     handleHelp() {
         window.open(this.state.extension.helpLink, "_blank");
         analytics.event({
@@ -157,11 +174,18 @@ class ConnectionModal extends React.Component {
             label: this.props.extensionId,
         });
     }
+
     handleSelectport(port, index) {
         this.props.onSetPort(port);
         this.props.onChangeSerialList([...this.props.serialList], index);
         this.props.onSetCompleted(false);
+        this.handleConnected();
     }
+
+    handleUpdate() {
+        this.props.compile.sendSerial('SOURCE');
+    }
+
     render() {
         return (
             <ConnectionModalComponent
@@ -182,6 +206,7 @@ class ConnectionModal extends React.Component {
                     this.state.extension.connectionTipIconURL
                 }
                 peripheralName={this.props.peripheralName}
+                version={this.props.version}
                 port={this.props.port}
                 extensionId={this.props.extensionId}
                 serialList={this.props.serialList}
@@ -199,6 +224,7 @@ class ConnectionModal extends React.Component {
                 onHelp={this.handleHelp}
                 onScanning={this.handleScanning}
                 onSelectport={this.handleSelectport}
+                onUpdate={this.handleUpdate}
             />
         );
     }
@@ -208,6 +234,7 @@ ConnectionModal.propTypes = {
     extensionId: PropTypes.string,
     onCancel: PropTypes.func.isRequired,
     vm: PropTypes.instanceOf(VM).isRequired,
+    compile: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
@@ -215,6 +242,9 @@ const mapStateToProps = (state) => ({
     serialList: state.scratchGui.connectionModal.serialList,
     port: state.scratchGui.connectionModal.port,
     peripheralName: state.scratchGui.connectionModal.peripheralName,
+    isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
+    version: state.scratchGui.connectionModal.version,
+    soundArr: state.scratchGui.connectionModal.soundArr
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -232,6 +262,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

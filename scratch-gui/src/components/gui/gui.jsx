@@ -142,6 +142,7 @@ const GUIComponent = (props) => {
         completed,
         isComplete,
         handleCompile,
+        compile,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -375,6 +376,7 @@ const GUIComponent = (props) => {
                                                     stageSize={stageSize}
                                                     theme={theme}
                                                     vm={vm}
+                                                    compile={compile}
                                                 />
                                             </Box>
                                             <Box
@@ -518,6 +520,7 @@ GUIComponent.propTypes = {
     telemetryModalVisible: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
+    compile: PropTypes.object
 };
 GUIComponent.defaultProps = {
     backpackHost: null,

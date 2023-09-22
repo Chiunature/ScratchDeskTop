@@ -95,7 +95,7 @@ const projectData = translateFunction => {
                 sounds: [
                     {
                         assetId: '83c36d806dc92327b9e7049a565c6bff',
-                        name: translator(messages.meow),
+                        name: "Meow",
                         dataFormat: 'wav',
                         format: '',
                         rate: 22050,

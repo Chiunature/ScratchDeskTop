@@ -34,23 +34,13 @@ const ConnectionModalComponent = (props) => (
         onRequestClose={props.onCancel}
     >
         <Box className={styles.body}>
-            {props.serialList.length === 0 &&
-                props.phase === PHASES.unavailable && (
-                    <UnavailableStep {...props} />
-                )}
             {props.serialList.length > 0 && <SerialportList {...props} />}
-            {/* {props.phase === PHASES.scanning && !props.useAutoScan && (
-                <ScanningStep {...props} />
-            )}
-            {props.phase === PHASES.scanning && props.useAutoScan && (
-                <AutoScanningStep {...props} />
-            )}
+            {props.serialList.length === 0 && <ScanningStep {...props} />}
+            {/* {props.phase === PHASES.scanning && !props.useAutoScan && <AutoScanningStep {...props} />}
             {props.phase === PHASES.connecting && <ConnectingStep {...props} />}
             {props.phase === PHASES.connected && <ConnectedStep {...props} />}
             {props.phase === PHASES.error && <ErrorStep {...props} />}
-            {props.phase === PHASES.unavailable && (
-                <UnavailableStep {...props} />
-            )} */}
+            {props.phase === PHASES.unavailable && <UnavailableStep {...props} />} */}
         </Box>
     </Modal>
 );

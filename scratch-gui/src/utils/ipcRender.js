@@ -8,7 +8,8 @@
  */
 function ipc({ sendName, sendParams, eventName, callback }) {
     if (sendName) window.electron.ipcRenderer.send(sendName, sendParams);
-    if (eventName && typeof callback === "function") window.electron.ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
+    const eventList = window.electron.ipcRenderer.eventNames();
+    if (eventName && !eventList.includes(eventName) && typeof callback === "function") window.electron.ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
 }
 
 function getCurrentTime() {
@@ -33,7 +34,7 @@ function writeFileWithDirectory(directory, filepath, data) {
 
 //错误处理
 function handlerError(error) {
-    // console.error(`error: ${error}`);
+    console.error(`error: ${error}`);
     let directory = './Error';
     let filepath = `./Error/error_${getCurrentTime()}.txt`;
     writeFileWithDirectory(directory, filepath, error);

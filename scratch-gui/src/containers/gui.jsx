@@ -38,7 +38,7 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
-import Compile from "../utils/compileGcc.js";
+import compile from "../utils/compileGcc.js";
 import { setCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 class GUI extends React.Component {
@@ -83,8 +83,8 @@ class GUI extends React.Component {
         let hasStart = list.some(el => el.startHat_);
         if(this.props.compileList.length === 0 || !hasStart) {
             this.props.onShowCompletedAlert("workspaceEmpty");
-        }else if(hasStart) {
-            new Compile().sendSerial();
+        }else {
+            compile.sendSerial('BOOTBIN');
             this.props.onSetCompleted(true);
             this.props.onShowCompletedAlert("uploading");
         }
@@ -125,6 +125,7 @@ class GUI extends React.Component {
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}
+                compile = {compile}
             >
                 {children}
             </GUIComponent>
@@ -148,13 +149,14 @@ GUI.propTypes = {
     onSeeCommunity: PropTypes.func,
     onStorageInit: PropTypes.func,
     onUpdateProjectId: PropTypes.func,
-    onVmInit: PropTypes.func,
     onSetCompleted: PropTypes.func,
     onShowCompletedAlert: PropTypes.func,
+    onVmInit: PropTypes.func,
     projectHost: PropTypes.string,
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     telemetryModalVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
+    compile: PropTypes.object
 };
 
 GUI.defaultProps = {
@@ -207,7 +209,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    onExtensionButtonClick: () => dispatch(openExtensionLibrary()),
+    onExtensionButtonClick: () => {
+        if(extensionLibraryContent.length === 0) {
+            showAlertWithTimeout(dispatch, "noExtensions");
+            return;
+        }else {
+            dispatch(openExtensionLibrary());
+        }
+    },
     onActivateTab: (tab) => {
         dispatch(activateTab(tab));
         dispatch(setGen(true));

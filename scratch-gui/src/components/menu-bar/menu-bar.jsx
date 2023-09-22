@@ -33,7 +33,7 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList } from "../../reducers/connection-modal";
+import { getSerialList, setPort, setIsConnectedSerial } from "../../reducers/connection-modal";;
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
@@ -87,6 +87,7 @@ import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
+import { ipc } from "../../utils/ipcRender.js";
 
 const ariaMessages = defineMessages({
     language: {
@@ -363,8 +364,14 @@ class MenuBar extends React.Component {
             window.electron.ipcRenderer.once("connected", (event, arg) => {
                 if (arg.length === 0) return;
                 if (this.props.serialList.length >= arg.length) return;
-                let newarr = arg.map((el) => ({ ...el, checked: false }));
+                let newarr = arg.reduce((pre, cur) => {
+                    cur.checked = false;
+                    if(cur.friendlyName.search("LBS Serial") != -1) pre.push(cur);
+                    return pre;
+                }, []);
                 this.props.onGetSerialList(newarr);
+                this.props.onSetPort(newarr[0]);
+                this.props.onSetIsConnectedSerial(true);
             });
             this.props.onOpenConnectionModal();
         }
@@ -1068,6 +1075,8 @@ const mapDispatchToProps = (dispatch) => ({
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
+    onSetPort: (port) => dispatch(setPort(port)),
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
 });
 
 export default compose(
