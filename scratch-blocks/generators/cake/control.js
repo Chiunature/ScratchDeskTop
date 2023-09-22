@@ -71,7 +71,7 @@ Blockly.cake['control_forever'] = function (block) {
   var until = block.getFieldValue('MODE') == 'UNTIL';
   var argument0 = Blockly.cake.valueToCode(block, 'BOOL',
     until ? Blockly.cake.ORDER_LOGICAL_NOT :
-      Blockly.cake.ORDER_NONE) || 'false';
+      Blockly.cake.ORDER_NONE) || 'true';
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
   if (until) {
