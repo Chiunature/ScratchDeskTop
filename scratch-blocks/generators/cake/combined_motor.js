@@ -4,9 +4,21 @@ goog.provide('Blockly.cake.combined_motor');
 
 goog.require('Blockly.cake');
 
+Blockly.cake['combined_motorOne_menu'] = function (block) {
+    let menu = block.getFieldValue('COMBINED_MOTORONE_MENU');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['combined_motorTwo_menu'] = function (block) {
+    let menu = block.getFieldValue('COMBINED_MOTORTWO_MENU');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
+
 Blockly.cake['combined_motor_starting'] = function (block) {
-    let dropdown_port1 = block.getFieldValue('PORT1');
-    let dropdown_port2 = block.getFieldValue('PORT2');
+    let dropdown_port1 = Blockly.cake.valueToCode(block, "PORT1", Blockly.cake.ORDER_NONE);
+    let dropdown_port2 = Blockly.cake.valueToCode(block, "PORT2", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `motor_combined_starting("${dropdown_port1}", "${dropdown_port2}");\n`;
     return code;
