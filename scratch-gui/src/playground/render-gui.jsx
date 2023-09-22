@@ -30,7 +30,7 @@ const getThemeStorage = () => {
 }
 const getModalStorage = () => {
     let modal = localStorage.getItem('modalColor');
-    return modal ? modal : 'hsla(227.62, 29.73%, 59.8%, .9)';
+    return modal ? modal : 'hsla(227.62, 29.73%, 59.8%, .7)';
 }
 document.body.style.setProperty('--motion-primary', getThemeStorage());
 document.body.style.setProperty('--modal-overlay', getModalStorage());

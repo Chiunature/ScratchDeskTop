@@ -229,7 +229,7 @@ const GUIComponent = (props) => {
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal vm={vm} />
+                            <ConnectionModal vm={vm} compile={compile} completed={completed}/>
                         ) : null}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary

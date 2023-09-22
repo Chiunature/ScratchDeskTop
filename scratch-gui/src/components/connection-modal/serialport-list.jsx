@@ -93,15 +93,24 @@ const SerialportList = (props) => (
                         styles.redButton,
                         styles.connectionButton
                     )}
-                    disabled={props.version == localStorage.getItem('version') ? true : false}
+                    disabled={props.version == localStorage.getItem('version') || props.completed ? true : false}
                     onClick={props.onUpdate}
                 >
-                    <FormattedMessage
-                        defaultMessage="Firmware opgradering"
-                        description="Firmware opgradering"
-                        id="gui.connection.firmware"
-                    />
-                </button> 
+                    {props.completed ? (
+                        <FormattedMessage
+                            defaultMessage="opgradering..."
+                            description="Firmware opgradering"
+                            id="gui.playbackStep.loadingMsg"
+                        />
+                        ) : (
+                        <FormattedMessage
+                            defaultMessage="Firmware opgradering"
+                            description="Firmware opgradering"
+                            id="gui.connection.firmware"
+                        />
+                    )}
+
+                </button>
             </Box>
         </Box>
     </Box>

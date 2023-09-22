@@ -184,6 +184,7 @@ class ConnectionModal extends React.Component {
 
     handleUpdate() {
         this.props.compile.sendSerial('SOURCE');
+        this.props.onSetCompleted(true);
     }
 
     render() {
@@ -225,6 +226,7 @@ class ConnectionModal extends React.Component {
                 onScanning={this.handleScanning}
                 onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
+                completed={this.props.completed}
             />
         );
     }

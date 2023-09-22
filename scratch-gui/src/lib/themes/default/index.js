@@ -118,7 +118,7 @@ const blockColors = {
     valueReportBorder: "#AAAAAA",
     menuHover: "rgba(0, 0, 0, 0.2)",
     themeColor: "#7986b8",
-    modalColor: "hsla(227.62, 29.73%, 59.8%, .9)"
+    modalColor: "hsla(227.62, 29.73%, 59.8%, .7)"
 };
 
 
