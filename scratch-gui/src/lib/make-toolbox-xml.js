@@ -358,7 +358,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
         ${blockSeparator}
         <block type="sound_setvolumeto">
             <value name="VOLUME">
-                <shadow type="math_number">
+                <shadow type="math_0to100_number">
                     <field name="NUM">100</field>
                 </shadow>
             </value>

@@ -48,9 +48,9 @@ class Compile{
     //编译
     compile(isUpload) {
         this.processCMD(cmd).then(res => {
-            console.log(res);
+            // console.log(res);
             this.startSend = true;
-            eventEmitter.emit('success');
+            if (isUpload) eventEmitter.emit('success');
         }).catch(error => {
             this.startSend = true;
             handlerError(error);

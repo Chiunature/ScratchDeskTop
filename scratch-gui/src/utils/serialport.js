@@ -27,7 +27,6 @@ class Serialport extends Common {
     receiveData;
     timeOutTimer;
     crc;
-    soundURL;
 
     constructor() {
         super();
@@ -102,7 +101,7 @@ class Serialport extends Common {
         if (!this.port) return;
         this.sign = str;
         this.port.write(data);
-        console.log("write ==>", data);
+        // console.log("write ==>", data);
         this.checkOverTime(event);
     }
 
@@ -166,7 +165,7 @@ class Serialport extends Common {
         if (!this.sign || !this.receiveData) return;
         this.receiveDataBuffer = this.receiveDataBuffer.concat(this.Get_CRC(data));
         if (data[data.length - 1] == 0xa5) {
-            console.log("the processed data is:", this.receiveDataBuffer);
+            // console.log("the processed data is:", this.receiveDataBuffer);
             return true;
         }
         return false;
