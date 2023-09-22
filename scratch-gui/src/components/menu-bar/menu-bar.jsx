@@ -33,7 +33,7 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList, setPort, setIsConnectedSerial } from "../../reducers/connection-modal";;
+import { getSerialList, setPort, setIsConnectedSerial } from "../../reducers/connection-modal";
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
@@ -360,18 +360,26 @@ class MenuBar extends React.Component {
     handleConnectionMouseUp() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            window.electron.ipcRenderer.send("connect", true);
-            window.electron.ipcRenderer.once("connected", (event, arg) => {
-                if (arg.length === 0) return;
-                if (this.props.serialList.length >= arg.length) return;
-                let newarr = arg.reduce((pre, cur) => {
-                    cur.checked = false;
-                    if(cur.friendlyName.search("LBS Serial") != -1) pre.push(cur);
-                    return pre;
-                }, []);
-                this.props.onGetSerialList(newarr);
-                this.props.onSetPort(newarr[0]);
-                this.props.onSetIsConnectedSerial(true);
+            ipc({
+                sendName: "connect",
+                sendParams: true,
+                eventName: "connected",
+                callback: (event, arg) => {
+                    if (arg.length === 0) return;
+                    if (this.props.serialList.length >= arg.length) return;
+                    let newarr = arg.reduce((pre, cur) => {
+                        cur.checked = false;
+                        if(cur.friendlyName.search("LBS Serial") != -1) {
+                            cur.checked = true;
+                            pre.push(cur);
+                        }
+                        return pre;
+                    }, []);
+                    if(newarr.length === 0) return;
+                    this.props.onGetSerialList(newarr);
+                    this.props.onSetPort(newarr[0]);
+                    this.props.onSetIsConnectedSerial(true);
+                }
             });
             this.props.onOpenConnectionModal();
         }

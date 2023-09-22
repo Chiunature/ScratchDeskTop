@@ -8,7 +8,6 @@ import 'scratch-blocks/cake_compressed';
  * @return {ScratchBlocks} ScratchBlocks connected with the vm
  */
 export default function (vm) {
-    
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
             message0: '%1',
@@ -75,7 +74,7 @@ export default function (vm) {
             ['', '']
         ];
         if (vm.editingTarget && vm.editingTarget.sprite.sounds.length > 0) {
-            menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.assetId]);
+            menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.name]);
         }
         // menu.push([
         //     ScratchBlocks.ScratchMsgs.translate('SOUND_RECORD', 'record...'),
