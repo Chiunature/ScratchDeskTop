@@ -17,6 +17,8 @@
 const { SerialPort } = require("serialport");
 const Common = require("./common.js");
 const actions = require("./verification.js");
+const { SOURCE } = require("../config/json/verifyTypeConfig.json");
+
 
 class Serialport extends Common {
     port;
@@ -83,7 +85,8 @@ class Serialport extends Common {
     //上传文件
     upload(event, data) {
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
-        let { binArr, crc } = this.checkFileName(data.fileName, data.verifyType === 'SOURCE' ? 0xec : 0xda);
+        const bits = data.verifyType == SOURCE ? 0xec : 0xda;
+        let { binArr, crc } = this.checkFileName(data.fileName, bits);
         this.crc = crc;
         this.writeData(binArr, 'Boot_URL', event);
     }

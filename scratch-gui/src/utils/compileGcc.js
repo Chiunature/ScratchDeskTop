@@ -1,13 +1,18 @@
 
 import { handlerError } from "./ipcRender";
+import { headMain, Task_Info, Task_Stack, Task_Info_Item, User_Aplication } from "../config/js/ProgrammerTasks.js";
+import { SOURCE } from "../config/json/verifyTypeConfig.json";
+import LB_FWLIB from "../config/json/LB_FWLIB.json";
+
 const fs = window.fs;
 const path = window.path;
 const process = window.child_process;
 const { EventEmitter } = window.events;
-const electron = window.electron;
+const { ipcRenderer } = window.electron;
 
 const makeCommand = 'make';
 const makefile = './LB_USER';
+const LB_USER = './gcc-arm-none-eabi/bin/LB_USER/Src';
 const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 const eventEmitter = new EventEmitter();
 
@@ -52,9 +57,8 @@ class Compile{
             this.startSend = true;
             if (isUpload) eventEmitter.emit('success');
         }).catch(error => {
-            this.startSend = true;
             handlerError(error);
-            if (isUpload) electron.ipcRenderer.send("transmission-error");
+            if (isUpload) ipcRenderer.send("transmission-error");
         });
     }
 
@@ -62,7 +66,7 @@ class Compile{
     programmerTasks(filePath, taskStr, headStr) {
         let readRes = fs.readFileSync(filePath, 'utf8');
         let arr = readRes.split(';');
-        let newStr = "\nTask_Info user_task[] = {" + taskStr + "\n}";
+        let newStr = Task_Info(taskStr);
         let newArr = arr.reduce((pre, el) => {
             if (el.search("extern void Task") == -1) {
                 if (el.search("Task_Info user_task") != -1) {
@@ -80,15 +84,15 @@ class Compile{
 
     //将生成的C代码写入特定的C文件
     handleCode(codeStr) {
-        let code = `#include "main.h"\n${codeStr}\n`;
-        let filePath = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'Aplication.c');
+        let code = headMain(codeStr);
+        let filePath = path.join(LB_USER, 'Aplication.c');
         let writeAppRes = this.writeFiles(filePath, code);
         return writeAppRes;
     }
 
     //并发任务操作
     handleTask(headStr, taskStr) {
-        let taskFile = path.join(`./gcc-arm-none-eabi/bin/LB_USER/Src`, 'ProgrammerTasks.c');
+        let taskFile = path.join(LB_USER, 'ProgrammerTasks.c');
         let parserCode = this.programmerTasks(taskFile, taskStr, headStr);
         let writeTaskRes = this.writeFiles(taskFile, parserCode);
         return writeTaskRes;
@@ -98,9 +102,9 @@ class Compile{
     runGcc(buffer, isUpload = false) {
         let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
-            headStr += `\r\nextern void Task${index}(void *parameter);`;
-            codeStr += `Task${index}(void *parameter)\n{\n${el}\nwhile (1)\n{\nvTaskDelay(50);\n}\n}\n`;
-            taskStr += `\n{\r\n\t\t.Task_Name = "Task${index}",\r\n\t\t.Task_StackSize = 128,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = Task${index},\r\n},\n`;
+            headStr += User_Aplication(index);
+            codeStr += Task_Stack(el, index);
+            taskStr += Task_Info_Item(index);
         });
 
         let appRes = this.handleCode(codeStr);
@@ -115,31 +119,31 @@ class Compile{
     readBin(verifyType) {
         try {
             let fileData, flag, fileName;
-            if(verifyType === 'SOURCE') {
+            if(verifyType === SOURCE) {
                 let str = '';
-                let files = fs.readdirSync("./gcc-arm-none-eabi/bin/LB_FWLIB/music");
+                let files = fs.readdirSync(LB_FWLIB.MUSIC);
                 files.map(el => {
-                    if (el.indexOf("Meow") != -1) str = `./gcc-arm-none-eabi/bin/LB_FWLIB/music/${el}`;
+                    if (el.indexOf("Meow") != -1) str = `${LB_FWLIB.MUSIC}/${el}`;
                 });
                 fileData = fs.readFileSync(str);
                 fileName = "Meow";
             }else {
-                fileName = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_FWLIB/boot/registryApp.txt", 'utf8');
-                fileData = fs.readFileSync("./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin");
-                flag = this.writeFiles("./gcc-arm-none-eabi/bin/LB_FWLIB/app/LB_USER.bin", fileData);
+                fileName = fs.readFileSync(LB_FWLIB.BOOT, 'utf8');
+                fileData = fs.readFileSync(LB_FWLIB.BIN);
+                flag = this.writeFiles(LB_FWLIB.APP, fileData);
             }
 
-            if(fileData) electron.ipcRenderer.send("writeData", { binData: fileData, verifyType, fileName });
+            if(fileData) ipcRenderer.send("writeData", { binData: fileData, verifyType, fileName });
 
         } catch (error) {
             handlerError(error);
-            electron.ipcRenderer.send("transmission-error");
+            ipcRenderer.send("transmission-error");
         }
         
     }
 
     sendSerial(verifyType) {
-        if(verifyType === 'SOURCE') {
+        if(verifyType === SOURCE) {
             this.readBin(verifyType);
             return
         }else {

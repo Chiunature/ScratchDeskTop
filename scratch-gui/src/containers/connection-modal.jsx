@@ -20,7 +20,7 @@ import {
     setCompleted,
 } from "../reducers/connection-modal";
 import { ipc } from "../utils/ipcRender.js";
-
+import verifyTypeConfig from "../config/json/verifyTypeConfig.json";
 class ConnectionModal extends React.Component {
     constructor(props) {
         super(props);
@@ -183,7 +183,7 @@ class ConnectionModal extends React.Component {
     }
 
     handleUpdate() {
-        this.props.compile.sendSerial('SOURCE');
+        this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetCompleted(true);
     }
 
