@@ -16,7 +16,7 @@
  */
 const { SerialPort } = require("serialport");
 const Common = require("./common.js");
-const actions = require("./verification.js");
+const {verifyActions, processReceivedConfig} = require("../config/js/verify.js");
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 
 
@@ -176,22 +176,16 @@ class Serialport extends Common {
 
     //校验数据
     verification(data) {
-        const action = actions(data);
-        return this.switch(action, this.sign, 'verify');
+        const action = this.actions(verifyActions(data));
+        return this.switch(action, this.sign, true);
     }
 
     //处理接收到的数据
     processReceivedData(event) {
         if (this.receiveDataBuffer.length > 0) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
         if (this.sign == 'Boot_URL') this.sign = 'Boot_Bin';
-        const actions = {
-            Boot_Bin: () => this.sendBin(this.chunkIndex, event),
-            Boot_End: () => {
-                event.reply("completed", { result: true, msg: "uploadSuccess" });
-                this.clearCache();
-            }
-        };
-        this.switch(actions, this.sign, 'process');
+        const actions = processReceivedConfig(event, this.chunkIndex, this.sendBin.bind(this), this.clearCache.bind(this));
+        this.switch(actions, this.sign);
         this.chunkIndex++;
     }
 

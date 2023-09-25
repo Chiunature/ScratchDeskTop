@@ -117,7 +117,7 @@ class Common {
     }
 
     switch(actions, condition, type) {
-        if(type == 'verify') {
+        if(type) {
             if (actions[condition]) {
                 return actions[condition]();
             } else {
@@ -130,6 +130,10 @@ class Common {
                 return false;
             }
         }
+    }
+
+    actions(data) {
+        return data
     }
 
 }
