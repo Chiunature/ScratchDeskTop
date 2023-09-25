@@ -139,13 +139,11 @@ class Compile{
             handlerError(error);
             ipcRenderer.send("transmission-error");
         }
-        
     }
 
     sendSerial(verifyType) {
         if(verifyType === SOURCE) {
             this.readBin(verifyType);
-            return
         }else {
             if (!this.startSend) {
                 eventEmitter.on('success', () => this.readBin(verifyType));

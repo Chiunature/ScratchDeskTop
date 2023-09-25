@@ -66,14 +66,11 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
 
 Blockly.cake['matrix_lamp_text'] = function (block) {
     let text = block.getFieldValue('text');
-    // let direction = block.getFieldValue('direction');
-    let t = Blockly.cake.charToHexArray(text);
-    let arr = t.map(el => {
-        return '0x' + el;
-    });
+    // let hex = Blockly.cake.charToHexArray(text);
     // TODO: Assemble cake into code variable.
 
-    let code = `char Text[] = {${hex.join(",")}};\nmatrix_text_lamp(Text);\n`;
+    // let code = `char Text[] = {${hex.join(",")}};\nmatrix_text_lamp(Text);\n`;
+    let code = `\nmatrix_text_lamp("${text}");\n`;
     return code;
 };
 
