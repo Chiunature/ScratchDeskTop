@@ -48,7 +48,7 @@ const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
 
-const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
+const regex = /int\s+main\(\)\s*\{([\s\S]*)\}/;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -152,13 +152,13 @@ class Blocks extends React.Component {
             this.props.setWorkspace(this.workspace);
             if(type === 'var_create' || type === 'endDrag' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
-                clearTimeout(this.timerId);
-                let match = pattern.exec(code);
+                let match = code.match(regex);
                 let hasBlocks = this.workspace.getTopBlocks().length > 0;
-                if(hasBlocks && match && match[2] !== '\n\n') {
-                    let arr = match[2].split("\n\n");
+                if(hasBlocks && match && match[1] !== '\n\n') {
+                    let arr = match[1].split("\n\n");
                     this.props.setCompileList(arr);
                     this.props.compile.setStartSend(false);
+                    clearTimeout(this.timerId);
                     this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
                 } 
             }
