@@ -175,7 +175,7 @@ class Serialport extends Common {
                 let allData = this.catchData(this.receiveData);
                 let verify = this.verification(this.receiveDataBuffer);
                 if (allData && verify) this.processReceivedData(event);
-                else if (!verify) this.checkOverTime(event);
+                else if (this.receiveData && !verify) this.checkOverTime(event);
             } catch (error) {
                 console.log(error);
                 this.handleReadError(event, this.clearCache);
