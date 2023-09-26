@@ -65,7 +65,7 @@ class Compile{
 
     //执行cmd命令
     processCMD(commend) {
-        if (this.currentProcess) this.currentProcess.kill();
+        if (this.currentProcess && !this.currentProcess.exitCode) this.currentProcess.kill();
         return new Promise((resolve, reject) => {
             this.currentProcess = process.exec(commend, (error, stdout) => {
                 if (error) reject(error);

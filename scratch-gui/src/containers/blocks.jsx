@@ -151,7 +151,7 @@ class Blocks extends React.Component {
             let hasBlocks = this.workspace.getTopBlocks().length > 0;
             const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
             let match = pattern.exec(code);
-            if(hasBlocks && match[2] !== '\n\n' && (type === 'move' || type === 'change' || type === 'delete')) {
+            if(hasBlocks && match[2] !== '\n\n' && (type === 'endDrag' || type === 'change' || type === 'delete')) {
                 clearTimeout(this.timerId);
                 let arr = match[2].split("\n\n");
                 this.props.setCompileList(arr);
