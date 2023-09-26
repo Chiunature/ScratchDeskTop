@@ -47,6 +47,9 @@ const addFunctionListener = (object, property, callback) => {
 const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
+
+const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
+
 class Blocks extends React.Component {
     constructor(props) {
         super(props);
@@ -146,17 +149,18 @@ class Blocks extends React.Component {
         try {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
-            this.props.getCode(code);
             this.props.setWorkspace(this.workspace);
-            let hasBlocks = this.workspace.getTopBlocks().length > 0;
-            const pattern = /(int main\s*\(\s*void\s*\)|int main\s*\(\s*\))\s*{([\s\S]+)\}/g;
-            let match = pattern.exec(code);
-            if(hasBlocks && match[2] !== '\n\n' && (type === 'endDrag' || type === 'change' || type === 'delete')) {
+            if(type === 'var_create' || type === 'endDrag' || type === 'change' || type === 'delete') {
+                this.props.getCode(code);
                 clearTimeout(this.timerId);
-                let arr = match[2].split("\n\n");
-                this.props.setCompileList(arr);
-                this.props.compile.setStartSend(false);
-                this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
+                let match = pattern.exec(code);
+                let hasBlocks = this.workspace.getTopBlocks().length > 0;
+                if(hasBlocks && match[2] !== '\n\n') {
+                    let arr = match[2].split("\n\n");
+                    this.props.setCompileList(arr);
+                    this.props.compile.setStartSend(false);
+                    this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
+                } 
             }
         } catch (e) {
             handlerError(e + '\n' + code);
