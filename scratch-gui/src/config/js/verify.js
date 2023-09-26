@@ -1,3 +1,27 @@
+/**
+ * @license
+ * Visual Blocks Editor
+ *
+ * Copyright 2023 drluck Inc.
+ * http://www.drluck.cn/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @fileoverview The class representing one block.
+ * @author avenger-jxc
+ */
 function verifyActions(data) {
     return {
         "Boot_URL": () => {
@@ -19,15 +43,25 @@ function verifyActions(data) {
 }
 
 function processReceivedConfig(event, ...arg) {
-    return {
-        "Boot_Bin": () => {
-            if(typeof arg[1] == "function") arg[1](arg[0], event);
-        },
-        "Boot_End": () => {
-            event.reply("completed", { result: true, msg: "uploadSuccess" });
-            if(typeof arg[2] == "function") arg[2]();
+    let obj = {};
+    arg.map(item => {
+        if (typeof item == "function") {
+            switch (item.name) {
+                case "bound sendBin":
+                    obj['Boot_Bin'] = () => item(arg[0], event);
+                    break;
+                case "bound clearCache":
+                    obj['Boot_End'] = () => {
+                        event.reply("completed", { result: true, msg: "uploadSuccess" });
+                        item();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
-    }
+    });
+    return obj;
 }
 
 module.exports = {
