@@ -155,7 +155,7 @@ class Blocks extends React.Component {
                 clearTimeout(this.timerId);
                 let match = pattern.exec(code);
                 let hasBlocks = this.workspace.getTopBlocks().length > 0;
-                if(hasBlocks && match[2] !== '\n\n') {
+                if(hasBlocks && match && match[2] !== '\n\n') {
                     let arr = match[2].split("\n\n");
                     this.props.setCompileList(arr);
                     this.props.compile.setStartSend(false);
