@@ -160,8 +160,7 @@ class Compile{
                     this.filesObj.filesLen = this.filesObj.filesList.length;
                 }
                 fileData = this.readFiles(`${LB_FWLIB.MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
-                let index = this.filesObj.filesList[this.filesIndex].indexOf('.');
-                fileName = this.filesObj.filesList[this.filesIndex].slice(0, index);
+                fileName = this.filesObj.filesList[this.filesIndex].slice(0, -4);
             }else {
                 fileName = this.readFiles(LB_FWLIB.BOOT, 'utf8');
                 fileData = this.readFiles(LB_FWLIB.BIN);

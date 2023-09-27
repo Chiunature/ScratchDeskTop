@@ -35,18 +35,13 @@ class Common {
         });
     }
 
-    //获取文件名字
-    getBootName(path, type) {
-        let name = fs.readFileSync(path, type);
-        return name;
-    }
 
     //文件名校验位和指令
     checkFileName(item, bits) {
         let list = this.stringToHex(item);
         let len = list.length;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
-        list.forEach(el => sum += el);
+        list.map(el => sum += el);
         return {
             binArr: [0x5a, 0x97, 0x98, len, bits, ...list, (sum & 0xff), 0xa5],
             crc: sum & 0xff
@@ -58,7 +53,7 @@ class Common {
         let len = item.length;
         let bits = currentIndex == lastIndex ? 0xbb : 0xaa;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
-        item.forEach(el => sum += el);
+        item.map(el => sum += el);
         return {
             binArr: [0x5a, 0x97, 0x98, len, bits, ...item, (sum & 0xff), 0xa5],
             crc: sum & 0xff
