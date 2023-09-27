@@ -23,7 +23,7 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError } from "./ipcRender";
+import { handlerError, ipc } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item, User_Aplication } from "../config/js/ProgrammerTasks.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
 import LB_FWLIB from "../config/json/LB_FWLIB.json";
@@ -32,7 +32,6 @@ const fs = window.fs;
 const path = window.path;
 const process = window.child_process;
 const { EventEmitter } = window.events;
-const { ipcRenderer } = window.electron;
 
 const makeCommand = 'make';
 const makefile = './LB_USER';
@@ -44,7 +43,9 @@ class Compile{
 
     constructor() {
         this.currentProcess;
+        this.filesIndex = 0;
         this.startSend = true;
+        this.filesObj = {};
     }
 
     //控制编译前、编译中、编译后通信
@@ -53,10 +54,21 @@ class Compile{
     }
 
     //将c语言代码写入文件
-    writeFiles(path, buffer) {
+    writeFiles(path, type) {
         try {
-            fs.writeFileSync(path, buffer);
+            fs.writeFileSync(path, type);
             return true;
+        } catch (error) {
+            handlerError(error);
+            return false;
+        }
+    }
+
+    //读取文件内容
+    readFiles(path, type) {
+        try {
+            const data = fs.readFileSync(path, type);
+            return data;
         } catch (error) {
             handlerError(error);
             return false;
@@ -77,18 +89,17 @@ class Compile{
     //编译
     compile(isUpload) {
         this.processCMD(cmd).then(res => {
-            // console.log(res);
             this.startSend = true;
             if (isUpload) eventEmitter.emit('success');
         }).catch(error => {
             handlerError(error);
-            if (isUpload) ipcRenderer.send("transmission-error");
+            if (isUpload) ipc({sendName: "transmission-error"});
         });
     }
 
     //处理任务
     programmerTasks(filePath, taskStr, headStr) {
-        let readRes = fs.readFileSync(filePath, 'utf8');
+        let readRes = this.readFiles(filePath, 'utf8');
         let arr = readRes.split(';');
         let newStr = Task_Info(taskStr);
         let newArr = arr.reduce((pre, el) => {
@@ -142,26 +153,33 @@ class Compile{
     //获取bing文件数据准备通信
     readBin(verifyType) {
         try {
-            let fileData, flag, fileName;
+            let fileData, fileName;
             if(verifyType === SOURCE) {
-                let str = '';
-                let files = fs.readdirSync(LB_FWLIB.MUSIC);
-                files.map(el => {
-                    if (el.indexOf("Meow") != -1) str = `${LB_FWLIB.MUSIC}/${el}`;
-                });
-                fileData = fs.readFileSync(str);
-                fileName = "Meow";
+                if(!this.filesObj) {
+                    this.filesObj.filesList = fs.readdirSync(LB_FWLIB.MUSIC);
+                    this.filesObj.filesLen = this.filesObj.filesList.length;
+                }
+                fileData = this.readFiles(`${LB_FWLIB.MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
+                let index = this.filesObj.filesList[this.filesIndex].indexOf('.');
+                fileName = this.filesObj.filesList[this.filesIndex].slice(0, index);
             }else {
-                fileName = fs.readFileSync(LB_FWLIB.BOOT, 'utf8');
-                fileData = fs.readFileSync(LB_FWLIB.BIN);
-                flag = this.writeFiles(LB_FWLIB.APP, fileData);
+                fileName = this.readFiles(LB_FWLIB.BOOT, 'utf8');
+                fileData = this.readFiles(LB_FWLIB.BIN);
+                this.writeFiles(LB_FWLIB.APP, fileData);
             }
 
-            if(fileData) ipcRenderer.send("writeData", { binData: fileData, verifyType, fileName });
+            ipc({
+                sendName: "writeData", 
+                sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen }, 
+                eventName: "nextFile", 
+                callback: (event, data) => {
+                    this.filesIndex = data.index;
+                    if(this.filesIndex <= this.filesObj.filesLen) this.readBin(SOURCE);
+            }});
 
         } catch (error) {
             handlerError(error);
-            ipcRenderer.send("transmission-error");
+            ipc({sendName: "transmission-error"});
         }
     }
 
@@ -171,7 +189,6 @@ class Compile{
         }else {
             if (!this.startSend) {
                 eventEmitter.on('success', () => this.readBin(verifyType));
-                return;
             }else {
                 this.readBin(verifyType);
             }

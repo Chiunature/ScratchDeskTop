@@ -18,9 +18,12 @@ import {
     clearConnectionModalPeripheralName,
     getSerialList,
     setCompleted,
+    setVersion,
 } from "../reducers/connection-modal";
-import { ipc } from "../utils/ipcRender.js";
-import verifyTypeConfig from "../config/json/verifyTypeConfig.json";
+import { ipc, getVersion } from "../utils/ipcRender.js";
+import { SOURCE } from "../config/json/verifyTypeConfig.json";
+import { VERSION } from "../config/json/LB_FWLIB.json";
+
 class ConnectionModal extends React.Component {
     constructor(props) {
         super(props);
@@ -183,8 +186,9 @@ class ConnectionModal extends React.Component {
     }
 
     handleUpdate() {
-        this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
+        this.props.compile.sendSerial(SOURCE);
         this.props.onSetCompleted(true);
+        if(!localStorage.getItem('version')) this.props.onSetVersion(getVersion(VERSION));
     }
 
     render() {
@@ -227,6 +231,7 @@ class ConnectionModal extends React.Component {
                 onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
                 completed={this.props.completed}
+                getVersion={getVersion}
             />
         );
     }
@@ -264,7 +269,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
+    onSetVersion: (version) => dispatch(setVersion(version))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

@@ -24,14 +24,15 @@
  */
 
 /*
- * @params: {
- *  mainWindow: 主进程
+* @params: {
  *  port: 串口
  *  chunkBuffer: bin文件数据缓存
  *  chunkIndex: 切片下标
- *  sign: 检验标识
- *  intervalTimer: 等待响应之后的延时器
+ *  sign: 步骤标识
  *  timeOutTimer: 检测指令是否成功有返回
+ *  verifyType: 判断是发固件文件还是bin数据
+ *  receiveDataBuffer: 接收到的数据缓存
+ *  filesObj: 固件文件对象
  * }
  */
 const { SerialPort } = require("serialport");
@@ -46,9 +47,9 @@ class Serialport extends Common {
     chunkBuffer = [];
     chunkIndex = 0;
     sign;
-    receiveData;
     timeOutTimer;
-    crc;
+    verifyType;
+    filesObj;
 
     constructor() {
         super();
@@ -105,9 +106,13 @@ class Serialport extends Common {
     //上传文件
     upload(event, data) {
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
+        this.verifyType = data.verifyType;
+        this.filesObj = {
+            filesIndex: data.filesIndex,
+            filesLen: data.filesLen
+        };
         const bits = data.verifyType == SOURCE ? 0xec : 0xda;
-        let { binArr, crc } = this.checkFileName(data.fileName, bits);
-        this.crc = crc;
+        let { binArr } = this.checkFileName(data.fileName, bits);
         this.writeData(binArr, 'Boot_URL', event);
     }
 
@@ -157,8 +162,7 @@ class Serialport extends Common {
     sendBin(index, event) {
         if (index < 0) return;
         const element = this.chunkBuffer[index];
-        let { binArr, crc } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
-        this.crc = crc;
+        let { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
         if (index === this.chunkBuffer.length - 1) this.writeData(binArr, 'Boot_End', event);
         else this.writeData(binArr, 'Boot_Bin', event);
     }
@@ -169,13 +173,13 @@ class Serialport extends Common {
         this.port.on(eventName, () => {
             try {
                 this.clearTimer();
-                this.receiveData = this.port.read();
-                // console.log("the received data is:", this.receiveData);
+                let receiveData = this.port.read();
+                // console.log("the received data is:", receiveData);
 
-                let allData = this.catchData(this.receiveData);
+                let allData = this.catchData(receiveData);
                 let verify = this.verification(this.receiveDataBuffer);
                 if (allData && verify) this.processReceivedData(event);
-                else if (this.receiveData && !verify) this.checkOverTime(event);
+                else if (receiveData && !verify) this.checkOverTime(event);
             } catch (error) {
                 console.log(error);
                 this.handleReadError(event, this.clearCache);
@@ -185,7 +189,7 @@ class Serialport extends Common {
 
     //捕捉接收的数据
     catchData(data) {
-        if (!this.sign || !this.receiveData) return;
+        if (!this.sign || !data) return;
         this.receiveDataBuffer = this.receiveDataBuffer.concat(this.Get_CRC(data));
         if (data[data.length - 1] == 0xa5) {
             // console.log("the processed data is:", this.receiveDataBuffer);
@@ -204,7 +208,7 @@ class Serialport extends Common {
     processReceivedData(event) {
         if (this.receiveDataBuffer.length > 0) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
         if (this.sign == 'Boot_URL') this.sign = 'Boot_Bin';
-        const actions = processReceivedConfig(event, this.chunkIndex, this.sendBin.bind(this), this.clearCache.bind(this));
+        const actions = processReceivedConfig(event, this.chunkIndex, this.verifyType, this.filesObj, this.sendBin.bind(this), this.clearCache.bind(this));
         this.switch(actions, this.sign);
         this.chunkIndex++;
     }

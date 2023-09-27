@@ -65,7 +65,13 @@ function handlerError(error) {
     writeFileWithDirectory(directory, filepath, error);
 }
 
+function getVersion(path) {
+    const version = window.fs.readFileSync(path, 'utf8');
+    return version;
+}
+
 export {
     ipc,
-    handlerError
+    handlerError,
+    getVersion
 }

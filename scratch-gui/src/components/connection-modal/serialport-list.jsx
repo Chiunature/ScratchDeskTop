@@ -9,6 +9,7 @@ import helpIcon from "./icons/help.svg";
 import backIcon from "./icons/back.svg";
 import bluetoothIcon from "./icons/bluetooth.svg";
 import scratchLinkIcon from "./icons/scratchlink.svg";
+import { VERSION } from "../../config/json/LB_FWLIB.json";
 
 import styles from "./connection-modal.css";
 
@@ -93,7 +94,7 @@ const SerialportList = (props) => (
                         styles.redButton,
                         styles.connectionButton
                     )}
-                    disabled={props.version == localStorage.getItem('version') || props.completed ? true : false}
+                    disabled={(props.getVersion(VERSION) == localStorage.getItem('version')) || props.completed ? true : false}
                     onClick={props.onUpdate}
                 >
                     {props.completed ? (
