@@ -38,8 +38,8 @@ class Common {
 
     //文件名校验位和指令
     checkFileName(item, bits) {
-        let list = this.stringToHex(item);
-        let len = list.length;
+        const list = this.stringToHex(item);
+        const len = list.length;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
         list.map(el => sum += el);
         return {
@@ -50,8 +50,8 @@ class Common {
 
     //bin信息指令
     checkBinData(item, currentIndex, lastIndex) {
-        let len = item.length;
-        let bits = currentIndex == lastIndex ? 0xbb : 0xaa;
+        const len = item.length;
+        const bits = currentIndex == lastIndex ? 0xbb : 0xaa;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
         item.map(el => sum += el);
         return {
@@ -83,10 +83,10 @@ class Common {
 
     //将字符串转十六进制
     stringToHex(str) {
-        var val = [];
-        for (var i = 0; i < str.length; i++) {
-            let hex = str.charCodeAt(i).toString(16);
-            let num = parseInt(hex, 16);
+        let val = [];
+        for (let i = 0; i < str.length; i++) {
+            const hex = str.charCodeAt(i).toString(16);
+            const num = parseInt(hex, 16);
             val.push(num);
         }
         return val;
@@ -106,7 +106,7 @@ class Common {
     //分段上传
     uploadSlice(data, size) {
         let newArr = [];
-        let chunkSize = size;
+        const chunkSize = size;
         if (data.length < chunkSize) {
             newArr.push(data);
         } else {
@@ -126,13 +126,13 @@ class Common {
 
     //从文件夹获取文件名
     readmidr(folderPath) {
-        let files = fs.readdirSync(folderPath);
+        const files = fs.readdirSync(folderPath);
         return files;
     }
 
     //读取文件
     readFiles(path, type) {
-        let data = fs.readFileSync(path, type);
+        const data = fs.readFileSync(path, type);
         return data;
     }
 

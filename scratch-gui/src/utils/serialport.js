@@ -112,7 +112,7 @@ class Serialport extends Common {
             filesLen: data.filesLen
         };
         const bits = data.verifyType == SOURCE ? 0xec : 0xda;
-        let { binArr } = this.checkFileName(data.fileName, bits);
+        const { binArr } = this.checkFileName(data.fileName, bits);
         this.writeData(binArr, 'Boot_URL', event);
     }
 
@@ -162,7 +162,7 @@ class Serialport extends Common {
     sendBin(index, event) {
         if (index < 0) return;
         const element = this.chunkBuffer[index];
-        let { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
+        const { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
         if (index === this.chunkBuffer.length - 1) this.writeData(binArr, 'Boot_End', event);
         else this.writeData(binArr, 'Boot_Bin', event);
     }
@@ -173,11 +173,11 @@ class Serialport extends Common {
         this.port.on(eventName, () => {
             try {
                 this.clearTimer();
-                let receiveData = this.port.read();
+                const receiveData = this.port.read();
                 // console.log("the received data is:", receiveData);
 
-                let allData = this.catchData(receiveData);
-                let verify = this.verification(this.receiveDataBuffer);
+                const allData = this.catchData(receiveData);
+                const verify = this.verification(this.receiveDataBuffer);
                 if (allData && verify) this.processReceivedData(event);
                 else if (receiveData && !verify) this.checkOverTime(event);
             } catch (error) {

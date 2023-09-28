@@ -100,8 +100,8 @@ class Compile{
     //处理任务
     programmerTasks(filePath, taskStr, headStr) {
         let readRes = this.readFiles(filePath, 'utf8');
-        let arr = readRes.split(';');
-        let newStr = Task_Info(taskStr);
+        const arr = readRes.split(';');
+        const newStr = Task_Info(taskStr);
         let newArr = arr.reduce((pre, el) => {
             if (el.search("extern void Task") == -1) {
                 if (el.search("Task_Info user_task") != -1) {
@@ -119,17 +119,17 @@ class Compile{
 
     //将生成的C代码写入特定的C文件
     handleCode(codeStr) {
-        let code = headMain(codeStr);
-        let filePath = path.join(LB_USER, 'Aplication.c');
-        let writeAppRes = this.writeFiles(filePath, code);
+        const code = headMain(codeStr);
+        const filePath = path.join(LB_USER, 'Aplication.c');
+        const writeAppRes = this.writeFiles(filePath, code);
         return writeAppRes;
     }
 
     //并发任务操作
     handleTask(headStr, taskStr) {
-        let taskFile = path.join(LB_USER, 'ProgrammerTasks.c');
-        let parserCode = this.programmerTasks(taskFile, taskStr, headStr);
-        let writeTaskRes = this.writeFiles(taskFile, parserCode);
+        const taskFile = path.join(LB_USER, 'ProgrammerTasks.c');
+        const parserCode = this.programmerTasks(taskFile, taskStr, headStr);
+        const writeTaskRes = this.writeFiles(taskFile, parserCode);
         return writeTaskRes;
     }
 
@@ -142,8 +142,8 @@ class Compile{
             taskStr += Task_Info_Item(index);
         });
 
-        let appRes = this.handleCode(codeStr);
-        let taskRes = this.handleTask(headStr, taskStr);
+        const appRes = this.handleCode(codeStr);
+        const taskRes = this.handleTask(headStr, taskStr);
         console.log(appRes, taskRes);
 
         //编译

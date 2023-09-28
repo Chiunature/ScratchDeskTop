@@ -60,8 +60,8 @@ function writeFileWithDirectory(directory, filepath, data) {
 //错误处理
 function handlerError(error) {
     console.error(`error: ${error}`);
-    let directory = './Error';
-    let filepath = `./Error/error_${getCurrentTime()}.txt`;
+    const directory = './Error';
+    const filepath = `./Error/error_${getCurrentTime()}.txt`;
     writeFileWithDirectory(directory, filepath, error);
 }
 
