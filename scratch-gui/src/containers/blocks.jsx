@@ -48,7 +48,7 @@ const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
 
-const regex = /int\s+main\(\)\s*\{([\s\S]*)\}/;
+const regex =  /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 
 class Blocks extends React.Component {
     constructor(props) {
