@@ -103,7 +103,7 @@ class Compile{
         const arr = readRes.split(';');
         const newStr = Task_Info(taskStr);
         let newArr = arr.reduce((pre, el) => {
-            if (el.search("extern void Task") == -1) {
+            if (el.search("extern void User_Aplication") == -1) {
                 if (el.search("Task_Info user_task") != -1) {
                     el = newStr;
                 }

@@ -87,13 +87,13 @@ Blockly.cake['control_if_else'] = function (block) {
   var branch2 = Blockly.cake.statementToCode(block, 'SUBSTACK2');
   branch2 = Blockly.cake.addLoopTrap(branch2, block.id);
 
-  var code = "if (" + argument + ") {";
+  var code = "if (" + argument + ") {\n";
   if (branch) {
-    code += branch + "}\n";
+    code += branch + "}";
   } else {
-    code += Blockly.cake.INDENT + "}\n";
+    code += Blockly.cake.INDENT + "}";
   }
-  code += "else{";
+  code += "else{\n";
   if (branch2) {
     code += branch2 + "}\n";
   } else {
