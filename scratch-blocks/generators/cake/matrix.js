@@ -70,7 +70,7 @@ Blockly.cake['matrix_lamp_text'] = function (block) {
     // TODO: Assemble cake into code variable.
 
     // let code = `char Text[] = {${hex.join(",")}};\nmatrix_text_lamp(Text);\n`;
-    let code = `\nmatrix_text_lamp("${text}");\n`;
+    let code = `matrix_text_lamp("${text}");\n`;
     return code;
 };
 
