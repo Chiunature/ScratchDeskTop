@@ -129,8 +129,11 @@ Blockly.cake['control_repeat_until'] = function (block) {
 };
 
 Blockly.cake['control_stop'] = function (block) {
-  return 'exit();\n';
+  var argument = block.getFieldValue('STOP_OPTION',
+    Blockly.cake.ORDER_NONE)|| 'all';
+  return `exit("${argument}");\n`;
 };
+
 
 
 Blockly.cake['control_doWhile'] = function (block) {
