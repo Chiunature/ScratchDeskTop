@@ -34,7 +34,7 @@ Blockly.cake['control_if'] = function (block) {
     Blockly.cake.ORDER_NONE) || 'False';
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
-  var code = "if (" + argument + ") {";
+  var code = "if (" + argument + ") {\n";
   if (branch) {
     code += branch;
   } else {
