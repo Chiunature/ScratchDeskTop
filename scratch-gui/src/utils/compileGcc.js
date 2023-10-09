@@ -30,16 +30,13 @@ import LB_FWLIB from "../config/json/LB_FWLIB.json";
 
 const fs = window.fs;
 const path = window.path;
-const process = window.child_process;
+const { spawnSync } = window.child_process;
 const { EventEmitter } = window.events;
 
-const makeCommand = 'make';
-const makefile = './LB_USER';
 const LB_USER = './gcc-arm-none-eabi/bin/LB_USER/Src';
-const cmd = `cd ./gcc-arm-none-eabi/bin&&${makeCommand} -C ${makefile}`;
 const eventEmitter = new EventEmitter();
 
-class Compile{
+class Compile {
 
     constructor() {
         this.currentProcess;
@@ -75,26 +72,16 @@ class Compile{
         }
     }
 
-    //执行cmd命令
-    processCMD(commend) {
-        if (this.currentProcess && this.currentProcess.exitCode === null) this.currentProcess.kill(this.currentProcess.pid, 'SIGINT');
-        return new Promise((resolve, reject) => {
-            this.currentProcess = process.exec(commend, (error, stdout) => {
-                if (error) reject(error);
-                else resolve(stdout);
-            });
-        });
-    }
-
-    //编译
-    compile(isUpload) {
-        this.processCMD(cmd).then(res => {
-            this.startSend = true;
-            if (isUpload) eventEmitter.emit('success');
-        }).catch(error => {
-            handlerError(error);
-            if (isUpload) ipc({sendName: "transmission-error"});
-        });
+    //调用编译命令
+    commendMake() {
+        const dir = './gcc-arm-none-eabi/bin';
+        const work = spawnSync('make', ['-C', './LB_USER'], { cwd: dir });
+        if (work.status === 0) {
+            return true;
+        } else {
+            handlerError(work.stderr.toString());
+            return false;
+        }
     }
 
     //处理任务
@@ -144,51 +131,59 @@ class Compile{
 
         const appRes = this.handleCode(codeStr);
         const taskRes = this.handleTask(headStr, taskStr);
-        console.log(appRes, taskRes);
 
         //编译
-        if (appRes && taskRes) this.compile(isUpload);
+        if (appRes && taskRes) {
+            const result = this.commendMake();
+            this.startSend = result;
+            if (result) {
+                if (isUpload && this.startSend) eventEmitter.emit('success');
+            } else {
+                if (isUpload) ipc({ sendName: "transmission-error" });
+            }
+        }
     }
 
     //获取bing文件数据准备通信
     readBin(verifyType) {
         try {
             let fileData, fileName;
-            if(verifyType === SOURCE) {
-                if(!this.filesObj) {
+            if (verifyType === SOURCE) {
+                if (!this.filesObj) {
                     this.filesObj.filesList = fs.readdirSync(LB_FWLIB.MUSIC);
                     this.filesObj.filesLen = this.filesObj.filesList.length;
                 }
                 fileData = this.readFiles(`${LB_FWLIB.MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
                 fileName = this.filesObj.filesList[this.filesIndex].slice(0, -4);
-            }else {
+            } else {
                 fileName = this.readFiles(LB_FWLIB.BOOT, 'utf8');
                 fileData = this.readFiles(LB_FWLIB.BIN);
                 this.writeFiles(LB_FWLIB.APP, fileData);
             }
 
             ipc({
-                sendName: "writeData", 
-                sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen }, 
-                eventName: "nextFile", 
+                sendName: "writeData",
+                sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen },
+                eventName: "nextFile",
                 callback: (event, data) => {
                     this.filesIndex = data.index;
-                    if(this.filesIndex <= this.filesObj.filesLen) this.readBin(SOURCE);
-            }});
+                    if (this.filesIndex <= this.filesObj.filesLen) this.readBin(SOURCE);
+                }
+            });
 
         } catch (error) {
             handlerError(error);
-            ipc({sendName: "transmission-error"});
+            ipc({ sendName: "transmission-error" });
         }
     }
 
     sendSerial(verifyType) {
-        if(verifyType === SOURCE) {
+        if (verifyType === SOURCE) {
             this.readBin(verifyType);
-        }else {
+        } else {
             if (!this.startSend) {
                 eventEmitter.on('success', () => this.readBin(verifyType));
-            }else {
+            } else {
                 this.readBin(verifyType);
             }
         }
