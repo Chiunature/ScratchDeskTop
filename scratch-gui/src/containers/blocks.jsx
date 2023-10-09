@@ -161,6 +161,8 @@ class Blocks extends React.Component {
                     clearTimeout(this.timerId);
                     this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
                 } 
+            }else {
+                return false;
             }
         } catch (e) {
             handlerError(e + '\n' + code);
