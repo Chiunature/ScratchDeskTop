@@ -42,7 +42,7 @@ const addContinueLabel = function (branch) {
 Blockly.cake['control_wait'] = function (block) {
   var arg0 = Blockly.cake.valueToCode(block, 'DURATION',
     Blockly.cake.ORDER_FUNCTION_CALL);
-  var code = "sleep(" + arg0 + " * 1000" + ")\n";
+  var code = "sleep(" + arg0 + " * 1000" + ");\n";
   return code;
 };
 
@@ -129,7 +129,7 @@ Blockly.cake['control_repeat_until'] = function (block) {
 };
 
 Blockly.cake['control_stop'] = function (block) {
-  return 'exit()\n';
+  return 'exit();\n';
 };
 
 

@@ -150,7 +150,7 @@ class Blocks extends React.Component {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
             this.props.setWorkspace(this.workspace);
-            if(type === 'var_create' || type === 'endDrag' || type === 'change' || type === 'delete') {
+            if(type === 'endDrag' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
                 let match = code.match(regex);
                 let hasBlocks = this.workspace.getTopBlocks().length > 0;

@@ -10,7 +10,7 @@ const initialState = {
     isPlayerOnly: false,
     hasEverEnteredEditor: true,
     isGen: false,
-    code: "",
+    code: `#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <math.h>\nint main() {\n\n\n}`,
     isComplete: false,
     compileList: []
 };

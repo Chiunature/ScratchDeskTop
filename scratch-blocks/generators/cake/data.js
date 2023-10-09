@@ -26,7 +26,7 @@ goog.require('Blockly.cake');
 Blockly.cake['data_variable'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
         Blockly.Variables.NAME_TYPE);
-    return ["int " + varName, Blockly.cake.ORDER_ATOMIC];
+    return [varName, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_setvariableto'] = function (block) {
@@ -45,7 +45,7 @@ Blockly.cake['data_setvariableto'] = function (block) {
     let newArg = Blockly.cake.isVal(arg0);
     console.log(newArg);
 
-    return varName + ' = ' + newArg + ';\n';
+    return `int ${varName};\n` + varName + ' = ' + newArg + ';\n';
 };
 
 Blockly.cake['data_changevariableby'] = function (block) {
