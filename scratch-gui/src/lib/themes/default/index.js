@@ -83,8 +83,8 @@ const blockColors = {
     },
     more: {
         "primary": "#82be97",
-        "secondary": "#FF4D6A",
-        "tertiary": "#82be97",
+        "secondary": "#379f5a",
+        "tertiary": "#379f5a",
         "quaternary": "#82be97"
     },
     text: "#575E75",

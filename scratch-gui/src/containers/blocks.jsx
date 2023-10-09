@@ -168,23 +168,6 @@ class Blocks extends React.Component {
             handlerError(e + '\n' + code);
         }
     }
-
-    //解析声音
-    parserSound(arr) {
-        let list = this.props.soundArr;
-        let newArr = arr.filter(el => el!='');
-        let newList = [];
-        for (let i = 0; i < newArr.length; i++) {
-            const arrEle = newArr[i];
-            for (let j = 0; j < list.length; j++) {
-                const listEle = list[j];
-                if(arrEle.indexOf(listEle.assetId) != -1) {
-                    newList.push("./gcc-arm-none-eabi/bin/LB_FWLIB/music/" + listEle.md5);
-                }
-            }
-        }
-        return newList.join(",")
-    }
     
     //解析任务
     parserTask(workspace, arr) {
