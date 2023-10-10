@@ -73,5 +73,6 @@ function getVersion(path) {
 export {
     ipc,
     handlerError,
-    getVersion
+    getVersion,
+    getCurrentTime
 }

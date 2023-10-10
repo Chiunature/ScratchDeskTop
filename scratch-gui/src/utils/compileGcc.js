@@ -23,7 +23,7 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError, ipc } from "./ipcRender";
+import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item, User_Aplication } from "../config/js/ProgrammerTasks.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
 import LB_FWLIB from "../config/json/LB_FWLIB.json";
@@ -43,6 +43,7 @@ class Compile {
         this.filesIndex = 0;
         this.startSend = true;
         this.filesObj = {};
+        this.eventName;
     }
 
     //控制编译前、编译中、编译后通信
@@ -128,7 +129,6 @@ class Compile {
             codeStr += Task_Stack(el, index);
             taskStr += Task_Info_Item(index);
         });
-
         const appRes = this.handleCode(codeStr);
         const taskRes = this.handleTask(headStr, taskStr);
 
@@ -137,7 +137,9 @@ class Compile {
             const result = this.commendMake();
             this.startSend = result;
             if (result) {
-                if (isUpload && this.startSend) eventEmitter.emit('success');
+                if (isUpload && this.startSend) eventEmitter.emit(this.eventName);
+                //去掉上一个注册的方法避免重复触发
+                if(this.eventName) eventEmitter.removeAllListeners([this.eventName]);
             } else {
                 if (isUpload) ipc({ sendName: "transmission-error" });
             }
@@ -182,7 +184,8 @@ class Compile {
             this.readBin(verifyType);
         } else {
             if (!this.startSend) {
-                eventEmitter.on('success', () => this.readBin(verifyType));
+                this.eventName = 'success' + getCurrentTime();
+                eventEmitter.on(this.eventName, () => this.readBin(verifyType));
             } else {
                 this.readBin(verifyType);
             }
