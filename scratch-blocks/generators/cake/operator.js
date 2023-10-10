@@ -111,7 +111,8 @@ Blockly.cake['operator_join'] = function (block) {
     var order = Blockly.cake.ORDER_UNARY_PREFIX;
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '\'\'';
-    var code = 'str(' + arg0 + ') + str(' + arg1 + ')';
+    // var code = 'str(' + arg0 + ') + str(' + arg1 + ')';
+    let code = `strcat("${arg0}", "${arg1}")`;
     return [code, Blockly.cake.ORDER_ADDITIVE];
 };
 

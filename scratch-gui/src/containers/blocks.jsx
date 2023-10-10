@@ -152,15 +152,7 @@ class Blocks extends React.Component {
             this.props.setWorkspace(this.workspace);
             if(type === 'endDrag' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
-                let match = code.match(regex);
-                let hasBlocks = this.workspace.getTopBlocks().length > 0;
-                if(hasBlocks && match && match[1] !== '\n\n') {
-                    let arr = match[1].split("\n\n");
-                    this.props.setCompileList(arr);
-                    this.props.compile.setStartSend(false);
-                    clearTimeout(this.timerId);
-                    this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
-                } 
+                this.checkStartHat(this.workspace, code);
             }else {
                 return false;
             }
@@ -168,6 +160,22 @@ class Blocks extends React.Component {
             handlerError(e + '\n' + code);
         }
     }
+    
+    //检查是不是开始事件头
+    checkStartHat(workspace, code) {
+        const list = workspace.getTopBlocks();
+        const newList = list.filter(el => el.startHat_);
+        if(newList.length <= 0) return;
+        const match = code.match(regex);
+        if(match && match[1] !== '\n\n') {
+            const arr = match[1].split("\n\n");
+            this.props.setCompileList(arr);
+            this.props.compile.setStartSend(false);
+            clearTimeout(this.timerId);
+            this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
+        } 
+    }
+
     
     //解析任务
     parserTask(workspace, arr) {
