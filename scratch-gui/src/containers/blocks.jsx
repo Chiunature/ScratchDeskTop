@@ -150,7 +150,7 @@ class Blocks extends React.Component {
             const generatorName = 'cake';
             code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
             this.props.setWorkspace(this.workspace);
-            if(type === 'endDrag' || type === 'change' || type === 'delete') {
+            if(type === 'move' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
                 this.checkStartHat(this.workspace, code);
             }else {
@@ -164,8 +164,8 @@ class Blocks extends React.Component {
     //检查是不是开始事件头
     checkStartHat(workspace, code) {
         const list = workspace.getTopBlocks();
-        const newList = list.filter(el => el.startHat_);
-        if(newList.length <= 0) return;
+        const hasStart = list.some(el => el.startHat_);
+        if(!hasStart) return;
         const match = code.match(regex);
         if(match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
