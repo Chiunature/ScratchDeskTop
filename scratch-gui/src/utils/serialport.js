@@ -130,6 +130,7 @@ class Serialport extends Common {
         this.sign = str;
         this.port.write(data);
         // console.log("write ==>", data);
+        event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         this.checkOverTime(event);
     }
 

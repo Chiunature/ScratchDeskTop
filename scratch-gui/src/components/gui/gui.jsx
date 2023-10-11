@@ -16,8 +16,8 @@ import VM from "scratch-vm";
 import Renderer from "scratch-render";
 
 import Blocks from "../../containers/blocks.jsx";
-import CostumeTab from "../../containers/costume-tab.jsx";
-import TargetPane from "../../containers/target-pane.jsx";
+// import CostumeTab from "../../containers/costume-tab.jsx";
+// import TargetPane from "../../containers/target-pane.jsx";
 import SoundTab from "../../containers/sound-tab.jsx";
 import StageWrapper from "../../containers/stage-wrapper.jsx";
 import Loader from "../loader/loader.jsx";
@@ -25,9 +25,9 @@ import Box from "../box/box.jsx";
 import MenuBar from "../menu-bar/menu-bar.jsx";
 import CostumeLibrary from "../../containers/costume-library.jsx";
 import BackdropLibrary from "../../containers/backdrop-library.jsx";
-import Watermark from "../../containers/watermark.jsx";
+// import Watermark from "../../containers/watermark.jsx";
 
-import Backpack from "../../containers/backpack.jsx";
+// import Backpack from "../../containers/backpack.jsx";
 import WebGlModal from "../../containers/webgl-modal.jsx";
 import TipsLibrary from "../../containers/tips-library.jsx";
 import Cards from "../../containers/cards.jsx";
@@ -42,11 +42,11 @@ import {themeMap} from '../../lib/themes';
 import styles from "./gui.css";
 import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
-import costumesIcon from "./icon--costumes.svg";
+// import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
 import uploadIcon from "./icon--upload.svg";
 import yesIcon from "./icon--yes.svg";
-import loadIcon from "./icon--load.svg";
+// import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
@@ -143,6 +143,7 @@ const GUIComponent = (props) => {
         isComplete,
         handleCompile,
         compile,
+        progress,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -248,8 +249,9 @@ const GUIComponent = (props) => {
                                 <div className={classNames(styles.btnBox)}>
                                     <ButtonComponent
                                         className={classNames(styles.uploadBtn)}
-                                        iconSrc={completed ? loadIcon : uploadIcon}
+                                        iconSrc={completed ? null : uploadIcon}
                                     >
+                                        {completed ? <p className={classNames(styles.uploadP)}>{progress}%</p>: null}
                                         <Cirle completed={completed}/>
                                     </ButtonComponent>
                                     <ButtonComponent
@@ -520,7 +522,8 @@ GUIComponent.propTypes = {
     telemetryModalVisible: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    compile: PropTypes.object
+    compile: PropTypes.object,
+    progress: PropTypes.number
 };
 GUIComponent.defaultProps = {
     backpackHost: null,
@@ -549,7 +552,8 @@ const mapStateToProps = (state) => ({
     // This is the button's mode, as opposed to the actual current state
     blocksId: state.scratchGui.timeTravel.year.toString(),
     stageSizeMode: state.scratchGui.stageSize.stageSize,
-    theme: state.scratchGui.theme.theme
+    theme: state.scratchGui.theme.theme,
+    progress: state.scratchGui.connectionModal.progress
 });
 const mapDispatchToProps = (dispatch) => ({});
 // export default injectIntl(connect(

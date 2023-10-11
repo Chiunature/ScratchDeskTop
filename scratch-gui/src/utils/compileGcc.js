@@ -135,7 +135,7 @@ class Compile {
         //编译
         if (appRes && taskRes) {
             const result = this.commendMake();
-            this.startSend = result;
+            this.startSend = true;
             if (result) {
                 if (isUpload && this.startSend) eventEmitter.emit(this.eventName);
                 //去掉上一个注册的方法避免重复触发

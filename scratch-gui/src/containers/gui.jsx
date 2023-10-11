@@ -39,7 +39,7 @@ import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
-import { setCompleted } from "../reducers/connection-modal.js";
+import { setCompleted, setProgress } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 class GUI extends React.Component {
     componentDidMount() {
@@ -57,10 +57,17 @@ class GUI extends React.Component {
                         setTimeout(() => {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
+                            this.props.onSetProgress(0);
                         }, 3000);
                     }else {
                         this.props.onSetCompleted(false);
                     }
+                },
+            });
+            ipc({
+                eventName: "progress",
+                callback: (event, arg) => {
+                    this.props.onSetProgress(arg);
                 },
             });
         }
@@ -79,14 +86,18 @@ class GUI extends React.Component {
         }
     }
     handleCompile() {
-        let list = this.props.workspace.getTopBlocks();
-        let hasStart = list.some(el => el.startHat_);
-        if(this.props.compileList.length === 0 || !hasStart) {
+        if(this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
-        }else {
-            compile.sendSerial(verifyTypeConfig.BOOTBIN);
-            this.props.onSetCompleted(true);
-            this.props.onShowCompletedAlert("uploading");
+        }else if(this.props.workspace) {
+            const list = this.props.workspace.getTopBlocks();
+            const hasStart = list.some(el => el.startHat_);
+            if(!hasStart) {
+                this.props.onShowCompletedAlert("workspaceEmpty");
+            }else {
+                compile.sendSerial(verifyTypeConfig.BOOTBIN);
+                this.props.onSetCompleted(true);
+                this.props.onShowCompletedAlert("uploading");
+            }
         }
     }
     render() {
@@ -108,6 +119,7 @@ class GUI extends React.Component {
             onUpdateProjectId,
             onVmInit,
             onSetCompleted,
+            onSetProgress,
             onShowCompletedAlert,
             projectHost,
             projectId,
@@ -156,7 +168,8 @@ GUI.propTypes = {
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     telemetryModalVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    compile: PropTypes.object
+    compile: PropTypes.object,
+    onSetProgress: PropTypes.func,
 };
 
 GUI.defaultProps = {
@@ -228,7 +241,8 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete))
+    onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete)),
+    onSetProgress: (progress) => dispatch(setProgress(progress))
 });
 
 const ConnectedGUI = injectIntl(

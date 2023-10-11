@@ -11,6 +11,7 @@ const SET_COMPLETED = "scratch-gui/connection-modal/completed";
 const SET_SOUNDARR = "scratch-gui/connection-modal/soundArr";
 const SET_ISCONNECTEDSERIAL = "scratch-gui/connection-modal/isConnectedSerial";
 const SET_VERSION = "scratch-gui/connection-modal/version";
+const SET_PREGRESS = "scratch-gui/connection-modal/progress";
 const initialState = {
     extensionId: null,
     peripheralName: null,
@@ -21,16 +22,17 @@ const initialState = {
     completed: false,
     isConnectedSerial: false,
     version: '',
+    progress: 0,
     soundArr: [{
         assetId: "83c36d806dc92327b9e7049a565c6bff",
-        data:null,
-        dataFormat:"wav",
-        format:"",
-        md5:"83c36d806dc92327b9e7049a565c6bff.wav",
-        name:"喵",
-        rate:48000,
-        sampleCount:40681,
-        soundId:""
+        data: null,
+        dataFormat: "wav",
+        format: "",
+        md5: "83c36d806dc92327b9e7049a565c6bff.wav",
+        name: "喵",
+        rate: 48000,
+        sampleCount: 40681,
+        soundId: ""
     }]
 };
 
@@ -90,6 +92,10 @@ const reducer = function (state, action) {
         case SET_VERSION:
             return Object.assign({}, state, {
                 version: action.version,
+            });
+        case SET_PREGRESS:
+            return Object.assign({}, state, {
+                progress: action.progress,
             });
         default:
             return state;
@@ -185,6 +191,13 @@ const setVersion = function (version) {
     };
 };
 
+const setProgress = function (progress) {
+    return {
+        type: SET_PREGRESS,
+        progress: progress,
+    };
+};
+
 export {
     reducer as default,
     initialState as connectionModalInitialState,
@@ -199,5 +212,6 @@ export {
     setCompleted,
     setSoundArr,
     setIsConnectedSerial,
-    setVersion
+    setVersion,
+    setProgress
 };

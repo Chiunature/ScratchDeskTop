@@ -325,23 +325,27 @@ $fade-out-distance: 15px;
 }
 
 .btn-con {
-    width: 50px;
+    width: 60px;
     position: fixed;
-    right: 6%;
-    top: 15%;
+    right: 7%;
+    top: 17%;
     z-index: 30;
 }
 
 .upload-btn {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: var(--motion-primary);
-    perspective: 1000px;
     position: absolute;
     left: 0;
     top: 0;
     transition: 0.5s ease-in-out;
+}
+
+.upload-btn img,
+.yes-btn img {
+    margin-left: 5px;
 }
 
 .upload-btn:hover {
@@ -370,8 +374,8 @@ $fade-out-distance: 15px;
 }
 
 .yes-btn {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: #57bd38;
     position: absolute;
@@ -392,4 +396,15 @@ $fade-out-distance: 15px;
     /* transform: rotateY(-360deg); */
     /* animation: hiding 1s linear; */
     /* animation-iteration-count: 1; */
+}
+
+.upload-p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 14px;
+    transition: 3s ease-in-out;
 }
