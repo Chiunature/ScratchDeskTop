@@ -27,7 +27,7 @@ function User_Aplication(index) {
 }
 
 function Task_Stack(item, index) {
-    return `void User_Aplication${index}(void* parameter)\n{\n${item}\nAplicationCreateFLAG = 0;\nvTaskDelete(NULL);\n}\n`;
+    return `void User_Aplication${index}(void* parameter)\n{\n${item.replaceAll('undefined', '')}\nAplicationCreateFLAG = 0;\nvTaskDelete(NULL);\n}\n`;
 }
 
 function Task_Info_Item(index) {

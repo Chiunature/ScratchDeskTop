@@ -152,7 +152,7 @@ class Blocks extends React.Component {
             this.props.setWorkspace(this.workspace);
             if(type === 'move' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
-                this.checkStartHat(this.workspace, code);
+                this.checkStartHat(this.workspace, this.props.code);
             }else {
                 return false;
             }
@@ -763,7 +763,8 @@ const mapStateToProps = state => ({
     customProceduresVisible: state.scratchGui.customProcedures.active,
     workspaceMetrics: state.scratchGui.workspaceMetrics,
     completed: state.scratchGui.connectionModal.completed,
-    soundArr: state.scratchGui.connectionModal.soundArr
+    soundArr: state.scratchGui.connectionModal.soundArr,
+    code: state.scratchGui.mode.code
 });
 
 const mapDispatchToProps = dispatch => ({

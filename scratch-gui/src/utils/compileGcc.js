@@ -26,24 +26,22 @@
 import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item, User_Aplication } from "../config/js/ProgrammerTasks.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
-import LB_FWLIB from "../config/json/LB_FWLIB.json";
+import { MUSIC, BOOT, BIN, APP } from "../config/json/LB_FWLIB.json";
+import { DIR, APLICATION, PROGRAMMERTASKS } from "../config/json/LB_USER.json";
 
 const fs = window.fs;
-const path = window.path;
-const { spawnSync } = window.child_process;
+const { spawnSync, spawn } = window.child_process;
 const { EventEmitter } = window.events;
-
-const LB_USER = './gcc-arm-none-eabi/bin/LB_USER/Src';
 const eventEmitter = new EventEmitter();
 
 class Compile {
 
     constructor() {
-        this.currentProcess;
         this.filesIndex = 0;
         this.startSend = true;
         this.filesObj = {};
         this.eventName;
+        this.progress;
     }
 
     //控制编译前、编译中、编译后通信
@@ -73,16 +71,22 @@ class Compile {
         }
     }
 
-    //调用编译命令
+
     commendMake() {
-        const dir = './gcc-arm-none-eabi/bin';
-        const work = spawnSync('make', ['-C', './LB_USER'], { cwd: dir });
-        if (work.status === 0) {
-            return true;
-        } else {
-            handlerError(work.stderr.toString());
-            return false;
-        }
+        return new Promise((resolve, reject) => {
+            let errStr = '';
+            this.progress = spawn('make', ['-C', './LB_USER'], { cwd: DIR });
+
+            this.progress.stderr.on('data', (err) => errStr += err.toString());
+
+            this.progress.on('close', (code, signal) => {
+                if (code === 0) {
+                    resolve(true);
+                } else {
+                    reject(errStr);
+                }
+            });
+        });
     }
 
     //处理任务
@@ -108,16 +112,14 @@ class Compile {
     //将生成的C代码写入特定的C文件
     handleCode(codeStr) {
         const code = headMain(codeStr);
-        const filePath = path.join(LB_USER, 'Aplication.c');
-        const writeAppRes = this.writeFiles(filePath, code);
+        const writeAppRes = this.writeFiles(APLICATION, code);
         return writeAppRes;
     }
 
     //并发任务操作
     handleTask(headStr, taskStr) {
-        const taskFile = path.join(LB_USER, 'ProgrammerTasks.c');
-        const parserCode = this.programmerTasks(taskFile, taskStr, headStr);
-        const writeTaskRes = this.writeFiles(taskFile, parserCode);
+        const parserCode = this.programmerTasks(PROGRAMMERTASKS, taskStr, headStr);
+        const writeTaskRes = this.writeFiles(PROGRAMMERTASKS, parserCode);
         return writeTaskRes;
     }
 
@@ -132,17 +134,19 @@ class Compile {
         const appRes = this.handleCode(codeStr);
         const taskRes = this.handleTask(headStr, taskStr);
 
+        if (this.progress && this.progress.exitCode !== 0) this.progress.kill('SIGKILL');
+
         //编译
         if (appRes && taskRes) {
-            const result = this.commendMake();
-            this.startSend = true;
-            if (result) {
+            this.commendMake().then(result => {
+                this.startSend = true;
                 if (isUpload && this.startSend) eventEmitter.emit(this.eventName);
                 //去掉上一个注册的方法避免重复触发
-                if(this.eventName) eventEmitter.removeAllListeners([this.eventName]);
-            } else {
+                if (this.eventName) eventEmitter.removeAllListeners([this.eventName]);
+            }).catch(e => {
+                handlerError(e)
                 if (isUpload) ipc({ sendName: "transmission-error" });
-            }
+            });
         }
     }
 
@@ -152,15 +156,15 @@ class Compile {
             let fileData, fileName;
             if (verifyType === SOURCE) {
                 if (!this.filesObj) {
-                    this.filesObj.filesList = fs.readdirSync(LB_FWLIB.MUSIC);
+                    this.filesObj.filesList = fs.readdirSync(MUSIC);
                     this.filesObj.filesLen = this.filesObj.filesList.length;
                 }
-                fileData = this.readFiles(`${LB_FWLIB.MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
+                fileData = this.readFiles(`${MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
                 fileName = this.filesObj.filesList[this.filesIndex].slice(0, -4);
             } else {
-                fileName = this.readFiles(LB_FWLIB.BOOT, 'utf8');
-                fileData = this.readFiles(LB_FWLIB.BIN);
-                this.writeFiles(LB_FWLIB.APP, fileData);
+                fileName = this.readFiles(BOOT, 'utf8');
+                fileData = this.readFiles(BIN);
+                this.writeFiles(APP, fileData);
             }
 
             ipc({
