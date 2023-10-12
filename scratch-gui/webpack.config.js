@@ -1,7 +1,7 @@
 const defaultsDeep = require('lodash.defaultsdeep');
 var path = require('path');
 var webpack = require('webpack');
-
+const pkg = require('./package.json');
 // Plugins
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -155,25 +155,25 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
-                title: 'Drluck GUI'
+                title: 'EST 3.0 ' + pkg.version
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],
                 template: 'src/playground/index.ejs',
                 filename: 'blocks-only.html',
-                title: 'Drluck GUI: Blocks Only Example'
+                title: 'EST 3.0 ' + pkg.version + ': Blocks Only Example'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'compatibilitytesting'],
                 template: 'src/playground/index.ejs',
                 filename: 'compatibility-testing.html',
-                title: 'Drluck GUI: Compatibility Testing'
+                title: 'EST 3.0 ' + pkg.version + ': Compatibility Testing'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'player'],
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
-                title: 'Drluck GUI: Player Example'
+                title: 'EST 3.0 ' + pkg.version + ': Player Example'
             }),
             new CopyWebpackPlugin({
                 patterns: [

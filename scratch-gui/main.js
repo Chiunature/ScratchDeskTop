@@ -24,11 +24,14 @@
  */
 
 const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = require("electron");
+const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const Serialport = require(path.join(__dirname, "src/utils/serialport.js"));
 
-let mainWindow, loadingWindow, progressInterval;
+let mainWindow, loadingWindow, progressInterval, isUpdate;
+const server = 'http://127.0.0.1:2060';
+const updateUrl = `${server}/update/${process.platform}/`;
 
 const options = {
     nativeWindowOpen: true,
@@ -39,6 +42,36 @@ const options = {
     webSecurity: false,
     preload: path.join(__dirname, "preload.js"),
 }
+
+function updater() {
+    autoUpdater.setFeedURL(updateUrl);
+    autoUpdater.checkForUpdates();
+    autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+        const dialogOpts = {
+            type: 'info',
+            buttons: ['Update(更新)', 'Later(稍后再说)'],
+            title: 'Application Update(应用更新)',
+            message: process.platform === 'win32' ? releaseNotes : releaseName,
+            detail:
+                'A new version was found. Do you want to update?(发现新版本，是否更新？)'
+        }
+        dialog.showMessageBox(dialogOpts).then((returnValue) => {
+            if (returnValue.response == 0) {  //选择是，则退出程序，安装新版本
+                isUpdate = true;
+                autoUpdater.quitAndInstall();
+                app.quit();
+            } else {
+                event.preventDefault();
+            }
+        });
+    });
+
+    autoUpdater.on('error', (message) => {
+        console.error('There was a problem updating the application')
+        console.error(message)
+    });
+}
+
 
 function progress() {
     let c = 0;
@@ -74,13 +107,11 @@ function createWindow() {
             show: false,
             webPreferences: options,
         });
-        let sp = new Serialport();
+
+        const sp = new Serialport();
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
-            /* 
-                加载应用-----  electron-quick-start中默认的加载入口
-            */
             mainWindow.loadURL(
                 url.format({
                     pathname: path.join(__dirname, "build/index.html"),
@@ -89,8 +120,7 @@ function createWindow() {
                 })
             );
         } else {
-            mainWindow.loadURL("http://127.0.0.1:8601/");
-            // 打开开发者工具，默认不打开
+            mainWindow.loadURL("http://127.0.0.1:8602/");
             mainWindow.webContents.openDevTools();
         }
 
@@ -109,10 +139,12 @@ function createWindow() {
             loadingWindow.close();
             mainWindow.show();
             clearInterval(progressInterval);
+            updater();
         });
 
         // 关闭window时触发下列事件.
-        mainWindow.on("close", function (e) {
+        mainWindow.on("close", (e) => {
+            if (isUpdate) return;
             let index = dialog.showMessageBoxSync({
                 type: "info",
                 title: "The changes you made may not be saved",
@@ -121,12 +153,12 @@ function createWindow() {
             });
             if (index === 0) {
                 e.preventDefault(); //阻止默认行为
-                return;
             } else {
                 mainWindow = null;
                 app.exit(); //exit()直接关闭客户端，不会执行quit();
             }
         });
+        resolve();
     });
 }
 

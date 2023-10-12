@@ -19,7 +19,7 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "electron:build": "electron-builder"
+        "pack": "electron-builder"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -39,6 +39,7 @@
         "copy-webpack-plugin": "6.4.1",
         "core-js": "2.5.7",
         "css-loader": "^1.0.0",
+        "electron-updater": "^6.1.4",
         "es6-object-assign": "1.1.0",
         "file-loader": "2.0.0",
         "get-float-time-domain-data": "0.1.0",
@@ -165,8 +166,8 @@
         },
         "extraFiles": [
             {
-              "from": "gcc-arm-none-eabi",
-              "to": "./gcc-arm-none-eabi"
+                "from": "gcc-arm-none-eabi",
+                "to": "./gcc-arm-none-eabi"
             }
         ],
         "files": [
@@ -178,6 +179,12 @@
             "preload.js",
             "serialport.js",
             "launch.html"
+        ],
+        "publish": [
+            {
+                "provider": "generic",
+                "url": ""
+            }
         ],
         "nsis": {
             "oneClick": false,
