@@ -134,7 +134,9 @@ Blockly.cake['control_stop'] = function (block) {
   return `exit("${argument}");\n`;
 };
 
-
+Blockly.cake['control_break'] = function (block) {
+  return 'break;\n';
+};
 
 Blockly.cake['control_doWhile'] = function (block) {
   // Do while/until loop.

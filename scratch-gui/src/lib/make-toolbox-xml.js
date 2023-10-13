@@ -442,6 +442,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
         ${blockSeparator}
         <block type="control_stop"/>
         ${blockSeparator}
+        <block type="control_break"/>
         ${categorySeparator}
     </category>
     `;

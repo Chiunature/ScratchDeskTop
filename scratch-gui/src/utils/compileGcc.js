@@ -75,8 +75,8 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', ['-C', './LB_USER'], { cwd: DIR });
-
+            this.progress = spawn('make', ['-j99', '-C', './LB_USER'], { cwd: DIR });
+            
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
             this.progress.on('close', (code, signal) => {
