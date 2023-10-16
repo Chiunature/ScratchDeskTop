@@ -20,7 +20,7 @@ Blockly.cake['combined_motor_starting'] = function (block) {
     let dropdown_port1 = Blockly.cake.valueToCode(block, "PORT1", Blockly.cake.ORDER_NONE);
     let dropdown_port2 = Blockly.cake.valueToCode(block, "PORT2", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_starting("${dropdown_port1}", "${dropdown_port2}");\n`;
+    let code = `motor_combined_starting("${dropdown_port1}1", "${dropdown_port2}1");\n`;
     return code;
 };
 

@@ -106,7 +106,7 @@ class Compile {
         }, []);
         let headList = headStr.split(';');
         headList.splice(-1, 1);
-        newArr.splice(1, 0, ...headList);
+        newArr.splice(0, 0, ...headList);
         return newArr.join(";");
     }
 
@@ -126,7 +126,7 @@ class Compile {
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, isUpload = false) {
-        let codeStr = '', taskStr = '', headStr = '';
+        let codeStr = taskStr = headStr = '';
         buffer.map((el, index) => {
             headStr += User_Aplication(index);
             codeStr += Task_Stack(el, index);
@@ -145,7 +145,7 @@ class Compile {
                 //去掉上一个注册的方法避免重复触发
                 if (this.eventName) eventEmitter.removeAllListeners([this.eventName]);
             }).catch(e => {
-                handlerError(e)
+                handlerError(e);
                 if (isUpload) ipc({ sendName: "transmission-error" });
             });
         }

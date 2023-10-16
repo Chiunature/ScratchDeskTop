@@ -164,7 +164,7 @@
             "buildResources": "./",
             "output": "pack"
         },
-        "extraFiles": [
+        "extraResources": [
             {
                 "from": "gcc-arm-none-eabi",
                 "to": "./gcc-arm-none-eabi"

@@ -20,3 +20,4 @@ npm-*
 # Generated translation files
 /translations
 /locale
+/resources
