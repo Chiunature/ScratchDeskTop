@@ -33,7 +33,6 @@ const fs = window.fs;
 const { spawn } = window.child_process;
 const { EventEmitter } = window.events;
 const eventEmitter = new EventEmitter();
-const cpus = window.os.cpus();
 
 class Compile {
 
@@ -76,7 +75,7 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', [`-j${cpus.length + 1}`, '-C', './LB_USER'], { cwd: DIR });
+            this.progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: DIR });
 
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
