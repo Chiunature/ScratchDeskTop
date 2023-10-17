@@ -120,6 +120,14 @@ Blockly.Blocks['combined_motor_direction'] = {
                     "flipRtl": false
                 },
                 {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
+                },
+                {
                     "type": "field_dropdown",
                     "name": "direction",
                     "options": [
@@ -169,6 +177,14 @@ Blockly.Blocks['combined_motor_speed'] = {
                 },
                 {
                     "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
+                },
+                {
+                    "type": "input_value",
                     "name": "SPEED",
                 }
             ],
@@ -194,6 +210,14 @@ Blockly.Blocks['combined_motor_turn'] = {
                     "height": 20,
                     "alt": "*",
                     "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
                 },
                 {
                     "type": "field_dropdown",
@@ -271,6 +295,14 @@ Blockly.Blocks['combined_motor_line'] = {
                     "flipRtl": false
                 },
                 {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
+                },
+                {
                     "type": "field_dropdown",
                     "name": "line",
                     "options": [
@@ -340,6 +372,14 @@ Blockly.Blocks['combined_motor_stop'] = {
                     "height": 20,
                     "alt": "*",
                     "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
                 },
             ],
             "category": Blockly.Categories.combined_motor,
@@ -421,6 +461,14 @@ Blockly.Blocks['combined_motor_movestep'] = {
                     "height": 20,
                     "alt": "*",
                     "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
                 },
                 {
                     "type": "input_value",
@@ -527,6 +575,14 @@ Blockly.Blocks['combined_motor_stopping'] = {
                     "height": 20,
                     "alt": "*",
                     "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT1",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT2",
                 },
                 {
                     "type": "field_dropdown",

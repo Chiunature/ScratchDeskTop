@@ -760,57 +760,103 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
     */}
-const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
-    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no combined_motor blocks"
-    );
-    return `
-    <category
-        name="%{BKY_CATEGORY_COMBINED_MOTOR}"
-        id="combined_motor"
-        colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
-        ${isStage
-            ? `
-        <label text="${stageSelected}"></label>
-        `
-            : `
-        <block type="combined_motor_starting">
+{/* <block type="combined_motor_starting">
             <value name="PORT1">
                 <shadow type="combined_motorOne_menu"></shadow>
             </value>
             <value name="PORT2">
                 <shadow type="combined_motorTwo_menu"></shadow>
             </value>
-        </block>
-        <block type="combined_motor_direction"></block>
-        <block type="combined_motor_speed">
-            <value name="SPEED">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_turn">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_line"></block>
-        <block type="combined_motor_stop"></block>
-        <block type="combined_motor_movestep">
-            <value name="left">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-            <value name="right">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_stopping"></block>
-        `
-        }
-    </category>
-    `;
-};
+        </block> */}
+        const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
+            const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+                "MOTOR_STAGE_SELECTED",
+                "Stage selected: no combined_motor blocks"
+            );
+            return `
+            <category
+                name="%{BKY_CATEGORY_COMBINED_MOTOR}"
+                id="combined_motor"
+                colour="${colors.primary}"
+                secondaryColour="${colors.tertiary}">
+                ${isStage
+                    ? `
+                <label text="${stageSelected}"></label>
+                `
+                    : `
+                <block type="combined_motor_direction">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_speed">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                    <value name="SPEED">
+                        <shadow type="math_-100to100_number"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_turn">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                    <value name="ANGLE">
+                        <shadow type="math_angle"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_line">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_stop">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_movestep">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                    <value name="left">
+                        <shadow type="math_-100to100_number"></shadow>
+                    </value>
+                    <value name="right">
+                        <shadow type="math_-100to100_number"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_stopping">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                </block>
+                `
+                }
+            </category>
+            `;
+        };
 {/* <block type="matrix_lamp_single">
             <value name="brightness">
                 <shadow type="math_0to100_number"></shadow>

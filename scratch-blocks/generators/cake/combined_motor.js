@@ -26,16 +26,17 @@ Blockly.cake['combined_motor_starting'] = function (block) {
 
 Blockly.cake['combined_motor_direction'] = function (block) {
     let dropdown_direction = block.getFieldValue('direction');
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_direction("${dropdown_direction}");\n`;
+    let code = `motor_combined_direction("${one}", "${two}","${dropdown_direction}");\n`;
     return code;
 };
 
 Blockly.cake['combined_motor_speed'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     let speed = Blockly.cake.valueToCode(block, "SPEED", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_speed("${dropdown_port}", ${speed});\n`;
+    let code = `motor_combined_speed("${one}", "${two}", ${speed});\n`;
     return code;
 };
 
@@ -44,8 +45,9 @@ Blockly.cake['combined_motor_turn'] = function (block) {
     let angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
     let distance = block.getFieldValue('distance');
     let unit = block.getFieldValue('unit');
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_turn("${dropdown_spin}", ${angle}, ${distance}, "${unit}");\n`;
+    let code = `motor_combined_turn("${one}", "${two}", "${dropdown_spin}", ${angle}, ${distance}, "${unit}");\n`;
     return code;
 };
 
@@ -53,14 +55,16 @@ Blockly.cake['combined_motor_line'] = function (block) {
     let line = block.getFieldValue('line');
     let distance = block.getFieldValue('distance');
     let unit = block.getFieldValue('unit');
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_line("${line}", ${distance}, "${unit}");\n`;
+    let code = `motor_combined_line("${one}", "${two}", "${line}", ${distance}, "${unit}");\n`;
     return code;
 };
 
 Blockly.cake['combined_motor_stop'] = function (block) {
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_stop();\n`;
+    let code = `motor_combined_stop("${one}", "${two}");\n`;
     return code;
 };
 
@@ -77,8 +81,9 @@ Blockly.cake['combined_motor_move'] = function (block) {
 Blockly.cake['combined_motor_movestep'] = function (block) {
     let left = Blockly.cake.valueToCode(block, "left", Blockly.cake.ORDER_NONE);
     let right = Blockly.cake.valueToCode(block, "right", Blockly.cake.ORDER_NONE);
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_movestep(${left}, ${right});\n`;
+    let code = `motor_combined_movestep("${one}", "${two}", ${left}, ${right});\n`;
     return code;
 };
 
@@ -93,7 +98,8 @@ Blockly.cake['combined_motor_movepower'] = function (block) {
 
 Blockly.cake['combined_motor_stopping'] = function (block) {
     let style = block.getFieldValue('status');
+    const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    let code = `motor_combined_stopping("${style}");\n`;
+    let code = `motor_combined_stopping("${one}", "${two}", "${style}");\n`;
     return code;
 };
