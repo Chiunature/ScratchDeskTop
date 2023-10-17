@@ -57,7 +57,7 @@ Blockly.Blocks['motor_starting'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.RIGHT,
                             },
-                            "turnright"
+                            "Advance"
                         ],
                         [
                             {
@@ -66,7 +66,7 @@ Blockly.Blocks['motor_starting'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.LEFT,
                             },
-                            "turnleft"
+                            "Retreat"
                         ]
                     ]
                 }
@@ -223,7 +223,7 @@ Blockly.Blocks['motor_specifiedunit'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.RIGHT,
                             },
-                            "trunright"
+                            "Advance"
                         ],
                         [
                             {
@@ -232,7 +232,7 @@ Blockly.Blocks['motor_specifiedunit'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.LEFT,
                             },
-                            "trunleft"
+                            "Retreat"
                         ]
                     ]
                 },

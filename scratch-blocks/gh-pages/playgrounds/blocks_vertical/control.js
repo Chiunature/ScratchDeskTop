@@ -537,3 +537,17 @@ Blockly.Blocks['control_all_at_once'] = {
     });
   }
 };
+
+Blockly.Blocks['control_break'] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function () {
+      this.jsonInit({
+          "message0": Blockly.Msg.CONTROL_BREAK,
+          "category": Blockly.Categories.control,
+          "extensions": ["colours_control", "shape_end"],
+      });
+  }
+};

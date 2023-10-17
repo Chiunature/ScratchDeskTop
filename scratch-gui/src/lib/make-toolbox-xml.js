@@ -726,7 +726,7 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="motor_stop"></block>
         <block type="motor_speed">
             <value name="SPEED">
-                <shadow type="math_-100to100_number"></shadow>
+                <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
         <block type="motor_specifiedunit"></block>

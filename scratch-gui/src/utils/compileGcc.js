@@ -125,7 +125,7 @@ class Compile {
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, isUpload = false) {
-        let codeStr = taskStr = headStr = '';
+        let codeStr = '', taskStr = '', headStr = '';
         buffer.map((el, index) => {
             headStr += User_Aplication(index);
             codeStr += Task_Stack(el, index);
@@ -139,8 +139,8 @@ class Compile {
         //编译
         if (appRes && taskRes) {
             this.commendMake().then(result => {
-                this.startSend = true;
-                if (isUpload && this.startSend) eventEmitter.emit(this.eventName);
+                this.startSend = result;
+                if (result) eventEmitter.emit(this.eventName);
                 //去掉上一个注册的方法避免重复触发
                 if (this.eventName) eventEmitter.removeAllListeners([this.eventName]);
             }).catch(e => {

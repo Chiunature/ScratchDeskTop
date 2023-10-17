@@ -33,7 +33,7 @@ Blockly.cake['motor_specifiedunit'] = function (block) {
     let count = block.getFieldValue('count');
     let unit = block.getFieldValue('unit');
     // TODO: Assemble cake into code variable.
-    let code = `motor_specifiedunit("${dropdown_port}1", "${dropdown_spin}", "${count}", "${unit}");\n`;
+    let code = `motor_specifiedunit("${dropdown_port}1", "${dropdown_spin}", ${count}, "${unit}");\n`;
     return code;
 };
 
