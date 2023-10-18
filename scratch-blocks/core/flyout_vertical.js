@@ -170,8 +170,8 @@ Blockly.VerticalFlyout.prototype.createDom = function (tagName) {
       'x': '0'
     },
     clipPath);
-  // this.workspace_.svgGroup_.setAttribute(
-  //   'clip-path', 'url(#blocklyBlockMenuClipPath)');
+  this.workspace_.svgGroup_.setAttribute(
+    'clip-path', 'url(#blocklyBlockMenuClipPath)');
 
   return this.svgGroup_;
 };
@@ -485,6 +485,10 @@ Blockly.VerticalFlyout.prototype.addBlockListeners_ = function (root, block,
     this.listeners_.push(Blockly.bindEvent_(block.flyoutCheckbox.svgRoot,
       'mousedown', null, this.checkboxClicked_(block.flyoutCheckbox)));
   }
+
+  this.listeners_.push(Blockly.bindEvent_(this.svgGroup_, 'mouseenter', this, this.flyoutMouseEnter_));
+  this.listeners_.push(Blockly.bindEvent_(this.svgGroup_, 'mouseleave', this, this.flyoutMouseLeave_));
+  this.listeners_.push(Blockly.bindEvent_(this.svgGroup_, 'wheel', this, this.flyoutMouseEnter_));
 };
 
 /**
@@ -660,6 +664,26 @@ Blockly.VerticalFlyout.prototype.checkboxClicked_ = function (checkboxObj) {
     e.stopPropagation();
     e.preventDefault();
   }.bind(this);
+};
+
+/**
+ * When mouse enter in the flyout.
+ * @private
+ */
+Blockly.VerticalFlyout.prototype.flyoutMouseEnter_ = function() {
+  // Modify these attributes let blocks could over flow the flyout boundary.
+  this.svgGroup_.setAttribute("overflow", 'visible');
+  this.clipRect_.setAttribute('width', this.getMetrics_().viewWidth + 10000 + 'px');
+};
+
+/**
+ * When mouse leave in the flyout.
+ * @private
+ */
+Blockly.VerticalFlyout.prototype.flyoutMouseLeave_ = function() {
+  // Return to default. Hide the part of the block over flow the flyout boundary.
+  this.svgGroup_.setAttribute("overflow", 'hidden');
+  this.clipRect_.setAttribute('width', this.getMetrics_().viewWidth + 'px');
 };
 
 /**
