@@ -335,7 +335,7 @@ Blockly.cake.isVal = function (val) {
 }
 
 Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
-  const one = Blockly.cake.valueToCode(block, nameOne, Blockly.cake.ORDER_NONE);
-  const two = Blockly.cake.valueToCode(block, nameTwo, Blockly.cake.ORDER_NONE);
+  const one = Blockly.cake.valueToCode(block, nameOne, Blockly.cake.ORDER_NONE) + '1';
+  const two = Blockly.cake.valueToCode(block, nameTwo, Blockly.cake.ORDER_NONE) + '1';
   return { one, two }
 }

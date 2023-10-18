@@ -120,7 +120,7 @@ function createWindow() {
                 })
             );
         } else {
-            mainWindow.loadURL("http://127.0.0.1:8602/");
+            mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
         }
 

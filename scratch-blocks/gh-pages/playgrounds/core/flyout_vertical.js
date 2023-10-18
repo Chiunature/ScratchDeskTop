@@ -170,8 +170,8 @@ Blockly.VerticalFlyout.prototype.createDom = function (tagName) {
       'x': '0'
     },
     clipPath);
-  this.workspace_.svgGroup_.setAttribute(
-    'clip-path', 'url(#blocklyBlockMenuClipPath)');
+  // this.workspace_.svgGroup_.setAttribute(
+  //   'clip-path', 'url(#blocklyBlockMenuClipPath)');
 
   return this.svgGroup_;
 };
