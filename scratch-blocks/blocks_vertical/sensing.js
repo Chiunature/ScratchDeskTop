@@ -736,9 +736,9 @@ Blockly.Blocks['sensing_reflected_light_judgment'] = {
           ]
         },
         {
-          "type": "field_input",
+          "type": "field_number",
           "name": "value",
-          "text": "0"
+          "value": 0
         }
       ],
       "category": Blockly.Categories.sensing,
@@ -894,9 +894,9 @@ Blockly.Blocks['sensing_ultrasonic_judgment'] = {
           ]
         },
         {
-          "type": "field_input",
+          "type": "field_number",
           "name": "value",
-          "text": "0"
+          "value": 0
         }
       ],
       "category": Blockly.Categories.sensing,
@@ -1108,15 +1108,15 @@ Blockly.Blocks['sensing_gyroscope_attitude'] = {
           "options": [
             [
               Blockly.Msg.FLOATING,
-              "left"
+              "up"
             ],
             [
               Blockly.Msg.ROLL,
-              "right"
+              "left"
             ],
             [
               Blockly.Msg.YAW,
-              "up"
+              "right"
             ],
             [
               Blockly.Msg.ANGLES,
