@@ -43,9 +43,8 @@ Blockly.cake['data_setvariableto'] = function (block) {
     }
 
     let newArg = Blockly.cake.isVal(arg0);
-    console.log(newArg);
 
-    return `int ${varName};\n` + varName + ' = ' + newArg + ';\n';
+    return varName + ' = ' + newArg + ';\n';
 };
 
 Blockly.cake['data_changevariableby'] = function (block) {

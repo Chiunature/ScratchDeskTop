@@ -38,7 +38,7 @@ class Prompt extends React.Component {
         this.props.onCancel();
     }
     handleChange (e) {
-        this.setState({inputValue: e.target.value});
+        this.setState({inputValue: e.target.value.replace(/[\u4e00-\u9fa5]/g,'')});
     }
     handleScopeOptionSelection (e) {
         this.setState({globalSelected: (e.target.value === 'global')});

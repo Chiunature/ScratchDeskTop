@@ -75,7 +75,7 @@ const PromptComponent = props => (
                             )}
                         </div> :
                         <Box className={styles.optionsRow}>
-                            <label>
+                            {/* <label>
                                 <input
                                     checked={props.globalSelected}
                                     name="variableScopeOption"
@@ -101,7 +101,7 @@ const PromptComponent = props => (
                                 <FormattedMessage
                                     {...messages.forThisSpriteMessage}
                                 />
-                            </label>
+                            </label> */}
                         </Box>}
                     {props.showCloudOption ?
                         <Box className={classNames(styles.cloudOption)}>
