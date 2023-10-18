@@ -106,9 +106,9 @@
     transform: translate(345px, 2.5px) !important;
 }
 
-.blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
+/* .blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
     width: 300px !important;
-}
+} */
 
 
 [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
