@@ -106,14 +106,14 @@ Blockly.cake['sensing_key_press'] = function (block) {
 Blockly.cake['sensing_gyroscope_acceleration'] = function (block) {
     let directiion = block.getFieldValue('directiion');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_gyroscope_acceleration("${directiion}")`;
+    let code = `sensing_gyroscope_acceleration("${directiion}")`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_gyroscope_attitude'] = function (block) {
     let attitude = block.getFieldValue('attitude');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_gyroscope_attitude("${attitude}")`;
+    let code = `sensing_gyroscope_attitude("${attitude}")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
