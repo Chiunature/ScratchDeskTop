@@ -29,6 +29,16 @@ Blockly.cake['data_variable'] = function (block) {
     return [varName, Blockly.cake.ORDER_ATOMIC];
 };
 
+Blockly.cake['data_definevar'] = function (block) {
+    var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
+        Blockly.Variables.NAME_TYPE);
+    if (varName === 'unnamed') {
+        return '';
+    }
+
+    return `int ${varName};\n`;
+};
+
 Blockly.cake['data_setvariableto'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'VALUE',
         Blockly.cake.ORDER_ADDITIVE) || '0';
@@ -72,7 +82,17 @@ Blockly.cake['data_hidevariable'] = function () {
 Blockly.cake['data_listcontents'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-    return [`char *${varName}[] = {}`, Blockly.cake.ORDER_ATOMIC];
+    return [varName, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['data_definelist'] = function (block) {
+    var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
+        Blockly.Variables.NAME_TYPE);
+    if (varName === 'unnamed') {
+        return '';
+    }
+
+    return `char* ${varName}[] = {};\n`;
 };
 
 Blockly.cake['data_addtolist'] = function (block) {
@@ -85,7 +105,7 @@ Blockly.cake['data_addtolist'] = function (block) {
     }
     item = Blockly.cake.isVal(item);
     // return `append(${varName}, "${item}");\n`;
-    return `int* ${varName} = NULL;\nint size = 0;\nsize++;\n${varName} = realloc(${varName}, size * sizeof(int));\n${varName}[size - 1] = "${item}";\n`;
+    return `int size = 0;\nsize++;\n${varName} = realloc(${varName}, size * sizeof(int));\n${varName}[size - 1] = "${item}";\n`;
 };
 
 Blockly.cake['data_deleteoflist'] = function (block) {

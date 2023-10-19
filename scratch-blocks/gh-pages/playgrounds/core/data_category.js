@@ -54,7 +54,7 @@ Blockly.DataCategory = function (workspace) {
   if (variableModelList.length > 0) {
     xmlList[xmlList.length - 1].setAttribute('gap', 24);
     var firstVariable = variableModelList[0];
-
+    Blockly.DataCategory.addDefineVariableTo(xmlList, firstVariable);
     Blockly.DataCategory.addSetVariableTo(xmlList, firstVariable);
     Blockly.DataCategory.addChangeVariableBy(xmlList, firstVariable);
     // Blockly.DataCategory.addShowVariable(xmlList, firstVariable);
@@ -72,7 +72,7 @@ Blockly.DataCategory = function (workspace) {
   if (variableModelList.length > 0) {
     xmlList[xmlList.length - 1].setAttribute('gap', 24);
     var firstVariable = variableModelList[0];
-
+    Blockly.DataCategory.defineList(xmlList, firstVariable);
     Blockly.DataCategory.addAddToList(xmlList, firstVariable);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addDeleteOfList(xmlList, firstVariable);
@@ -104,6 +104,17 @@ Blockly.DataCategory.addDataVariable = function (xmlList, variable) {
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_variable', 'VARIABLE');
   // In the flyout, this ID must match variable ID for monitor syncing reasons
   xmlList[xmlList.length - 1].setAttribute('id', variable.getId());
+};
+
+
+Blockly.DataCategory.addDefineVariableTo = function (xmlList, variable) {
+  // <block type="data_setvariableto" gap="20">
+  //   <value name="VARIABLE">
+  //    <shadow type="data_variablemenu"></shadow>
+  //   </value>
+  // </block>
+  Blockly.DataCategory.addBlock(xmlList, variable, 'data_definevar',
+    'VARIABLE');
 };
 
 /**
@@ -189,6 +200,15 @@ Blockly.DataCategory.addDataList = function (xmlList, variable) {
   // In the flyout, this ID must match variable ID for monitor syncing reasons
   xmlList[xmlList.length - 1].setAttribute('id', variable.getId());
 };
+
+
+Blockly.DataCategory.defineList = function (xmlList, variable) {
+  // <block type="data_definelist">
+  //   <field name="LIST" variabletype="list" id="">variablename</field>
+  // </block>
+  Blockly.DataCategory.addBlock(xmlList, variable, 'data_definelist', 'LIST',);
+};
+
 
 /**
  * Construct and add a data_addtolist block to xmlList.

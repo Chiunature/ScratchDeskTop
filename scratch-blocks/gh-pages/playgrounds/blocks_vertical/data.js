@@ -53,6 +53,26 @@ Blockly.Blocks['data_variable'] = {
   }
 };
 
+Blockly.Blocks['data_definevar'] = {
+  /**
+   * Block to set variable to a certain value
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.DATA_DEFINEVAR,
+      "args0": [
+        {
+          "type": "field_variable",
+          "name": "VARIABLE"
+        }
+      ],
+      "category": Blockly.Categories.data,
+      "extensions": ["colours_data", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['data_setvariableto'] = {
   /**
    * Block to set variable to a certain value
@@ -168,6 +188,27 @@ Blockly.Blocks['data_listcontents'] = {
       "category": Blockly.Categories.dataLists,
       "extensions": ["contextMenu_getListBlock", "colours_data_lists", "output_string"],
       "checkboxInFlyout": true
+    });
+  }
+};
+
+Blockly.Blocks['data_definelist'] = {
+  /**
+   * Block to set variable to a certain value
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.DATA_DEFINELIST,
+      "args0": [
+        {
+          "type": "field_variable",
+          "name": "LIST",
+          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
+        }
+      ],
+      "category": Blockly.Categories.data,
+      "extensions": ["colours_data_lists", "shape_statement"]
     });
   }
 };
