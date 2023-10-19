@@ -234,13 +234,13 @@ Blockly.BlockSvg.prototype.setGlowBlock = function(isGlowingBlock) {
 Blockly.BlockSvg.prototype.setGlowStack = function(isGlowingStack) {
   this.isGlowingStack_ = isGlowingStack;
   // Update the applied SVG filter if the property has changed
-  var svg = this.getSvgRoot();
+  /* var svg = this.getSvgRoot();
   if (this.isGlowingStack_ && !svg.hasAttribute('filter')) {
     var stackGlowFilterId = this.workspace.options.stackGlowFilterId || 'blocklyStackGlowFilter';
     svg.setAttribute('filter', 'url(#' + stackGlowFilterId + ')');
   } else if (!this.isGlowingStack_ && svg.hasAttribute('filter')) {
     svg.removeAttribute('filter');
-  }
+  } */
 };
 
 /**
