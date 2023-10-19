@@ -164,17 +164,12 @@
             "buildResources": "./",
             "output": "pack"
         },
-        "extraResources": [
-            {
-                "from": "gcc-arm-none-eabi",
-                "to": "./gcc-arm-none-eabi"
-            }
-        ],
         "files": [
             "build/**/*",
             "node_modules/**/*",
             "static/**/*",
             "src/utils/**/*",
+            "gcc-arm-none-eabi/**/*",
             "main.js",
             "preload.js",
             "serialport.js",
