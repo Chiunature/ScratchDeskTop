@@ -23,7 +23,7 @@
  * @author avenger-jxc
  */
 function User_Aplication(index) {
-    return `#include "Programmer_and_User.h"\n\r\nextern void User_Aplication${index}(void *parameter);`;
+    return `\nextern void User_Aplication${index}(void *parameter);`;
 }
 
 function Task_Stack(item, index) {

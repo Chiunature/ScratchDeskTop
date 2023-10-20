@@ -105,7 +105,7 @@ class Compile {
         }, []);
         let headList = headStr.split(';');
         headList.splice(-1, 1);
-        newArr.splice(0, 0, ...headList);
+        newArr.splice(1, 0, ...headList);
         return newArr.join(";");
     }
 
