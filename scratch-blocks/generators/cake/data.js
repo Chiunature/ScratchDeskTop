@@ -41,20 +41,18 @@ Blockly.cake['data_definevar'] = function (block) {
 
 Blockly.cake['data_setvariableto'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'VALUE',
-        Blockly.cake.ORDER_ADDITIVE) || '0';
+        Blockly.cake.ORDER_ADDITIVE);
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
         Blockly.Variables.NAME_TYPE);
     if (varName === 'unnamed') {
         return '';
     }
     // Arg is a number
-    if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
+   /*  if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
         arg0 = parseFloat(arg0.slice(1, -1)).toString();
-    }
+    } */
 
-    let newArg = Blockly.cake.isVal(arg0);
-
-    return varName + ' = ' + newArg + ';\n';
+    return varName + ' = ' + arg0 + ';\n';
 };
 
 Blockly.cake['data_changevariableby'] = function (block) {
@@ -66,9 +64,7 @@ Blockly.cake['data_changevariableby'] = function (block) {
         return '';
     }
 
-    let newArg = Blockly.cake.isVal(arg0);
-
-    return varName + ' += ' + newArg + ';\n';
+    return varName + ' += ' + arg0 + ';\n';
 };
 
 Blockly.cake['data_showvariable'] = function () {
@@ -103,7 +99,7 @@ Blockly.cake['data_addtolist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    item = Blockly.cake.isVal(item);
+    // item = Blockly.cake.isVal(item);
     // return `append(${varName}, "${item}");\n`;
     return `int size = 0;\nsize++;\n${varName} = realloc(${varName}, size * sizeof(int));\n${varName}[size - 1] = "${item}";\n`;
 };
@@ -116,7 +112,7 @@ Blockly.cake['data_deleteoflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    index = Blockly.cake.isVal(index);
+    // index = Blockly.cake.isVal(index);
     // return `del(${varName}, ${index} - 1);\n`;
     return `int length = sizeof(${varName}) / sizeof(${varName})[0];\nfor (int i = ${index}; i < length - 1; i++){
     ${varName}[i] = ${varName}[i + 1];\n}\nlength--;\n${varName} = realloc(${varName}, length * sizeof(int));\n`;
@@ -144,8 +140,8 @@ Blockly.cake['data_insertatlist'] = function (block) {
         return '';
     }
 
-    item = Blockly.cake.isVal(item);
-    index = Blockly.cake.isVal(index);
+    // item = Blockly.cake.isVal(item);
+    // index = Blockly.cake.isVal(index);
 
     // return varName + '.insert(' + index + ' - 1, ' + item + ')\n';
     return `int n = sizeof(${varName}) / sizeof(${varName})[0];\n${varName} = (int *)malloc(n * sizeof(int));\n${varName} = (int *)realloc(${varName}, (n + 1) * sizeof(int));\nfor (int i = n; i > ${index}; i--){
@@ -163,8 +159,8 @@ Blockly.cake['data_replaceitemoflist'] = function (block) {
         return '';
     }
 
-    item = Blockly.cake.isVal(item);
-    index = Blockly.cake.isVal(index);
+    // item = Blockly.cake.isVal(item);
+    // index = Blockly.cake.isVal(index);
 
     return varName + '[' + index + ' - 1] = "' + item + '";\n';
 };
@@ -175,7 +171,7 @@ Blockly.cake['data_itemoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    index = Blockly.cake.isVal(index);
+    // index = Blockly.cake.isVal(index);
 
     return [varName + '[' + index + ' - 1]', Blockly.cake.ORDER_ATOMIC];
 };
@@ -186,7 +182,7 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    item = Blockly.cake.isVal(item);
+    // item = Blockly.cake.isVal(item);
     let str = `getIndex(*${varName}, "${item}")`;
     // return [varName + '.index(' + item + ') + 1', Blockly.cake.ORDER_UNARY_SIGN];
     return [str, Blockly.cake.ORDER_UNARY_SIGN];
@@ -205,7 +201,7 @@ Blockly.cake['data_listcontainsitem'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    item = Blockly.cake.isVal(item);
+    // item = Blockly.cake.isVal(item);
     let str = `contains(${varName}, "${item}")`;
     // return ['' + item + ' in ' + varName, Blockly.cake.ORDER_RELATIONAL];
     return [str, Blockly.cake.ORDER_RELATIONAL];

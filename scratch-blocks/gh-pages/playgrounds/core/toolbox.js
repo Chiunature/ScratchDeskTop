@@ -159,7 +159,6 @@ Blockly.Toolbox.prototype.init = function () {
   this.createMxcTrash(); // 创建可删除区域，显示垃圾桶的标志
 
   // 给 “显示、隐藏 flyout 的按钮” 添加点击事件
-  // FIXME: 不知道为什么，这里如果换成绑定 mousedown 事件的话，在移动端会无法点击，也无法执行回调函数
   Blockly.bindEventWithChecks_(this.triggerIcon_, 'click', this, function() {
     if (this.isHideFlyout_) {
       // 当前 this.isHideFlyout_ 是 true，点击后会变成 false，即点击后 flyout 从隐藏状态变成显示状态
@@ -175,9 +174,6 @@ Blockly.Toolbox.prototype.init = function () {
 
     this.triggerIsHideFlyout(); // 修改 this.isHideFlyout_ 的值
 
-    /* 这一步有点取巧，目的是在修改this.isHideFlyout_ 的值的同时，
-    调整当前积木可删除区域的计算位置，从而实现积木拖动到指定区域才能删除的效果
-    这一步要结合下面 getClientRect 函数中的计算判断才有效果 */
     this.workspace_.resize();
   });
 };
@@ -199,7 +195,6 @@ Blockly.Toolbox.prototype.init = function () {
 
 /**
  * 修改 this.triggerIcon_ 的图标和位置
- * https://res.miaocode.com/slim/Snipaste_2022-06-16_11-24-09-1655349874818.png
  */
 Blockly.Toolbox.prototype.unfoldTrigger = function() {
   this.triggerIcon_.style.right = '-86px';
@@ -208,7 +203,6 @@ Blockly.Toolbox.prototype.unfoldTrigger = function() {
 
 /**
  * 修改 this.triggerIcon_ 的图标和位置
- * https://res.miaocode.com/slim/Snipaste_2022-06-16_11-24-21-1655349884215.png
  */
 Blockly.Toolbox.prototype.foldTrigger = function() {
   this.triggerIcon_.style.right = '-388px';
@@ -594,8 +588,7 @@ Blockly.Toolbox.prototype.setSelectedItem = function (item, opt_shouldScroll) {
       this.scrollToCategoryById(categoryId);
     }
 
-    // 在点击 category 时，如果 flyout 处于隐藏状态，则需要修改为显示状态
-    // 原本 setSelectedItem 函数没有这个 if 中的逻辑，是自己新加的
+
     if (this.isHideFlyout_) {
       this.showAll_();
 
@@ -607,9 +600,7 @@ Blockly.Toolbox.prototype.setSelectedItem = function (item, opt_shouldScroll) {
   }
 };
 
-/**
- * copy 原本 setSelectedItem 的逻辑，并加了一个 this.isHideFlyout_ 逻辑
- */
+
  Blockly.Toolbox.prototype.setSelectedItemForPopulate = function(item, opt_shouldScroll) {
   if (typeof opt_shouldScroll === 'undefined') {
     opt_shouldScroll = true;
@@ -629,16 +620,7 @@ Blockly.Toolbox.prototype.setSelectedItem = function (item, opt_shouldScroll) {
     }
   }
 
-  /* 这里又有点取巧
-  本来当切换角色时，会重新执行 populate_ 函数，并且重新把 flyout 显示出来
-  在这里加多一个判断 this.isHideFlyout_ 状态，如果是true，则再次将其隐藏起来
-  PS：
-      看到这里一定会好奇，为什么不直接在 populate_ 函数上判断 this.isHideFlyout_？
-      确实，一开始也是在 populate_ 函数中加判断逻辑的，但最后发现，如果在 populate_ 函数中加判断实现下面 if 中类似的效果时，会有 bug：
-          1. 当在角色上将 this.isHideFlyout_ 变成 true，然后切换到背景，然后点击 category，则积木块定位会不准
-          2. 当在背景上将 this.isHideFlyout_ 变成 true，然后切换到角色，然后点击 category，则积木块定位会不准
-          3. 神奇的是，当在角色上将 this.isHideFlyout_ 变成 true，然后切换到另一个角色，然后点击 category，则积木块定位居然是准确的
-      百思不得其解后，才采用现在这个方案：populate_ 函数的逻辑不改，在这里增加多一个判断 */
+  
   if (this.isHideFlyout_) {
     this.flyout_.hide();
     this.workspace_.resize();
