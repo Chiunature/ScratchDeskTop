@@ -129,8 +129,7 @@ class Serialport extends Common {
         if (!this.port) return;
         this.sign = str;
         this.port.write(data);
-        // console.log("write ==>", data);
-        event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+        if(this.verifyType != SOURCE) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         this.checkOverTime(event);
     }
 
@@ -175,7 +174,6 @@ class Serialport extends Common {
             try {
                 this.clearTimer();
                 const receiveData = this.port.read();
-                // console.log("the received data is:", receiveData);
 
                 const allData = this.catchData(receiveData);
                 const verify = this.verification(this.receiveDataBuffer);
@@ -193,7 +191,6 @@ class Serialport extends Common {
         if (!this.sign || !data) return;
         this.receiveDataBuffer = this.receiveDataBuffer.concat(this.Get_CRC(data));
         if (data[data.length - 1] == 0xa5) {
-            // console.log("the processed data is:", this.receiveDataBuffer);
             return true;
         }
         return false;
