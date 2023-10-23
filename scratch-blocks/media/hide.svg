@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="26px" height="54px" viewBox="0 0 26 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>展开收起</title>
     <defs>
         <polygon id="path-1" points="-3.62944968e-14 1.27398092e-14 26 -8.299611e-14 26 54 2.3543667e-13 54"></polygon>
         <path d="M-1,7 L11,7 C15.418278,7 19,10.581722 19,15 L19,39 C19,43.418278 15.418278,47 11,47 L-1,47 L-1,47 L-1,7 Z" id="path-3"></path>
@@ -11,14 +10,14 @@
             <feColorMatrix values="0 0 0 0 0.326104423   0 0 0 0 0.664346077   0 0 0 0 0.812783062  0 0 0 0.06 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
         </filter>
     </defs>
-    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="创作中心-代码&amp;子菜单展开" transform="translate(-895.000000, -474.000000)">
-            <g id="展开收起" transform="translate(895.000000, 474.000000)">
-                <g id="矩形">
+    <g id="hide-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="hide-2" transform="translate(-895.000000, -474.000000)">
+            <g id="hdie-3" transform="translate(895.000000, 474.000000)">
+                <g id="hide-4">
                     <mask id="mask-2" fill="white">
                         <use xlink:href="#path-1"></use>
                     </mask>
-                    <g id="蒙版"></g>
+                    <g id="hide-5"></g>
                     <g mask="url(#mask-2)">
                         <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
                         <path stroke="#d3d3d3" stroke-width="1" d="M11,7.5 C13.0710678,7.5 14.9460678,8.33946609 16.3033009,9.69669914 C17.6605339,11.0539322 18.5,12.9289322 18.5,15 L18.5,15 L18.5,39 C18.5,41.0710678 17.6605339,42.9460678 16.3033009,44.3033009 C14.9460678,45.6605339 13.0710678,46.5 11,46.5 L11,46.5 L-0.5,46.5 L-0.5,7.5 Z" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd"></path>

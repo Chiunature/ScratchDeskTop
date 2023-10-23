@@ -446,7 +446,7 @@ Blockly.Blocks['operator_mathop'] = {
             [Blockly.Msg.OPERATORS_MATHOP_FLOOR, 'floor'],
             [Blockly.Msg.OPERATORS_MATHOP_CEILING, 'ceiling'],
             [Blockly.Msg.OPERATORS_MATHOP_SQRT, 'sqrt'],
-            [Blockly.Msg.OPERATORS_MATHOP_SIN, 'sin'],
+            /* [Blockly.Msg.OPERATORS_MATHOP_SIN, 'sin'],
             [Blockly.Msg.OPERATORS_MATHOP_COS, 'cos'],
             [Blockly.Msg.OPERATORS_MATHOP_TAN, 'tan'],
             [Blockly.Msg.OPERATORS_MATHOP_ASIN, 'asin'],
@@ -455,7 +455,7 @@ Blockly.Blocks['operator_mathop'] = {
             [Blockly.Msg.OPERATORS_MATHOP_LN, 'ln'],
             [Blockly.Msg.OPERATORS_MATHOP_LOG, 'log'],
             [Blockly.Msg.OPERATORS_MATHOP_EEXP, 'e ^'],
-            [Blockly.Msg.OPERATORS_MATHOP_10EXP, '10 ^']
+            [Blockly.Msg.OPERATORS_MATHOP_10EXP, '10 ^'] */
           ]
         },
         {
