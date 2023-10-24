@@ -130,7 +130,7 @@ Blockly.Blocks['combined_motor_direction'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.ADVANCE
                             },
-                            "advance"
+                            "up"
                         ],
                         [
                             {
@@ -139,7 +139,7 @@ Blockly.Blocks['combined_motor_direction'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.BACK
                             },
-                            "back"
+                            "down"
                         ],
                         [
                             {
@@ -323,7 +323,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.ADVANCE
                             },
-                            "advance"
+                            "up"
                         ],
                         [
                             {
@@ -332,7 +332,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.BACK
                             },
-                            "back"
+                            "down"
                         ],
                         [
                             {

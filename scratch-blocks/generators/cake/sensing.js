@@ -83,7 +83,7 @@ Blockly.cake['sensing_ultrasonic_detection'] = function (block) {
 
 Blockly.cake['sensing_sound_intensity'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_sound_intensity()`;
+    let code = `sensing_sound_intensity()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 

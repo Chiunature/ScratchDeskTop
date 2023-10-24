@@ -20,7 +20,7 @@ Blockly.cake['combined_motor_starting'] = function (block) {
     const dropdown_port1 = Blockly.cake.valueToCode(block, "PORT1", Blockly.cake.ORDER_NONE);
     const dropdown_port2 = Blockly.cake.valueToCode(block, "PORT2", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_starting("${dropdown_port1}1", "${dropdown_port2}1");\n`;
+    const code = `motor_combined_starting("${dropdown_port1}1+${dropdown_port2}1");\n`;
     return code;
 };
 
@@ -67,7 +67,7 @@ Blockly.cake['combined_motor_stop'] = function (block) {
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_stop("${one}", "${two}");\n`;
-    const code = `motor_combined_stop();\n`;
+    const code = `motor_combined_stop(void);\n`;
     return code;
 };
 
