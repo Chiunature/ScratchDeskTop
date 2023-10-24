@@ -120,23 +120,33 @@ Blockly.Blocks['combined_motor_direction'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "input_value",
-                    "name": "PORT1",
-                },
-                {
-                    "type": "input_value",
-                    "name": "PORT2",
-                },
-                {
                     "type": "field_dropdown",
                     "name": "direction",
                     "options": [
                         [
                             {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.ADVANCE
+                            },
+                            "advance"
+                        ],
+                        [
+                            {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.BACK
+                            },
+                            "back"
+                        ],
+                        [
+                            {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
                                 "width": 20,
                                 "height": 20,
-                                "alt": Blockly.Msg.LEFT
+                                "alt": Blockly.Msg.TURNLEFT
                             },
                             "turnleft"
                         ],
@@ -145,10 +155,10 @@ Blockly.Blocks['combined_motor_direction'] = {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
                                 "width": 20,
                                 "height": 20,
-                                "alt": Blockly.Msg.RIGHT
+                                "alt": Blockly.Msg.TURNRIGHT
                             },
                             "turnright"
-                        ]
+                        ],
                     ]
                 }
             ],
@@ -175,14 +185,14 @@ Blockly.Blocks['combined_motor_speed'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
+                /* {
                     "type": "input_value",
                     "name": "PORT1",
                 },
                 {
                     "type": "input_value",
                     "name": "PORT2",
-                },
+                }, */
                 {
                     "type": "input_value",
                     "name": "SPEED",
@@ -294,14 +304,14 @@ Blockly.Blocks['combined_motor_line'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
+                /* {
                     "type": "input_value",
                     "name": "PORT1",
                 },
                 {
                     "type": "input_value",
                     "name": "PORT2",
-                },
+                }, */
                 {
                     "type": "field_dropdown",
                     "name": "line",
@@ -323,6 +333,24 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "alt": Blockly.Msg.BACK
                             },
                             "back"
+                        ],
+                        [
+                            {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.TURNLEFT
+                            },
+                            "turnleft"
+                        ],
+                        [
+                            {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.TURNRIGHT
+                            },
+                            "turnright"
                         ],
                     ]
                 },
@@ -373,14 +401,14 @@ Blockly.Blocks['combined_motor_stop'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
+                /* {
                     "type": "input_value",
                     "name": "PORT1",
                 },
                 {
                     "type": "input_value",
                     "name": "PORT2",
-                },
+                }, */
             ],
             "category": Blockly.Categories.combined_motor,
             "extensions": ["colours_combined_motor", "shape_statement"],
@@ -462,14 +490,14 @@ Blockly.Blocks['combined_motor_movestep'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
+                /* {
                     "type": "input_value",
                     "name": "PORT1",
                 },
                 {
                     "type": "input_value",
                     "name": "PORT2",
-                },
+                }, */
                 {
                     "type": "input_value",
                     "name": "left",
@@ -485,14 +513,14 @@ Blockly.Blocks['combined_motor_movestep'] = {
     }
 };
 
-Blockly.Blocks['combined_motor_movepower'] = {
+Blockly.Blocks['combined_motor_angle'] = {
     /**
      * Block to move steps.
      * @this Blockly.Block
      */
     init: function () {
         this.jsonInit({
-            "message0": Blockly.Msg.COMBINED_MOTOR_MOVEPOWER,
+            "message0": Blockly.Msg.COMBINED_MOTOR_ANGLE,
             "args0": [
                 {
                     "type": "field_image",
@@ -502,11 +530,7 @@ Blockly.Blocks['combined_motor_movepower'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
-                    "type": "input_value",
-                    "name": "power",
-                },
-                {
+                /* {
                     "type": "field_dropdown",
                     "name": "direction",
                     "options": [
@@ -528,26 +552,26 @@ Blockly.Blocks['combined_motor_movepower'] = {
                             },
                             "turnright"
                         ],
-                        // [
-                        //     {
-                        //         "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                        //         "width": 20,
-                        //         "height": 20,
-                        //         "alt": Blockly.Msg.ADVANCE
-                        //     },
-                        //     "advance"
-                        // ],
-                        // [
-                        //     {
-                        //         "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                        //         "width": 20,
-                        //         "height": 20,
-                        //         "alt": Blockly.Msg.BACK
-                        //     },
-                        //     "back"
-                        // ],
+                        [
+                            {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.ADVANCE
+                            },
+                            "advance"
+                        ],
+                        [
+                            {
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
+                                "width": 20,
+                                "height": 20,
+                                "alt": Blockly.Msg.BACK
+                            },
+                            "back"
+                        ],
                     ]
-                },
+                }, */
                 {
                     "type": "input_value",
                     "name": "ANGLE",
@@ -576,14 +600,14 @@ Blockly.Blocks['combined_motor_stopping'] = {
                     "alt": "*",
                     "flipRtl": false
                 },
-                {
+                /* {
                     "type": "input_value",
                     "name": "PORT1",
                 },
                 {
                     "type": "input_value",
                     "name": "PORT2",
-                },
+                }, */
                 {
                     "type": "field_dropdown",
                     "name": "status",

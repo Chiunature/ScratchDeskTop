@@ -4,144 +4,6 @@ const categorySeparator = '<sep gap="36"/>';
 
 const blockSeparator = '<sep gap="36"/>'; // At default scale, about 28px
 
-/* eslint-disable no-unused-vars */
-const motion = function (isInitialSetup, isStage, targetId, colors) {
-    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTION_STAGE_SELECTED",
-        "Stage selected: no motion blocks"
-    );
-    return `
-    <category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
-        ${isStage
-            ? `
-        <label text="${stageSelected}"></label>
-        `
-            : `
-        <block type="motion_movesteps">
-            <value name="STEPS">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_turnright">
-            <value name="DEGREES">
-                <shadow type="math_number">
-                    <field name="NUM">15</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_turnleft">
-            <value name="DEGREES">
-                <shadow type="math_number">
-                    <field name="NUM">15</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="motion_goto">
-            <value name="TO">
-                <shadow type="motion_goto_menu">
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_gotoxy">
-            <value name="X">
-                <shadow id="movex" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-            <value name="Y">
-                <shadow id="movey" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_glideto" id="motion_glideto">
-            <value name="SECS">
-                <shadow type="math_number">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-            <value name="TO">
-                <shadow type="motion_glideto_menu">
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_glidesecstoxy">
-            <value name="SECS">
-                <shadow type="math_number">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-            <value name="X">
-                <shadow id="glidex" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-            <value name="Y">
-                <shadow id="glidey" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="motion_pointindirection">
-            <value name="DIRECTION">
-                <shadow type="math_angle">
-                    <field name="NUM">90</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_pointtowards">
-            <value name="TOWARDS">
-                <shadow type="motion_pointtowards_menu">
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="motion_changexby">
-            <value name="DX">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_setx">
-            <value name="X">
-                <shadow id="setx" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_changeyby">
-            <value name="DY">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="motion_sety">
-            <value name="Y">
-                <shadow id="sety" type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="motion_ifonedgebounce"/>
-        ${blockSeparator}
-        <block type="motion_setrotationstyle"/>
-        ${blockSeparator}
-        <block id="${targetId}_xposition" type="motion_xposition"/>
-        <block id="${targetId}_yposition" type="motion_yposition"/>
-        <block id="${targetId}_direction" type="motion_direction"/>`
-        }
-        ${categorySeparator}
-    </category>
-    `;
-};
 
 const xmlEscape = function (unsafe) {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -160,161 +22,7 @@ const xmlEscape = function (unsafe) {
     });
 };
 
-const looks = function (
-    isInitialSetup,
-    isStage,
-    targetId,
-    costumeName,
-    backdropName, colors
-) {
-    const hello = ScratchBlocks.ScratchMsgs.translate("LOOKS_HELLO", "Hello!");
-    const hmm = ScratchBlocks.ScratchMsgs.translate("LOOKS_HMM", "Hmm...");
-    return `
-    <category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
-        ${isStage
-            ? ""
-            : `
-        <block type="looks_sayforsecs">
-            <value name="MESSAGE">
-                <shadow type="text">
-                    <field name="TEXT">${hello}</field>
-                </shadow>
-            </value>
-            <value name="SECS">
-                <shadow type="math_number">
-                    <field name="NUM">2</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="looks_say">
-            <value name="MESSAGE">
-                <shadow type="text">
-                    <field name="TEXT">${hello}</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="looks_thinkforsecs">
-            <value name="MESSAGE">
-                <shadow type="text">
-                    <field name="TEXT">${hmm}</field>
-                </shadow>
-            </value>
-            <value name="SECS">
-                <shadow type="math_number">
-                    <field name="NUM">2</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="looks_think">
-            <value name="MESSAGE">
-                <shadow type="text">
-                    <field name="TEXT">${hmm}</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        `
-        }
-        ${isStage
-            ? `
-            <block type="looks_switchbackdropto">
-                <value name="BACKDROP">
-                    <shadow type="looks_backdrops">
-                        <field name="BACKDROP">${backdropName}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="looks_switchbackdroptoandwait">
-                <value name="BACKDROP">
-                    <shadow type="looks_backdrops">
-                        <field name="BACKDROP">${backdropName}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="looks_nextbackdrop"/>
-        `
-            : `
-            <block id="${targetId}_switchcostumeto" type="looks_switchcostumeto">
-                <value name="COSTUME">
-                    <shadow type="looks_costume">
-                        <field name="COSTUME">${costumeName}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="looks_nextcostume"/>
-            <block type="looks_switchbackdropto">
-                <value name="BACKDROP">
-                    <shadow type="looks_backdrops">
-                        <field name="BACKDROP">${backdropName}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="looks_nextbackdrop"/>
-            ${blockSeparator}
-            <block type="looks_changesizeby">
-                <value name="CHANGE">
-                    <shadow type="math_number">
-                        <field name="NUM">10</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="looks_setsizeto">
-                <value name="SIZE">
-                    <shadow type="math_number">
-                        <field name="NUM">100</field>
-                    </shadow>
-                </value>
-            </block>
-        `
-        }
-        ${blockSeparator}
-        <block type="looks_changeeffectby">
-            <value name="CHANGE">
-                <shadow type="math_number">
-                    <field name="NUM">25</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="looks_seteffectto">
-            <value name="VALUE">
-                <shadow type="math_number">
-                    <field name="NUM">0</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="looks_cleargraphiceffects"/>
-        ${blockSeparator}
-        ${isStage
-            ? ""
-            : `
-            <block type="looks_show"/>
-            <block type="looks_hide"/>
-        ${blockSeparator}
-            <block type="looks_gotofrontback"/>
-            <block type="looks_goforwardbackwardlayers">
-                <value name="NUM">
-                    <shadow type="math_integer">
-                        <field name="NUM">1</field>
-                    </shadow>
-                </value>
-            </block>
-        `
-        }
-        ${isStage
-            ? `
-            <block id="backdropnumbername" type="looks_backdropnumbername"/>
-        `
-            : `
-            <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>
-            <block id="backdropnumbername" type="looks_backdropnumbername"/>
-            <block id="${targetId}_size" type="looks_size"/>
-        `
-        }
-        ${categorySeparator}
-    </category>
-    `;
-};
+
 {/* 
     <block type="sound_cleareffects"/>
     <block type="sound_changeeffectby">
@@ -706,6 +414,15 @@ const myBlocks = function (colors) {
     `;
 };
 
+/* 
+    <block type="motor_specifiedangle">
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+        <block type="motor_relative_position"></block>
+*/
+
 const motor = function (isInitialSetup, isStage, targetId, colors) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         "MOTOR_STAGE_SELECTED",
@@ -730,12 +447,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="motor_specifiedunit"></block>
-        <block type="motor_specifiedangle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="motor_relative_position"></block>
         <block type="motor_specified_manner"></block>
         <block type="motor_rate"></block>
         `
@@ -751,112 +462,77 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_-100to100_number"></shadow>
             </value>
         </block>
-        <block type="combined_motor_movepower">
-            <value name="power">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-    */}
-{/* <block type="combined_motor_starting">
+        <block type="combined_motor_turn">
             <value name="PORT1">
                 <shadow type="combined_motorOne_menu"></shadow>
             </value>
             <value name="PORT2">
                 <shadow type="combined_motorTwo_menu"></shadow>
             </value>
-        </block> */}
-        const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
-            const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-                "MOTOR_STAGE_SELECTED",
-                "Stage selected: no combined_motor blocks"
-            );
-            return `
-            <category
-                name="%{BKY_CATEGORY_COMBINED_MOTOR}"
-                id="combined_motor"
-                colour="${colors.primary}"
-                secondaryColour="${colors.tertiary}">
-                ${isStage
-                    ? `
-                <label text="${stageSelected}"></label>
-                `
-                    : `
-                <block type="combined_motor_direction">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_speed">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                    <value name="SPEED">
-                        <shadow type="math_-100to100_number"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_turn">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                    <value name="ANGLE">
-                        <shadow type="math_angle"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_line">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_stop">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_movestep">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                    <value name="left">
-                        <shadow type="math_-100to100_number"></shadow>
-                    </value>
-                    <value name="right">
-                        <shadow type="math_-100to100_number"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_stopping">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                </block>
-                `
-                }
-            </category>
-            `;
-        };
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+    */}
+
+const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no combined_motor blocks"
+    );
+    return `
+    <category
+        name="%{BKY_CATEGORY_COMBINED_MOTOR}"
+        id="combined_motor"
+        colour="${colors.primary}"
+        secondaryColour="${colors.tertiary}">
+        ${isStage
+            ? `
+        <label text="${stageSelected}"></label>
+        `
+            : `
+        <block type="combined_motor_starting">
+            <value name="PORT1">
+                <shadow type="combined_motorOne_menu"></shadow>
+            </value>
+            <value name="PORT2">
+                <shadow type="combined_motorTwo_menu"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_direction"></block>
+        <block type="combined_motor_speed">
+            <value name="SPEED">
+                <shadow type="math_-100to100_number"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_line">
+            <value name="PORT1">
+                <shadow type="combined_motorOne_menu"></shadow>
+            </value>
+            <value name="PORT2">
+                <shadow type="combined_motorTwo_menu"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_stop"></block>
+        <block type="combined_motor_movestep">
+            <value name="left">
+                <shadow type="math_-100to100_number"></shadow>
+            </value>
+            <value name="right">
+                <shadow type="math_-100to100_number"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_angle">
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_stopping"></block>
+        `
+        }
+    </category>
+    `;
+};
 {/* <block type="matrix_lamp_single">
             <value name="brightness">
                 <shadow type="math_0to100_number"></shadow>
@@ -945,11 +621,6 @@ const makeToolboxXML = function (
         }
         // return `undefined`
     };
-    const motionXML =
-        moveCategory("motion") || motion(isInitialSetup, isStage, targetId, colors.motion);
-    const looksXML =
-        moveCategory("looks") ||
-        looks(isInitialSetup, isStage, targetId, costumeName, backdropName, colors.looks);
     const soundXML =
         moveCategory("sound") ||
         sound(isInitialSetup, isStage, targetId, soundName, colors.sounds);

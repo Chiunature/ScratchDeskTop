@@ -305,9 +305,11 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
         Blockly.FieldAngle.ROUND;
   }
   angle = this.callValidator(angle);
-  Blockly.FieldTextInput.htmlInput_.value = angle;
+
+  const val = this.compareAngle(angle);
+  Blockly.FieldTextInput.htmlInput_.value = val;
   this.setValue(angle);
-  this.validate_();
+  // this.validate_();
   this.resizeEditor_();
 };
 
@@ -316,6 +318,7 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
  * @param {?string} text New text.
  */
 Blockly.FieldAngle.prototype.setText = function(text) {
+  text = this.reverseVal(text);
   Blockly.FieldAngle.superClass_.setText.call(this, text);
   if (!this.textElement_) {
     // Not rendered yet.
@@ -334,7 +337,16 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
   if (!this.gauge_) {
     return;
   }
-  var angleDegrees = Number(this.getText()) % 360 + Blockly.FieldAngle.OFFSET;
+
+  let angleDegrees;
+  const gt = this.getText();
+  if(gt.search("R:") != -1 || gt.search("L:") != -1)  {
+    const list = gt.split(":");
+    angleDegrees = Number(list[1]) % 360 + Blockly.FieldAngle.OFFSET;
+  }else {
+    angleDegrees = Number(gt) % 360 + Blockly.FieldAngle.OFFSET;
+  }
+  // var angleDegrees = Number(this.getText()) % 360 + Blockly.FieldAngle.OFFSET;
   var angleRadians = goog.math.toRadians(angleDegrees);
   var path = ['M ', Blockly.FieldAngle.HALF, ',', Blockly.FieldAngle.HALF];
   var x2 = Blockly.FieldAngle.HALF;
@@ -381,7 +393,9 @@ Blockly.FieldAngle.prototype.classValidator = function(text) {
   if (text === null) {
     return null;
   }
-  var n = parseFloat(text || 0);
+  // var n = parseFloat(text || 0);
+  let n = this.reverseVal(text);
+
   if (isNaN(n)) {
     return null;
   }
@@ -392,7 +406,34 @@ Blockly.FieldAngle.prototype.classValidator = function(text) {
   if (n > Blockly.FieldAngle.WRAP) {
     n -= 360;
   }
-  return String(n);
+
+  const val = this.compareAngle(n);
+
+  return String(val);
 };
+
+Blockly.FieldAngle.prototype.reverseVal = function (oldVal) {
+  let newVal;
+  if(typeof oldVal == 'string' && (oldVal.search("R:") != -1 || oldVal.search("L:") != -1))  {
+    let list = oldVal.split(":");
+    newVal = list[1];
+  }else {
+    newVal = parseFloat(oldVal || 0);
+  }
+  return newVal;
+}
+
+
+Blockly.FieldAngle.prototype.compareAngle = function (angle) {
+  let val;
+  if(angle > 0) {
+    val = 'R:' + angle;
+  }else if(angle < 0){
+    val = 'L:' + angle;
+  }else {
+    val = angle;
+  }
+  return val;
+}
 
 Blockly.Field.register('field_angle', Blockly.FieldAngle);

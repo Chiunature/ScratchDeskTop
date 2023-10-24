@@ -15,7 +15,7 @@ const blockColors = {
     },
     combined_motor: {
         "primary": "#2388ca",
-        "secondary": "#4280D7",
+        "secondary": "#3373CC",
         "tertiary": "#3373CC",
         "quaternary": "#3373CC"
     },
