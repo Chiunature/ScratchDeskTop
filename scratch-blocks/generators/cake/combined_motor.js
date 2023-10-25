@@ -67,7 +67,7 @@ Blockly.cake['combined_motor_stop'] = function (block) {
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_stop("${one}", "${two}");\n`;
-    const code = `motor_combined_stop(void);\n`;
+    const code = `motor_combined_stop();\n`;
     return code;
 };
 
