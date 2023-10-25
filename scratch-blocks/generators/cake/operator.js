@@ -112,7 +112,7 @@ Blockly.cake['operator_join'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '\'\'';
     // var code = 'str(' + arg0 + ') + str(' + arg1 + ')';
-    let code = `strcat("${arg0}", "${arg1}")`;
+    let code = `Str_Connect("${arg0}", "${arg1}")`;
     return [code, Blockly.cake.ORDER_ADDITIVE];
 };
 
@@ -133,7 +133,7 @@ Blockly.cake['operator_letter_of'] = function (block) {
 
 Blockly.cake['operator_length'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'STRING', Blockly.cake.ORDER_FUNCTION_CALL) || '\'\'';
-    var code = 'len(' + arg0 + ')';
+    var code = 'Str_Strlen("' + arg0 + '")';
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
@@ -141,7 +141,7 @@ Blockly.cake['operator_contains'] = function (block) {
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '0';
-    var code = 'str(' + arg0 + ').find(str(' + arg1 + ')) > -1';
+    var code = `Str_Matchine("${arg0}", '${arg1}')`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
@@ -156,7 +156,7 @@ Blockly.cake['operator_mod'] = function (block) {
 Blockly.cake['operator_round'] = function (block) {
     var order = Blockly.cake.ORDER_UNARY_POSTFIX;
     var arg0 = Blockly.cake.valueToCode(block, 'NUM', order) || '0';
-    var code = 'round(' + arg0 + ')';
+    var code = 'Rounding(' + arg0 + ')';
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
@@ -166,10 +166,10 @@ Blockly.cake['operator_mathop'] = function (block) {
 
     // Blockly.cake.imports_["math"] = "import math";
 
-    var code = '';
+    var code = `Calculation("${mode}", ${arg0})`;
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
 
-    switch (mode) {
+    /* switch (mode) {
         case 'abs':
             code = 'math.fabs(' + arg0 + ')';
             break;
@@ -215,6 +215,6 @@ Blockly.cake['operator_mathop'] = function (block) {
         case '10 ^':
             code = 'math.pow(10, ' + arg0 + ')';
             break;
-    }
+    } */
     return [code, order];
 };

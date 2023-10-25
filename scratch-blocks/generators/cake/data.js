@@ -88,7 +88,7 @@ Blockly.cake['data_definelist'] = function (block) {
         return '';
     }
 
-    return `char* ${varName}[] = {};\n`;
+    return `LB_CreateList();\n`;
 };
 
 Blockly.cake['data_addtolist'] = function (block) {
@@ -99,9 +99,8 @@ Blockly.cake['data_addtolist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    // item = Blockly.cake.isVal(item);
-    // return `append(${varName}, "${item}");\n`;
-    return `int size = 0;\nsize++;\n${varName} = realloc(${varName}, size * sizeof(int));\n${varName}[size - 1] = "${item}";\n`;
+
+    return `LB_ListPushData("${item}");\n`;
 };
 
 Blockly.cake['data_deleteoflist'] = function (block) {
@@ -112,10 +111,8 @@ Blockly.cake['data_deleteoflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    // index = Blockly.cake.isVal(index);
-    // return `del(${varName}, ${index} - 1);\n`;
-    return `int length = sizeof(${varName}) / sizeof(${varName})[0];\nfor (int i = ${index}; i < length - 1; i++){
-    ${varName}[i] = ${varName}[i + 1];\n}\nlength--;\n${varName} = realloc(${varName}, length * sizeof(int));\n`;
+    
+    return `LB_DeleteIndex(${index});\n`;
 };
 
 Blockly.cake['data_deletealloflist'] = function (block) {
@@ -125,8 +122,7 @@ Blockly.cake['data_deletealloflist'] = function (block) {
         return '';
     }
 
-    // return 'del ' + varName + '[0:];\n';
-    return `free(*${varName});\n*${varName} = NULL;\n`;
+    return `LB_ListDeletAll();\n`;
 };
 
 Blockly.cake['data_insertatlist'] = function (block) {
@@ -140,12 +136,7 @@ Blockly.cake['data_insertatlist'] = function (block) {
         return '';
     }
 
-    // item = Blockly.cake.isVal(item);
-    // index = Blockly.cake.isVal(index);
-
-    // return varName + '.insert(' + index + ' - 1, ' + item + ')\n';
-    return `int n = sizeof(${varName}) / sizeof(${varName})[0];\n${varName} = (int *)malloc(n * sizeof(int));\n${varName} = (int *)realloc(${varName}, (n + 1) * sizeof(int));\nfor (int i = n; i > ${index}; i--){
-    ${varName}[i] = ${varName}[i - 1];\n}\n${varName}[${index}] = ${item};\n`;
+    return `LB_ListIndexPullData(${index}, "${item}");\n`;
 };
 
 Blockly.cake['data_replaceitemoflist'] = function (block) {
@@ -159,10 +150,7 @@ Blockly.cake['data_replaceitemoflist'] = function (block) {
         return '';
     }
 
-    // item = Blockly.cake.isVal(item);
-    // index = Blockly.cake.isVal(index);
-
-    return varName + '[' + index + ' - 1] = "' + item + '";\n';
+    return `LB_ListIndexChangerData(${index}, "${item}");\n`;
 };
 
 Blockly.cake['data_itemoflist'] = function (block) {
@@ -182,17 +170,15 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    // item = Blockly.cake.isVal(item);
-    let str = `getIndex(*${varName}, "${item}")`;
-    // return [varName + '.index(' + item + ') + 1', Blockly.cake.ORDER_UNARY_SIGN];
+    let str = `LB_ListGetDataIndex("${item}");\n`;
     return [str, Blockly.cake.ORDER_UNARY_SIGN];
 };
 
 Blockly.cake['data_lengthoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-    // return ['len(' + varName + ')', Blockly.cake.ORDER_ATOMIC];
-    return [`sizeof(${varName}) / sizeof(${varName})[0]`, Blockly.cake.ORDER_ATOMIC];
+    
+    return [`LB_ListGetNumber();\n`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_listcontainsitem'] = function (block) {
@@ -201,9 +187,7 @@ Blockly.cake['data_listcontainsitem'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    // item = Blockly.cake.isVal(item);
-    let str = `contains(${varName}, "${item}")`;
-    // return ['' + item + ' in ' + varName, Blockly.cake.ORDER_RELATIONAL];
+    let str = `LB_ListCmpData("${item}");\n`;
     return [str, Blockly.cake.ORDER_RELATIONAL];
 };
 
