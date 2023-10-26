@@ -24,10 +24,10 @@
  * @author avenger-jxc
  */
 import { handlerError, ipc, getCurrentTime } from "./ipcRender";
-import { headMain, Task_Info, Task_Stack, Task_Info_Item, User_Aplication } from "../config/js/ProgrammerTasks.js";
+import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
 import { MUSIC, BOOT, BIN, APP } from "../config/json/LB_FWLIB.json";
-import { DIR, APLICATION, PROGRAMMERTASKS } from "../config/json/LB_USER.json";
+import { DIR, APLICATION } from "../config/json/LB_USER.json";
 
 const fs = window.fs;
 const { spawn } = window.child_process;
@@ -89,55 +89,29 @@ class Compile {
         });
     }
 
-    //处理任务
-    programmerTasks(filePath, taskStr, headStr) {
-        let readRes = this.readFiles(filePath, 'utf8');
-        const arr = readRes.split(';');
-        const newStr = Task_Info(taskStr);
-        let newArr = arr.reduce((pre, el) => {
-            if (el.search("extern void User_Aplication") == -1) {
-                if (el.search("Task_Info user_task") != -1) {
-                    el = newStr;
-                }
-                pre.push(el);
-            }
-            return pre;
-        }, []);
-        let headList = headStr.split(';');
-        headList.splice(-1, 1);
-        newArr.splice(1, 0, ...headList);
-        return newArr.join(";");
-    }
-
     //将生成的C代码写入特定的C文件
-    handleCode(codeStr) {
-        const code = headMain(codeStr);
+    handleCode(codeStr, taskStr) {
+        const str = Task_Info(taskStr);
+        const newStr = codeStr + str;
+        const code = headMain(newStr);
         const writeAppRes = this.writeFiles(APLICATION, code);
         return writeAppRes;
     }
 
-    //并发任务操作
-    handleTask(headStr, taskStr) {
-        const parserCode = this.programmerTasks(PROGRAMMERTASKS, taskStr, headStr);
-        const writeTaskRes = this.writeFiles(PROGRAMMERTASKS, parserCode);
-        return writeTaskRes;
-    }
-
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, isUpload = false) {
-        let codeStr = '', taskStr = '', headStr = '';
+        let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
-            headStr += User_Aplication(index);
             codeStr += Task_Stack(el, index);
             taskStr += Task_Info_Item(index);
         });
-        const appRes = this.handleCode(codeStr);
-        const taskRes = this.handleTask(headStr, taskStr);
+
+        const appRes = this.handleCode(codeStr, taskStr);
 
         if (this.progress && this.progress.exitCode !== 0) this.progress.kill('SIGKILL');
 
         //编译
-        if (appRes && taskRes) {
+        if (appRes) {
             this.commendMake().then(result => {
                 this.startSend = result;
                 if (result) eventEmitter.emit(this.eventName);

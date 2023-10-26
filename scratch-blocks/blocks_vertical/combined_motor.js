@@ -332,7 +332,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.BACK
                             },
-                            "down"
+                            "Down"
                         ],
                         [
                             {

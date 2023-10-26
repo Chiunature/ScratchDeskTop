@@ -22,9 +22,9 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-function User_Aplication(index) {
-    return `\nextern void User_Aplication${index}(void *parameter);`;
-}
+/* function User_Aplication(index) {
+    return `\nvoid User_Aplication${index}(void *parameter);`;
+} */
 
 function Task_Stack(item, index) {
     return `void User_Aplication${index}(void* parameter)\n{\n${item ? item.replaceAll('undefined', '') : item}\nLB_StopThisProgramment();\n}\n`;
@@ -36,11 +36,11 @@ function Task_Info_Item(index) {
 
 
 function Task_Info(taskStr) {
-    return `\nTask_Info user_task[] = {${taskStr}\n}`;
+    return `\nTask_Info user_task[] = {${taskStr}\n};`;
 }
 
 function headMain(codeStr) {
-    return `#include "main.h"\n${codeStr}\n`;
+    return `#include "main.h"\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
 }
 
 
@@ -49,6 +49,5 @@ export {
     headMain,
     Task_Info,
     Task_Stack,
-    Task_Info_Item,
-    User_Aplication
+    Task_Info_Item
 }

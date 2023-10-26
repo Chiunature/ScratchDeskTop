@@ -75,11 +75,11 @@ Blockly.cake['data_hidevariable'] = function () {
     return '';
 };
 
-Blockly.cake['data_listcontents'] = function (block) {
+/* Blockly.cake['data_listcontents'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
     return [varName, Blockly.cake.ORDER_ATOMIC];
-};
+}; */
 
 Blockly.cake['data_definelist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),

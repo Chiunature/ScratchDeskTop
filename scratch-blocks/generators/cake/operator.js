@@ -48,7 +48,7 @@ Blockly.cake['operator_divide'] = Blockly.cake['operator_arithmetic'];
 Blockly.cake['operator_random'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'FROM', Blockly.cake.ORDER_FUNCTION_CALL) || '0';
     var arg1 = Blockly.cake.valueToCode(block, 'TO', Blockly.cake.ORDER_FUNCTION_CALL) || '0';
-    var code = "random.randint(" + arg0 + ", " + arg1 + ")";
+    var code = "LB_Random(" + arg0 + ", " + arg1 + ")";
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
