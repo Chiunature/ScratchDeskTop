@@ -99,7 +99,7 @@ Blockly.cake.INDENT = '  ';
 Blockly.cake.INDENTSPACE = '  ';
 Blockly.cake.firstLoop = true;
 Blockly.cake.LED = {
-  '0': [0x3C, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x3C], 
+  '0': [0x3C, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x3C],
   '1': [0x10, 0x18, 0x14, 0x10, 0x10, 0x10, 0x10, 0x10],
   '2': [0x7E, 0x02, 0x02, 0x7E, 0x40, 0x40, 0x40, 0x7E],
   '3': [0x3E, 0x02, 0x02, 0x3E, 0x02, 0x02, 0x3E, 0x00],
@@ -309,16 +309,16 @@ Blockly.cake.stringToHex = function (string) {
 }
 
 Blockly.cake.charToHexArray = function (char) {
-  if(!char) return ['0xff','0xff','0xff','0xff','0xff','0xff','0xff','0xff'];
+  if (!char) return ['0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff'];
   let hexArray = [];
   let res = char.toUpperCase();
-  for(let item in Blockly.cake.LED) {
-    if(res == item) {
+  for (let item in Blockly.cake.LED) {
+    if (res == item) {
       hexArray = Blockly.cake.LED[item];
       break;
     }
   }
-  let newArr = hexArray.map(el =>('0x' + el.toString(16)));
+  let newArr = hexArray.map(el => ('0x' + el.toString(16)));
   return newArr;
 }
 
@@ -338,4 +338,14 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
   const one = Blockly.cake.valueToCode(block, nameOne, Blockly.cake.ORDER_NONE) + '1';
   const two = Blockly.cake.valueToCode(block, nameTwo, Blockly.cake.ORDER_NONE) + '1';
   return { one, two }
+}
+
+Blockly.cake.toStr = function (val) {
+  const regex = /[()+\-*\/]/g;
+  const matches = val.match(regex);
+  if(matches && matches.length > 0) {
+    return true;
+  }else {
+    return false;
+  }
 }

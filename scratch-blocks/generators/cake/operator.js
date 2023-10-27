@@ -112,7 +112,7 @@ Blockly.cake['operator_join'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '\'\'';
     // var code = 'str(' + arg0 + ') + str(' + arg1 + ')';
-    let code = `Str_Connect("${arg0}", "${arg1}")`;
+    let code = `Str_Connect(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, Blockly.cake.ORDER_ADDITIVE];
 };
 
@@ -133,7 +133,7 @@ Blockly.cake['operator_letter_of'] = function (block) {
 
 Blockly.cake['operator_length'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'STRING', Blockly.cake.ORDER_FUNCTION_CALL) || '\'\'';
-    var code = 'Str_Strlen("' + arg0 + '")';
+    var code = `Str_Strlen(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'})`;
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
@@ -141,7 +141,7 @@ Blockly.cake['operator_contains'] = function (block) {
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '0';
-    var code = `Str_Matchine("${arg0}", '${arg1}')`;
+    var code = `Str_Matchine(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, '${arg1}')`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
