@@ -176,19 +176,35 @@ class Blocks extends React.Component {
         } 
     }
 
-    
+    //处理经上层正则筛选后的C代码
+    handleBlockList(arr) {
+        let newArr = [];
+        for (let i = 0; i < arr.length; i++) {
+
+            if(arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g,'') == '}') continue;
+
+            if((i + 1) <= arr.length && arr[i + 1] && arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}') {
+                arr[i] += arr[i + 1]; 
+            }
+
+            newArr.push(arr[i]);
+
+        }
+        return newArr;
+    }
+
     //解析任务
     parserTask(workspace, arr) {
         let list = workspace.getTopBlocks();
-        let newArr = arr.filter(el => el!='');
+        const newArr = this.handleBlockList(arr);
         let i = 0 ,j = 0 , que = [], newList = [];
+        
         while (i < list.length) {
             que.push(newArr[i]);
+
             if(list[i].startHat_) {
                 if(i > 0) j++;
                 newList[j] = que.shift();
-            }else if(newList[j]) {
-                newList[j] += '\n' + que.shift();
             }
             i++;
         }
