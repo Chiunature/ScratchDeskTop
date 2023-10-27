@@ -237,9 +237,8 @@ Blockly.Blocks['motor_specifiedunit'] = {
                     ]
                 },
                 {
-                    "type": "field_number",
-                    "name": "count",
-                    "value": 1,
+                    "type": "input_value",
+                    "name": "COUNT",
                 },
                 {
                     "type": "field_dropdown",

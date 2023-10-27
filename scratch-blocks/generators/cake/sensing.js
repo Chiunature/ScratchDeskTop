@@ -44,7 +44,7 @@ Blockly.cake['sensing_color_detectionRGB'] = function (block) {
 Blockly.cake['sensing_reflected_light_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let dropdown_judgment = block.getFieldValue('judgment');
-    let inp = block.getFieldValue('value');
+    let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_Reflected_light_judgment("${dropdown_port}1","${dropdown_judgment}", ${inp})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
@@ -68,7 +68,7 @@ Blockly.cake['sensing_line_inspection_judgment'] = function (block) {
 Blockly.cake['sensing_ultrasonic_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     let dropdown_judgment = block.getFieldValue('judgment');
-    let inp = block.getFieldValue('value');
+    let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `sensing_ultrasonic_judgment("${dropdown_port}1", "${dropdown_judgment}", ${inp})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];

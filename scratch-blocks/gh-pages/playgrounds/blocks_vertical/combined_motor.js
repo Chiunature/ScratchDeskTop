@@ -332,7 +332,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.BACK
                             },
-                            "down"
+                            "Down"
                         ],
                         [
                             {
@@ -355,9 +355,8 @@ Blockly.Blocks['combined_motor_line'] = {
                     ]
                 },
                 {
-                    "type": "field_number",
+                    "type": "input_value",
                     "name": "distance",
-                    "value": 0
                 },
                 {
                     "type": "field_dropdown",

@@ -388,7 +388,7 @@ Blockly.Blocks['event_broadcast_menu'] = {
           "type": "field_variable",
           "name": "BROADCAST_OPTION",
           "variableTypes": [Blockly.BROADCAST_MESSAGE_VARIABLE_TYPE],
-          "variable": Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME
+          "variable": "msg1"
         }
       ],
       "colour": Blockly.Colours.event.secondary,

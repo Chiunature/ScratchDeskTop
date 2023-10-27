@@ -54,7 +54,7 @@ Blockly.cake['combined_motor_turn'] = function (block) {
 
 Blockly.cake['combined_motor_line'] = function (block) {
     const line = block.getFieldValue('line');
-    const distance = block.getFieldValue('distance');
+    const distance = Blockly.cake.valueToCode(block, "distance", Blockly.cake.ORDER_NONE);
     const unit = block.getFieldValue('unit');
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.

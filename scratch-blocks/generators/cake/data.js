@@ -159,9 +159,7 @@ Blockly.cake['data_itemoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    // index = Blockly.cake.isVal(index);
-
-    return [varName + '[' + index + ' - 1]', Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListDeletIndex(${index})`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_itemnumoflist'] = function (block) {
@@ -170,7 +168,7 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    let str = `LB_ListGetDataIndex("${item}");\n`;
+    let str = `LB_ListGetDataIndex("${item}")`;
     return [str, Blockly.cake.ORDER_UNARY_SIGN];
 };
 
@@ -178,7 +176,7 @@ Blockly.cake['data_lengthoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
     
-    return [`LB_ListGetNumber();\n`, Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListGetNumber()`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_listcontainsitem'] = function (block) {
@@ -187,7 +185,7 @@ Blockly.cake['data_listcontainsitem'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    let str = `LB_ListCmpData("${item}");\n`;
+    let str = `LB_ListCmpData("${item}")`;
     return [str, Blockly.cake.ORDER_RELATIONAL];
 };
 

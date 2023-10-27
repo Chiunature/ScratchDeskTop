@@ -94,7 +94,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
                 </shadow>
             </value>
         </block>
-         ${blockSeparator}
+        ${blockSeparator}
         <block type="event_broadcastandwait">
                     <value name="BROADCAST_INPUT">
                       <shadow type="event_broadcast_menu"></shadow>
@@ -184,9 +184,17 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_color_judgment"></block>
             <block type="sensing_color_detection"></block>
             <block type="sensing_color_detectionRGB"></block>
-            <block type="sensing_reflected_light_judgment"></block>
+            <block type="sensing_reflected_light_judgment">
+                <value name="value">
+                    <shadow type="math_number"></shadow>
+                </value>
+            </block>
             <block type="sensing_reflected_light_detection"></block>
-            <block type="sensing_ultrasonic_judgment"></block>
+            <block type="sensing_ultrasonic_judgment">
+                <value name="value">
+                    <shadow type="math_number"></shadow>
+                </value>
+            </block>
             <block type="sensing_ultrasonic_detection"></block>
             <block type="sensing_sound_intensity"></block>
             <block type="sensing_key_press"></block>
@@ -447,7 +455,11 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block>
-        <block type="motor_specifiedunit"></block>
+        <block type="motor_specifiedunit">
+            <value name="COUNT">
+                <shadow type="math_number"></shadow>
+            </value>
+        </block>
         <block type="motor_specified_manner"></block>
         <block type="motor_rate"></block>
         `
@@ -507,11 +519,8 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="combined_motor_line">
-            <value name="PORT1">
-                <shadow type="combined_motorOne_menu"></shadow>
-            </value>
-            <value name="PORT2">
-                <shadow type="combined_motorTwo_menu"></shadow>
+            <value name="distance">
+                <shadow type="math_number"></shadow>
             </value>
         </block>
         <block type="combined_motor_stop"></block>

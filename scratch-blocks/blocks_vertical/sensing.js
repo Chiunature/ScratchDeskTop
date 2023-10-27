@@ -736,10 +736,9 @@ Blockly.Blocks['sensing_reflected_light_judgment'] = {
           ]
         },
         {
-          "type": "field_number",
+          "type": "input_value",
           "name": "value",
-          "value": 0
-        }
+        },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]
@@ -894,10 +893,9 @@ Blockly.Blocks['sensing_ultrasonic_judgment'] = {
           ]
         },
         {
-          "type": "field_number",
+          "type": "input_value",
           "name": "value",
-          "value": 0
-        }
+        },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]

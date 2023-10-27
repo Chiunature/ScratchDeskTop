@@ -169,11 +169,7 @@ Blockly.Blocks['data_hidevariable'] = {
   }
 };
 
-Blockly.Blocks['data_listcontents'] = {
-  /**
-   * List reporter.
-   * @this Blockly.Block
-   */
+/* Blockly.Blocks['data_listcontents'] = {
   init: function() {
     this.jsonInit({
       "message0": "%1",
@@ -190,7 +186,7 @@ Blockly.Blocks['data_listcontents'] = {
       "checkboxInFlyout": true
     });
   }
-};
+}; */
 
 Blockly.Blocks['data_definelist'] = {
   /**
