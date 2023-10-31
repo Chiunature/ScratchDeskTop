@@ -22,6 +22,10 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
+const { SOURCE } = require("../json/verifyTypeConfig.json");
+const { MUSIC, BOOT, BIN, APP } = require("../json/LB_FWLIB.json");
+
+//校验接收的数据
 function verifyActions(data) {
     return {
         "Boot_URL": () => {
@@ -47,7 +51,7 @@ function verifyActions(data) {
         },
     }
 }
-
+//处理接收数据后的操作
 function processReceivedConfig(event, ...arg) {
     let obj = {};
     arg.map(item => {
@@ -58,16 +62,16 @@ function processReceivedConfig(event, ...arg) {
                     break;
                 case "bound clearCache":
                     obj['Boot_End'] = () => {
-                        if(arg[1] == 'SOURCE') {
+                        if (arg[1] == SOURCE) {
                             let filesObj = arg[2];
                             let flag = filesObj.filesIndex < filesObj.filesLen;
-                            if(flag) {
+                            if (flag) {
                                 filesObj.filesIndex++;
                                 event.reply("nextFile", { index: filesObj.filesIndex });
-                            }else {
+                            } else {
                                 event.reply("completed", { result: true, msg: "uploadSuccess" });
                             }
-                        }else {
+                        } else {
                             event.reply("completed", { result: true, msg: "uploadSuccess" });
                         }
                         item();
@@ -81,7 +85,32 @@ function processReceivedConfig(event, ...arg) {
     return obj;
 }
 
+//处理是哪种类型的校验
+function verifyBinType(...arg) {
+    let fileData, fileName;
+    const { verifyType, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
+
+    if (verifyType === SOURCE) {
+        if (!filesObj) {
+            filesObj.filesList = window.fs.readdirSync(MUSIC);
+            filesObj.filesLen = filesObj.filesList.length;
+        }
+        fileData = readFiles(`${MUSIC}/${filesObj.filesList[filesIndex]}`);
+        fileName = filesObj.filesList[filesIndex].slice(0, -4);
+    } else {
+        fileName = readFiles(BOOT, 'utf8');
+        fileData = readFiles(BIN);
+        writeFiles(APP, fileData);
+    }
+
+    return {
+        fileData,
+        fileName
+    }
+}
+
 module.exports = {
     verifyActions,
-    processReceivedConfig
+    processReceivedConfig,
+    verifyBinType
 };

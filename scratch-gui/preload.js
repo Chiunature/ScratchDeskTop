@@ -3,3 +3,4 @@ global.fs = require("fs");
 global.path = require("path");
 global.child_process = require("child_process");
 global.events = require('events');
+global.os = require('os');

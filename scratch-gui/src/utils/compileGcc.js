@@ -26,13 +26,14 @@
 import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
-import { MUSIC, BOOT, BIN, APP } from "../config/json/LB_FWLIB.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
+import { verifyBinType } from "../config/js/verify.js";
 
 const fs = window.fs;
 const { spawn } = window.child_process;
 const { EventEmitter } = window.events;
 const eventEmitter = new EventEmitter();
+const cpus = window.os.cpus();
 
 class Compile {
 
@@ -75,7 +76,7 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: DIR });
+            this.progress = spawn('make', [`-j${cpus ? cpus.length*2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
 
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
@@ -124,22 +125,10 @@ class Compile {
         }
     }
 
-    //获取bing文件数据准备通信
+    //获取bin文件数据准备通信
     readBin(verifyType) {
         try {
-            let fileData, fileName;
-            if (verifyType === SOURCE) {
-                if (!this.filesObj) {
-                    this.filesObj.filesList = fs.readdirSync(MUSIC);
-                    this.filesObj.filesLen = this.filesObj.filesList.length;
-                }
-                fileData = this.readFiles(`${MUSIC}/${this.filesObj.filesList[this.filesIndex]}`);
-                fileName = this.filesObj.filesList[this.filesIndex].slice(0, -4);
-            } else {
-                fileName = this.readFiles(BOOT, 'utf8');
-                fileData = this.readFiles(BIN);
-                this.writeFiles(APP, fileData);
-            }
+            const { fileData, fileName } = verifyBinType({ verifyType, filesObj: this.filesObj, filesIndex: this.filesIndex, readFiles: this.readFiles.bind(this), writeFiles: this.writeFiles.bind(this) });
 
             ipc({
                 sendName: "writeData",
