@@ -111,6 +111,7 @@
         "@babel/preset-env": "^7.4.5",
         "@babel/preset-react": "7.14.5",
         "@electron/remote": "^2.0.9",
+        "asarmor": "^2.1.0-beta.10",
         "babel-core": "7.0.0-bridge.0",
         "babel-eslint": "10.0.3",
         "babel-loader": "8.2.2",
@@ -160,6 +161,7 @@
         "productName": "EST3.0",
         "appId": "com.est3.eletest",
         "copyright": "cd©20230828",
+        "afterSign": "./build/scripts/afterSign.js",
         "directories": {
             "buildResources": "./",
             "output": "pack"

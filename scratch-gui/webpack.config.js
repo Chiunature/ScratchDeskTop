@@ -180,6 +180,10 @@ module.exports = [
                     {
                         from: 'static',
                         to: 'static'
+                    },
+                    {
+                        from: 'scripts',
+                        to: 'scripts'
                     }
                 ]
             }),
