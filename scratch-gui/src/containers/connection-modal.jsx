@@ -186,7 +186,7 @@ class ConnectionModal extends React.Component {
     }
 
     handleUpdate() {
-        this.props.compile.sendSerial(SOURCE);
+        this.props.compile.sendSerial(null, SOURCE);
         this.props.onSetCompleted(true);
         if(!localStorage.getItem('version')) this.props.onSetVersion(getVersion(VERSION));
     }
