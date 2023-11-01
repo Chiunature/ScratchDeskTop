@@ -301,31 +301,29 @@ Blockly.cake['procedures_call'] = function (block) {
             }
         }
     }
+    return `${funcName}(${argCode.length > 0 ? (Blockly.cake.toStr(argCode.join(',')) ? argCode.join(',') : '"' + argCode.join(',') + '"') : ''});\n`;
 }
 
 Blockly.cake['procedures_definition'] = function (block) {
     var func = Blockly.cake.statementToCode(block, 'custom_block');
-
+    let str = func.trim();
     // Delet first indent.
-    func = func.slice(2);
+    func = str.slice(0, str.indexOf('('));
     var code = func + '() {\n';
-
     var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
     if (!nextBlock) {
-        code += Blockly.cake.INDENT + ";\n";
+        code += Blockly.cake.INDENT + "};\n";
     } else {
         var variablesName = [];
         for (var x in Blockly.cake.variables_) {
             variablesName.push(Blockly.cake.variables_[x].slice(0, Blockly.cake.variables_[x].indexOf('=') - 1));
         }
         if (variablesName.length !== 0) {
-            code += Blockly.cake.INDENT + "global " + variablesName.join(', ') + "\n}";
+            code += Blockly.cake.INDENT + "global " + variablesName.join(', ') + "\n};";
         }
-
-        code = Blockly.cake.scrub_(block, code);
+        code = Blockly.cake.scrub_(block, code) + "\n};\n";
     }
-
-    Blockly.cake.customFunctions_[func] = code;
+    // Blockly.cake.customFunctions_[func] = code;
     return null;
 };
 
@@ -365,7 +363,7 @@ Blockly.cake['argument_reporter_boolean'] = function (block) {
     return [safeArgName, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['argument_reporter_number'] = function (block) {
+Blockly.cake['argument_reporter_string_number'] = function (block) {
     var argName = block.getFieldValue('VALUE');
     var safeArgName = Blockly.cake.customFunctionsArgName_[argName];
     return [safeArgName, Blockly.cake.ORDER_ATOMIC];

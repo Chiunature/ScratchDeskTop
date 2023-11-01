@@ -95,6 +95,7 @@ Blockly.cake.ORDER_NONE = 99;          // (...)
  * @type ?string
  */
 Blockly.cake.INFINITE_LOOP_TRAP = null;
+Blockly.cake.STATEMENT_PREFIX = null;
 Blockly.cake.INDENT = '  ';
 Blockly.cake.INDENTSPACE = '  ';
 Blockly.cake.firstLoop = true;
@@ -142,7 +143,7 @@ Blockly.cake.LED = {
 Blockly.cake.init = function (workspace) {
   // Create a dictionary of definitions to be printed before the code.
   Blockly.cake.definitions_ = Object.create(null);
-
+  Blockly.cake.customFunctionsArgName_ = Object.create(null);
   Blockly.cake.times_ = Object.create(null);
   // Create a dictionary mapping desired function names in definitions_
   // to actual function names (to avoid collisions with user functions).
@@ -341,7 +342,7 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 }
 
 Blockly.cake.toStr = function (val) {
-  const regex = /[()+\-*\/]/g;
+  const regex = /[()+\-*><=!&|\/]/g;
   const matches = val.match(regex);
   if(matches && matches.length > 0) {
     return true;
