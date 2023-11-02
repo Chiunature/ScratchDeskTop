@@ -22,7 +22,7 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const { SOURCE } = require("../json/verifyTypeConfig.json");
+const { SOURCE, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP } = require("../json/LB_FWLIB.json");
 
 //校验接收的数据
@@ -89,18 +89,22 @@ function processReceivedConfig(event, ...arg) {
 function verifyBinType(...arg) {
     let fileData, fileName;
     const { verifyType, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
-
-    if (verifyType === SOURCE) {
-        if (!filesObj) {
-            filesObj.filesList = window.fs.readdirSync(MUSIC);
-            filesObj.filesLen = filesObj.filesList.length;
-        }
-        fileData = readFiles(`${MUSIC}/${filesObj.filesList[filesIndex]}`);
-        fileName = filesObj.filesList[filesIndex].slice(0, -4);
-    } else {
-        fileName = readFiles(BOOT, 'utf8');
-        fileData = readFiles(BIN);
-        writeFiles(APP, fileData);
+    switch (verifyType) {
+        case SOURCE:
+            if (Object.keys(filesObj).length === 0) {
+                filesObj.filesList = window.fs.readdirSync(MUSIC);
+                filesObj.filesLen = filesObj.filesList.length;
+            }
+            fileData = readFiles(`${MUSIC}/${filesObj.filesList[filesIndex]}`);
+            fileName = filesObj.filesList[filesIndex].slice(0, -4);
+            break;
+        case BOOTBIN:
+            fileName = readFiles(BOOT, 'utf8');
+            fileData = readFiles(BIN);
+            writeFiles(APP, fileData);
+            break;
+        default:
+            break;
     }
 
     return {

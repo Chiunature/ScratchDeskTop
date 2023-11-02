@@ -306,10 +306,7 @@ Blockly.cake['procedures_call'] = function (block) {
 
 Blockly.cake['procedures_definition'] = function (block) {
     var func = Blockly.cake.statementToCode(block, 'custom_block');
-    let str = func.trim();
-    // Delet first indent.
-    func = str.slice(0, str.indexOf('('));
-    var code = func + '() {\n';
+    var code = func + ' {\n';
     var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
     if (!nextBlock) {
         code += Blockly.cake.INDENT + "};\n";
@@ -319,19 +316,18 @@ Blockly.cake['procedures_definition'] = function (block) {
             variablesName.push(Blockly.cake.variables_[x].slice(0, Blockly.cake.variables_[x].indexOf('=') - 1));
         }
         if (variablesName.length !== 0) {
-            code += Blockly.cake.INDENT + "global " + variablesName.join(', ') + "\n};";
+            code += Blockly.cake.INDENT + "global " + variablesName.join(', ');
         }
         code = Blockly.cake.scrub_(block, code) + "\n};\n";
     }
     // Blockly.cake.customFunctions_[func] = code;
-    return null;
+    return code;
 };
 
 Blockly.cake['procedures_prototype'] = function (block) {
     var funcName = block.getProcCode();
     var argName = block.displayNames_;
     var argCode = [];
-
     funcName = funcName.replace(/ /g, '_');
     for (var i = 0; i < argName.length; i++) {
         var ch = funcName.charAt(funcName.indexOf('%') + 1);
@@ -340,15 +336,15 @@ Blockly.cake['procedures_prototype'] = function (block) {
 
         if (ch === 'n') {
             funcName = funcName.replace('%n', 'N');
-            argCode.push(safeArgName);
+            argCode.push('int ' + safeArgName);
         }
         else if (ch === 's') {
             funcName = funcName.replace('%s', 'S');
-            argCode.push(safeArgName);
+            argCode.push('char *' + safeArgName);
         }
         else {
             funcName = funcName.replace('%b', 'B');
-            argCode.push(safeArgName);
+            argCode.push('boolean ' + safeArgName);
         }
     }
     funcName = Blockly.cake.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
@@ -363,7 +359,7 @@ Blockly.cake['argument_reporter_boolean'] = function (block) {
     return [safeArgName, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['argument_reporter_string_number'] = function (block) {
+Blockly.cake['argument_reporter_number'] = function (block) {
     var argName = block.getFieldValue('VALUE');
     var safeArgName = Blockly.cake.customFunctionsArgName_[argName];
     return [safeArgName, Blockly.cake.ORDER_ATOMIC];
