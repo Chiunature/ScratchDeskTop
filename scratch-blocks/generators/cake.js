@@ -148,7 +148,7 @@ Blockly.cake.init = function (workspace) {
   // Create a dictionary mapping desired function names in definitions_
   // to actual function names (to avoid collisions with user functions).
   Blockly.cake.functionNames_ = Object.create(null);
-
+  Blockly.cake.customFunctions_ = Object.create(null);
   if (Blockly.Variables) {
     if (!Blockly.cake.variableDB_) {
       Blockly.cake.variableDB_ =
@@ -206,11 +206,15 @@ Blockly.cake.finish = function (code) {
     }
   }
   //imports--> #include
+  var customFunctions = [];
+  for (var name in Blockly.cake.customFunctions_) {
+      customFunctions.push(Blockly.cake.customFunctions_[name]);
+  }
   //definitions--> function def, #def
   var allDefs = includes.join('\n') + '\n\n' + declarations.join('\n') + '\n\n' + defines.join('\n');
   var allFuncs = func_definitions.join('\n');
 
-  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + 'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
+  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + customFunctions.join('') +'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
 };
 
 Blockly.cake.finishFull = function (code) {
