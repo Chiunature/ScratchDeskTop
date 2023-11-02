@@ -39,8 +39,8 @@ function Task_Info(taskStr) {
     return `\nTask_Info user_task[] = {${taskStr}\n};`;
 }
 
-function headMain(codeStr) {
-    return `#include "main.h"\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
+function headMain(codeStr, myStr) {
+    return `#include "main.h"\n${myStr}\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
 }
 
 

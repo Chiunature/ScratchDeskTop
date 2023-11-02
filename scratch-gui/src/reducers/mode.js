@@ -3,7 +3,10 @@ const SET_PLAYER = 'scratch-gui/mode/SET_PLAYER';
 const SET_GEN = 'scratch-gui/mode/SET_GEN';
 const GET_CODE = 'scratch-gui/mode/GET_CODE';
 const SET_ISCOMPLETE = 'scratch-gui/mode/SET_ISCOMPLETE';
-const SET_COMPILELIST = 'scratch-gui/mode/SET_COMPILELIST'
+const SET_COMPILELIST = 'scratch-gui/mode/SET_COMPILELIST';
+const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
+const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
+
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -12,7 +15,9 @@ const initialState = {
     isGen: false,
     code: `#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <math.h>\nint main() {\n\n\n}`,
     isComplete: false,
-    compileList: []
+    compileList: [],
+    bufferList: [],
+    matchMyBlock: []
 };
 
 const reducer = function (state, action) {
@@ -42,6 +47,14 @@ const reducer = function (state, action) {
         case SET_COMPILELIST:
             return Object.assign({}, state, {
                 compileList: action.compileList
+            });
+        case SET_BUFFERLIST:
+            return Object.assign({}, state, {
+                bufferList: action.bufferList
+            });
+        case SET_MATCHMYBLOCK:
+            return Object.assign({}, state, {
+                matchMyBlock: action.matchMyBlock
             });
         default:
             return state;
@@ -78,6 +91,18 @@ const setCompileList = function (compileList) {
         compileList: compileList
     }
 };
+const setBufferList = function (bufferList) {
+    return {
+        type: SET_BUFFERLIST,
+        bufferList: bufferList
+    }
+};
+const setMatchMyBlock = function (matchMyBlock) {
+    return {
+        type: SET_MATCHMYBLOCK,
+        matchMyBlock: matchMyBlock
+    }
+};
 const setIsComplete = function (isComplete) {
     return {
         type: SET_ISCOMPLETE,
@@ -92,5 +117,7 @@ export {
     setGen,
     getCode,
     setIsComplete,
-    setCompileList
+    setCompileList,
+    setBufferList,
+    setMatchMyBlock
 };

@@ -32,7 +32,7 @@ import {
     activateTab,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-import { getCode, setCompileList } from '../reducers/mode';
+import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
 const addFunctionListener = (object, property, callback) => {
@@ -49,6 +49,7 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex =  /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
+const regexForMyBlock = /void\s+\w+\s*\(\s*int\s+\w+\s*,\s*char\s*\*\s*\w+\s*,\s*boolean\s+\w+\s*\)\s*\{[\s\S]*?\};/;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -165,14 +166,20 @@ class Blocks extends React.Component {
     checkStartHat(workspace, code) {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
+
         if(!hasStart) return;
+
         const match = code.match(regex);
+        const matchMyBlock = code.match(regexForMyBlock);
+
+        if(matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
+
         if(match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
             this.props.compile.setStartSend(false);
             clearTimeout(this.timerId);
-            this.timerId = setTimeout(() => this.parserTask(this.workspace, arr), 5000);
+            this.timerId = setTimeout(() => this.parserTask(this.workspace, arr, matchMyBlock), 5000);
         } 
     }
 
@@ -194,11 +201,11 @@ class Blocks extends React.Component {
     }
 
     //解析任务
-    parserTask(workspace, arr) {
+    parserTask(workspace, arr, myBlock) {
         let list = workspace.getTopBlocks();
         const newArr = this.handleBlockList(arr);
         let i = 0 ,j = 0 , que = [], newList = [];
-        
+
         while (i < list.length) {
             que.push(newArr[i]);
 
@@ -208,7 +215,7 @@ class Blocks extends React.Component {
             }
             i++;
         }
-        if(newList.length > 0) this.props.compile.runGcc(newList, this.props.completed);
+        if(newList.length > 0) this.props.compile.runGcc(newList, myBlock, this.props.completed);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -631,6 +638,8 @@ class Blocks extends React.Component {
             workspaceMetrics,
             getCode,
             setCompileList,
+            setBufferList,
+            setMatchMyBlock,
             setWorkspace,
             completed,
             soundArr,
@@ -695,6 +704,8 @@ Blocks.propTypes = {
     onRequestCloseExtensionLibrary: PropTypes.func,
     getCode: PropTypes.func,
     setCompileList: PropTypes.func,
+    setBufferList: PropTypes.func,
+    setMatchMyBlock: PropTypes.func,
     setWorkspace: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
@@ -808,7 +819,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getCode: code => dispatch(getCode(code)),
     setCompileList: compileList => dispatch(setCompileList(compileList)),
-    setWorkspace: workspace => dispatch(setWorkspace(workspace))
+    setWorkspace: workspace => dispatch(setWorkspace(workspace)),
+    setBufferList: bufferList => dispatch(setBufferList(bufferList)),
+    setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock))
 });
 
 export default errorBoundaryHOC('Blocks')(

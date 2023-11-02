@@ -306,7 +306,7 @@ Blockly.cake['procedures_call'] = function (block) {
 
 Blockly.cake['procedures_definition'] = function (block) {
     var func = Blockly.cake.statementToCode(block, 'custom_block');
-    var code = func + ' {\n';
+    var code = func.trim() + ' {\n';
     var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
     if (!nextBlock) {
         code += "};\n";
@@ -318,7 +318,7 @@ Blockly.cake['procedures_definition'] = function (block) {
         if (variablesName.length !== 0) {
             code += Blockly.cake.INDENT + "global " + variablesName.join(', ');
         }
-        code = Blockly.cake.INDENT + Blockly.cake.scrub_(block, code) + "};\n";
+        code = Blockly.cake.INDENT + '\n' + Blockly.cake.scrub_(block, code) + "};\n";
     }
     Blockly.cake.customFunctions_[func] = code;
     return null;
@@ -344,11 +344,11 @@ Blockly.cake['procedures_prototype'] = function (block) {
         }
         else {
             funcName = funcName.replace('%b', 'B');
-            argCode.push('boolean ' + safeArgName);
+            argCode.push('bool ' + safeArgName);
         }
     }
     funcName = Blockly.cake.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
-
+    Blockly.cake.definitions_["#include <stdbool.h>"] = "#include <stdbool.h>";
     var code = 'void ' + funcName + '(' + argCode.join(', ') + ')';
     return code;
 };

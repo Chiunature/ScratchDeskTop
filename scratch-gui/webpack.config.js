@@ -155,25 +155,25 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
-                title: 'EST 3.0 ' + pkg.version
+                title: 'EST 3.0 V' + pkg.version
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],
                 template: 'src/playground/index.ejs',
                 filename: 'blocks-only.html',
-                title: 'EST 3.0 ' + pkg.version + ': Blocks Only Example'
+                title: 'EST 3.0 V' + pkg.version + ': Blocks Only Example'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'compatibilitytesting'],
                 template: 'src/playground/index.ejs',
                 filename: 'compatibility-testing.html',
-                title: 'EST 3.0 ' + pkg.version + ': Compatibility Testing'
+                title: 'EST 3.0 V' + pkg.version + ': Compatibility Testing'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'player'],
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
-                title: 'EST 3.0 ' + pkg.version + ': Player Example'
+                title: 'EST 3.0 V' + pkg.version + ': Player Example'
             }),
             new CopyWebpackPlugin({
                 patterns: [
