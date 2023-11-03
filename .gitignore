@@ -1,0 +1,24 @@
+# Mac OS
+.DS_Store
+/.vscode
+/record
+# NPM
+/node_modules
+npm-*
+/mingw64
+/gcc-arm-none-eabi
+/pack
+/Error
+# Testing
+/.nyc_output
+/coverage
+
+# Build
+/build
+/dist
+/.opt-in
+
+# Generated translation files
+/translations
+/locale
+/resources

@@ -32,7 +32,7 @@ import {
     activateTab,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
+import { getCode, setCompileList, setBufferList } from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
 const addFunctionListener = (object, property, callback) => {
@@ -49,7 +49,7 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex =  /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /void\s+\w+\s*\(\s*int\s+\w+\s*,\s*char\s*\*\s*\w+\s*,\s*boolean\s+\w+\s*\)\s*\{[\s\S]*?\};/;
+const regexForMyBlock = /void\s+\w+\s*\(\s*int\s+\w+\s*,\s*char\s*\*\s*\w+\s*,\s*bool\s+\w+\s*\)\s*\{[\s\S]*?\};/;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -171,8 +171,6 @@ class Blocks extends React.Component {
 
         const match = code.match(regex);
         const matchMyBlock = code.match(regexForMyBlock);
-
-        if(matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
 
         if(match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
@@ -639,7 +637,6 @@ class Blocks extends React.Component {
             getCode,
             setCompileList,
             setBufferList,
-            setMatchMyBlock,
             setWorkspace,
             completed,
             soundArr,
@@ -705,7 +702,6 @@ Blocks.propTypes = {
     getCode: PropTypes.func,
     setCompileList: PropTypes.func,
     setBufferList: PropTypes.func,
-    setMatchMyBlock: PropTypes.func,
     setWorkspace: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
@@ -820,8 +816,7 @@ const mapDispatchToProps = dispatch => ({
     getCode: code => dispatch(getCode(code)),
     setCompileList: compileList => dispatch(setCompileList(compileList)),
     setWorkspace: workspace => dispatch(setWorkspace(workspace)),
-    setBufferList: bufferList => dispatch(setBufferList(bufferList)),
-    setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock))
+    setBufferList: bufferList => dispatch(setBufferList(bufferList))
 });
 
 export default errorBoundaryHOC('Blocks')(

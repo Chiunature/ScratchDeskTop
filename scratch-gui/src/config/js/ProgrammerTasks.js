@@ -40,7 +40,7 @@ function Task_Info(taskStr) {
 }
 
 function headMain(codeStr, myStr) {
-    return `#include "main.h"\n${myStr}\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
+    return `#include "main.h"\n${myStr ? myStr : ''}\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
 }
 
 

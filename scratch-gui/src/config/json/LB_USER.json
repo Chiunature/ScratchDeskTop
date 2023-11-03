@@ -1,6 +1,6 @@
 {
-    "DIR": "../../gcc-arm-none-eabi/bin",
-    "SRC": "../../gcc-arm-none-eabi/bin/LB_USER/Src",
-    "APLICATION": "../../gcc-arm-none-eabi/bin/LB_USER/Src/Aplication.c",
-    "PROGRAMMERTASKS": "../../gcc-arm-none-eabi/bin/LB_USER/Src/ProgrammerTasks.c"
+    "DIR": "./gcc-arm-none-eabi/bin",
+    "SRC": "./gcc-arm-none-eabi/bin/LB_USER/Src",
+    "APLICATION": "./gcc-arm-none-eabi/bin/LB_USER/Src/Aplication.c",
+    "PROGRAMMERTASKS": "./gcc-arm-none-eabi/bin/LB_USER/Src/ProgrammerTasks.c"
 }

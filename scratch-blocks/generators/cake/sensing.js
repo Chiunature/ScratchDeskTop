@@ -70,7 +70,7 @@ Blockly.cake['sensing_ultrasonic_judgment'] = function (block) {
     let dropdown_judgment = block.getFieldValue('judgment');
     let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `sensing_ultrasonic_judgment("${dropdown_port}1", "${dropdown_judgment}", ${inp})`;
+    let code = `sensing_ultrasonic_judgment("${dropdown_port}1", "${dropdown_judgment}", ${inp}*10)`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 

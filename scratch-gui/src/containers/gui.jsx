@@ -94,7 +94,7 @@ class GUI extends React.Component {
             if(!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             }else {
-                compile.sendSerial(this.props.bufferList, this.props.matchMyBlock, verifyTypeConfig.BOOTBIN);
+                compile.sendSerial(verifyTypeConfig.BOOTBIN);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
@@ -128,8 +128,6 @@ class GUI extends React.Component {
             fetchingProject,
             isLoading,
             compileList,
-            bufferList,
-            matchMyBlock,
             loadingStateVisible,
             ...componentProps
         } = this.props;
@@ -220,8 +218,6 @@ const mapStateToProps = (state) => {
         isComplete: state.scratchGui.mode.isComplete,
         compileList: state.scratchGui.mode.compileList,
         workspace: state.scratchGui.workspaceMetrics.workspace,
-        bufferList: state.scratchGui.mode.bufferList,
-        matchMyBlock: state.scratchGui.mode.matchMyBlock
     };
 };
 

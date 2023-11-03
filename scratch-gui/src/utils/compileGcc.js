@@ -92,7 +92,7 @@ class Compile {
 
     //将生成的C代码写入特定的C文件
     handleCode(codeStr, taskStr, myStr) {
-        const str = Task_Info(taskStr, myStr);
+        const str = Task_Info(taskStr);
         const newStr = codeStr + str;
         const code = headMain(newStr, myStr);
         const writeAppRes = this.writeFiles(APLICATION, code);
@@ -101,14 +101,15 @@ class Compile {
 
     //运行编译器参数是传入的C语言代码
     runGcc(buffer, myBlock, isUpload = false) {
-
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
-            codeStr += Task_Stack(el, index);
-            taskStr += Task_Info_Item(index);
+            if(el) {
+                codeStr += Task_Stack(el, index);
+                taskStr += Task_Info_Item(index);
+            }
         });
 
-        const appRes = this.handleCode(codeStr, taskStr);
+        const appRes = this.handleCode(codeStr, taskStr, myBlock);
 
         if (this.progress && this.progress.exitCode !== 0) this.progress.kill('SIGKILL');
 
