@@ -19,7 +19,7 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "pack": "electron-builder"
+        "pack": "electron-builder --win --ia32"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -198,7 +198,12 @@
         "win": {
             "icon": "./favicon.ico",
             "target": [
-                "nsis"
+                {
+                    "target": "nsis",
+                    "arch": [
+                    "ia32"
+                    ]
+                  }
             ]
         }
     }
