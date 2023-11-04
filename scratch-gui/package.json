@@ -90,7 +90,7 @@
         "scratch-storage": "2.0.1",
         "scratch-svg-renderer": "0.2.0-prerelease.20210727023023",
         "scratch-vm": "0.2.0-prerelease.20220523235552",
-        "serialport": "^11.0.0",
+        "serialport": "^11.0.1",
         "startaudiocontext": "1.2.1",
         "style-loader": "^0.23.0",
         "text-encoding": "0.7.0",
@@ -201,9 +201,9 @@
                 {
                     "target": "nsis",
                     "arch": [
-                    "ia32"
+                        "ia32"
                     ]
-                  }
+                }
             ]
         }
     }

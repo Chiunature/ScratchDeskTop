@@ -33,7 +33,7 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList, setPort, setIsConnectedSerial } from "../../reducers/connection-modal";
+import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName } from "../../reducers/connection-modal";
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
@@ -163,7 +163,7 @@ const AboutButton = (props) => (
 AboutButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
-
+let timer;
 class MenuBar extends React.Component {
     constructor(props) {
         super(props);
@@ -180,10 +180,15 @@ class MenuBar extends React.Component {
             "getSaveToComputerHandler",
             "restoreOptionMessage",
             "handleConnectionMouseUp",
+            "handleConnection",
+            "handleConnected",
+            "handleDisconnect",
+            "scanConnection"
         ]);
     }
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
+        this.scanConnection();
     }
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress);
@@ -356,33 +361,64 @@ class MenuBar extends React.Component {
             this.props.onRequestCloseAbout();
         };
     }
-
-    handleConnectionMouseUp() {
+    scanConnection() {
+        const that = this;
+        timer = setInterval(() => {
+            that.handleConnection();
+        }, 1000);
+    }
+    handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
             ipc({
-                sendName: "connect",
-                sendParams: true,
-                eventName: "connected",
+                sendName: "getConnectList",
+                eventName: "connectList",
                 callback: (event, arg) => {
                     if (arg.length === 0) return;
                     if (this.props.serialList.length >= arg.length) return;
                     let newarr = arg.reduce((pre, cur) => {
-                        cur.checked = false;
-                        if(cur.friendlyName.search("LBS Serial") != -1) {
-                            cur.checked = true;
+                        if (cur.friendlyName.search("LBS Serial") != -1) {
                             pre.push(cur);
                         }
                         return pre;
                     }, []);
-                    if(newarr.length === 0) return;
-                    this.props.onGetSerialList(newarr);
+                    if (newarr.length === 0) return;
                     this.props.onSetPort(newarr[0]);
+                    this.props.onGetSerialList(newarr);
                     this.props.onSetIsConnectedSerial(true);
+                    clearInterval(timer);
+                    this.handleConnected(newarr[0]);
                 }
             });
-            this.props.onOpenConnectionModal();
         }
+    }
+    handleConnectionMouseUp() {
+        this.props.onOpenConnectionModal();
+    }
+    handleConnected(port) {
+        if (!port) return;
+        this.props.onSetConnectionModalPeripheralName(port.friendlyName);
+        ipc({
+            sendName: "connect",
+            sendParams: port,
+            eventName: "connected",
+            callback: (event, arg) => {
+                if (arg.res) {
+                    this.props.onShowConnectAlert(arg.msg);
+                } else {
+                    this.handleDisconnect(arg.msg);
+                }
+            },
+        });
+    }
+    handleDisconnect(msg = "disconnect") {
+        this.props.onClearConnectionModalPeripheralName();
+        this.props.onGetSerialList([]);
+        this.props.onSetPort(null);
+        this.props.onSetIsConnectedSerial(false);
+        this.props.onShowDisonnectAlert(msg);
+        this.scanConnection();
+        ipc({ sendName: "disconnected" });
     }
     render() {
         const saveNowMessage = (
@@ -440,7 +476,7 @@ class MenuBar extends React.Component {
                                 onClick={this.props.onClickLogo}
                             />
                         </div>
-                        { (this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
+                        {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
                             canChangeLanguage={this.props.canChangeLanguage}
                             canChangeTheme={this.props.canChangeTheme}
                             isRtl={this.props.isRtl}
@@ -488,37 +524,37 @@ class MenuBar extends React.Component {
                                     {(this.props.canSave ||
                                         this.props.canCreateCopy ||
                                         this.props.canRemix) && (
-                                        <MenuSection>
-                                            {this.props.canSave && (
-                                                <MenuItem
-                                                    onClick={
-                                                        this.handleClickSave
-                                                    }
-                                                >
-                                                    {saveNowMessage}
-                                                </MenuItem>
-                                            )}
-                                            {this.props.canCreateCopy && (
-                                                <MenuItem
-                                                    onClick={
-                                                        this
-                                                            .handleClickSaveAsCopy
-                                                    }
-                                                >
-                                                    {createCopyMessage}
-                                                </MenuItem>
-                                            )}
-                                            {this.props.canRemix && (
-                                                <MenuItem
-                                                    onClick={
-                                                        this.handleClickRemix
-                                                    }
-                                                >
-                                                    {remixMessage}
-                                                </MenuItem>
-                                            )}
-                                        </MenuSection>
-                                    )}
+                                            <MenuSection>
+                                                {this.props.canSave && (
+                                                    <MenuItem
+                                                        onClick={
+                                                            this.handleClickSave
+                                                        }
+                                                    >
+                                                        {saveNowMessage}
+                                                    </MenuItem>
+                                                )}
+                                                {this.props.canCreateCopy && (
+                                                    <MenuItem
+                                                        onClick={
+                                                            this
+                                                                .handleClickSaveAsCopy
+                                                        }
+                                                    >
+                                                        {createCopyMessage}
+                                                    </MenuItem>
+                                                )}
+                                                {this.props.canRemix && (
+                                                    <MenuItem
+                                                        onClick={
+                                                            this.handleClickRemix
+                                                        }
+                                                    >
+                                                        {remixMessage}
+                                                    </MenuItem>
+                                                )}
+                                            </MenuSection>
+                                        )}
                                     <MenuSection>
                                         <MenuItem
                                             onClick={
@@ -704,7 +740,7 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                            /* eslint-enable react/jsx-no-bind */
+                                        /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
@@ -740,7 +776,7 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                            /* eslint-enable react/jsx-no-bind */
+                                        /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
@@ -1021,7 +1057,7 @@ MenuBar.propTypes = {
 
 MenuBar.defaultProps = {
     logo: scratchLogo,
-    onShare: () => {},
+    onShare: () => { },
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -1084,7 +1120,13 @@ const mapDispatchToProps = (dispatch) => ({
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onSetPort: (port) => dispatch(setPort(port)),
-    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
+    onSetConnectionModalPeripheralName: (peripheralName) =>
+        dispatch(setConnectionModalPeripheralName(peripheralName)),
+    onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onClearConnectionModalPeripheralName: () =>
+        dispatch(clearConnectionModalPeripheralName()),
 });
 
 export default compose(

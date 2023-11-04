@@ -5,10 +5,10 @@ import React from "react";
 
 import Box from "../box/box.jsx";
 import Dots from "./dots.jsx";
-import helpIcon from "./icons/help.svg";
-import backIcon from "./icons/back.svg";
-import bluetoothIcon from "./icons/bluetooth.svg";
-import scratchLinkIcon from "./icons/scratchlink.svg";
+// import helpIcon from "./icons/help.svg";
+// import backIcon from "./icons/back.svg";
+// import bluetoothIcon from "./icons/bluetooth.svg";
+// import scratchLinkIcon from "./icons/scratchlink.svg";
 import { VERSION } from "../../config/json/LB_FWLIB.json";
 
 import styles from "./connection-modal.css";
@@ -25,7 +25,7 @@ const SerialportList = (props) => (
                                 key={port.pnpId}
                                 onClick={() => props.onSelectport(port, index)}
                             >
-                                <div className={styles.helpStepNumber}>
+                                {/* <div className={styles.helpStepNumber}>
                                     {index + 1}
                                 </div>
                                 <input
@@ -33,7 +33,7 @@ const SerialportList = (props) => (
                                     name="value"
                                     checked={port.checked}
                                     readOnly
-                                />
+                                /> */}
                                 <div className={styles.helpStepText}>
                                     {port.friendlyName}
                                 </div>
@@ -94,7 +94,8 @@ const SerialportList = (props) => (
                         styles.redButton,
                         styles.connectionButton
                     )}
-                    disabled={(props.getVersion(VERSION) == localStorage.getItem('version')) || props.completed ? true : false}
+                    disabled={true}
+                    // disabled={(props.getVersion(VERSION) == localStorage.getItem('version')) || props.completed ? true : false}
                     onClick={props.onUpdate}
                 >
                     {props.completed ? (

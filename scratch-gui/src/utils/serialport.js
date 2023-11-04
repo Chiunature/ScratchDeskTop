@@ -57,14 +57,14 @@ class Serialport extends Common {
 
     //获取串口列表
     getList() {
-        this.ipcMain("connect", (event, arg) => {
-            if (arg) SerialPort.list().then((res) => event.reply("connected", res));
+        this.ipcMain("getConnectList", (event, arg) => {
+            SerialPort.list().then((res) => event.reply("connectList", res));
         });
     }
 
     //连接串口
     connectSerial() {
-        this.ipcMain("connected", (event, arg) => this.linkToSerial(arg, event));
+        this.ipcMain("connect", (event, arg) => this.linkToSerial(arg, event));
     }
 
     //断开连接
@@ -90,9 +90,9 @@ class Serialport extends Common {
             },
             (err) => {
                 if (err && !sign) {
-                    event.reply("open", { res: false, msg: "failedConnected" });
+                    event.reply("connected", { res: false, msg: "failedConnected" });
                 } else if (!err && !sign) {
-                    event.reply("open", { res: true, msg: "successfullyConnected" });
+                    event.reply("connected", { res: true, msg: "successfullyConnected" });
                 }
             }
         );
@@ -119,7 +119,7 @@ class Serialport extends Common {
     //侦听串口关闭
     listenPortClosed(eventName, event) {
         this.port.on(eventName, () => {
-            event.reply("open", { res: false, msg: "disconnect" });
+            event.reply("connected", { res: false, msg: "disconnect" });
             this.clearCache();
         });
     }

@@ -49,31 +49,31 @@ class ConnectionModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
-        this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
+        // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
+        // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
     }
 
     componentWillUnmount() {
-        this.props.vm.removeListener(
+        /* this.props.vm.removeListener(
             "PERIPHERAL_CONNECTED",
             this.handleConnected
         );
         this.props.vm.removeListener(
             "PERIPHERAL_DISCONNECTED",
             this.handleDisconnect
-        );
+        ); */
         this.props.vm.removeListener(
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
     }
 
-    componentDidUpdate(preProps) {
+    /* componentDidUpdate(preProps) {
         if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
             this.handleConnected();
         }
-    }
+    } */
 
     handleScanning() {
         this.setState({
@@ -147,9 +147,9 @@ class ConnectionModal extends React.Component {
         if(!this.props.port) return;
         this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
         ipc({
-            sendName: "connected",
+            sendName: "connect",
             sendParams: this.props.port,
-            eventName: "open",
+            eventName: "connected",
             callback: (event, arg) => {
                 if(arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
