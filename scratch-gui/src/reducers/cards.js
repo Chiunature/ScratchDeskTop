@@ -11,7 +11,8 @@ const PREV_STEP = 'scratch-gui/cards/PREV_STEP';
 const DRAG_CARD = 'scratch-gui/cards/DRAG_CARD';
 const START_DRAG = 'scratch-gui/cards/START_DRAG';
 const END_DRAG = 'scratch-gui/cards/END_DRAG';
-
+const VIEW_DEVICE_CARDS = 'scratch-gui/cards/VIEW_DEVICE_CARDS';
+const SET_DEVICE_CARDS = 'scratch-gui/cards/SET_DEVICE_CARDS';
 const initialState = {
     visible: false,
     content: decks,
@@ -20,7 +21,16 @@ const initialState = {
     x: 0,
     y: 0,
     expanded: true,
-    dragging: false
+    dragging: false,
+    deviceCards: {
+        deviceVisible: false,
+        position: {
+            x: 0,
+            y: 0,
+        },
+        expanded: true,
+        dragging: false,
+    }
 };
 
 const reducer = function (state, action) {
@@ -81,6 +91,20 @@ const reducer = function (state, action) {
         return Object.assign({}, state, {
             dragging: false
         });
+    case VIEW_DEVICE_CARDS: 
+        return Object.assign({}, state, {
+            deviceCards: {
+                deviceVisible: !state.deviceCards.deviceVisible,
+                x: 0,
+                y: 0,
+                expanded: true
+            },
+            
+        });
+    case SET_DEVICE_CARDS:
+        return Object.assign({}, state, {
+            deviceCards: action.deviceCards
+        });
     default:
         return state;
     }
@@ -95,6 +119,10 @@ const activateDeck = function (activeDeckId) {
 
 const viewCards = function () {
     return {type: VIEW_CARDS};
+};
+
+const viewDeviceCards = function () {
+    return {type: VIEW_DEVICE_CARDS};
 };
 
 const closeCards = function () {
@@ -124,7 +152,9 @@ const startDrag = function () {
 const endDrag = function () {
     return {type: END_DRAG};
 };
-
+const setDeviceCards = function (deviceCards) {
+    return {type:SET_DEVICE_CARDS, deviceCards}
+}
 export {
     reducer as default,
     initialState as cardsInitialState,
@@ -136,5 +166,7 @@ export {
     prevStep,
     dragCard,
     startDrag,
-    endDrag
+    endDrag,
+    viewDeviceCards,
+    setDeviceCards
 };

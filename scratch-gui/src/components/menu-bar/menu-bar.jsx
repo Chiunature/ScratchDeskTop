@@ -88,6 +88,7 @@ import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
 import { ipc } from "../../utils/ipcRender.js";
+import { viewDeviceCards } from "../../reducers/cards.js";
 
 const ariaMessages = defineMessages({
     language: {
@@ -163,7 +164,7 @@ const AboutButton = (props) => (
 AboutButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
-let timer;
+
 class MenuBar extends React.Component {
     constructor(props) {
         super(props);
@@ -183,8 +184,10 @@ class MenuBar extends React.Component {
             "handleConnection",
             "handleConnected",
             "handleDisconnect",
-            "scanConnection"
+            "scanConnection",
+            "showDeviceCards"
         ]);
+        this.timer = null;
     }
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
@@ -363,7 +366,7 @@ class MenuBar extends React.Component {
     }
     scanConnection() {
         const that = this;
-        timer = setInterval(() => {
+        that.timer = setInterval(() => {
             that.handleConnection();
         }, 1000);
     }
@@ -386,7 +389,7 @@ class MenuBar extends React.Component {
                     this.props.onSetPort(newarr[0]);
                     this.props.onGetSerialList(newarr);
                     this.props.onSetIsConnectedSerial(true);
-                    clearInterval(timer);
+                    clearInterval(this.timer);
                     this.handleConnected(newarr[0]);
                 }
             });
@@ -419,6 +422,13 @@ class MenuBar extends React.Component {
         this.props.onShowDisonnectAlert(msg);
         this.scanConnection();
         ipc({ sendName: "disconnected" });
+    }
+    showDeviceCards() {
+        if(!this.props.peripheralName) {
+            this.props.onShowCompletedAlert("selectADeviceFirst");
+        }else {
+            this.props.onViewDeviceCards();
+        }
     }
     render() {
         const saveNowMessage = (
@@ -818,6 +828,25 @@ class MenuBar extends React.Component {
                                 [styles.active]: "",
                             }
                         )}
+                        onClick={() => this.showDeviceCards()}
+                    >
+                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
+                            <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
+                        <FormattedMessage
+                            defaultMessage="Device"
+                            description="View device information"
+                            id="gui.menuBar.Device"
+                        />
+                    </div>
+                    <div
+                        className={classNames(
+                            styles.menuBarItem,
+                            styles.hoverable,
+                            styles.generator,
+                            {
+                                [styles.active]: "",
+                            }
+                        )}
                         onClick={() => this.props.onSetGen(this.props.isGen)}
                     >
                         <img className={styles.unconnectedIcon} src={genIcon} />
@@ -1042,6 +1071,7 @@ MenuBar.propTypes = {
     onStartSelectingFileUpload: PropTypes.func,
     onToggleLoginOpen: PropTypes.func,
     onSetGen: PropTypes.func,
+    onViewDeviceCards: PropTypes.func,
     projectTitle: PropTypes.string,
     peripheralName: PropTypes.string,
     deviceId: PropTypes.string,
@@ -1127,6 +1157,8 @@ const mapDispatchToProps = (dispatch) => ({
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onClearConnectionModalPeripheralName: () =>
         dispatch(clearConnectionModalPeripheralName()),
+    onViewDeviceCards: () => dispatch(viewDeviceCards()),
+    onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
 });
 
 export default compose(

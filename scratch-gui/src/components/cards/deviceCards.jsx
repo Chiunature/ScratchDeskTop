@@ -1,0 +1,148 @@
+import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import Draggable from 'react-draggable';
+
+import styles from './card.css';
+
+import shrinkIcon from './icon--shrink.svg';
+import expandIcon from './icon--expand.svg';
+
+import connectedIcon from "../menu-bar/icon--connected.svg";
+
+import closeIcon from './icon--close.svg';
+import Device from '../device/device.jsx';
+
+
+
+const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
+    <div className={expanded ? styles.headerButtons : classNames(styles.headerButtons, styles.headerButtonsHidden)}>
+        <div
+            className={styles.deviceButton}
+        >
+            <img className={styles.connectedIcon} src={connectedIcon} />
+            <FormattedMessage
+                defaultMessage="Device"
+                description="View device information"
+                id="gui.menuBar.Device"
+            />
+        </div>
+        <div className={styles.headerButtonsRight}>
+            <div
+                className={styles.shrinkExpandButton}
+                onClick={onShrinkExpandCards}
+            >
+                <img
+                    draggable={false}
+                    src={expanded ? shrinkIcon : expandIcon}
+                />
+                {expanded ?
+                    <FormattedMessage
+                        defaultMessage="Shrink"
+                        description="Title for button to shrink how-to card"
+                        id="gui.cards.shrink"
+                    /> :
+                    <FormattedMessage
+                        defaultMessage="Expand"
+                        description="Title for button to expand how-to card"
+                        id="gui.cards.expand"
+                    />
+                }
+            </div>
+            <div
+                className={styles.removeButton}
+                onClick={onCloseCards}
+            >
+                <img
+                    className={styles.closeIcon}
+                    src={closeIcon}
+                />
+                <FormattedMessage
+                    defaultMessage="Close"
+                    description="Title for button to close how-to card"
+                    id="gui.cards.close"
+                />
+            </div>
+        </div>
+    </div>
+);
+
+const DeviceCards = props => {
+    const {
+        isRtl,
+        onSetDeviceCards,
+        deviceCards,
+    } = props;
+    let { x, y, expanded } = deviceCards;
+    
+    const onCloseCards = () => onSetDeviceCards({...deviceCards, deviceVisible: false});
+    const onShrinkExpandCards = () => onSetDeviceCards({...deviceCards, expanded: !expanded});
+    const onDrag = (e_, data) => onSetDeviceCards({...deviceCards, x: data.x, y:data.y });
+    const onStartDrag = () => onSetDeviceCards({...deviceCards, dragging: true});
+    const onEndDrag = () => onSetDeviceCards({...deviceCards, dragging: false});
+    // Tutorial cards need to calculate their own dragging bounds
+    // to allow for dragging the cards off the left, right and bottom
+    // edges of the workspace.
+    const cardHorizontalDragOffset = 400; // ~80% of card width
+    const cardVerticalDragOffset = expanded ? 257 : 0; // ~80% of card height, if expanded
+    const menuBarHeight = 48; // TODO: get pre-calculated from elsewhere?
+    const wideCardWidth = 500;
+
+    if (x === 0 && y === 0) {
+        // initialize positions
+        x = isRtl ? (-190 - wideCardWidth - cardHorizontalDragOffset) : 292;
+        x += cardHorizontalDragOffset + 500;
+        // The tallest cards are about 320px high, and the default position is pinned
+        // to near the bottom of the blocks palette to allow room to work above.
+        const tallCardHeight = 320;
+        const bottomMargin = 60; // To avoid overlapping the backpack region
+        y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 350;
+    }
+
+
+    return (
+        // Custom overlay to act as the bounding parent for the draggable, using values from above
+        <div
+            className={styles.cardContainerOverlay}
+            style={{
+                width: `${window.innerWidth + (2 * cardHorizontalDragOffset)}px`,
+                height: `${window.innerHeight - menuBarHeight + cardVerticalDragOffset}px`,
+                top: `${menuBarHeight}px`,
+                left: `${-cardHorizontalDragOffset}px`
+            }}
+        >
+            <Draggable
+                bounds="parent"
+                cancel="#video-div" // disable dragging on video div
+                position={{ x: x, y: y }}
+                onDrag={onDrag}
+                onStart={onStartDrag}
+                onStop={onEndDrag}
+            >
+                <div className={styles.cardContainer}>
+                    <div className={styles.card}>
+                        <DeviecCardHeader
+                            expanded={expanded}
+                            onCloseCards={onCloseCards}
+                            onShrinkExpandCards={onShrinkExpandCards}
+                        />
+                        <div className={expanded ? styles.stepBody : styles.hidden}>
+                            <Device/>
+                        </div>
+                    </div>
+                </div>
+            </Draggable>
+        </div>
+    );
+};
+
+DeviceCards.propTypes = {
+    isRtl: PropTypes.bool.isRequired,
+    locale: PropTypes.string.isRequired,
+};
+
+
+export {
+    DeviceCards as default
+};

@@ -52,6 +52,8 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
 import ButtonComponent from "../button/button.jsx";
 import Cirle from "../button/cirle.jsx";
+import DeviceCards from "../../containers/deviceCards.jsx";
+
 const messages = defineMessages({
     addExtension: {
         id: "gui.gui.addExtension",
@@ -79,6 +81,7 @@ const GUIComponent = (props) => {
         blocksTabVisible,
         blocksId,
         cardsVisible,
+        deviceVisible,
         canChangeLanguage,
         canChangeTheme,
         canCreateNew,
@@ -181,7 +184,7 @@ const GUIComponent = (props) => {
             enabled: true //开启小地图
         }
     }
-
+    
     return (
         <MediaQuery minWidth={layout.fullSizeMinWidth}>
             {(isFullSize) => {
@@ -226,6 +229,7 @@ const GUIComponent = (props) => {
                         )}
                         {tipsLibraryVisible ? <TipsLibrary /> : null}
                         {cardsVisible ? <Cards /> : null}
+                        {deviceVisible ? <DeviceCards /> : null}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
@@ -480,6 +484,7 @@ GUIComponent.propTypes = {
     canShare: PropTypes.bool,
     canUseCloud: PropTypes.bool,
     cardsVisible: PropTypes.bool,
+    deviceVisible: PropTypes.bool,
     children: PropTypes.node,
     costumeLibraryVisible: PropTypes.bool,
     costumesTabVisible: PropTypes.bool,

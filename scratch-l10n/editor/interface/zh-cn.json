@@ -136,6 +136,7 @@
   "gui.menuBar.Generator": "代码生成器",
   "gui.menuBar.Theme": "主题",
   "gui.menuBar.settings": "设置",
+  "gui.menuBar.Device": "设备信息",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",

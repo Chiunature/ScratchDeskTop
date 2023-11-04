@@ -290,7 +290,7 @@ const alerts = [
             />
         ),
         level: AlertLevels.WARN,
-        maxDisplaySecs: 5,
+        maxDisplaySecs: 1,
     },
     {
         alertId: "successfullyConnected",
