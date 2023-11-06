@@ -263,7 +263,7 @@
   "gui.alerts.cloudInfo": "请注意，云变量只支持数字，不能存放字母和符号。{learnMoreLink}",
   "gui.alerts.cloudInfoLearnMore": "进一步了解。",
   "gui.alerts.importing": "正在导入……",
-  "gui.alerts.selectADeviceFirst": "请先选择一个设备",
+  "gui.alerts.selectADeviceFirst": "请先连接一个设备",
   "gui.alerts.successfullyConnected": "连接成功",
   "gui.alerts.failedConnected": "连接失败",
   "gui.alerts.uploadError": "发送失败",

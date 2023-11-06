@@ -22,8 +22,8 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const { SOURCE, BOOTBIN } = require("../json/verifyTypeConfig.json");
-const { MUSIC, BOOT, BIN, APP } = require("../json/LB_FWLIB.json");
+const { SOURCE, SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
+const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 
 //校验接收的数据
 function verifyActions(data) {
@@ -51,6 +51,46 @@ function verifyActions(data) {
         },
     }
 }
+
+//区分是哪种类型操作
+function distinguish(filesObj, type, event) {
+    let obj = filesObj;
+    switch (type) {
+        case SOURCE_MUSIC:
+            let flag = obj.filesIndex < obj.filesLen;
+            if (flag) {
+                obj.filesIndex++;
+                event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
+            } else {
+                obj.filesIndex = 0;
+                obj.fileVerifyType = SOURCE_APP;
+                event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
+            }
+            break;
+        case SOURCE_APP:
+            obj.fileVerifyType = SOURCE_BOOT;
+            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            break;
+        case SOURCE_BOOT:
+            obj.fileVerifyType = SOURCE_VERSION;
+            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            break;
+        case SOURCE_VERSION:
+            obj.fileVerifyType = SOURCE_CONFIG;
+            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            break;
+        case SOURCE_CONFIG:
+            event.reply("completed", { result: true, msg: "uploadSuccess" });
+            break;
+        case BOOTBIN:
+            event.reply("completed", { result: true, msg: "uploadSuccess" });
+            break;
+        default:
+            break;
+    }
+}
+
+
 //处理接收数据后的操作
 function processReceivedConfig(event, ...arg) {
     let obj = {};
@@ -62,18 +102,7 @@ function processReceivedConfig(event, ...arg) {
                     break;
                 case "bound clearCache":
                     obj['Boot_End'] = () => {
-                        if (arg[1] == SOURCE) {
-                            let filesObj = arg[2];
-                            let flag = filesObj.filesIndex < filesObj.filesLen;
-                            if (flag) {
-                                filesObj.filesIndex++;
-                                event.reply("nextFile", { index: filesObj.filesIndex });
-                            } else {
-                                event.reply("completed", { result: true, msg: "uploadSuccess" });
-                            }
-                        } else {
-                            event.reply("completed", { result: true, msg: "uploadSuccess" });
-                        }
+                        distinguish(arg[2], arg[1], event);
                         item();
                     }
                     break;
@@ -90,13 +119,29 @@ function verifyBinType(...arg) {
     let fileData, fileName;
     const { verifyType, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
     switch (verifyType) {
-        case SOURCE:
+        case SOURCE_MUSIC:
             if (Object.keys(filesObj).length === 0) {
                 filesObj.filesList = window.fs.readdirSync(MUSIC);
                 filesObj.filesLen = filesObj.filesList.length;
             }
             fileData = readFiles(`${MUSIC}/${filesObj.filesList[filesIndex]}`);
             fileName = filesObj.filesList[filesIndex].slice(0, -4);
+            break;
+        case SOURCE_APP:
+            fileName = readFiles(BOOT, 'utf8');
+            fileData = readFiles(APP);
+            break;
+        case SOURCE_BOOT:
+            fileName = 'rigistryApp.txt';
+            fileData = readFiles(BOOT);
+            break;
+        case SOURCE_VERSION:
+            fileName = 'Version.txt';
+            fileData = readFiles(VERSION);
+            break;
+        case SOURCE_CONFIG:
+            fileName = 'config';
+            fileData = readFiles(CONFIG);
             break;
         case BOOTBIN:
             fileName = readFiles(BOOT, 'utf8');

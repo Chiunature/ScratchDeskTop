@@ -109,9 +109,10 @@ class Serialport extends Common {
         this.verifyType = data.verifyType;
         this.filesObj = {
             filesIndex: data.filesIndex,
-            filesLen: data.filesLen
+            filesLen: data.filesLen,
+            fileVerifyType: data.verifyType
         };
-        const bits = data.verifyType == SOURCE ? 0xec : 0xda;
+        const bits = this.getBits(data.verifyType);
         const { binArr } = this.checkFileName(data.fileName, bits);
         this.writeData(binArr, 'Boot_URL', event);
     }
@@ -129,7 +130,7 @@ class Serialport extends Common {
         if (!this.port) return;
         this.sign = str;
         this.port.write(data);
-        if(this.verifyType != SOURCE) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+        if(this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         this.checkOverTime(event);
     }
 
@@ -180,7 +181,7 @@ class Serialport extends Common {
                 if (allData && verify) this.processReceivedData(event);
                 else if (receiveData && !verify && this.sign) this.checkOverTime(event);
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 this.handleReadError(event, this.clearCache);
             }
         });

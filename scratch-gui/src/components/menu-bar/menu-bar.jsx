@@ -88,7 +88,7 @@ import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
 import { ipc } from "../../utils/ipcRender.js";
-import { viewDeviceCards } from "../../reducers/cards.js";
+import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 
 const ariaMessages = defineMessages({
     language: {
@@ -421,6 +421,7 @@ class MenuBar extends React.Component {
         this.props.onSetIsConnectedSerial(false);
         this.props.onShowDisonnectAlert(msg);
         this.scanConnection();
+        this.props.onSetDeviceCards({deviceVisible: false});
         ipc({ sendName: "disconnected" });
     }
     showDeviceCards() {
@@ -1159,6 +1160,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(clearConnectionModalPeripheralName()),
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
 });
 
 export default compose(

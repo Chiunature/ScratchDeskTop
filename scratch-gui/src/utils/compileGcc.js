@@ -25,7 +25,7 @@
  */
 import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
-import { SOURCE } from "../config/json/verifyTypeConfig.json";
+import { SOURCE, SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
 import { verifyBinType } from "../config/js/verify.js";
 
@@ -76,7 +76,7 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', [`-j${cpus ? cpus.length*2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
+            this.progress = spawn('make', [`-j${cpus ? cpus.length * 2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
 
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
@@ -103,7 +103,7 @@ class Compile {
     runGcc(buffer, myBlock, isUpload = false) {
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
-            if(el) {
+            if (el) {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
             }
@@ -136,10 +136,7 @@ class Compile {
                 sendName: "writeData",
                 sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen },
                 eventName: "nextFile",
-                callback: (event, data) => {
-                    this.filesIndex = data.index;
-                    if (this.filesIndex <= this.filesObj.filesLen) this.readBin(SOURCE);
-                }
+                callback: (event, data) => this.readBin(data.fileVerifyType)
             });
 
         } catch (error) {
@@ -150,7 +147,7 @@ class Compile {
 
     sendSerial(verifyType) {
         if (verifyType === SOURCE) {
-            this.readBin(verifyType);
+            this.readBin(SOURCE_MUSIC);
         } else {
             if (!this.startSend) {
                 this.eventName = 'success' + getCurrentTime();

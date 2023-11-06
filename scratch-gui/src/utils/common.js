@@ -25,7 +25,7 @@
 
 const { ipcMain } = require("electron");
 const fs = require("fs");
-
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
 class Common {
     //进程通信
     ipcMain(eventName, callback) {
@@ -135,15 +135,36 @@ class Common {
         const data = fs.readFileSync(path, type);
         return data;
     }
-
+    
+    //判断功能码
+    getBits(verifyType) {
+        switch (verifyType) {
+            case BOOTBIN:
+                return 0xda;
+            case SOURCE_MUSIC:
+                return 0xec;
+            case SOURCE_APP:
+                return 0xda;
+            case SOURCE_BOOT:
+                return 0xdb;
+            case SOURCE_VERSION:
+                return 0xdd;
+            case SOURCE_CONFIG:
+                return 0xdc;
+            default:
+                break;
+        }
+    }
+    
+    //校验数据的switch
     switch(actions, condition, type) {
-        if(type) {
+        if (type) {
             if (actions[condition]) {
                 return actions[condition]();
             } else {
                 return false;
             }
-        }else {
+        } else {
             if (actions[condition]) {
                 actions[condition]();
             } else {

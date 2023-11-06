@@ -27,7 +27,7 @@
 } */
 
 function Task_Stack(item, index) {
-    return `void User_Aplication${index}(void* parameter)\n{\n${item ? item.replaceAll('undefined', '') : item}\nLB_StopThisProgramment();\n}\n`;
+    return `void User_Aplication${index}(void* parameter)\n{\nWait_SystemInit();\n${item ? item.replaceAll('undefined', '') : item}\nLB_StopThisProgramment();\n}\n`;
 }
 
 function Task_Info_Item(index) {

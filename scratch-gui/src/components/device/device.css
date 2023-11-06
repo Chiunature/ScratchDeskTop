@@ -1,33 +1,40 @@
+@import "../../css/colors.css";
 .box {
     width: 500px;
-    height: 600px;
+    height: 400px;
     display: grid;
     place-items: center;
-    /* border: 1px solid #2c2c2c; */
     background-color: white;
 }
+
 .container {
     width: 100%;
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
 }
-.right, .left, .middle {
+
+.right,
+.left,
+.middle {
     width: 100%;
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
 }
+
 .right {
     width: 100px;
-    border-left: 1px solid #2c2c2c;
+    border-left: 1px solid #e7e7e7;
 }
+
 .left {
     width: 100px;
-    border-right: 1px solid #2c2c2c;
+    border-right: 1px solid #e7e7e7;
 }
+
 .middle {
     width: 300px;
     height: 100%;
@@ -35,23 +42,17 @@
     flex-grow: 1;
     overflow-x: auto;
 }
-.middle .sel {
-    width: 200px;
-    margin:  20px 0;
-}
+
 .block {
     width: 50px;
     height: 50px;
-    border: 1px solid #2c2c2c;
-    margin: 20px auto;
+    margin: 10px auto;
     line-height: 50px;
     text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    color: $ui-white;
+    background-color: var(--motion-primary);
 }
-.mid-select {
-    width: 100%;
-    display: grid;
-    place-items: center;
-    border-bottom: 1px solid #2c2c2c;
-    box-sizing: border-box;
-    padding: 10px;
-}
+
