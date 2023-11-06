@@ -33,7 +33,7 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName } from "../../reducers/connection-modal";
+import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName, setCompleted } from "../../reducers/connection-modal";
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
@@ -420,9 +420,10 @@ class MenuBar extends React.Component {
         this.props.onSetPort(null);
         this.props.onSetIsConnectedSerial(false);
         this.props.onShowDisonnectAlert(msg);
-        this.scanConnection();
+        this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({deviceVisible: false});
         ipc({ sendName: "disconnected" });
+        this.scanConnection();
     }
     showDeviceCards() {
         if(!this.props.peripheralName) {
