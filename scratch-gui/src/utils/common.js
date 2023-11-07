@@ -81,6 +81,16 @@ class Common {
         return view;
     }
 
+    //将十六进制转字符串
+    hexToString(list) {
+        let result = "";
+        let hexArray = list.slice(5, -2);
+        for (let i = 0; i < hexArray.length; i++) {
+            result += String.fromCharCode(hexArray[i]);
+          }
+        return result;
+    }
+
     //将字符串转十六进制
     stringToHex(str) {
         let val = [];

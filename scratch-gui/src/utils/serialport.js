@@ -37,7 +37,7 @@
  */
 const { SerialPort } = require("serialport");
 const Common = require("./common.js");
-const {verifyActions, processReceivedConfig} = require("../config/js/verify.js");
+const { verifyActions, processReceivedConfig } = require("../config/js/verify.js");
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 
 
@@ -101,6 +101,7 @@ class Serialport extends Common {
         this.disconnectSerial("disconnected");
         this.sendToSerial("writeData", this.upload);
         this.listenError("transmission-error");
+        this.watchDevice("watchDevice");
     }
 
     //上传文件
@@ -130,8 +131,8 @@ class Serialport extends Common {
         if (!this.port) return;
         this.sign = str;
         this.port.write(data);
-        if(this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
-        this.checkOverTime(event);
+        if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+        if (this.sign !== 'Watch_Device') this.checkOverTime(event);
     }
 
     //检测是否超时
@@ -157,7 +158,12 @@ class Serialport extends Common {
         this.sign = null;
     }
 
-
+    //监听设备信息
+    watchDevice(eventName) {
+        this.ipcMain(eventName, (event, data) => {
+            this.writeData(data, 'Watch_Device', event);
+        });
+    }
 
     //发bin数据
     sendBin(index, event) {
@@ -175,9 +181,15 @@ class Serialport extends Common {
             try {
                 this.clearTimer();
                 const receiveData = this.port.read();
-
+                
+                if (this.sign === 'Watch_Device' && receiveData[0] == 0x5a) {
+                    event.reply('response_watch', this.hexToString(receiveData));
+                    return;
+                }
+                
                 const allData = this.catchData(receiveData);
                 const verify = this.verification(this.receiveDataBuffer);
+
                 if (allData && verify) this.processReceivedData(event);
                 else if (receiveData && !verify && this.sign) this.checkOverTime(event);
             } catch (error) {
