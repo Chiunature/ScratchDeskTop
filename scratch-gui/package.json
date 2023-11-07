@@ -19,7 +19,8 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "pack": "electron-builder --win --ia32"
+        "pack": "electron-builder",
+        "postinstall": "electron-builder install-app-deps"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -201,7 +202,7 @@
                 {
                     "target": "nsis",
                     "arch": [
-                        "ia32"
+                        "x64"
                     ]
                 }
             ]
