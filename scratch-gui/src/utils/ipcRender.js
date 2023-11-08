@@ -37,6 +37,10 @@ function ipc({ sendName, sendParams, eventName, callback }) {
     if (eventName && !eventList.includes(eventName) && typeof callback === "function") window.electron.ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
 }
 
+function delEvents(eventName) {
+    window.electron.ipcRenderer.removeAllListeners([eventName]);
+}
+
 function getCurrentTime() {
     const now = new Date();
     const year = now.getFullYear();
@@ -74,5 +78,6 @@ export {
     ipc,
     handlerError,
     getVersion,
-    getCurrentTime
+    getCurrentTime,
+    delEvents
 }

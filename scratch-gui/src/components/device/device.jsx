@@ -2,9 +2,53 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './device.css';
 const Device = (props) => {
-    const { deviceList } = props;
+    const { deviceList, gyroList, flashList, adcList, voice } = props;
     const rightList = deviceList.slice(0, 4).reverse();
     const leftList = deviceList.slice(4);
+
+    function preName(index) {
+        switch (index) {
+            case 0:
+                return 'ax';
+            case 1:
+                return 'ay';
+            case 2:
+                return 'az';
+            case 3:
+                return 'gx';
+            case 4:
+                return 'gy';
+            case 5:
+                return 'gz';
+            case 6:
+                return 'max';
+            case 7:
+                return 'may';
+            case 8:
+                return 'maz';
+            case 9:
+                return 'pitch';
+            case 10:
+                return 'roll';
+            case 11:
+                return 'yaw';
+            default:
+                break;
+        }
+    }
+
+    function appendName(index) {
+        if (index <= 2) {
+            return 'G';
+        } else if (index > 2 && index <= 5) {
+            return '角速度/s';
+        } else if (index > 5 && index <= 8) {
+            return 'Gs';
+        } else {
+            return '度';
+        }
+    }
+
     return (<div className={styles.box}>
         <div className={styles.container}>
             <div className={styles.left}>
@@ -27,7 +71,48 @@ const Device = (props) => {
                             )
                         })}
                     </div>
-                    {/* <div className={styles.midPart}></div> */}
+                    <div className={styles.midPart}>
+                        <div className={styles.midBox}>
+                            <p>陀螺仪</p>
+                            <ul className={styles.midUl}>
+                                {gyroList.length > 0 && gyroList.map((item, index) => {
+                                    return (<li key={index}>
+                                        <span>{preName(index)}</span>
+                                        <span>{item}</span>
+                                        <span>{appendName(index)}</span>
+                                    </li>)
+                                })}
+                            </ul>
+                        </div>
+                        <div className={styles.midBox}>
+                            <p>内存</p>
+                            <ul className={styles.midUl}>
+                                {flashList.length > 0 && flashList.map((item, index) => {
+                                    return (<li key={index}>
+                                        <span>{index === 0 ? '总容量' : '剩余容量'}</span>
+                                        <span>{item}</span>
+                                    </li>)
+                                })}
+                            </ul>
+                        </div>
+                        <div className={styles.midBox}>
+                            <p>电池电压</p>
+                            <ul className={styles.midUl}>
+                                {adcList.length > 0 && adcList.map((item, index) => {
+                                    return (<li key={index}>
+                                        <span>{item}</span>
+                                        <span>V</span>
+                                    </li>)
+                                })}
+                            </ul>
+                        </div>
+                        <div className={styles.midBox}>
+                            <p>声音强度</p>
+                            <ul className={styles.midUl}>
+                                {voice && <li><span>{voice}</span></li>}
+                            </ul>
+                        </div>
+                    </div>
                     <div className={styles.midRight}>
                         {rightList.map((el, index) => {
                             return (

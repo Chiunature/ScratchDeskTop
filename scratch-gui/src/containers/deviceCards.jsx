@@ -6,7 +6,7 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import { ipc } from "../utils/ipcRender.js";
+import { ipc, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 
@@ -15,6 +15,10 @@ const list = [
     [0x5A, 0x97, 0x98, 0x01, 0xD6, 0x01, 0x61, 0xA5], //颜色
     [0x5A, 0x97, 0x98, 0x01, 0xD2, 0x01, 0x5D, 0xA5], //超声波
     [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
+    [0x5A, 0x97, 0x98, 0x01, 0xD1, 0x01, 0x5C, 0xA5], //陀螺仪
+    [0x5A, 0x97, 0x98, 0x01, 0xD4, 0x01, 0x5F, 0xA5], //内存
+    [0x5A, 0x97, 0x98, 0x01, 0xD5, 0x01, 0x60, 0xA5], //电池电压
+    [0x5A, 0x97, 0x98, 0x01, 0xD7, 0x01, 0x62, 0xA5], //声音强度
 ];
 
 class DeviceCards extends React.Component {
@@ -22,6 +26,10 @@ class DeviceCards extends React.Component {
         super(props);
         this.timer = null;
         this.index = -1;
+        this.gyroList = [];
+        this.flashList = [];
+        this.adcList = [];
+        this.voice = null;
         this.state = {
             deviceList: []
         }
@@ -45,6 +53,7 @@ class DeviceCards extends React.Component {
     }
     componentWillUnmount() {
         clearInterval(this.timer);
+        delEvents("response_watch");
     }
     //初始化设备
     initDeviceList() {
@@ -54,6 +63,7 @@ class DeviceCards extends React.Component {
                 port: i,
                 motor: {},
                 color: {},
+                ultrasonic: null,
                 sensing_device: '无设备连接'
             }
             list.push(obj);
@@ -87,15 +97,29 @@ class DeviceCards extends React.Component {
                 break;
             case 3:
                 arr.map((item, i) => {
-                    if(item == 0) {
+                    if (item == 0) {
                         deviceList[i] = {
                             port: i,
                             motor: {},
                             color: {},
+                            ultrasonic: null,
                             sensing_device: '无设备连接'
                         };
                     }
                 });
+                break;
+            case 4:
+                this.gyroList = arr.filter((el) => (el !== ''));
+                break;
+            case 5:
+                arr[1] = arr[0] - arr[1];
+                this.flashList = arr.filter((el) => (el !== ''));
+                break;
+            case 6:
+                this.adcList = arr.filter((el) => (el !== ''));
+                break;
+            case 7:
+                this.voice = arr[0];
                 break;
             default:
                 break;
@@ -118,7 +142,7 @@ class DeviceCards extends React.Component {
 
     render() {
         return (
-            <CardsComponent {...this.props} deviceList={this.state.deviceList} />
+            <CardsComponent {...this.props} voice={this.voice} deviceList={this.state.deviceList} gyroList={this.gyroList} flashList={this.flashList} adcList={this.adcList} />
         );
     }
 }
