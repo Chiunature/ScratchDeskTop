@@ -1162,6 +1162,7 @@ const mapDispatchToProps = (dispatch) => ({
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
+    onSetCompleted: (completed) => dispatch(setCompleted(completed)),
 });
 
 export default compose(
