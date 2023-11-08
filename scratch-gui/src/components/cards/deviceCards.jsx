@@ -8,12 +8,9 @@ import styles from './card.css';
 
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
-
 import connectedIcon from "../menu-bar/icon--connected.svg";
-
 import closeIcon from './icon--close.svg';
 import Device from '../device/device.jsx';
-
 
 
 const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
@@ -92,12 +89,12 @@ const DeviceCards = props => {
     if (x === 0 && y === 0) {
         // initialize positions
         x = isRtl ? (-190 - wideCardWidth - cardHorizontalDragOffset) : 292;
-        x += cardHorizontalDragOffset + 500;
+        x += cardHorizontalDragOffset + 250;
         // The tallest cards are about 320px high, and the default position is pinned
         // to near the bottom of the blocks palette to allow room to work above.
         const tallCardHeight = 320;
         const bottomMargin = 60; // To avoid overlapping the backpack region
-        y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 350;
+        y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 300;
     }
 
 
@@ -128,7 +125,7 @@ const DeviceCards = props => {
                             onShrinkExpandCards={onShrinkExpandCards}
                         />
                         <div className={expanded ? styles.stepBody : styles.hidden}>
-                            <Device/>
+                            <Device {...props}/>
                         </div>
                     </div>
                 </div>

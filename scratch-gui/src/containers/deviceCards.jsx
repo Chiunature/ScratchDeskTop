@@ -56,7 +56,7 @@ class DeviceCards extends React.Component {
                 color: {},
                 sensing_device: '无设备连接'
             }
-            list[i] = obj;
+            list.push(obj);
         }
         this.setState({ deviceList: list });
     }

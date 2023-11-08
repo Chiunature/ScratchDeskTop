@@ -45,12 +45,16 @@
     min-width: 300px;
     border-left: 1px solid #e7e7e7;
     flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 10px;
 }
 
 .mid-left {
     min-width: 300px;
     border-right: 1px solid #e7e7e7;
     flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 10px;
 }
 
 .middle {
