@@ -62,11 +62,26 @@ const Device = (props) => {
                     <div className={styles.midLeft}>
                         {leftList.map((el, index) => {
                             return (
-                                <div className={styles.item} key={index}>
-                                    <div>{index === 0 ? 'E' : index === 1 ? 'F' : index === 2 ? 'G' : 'H'}端口: {el.sensing_device}</div>
-                                    {Object.keys(el.motor).length > 0 && <div>速度: {el.motor.speed}, 目标速度: {el.motor.aim_speed}, 旋转方向: {el.motor.direction}</div>}
-                                    {el.ultrasonic && <div>超声波距离: {el.ultrasonic}mm</div>}
-                                    {Object.keys(el.color).length > 0 && <div>颜色: {el.color.rgb}, {el.color.hex}</div>}
+                                <div className={styles.midBox} key={index}>
+                                    <p>{index === 0 ? 'E' : index === 1 ? 'F' : index === 2 ? 'G' : 'H'}端口: {el.sensing_device}</p>
+                                    {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
+                                        {Object.keys(el.motor).map((item, index) => {
+                                            return (<li key={index}>
+                                                <span>{index === 0 ? '速度' : index === 1 ? '目标速度' : '旋转方向'}</span>
+                                                <span>{el.motor[item]}</span>
+                                            </li>)
+                                        })}
+                                    </ul>}
+                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>超声波距离{el.ultrasonic}</span><span>mm</span></li></ul>}
+                                    {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
+                                        {Object.keys(el.color).map((item, index) => {
+                                            return (<li key={index}>
+                                                <span>{index === 0 ? 'RGB' : 'HEX'}</span>
+                                                <span>{el.color[item]}</span>
+                                                <span><span className={styles.col} style={{'backgroundColor': el.color[item]}}></span></span>
+                                            </li>)
+                                        })}
+                                    </ul>}
                                 </div>
                             )
                         })}
@@ -116,11 +131,26 @@ const Device = (props) => {
                     <div className={styles.midRight}>
                         {rightList.map((el, index) => {
                             return (
-                                <div className={styles.item} key={index}>
-                                    <div>{index === 0 ? 'D' : index === 1 ? 'C' : index === 2 ? 'B' : 'A'}端口: {el.sensing_device}</div>
-                                    {Object.keys(el.motor).length > 0 && <div>速度: {el.motor.speed}, 目标速度: {el.motor.aim_speed}, 旋转方向: {el.motor.direction}</div>}
-                                    {el.ultrasonic && <div>超声波距离: {el.ultrasonic}mm</div>}
-                                    {Object.keys(el.color).length > 0 && <div>颜色: {el.color.rgb}, {el.color.hex}</div>}
+                                <div className={styles.midBox} key={index}>
+                                    <p>{index === 0 ? 'D' : index === 1 ? 'C' : index === 2 ? 'B' : 'A'}端口: {el.sensing_device}</p>
+                                    {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
+                                        {Object.keys(el.motor).map((item, index) => {
+                                            return (<li key={index}>
+                                                <span>{index === 0 ? '速度' : index === 1 ? '目标速度' : '旋转方向'}</span>
+                                                <span>{el.motor[item]}</span>
+                                            </li>)
+                                        })}
+                                    </ul>}
+                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>超声波距离{el.ultrasonic}</span><span>mm</span></li></ul>}
+                                    {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
+                                        {Object.keys(el.color).map((item, index) => {
+                                            return (<li key={index}>
+                                                <span>{index === 0 ? 'RGB' : 'HEX'}</span>
+                                                <span>{el.color[item]}</span>
+                                                <span><span className={styles.col} style={{'backgroundColor': el.color[item]}}></span></span>
+                                            </li>)
+                                        })}
+                                    </ul>}
                                 </div>
                             )
                         })}
