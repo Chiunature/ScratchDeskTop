@@ -8,6 +8,7 @@ const GET_SERIAL_LIST = "scratch-gui/connection-modal/getSerialList";
 const CHANGE_SERIAL_LIST = "scratch-gui/connection-modal/changeSerialList";
 const SET_PORT = "scratch-gui/connection-modal/setPort";
 const SET_COMPLETED = "scratch-gui/connection-modal/completed";
+const SET_SOURCE = "scratch-gui/connection-modal/sourceCompleted";
 const SET_SOUNDARR = "scratch-gui/connection-modal/soundArr";
 const SET_ISCONNECTEDSERIAL = "scratch-gui/connection-modal/isConnectedSerial";
 const SET_VERSION = "scratch-gui/connection-modal/version";
@@ -33,7 +34,8 @@ const initialState = {
         rate: 48000,
         sampleCount: 40681,
         soundId: ""
-    }]
+    }],
+    sourceCompleted: false
 };
 
 const reducer = function (state, action) {
@@ -74,6 +76,10 @@ const reducer = function (state, action) {
         case SET_COMPLETED:
             return Object.assign({}, state, {
                 completed: action.completed,
+            });
+        case SET_SOURCE: 
+            return Object.assign({}, state, {
+                sourceCompleted: action.sourceCompleted,
             });
         case SET_SOUNDARR:
             state.soundArr.push(action.sound);
@@ -177,6 +183,13 @@ const setCompleted = function (completed) {
     };
 };
 
+const setSourceCompleted = function (sourceCompleted) {
+    return {
+        type: SET_SOURCE,
+        sourceCompleted: sourceCompleted,
+    };
+};
+
 const setSoundArr = function (sound) {
     return {
         type: SET_SOUNDARR,
@@ -213,5 +226,6 @@ export {
     setSoundArr,
     setIsConnectedSerial,
     setVersion,
-    setProgress
+    setProgress,
+    setSourceCompleted
 };

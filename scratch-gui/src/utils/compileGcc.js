@@ -136,7 +136,11 @@ class Compile {
                 sendName: "writeData",
                 sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen },
                 eventName: "nextFile",
-                callback: (event, data) => this.readBin(data.fileVerifyType)
+                callback: (event, data) => {
+                    if(data.index) this.filesIndex = data.index;
+                    if(data.filesObj) this.filesObj = data.filesObj;
+                    this.readBin(data.fileVerifyType);
+                }
             });
 
         } catch (error) {

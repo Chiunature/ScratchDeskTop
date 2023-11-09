@@ -39,7 +39,7 @@ import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
-import { setCompleted, setProgress } from "../reducers/connection-modal.js";
+import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 class GUI extends React.Component {
     componentDidMount() {
@@ -58,7 +58,7 @@ class GUI extends React.Component {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
                             this.props.onSetProgress(0);
-                        }, 3000);
+                        }, 2000);
                     }else {
                         this.props.onSetCompleted(false);
                     }
@@ -68,6 +68,13 @@ class GUI extends React.Component {
                 eventName: "progress",
                 callback: (event, arg) => {
                     this.props.onSetProgress(arg);
+                },
+            });
+            ipc({
+                eventName: "sourceCompleted",
+                callback: (event, arg) => {
+                    this.props.onSetSourceCompleted(false);
+                    this.props.onShowCompletedAlert(arg.msg);
                 },
             });
         }
@@ -162,6 +169,7 @@ GUI.propTypes = {
     onStorageInit: PropTypes.func,
     onUpdateProjectId: PropTypes.func,
     onSetCompleted: PropTypes.func,
+    onSetSourceCompleted: PropTypes.func,
     onShowCompletedAlert: PropTypes.func,
     onVmInit: PropTypes.func,
     projectHost: PropTypes.string,
@@ -243,7 +251,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete)),
-    onSetProgress: (progress) => dispatch(setProgress(progress))
+    onSetProgress: (progress) => dispatch(setProgress(progress)),
+    onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
 });
 
 const ConnectedGUI = injectIntl(

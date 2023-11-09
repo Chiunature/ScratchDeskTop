@@ -38,7 +38,7 @@
 const { SerialPort } = require("serialport");
 const Common = require("./common.js");
 const { verifyActions, processReceivedConfig } = require("../config/js/verify.js");
-const { SOURCE } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE, SOURCE_CONFIG } = require("../config/json/verifyTypeConfig.json");
 
 
 class Serialport extends Common {
@@ -106,16 +106,22 @@ class Serialport extends Common {
 
     //上传文件
     upload(event, data) {
+        if(data.verifyType === SOURCE_CONFIG) {
+            event.reply("sourceCompleted", { msg: "uploadSuccess" });
+        }
+        
+        if(!data.binData || !data.fileName) return;
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
         this.filesObj = {
             filesIndex: data.filesIndex,
             filesLen: data.filesLen,
-            fileVerifyType: data.verifyType
+            fileVerifyType: data.verifyType,
+            fileName: data.fileName
         };
         const bits = this.getBits(data.verifyType);
         const { binArr } = this.checkFileName(data.fileName, bits);
-        this.writeData(binArr, 'Boot_URL', event);
+        this.writeData(binArr, data.binData ? 'Boot_URL' : null, event);
     }
 
     //侦听串口关闭
@@ -218,10 +224,13 @@ class Serialport extends Common {
     //处理接收到的数据
     processReceivedData(event) {
         if (this.receiveDataBuffer.length > 0) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
-        if (this.sign == 'Boot_URL') this.sign = 'Boot_Bin';
+        if (this.sign == 'Boot_URL') {
+            this.sign = 'Boot_Bin';
+        } else {
+            this.chunkIndex++;
+        }
         const actions = processReceivedConfig(event, this.chunkIndex, this.verifyType, this.filesObj, this.sendBin.bind(this), this.clearCache.bind(this));
         this.switch(actions, this.sign);
-        this.chunkIndex++;
     }
 
 }

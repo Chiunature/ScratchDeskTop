@@ -9,7 +9,6 @@ import Dots from "./dots.jsx";
 // import backIcon from "./icons/back.svg";
 // import bluetoothIcon from "./icons/bluetooth.svg";
 // import scratchLinkIcon from "./icons/scratchlink.svg";
-import { VERSION } from "../../config/json/LB_FWLIB.json";
 
 import styles from "./connection-modal.css";
 
@@ -94,11 +93,10 @@ const SerialportList = (props) => (
                         styles.redButton,
                         styles.connectionButton
                     )}
-                    disabled={true}
-                    // disabled={(props.getVersion(VERSION) == localStorage.getItem('version')) || props.completed ? true : false}
+                    disabled={(props.getVersion('./gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') == localStorage.getItem('version')) || props.sourceCompleted ? true : false}
                     onClick={props.onUpdate}
                 >
-                    {props.completed ? (
+                    {props.sourceCompleted ? (
                         <FormattedMessage
                             defaultMessage="opgradering..."
                             description="Firmware opgradering"

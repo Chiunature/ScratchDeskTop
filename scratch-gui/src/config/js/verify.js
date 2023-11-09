@@ -22,10 +22,10 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const { SOURCE, SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 
-//校验接收的数据
+//校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
 function verifyActions(data) {
     return {
         "Boot_URL": () => {
@@ -57,30 +57,19 @@ function distinguish(filesObj, type, event) {
     let obj = filesObj;
     switch (type) {
         case SOURCE_MUSIC:
-            let flag = obj.filesIndex < obj.filesLen;
-            if (flag) {
-                obj.filesIndex++;
-                event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
-            } else {
-                obj.filesIndex = 0;
-                obj.fileVerifyType = SOURCE_APP;
-                event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
-            }
+            processedForSouceFile(obj, SOURCE_APP, event);
             break;
         case SOURCE_APP:
-            obj.fileVerifyType = SOURCE_BOOT;
-            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            processedForSouceFile(obj, SOURCE_BOOT, event);
             break;
         case SOURCE_BOOT:
-            obj.fileVerifyType = SOURCE_VERSION;
-            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            processedForSouceFile(obj, SOURCE_VERSION, event);
             break;
         case SOURCE_VERSION:
-            obj.fileVerifyType = SOURCE_CONFIG;
-            event.reply("nextFile", { fileVerifyType: obj.fileVerifyType });
+            processedForSouceFile(obj, SOURCE_CONFIG, event);
             break;
         case SOURCE_CONFIG:
-            event.reply("completed", { result: true, msg: "uploadSuccess" });
+            processedForSouceFile(obj, null, event);
             break;
         case BOOTBIN:
             event.reply("completed", { result: true, msg: "uploadSuccess" });
@@ -90,6 +79,19 @@ function distinguish(filesObj, type, event) {
     }
 }
 
+//发送完资源文件后
+function processedForSouceFile(obj, next, event) {
+    obj.filesIndex++;
+    if (obj.filesIndex < obj.filesLen) {
+        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
+    } else if(obj.fileVerifyType !== next) {
+        obj.filesIndex = 0;
+        obj.fileVerifyType = next;
+        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, filesObj: {} });
+    } else if(!next) {
+        event.reply("sourceCompleted", { msg: "uploadSuccess" });
+    }
+}
 
 //处理接收数据后的操作
 function processReceivedConfig(event, ...arg) {
@@ -114,47 +116,67 @@ function processReceivedConfig(event, ...arg) {
     return obj;
 }
 
+//读取资源文件夹
+function readdirForSource(path, filesObj, filesIndex, readFiles) {
+    let fileData, fileName;
+    if (Object.keys(filesObj).length === 0) {
+        filesObj.filesList = window.fs.readdirSync(path);
+        filesObj.filesLen = filesObj.filesList.length;
+    }
+    if (filesObj.filesList.length > 0) {
+        fileData = readFiles(`${path}/${filesObj.filesList[filesIndex]}`);
+        fileName = filesObj.filesList[filesIndex];
+    }
+
+    return {
+        fileData,
+        fileName
+    }
+}
+
+
 //处理是哪种类型的校验
 function verifyBinType(...arg) {
-    let fileData, fileName;
+    let data, name;
     const { verifyType, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
     switch (verifyType) {
         case SOURCE_MUSIC:
-            if (Object.keys(filesObj).length === 0) {
-                filesObj.filesList = window.fs.readdirSync(MUSIC);
-                filesObj.filesLen = filesObj.filesList.length;
-            }
-            fileData = readFiles(`${MUSIC}/${filesObj.filesList[filesIndex]}`);
-            fileName = filesObj.filesList[filesIndex].slice(0, -4);
+            const music = readdirForSource(MUSIC, filesObj, filesIndex, readFiles);
+            data = music.fileData;
+            name = music.fileName;
             break;
         case SOURCE_APP:
-            fileName = readFiles(BOOT, 'utf8');
-            fileData = readFiles(APP);
+            const app = readdirForSource(APP, filesObj, filesIndex, readFiles);
+            data = app.fileData;
+            name = app.fileName;
             break;
         case SOURCE_BOOT:
-            fileName = 'rigistryApp.txt';
-            fileData = readFiles(BOOT);
+            const boot = readdirForSource(BOOT, filesObj, filesIndex, readFiles);
+            data = boot.fileData;
+            name = boot.fileName;
             break;
         case SOURCE_VERSION:
-            fileName = 'Version.txt';
-            fileData = readFiles(VERSION);
+            const version = readdirForSource(VERSION, filesObj, filesIndex, readFiles);
+            data = version.fileData;
+            name = version.fileName;
             break;
         case SOURCE_CONFIG:
-            fileName = 'config';
-            fileData = readFiles(CONFIG);
+            const config = readdirForSource(CONFIG, filesObj, filesIndex, readFiles);
+            data = config.fileData;
+            name = config.fileName;
             break;
         case BOOTBIN:
-            fileName = readFiles(BOOT, 'utf8');
-            fileData = readFiles(BIN);
-            writeFiles(APP, fileData);
+            name = readFiles(BOOT + '/registryApp.txt', 'utf8');
+            data = readFiles(BIN);
+            writeFiles(APP + name, data);
             break;
         default:
             break;
     }
 
     return {
-        fileData,
-        fileName
+        fileData: data,
+        fileName: name,
     }
 }
 

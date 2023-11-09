@@ -6,11 +6,11 @@ import Box from "../box/box.jsx";
 import Modal from "../../containers/modal.jsx";
 
 import ScanningStep from "../../containers/scanning-step.jsx";
-import AutoScanningStep from "../../containers/auto-scanning-step.jsx";
+/* import AutoScanningStep from "../../containers/auto-scanning-step.jsx";
 import ConnectingStep from "./connecting-step.jsx";
 import ConnectedStep from "./connected-step.jsx";
 import ErrorStep from "./error-step.jsx";
-import UnavailableStep from "./unavailable-step.jsx";
+import UnavailableStep from "./unavailable-step.jsx"; */
 
 import styles from "./connection-modal.css";
 import SerialportList from "./serialport-list.jsx";

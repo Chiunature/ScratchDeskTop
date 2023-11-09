@@ -131,6 +131,7 @@ const GUIComponent = (props) => {
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
         onSetIsComplete,
+        onSetSourceCompleted,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -143,6 +144,7 @@ const GUIComponent = (props) => {
         code,
         theme,
         completed,
+        sourceCompleted,
         isComplete,
         handleCompile,
         compile,
@@ -234,7 +236,7 @@ const GUIComponent = (props) => {
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal vm={vm} compile={compile} completed={completed}/>
+                            <ConnectionModal vm={vm} compile={compile}     onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary

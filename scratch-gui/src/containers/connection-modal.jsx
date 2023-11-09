@@ -17,12 +17,12 @@ import {
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
     getSerialList,
-    setCompleted,
+    setSourceCompleted,
     setVersion,
 } from "../reducers/connection-modal";
 import { ipc, getVersion } from "../utils/ipcRender.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
-import { VERSION } from "../config/json/LB_FWLIB.json";
+
 
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -55,14 +55,14 @@ class ConnectionModal extends React.Component {
     }
 
     componentWillUnmount() {
-        /* this.props.vm.removeListener(
-            "PERIPHERAL_CONNECTED",
-            this.handleConnected
-        );
-        this.props.vm.removeListener(
-            "PERIPHERAL_DISCONNECTED",
-            this.handleDisconnect
-        ); */
+        // this.props.vm.removeListener(
+        //     "PERIPHERAL_CONNECTED",
+        //     this.handleConnected
+        // );
+        // this.props.vm.removeListener(
+        //     "PERIPHERAL_DISCONNECTED",
+        //     this.handleDisconnect
+        // );
         this.props.vm.removeListener(
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
@@ -158,15 +158,6 @@ class ConnectionModal extends React.Component {
                 }
             },
         });
-
-        // this.setState({
-        //     phase: PHASES.connected,
-        // });
-        // analytics.event({
-        //     category: "extensions",
-        //     action: "connected",
-        //     label: this.props.extensionId,
-        // });
     }
 
     handleHelp() {
@@ -187,8 +178,8 @@ class ConnectionModal extends React.Component {
 
     handleUpdate() {
         this.props.compile.sendSerial(null, SOURCE);
-        this.props.onSetCompleted(true);
-        if(!localStorage.getItem('version')) this.props.onSetVersion(getVersion(VERSION));
+        this.props.onSetSourceCompleted(true);
+        if(!localStorage.getItem('version')) this.props.onSetVersion(getVersion('./gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt'));
     }
 
     render() {
@@ -230,7 +221,7 @@ class ConnectionModal extends React.Component {
                 onScanning={this.handleScanning}
                 onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
-                completed={this.props.completed}
+                sourceCompleted={this.props.sourceCompleted}
                 getVersion={getVersion}
             />
         );
@@ -241,7 +232,7 @@ ConnectionModal.propTypes = {
     extensionId: PropTypes.string,
     onCancel: PropTypes.func.isRequired,
     vm: PropTypes.instanceOf(VM).isRequired,
-    compile: PropTypes.object
+    compile: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
@@ -251,7 +242,8 @@ const mapStateToProps = (state) => ({
     peripheralName: state.scratchGui.connectionModal.peripheralName,
     isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
     version: state.scratchGui.connectionModal.version,
-    soundArr: state.scratchGui.connectionModal.soundArr
+    soundArr: state.scratchGui.connectionModal.soundArr,
+    sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -266,7 +258,6 @@ const mapDispatchToProps = (dispatch) => ({
     onClearConnectionModalPeripheralName: () =>
         dispatch(clearConnectionModalPeripheralName()),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
-    onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
