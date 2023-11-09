@@ -99,7 +99,7 @@ class DeviceCards extends React.Component {
                 break;
             case 2:
                 deviceList[arr[0]].color = {
-                    rgb: `rgb(${arr[1]}, ${arr[2]}, ${arr[3]})`,
+                    rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
                     hex: `#${arr[4]}`
                 };
                 deviceList[arr[0]].sensing_device = '颜色识别器';

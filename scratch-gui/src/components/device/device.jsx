@@ -78,7 +78,7 @@ const Device = (props) => {
                                             return (<li key={index}>
                                                 <span>{index === 0 ? 'RGB' : 'HEX'}</span>
                                                 <span>{el.color[item]}</span>
-                                                <span><span className={styles.col} style={{'backgroundColor': el.color[item]}}></span></span>
+                                                <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>
                                             </li>)
                                         })}
                                     </ul>}
@@ -147,7 +147,7 @@ const Device = (props) => {
                                             return (<li key={index}>
                                                 <span>{index === 0 ? 'RGB' : 'HEX'}</span>
                                                 <span>{el.color[item]}</span>
-                                                <span><span className={styles.col} style={{'backgroundColor': el.color[item]}}></span></span>
+                                                <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>
                                             </li>)
                                         })}
                                     </ul>}
