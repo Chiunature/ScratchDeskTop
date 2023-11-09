@@ -72,7 +72,7 @@ const Device = (props) => {
                                             </li>)
                                         })}
                                     </ul>}
-                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>超声波距离{el.ultrasonic}</span><span>mm</span></li></ul>}
+                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>mm</span></li></ul>}
                                     {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                                         {Object.keys(el.color).map((item, index) => {
                                             return (<li key={index}>
@@ -141,7 +141,7 @@ const Device = (props) => {
                                             </li>)
                                         })}
                                     </ul>}
-                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>超声波距离{el.ultrasonic}</span><span>mm</span></li></ul>}
+                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>mm</span></li></ul>}
                                     {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                                         {Object.keys(el.color).map((item, index) => {
                                             return (<li key={index}>

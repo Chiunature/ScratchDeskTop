@@ -11,10 +11,10 @@ import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 
 const list = [
+    [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
     [0x5A, 0x97, 0x98, 0x01, 0xD0, 0x01, 0x5B, 0xA5], //电机
     [0x5A, 0x97, 0x98, 0x01, 0xD6, 0x01, 0x61, 0xA5], //颜色
     [0x5A, 0x97, 0x98, 0x01, 0xD2, 0x01, 0x5D, 0xA5], //超声波
-    [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
     [0x5A, 0x97, 0x98, 0x01, 0xD1, 0x01, 0x5C, 0xA5], //陀螺仪
     [0x5A, 0x97, 0x98, 0x01, 0xD4, 0x01, 0x5F, 0xA5], //内存
     [0x5A, 0x97, 0x98, 0x01, 0xD5, 0x01, 0x60, 0xA5], //电池电压
@@ -44,7 +44,7 @@ class DeviceCards extends React.Component {
         this.timer = setInterval(() => {
             that.index = that.index === list.length - 1 ? 0 : that.index + 1;
             that.watchDevice(that.index);
-        }, 500);
+        }, 100);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {
@@ -77,25 +77,6 @@ class DeviceCards extends React.Component {
         if (!arr || deviceList.length === 0) return;
         switch (this.index) {
             case 0:
-                deviceList[arr[0]].motor = {
-                    speed: arr[1],
-                    aim_speed: arr[2],
-                    direction: arr[3] == 1 ? '正转' : arr[3] == 2 ? '反转' : arr[3] == 3 ? '刹车' : '停止'
-                };
-                deviceList[arr[0]].sensing_device = '电机';
-                break;
-            case 1:
-                deviceList[arr[0]].color = {
-                    rgb: `rgb(${arr[1]}, ${arr[2]}, ${arr[3]})`,
-                    hex: `#${arr[4]}`
-                };
-                deviceList[arr[0]].sensing_device = '颜色识别器';
-                break;
-            case 2:
-                deviceList[arr[0]].ultrasonic = arr[1];
-                deviceList[arr[0]].sensing_device = '超声波';
-                break;
-            case 3:
                 arr.map((item, i) => {
                     if (item == 0) {
                         deviceList[i] = {
@@ -108,15 +89,34 @@ class DeviceCards extends React.Component {
                     }
                 });
                 break;
+            case 1:
+                deviceList[arr[0]].motor = {
+                    speed: arr[1],
+                    aim_speed: arr[2],
+                    direction: arr[3] == 1 ? '正转' : arr[3] == 2 ? '反转' : arr[3] == 3 ? '刹车' : '停止'
+                };
+                deviceList[arr[0]].sensing_device = '电机';
+                break;
+            case 2:
+                deviceList[arr[0]].color = {
+                    rgb: `rgb(${arr[1]}, ${arr[2]}, ${arr[3]})`,
+                    hex: `#${arr[4]}`
+                };
+                deviceList[arr[0]].sensing_device = '颜色识别器';
+                break;
+            case 3:
+                deviceList[arr[0]].ultrasonic = arr[1];
+                deviceList[arr[0]].sensing_device = '超声波';
+                break;
             case 4:
-                this.gyroList = arr.filter((el) => (el !== ''));
+                this.gyroList = arr;
                 break;
             case 5:
                 arr[1] = arr[0] - arr[1];
-                this.flashList = arr.filter((el) => (el !== ''));
+                this.flashList = arr;
                 break;
             case 6:
-                this.adcList = arr.filter((el) => (el !== ''));
+                this.adcList = arr;
                 break;
             case 7:
                 this.voice = arr[0];
@@ -134,8 +134,8 @@ class DeviceCards extends React.Component {
             sendParams: list[index],
             eventName: 'response_watch',
             callback: (event, data) => {
-                const arr = data.split('/');
-                this.distinguishDevice(arr);
+                const newArr = data.split('/').filter((el) => (el !== ''));
+                this.distinguishDevice(newArr);
             }
         })
     }
