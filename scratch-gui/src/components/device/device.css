@@ -104,16 +104,16 @@
     width: 6px;
 }
 
-.mid-part::-webkit-scrollbar,
-.mid-right::-webkit-scrollbar,
-.mid-left::-webkit-scrollbar {
+.mid-part::-webkit-scrollbar-track,
+.mid-right::-webkit-scrollbar-track,
+.mid-left::-webkit-scrollbar-track {
     background-color: #f1f1f1;
 }
 
-.mid-part::-webkit-scrollbar,
-.mid-right::-webkit-scrollbar,
-.mid-left::-webkit-scrollbar {
-    background-color: #c5c5c5;
+.mid-part::-webkit-scrollbar-thumb,
+.mid-right::-webkit-scrollbar-thumb,
+.mid-left::-webkit-scrollbar-thumb {
+    background-color: #CECDCE;
     border-radius: 3px;
 }
 
