@@ -17,7 +17,6 @@ import {
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
     getSerialList,
-    setSourceCompleted,
     setVersion,
 } from "../reducers/connection-modal";
 import { ipc, getVersion } from "../utils/ipcRender.js";
@@ -179,7 +178,11 @@ class ConnectionModal extends React.Component {
     handleUpdate() {
         this.props.compile.sendSerial(SOURCE);
         this.props.onSetSourceCompleted(true);
-        if(!localStorage.getItem('version')) this.props.onSetVersion(getVersion('./gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt'));
+        if(!localStorage.getItem('version')) {
+            const version = getVersion('./resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt');
+            this.props.onSetVersion(version);
+            localStorage.setItem('version', version);
+        }
     }
 
     render() {

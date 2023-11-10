@@ -93,7 +93,8 @@ const SerialportList = (props) => (
                         styles.redButton,
                         styles.connectionButton
                     )}
-                    disabled={(props.getVersion('./gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') == localStorage.getItem('version')) || props.sourceCompleted ? true : false}
+                    disabled
+                    //disabled={(props.getVersion() == localStorage.getItem('version')) || props.sourceCompleted ? true : false}
                     onClick={props.onUpdate}
                 >
                     {props.sourceCompleted ? (

@@ -1,8 +1,8 @@
 {
-    "MUSIC": "./gcc-arm-none-eabi/bin/LB_FWLIB/music",
-    "BOOT": "./gcc-arm-none-eabi/bin/LB_FWLIB/boot",
-    "BIN": "./gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin",
-    "APP": "./gcc-arm-none-eabi/bin/LB_FWLIB/app",
-    "VERSION": "./gcc-arm-none-eabi/bin/LB_FWLIB/version",
-    "CONFIG": "./gcc-arm-none-eabi/bin/LB_FWLIB/config"
+    "MUSIC": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/music",
+    "BOOT": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/boot",
+    "BIN": "./resources/gcc-arm-none-eabi/bin/LB_USER/build/LB_USER.bin",
+    "APP": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/app",
+    "VERSION": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/version",
+    "CONFIG": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/config"
 }

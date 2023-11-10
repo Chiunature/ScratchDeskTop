@@ -160,29 +160,26 @@
     },
     "build": {
         "productName": "EST3.0",
-        "appId": "com.est3.eletest",
-        "copyright": "cd©20230828",
+        "appId": "com.EST3.eletest",
+        "copyright": "cd©20211209",
         "afterSign": "./build/scripts/afterSign.js",
         "directories": {
             "buildResources": "./",
             "output": "pack"
         },
+        "extraResources": [{
+            "from": "gcc-arm-none-eabi",
+            "to": "./gcc-arm-none-eabi"
+        }],
         "files": [
             "build/**/*",
             "node_modules/**/*",
             "static/**/*",
             "src/utils/**/*",
             "src/config/**/*",
-            "gcc-arm-none-eabi/**/*",
             "main.js",
             "preload.js",
             "launch.html"
-        ],
-        "publish": [
-            {
-                "provider": "generic",
-                "url": ""
-            }
         ],
         "nsis": {
             "oneClick": false,
@@ -196,6 +193,12 @@
             "shortcutName": "EST3.0",
             "runAfterFinish": false
         },
+        "publish": [
+            {
+                "provider": "generic",
+                "url": ""
+            }
+        ],
         "win": {
             "icon": "./favicon.ico",
             "target": [

@@ -25,7 +25,7 @@
  */
 import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
-import { SOURCE, SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG } from "../config/json/verifyTypeConfig.json";
+import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
 import { verifyBinType } from "../config/js/verify.js";
 
