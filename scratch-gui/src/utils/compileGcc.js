@@ -137,8 +137,12 @@ class Compile {
                 sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen },
                 eventName: "nextFile",
                 callback: (event, data) => {
-                    if(data.index) this.filesIndex = data.index;
-                    if(data.filesObj) this.filesObj = data.filesObj;
+                    if(typeof data.index === 'number') this.filesIndex = data.index;
+                    if(data.clearFilesObj) {
+                        for (const key in this.filesObj) {
+                            delete this.filesObj[key];
+                        }
+                    }
                     this.readBin(data.fileVerifyType);
                 }
             });

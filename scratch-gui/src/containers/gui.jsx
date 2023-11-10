@@ -33,7 +33,7 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import verifyTypeConfig from "../config/json/verifyTypeConfig.json";
+import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete } from "../reducers/mode.js";
@@ -101,7 +101,7 @@ class GUI extends React.Component {
             if(!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             }else {
-                compile.sendSerial(verifyTypeConfig.BOOTBIN);
+                compile.sendSerial(BOOTBIN);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }

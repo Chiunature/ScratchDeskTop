@@ -82,12 +82,12 @@ function distinguish(filesObj, type, event) {
 //发送完资源文件后
 function processedForSouceFile(obj, next, event) {
     obj.filesIndex++;
-    if (obj.filesIndex < obj.filesLen) {
-        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType });
+    if (obj.filesIndex < obj.filesLen - 1) {
+        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
     } else if(obj.fileVerifyType !== next) {
         obj.filesIndex = 0;
         obj.fileVerifyType = next;
-        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, filesObj: {} });
+        event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
     } else if(!next) {
         event.reply("sourceCompleted", { msg: "uploadSuccess" });
     }
