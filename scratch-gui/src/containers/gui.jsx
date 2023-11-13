@@ -36,7 +36,7 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setIsComplete } from "../reducers/mode.js";
+import { setGen, setIsComplete, setExelist } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
@@ -171,6 +171,7 @@ GUI.propTypes = {
     onSetCompleted: PropTypes.func,
     onSetSourceCompleted: PropTypes.func,
     onShowCompletedAlert: PropTypes.func,
+    onSetExelist: PropTypes.func,
     onVmInit: PropTypes.func,
     projectHost: PropTypes.string,
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -227,6 +228,7 @@ const mapStateToProps = (state) => {
         isComplete: state.scratchGui.mode.isComplete,
         compileList: state.scratchGui.mode.compileList,
         workspace: state.scratchGui.workspaceMetrics.workspace,
+        exeList: state.scratchGui.mode.exeList
     };
 };
 
@@ -253,6 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete)),
     onSetProgress: (progress) => dispatch(setProgress(progress)),
     onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
+    onSetExelist: (exeList) => dispatch(setExelist(exeList))
 });
 
 const ConnectedGUI = injectIntl(

@@ -53,6 +53,7 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ButtonComponent from "../button/button.jsx";
 import Cirle from "../button/cirle.jsx";
 import DeviceCards from "../../containers/deviceCards.jsx";
+import SelectExe from "../button/select-exe.jsx";
 
 const messages = defineMessages({
     addExtension: {
@@ -132,6 +133,7 @@ const GUIComponent = (props) => {
         onTelemetryModalOptOut,
         onSetIsComplete,
         onSetSourceCompleted,
+        onSetExelist,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -149,6 +151,7 @@ const GUIComponent = (props) => {
         handleCompile,
         compile,
         progress,
+        exeList,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -249,6 +252,15 @@ const GUIComponent = (props) => {
                                 vm={vm}
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
+                        ) : null}
+                        {peripheralName ? (
+                            <div className={classNames(styles.selectCon)}>
+                                <div className={classNames(styles.btnBox)}>
+                                    <ButtonComponent>
+                                        <SelectExe exeList={exeList}/>
+                                    </ButtonComponent>
+                                </div>
+                            </div>
                         ) : null}
                         {peripheralName ? (
                             <div className={classNames(styles.btnCon)}>

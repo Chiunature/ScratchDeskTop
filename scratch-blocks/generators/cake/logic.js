@@ -28,7 +28,6 @@ goog.provide('Blockly.cake.logic');
 
 goog.require('Blockly.cake');
 
-
 Blockly.cake['control_if'] = function (block) {
   var argument = Blockly.cake.valueToCode(block, 'CONDITION',
     Blockly.cake.ORDER_NONE) || 'False';

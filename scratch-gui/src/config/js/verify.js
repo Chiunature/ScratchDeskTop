@@ -82,7 +82,7 @@ function distinguish(filesObj, type, event) {
 //发送完资源文件后
 function processedForSouceFile(obj, next, event) {
     obj.filesIndex++;
-    if (obj.filesIndex < obj.filesLen - 1) {
+    if (obj.filesIndex <= obj.filesLen - 1) {
         event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
     } else if(obj.fileVerifyType !== next) {
         obj.filesIndex = 0;
@@ -166,7 +166,7 @@ function verifyBinType(...arg) {
             name = config.fileName;
             break;
         case BOOTBIN:
-            name = readFiles(BOOT + '/registryApp.txt', 'utf8');
+            name = "1_APP.bin";
             data = readFiles(BIN);
             writeFiles(APP + name, data);
             break;

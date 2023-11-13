@@ -15,7 +15,7 @@
     position: fixed;
     top: 48px;
     right: 0;
-    z-index: 30;
+    z-index: 35;
     transition: all .5s ease;
     transform: translateX(450px);
 }

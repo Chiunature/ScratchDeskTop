@@ -159,6 +159,7 @@ ul {
     place-items: center;
     flex-grow: 1;
     flex-shrink: 0;
+    padding: 0 5px;
 }
 
 .mid-ul li span .col {

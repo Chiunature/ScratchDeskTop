@@ -188,7 +188,7 @@ class Blocks extends React.Component {
 
             if(arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g,'') == '}') continue;
 
-            if((i + 1) <= arr.length && arr[i + 1] && arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}') {
+            if((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}vTaskDelay(50);}')) {
                 arr[i] += arr[i + 1]; 
             }
 

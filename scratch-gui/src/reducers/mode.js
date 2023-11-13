@@ -6,7 +6,7 @@ const SET_ISCOMPLETE = 'scratch-gui/mode/SET_ISCOMPLETE';
 const SET_COMPILELIST = 'scratch-gui/mode/SET_COMPILELIST';
 const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
 const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
-
+const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -17,7 +17,8 @@ const initialState = {
     isComplete: false,
     compileList: [],
     bufferList: [],
-    matchMyBlock: []
+    matchMyBlock: [],
+    exeList: ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP']
 };
 
 const reducer = function (state, action) {
@@ -55,6 +56,10 @@ const reducer = function (state, action) {
         case SET_MATCHMYBLOCK:
             return Object.assign({}, state, {
                 matchMyBlock: action.matchMyBlock
+            });
+        case SET_EXELIST:
+            return Object.assign({}, state, {
+                exeList: action.exeList
             });
         default:
             return state;
@@ -109,6 +114,12 @@ const setIsComplete = function (isComplete) {
         isComplete: isComplete
     };
 };
+const setExelist = function (exeList) {
+    return {
+        type: SET_EXELIST,
+        exeList: exeList
+    };
+};
 export {
     reducer as default,
     initialState as modeInitialState,
@@ -119,5 +130,6 @@ export {
     setIsComplete,
     setCompileList,
     setBufferList,
-    setMatchMyBlock
+    setMatchMyBlock,
+    setExelist
 };

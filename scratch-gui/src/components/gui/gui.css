@@ -408,3 +408,11 @@ $fade-out-distance: 15px;
     font-size: 14px;
     transition: 3s ease-in-out;
 }
+
+.select-con {
+    width: 240px;
+    position: fixed;
+    right: 17%;
+    top: 17%;
+    z-index: 31;
+}

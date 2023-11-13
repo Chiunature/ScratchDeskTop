@@ -194,3 +194,17 @@ Blockly.cake['control_flow_statements'] = function (block) {
   }
   throw 'Unknown flow statement.';
 };
+
+Blockly.cake['control_if'] = function (block) {
+  var argument = Blockly.cake.valueToCode(block, 'CONDITION',
+    Blockly.cake.ORDER_NONE) || 'False';
+  var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
+  branch = Blockly.cake.addLoopTrap(branch, block.id);
+  var code = "if (" + argument + ") {";
+  if (branch) {
+    code += branch;
+  } else {
+    code += Blockly.cake.INDENT + "\n";
+  }
+  return code + '}\n';
+};
