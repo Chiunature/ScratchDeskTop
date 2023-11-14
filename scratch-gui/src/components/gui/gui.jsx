@@ -257,7 +257,7 @@ const GUIComponent = (props) => {
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
                         ) : null}
-                        {peripheralName ? (
+                        {peripheralName && !soundsTabVisible ? (
                             <div className={classNames(styles.selectCon)}>
                                 <div className={classNames(styles.btnBox)}>
                                     <ButtonComponent>
@@ -266,7 +266,7 @@ const GUIComponent = (props) => {
                                 </div>
                             </div>
                         ) : null}
-                        {peripheralName ? (
+                        {peripheralName && !soundsTabVisible ? (
                             <div className={classNames(styles.btnCon)}>
                                 <div className={classNames(styles.btnBox)}>
                                     <ButtonComponent
