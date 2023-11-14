@@ -33,7 +33,8 @@ const SelectExe = (props) => {
                 return item;
             });
             props.onSetExelist(newList);
-        }, 100);
+            localStorage.setItem('exeList', JSON.stringify(newList));
+        }, 300);
         setTimer(timer);
     }
 

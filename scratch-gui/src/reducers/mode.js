@@ -8,6 +8,9 @@ const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
 const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
 const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
+
+const exeList = localStorage.getItem('exeList');
+
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -19,9 +22,9 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP'],
+    exeList: exeList ? JSON.parse(exeList) : ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP'],
     selectedExe: {
-        name: '1_APP',
+        name: exeList ? JSON.parse(exeList)[0] : '1_APP',
         index: 0
     }
 };
