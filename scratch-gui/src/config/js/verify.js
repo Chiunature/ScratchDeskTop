@@ -168,7 +168,7 @@ function verifyBinType(...arg) {
         case BOOTBIN:
             name = `${selectedExe.index + 1}_APP.bin`;
             data = readFiles(BIN);
-            writeFiles(APP + name, data);
+            writeFiles(APP + '/' + name, data);
             break;
         default:
             break;
