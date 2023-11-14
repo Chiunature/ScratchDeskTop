@@ -153,7 +153,7 @@ class Compile {
         }
     }
 
-    sendSerial(selectedExe, verifyType) {
+    sendSerial(verifyType, selectedExe) {
         if (verifyType === SOURCE) {
             this.readBin(SOURCE_MUSIC);
         } else {
