@@ -101,7 +101,7 @@ class GUI extends React.Component {
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
-                compile.sendSerial(this.props.selectedExe, BOOTBIN);
+                compile.sendSerial(BOOTBIN, this.props.selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
