@@ -98,6 +98,7 @@ class DeviceCards extends React.Component {
                 deviceList[arr[0]].sensing_device = '电机';
                 break;
             case 2:
+                if(arr.length < 5) return;
                 deviceList[arr[0]].color = {
                     rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
                     hex: `#${arr[4]}`
