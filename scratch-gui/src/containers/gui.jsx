@@ -36,7 +36,7 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setIsComplete, setExelist } from "../reducers/mode.js";
+import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
 import { ipc } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
@@ -52,14 +52,14 @@ class GUI extends React.Component {
                 eventName: "completed",
                 callback: (event, arg) => {
                     this.props.onShowCompletedAlert(arg.msg);
-                    if(arg.result) {
+                    if (arg.result) {
                         this.props.onSetIsComplete(true);
                         setTimeout(() => {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
                             this.props.onSetProgress(0);
                         }, 2000);
-                    }else {
+                    } else {
                         this.props.onSetCompleted(false);
                     }
                 },
@@ -93,15 +93,15 @@ class GUI extends React.Component {
         }
     }
     handleCompile() {
-        if(this.props.compileList.length === 0 || !this.props.workspace) {
+        if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
-        }else if(this.props.workspace) {
+        } else if (this.props.workspace) {
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
-            if(!hasStart) {
+            if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
-            }else {
-                compile.sendSerial(BOOTBIN);
+            } else {
+                compile.sendSerial(this.props.selectedExe, BOOTBIN);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
@@ -144,7 +144,7 @@ class GUI extends React.Component {
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}
-                compile = {compile}
+                compile={compile}
             >
                 {children}
             </GUIComponent>
@@ -172,6 +172,7 @@ GUI.propTypes = {
     onSetSourceCompleted: PropTypes.func,
     onShowCompletedAlert: PropTypes.func,
     onSetExelist: PropTypes.func,
+    onSetSelectedExe: PropTypes.func,
     onVmInit: PropTypes.func,
     projectHost: PropTypes.string,
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -185,9 +186,9 @@ GUI.defaultProps = {
     isScratchDesktop: false,
     onStorageInit: (storageInstance) =>
         storageInstance.addOfficialScratchWebStores(),
-    onProjectLoaded: () => {},
-    onUpdateProjectId: () => {},
-    onVmInit: (/* vm */) => {},
+    onProjectLoaded: () => { },
+    onUpdateProjectId: () => { },
+    onVmInit: (/* vm */) => { },
 };
 
 const mapStateToProps = (state) => {
@@ -217,7 +218,7 @@ const mapStateToProps = (state) => {
         targetIsStage:
             state.scratchGui.targets.stage &&
             state.scratchGui.targets.stage.id ===
-                state.scratchGui.targets.editingTarget,
+            state.scratchGui.targets.editingTarget,
         telemetryModalVisible: state.scratchGui.modals.telemetryModal,
         tipsLibraryVisible: state.scratchGui.modals.tipsLibrary,
         vm: state.scratchGui.vm,
@@ -228,16 +229,17 @@ const mapStateToProps = (state) => {
         isComplete: state.scratchGui.mode.isComplete,
         compileList: state.scratchGui.mode.compileList,
         workspace: state.scratchGui.workspaceMetrics.workspace,
-        exeList: state.scratchGui.mode.exeList
+        exeList: state.scratchGui.mode.exeList,
+        selectedExe: state.scratchGui.mode.selectedExe,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     onExtensionButtonClick: () => {
-        if(extensionLibraryContent.length === 0) {
+        if (extensionLibraryContent.length === 0) {
             showAlertWithTimeout(dispatch, "noExtensions");
             return;
-        }else {
+        } else {
             dispatch(openExtensionLibrary());
         }
     },
@@ -255,7 +257,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete)),
     onSetProgress: (progress) => dispatch(setProgress(progress)),
     onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
-    onSetExelist: (exeList) => dispatch(setExelist(exeList))
+    onSetExelist: (exeList) => dispatch(setExelist(exeList)),
+    onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
 });
 
 const ConnectedGUI = injectIntl(

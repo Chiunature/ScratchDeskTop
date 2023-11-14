@@ -128,9 +128,9 @@ class Compile {
     }
 
     //获取bin文件数据准备通信
-    readBin(verifyType) {
+    readBin(verifyType, selectedExe) {
         try {
-            const { fileData, fileName } = verifyBinType({ verifyType, filesObj: this.filesObj, filesIndex: this.filesIndex, readFiles: this.readFiles.bind(this), writeFiles: this.writeFiles.bind(this) });
+            const { fileData, fileName } = verifyBinType({ verifyType, selectedExe, filesObj: this.filesObj, filesIndex: this.filesIndex, readFiles: this.readFiles.bind(this), writeFiles: this.writeFiles.bind(this) });
 
             ipc({
                 sendName: "writeData",
@@ -153,15 +153,15 @@ class Compile {
         }
     }
 
-    sendSerial(verifyType) {
+    sendSerial(selectedExe, verifyType) {
         if (verifyType === SOURCE) {
             this.readBin(SOURCE_MUSIC);
         } else {
             if (!this.startSend) {
                 this.eventName = 'success' + getCurrentTime();
-                eventEmitter.on(this.eventName, () => this.readBin(verifyType));
+                eventEmitter.on(this.eventName, () => this.readBin(verifyType, selectedExe));
             } else {
-                this.readBin(verifyType);
+                this.readBin(verifyType, selectedExe);
             }
         }
     }

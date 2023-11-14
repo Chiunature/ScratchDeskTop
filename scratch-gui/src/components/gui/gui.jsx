@@ -134,6 +134,7 @@ const GUIComponent = (props) => {
         onSetIsComplete,
         onSetSourceCompleted,
         onSetExelist,
+        onSetSelectedExe,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -149,9 +150,12 @@ const GUIComponent = (props) => {
         sourceCompleted,
         isComplete,
         handleCompile,
+        handleSelectExe,
+        handleInpChange,
         compile,
         progress,
         exeList,
+        selectedExe,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -257,7 +261,7 @@ const GUIComponent = (props) => {
                             <div className={classNames(styles.selectCon)}>
                                 <div className={classNames(styles.btnBox)}>
                                     <ButtonComponent>
-                                        <SelectExe exeList={exeList}/>
+                                        <SelectExe exeList={exeList} selectedExe={selectedExe} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist}/>
                                     </ButtonComponent>
                                 </div>
                             </div>
@@ -542,7 +546,8 @@ GUIComponent.propTypes = {
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
-    progress: PropTypes.number
+    progress: PropTypes.number,
+    selectedExe: PropTypes.object
 };
 GUIComponent.defaultProps = {
     backpackHost: null,
@@ -572,7 +577,8 @@ const mapStateToProps = (state) => ({
     blocksId: state.scratchGui.timeTravel.year.toString(),
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     theme: state.scratchGui.theme.theme,
-    progress: state.scratchGui.connectionModal.progress
+    progress: state.scratchGui.connectionModal.progress,
+    selectedExe: state.scratchGui.mode.selectedExe
 });
 const mapDispatchToProps = (dispatch) => ({});
 // export default injectIntl(connect(

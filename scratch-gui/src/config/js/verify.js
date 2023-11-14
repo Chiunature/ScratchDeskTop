@@ -138,7 +138,7 @@ function readdirForSource(path, filesObj, filesIndex, readFiles) {
 //处理是哪种类型的校验
 function verifyBinType(...arg) {
     let data, name;
-    const { verifyType, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
+    const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
     switch (verifyType) {
         case SOURCE_MUSIC:
             const music = readdirForSource(MUSIC, filesObj, filesIndex, readFiles);
@@ -166,7 +166,7 @@ function verifyBinType(...arg) {
             name = config.fileName;
             break;
         case BOOTBIN:
-            name = "1_APP.bin";
+            name = `${selectedExe.index + 1}_APP.bin`;
             data = readFiles(BIN);
             writeFiles(APP + name, data);
             break;

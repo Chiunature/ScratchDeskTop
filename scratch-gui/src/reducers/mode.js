@@ -7,6 +7,7 @@ const SET_COMPILELIST = 'scratch-gui/mode/SET_COMPILELIST';
 const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
 const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
 const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
+const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 const initialState = {
     showBranding: false,
     isFullScreen: false,
@@ -18,7 +19,11 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP']
+    exeList: ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP'],
+    selectedExe: {
+        name: '1_APP',
+        index: 0
+    }
 };
 
 const reducer = function (state, action) {
@@ -60,6 +65,10 @@ const reducer = function (state, action) {
         case SET_EXELIST:
             return Object.assign({}, state, {
                 exeList: action.exeList
+            });
+        case SET_SELECTEDEXE:
+            return Object.assign({}, state, {
+                selectedExe: action.selectedExe
             });
         default:
             return state;
@@ -120,6 +129,12 @@ const setExelist = function (exeList) {
         exeList: exeList
     };
 };
+const setSelectedExe = function (selectedExe) {
+    return {
+        type: SET_SELECTEDEXE,
+        selectedExe: selectedExe
+    };
+};
 export {
     reducer as default,
     initialState as modeInitialState,
@@ -131,5 +146,6 @@ export {
     setCompileList,
     setBufferList,
     setMatchMyBlock,
-    setExelist
+    setExelist,
+    setSelectedExe
 };

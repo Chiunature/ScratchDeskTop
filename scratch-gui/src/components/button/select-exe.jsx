@@ -1,31 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './button.css';
 import Draggable from 'react-draggable';
+import classNames from "classnames";
 
 const SelectExe = (props) => {
     let [dragging, setDragging] = useState(false);
+    let [timer, setTimer] = useState(null);
+    let inp = useRef();
     
     const onStartDrag = () => {
         setDragging(false);
     }
     const onEndDrag = () => {
-        console.log(dragging);
-        if(!dragging) setDragging(true);
-        else return;
+        setDragging(true);
+    }
+
+    const handleSelectExe = (item, index) => {
+        inp.current.value = item;
+        props.onSetSelectedExe({ name: item, index });
+    }
+
+    const handleInpChange = () => {
+        if(inp.current.value.length <= 0) return;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            const { index } = props.selectedExe;
+            props.onSetSelectedExe({ name: inp.current.value, index });
+            const newList = props.exeList.map((item, i) => {
+                if(i === index) {
+                    item = inp.current.value;
+                }
+                return item;
+            });
+            props.onSetExelist(newList);
+        }, 100);
+        setTimer(timer);
     }
 
     return (
         <Draggable
             disabled={dragging}
-            onMouseDown={onStartDrag}
+            cancel=".input-wrapper"
         >
             <div className={styles.dropdown}>
-                <input type="text" className={styles.dropdownSelect} onClick={onEndDrag} onBlur={onStartDrag}/>
-                <ul className={styles.dropdownOption}>
-                    {props.exeList.map((item, index) => {
-                        return(<li key={index}>{item}</li>)
-                    })}
-                </ul>
+                <div className={styles.inpBox}>
+                    <input type="text" className={classNames(styles.dropdownSelect, 'input-wrapper')} ref={inp} onChange={handleInpChange} onBlur={onStartDrag} onClick={onEndDrag} defaultValue={props.selectedExe.name}/>
+                    <ul className={styles.dropdownOption}>
+                        {props.exeList.map((item, index) => {
+                            return(<li key={index} onClick={() => handleSelectExe(item, index)}><span>{item}</span></li>)
+                        })}
+                    </ul>
+                </div>
             </div>
         </Draggable>
     )

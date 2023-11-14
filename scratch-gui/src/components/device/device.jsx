@@ -146,8 +146,8 @@ const Device = (props) => {
                                         {Object.keys(el.color).map((item, index) => {
                                             return (<li key={index}>
                                                 <span>{index === 0 ? 'RGB' : 'HEX'}</span>
-                                                <span>{el.color[item]}</span>
-                                                <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>
+                                                {el.color[item] && <span>{el.color[item]}</span>}
+                                                {el.color[item] && <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>}
                                             </li>)
                                         })}
                                     </ul>}
