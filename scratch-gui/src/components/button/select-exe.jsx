@@ -42,14 +42,14 @@ const SelectExe = (props) => {
         <Draggable
             disabled={dragging}
             cancel=".input-wrapper"
-            bounds={{right: 300, left: -(window.innerWidth - 950), top: -100, bottom: window.innerHeight - 250}}
+            bounds={{right: 300, left: -1000, top: -100, bottom: 750}}
         >
             <div className={styles.dropdown}>
                 <div className={styles.inpBox}>
                     <input type="text" className={classNames(styles.dropdownSelect, 'input-wrapper')} ref={inp} onChange={handleInpChange} onBlur={onStartDrag} onClick={onEndDrag} defaultValue={props.selectedExe.name}/>
                     <ul className={styles.dropdownOption}>
                         {props.exeList.map((item, index) => {
-                            return(<li key={index} onClick={() => handleSelectExe(item, index)}><span>{item}</span></li>)
+                            return(<li key={index} onClick={() => handleSelectExe(item, index)}>{item}</li>)
                         })}
                     </ul>
                 </div>

@@ -104,7 +104,7 @@
 }
 
 .dropdown-select {
-    width: 180px;
+    width: 150px;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -126,7 +126,7 @@
     position: absolute;
     color: #606266;
     top: 37px;
-    width: 180px;
+    width: 150px;
     z-index: 30;
     overflow: hidden;
     transition: all .3s;
@@ -139,13 +139,8 @@
     height: 100%;
     border-bottom: 1px solid #dcdcdc;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-.dropdown-option li span{
-    display: inline-block;
+    display: grid;
+    place-items: center;
     flex-grow: 1;
 }
 
