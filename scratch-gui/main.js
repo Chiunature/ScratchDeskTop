@@ -73,15 +73,7 @@ function updater() {
 }
 
 
-function progress() {
-    let c = 0;
-    progressInterval = setInterval(() => {
-        c++;
-        loadingWindow.setProgressBar(c);
-        loadingWindow.webContents.send("progress", c);
-        if (c == 100) clearInterval(progressInterval);
-    }, 20);
-}
+
 
 function showLoading() {
     return new Promise((resolve, reject) => {
@@ -94,9 +86,19 @@ function showLoading() {
         });
         loadingWindow.loadFile(path.join(__dirname, "launch.html"));
         loadingWindow.show();
-        progress();
+        _progress();
         resolve();
     });
+
+    function _progress() {
+        let c = 0;
+        progressInterval = setInterval(() => {
+            c++;
+            loadingWindow.setProgressBar(c);
+            loadingWindow.webContents.send("progress", c);
+            if (c == 100) clearInterval(progressInterval);
+        }, 20);
+    }
 };
 
 function createWindow() {
