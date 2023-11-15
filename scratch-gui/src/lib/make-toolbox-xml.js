@@ -186,13 +186,13 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_color_detectionRGB"></block>
             <block type="sensing_reflected_light_judgment">
                 <value name="value">
-                    <shadow type="math_number"></shadow>
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
                 </value>
             </block>
             <block type="sensing_reflected_light_detection"></block>
             <block type="sensing_ultrasonic_judgment">
                 <value name="value">
-                    <shadow type="math_number"></shadow>
+                    <shadow type="math_number"><field name="NUM">10</field></shadow>
                 </value>
             </block>
             <block type="sensing_ultrasonic_detection"></block>
@@ -452,12 +452,12 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="motor_stop"></block>
         <block type="motor_speed">
             <value name="SPEED">
-                <shadow type="math_0to100_number"></shadow>
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="motor_specifiedunit">
             <value name="COUNT">
-                <shadow type="math_number"></shadow>
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
         </block>
         <block type="motor_specified_manner"></block>
@@ -515,21 +515,21 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="combined_motor_direction"></block>
         <block type="combined_motor_speed">
             <value name="SPEED">
-                <shadow type="math_-100to100_number"></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="combined_motor_line">
             <value name="distance">
-                <shadow type="math_number"></shadow>
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
         </block>
         <block type="combined_motor_stop"></block>
         <block type="combined_motor_movestep">
             <value name="left">
-                <shadow type="math_-100to100_number"></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
             <value name="right">
-                <shadow type="math_-100to100_number"></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="combined_motor_angle">
@@ -572,7 +572,7 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
         <block type="matrix_lamp_stop"></block>
         <block type="matrix_lamp_set">
             <value name="brightness">
-                <shadow type="math_0to100_number"></shadow>
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="matrix_lamp_text"></block>

@@ -62,7 +62,7 @@ Blockly.cake['operator_compare'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND1', order);
     var arg1 = Blockly.cake.valueToCode(block, 'OPERAND2', order);
 
-    if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) { // Arg is a number
+    /* if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) { // Arg is a number
         arg0 = parseFloat(arg0.slice(1, -1)).toString();
     } else if (arg0 === "''") { // Arg is a empty string
         arg0 = '0';
@@ -71,7 +71,7 @@ Blockly.cake['operator_compare'] = function (block) {
         arg1 = parseFloat(arg1.slice(1, -1)).toString();
     } else if (arg1 === "''") {
         arg1 = '0';
-    }
+    } */
 
     var op = oplist[block.type];
     var code = arg0 + op + arg1;
