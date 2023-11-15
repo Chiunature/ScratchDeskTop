@@ -42,6 +42,7 @@ const SelectExe = (props) => {
         <Draggable
             disabled={dragging}
             cancel=".input-wrapper"
+            bounds={{right: 300, left: -(window.innerWidth - 950), top: -100, bottom: window.innerHeight - 250}}
         >
             <div className={styles.dropdown}>
                 <div className={styles.inpBox}>
