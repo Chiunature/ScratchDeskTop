@@ -144,8 +144,8 @@ function createWindow() {
             mainWindow.show();
             clearInterval(progressInterval);
             updater();
-            // 检测电脑 PC 端是否安装了某个驱动
-            exec('driverquery | findstr "USB Serial (CDC)"', (error, stdout, stderr) => {
+            // 检测电脑是否安装了某个驱动
+            exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
                 if(storage.getItem('driver')) return;
                 let index = dialog.showMessageBoxSync({
                     type: "info",
@@ -156,7 +156,7 @@ function createWindow() {
                 if (index === 0) {
                     return;
                 } else {
-                    exec("zadig.exe");
+                    exec(`cd ${path.join(__dirname, "resources")} && zadig.exe`);
                     mainWindow.webContents.send('installDriver');
                     storage.setItem('driver', true);
                 }
