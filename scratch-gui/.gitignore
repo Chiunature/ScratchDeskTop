@@ -11,7 +11,7 @@ npm-*
 # Testing
 /.nyc_output
 /coverage
-
+/zadig.exe
 # Build
 /build
 /dist

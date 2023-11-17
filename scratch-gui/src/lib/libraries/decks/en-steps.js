@@ -199,6 +199,11 @@ import talesChooseSound from './steps/talking-11-choose-sound.en.gif';
 import talesDanceMoves from './steps/talking-12-dance-moves.en.png';
 import talesAskAnswer from './steps/talking-13-ask-and-answer.en.png';
 
+//install driver
+import listAllDevices from './steps/list-all-devices.png';
+import selectParameters from './steps/select-parameters.png';
+import clickInstall from './steps/click-install.png';
+
 const enImages = {
     // Intro
     introMove: introMove,
@@ -399,7 +404,12 @@ const enImages = {
     talesAnimateTalking: talesAnimateTalking,
     talesChooseThirdBackdrop: talesChooseThirdBackdrop,
     talesChooseSound: talesChooseSound,
-    talesDanceMoves: talesDanceMoves
+    talesDanceMoves: talesDanceMoves,
+
+    //install drivers
+    listAllDevices: listAllDevices,
+    selectParameters: selectParameters,
+    clickInstall: clickInstall
 };
 
 export {enImages};

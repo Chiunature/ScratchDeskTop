@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import list_all_devices from './steps/list-all-devices.png';
 // Tutorial thumbnails: Avoid using any text that would need to be
 // translated in thumbnails.
 // Intro
@@ -2032,5 +2033,52 @@ export default {
         }],
         urlId: 'whatsnew',
         hidden: true
-    }
+    },
+
+    'install-drivers': {
+        name: (
+            <FormattedMessage
+                defaultMessage="Install Drivers"
+                description="Name for the 'Install Drivers' how-to"
+                id="gui.howtos.install-drivers"
+            />
+        ),
+        tags: ['help', 'stuck', 'how', 'can', 'say'],
+        img: list_all_devices,
+        hidden: true,
+        steps: [{
+            title: (
+                <FormattedMessage
+                    defaultMessage="Select list all devices"
+                    description="Select list all devices"
+                    id="gui.howtos.install-drivers.list_all_devices"
+                />
+            ),
+            image: 'listAllDevices'
+        }, {
+            title: (
+                <FormattedMessage
+                    defaultMessage="Select parameters"
+                    description="Select parameters"
+                    id="gui.howtos.install-drivers.select_parameters"
+                />
+            ),
+            image: 'selectParameters'
+        }, {
+            title: (
+                <FormattedMessage
+                    defaultMessage="Click to install drivers"
+                    description="Click to install drivers"
+                    id="gui.howtos.install-drivers.click_install"
+                />
+            ),
+            image: 'clickInstall'
+        }, {
+            deckIds: [
+                'install-drivers',
+            ]
+        }
+        ],
+        urlId: 'installDrivers'
+    },
 };

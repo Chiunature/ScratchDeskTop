@@ -25,13 +25,16 @@
 
 const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = require("electron");
 const { autoUpdater } = require('electron-updater');
+const storage = require('electron-localstorage');
 const path = require("path");
 const url = require("url");
 const Serialport = require(path.join(__dirname, "src/utils/serialport.js"));
+const { exec } = require('child_process');
 
 let mainWindow, loadingWindow, progressInterval, isUpdate;
 const server = 'http://127.0.0.1:2060';
 const updateUrl = `${server}/update/${process.platform}/`;
+storage.setStoragePath(path.join(__dirname, 'db.json'));
 
 const options = {
     nativeWindowOpen: true,
@@ -71,7 +74,6 @@ function updater() {
         console.error(message)
     });
 }
-
 
 
 
@@ -142,6 +144,23 @@ function createWindow() {
             mainWindow.show();
             clearInterval(progressInterval);
             updater();
+            // 检测电脑 PC 端是否安装了某个驱动
+            exec('driverquery | findstr "USB Serial (CDC)"', (error, stdout, stderr) => {
+                if(storage.getItem('driver')) return;
+                let index = dialog.showMessageBoxSync({
+                    type: "info",
+                    title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",
+                    message: "检查到你的电脑未安装必要驱动，是否前去安装",
+                    buttons: ["取消(cancel)", "确定(confirm)"],
+                });
+                if (index === 0) {
+                    return;
+                } else {
+                    exec("zadig.exe");
+                    mainWindow.webContents.send('installDriver');
+                    storage.setItem('driver', true);
+                }
+            });
         });
 
         // 关闭window时触发下列事件.
@@ -154,7 +173,7 @@ function createWindow() {
                 buttons: ["取消(cancel)", "确定(confirm)"],
             });
             if (index === 0) {
-                e.preventDefault(); //阻止默认行为
+                e.preventDefault();
             } else {
                 mainWindow = null;
                 app.exit(); //exit()直接关闭客户端，不会执行quit();

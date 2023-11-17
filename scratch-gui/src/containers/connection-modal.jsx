@@ -34,7 +34,6 @@ class ConnectionModal extends React.Component {
             "handleDisconnect",
             "handleError",
             "handleHelp",
-            "handleSelectport",
             "handleUpdate"
         ]);
         this.state = {
@@ -160,7 +159,7 @@ class ConnectionModal extends React.Component {
     }
 
     handleHelp() {
-        window.open(this.state.extension.helpLink, "_blank");
+        // window.open(this.state.extension.helpLink, "_blank");
         analytics.event({
             category: "extensions",
             action: "help",
@@ -168,12 +167,12 @@ class ConnectionModal extends React.Component {
         });
     }
 
-    handleSelectport(port, index) {
+    /* handleSelectport(port, index) {
         this.props.onSetPort(port);
         this.props.onChangeSerialList([...this.props.serialList], index);
         this.props.onSetCompleted(false);
         this.handleConnected();
-    }
+    } */
 
     handleUpdate() {
         this.props.compile.sendSerial(SOURCE);
@@ -222,7 +221,7 @@ class ConnectionModal extends React.Component {
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}
                 onScanning={this.handleScanning}
-                onSelectport={this.handleSelectport}
+                // onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
                 sourceCompleted={this.props.sourceCompleted}
                 getVersion={getVersion}

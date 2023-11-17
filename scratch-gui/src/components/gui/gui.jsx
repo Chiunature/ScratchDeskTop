@@ -135,6 +135,7 @@ const GUIComponent = (props) => {
         onSetSourceCompleted,
         onSetExelist,
         onSetSelectedExe,
+        onActivateDeck,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -236,7 +237,7 @@ const GUIComponent = (props) => {
                         {isRendererSupported ? null : (
                             <WebGlModal isRtl={isRtl} />
                         )}
-                        {tipsLibraryVisible ? <TipsLibrary /> : null}
+                        {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck}/> : null}
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible ? <DeviceCards /> : null}
                         {alertsVisible ? (

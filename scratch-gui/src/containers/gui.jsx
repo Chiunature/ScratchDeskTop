@@ -41,6 +41,7 @@ import { ipc } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
+import { activateDeck } from "../reducers/cards.js";
 class GUI extends React.Component {
     componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
@@ -75,6 +76,12 @@ class GUI extends React.Component {
                 callback: (event, arg) => {
                     this.props.onSetSourceCompleted(false);
                     this.props.onShowCompletedAlert(arg.msg);
+                },
+            });
+            ipc({
+                eventName: "installDriver",
+                callback: () => {
+                    this.props.onActivateDeck("install-drivers");
                 },
             });
         }
@@ -180,6 +187,7 @@ GUI.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
+    onActivateDeck: PropTypes.func,
 };
 
 GUI.defaultProps = {
@@ -259,6 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
+    onActivateDeck: id => dispatch(activateDeck(id)),
 });
 
 const ConnectedGUI = injectIntl(

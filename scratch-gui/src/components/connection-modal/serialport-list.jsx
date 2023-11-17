@@ -22,7 +22,6 @@ const SerialportList = (props) => (
                             <div
                                 className={styles.scratchLinkHelpStep}
                                 key={port.pnpId}
-                                onClick={() => props.onSelectport(port, index)}
                             >
                                 {/* <div className={styles.helpStepNumber}>
                                     {index + 1}

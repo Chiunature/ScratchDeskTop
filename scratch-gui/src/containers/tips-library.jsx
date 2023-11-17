@@ -17,9 +17,6 @@ import {
     closeTipsLibrary
 } from '../reducers/modals';
 
-import {
-    activateDeck
-} from '../reducers/cards';
 
 const messages = defineMessages({
     tipsLibraryTitle: {
@@ -113,7 +110,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onActivateDeck: id => dispatch(activateDeck(id)),
     onRequestClose: () => dispatch(closeTipsLibrary())
 });
 
