@@ -78,10 +78,14 @@ class GUI extends React.Component {
                     this.props.onShowCompletedAlert(arg.msg);
                 },
             });
+            const driver = localStorage.getItem('driver');
             ipc({
+                sendName: "checkDriver",
+                sendParams: driver,
                 eventName: "installDriver",
-                callback: () => {
-                    this.props.onActivateDeck("install-drivers");
+                callback: (event, arg) => {
+                    if(arg) this.props.onActivateDeck("install-drivers");
+                    localStorage.setItem('driver', arg);
                 },
             });
         }

@@ -40,7 +40,6 @@
         "copy-webpack-plugin": "6.4.1",
         "core-js": "2.5.7",
         "css-loader": "^1.0.0",
-        "electron-localstorage": "^1.0.5",
         "electron-updater": "^6.1.4",
         "es6-object-assign": "1.1.0",
         "file-loader": "2.0.0",
@@ -186,8 +185,7 @@
             "src/config/**/*",
             "main.js",
             "preload.js",
-            "launch.html",
-            "db.json"
+            "launch.html"
         ],
         "nsis": {
             "oneClick": false,
