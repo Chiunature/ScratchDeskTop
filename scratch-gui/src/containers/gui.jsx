@@ -37,7 +37,7 @@ import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipc } from "../utils/ipcRender.js";
+import { ipc, delEvents } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -103,6 +103,13 @@ class GUI extends React.Component {
             this.props.onProjectLoaded();
         }
     }
+    componentWillUnmount() {
+        const eventList = window.electron.ipcRenderer.eventNames();
+        eventList.map(item => {
+            delEvents(item);
+        });
+    }
+    
     handleCompile() {
         if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");

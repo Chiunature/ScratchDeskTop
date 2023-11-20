@@ -176,11 +176,19 @@ function createWindow() {
                 e.preventDefault();
             } else {
                 mainWindow = null;
-                app.exit(); //exit()直接关闭客户端，不会执行quit();
+                const eventList = ipcMain.eventNames();
+                eventList.map(item => {
+                    _delEvents(item);
+                });
+                app.exit();
             }
         });
         resolve();
     });
+    //退出客户端去掉事件监听
+    function _delEvents(eventName) {
+        ipcMain.removeAllListeners([eventName]);
+    }
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
