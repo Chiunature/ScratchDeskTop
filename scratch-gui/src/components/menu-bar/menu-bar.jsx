@@ -380,7 +380,7 @@ class MenuBar extends React.Component {
                     if (arg.length === 0) return;
                     if (this.props.serialList.length >= arg.length) return;
                     let newarr = arg.reduce((pre, cur) => {
-                        if (cur.friendlyName.search("LBS Serial") != -1) {
+                        if (cur.friendlyName && cur.friendlyName.search("LBS Serial") != -1) {
                             pre.push(cur);
                         }
                         return pre;

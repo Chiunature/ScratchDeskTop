@@ -186,7 +186,8 @@
             "src/config/**/*",
             "main.js",
             "preload.js",
-            "launch.html"
+            "launch.html",
+            "db.json"
         ],
         "nsis": {
             "oneClick": false,

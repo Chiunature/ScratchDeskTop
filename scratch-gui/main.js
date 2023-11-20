@@ -156,7 +156,7 @@ function createWindow() {
                 if (index === 0) {
                     return;
                 } else {
-                    exec(`cd ${path.join(__dirname, "resources")} && zadig.exe`);
+                    exec(`cd ./resources && zadig.exe`);
                     mainWindow.webContents.send('installDriver');
                     storage.setItem('driver', true);
                 }
