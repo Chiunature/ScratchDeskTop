@@ -153,6 +153,7 @@ class Blocks extends React.Component {
             this.props.setWorkspace(this.workspace);
             if(type === 'move' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
+                this.disableCombinedMotor('combined_motor_starting');
                 this.checkStartHat(this.workspace, this.props.code);
             }else {
                 return false;
@@ -162,11 +163,38 @@ class Blocks extends React.Component {
         }
     }
     
+    disableCombinedMotor(type) {
+        let current, list = this.workspace.getAllBlocks();
+        list.map((el, index) => {
+            if(el.type === type) {
+                current = index;
+            }
+        });
+        list.map((el, index) => {
+            if((el.category_ === 'combined_motor' || (!el.category_ && el.parentBlock_.category_ === 'combined_motor')) && index < current) {
+                const list = el.svgGroup_.children;
+                for (let i = 0; i < list.length - 1; i++) {
+                    list[i].setAttribute('style', 'opacity: .5;');
+                }
+                el.svgPath_.setAttribute('style', 'opacity: .5;');
+                el.setEditable(false);
+                el.setDisabled(true);
+            }else {
+                const list = el.svgGroup_.children;
+                for (let i = 0; i < list.length; i++) {
+                    list[i].removeAttribute('style', 'opacity: .5;');
+                }
+                el.svgPath_.removeAttribute('style', 'opacity: .5;');
+                el.setEditable(true);
+                el.setDisabled(false);
+            }
+        });
+    }
+
     //检查是不是开始事件头
     checkStartHat(workspace, code) {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
-
         if(!hasStart) return;
 
         const match = code.match(regex);
