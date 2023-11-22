@@ -157,7 +157,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     `;
 };
 {/*
-    <block type="sensing_key_judgment"></block> 
+   
     <block type="sensing_line_inspection_judgment"></block>
     <block type="sensing_magnetic_calibration"></block>
     <block type="sensing_magnetism"></block>
@@ -198,6 +198,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_ultrasonic_detection"></block>
             <block type="sensing_sound_intensity"></block>
             <block type="sensing_key_press"></block>
+            <block type="sensing_key_judgment"></block> 
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
             ${blockSeparator}

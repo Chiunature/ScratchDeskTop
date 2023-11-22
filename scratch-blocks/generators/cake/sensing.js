@@ -89,9 +89,8 @@ Blockly.cake['sensing_sound_intensity'] = function (block) {
 
 Blockly.cake['sensing_key_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
-    let dropdown_status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_key_judgment("${dropdown_port}1", "${dropdown_status}")`;
+    let code = `DetectingTouch("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
