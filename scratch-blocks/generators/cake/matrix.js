@@ -45,7 +45,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     let lp = Blockly.cake.stringToHex(lamp);
     let cr = color.replace(/\#/g, '0x');
     // TODO: Assemble cake into code variable.
-    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP, ${cr.replace(/\'/g, '')});\n`;
+    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${cr.replace(/\'/g, '')});\n`;
     return code;
 };
 
