@@ -41,7 +41,7 @@ import { ipc, delEvents } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
-import { activateDeck } from "../reducers/cards.js";
+import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
 class GUI extends React.Component {
     componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
@@ -122,6 +122,7 @@ class GUI extends React.Component {
                 compile.sendSerial(BOOTBIN, this.props.selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
+                this.props.onViewDeviceCards(true);
             }
         }
     }
@@ -199,6 +200,7 @@ GUI.propTypes = {
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
     onActivateDeck: PropTypes.func,
+    onViewDeviceCards:  PropTypes.func
 };
 
 GUI.defaultProps = {
@@ -279,6 +281,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: id => dispatch(activateDeck(id)),
+    onViewDeviceCards: (deviceVisible) => dispatch(viewDeviceCards(deviceVisible))
 });
 
 const ConnectedGUI = injectIntl(

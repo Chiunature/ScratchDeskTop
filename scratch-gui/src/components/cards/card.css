@@ -314,3 +314,53 @@
 .hidden {
     display: none;
 }
+
+
+.tab-list {
+    height: $stage-menu-height;
+    width: 250px;
+    /* Match width of the toolbox */
+    display: flex;
+    align-items: flex-end;
+    flex-shrink: 0;
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+
+    /* Overrides for react-tabs styling */
+    margin: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.tab {
+    flex-grow: 1;
+    height: 80%;
+    margin-bottom: 0;
+
+    border: 1px solid $ui-black-transparent;
+
+    padding: 0.125rem 1.25rem 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: white;
+    color: $text-primary-transparent;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    user-select: none;
+    white-space: nowrap;
+}
+
+.tab:nth-child(1) {
+    border-right: none;
+}
+
+.is-selected {
+    color: hsla(163, 85%, 40%, 1);
+    border-radius: unset;
+    background-color: rgb(238, 238, 238);
+    z-index: 4;
+}

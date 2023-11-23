@@ -53,7 +53,6 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import ButtonComponent from "../button/button.jsx";
 import Cirle from "../button/cirle.jsx";
 import DeviceCards from "../../containers/deviceCards.jsx";
-import SelectExe from "../button/select-exe.jsx";
 
 const messages = defineMessages({
     addExtension: {
@@ -135,6 +134,7 @@ const GUIComponent = (props) => {
         onSetSourceCompleted,
         onSetExelist,
         onSetSelectedExe,
+        onViewDeviceCards,
         onActivateDeck,
         showComingSoon,
         soundsTabVisible,
@@ -239,12 +239,12 @@ const GUIComponent = (props) => {
                         )}
                         {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck}/> : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible ? <DeviceCards /> : null}
+                        {deviceVisible ? <DeviceCards handleCompile={handleCompile} completed={completed} exeList={exeList} selectedExe={selectedExe} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist}/> : null}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal vm={vm} compile={compile}     onSetSourceCompleted={onSetSourceCompleted} />
+                            <ConnectionModal vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
@@ -257,15 +257,6 @@ const GUIComponent = (props) => {
                                 vm={vm}
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
-                        ) : null}
-                        {peripheralName && !soundsTabVisible ? (
-                            <div className={classNames(styles.selectCon)}>
-                                <div className={classNames(styles.btnBox)}>
-                                    <ButtonComponent>
-                                        <SelectExe exeList={exeList} selectedExe={selectedExe} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist}/>
-                                    </ButtonComponent>
-                                </div>
-                            </div>
                         ) : null}
                         {peripheralName && !soundsTabVisible ? (
                             <div className={classNames(styles.btnCon)}>

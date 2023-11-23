@@ -172,3 +172,76 @@ ul {
 .mid-ul li span:nth-child(2) {
     border-right: 1px solid #e4e7ed;
 }
+
+.sel-exe {
+    width: 100%;
+    height: 100%;
+    list-style-type: none;
+}
+
+.sel-exe li {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 5px 0;
+    width: 100%;
+    height: 40px;
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid #dcdfe6;
+    cursor: pointer;
+}
+
+.sel-exe li div {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.sel-exe li div:first-child>input {
+    margin-right: 1rem;
+}
+
+.sel-exe li:last-child {
+    border-bottom: unset;
+}
+
+.sel-exe .moving{
+    background: transparent;
+    color: transparent;
+    border: 1px dashed #ccc;
+}  
+
+.sel-exe .img {
+    width: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    cursor: pointer;
+}
+
+.sel-exe .img img {
+    margin: 5px;
+}
+
+.sel-exe .img:last-child {
+    cursor: unset;
+}
+
+.sel-exe .edit {
+    width: 200px;
+}
+
+.sel-exe .edit input {
+    height: 28px;
+    padding: 1em;
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+.sel-exe .edit .check {
+    border-color: #1677ff;
+    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    outline: 0;
+}
+
+.ban{
+    cursor: not-allowed !important;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 import styles from './device.css';
+
 const Device = (props) => {
     const { deviceList, gyroList, flashList, adcList, voice } = props;
     const rightList = deviceList.slice(0, 4).reverse();

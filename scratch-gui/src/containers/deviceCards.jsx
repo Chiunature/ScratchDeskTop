@@ -31,7 +31,8 @@ class DeviceCards extends React.Component {
         this.adcList = [];
         this.voice = null;
         this.state = {
-            deviceList: []
+            deviceList: [],
+            stopWatch: true
         }
     }
 
@@ -42,6 +43,7 @@ class DeviceCards extends React.Component {
         this.initDeviceList();
         const that = this;
         this.timer = setInterval(() => {
+            if(this.state.stopWatch || this.props.completed) return;
             that.index = that.index === list.length - 1 ? 0 : that.index + 1;
             that.watchDevice(that.index);
         }, 100);
@@ -54,6 +56,12 @@ class DeviceCards extends React.Component {
     componentWillUnmount() {
         clearInterval(this.timer);
         delEvents("response_watch");
+    }
+    //控制暂停监听
+    handleStopWatch(stopWatch) {
+        this.setState({
+            stopWatch: stopWatch
+        });
     }
     //初始化设备
     initDeviceList() {
@@ -132,7 +140,7 @@ class DeviceCards extends React.Component {
     watchDevice(index) {
         ipc({
             sendName: 'watchDevice',
-            sendParams: list[index],
+            sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
             eventName: 'response_watch',
             callback: (event, data) => {
                 const newArr = data.split('/').filter((el) => (el !== ''));
@@ -143,7 +151,7 @@ class DeviceCards extends React.Component {
 
     render() {
         return (
-            <CardsComponent {...this.props} voice={this.voice} deviceList={this.state.deviceList} gyroList={this.gyroList} flashList={this.flashList} adcList={this.adcList} />
+            <CardsComponent handleStopWatch={this.handleStopWatch.bind(this)}  {...this.props} voice={this.voice} deviceList={this.state.deviceList} gyroList={this.gyroList} flashList={this.flashList} adcList={this.adcList} />
         );
     }
 }

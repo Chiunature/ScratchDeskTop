@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
@@ -11,9 +11,24 @@ import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
 import closeIcon from './icon--close.svg';
 import Device from '../device/device.jsx';
+import tabStyles from "react-tabs/style/react-tabs.css";
+import SelectExe from '../device/selectExe.jsx';
 
+const tabClassNames = {
+    tabs: styles.tabs,
+    tabList: classNames(tabStyles.reactTabsTabList, styles.tabList),
+    tabPanel: classNames(tabStyles.reactTabsTabPanel, styles.tabPanel),
+    tabPanelSelected: classNames(
+        tabStyles.reactTabsTabPanelSelected,
+        styles.isSelected
+    ),
+    tabSelected: classNames(
+        tabStyles.reactTabsTabSelected,
+        styles.isSelected
+    ),
+};
 
-const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
+const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, handleSelect }) => (
     <div className={expanded ? styles.headerButtons : classNames(styles.headerButtons, styles.headerButtonsHidden)}>
         <div
             className={styles.deviceButton}
@@ -24,6 +39,12 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
                 description="View device information"
                 id="gui.menuBar.Device"
             />
+        </div>
+        <div className={tabClassNames.tabs}>
+            <ul className={tabClassNames.tabList}>
+                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}><div>程序选择</div></li>
+                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}><div>端口数据</div></li>
+            </ul>
         </div>
         <div className={styles.headerButtonsRight}>
             <div
@@ -70,14 +91,18 @@ const DeviceCards = props => {
         isRtl,
         onSetDeviceCards,
         deviceCards,
+        exeList,
+        onSetSelectedExe,
+        onSetExelist,
+        handleStopWatch,
     } = props;
     let { x, y, expanded } = deviceCards;
-    
-    const onCloseCards = () => onSetDeviceCards({...deviceCards, deviceVisible: false});
-    const onShrinkExpandCards = () => onSetDeviceCards({...deviceCards, expanded: !expanded});
-    const onDrag = (e_, data) => onSetDeviceCards({...deviceCards, x: data.x, y:data.y });
-    const onStartDrag = () => onSetDeviceCards({...deviceCards, dragging: true});
-    const onEndDrag = () => onSetDeviceCards({...deviceCards, dragging: false});
+
+    const onCloseCards = () => onSetDeviceCards({ ...deviceCards, deviceVisible: false });
+    const onShrinkExpandCards = () => onSetDeviceCards({ ...deviceCards, expanded: !expanded });
+    const onDrag = (e_, data) => onSetDeviceCards({ ...deviceCards, x: data.x, y: data.y });
+    const onStartDrag = () => onSetDeviceCards({ ...deviceCards, dragging: true });
+    const onEndDrag = () => onSetDeviceCards({ ...deviceCards, dragging: false });
     // Tutorial cards need to calculate their own dragging bounds
     // to allow for dragging the cards off the left, right and bottom
     // edges of the workspace.
@@ -89,14 +114,38 @@ const DeviceCards = props => {
     if (x === 0 && y === 0) {
         // initialize positions
         x = isRtl ? (-190 - wideCardWidth - cardHorizontalDragOffset) : 292;
-        x += cardHorizontalDragOffset + 250;
+        x += cardHorizontalDragOffset;
         // The tallest cards are about 320px high, and the default position is pinned
         // to near the bottom of the blocks palette to allow room to work above.
         const tallCardHeight = 320;
         const bottomMargin = 60; // To avoid overlapping the backpack region
-        y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 300;
+        y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 310;
     }
 
+    const [index, setIndex] = useState(0);
+    const handleSelect = (i) => {
+        setIndex(i);
+        if(i === 0 ) {
+            handleStopWatch(true);
+        }else {
+            handleStopWatch(false);
+        }
+    }
+    const handleSelectExe = (item) => {
+        const index = item.num - 1;
+        const newList = exeList.map((item, i) => {
+            if(i === index) {
+                item.checked = true;
+            }else {
+                item.checked = false;
+            }
+            return item;
+        });
+        onSetExelist(newList);
+        onSetSelectedExe(item);
+        localStorage.setItem('exeList', JSON.stringify(newList));
+        localStorage.setItem('selItem', JSON.stringify(item));
+    }
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
@@ -111,7 +160,7 @@ const DeviceCards = props => {
         >
             <Draggable
                 bounds="parent"
-                cancel="#video-div" // disable dragging on video div
+                cancel=".input-wrapper"
                 position={{ x: x, y: y }}
                 onDrag={onDrag}
                 onStart={onStartDrag}
@@ -120,12 +169,15 @@ const DeviceCards = props => {
                 <div className={styles.cardContainer}>
                     <div className={styles.card}>
                         <DeviecCardHeader
+                            index={index}
                             expanded={expanded}
                             onCloseCards={onCloseCards}
                             onShrinkExpandCards={onShrinkExpandCards}
+                            handleSelect={handleSelect}
                         />
-                        <div className={expanded ? styles.stepBody : styles.hidden}>
-                            <Device {...props}/>
+                        <div className={classNames(expanded ? styles.stepBody : styles.hidden, 'input-wrapper')}>
+                            {index === 1 && <Device {...props}/>}
+                            {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe}/>}
                         </div>
                     </div>
                 </div>

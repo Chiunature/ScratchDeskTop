@@ -94,7 +94,7 @@ const reducer = function (state, action) {
     case VIEW_DEVICE_CARDS: 
         return Object.assign({}, state, {
             deviceCards: {
-                deviceVisible: !state.deviceCards.deviceVisible,
+                deviceVisible: action.deviceVisible ? action.deviceVisible : !state.deviceCards.deviceVisible,
                 x: 0,
                 y: 0,
                 expanded: true
@@ -121,8 +121,8 @@ const viewCards = function () {
     return {type: VIEW_CARDS};
 };
 
-const viewDeviceCards = function () {
-    return {type: VIEW_DEVICE_CARDS};
+const viewDeviceCards = function (deviceVisible) {
+    return {type: VIEW_DEVICE_CARDS, deviceVisible};
 };
 
 const closeCards = function () {

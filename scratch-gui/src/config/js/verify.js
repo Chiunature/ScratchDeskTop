@@ -149,7 +149,7 @@ function verifyBinType(...arg) {
             name = config.fileName;
             break;
         case BOOTBIN:
-            name = `${selectedExe.index + 1}_APP.bin`;
+            name = `${selectedExe.num}_APP.bin`;
             data = readFiles(BIN);
             writeFiles(APP + '/' + name, data);
             break;

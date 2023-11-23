@@ -10,6 +10,7 @@ const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 const exeList = localStorage.getItem('exeList');
+const selItem = localStorage.getItem('selItem');
 
 const initialState = {
     showBranding: false,
@@ -22,11 +23,15 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList ? JSON.parse(exeList) : ['1_APP', '2_APP', '3_APP', '4_APP', '5_APP'],
-    selectedExe: {
-        name: exeList ? JSON.parse(exeList)[0] : '1_APP',
-        index: 0
-    }
+    exeList: exeList ? JSON.parse(exeList) :
+        [
+            { name: '1_APP', num: 1, checked: true },
+            { name: '2_APP', num: 2, checked: false },
+            { name: '3_APP', num: 3, checked: false },
+            { name: '4_APP', num: 4, checked: false },
+            { name: '5_APP', num: 5, checked: false }
+        ],
+    selectedExe: selItem ? JSON.parse(selItem) : { name: '1_APP', num: 0, checked: true }
 };
 
 const reducer = function (state, action) {
