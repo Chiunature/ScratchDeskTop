@@ -135,6 +135,7 @@ const GUIComponent = (props) => {
         onSetExelist,
         onSetSelectedExe,
         onViewDeviceCards,
+        onSetVersion,
         onActivateDeck,
         showComingSoon,
         soundsTabVisible,

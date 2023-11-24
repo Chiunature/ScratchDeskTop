@@ -93,7 +93,7 @@ const SerialportList = (props) => (
                         styles.connectionButton
                     )}
                     
-                    disabled={(props.getVersion() == localStorage.getItem('version')) || props.sourceCompleted ? true : false}
+                    disabled={props.version || props.sourceCompleted}
                     onClick={props.onUpdate}
                 >
                     {props.sourceCompleted ? (

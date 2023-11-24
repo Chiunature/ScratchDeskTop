@@ -22,7 +22,7 @@ const initialState = {
     port: null,
     completed: false,
     isConnectedSerial: false,
-    version: '',
+    version: false,
     progress: 0,
     soundArr: [{
         assetId: "83c36d806dc92327b9e7049a565c6bff",

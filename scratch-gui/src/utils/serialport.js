@@ -104,6 +104,7 @@ class Serialport extends Common {
         this.sendToSerial("writeData", this.upload);
         this.listenError("transmission-error");
         this.watchDevice("watchDevice");
+        this.getVersion(event);
     }
 
     //上传文件
@@ -194,6 +195,9 @@ class Serialport extends Common {
                 if (this.sign === 'Watch_Device' && receiveData[0] == 0x5a && !this.stopWatch) {
                     event.reply('response_watch', this.hexToString(receiveData));
                     return;
+                }else if(this.sign === 'get_version' && receiveData[0] == 0x5a) {
+                    event.reply('return_version', this.hexToString(receiveData));
+                    return;
                 }
                 
                 const allData = this.catchData(receiveData);
@@ -202,7 +206,6 @@ class Serialport extends Common {
                 if (allData && verify) this.processReceivedData(event);
                 else if (receiveData && !verify && this.sign) this.checkOverTime(event);
             } catch (error) {
-
                 this.handleReadError(event, this.clearCache);
             }
         });
@@ -234,6 +237,11 @@ class Serialport extends Common {
         }
         const actions = processReceivedConfig(event, this.chunkIndex, this.verifyType, this.filesObj, this.sendBin.bind(this), this.clearCache.bind(this));
         this.switch(actions, this.sign);
+    }
+
+    //获取主机版本
+    getVersion(event) {
+        this.writeData([0x5A, 0x97, 0x98, 0x01, 0xE1, 0x01, 0x6C, 0xA5], 'get_version', event);
     }
 
 }

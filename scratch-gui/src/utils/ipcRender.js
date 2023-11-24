@@ -69,9 +69,13 @@ function handlerError(error) {
     writeFileWithDirectory(directory, filepath, error);
 }
 
-function getVersion(path = window.process.cwd() + '/resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') {
+function getVersion(data, path = window.process.cwd() + '/resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') {
     const version = window.fs.readFileSync(path, 'utf8');
-    return version;
+    if (data == version) {
+        return true;
+    }else {
+        return false;
+    }
 }
 
 export {

@@ -19,7 +19,7 @@ import {
     getSerialList,
     setVersion,
 } from "../reducers/connection-modal";
-import { ipc, getVersion } from "../utils/ipcRender.js";
+import { ipc } from "../utils/ipcRender.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
 
 
@@ -177,11 +177,6 @@ class ConnectionModal extends React.Component {
     handleUpdate() {
         this.props.compile.sendSerial(SOURCE);
         this.props.onSetSourceCompleted(true);
-        if(!localStorage.getItem('version')) {
-            const version = getVersion('./resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt');
-            this.props.onSetVersion(version);
-            localStorage.setItem('version', version);
-        }
     }
 
     render() {
@@ -224,7 +219,6 @@ class ConnectionModal extends React.Component {
                 // onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
                 sourceCompleted={this.props.sourceCompleted}
-                getVersion={getVersion}
             />
         );
     }
@@ -262,8 +256,7 @@ const mapDispatchToProps = (dispatch) => ({
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
-    onSetVersion: (version) => dispatch(setVersion(version))
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

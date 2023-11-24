@@ -146,6 +146,10 @@ const DeviceCards = props => {
         localStorage.setItem('exeList', JSON.stringify(newList));
         localStorage.setItem('selItem', JSON.stringify(item));
     }
+    const handleDelExe = () => {
+
+    }
+
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
@@ -177,7 +181,7 @@ const DeviceCards = props => {
                         />
                         <div className={classNames(expanded ? styles.stepBody : styles.hidden, 'input-wrapper')}>
                             {index === 1 && <Device {...props}/>}
-                            {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe}/>}
+                            {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe}/>}
                         </div>
                     </div>
                 </div>

@@ -37,9 +37,9 @@ import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipc, delEvents } from "../utils/ipcRender.js";
+import { ipc, delEvents, getVersion } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
-import { setCompleted, setProgress, setSourceCompleted } from "../reducers/connection-modal.js";
+import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
 class GUI extends React.Component {
@@ -87,6 +87,10 @@ class GUI extends React.Component {
                     if(arg) this.props.onActivateDeck("install-drivers");
                     localStorage.setItem('driver', arg);
                 },
+            });
+            window.electron.ipcRenderer.once("return_version", (event, arg) => {
+                const version = getVersion(arg);
+                this.props.onSetVersion(version);
             });
         }
     }
@@ -281,7 +285,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: id => dispatch(activateDeck(id)),
-    onViewDeviceCards: (deviceVisible) => dispatch(viewDeviceCards(deviceVisible))
+    onViewDeviceCards: (deviceVisible) => dispatch(viewDeviceCards(deviceVisible)),
+    onSetVersion: (version) => dispatch(setVersion(version))
 });
 
 const ConnectedGUI = injectIntl(
