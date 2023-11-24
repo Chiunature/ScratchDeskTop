@@ -25,7 +25,7 @@
 
 const { ipcMain } = require("electron");
 const fs = require("fs");
-const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 class Common {
     //进程通信
     ipcMain(eventName, callback) {
@@ -161,6 +161,8 @@ class Common {
                 return 0xdd;
             case SOURCE_CONFIG:
                 return 0xdc;
+            case DELETE_EXE:
+                return 0xdf;
             default:
                 break;
         }

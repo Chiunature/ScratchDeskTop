@@ -26,30 +26,50 @@ const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BO
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 
 //校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
-function verifyActions(data) {
-    return {
-        "Boot_URL": () => {
-            if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x01 && data[4] == 0xfd && data[5] == 0x01 && data[data.length - 2] == 0x88 && data[data.length - 1] == 0xa5) {
-                return true;
-            } else {
-                return false;
+function verifyActions(sign, data, event, hexToString) {
+    let obj = {};
+    if(sign.search('Boot') !== -1) {
+        obj[sign] = () => {
+            const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
+            let res;
+            for (let i = 0; i < data.length; i++) {
+                const item = data[i];
+                if(item == list[i]) {
+                    res = true;
+                }else {
+                    res = false;
+                    break;
+                }
             }
-        },
-        "Boot_Bin": () => {
-            if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x01 && data[4] == 0xfd && data[5] == 0x01 && data[data.length - 2] == 0x88 && data[data.length - 1] == 0xa5) {
-                return true;
-            } else {
+            return res;
+        }
+    }else {
+        switch (sign) {
+            case "Watch_Device":
+                event.reply("response_watch", hexToString(data));
                 return false;
-            }
-        },
-        "Boot_End": () => {
-            if (data[0] == 0x5a && data[1] == 0x98 && data[2] == 0x97 && data[3] == 0x01 && data[4] == 0xfd && data[5] == 0x01 && data[data.length - 2] == 0x88 && data[data.length - 1] == 0xa5) {
-                return true;
-            } else {
+            case "get_version":
+                event.reply("return_version", hexToString(data));
                 return false;
-            }
-        },
+            case "delete-exe":
+                const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];
+                let res;
+                for (let i = 0; i < data.length; i++) {
+                    const item = data[i];
+                    if(item == list[i]) {
+                        res = true;
+                    }else {
+                        res = false;
+                        break;
+                    }
+                }
+                event.reply("return-delExe", res);
+                return false;
+            default:
+                break;
+        }
     }
+    return obj;
 }
 
 //区分是哪种类型操作

@@ -9,6 +9,7 @@ import {
 import { ipc, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
+import { showAlertWithTimeout } from "../reducers/alerts";
 
 const list = [
     [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
@@ -43,10 +44,13 @@ class DeviceCards extends React.Component {
         this.initDeviceList();
         const that = this;
         this.timer = setInterval(() => {
-            if(this.state.stopWatch || this.props.completed) return;
-            that.index = that.index === list.length - 1 ? 0 : that.index + 1;
-            that.watchDevice(that.index);
-        }, 100);
+            if(that.state.stopWatch && (that.props.completed || !that.props.completed)) {
+                return;
+            } else if(!that.state.stopWatch) {
+                that.index = that.index === list.length - 1 ? 0 : that.index + 1;
+                that.watchDevice(that.index);
+            }
+        }, 200);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {

@@ -104,6 +104,7 @@ class Serialport extends Common {
         this.sendToSerial("writeData", this.upload);
         this.listenError("transmission-error");
         this.watchDevice("watchDevice");
+        this.deleteExe("delete-exe");
         this.getVersion(event);
     }
 
@@ -141,7 +142,6 @@ class Serialport extends Common {
         this.sign = str;
         this.port.write(data);
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
-        if (this.sign !== 'Watch_Device') this.checkOverTime(event);
     }
 
     //检测是否超时
@@ -191,20 +191,12 @@ class Serialport extends Common {
             try {
                 this.clearTimer();
                 const receiveData = this.port.read();
-                
-                if (this.sign === 'Watch_Device' && receiveData[0] == 0x5a && !this.stopWatch) {
-                    event.reply('response_watch', this.hexToString(receiveData));
-                    return;
-                }else if(this.sign === 'get_version' && receiveData[0] == 0x5a) {
-                    event.reply('return_version', this.hexToString(receiveData));
-                    return;
-                }
-                
+
                 const allData = this.catchData(receiveData);
-                const verify = this.verification(this.receiveDataBuffer);
+                const verify = this.verification(this.sign, this.receiveDataBuffer, event, this.hexToString.bind(this));
 
                 if (allData && verify) this.processReceivedData(event);
-                else if (receiveData && !verify && this.sign) this.checkOverTime(event);
+                else if (receiveData && !verify && this.sign.search('Boot') !== -1) this.checkOverTime(event);
             } catch (error) {
                 this.handleReadError(event, this.clearCache);
             }
@@ -222,8 +214,9 @@ class Serialport extends Common {
     }
 
     //校验数据
-    verification(data) {
-        const action = this.actions(verifyActions(data));
+    verification(sign, data, event, hexToString) {
+        const action = this.actions(verifyActions(sign, data, event, hexToString));
+        if(this.sign.search('Boot') === -1) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
         return this.switch(action, this.sign, true);
     }
 
@@ -244,6 +237,14 @@ class Serialport extends Common {
         this.writeData([0x5A, 0x97, 0x98, 0x01, 0xE1, 0x01, 0x6C, 0xA5], 'get_version', event);
     }
 
+    //删除主机上的程序
+    deleteExe(eventName) {
+        this.ipcMain(eventName, (event, data) => {
+            const bits = this.getBits(data.verifyType);
+            const { binArr } = this.checkFileName(data.fileName, bits);
+            this.writeData(binArr, 'delete-exe', event);
+        });
+    }
 }
 
 

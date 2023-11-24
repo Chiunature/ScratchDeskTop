@@ -91,10 +91,11 @@ const reducer = function (state, action) {
         return Object.assign({}, state, {
             dragging: false
         });
-    case VIEW_DEVICE_CARDS: 
+    case VIEW_DEVICE_CARDS:
+        if(state.deviceCards.deviceVisible === action.deviceVisible) return state;
         return Object.assign({}, state, {
             deviceCards: {
-                deviceVisible: action.deviceVisible ? action.deviceVisible : !state.deviceCards.deviceVisible,
+                deviceVisible: !state.deviceCards.deviceVisible,
                 x: 0,
                 y: 0,
                 expanded: true

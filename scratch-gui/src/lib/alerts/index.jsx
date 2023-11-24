@@ -484,6 +484,48 @@ const alerts = [
         level: AlertLevels.WARN,
         maxDisplaySecs: 3,
     },
+    {
+        alertId: "delExeSuccess",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Deleting successfully"
+                description="Deleting successfully"
+                id="gui.alerts.delExeSuccess"
+            />
+        ),
+        level: AlertLevels.SUCCESS,
+        maxDisplaySecs: 3,
+    },
+    {
+        alertId: "delExeFail",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Deleting failed"
+                description="Deleting failed"
+                id="gui.alerts.delExeFailed"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

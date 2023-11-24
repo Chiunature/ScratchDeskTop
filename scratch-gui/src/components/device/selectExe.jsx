@@ -5,7 +5,8 @@ import delImg from './delete.svg';
 import downloadImg from './download.svg';
 
 
-const SelectExe = ({exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch}) => {
+const SelectExe = (props) => {
+    const {exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch, handleDelExe} = props;
     let [timer, setTimer] = useState(null);
     let refObj = useRef({});
     
@@ -29,9 +30,10 @@ const SelectExe = ({exeList, completed, selectedExe, handleSelectExe, onSetExeli
 
     const download = () => {
         if(completed) return;
-        handleStopWatch();
+        handleStopWatch(true);
         handleCompile();
     }
+    
     return (
         <ul className={styles.selExe}>
             {exeList.map((item, index) => {
@@ -43,7 +45,7 @@ const SelectExe = ({exeList, completed, selectedExe, handleSelectExe, onSetExeli
                         </div>
                         <div className={styles.img}>
                             <img src={downloadImg} onClick={() => download()}/>
-                            <img src={delImg}/>
+                            <img src={delImg} onClick={() => handleDelExe(item)}/>
                             {/* <img src={dragImg}/> */}
                         </div>
                     </li>

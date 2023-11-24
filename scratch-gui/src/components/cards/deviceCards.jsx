@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
 
 import styles from './card.css';
-
+import {ipc} from '../../utils/ipcRender.js';
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
@@ -95,6 +95,7 @@ const DeviceCards = props => {
         onSetSelectedExe,
         onSetExelist,
         handleStopWatch,
+        onShowDelExeAlert
     } = props;
     let { x, y, expanded } = deviceCards;
 
@@ -124,12 +125,12 @@ const DeviceCards = props => {
 
     const [index, setIndex] = useState(0);
     const handleSelect = (i) => {
-        setIndex(i);
         if(i === 0 ) {
             handleStopWatch(true);
         }else {
             handleStopWatch(false);
         }
+        setIndex(i);
     }
     const handleSelectExe = (item) => {
         const index = item.num - 1;
@@ -146,8 +147,19 @@ const DeviceCards = props => {
         localStorage.setItem('exeList', JSON.stringify(newList));
         localStorage.setItem('selItem', JSON.stringify(item));
     }
-    const handleDelExe = () => {
-
+    const handleDelExe = (item) => {
+        ipc({
+            sendName: 'delete-exe',
+            sendParams: {fileName: item.name + '.bin', verifyType: "DELETE_EXE"},
+            eventName: 'return-delExe',
+            callback: (event, data) => {
+                if(data) {
+                    onShowDelExeAlert("delExeSuccess");
+                }else {
+                    onShowDelExeAlert("delExeFail");
+                }
+            }
+        });
     }
 
 
