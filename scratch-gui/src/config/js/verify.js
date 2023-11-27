@@ -27,8 +27,8 @@ const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.jso
 
 //校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
 function verifyActions(sign, data, event, hexToString) {
-    let obj = {};
-    if(sign.search('Boot') !== -1) {
+    if(sign && sign.search('Boot') !== -1) {
+        let obj = {};
         obj[sign] = () => {
             const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
             let res;
@@ -43,6 +43,7 @@ function verifyActions(sign, data, event, hexToString) {
             }
             return res;
         }
+        return obj;
     }else {
         switch (sign) {
             case "Watch_Device":
@@ -69,7 +70,6 @@ function verifyActions(sign, data, event, hexToString) {
                 break;
         }
     }
-    return obj;
 }
 
 //区分是哪种类型操作

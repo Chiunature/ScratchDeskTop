@@ -142,6 +142,7 @@ class Serialport extends Common {
         this.sign = str;
         this.port.write(data);
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+        if(str && str.search('Boot') !== -1) this.checkOverTime(event);
     }
 
     //检测是否超时
@@ -193,10 +194,9 @@ class Serialport extends Common {
                 const receiveData = this.port.read();
 
                 const allData = this.catchData(receiveData);
-                const verify = this.verification(this.sign, this.receiveDataBuffer, event, this.hexToString.bind(this));
+                const verify = this.verification(this.sign, allData, event, this.hexToString.bind(this));
 
-                if (allData && verify) this.processReceivedData(event);
-                else if (receiveData && !verify && this.sign.search('Boot') !== -1) this.checkOverTime(event);
+                if (verify) this.processReceivedData(event);
             } catch (error) {
                 this.handleReadError(event, this.clearCache);
             }
@@ -206,23 +206,36 @@ class Serialport extends Common {
     //捕捉接收的数据
     catchData(data) {
         if (!this.sign || !data) return;
-        this.receiveDataBuffer = this.receiveDataBuffer.concat(this.Get_CRC(data));
-        if (data[data.length - 1] == 0xa5) {
-            return true;
+        const list = this.Get_CRC(data);
+        if(list[0] === 0x5a && list[list.length - 1] === 0xa5) {
+            return list;
+        }else if(list[0] === 0x5a && list[list.length - 1] !== 0xa5) {
+            this.receiveDataBuffer = [...list];
+        }else {
+            this.receiveDataBuffer = this.receiveDataBuffer.concat(list);
+            if(this.receiveDataBuffer[0] === 0x5a && list[list.length - 1] === 0xa5) {
+                const newList = [...this.receiveDataBuffer];
+                this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
+                return newList;
+            }
+            return false;
         }
-        return false;
     }
 
     //校验数据
     verification(sign, data, event, hexToString) {
-        const action = this.actions(verifyActions(sign, data, event, hexToString));
-        if(this.sign.search('Boot') === -1) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
-        return this.switch(action, this.sign, true);
+        if(!data) return false;
+        const result = verifyActions(sign, data, event, hexToString);
+        if(typeof result === 'object') {
+            const action = this.actions(verifyActions(sign, data, event, hexToString));
+            return this.switch(action, sign, true);
+        }else {
+            return result;
+        }
     }
 
     //处理接收到的数据
     processReceivedData(event) {
-        if (this.receiveDataBuffer.length > 0) this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
         if (this.sign == 'Boot_URL') {
             this.sign = 'Boot_Bin';
         } else {
