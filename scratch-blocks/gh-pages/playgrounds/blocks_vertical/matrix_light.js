@@ -162,7 +162,7 @@ Blockly.Blocks['matrix_lamp_text'] = {
                 {
                     "type": "field_input",
                     "name": "text",
-                    "text": ""
+                    "text": "ABCD"
                 },
             ],
             "category": Blockly.Categories.matrix,

@@ -32,7 +32,7 @@ import {
     activateTab,
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
-import { getCode, setCompileList, setBufferList } from '../reducers/mode';
+import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
 import { handlerError } from '../utils/ipcRender';
 
 const addFunctionListener = (object, property, callback) => {
@@ -200,12 +200,13 @@ class Blocks extends React.Component {
         const match = code.match(regex);
         const matchMyBlock = code.match(regexForMyBlock);
 
+        if(matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
+
         if(match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
             this.props.compile.setStartSend(false);
-            clearTimeout(this.timerId);
-            this.timerId = setTimeout(() => this.parserTask(this.workspace, arr, matchMyBlock), 5000);
+            this.parserTask(this.workspace, arr);
         } 
     }
 
@@ -227,7 +228,7 @@ class Blocks extends React.Component {
     }
 
     //解析任务
-    parserTask(workspace, arr, myBlock) {
+    parserTask(workspace, arr) {
         let list = workspace.getTopBlocks();
         const newArr = this.handleBlockList(arr);
         let i = 0 ,j = 0 , que = [], newList = [];
@@ -241,7 +242,10 @@ class Blocks extends React.Component {
             }
             i++;
         }
-        if(newList.length > 0) this.props.compile.runGcc(newList, myBlock, this.props.completed);
+        if(newList.length > 0) {
+            this.props.setBufferList(newList);
+
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -665,6 +669,7 @@ class Blocks extends React.Component {
             getCode,
             setCompileList,
             setBufferList,
+            setMatchMyBlock,
             setWorkspace,
             completed,
             soundArr,
@@ -730,6 +735,7 @@ Blocks.propTypes = {
     getCode: PropTypes.func,
     setCompileList: PropTypes.func,
     setBufferList: PropTypes.func,
+    setMatchMyBlock: PropTypes.func,
     setWorkspace: PropTypes.func,
     options: PropTypes.shape({
         media: PropTypes.string,
@@ -844,7 +850,8 @@ const mapDispatchToProps = dispatch => ({
     getCode: code => dispatch(getCode(code)),
     setCompileList: compileList => dispatch(setCompileList(compileList)),
     setWorkspace: workspace => dispatch(setWorkspace(workspace)),
-    setBufferList: bufferList => dispatch(setBufferList(bufferList))
+    setBufferList: bufferList => dispatch(setBufferList(bufferList)),
+    setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock))
 });
 
 export default errorBoundaryHOC('Blocks')(

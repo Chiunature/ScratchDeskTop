@@ -972,29 +972,23 @@ Blockly.Blocks['sensing_key_judgment'] = {
           "name": "PORT",
           "options": [
             [
-              Blockly.Msg.PLEFT,
-              "left"
+              "A",
+              "A"
             ],
             [
-              Blockly.Msg.PRIGHT,
-              "right"
+              "B",
+              "B"
             ],
+            [
+              "C",
+              "C"
+            ],
+            [
+              "D",
+              "D"
+            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
           ]
-        },
-        {
-          "type": "field_dropdown",
-          "name": "status",
-          "options": [
-            [
-              Blockly.Msg.PRESS,
-              "press"
-            ],
-            [
-              Blockly.Msg.UNPRESS,
-              "unpress"
-            ],
-          ]
-        },
+        }
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]

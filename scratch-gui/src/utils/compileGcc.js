@@ -31,9 +31,6 @@ import { verifyBinType } from "../config/js/verify.js";
 
 const fs = window.fs;
 const { spawn } = window.child_process;
-const { EventEmitter } = window.events;
-const eventEmitter = new EventEmitter();
-const cpus = window.os.cpus();
 
 class Compile {
 
@@ -76,7 +73,7 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', [`-j${cpus ? cpus.length * 2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
+            this.progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: DIR });
 
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
@@ -100,7 +97,7 @@ class Compile {
     }
 
     //运行编译器参数是传入的C语言代码
-    runGcc(buffer, myBlock, isUpload = false) {
+    runGcc(buffer, myBlock, selectedExe, verifyType) {
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
             if (el) {
@@ -116,13 +113,10 @@ class Compile {
         //编译
         if (appRes) {
             this.commendMake().then(result => {
-                this.startSend = result;
-                if (result) eventEmitter.emit(this.eventName);
-                //去掉上一个注册的方法避免重复触发
-                if (this.eventName) eventEmitter.removeAllListeners([this.eventName]);
+                this.readBin(verifyType, selectedExe);
             }).catch(e => {
                 handlerError(e);
-                if (isUpload) ipc({ sendName: "transmission-error" });
+                ipc({ sendName: "transmission-error" });
             });
         }
     }
@@ -153,16 +147,11 @@ class Compile {
         }
     }
 
-    sendSerial(verifyType, selectedExe) {
+    sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
             this.readBin(SOURCE_MUSIC);
         } else {
-            if (!this.startSend) {
-                this.eventName = 'success' + getCurrentTime();
-                eventEmitter.on(this.eventName, () => this.readBin(verifyType, selectedExe));
-            } else {
-                this.readBin(verifyType, selectedExe);
-            }
+            this.runGcc(bufferList, myBlock, selectedExe, verifyType);
         }
     }
 }

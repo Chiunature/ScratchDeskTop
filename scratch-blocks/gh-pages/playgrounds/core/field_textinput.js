@@ -172,15 +172,6 @@ Blockly.FieldTextInput.prototype.setValue = function(newValue) {
  * @param {*} newText New text.
  */
 Blockly.FieldTextInput.prototype.setText = function(newText) {
-  if(newText) {
-    const pattern = /[\u4e00-\u9fff]+/g;
-    const matches = newText.match(pattern);
-    if(matches !== null) {
-      newText = null;
-      return;
-    }
-  }
-
   if (newText === null) {
     // No change if null.
     return;
@@ -191,6 +182,9 @@ Blockly.FieldTextInput.prototype.setText = function(newText) {
     return;
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+    if(this.sourceBlock_.type === "matrix_lamp_text") {
+      newText = newText.replace(/[\u4e00-\u9fa5]{0,}$/, '');
+    }
     Blockly.Events.fire(new Blockly.Events.BlockChange(
         this.sourceBlock_, 'field', this.name, this.text_, newText));
   }
@@ -444,6 +438,9 @@ Blockly.FieldTextInput.prototype.onHtmlInputChange_ = function(e) {
     }
   }
   var htmlInput = Blockly.FieldTextInput.htmlInput_;
+  if(this.sourceBlock_.type === "matrix_lamp_text") {
+    htmlInput.value = htmlInput.value.replace(/[\u4e00-\u9fa5]{0,}$/, '');
+  }
   // Update source block.
   var text = htmlInput.value;
   if (text !== htmlInput.oldValue_) {
@@ -628,6 +625,9 @@ Blockly.FieldTextInput.prototype.widgetDisposeAnimationFinished_ = function() {
 
 Blockly.FieldTextInput.prototype.maybeSaveEdit_ = function() {
   var htmlInput = Blockly.FieldTextInput.htmlInput_;
+  if(this.sourceBlock_ && this.sourceBlock_.type === "matrix_lamp_text") {
+    htmlInput.value = htmlInput.value.replace(/[\u4e00-\u9fa5]{0,}$/, '');
+  }
   // Save the edit (if it validates).
   var text = htmlInput.value;
   if (this.sourceBlock_) {

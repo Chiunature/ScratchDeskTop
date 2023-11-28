@@ -1138,6 +1138,36 @@ Blockly.Block.prototype.setDisabled = function(disabled) {
   }
 };
 
+//禁用特殊情况的积木，比如组合电机
+/* Blockly.Block.prototype.disableSpecailBlocks = function (block) {
+  let childList = block.getDescendants(true);
+  const parent = block.getParent();
+  if(!block.disabled && childList && childList.length > 0 && block.type === 'combined_motor_starting') {
+      childList.map(el => {
+        el.svgPath_.removeAttribute('style');
+        const list = el.svgGroup_.children;
+        for (let i = 0; i < list.length; i++) {
+          const ele = list[i];
+          ele.removeAttribute('style');
+        }
+        el.setEditable(true);
+        el.setDisabled(false);
+      });
+  }
+  if(parent) {
+    if(parent.type.indexOf('combined_motor') > -1) {
+      const list = parent.svgGroup_.children;
+      for (let i = 0; i < list.length - 1; i++) {
+        const el = list[i];
+        el.setAttribute('style', 'opacity: .5;');
+      }
+      parent.setEditable(false);
+      parent.setDisabled(true);
+    }
+    this.disableSpecailBlocks(parent);
+  }
+} */
+
 /**
  * Get whether the block is disabled or not due to parents.
  * The block's own disabled property is not considered.

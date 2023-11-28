@@ -42,8 +42,20 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
         </div>
         <div className={tabClassNames.tabs}>
             <ul className={tabClassNames.tabList}>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}><div>程序选择</div></li>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}><div>端口数据</div></li>
+                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}>
+                    <div><FormattedMessage
+                            defaultMessage="Program Selection"
+                            description="Program selection"
+                            id="gui.menuBar.select-exe"
+                        /></div>
+                </li>
+                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}>
+                    <div><FormattedMessage
+                            defaultMessage="Port Data"
+                            description="Port data"
+                            id="gui.menuBar.port-data"
+                        /></div>
+                </li>
             </ul>
         </div>
         <div className={styles.headerButtonsRight}>
@@ -132,8 +144,7 @@ const DeviceCards = props => {
         }
         setIndex(i);
     }
-    const handleSelectExe = (item) => {
-        const index = item.num - 1;
+    const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
             if(i === index) {
                 item.checked = true;
@@ -147,7 +158,8 @@ const DeviceCards = props => {
         localStorage.setItem('exeList', JSON.stringify(newList));
         localStorage.setItem('selItem', JSON.stringify(item));
     }
-    const handleDelExe = (item) => {
+    const handleDelExe = (item, e) => {
+        e.stopPropagation();
         ipc({
             sendName: 'delete-exe',
             sendParams: {fileName: item.name + '.bin', verifyType: "DELETE_EXE"},

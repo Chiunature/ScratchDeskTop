@@ -204,7 +204,7 @@ ul {
     border-bottom: unset;
 }
 
-.sel-exe .moving{
+.moving{
     background: transparent;
     color: transparent;
     border: 1px dashed #ccc;
