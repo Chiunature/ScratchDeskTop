@@ -241,7 +241,14 @@ class Serialport extends Common {
         } else {
             this.chunkIndex++;
         }
-        const actions = processReceivedConfig(event, this.chunkIndex, this.verifyType, this.filesObj, this.sendBin.bind(this), this.clearCache.bind(this));
+        const actions = processReceivedConfig({
+            event, 
+            chunkIndex: this.chunkIndex, 
+            verifyType: this.verifyType, 
+            filesObj: this.filesObj, 
+            sendBin: this.sendBin.bind(this), 
+            clearCache: this.clearCache.bind(this)
+        });
         this.switch(actions, this.sign);
     }
 

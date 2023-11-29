@@ -115,26 +115,22 @@ function distinguish(filesObj, type, event) {
 
 
 //处理接收数据后的操作
-function processReceivedConfig(event, ...arg) {
-    let obj = {};
-    arg.map(item => {
-        if (typeof item == "function") {
-            switch (item.name) {
-                case "bound sendBin":
-                    obj['Boot_Bin'] = () => item(arg[0], event);
-                    break;
-                case "bound clearCache":
-                    obj['Boot_End'] = () => {
-                        distinguish(arg[2], arg[1], event);
-                        item();
-                    }
-                    break;
-                default:
-                    break;
-            }
+function processReceivedConfig(...arg) {
+    const {
+        event, 
+        chunkIndex, 
+        verifyType, 
+        filesObj, 
+        sendBin, 
+        clearCache
+    } = arg[0];
+    return {
+        Boot_Bin: () => sendBin(chunkIndex, event),
+        Boot_End: () => {
+            distinguish(filesObj, verifyType, event);
+            clearCache();
         }
-    });
-    return obj;
+    }
 }
 
 
