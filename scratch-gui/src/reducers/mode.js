@@ -23,7 +23,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList ? JSON.parse(exeList) :
+    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) :
         [
             { name: '1_APP', num: 1, checked: true },
             { name: '2_APP', num: 2, checked: false },
