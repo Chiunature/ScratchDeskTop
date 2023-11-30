@@ -127,7 +127,7 @@ class GUI extends React.Component {
                 compile.sendSerial(BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
-                this.props.onViewDeviceCards(true);
+                // this.props.onViewDeviceCards(true);
             }
         }
     }

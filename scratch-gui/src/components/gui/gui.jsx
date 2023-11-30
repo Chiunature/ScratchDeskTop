@@ -44,23 +44,21 @@ import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
 // import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
-import uploadIcon from "./icon--upload.svg";
-import yesIcon from "./icon--yes.svg";
 // import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
-import ButtonComponent from "../button/button.jsx";
-import Cirle from "../button/cirle.jsx";
 import DeviceCards from "../../containers/deviceCards.jsx";
+import UploadBtn from "../button/uploadBtn.jsx";
+import SelectExeBtn from "../button/selectExeBtn.jsx";
 
-const messages = defineMessages({
+/* const messages = defineMessages({
     addExtension: {
         id: "gui.gui.addExtension",
         description: "Button to add an extension in the target pane",
         defaultMessage: "Add Extension",
     },
-});
+}); */
 
 // Cache this value to only retrieve it once the first time.
 // Assume that it doesn't change for a session.
@@ -240,7 +238,15 @@ const GUIComponent = (props) => {
                         )}
                         {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck}/> : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible ? <DeviceCards handleCompile={handleCompile} completed={completed} exeList={exeList} selectedExe={selectedExe} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist}/> : null}
+                        {deviceVisible ? (
+                            <DeviceCards 
+                                handleCompile={handleCompile} 
+                                completed={completed} 
+                                exeList={exeList} 
+                                selectedExe={selectedExe} 
+                                onSetSelectedExe={onSetSelectedExe} 
+                                onSetExelist={onSetExelist}/>
+                        ) : null}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
@@ -260,23 +266,12 @@ const GUIComponent = (props) => {
                             />
                         ) : null}
                         {peripheralName && !soundsTabVisible ? (
-                            <div className={classNames(styles.btnCon)}>
-                                <div className={classNames(styles.btnBox)}>
-                                    <ButtonComponent
-                                        className={classNames(styles.uploadBtn)}
-                                        iconSrc={completed ? null : uploadIcon}
-                                    >
-                                        {completed ? <p className={classNames(styles.uploadP)}>{progress}%</p>: null}
-                                        <Cirle completed={completed}/>
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        className={classNames(styles.yesBtn, isComplete ?  '': styles.yesBtnSpin)}
-                                        iconSrc={yesIcon}
-                                        onClick={() => handleCompile()}
-                                        disabled={completed}
-                                    />
-                                </div>
-                            </div>
+                            <UploadBtn
+                                completed={completed} 
+                                progress={progress} 
+                                handleCompile={handleCompile} 
+                                isComplete={isComplete}
+                            />
                         ) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
@@ -405,9 +400,9 @@ const GUIComponent = (props) => {
                                                     className={
                                                         styles.extensionButton
                                                     }
-                                                    title={intl.formatMessage(
-                                                        messages.addExtension
-                                                    )}
+                                                    // title={intl.formatMessage(
+                                                    //     messages.addExtension
+                                                    // )}
                                                     onClick={
                                                         onExtensionButtonClick
                                                     }

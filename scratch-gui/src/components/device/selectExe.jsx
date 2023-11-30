@@ -40,6 +40,10 @@ const SelectExe = (props) => {
     const swapEl = (currentIndex, targetIndex) => {
         const newList = [...exeList];
         [newList[currentIndex], newList[targetIndex]] = [newList[targetIndex], newList[currentIndex]];
+        let temp;
+        temp = newList[currentIndex].num;
+        newList[currentIndex].num =  newList[targetIndex].num;
+        newList[targetIndex].num = temp;
         onSetExelist(newList);
         setCacheList(newList);
     }
