@@ -50,7 +50,7 @@ class DeviceCards extends React.Component {
                 that.index = that.index === list.length - 1 ? 0 : that.index + 1;
                 that.watchDevice(that.index);
             }
-        }, 200);
+        }, 300);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {
