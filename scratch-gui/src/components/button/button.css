@@ -171,14 +171,6 @@
     transition: 0.5s ease-in-out;
 }
 
-.select-exe-btn-con {
-    width: 60px;
-    height: 60px;
-    position: absolute;
-    left: 27%;
-    bottom: 5%;
-    z-index: 20;
-}
 
 .select-exe-btn {
     width: 60px;
@@ -257,10 +249,82 @@
     transition: 3s ease-in-out;
 }
 
-.select-con {
+/* .select-con {
     width: 240px;
     position: fixed;
     right: 17%;
     top: 17%;
     z-index: 31;
+} */
+
+.select-exe-btn-con {
+    width: 60px;
+    position: fixed;
+    left: 25%;
+    top: 11%;
+    z-index: 20;
+}
+
+.select-exe-box {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.select-exe-round {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: all 1s;
+    position: relative;
+    user-select: none;
+}
+
+.select-exe-line {
+    width: 100%;
+    height: 100%;
+    border: 2px solid skyblue;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: all .3s;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+.select-exe-block {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: var(--motion-primary);
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    transform: scale(1) translate(-50%, -50%);
+    transition: all .3s;
+    z-index: 20;
+}
+
+.select-exe-round .select-exe-block:not(.select-exe-wrapper) {
+    opacity: 0;
+}
+
+.select-exe-wrapper {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background-color: var(--motion-primary);
+    border-radius: 50%;
+    line-height: 60px;
+    text-align: center;
+    left: 50% !important;
+    top: 50% !important;
+    z-index: 21;
 }

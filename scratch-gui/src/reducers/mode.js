@@ -31,7 +31,7 @@ const initialState = {
             { name: '4_APP', num: 4, checked: false },
             { name: '5_APP', num: 5, checked: false }
         ],
-    selectedExe: selItem ? JSON.parse(selItem) : { name: '1_APP', num: 0, checked: true }
+    selectedExe: selItem ? JSON.parse(selItem) : { name: '1_APP', num: 1, checked: true }
 };
 
 const reducer = function (state, action) {

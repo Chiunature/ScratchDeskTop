@@ -266,6 +266,15 @@ const GUIComponent = (props) => {
                             />
                         ) : null}
                         {peripheralName && !soundsTabVisible ? (
+                            <><SelectExeBtn onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
+                            <UploadBtn
+                                completed={completed} 
+                                progress={progress} 
+                                handleCompile={handleCompile} 
+                                isComplete={isComplete}
+                            /></>
+                        ) : null}
+                        {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
                                 completed={completed} 
                                 progress={progress} 

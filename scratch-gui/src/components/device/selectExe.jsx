@@ -6,7 +6,7 @@ import downloadImg from './download.svg';
 
 
 const SelectExe = (props) => {
-    const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch, handleDelExe, onSetSelectedExe } = props;
+    const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch, handleDelExe } = props;
     let [timer, setTimer] = useState(null);
     let [currentLi, setCurrentLi] = useState(null);
     let [cacheList, setCacheList] = useState([]);
@@ -40,10 +40,6 @@ const SelectExe = (props) => {
     const swapEl = (currentIndex, targetIndex) => {
         const newList = [...exeList];
         [newList[currentIndex], newList[targetIndex]] = [newList[targetIndex], newList[currentIndex]];
-        let temp;
-        temp = newList[currentIndex].num;
-        newList[currentIndex].num =  newList[targetIndex].num;
-        newList[targetIndex].num = temp;
         onSetExelist(newList);
         setCacheList(newList);
     }
