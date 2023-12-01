@@ -20,6 +20,7 @@ const list = [
     [0x5A, 0x97, 0x98, 0x01, 0xD4, 0x01, 0x5F, 0xA5], //内存
     [0x5A, 0x97, 0x98, 0x01, 0xD5, 0x01, 0x60, 0xA5], //电池电压
     [0x5A, 0x97, 0x98, 0x01, 0xD7, 0x01, 0x62, 0xA5], //声音强度
+    [0x5A, 0x97, 0x98, 0x01, 0xD3, 0x01, 0x5E, 0xA5], //触碰
 ];
 
 class DeviceCards extends React.Component {
@@ -43,12 +44,12 @@ class DeviceCards extends React.Component {
         }
         this.initDeviceList();
         const that = this;
-        this.timer = setInterval(() => {
+        this.timer = setInterval(async () => {
             if(that.state.stopWatch && (that.props.completed || !that.props.completed)) {
                 return;
             } else if(!that.state.stopWatch) {
                 that.index = that.index === list.length - 1 ? 0 : that.index + 1;
-                that.watchDevice(that.index);
+                await that.watchDevice(that.index);
             }
         }, 300);
     }
@@ -96,6 +97,7 @@ class DeviceCards extends React.Component {
                             motor: {},
                             color: {},
                             ultrasonic: null,
+                            touch: null,
                             sensing_device: '无设备连接'
                         };
                     }
@@ -134,6 +136,9 @@ class DeviceCards extends React.Component {
             case 7:
                 this.voice = arr[0];
                 break;
+            case 8:
+                deviceList[arr[0]].touch = arr[1];
+                deviceList[arr[0]].sensing_device = '触碰';
             default:
                 break;
         }
@@ -141,7 +146,7 @@ class DeviceCards extends React.Component {
     }
 
     //开启监听
-    watchDevice(index) {
+    async watchDevice(index) {
         ipc({
             sendName: 'watchDevice',
             sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
@@ -173,6 +178,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onActivateDeckFactory: id => () => dispatch(activateDeck(id)),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
+    onShowDelExeAlert: (item) => showAlertWithTimeout(dispatch, item),
 });
 
 export default connect(

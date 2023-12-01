@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './device.css';
+import DeviceBox from './deviceBox.jsx';
 
 const Device = (props) => {
     const { deviceList, gyroList, flashList, adcList, voice } = props;
@@ -60,31 +61,7 @@ const Device = (props) => {
             <div className={styles.middle}>
                 <div className={styles.midContent}>
                     <div className={styles.midLeft}>
-                        {leftList.map((el, index) => {
-                            return (
-                                <div className={styles.midBox} key={index}>
-                                    <p>{index === 0 ? 'E' : index === 1 ? 'F' : index === 2 ? 'G' : 'H'}端口: {el.sensing_device}</p>
-                                    {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
-                                        {Object.keys(el.motor).map((item, index) => {
-                                            return (<li key={index}>
-                                                <span>{index === 0 ? '速度' : index === 1 ? '目标速度' : '旋转方向'}</span>
-                                                <span>{el.motor[item]}</span>
-                                            </li>)
-                                        })}
-                                    </ul>}
-                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>mm</span></li></ul>}
-                                    {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
-                                        {Object.keys(el.color).map((item, index) => {
-                                            return (<li key={index}>
-                                                <span>{index === 0 ? 'RGB' : 'HEX'}</span>
-                                                <span>{el.color[item]}</span>
-                                                <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>
-                                            </li>)
-                                        })}
-                                    </ul>}
-                                </div>
-                            )
-                        })}
+                        <DeviceBox list={leftList}/>
                     </div>
                     <div className={styles.midPart}>
                         <div className={styles.midBox}>
@@ -129,31 +106,7 @@ const Device = (props) => {
                         </div>
                     </div>
                     <div className={styles.midRight}>
-                        {rightList.map((el, index) => {
-                            return (
-                                <div className={styles.midBox} key={index}>
-                                    <p>{index === 0 ? 'D' : index === 1 ? 'C' : index === 2 ? 'B' : 'A'}端口: {el.sensing_device}</p>
-                                    {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
-                                        {Object.keys(el.motor).map((item, index) => {
-                                            return (<li key={index}>
-                                                <span>{index === 0 ? '速度' : index === 1 ? '目标速度' : '旋转方向'}</span>
-                                                <span>{el.motor[item]}</span>
-                                            </li>)
-                                        })}
-                                    </ul>}
-                                    {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>mm</span></li></ul>}
-                                    {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
-                                        {Object.keys(el.color).map((item, index) => {
-                                            return (<li key={index}>
-                                                <span>{index === 0 ? 'RGB' : 'HEX'}</span>
-                                                <span>{el.color[item]}</span>
-                                                <span><div className={styles.col} style={{'backgroundColor': el.color[item]}}></div></span>
-                                            </li>)
-                                        })}
-                                    </ul>}
-                                </div>
-                            )
-                        })}
+                        <DeviceBox list={rightList}/>
                     </div>
                 </div>
             </div>

@@ -33,7 +33,6 @@
  *  verifyType: 判断是发固件文件还是bin数据
  *  receiveDataBuffer: 接收到的数据缓存
  *  filesObj: 固件文件对象
- *  stopWatch: 停止设备监听
  * }
  */
 const { SerialPort } = require("serialport");
@@ -51,7 +50,6 @@ class Serialport extends Common {
     timeOutTimer;
     verifyType;
     filesObj;
-    stopWatch;
 
     constructor() {
         super();
@@ -78,13 +76,10 @@ class Serialport extends Common {
 
     //连接串口
     linkToSerial(serial, event, sign) {
-
-        if (this.port && this.port.isOpen && this.port.path == serial.path) {
-            return;
-        } else if (this.port && this.port.isOpen && this.port.path != serial.path) {
-            this.port.close();
+        if (this.port) {
+            this.port = null;
         }
-
+        
         this.port = new SerialPort(
             {
                 path: serial.path,
@@ -171,7 +166,6 @@ class Serialport extends Common {
     //监听设备信息
     watchDevice(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            this.stopWatch = data.stopWatch;
             if(!data.stopWatch) this.writeData(data.instruct, 'Watch_Device', event);
         });
     }
