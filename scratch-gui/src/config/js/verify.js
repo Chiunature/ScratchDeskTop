@@ -25,7 +25,14 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 
-//校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
+/**
+ * 校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
+ * @param {String} sign 
+ * @param {Array} data 
+ * @param {Object} event 
+ * @param {Function} hexToString 
+ * @returns 
+ */
 function verifyActions(sign, data, event, hexToString) {
     if(sign && sign.search('Boot') !== -1) {
         let obj = {};
@@ -72,7 +79,12 @@ function verifyActions(sign, data, event, hexToString) {
     }
 }
 
-//区分是哪种类型操作
+/**
+ * 区分是哪种类型操作
+ * @param {Object} filesObj 
+ * @param {String} type 
+ * @param {Object} event 
+ */
 function distinguish(filesObj, type, event) {
     let obj = filesObj;
     switch (type) {
@@ -114,7 +126,11 @@ function distinguish(filesObj, type, event) {
 
 
 
-//处理接收数据后的操作
+/**
+ * 处理接收数据后的操作
+ * @param  {...any} arg 
+ * @returns 
+ */
 function processReceivedConfig(...arg) {
     const {
         event, 
@@ -134,7 +150,11 @@ function processReceivedConfig(...arg) {
 }
 
 
-//处理是哪种类型的校验
+/**
+ * 处理是哪种类型的校验
+ * @param  {...any} arg 
+ * @returns 
+ */
 function verifyBinType(...arg) {
     let data, name;
     const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = arg[0];

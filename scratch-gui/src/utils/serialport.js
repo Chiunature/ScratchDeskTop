@@ -55,31 +55,43 @@ class Serialport extends Common {
         super();
     }
 
-    //获取串口列表
+    /**
+     * 获取串口列表
+     */
     getList() {
         this.ipcMain("getConnectList", (event, arg) => {
             SerialPort.list().then((res) => event.reply("connectList", res));
         });
     }
 
-    //连接串口
+    /**
+     * 连接串口
+     */
     connectSerial() {
         this.ipcMain("connect", (event, arg) => this.linkToSerial(arg, event));
     }
 
-    //断开连接
+    /**
+     * 断开连接
+     * @param {String} eventName 
+     */
     disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
             if (this.port && this.port.isOpen) this.port.close();
         });
     }
 
-    //连接串口
+    /**
+     * 连接串口
+     * @param {Object} serial 
+     * @param {*} event 
+     * @param {String | Null} sign 
+     */
     linkToSerial(serial, event, sign) {
         if (this.port) {
             this.port = null;
         }
-        
+
         this.port = new SerialPort(
             {
                 path: serial.path,
@@ -103,7 +115,12 @@ class Serialport extends Common {
         this.getVersion(event);
     }
 
-    //上传文件
+    /**
+     * 上传文件
+     * @param {*} event 
+     * @param {Object} data 
+     * @returns 
+     */
     upload(event, data) {
         if(data.verifyType === SOURCE_CONFIG) {
             event.reply("sourceCompleted", { msg: "uploadSuccess" });
@@ -123,7 +140,11 @@ class Serialport extends Common {
         this.writeData(binArr, data.binData ? 'Boot_URL' : null, event);
     }
 
-    //侦听串口关闭
+    /**
+     * 侦听串口关闭
+     * @param {String} eventName 
+     * @param {*} event 
+     */
     listenPortClosed(eventName, event) {
         this.port.on(eventName, () => {
             event.reply("connected", { res: false, msg: "disconnect" });
@@ -131,7 +152,13 @@ class Serialport extends Common {
         });
     }
 
-    //写入数据
+    /**
+     * 写入数据
+     * @param {Array} data 
+     * @param {String} str 
+     * @param {*} event 
+     * @returns 
+     */
     writeData(data, str, event) {
         if (!this.port) return;
         this.sign = str;
@@ -140,7 +167,10 @@ class Serialport extends Common {
         if(str && str.search('Boot') !== -1) this.checkOverTime(event);
     }
 
-    //检测是否超时
+    /**
+     * 检测是否超时
+     * @param {*} event 
+     */
     checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
             event.reply("completed", { result: false, msg: "uploadTimeout" });
@@ -148,13 +178,17 @@ class Serialport extends Common {
         }, 5000);
     }
 
-    //清除所有定时器
+    /**
+     * 清除所有定时器
+     */
     clearTimer() {
         clearTimeout(this.timeOutTimer);
         this.timeOutTimer = null;
     }
 
-    //清除缓存
+    /**
+     * 清除缓存
+     */
     clearCache() {
         if (this.port && this.port.isOpen) this.port.flush();
         this.receiveDataBuffer = [];
@@ -163,14 +197,22 @@ class Serialport extends Common {
         this.sign = null;
     }
 
-    //监听设备信息
+    /**
+     * 监听设备信息
+     * @param {String} eventName 
+     */
     watchDevice(eventName) {
         this.ipcMain(eventName, (event, data) => {
             if(!data.stopWatch) this.writeData(data.instruct, 'Watch_Device', event);
         });
     }
 
-    //发bin数据
+    /**
+     * 发bin数据
+     * @param {Number} index 
+     * @param {*} event 
+     * @returns 
+     */
     sendBin(index, event) {
         if (index < 0) return;
         const element = this.chunkBuffer[index];
@@ -179,7 +221,12 @@ class Serialport extends Common {
         else this.writeData(binArr, 'Boot_Bin', event);
     }
 
-    //读取串口数据
+    /**
+     * 读取串口数据
+     * @param {String} eventName 
+     * @param {*} event 
+     * @returns 
+     */
     handleRead(eventName, event) {
         if (!this.port) return;
         this.port.on(eventName, () => {
@@ -197,7 +244,11 @@ class Serialport extends Common {
         });
     }
 
-    //捕捉接收的数据
+    /**
+     * 捕捉接收的数据
+     * @param {String} data 
+     * @returns 
+     */
     catchData(data) {
         if (!this.sign || !data) return;
         const list = this.Get_CRC(data);
@@ -216,7 +267,14 @@ class Serialport extends Common {
         }
     }
 
-    //校验数据
+    /**
+     * 校验数据
+     * @param {String | Null} sign 
+     * @param {Array} data 
+     * @param {*} event 
+     * @param {Function} hexToString 
+     * @returns 
+     */
     verification(sign, data, event, hexToString) {
         if(!data) return false;
         const result = verifyActions(sign, data, event, hexToString);
@@ -228,7 +286,10 @@ class Serialport extends Common {
         }
     }
 
-    //处理接收到的数据
+    /**
+     * 处理接收到的数据
+     * @param {*} event 
+     */
     processReceivedData(event) {
         if (this.sign == 'Boot_URL') {
             this.sign = 'Boot_Bin';
@@ -246,12 +307,18 @@ class Serialport extends Common {
         this.switch(actions, this.sign);
     }
 
-    //获取主机版本
+    /**
+     * 获取主机版本
+     * @param {*} event 
+     */
     getVersion(event) {
         this.writeData([0x5A, 0x97, 0x98, 0x01, 0xE1, 0x01, 0x6C, 0xA5], 'get_version', event);
     }
 
-    //删除主机上的程序
+    /**
+     * 删除主机上的程序
+     * @param {String} eventName 
+     */
     deleteExe(eventName) {
         this.ipcMain(eventName, (event, data) => {
             const bits = this.getBits(data.verifyType);

@@ -42,12 +42,20 @@ class Compile {
         this.progress;
     }
 
-    //控制编译前、编译中、编译后通信
-    setStartSend(val) {
+    /**
+     * 控制编译前、编译中、编译后通信
+     * @param {Boolean} val 
+     */
+    /* setStartSend(val) {
         this.startSend = val;
-    }
+    } */
 
-    //将c语言代码写入文件
+    /**
+     * 将c语言代码写入文件
+     * @param {String} path 
+     * @param {String} type 
+     * @returns 
+     */
     writeFiles(path, type) {
         try {
             fs.writeFileSync(path, type);
@@ -58,7 +66,12 @@ class Compile {
         }
     }
 
-    //读取文件内容
+    /**
+     * 读取文件内容
+     * @param {String} path 
+     * @param {String} type 
+     * @returns 
+     */
     readFiles(path, type) {
         try {
             const data = fs.readFileSync(path, type);
@@ -69,7 +82,10 @@ class Compile {
         }
     }
 
-    //调用编译命令
+    /**
+     * 调用编译命令
+     * @returns 
+     */
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
@@ -87,7 +103,13 @@ class Compile {
         });
     }
 
-    //将生成的C代码写入特定的C文件
+    /**
+     * 将生成的C代码写入特定的C文件
+     * @param {String} codeStr 
+     * @param {String} taskStr 
+     * @param {String} myStr 
+     * @returns 
+     */
     handleCode(codeStr, taskStr, myStr) {
         const str = Task_Info(taskStr);
         const newStr = codeStr + str;
@@ -96,7 +118,13 @@ class Compile {
         return writeAppRes;
     }
 
-    //运行编译器参数是传入的C语言代码
+    /**
+     * 运行编译器参数是传入的C语言代码
+     * @param {Array} buffer 
+     * @param {String} myBlock 
+     * @param {Object} selectedExe 
+     * @param {String} verifyType 
+     */
     runGcc(buffer, myBlock, selectedExe, verifyType) {
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
@@ -121,7 +149,11 @@ class Compile {
         }
     }
 
-    //获取bin文件数据准备通信
+    /**
+     * 获取bin文件数据准备通信
+     * @param {Strign} verifyType 
+     * @param {Object} selectedExe 
+     */
     readBin(verifyType, selectedExe) {
         try {
             const { fileData, fileName } = verifyBinType({ verifyType, selectedExe, filesObj: this.filesObj, filesIndex: this.filesIndex, readFiles: this.readFiles.bind(this), writeFiles: this.writeFiles.bind(this) });
@@ -146,7 +178,13 @@ class Compile {
             ipc({ sendName: "transmission-error" });
         }
     }
-
+    /**
+     * 区分是什么类型的通信
+     * @param {String} verifyType 
+     * @param {Array} bufferList 
+     * @param {String} myBlock 
+     * @param {Object} selectedExe 
+     */
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
             this.readBin(SOURCE_MUSIC);

@@ -27,7 +27,11 @@ const { ipcMain } = require("electron");
 const fs = require("fs");
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 class Common {
-    //进程通信
+    /**
+     * 主进程通信
+     * @param {String} eventName 
+     * @param {Function} callback 
+     */
     ipcMain(eventName, callback) {
         const eventList = ipcMain.eventNames();
         !eventList.includes(eventName) && ipcMain.on(eventName, (event, arg) => {
@@ -36,7 +40,12 @@ class Common {
     }
 
 
-    //文件名校验位和指令
+    /**
+     * 文件名校验位和指令
+     * @param {String} item 
+     * @param {Number} bits 
+     * @returns 
+     */
     checkFileName(item, bits) {
         const list = this.stringToHex(item);
         const len = list.length;
@@ -48,7 +57,13 @@ class Common {
         };
     }
 
-    //bin信息指令
+    /**
+     * bin信息指令
+     * @param {Array} item 
+     * @param {Number} currentIndex 
+     * @param {Number} lastIndex 
+     * @returns 
+     */
     checkBinData(item, currentIndex, lastIndex) {
         const len = item.length;
         const bits = currentIndex == lastIndex ? 0xbb : 0xaa;
@@ -60,19 +75,30 @@ class Common {
         };
     }
 
-    //发送数据
+    /**
+     * 发送数据
+     * @param {String} eventName 
+     * @param {Function} fn 
+     */
     sendToSerial(eventName, fn) {
         this.ipcMain(eventName, (event, data) => {
             if (typeof fn === 'function') fn.call(this, event, data);
         });
     }
 
-    //侦听编译时的错误处理
+    /**
+     * 侦听编译时的错误处理
+     * @param {String} eventName 
+     */
     listenError(eventName) {
         this.ipcMain(eventName, (event) => event.reply("completed", { result: false, msg: "uploadError" }));
     }
 
-    //数据转buffer数组
+    /**
+     * 数据转buffer数组
+     * @param {Array} buf 
+     * @returns 
+     */
     toArrayBuffer(buf) {
         let view = [];
         for (let i = 0; i < buf.length; i++) {
@@ -81,7 +107,11 @@ class Common {
         return view;
     }
 
-    //将十六进制转字符串
+    /**
+     * 将十六进制转字符串
+     * @param {Array} list 
+     * @returns 
+     */
     hexToString(list) {
         let result = "";
         let hexArray = list.slice(5, -2);
@@ -91,7 +121,11 @@ class Common {
         return result;
     }
 
-    //将字符串转十六进制
+    /**
+     * 将字符串转十六进制
+     * @param {String} str 
+     * @returns 
+     */
     stringToHex(str) {
         let val = [];
         for (let i = 0; i < str.length; i++) {
@@ -102,7 +136,11 @@ class Common {
         return val;
     }
 
-    //检测数据并转buffer数组
+    /**
+     * 检测数据并转buffer数组
+     * @param {*} data 
+     * @returns 
+     */
     Get_CRC(data) {
         let arr = [];
         if (!Array.isArray(data)) {
@@ -113,7 +151,12 @@ class Common {
         return arr;
     }
 
-    //分段上传
+    /**
+     * 分段上传
+     * @param {Array} data 
+     * @param {Number} size 
+     * @returns 
+     */
     uploadSlice(data, size) {
         let newArr = [];
         const chunkSize = size;
@@ -128,25 +171,42 @@ class Common {
         return newArr;
     }
 
-    //对接收数据的错误处理
+    /**
+     * 对接收数据的错误处理
+     * @param {*} event 
+     * @param {Function} fn 
+     */
     handleReadError(event, fn) {
         if (typeof fn === 'function') fn.apply(this);
         event.reply("completed", { result: false, msg: "uploadError" });
     }
 
-    //从文件夹获取文件名
+    /**
+     * 从文件夹获取文件名
+     * @param {String} folderPath 
+     * @returns 
+     */
     readmidr(folderPath) {
         const files = fs.readdirSync(folderPath);
         return files;
     }
 
-    //读取文件
+    /**
+     * 读取文件
+     * @param {*} path 
+     * @param {*} type 
+     * @returns 
+     */
     readFiles(path, type) {
         const data = fs.readFileSync(path, type);
         return data;
     }
     
-    //判断功能码
+    /**
+     * 判断功能码
+     * @param {Number} verifyType 
+     * @returns 
+     */
     getBits(verifyType) {
         switch (verifyType) {
             case BOOTBIN:
@@ -168,7 +228,13 @@ class Common {
         }
     }
     
-    //校验数据的switch
+    /**
+     * 校验数据的switch
+     * @param {Object} actions 
+     * @param {String} condition 
+     * @param {String} type 
+     * @returns 
+     */
     switch(actions, condition, type) {
         if (type) {
             if (actions[condition]) {

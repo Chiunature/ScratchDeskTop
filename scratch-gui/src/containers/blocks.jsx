@@ -205,7 +205,7 @@ class Blocks extends React.Component {
         if(match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
-            this.props.compile.setStartSend(false);
+
             this.parserTask(this.workspace, arr);
         } 
     }
