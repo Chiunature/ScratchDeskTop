@@ -120,7 +120,7 @@ class DeviceCards extends React.Component {
                 deviceList[arr[0]].sensing_device = '颜色识别器';
                 break;
             case 3:
-                deviceList[arr[0]].ultrasonic = arr[1];
+                deviceList[arr[0]].ultrasonic = Math.round(arr[1]);
                 deviceList[arr[0]].sensing_device = '超声波';
                 break;
             case 4:
@@ -153,7 +153,7 @@ class DeviceCards extends React.Component {
             eventName: 'response_watch',
             callback: (event, data) => {
                 const newArr = data.split('/').filter((el) => (el !== ''));
-                this.distinguishDevice(newArr);
+                if(newArr.length > 0) this.distinguishDevice(newArr);
             }
         })
     }

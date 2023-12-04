@@ -2,7 +2,14 @@
     "plugins": [
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-transform-async-to-generator",
+        "@babel/plugin-proposal-class-properties",
         "@babel/plugin-proposal-object-rest-spread",
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "regenerator": true
+            }
+        ],
         [
             "react-intl",
             {
@@ -16,7 +23,11 @@
             {
                 "targets": {
                     "node": "current",
-                    "browsers": ["last 3 versions", "Safari >= 8", "iOS >= 8"]
+                    "browsers": [
+                        "last 3 versions",
+                        "Safari >= 8",
+                        "iOS >= 8"
+                    ]
                 }
             }
         ],

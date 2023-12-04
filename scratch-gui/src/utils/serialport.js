@@ -279,7 +279,7 @@ class Serialport extends Common {
         if(!data) return false;
         const result = verifyActions(sign, data, event, hexToString);
         if(typeof result === 'object') {
-            const action = this.actions(verifyActions(sign, data, event, hexToString));
+            const action = this.actions(result);
             return this.switch(action, sign, true);
         }else {
             return result;

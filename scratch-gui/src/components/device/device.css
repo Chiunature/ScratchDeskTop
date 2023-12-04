@@ -127,6 +127,7 @@
     box-sizing: border-box;
     margin: 8px 0;
     flex-shrink: 0;
+    flex-grow: 1;
 }
 
 .mid-box p {
