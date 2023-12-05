@@ -88,8 +88,8 @@ class Serialport extends Common {
      * @param {String | Null} sign 
      */
     linkToSerial(serial, event, sign) {
-        if (this.port) {
-            this.port = null;
+        if (this.port && this.port.isOpen && this.port.path === serial.path) {
+            return;
         }
 
         this.port = new SerialPort(
@@ -234,8 +234,8 @@ class Serialport extends Common {
                 this.clearTimer();
                 const receiveData = this.port.read();
 
-                const allData = this.catchData(receiveData);
-                const verify = this.verification(this.sign, allData, event, this.hexToString.bind(this));
+                const receiveObj = this.catchData(receiveData);
+                const verify = this.verification(this.sign, receiveObj, event, this.hexToString.bind(this));
 
                 if (verify) this.processReceivedData(event);
             } catch (error) {
@@ -252,19 +252,14 @@ class Serialport extends Common {
     catchData(data) {
         if (!this.sign || !data) return;
         const list = this.Get_CRC(data);
-        if(list[0] === 0x5a && list[list.length - 1] === 0xa5) {
-            return list;
-        }else if(list[0] === 0x5a && list[list.length - 1] !== 0xa5) {
-            this.receiveDataBuffer = [...list];
-        }else {
-            this.receiveDataBuffer = this.receiveDataBuffer.concat(list);
-            if(this.receiveDataBuffer[0] === 0x5a && list[list.length - 1] === 0xa5) {
-                const newList = [...this.receiveDataBuffer];
-                this.receiveDataBuffer.splice(0, this.receiveDataBuffer.length);
-                return newList;
+        const start = list.indexOf(0x5a);
+        let newList = [];
+        if(list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
+            for (let i = start; i < list[start + 3] + 7; i++) {
+                newList.push(list[i]);
             }
-            return false;
         }
+        return {data: newList, bit: newList[4]};
     }
 
     /**
@@ -275,9 +270,9 @@ class Serialport extends Common {
      * @param {Function} hexToString 
      * @returns 
      */
-    verification(sign, data, event, hexToString) {
-        if(!data) return false;
-        const result = verifyActions(sign, data, event, hexToString);
+    verification(sign, obj, event, hexToString) {
+        if(obj.data.length <= 0) return false;
+        const result = verifyActions(sign, obj, event, hexToString);
         if(typeof result === 'object') {
             const action = this.actions(result);
             return this.switch(action, sign, true);

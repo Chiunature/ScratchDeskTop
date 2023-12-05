@@ -576,7 +576,13 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
-        <block type="matrix_lamp_text"></block>
+        <block type="matrix_lamp_text">
+            <value name="matrix_text">
+                <shadow type="text">
+                    <field name="TEXT">ABCD</field>
+                </shadow>
+            </value>
+        </block>
         <block type="matrix_lamp_useRGB"></block>
         `
         }

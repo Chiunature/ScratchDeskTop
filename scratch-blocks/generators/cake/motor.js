@@ -66,12 +66,12 @@ Blockly.cake['motor_rate'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
     let code = `motor_Rate("${dropdown_port}1")`;
-    return code;
+    return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['motor_angle'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
     let code = `motor_Angle("${dropdown_port}1")`;
-    return code;
+    return [code, Blockly.cake.ORDER_ATOMIC];
 };

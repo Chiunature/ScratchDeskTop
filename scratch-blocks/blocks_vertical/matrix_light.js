@@ -160,10 +160,9 @@ Blockly.Blocks['matrix_lamp_text'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_input",
-                    "name": "text",
-                    "text": "ABCD"
-                },
+                    "type": "input_value",
+                    "name": "matrix_text"
+                }
             ],
             "category": Blockly.Categories.matrix,
             "colour": "#9966FF",

@@ -85,11 +85,11 @@ class DeviceCards extends React.Component {
     }
 
     //区分什么设备,什么端口
-    distinguishDevice(arr) {
+    distinguishDevice(arr, bit) {
         let { deviceList } = this.state;
-        if (!arr || deviceList.length === 0) return;
-        switch (this.index) {
-            case 0:
+        if (deviceList.length === 0) return;
+        switch (bit) {
+            case 0xD8:
                 arr.map((item, i) => {
                     if (item == 0) {
                         deviceList[i] = {
@@ -99,44 +99,43 @@ class DeviceCards extends React.Component {
                             ultrasonic: null,
                             touch: null,
                             sensing_device: '无设备连接'
-                        };
+                        }
                     }
                 });
                 break;
-            case 1:
+            case 0xD0:
                 deviceList[arr[0]].motor = {
                     speed: arr[1],
                     aim_speed: arr[2],
                     direction: arr[3] == 1 ? '正转' : arr[3] == 2 ? '反转' : arr[3] == 3 ? '刹车' : '停止'
-                };
+                }
                 deviceList[arr[0]].sensing_device = '电机';
                 break;
-            case 2:
-                if(arr.length < 5) return;
+            case 0xD6:
                 deviceList[arr[0]].color = {
                     rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
                     hex: `#${arr[4]}`
-                };
+                }
                 deviceList[arr[0]].sensing_device = '颜色识别器';
                 break;
-            case 3:
+            case 0xD2:
                 deviceList[arr[0]].ultrasonic = Math.round(arr[1]);
                 deviceList[arr[0]].sensing_device = '超声波';
                 break;
-            case 4:
+            case 0xD1:
                 this.gyroList = arr;
                 break;
-            case 5:
+            case 0xD4:
                 arr[1] = arr[0] - arr[1];
                 this.flashList = arr;
                 break;
-            case 6:
+            case 0xD5:
                 this.adcList = arr;
                 break;
-            case 7:
+            case 0xD7:
                 this.voice = arr[0];
                 break;
-            case 8:
+            case 0xD3:
                 deviceList[arr[0]].touch = arr[1];
                 deviceList[arr[0]].sensing_device = '触碰';
             default:
@@ -151,9 +150,10 @@ class DeviceCards extends React.Component {
             sendName: 'watchDevice',
             sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
             eventName: 'response_watch',
-            callback: (event, data) => {
+            callback: (event, watchData) => {
+                const {data, bit} = watchData;
                 const newArr = data.split('/').filter((el) => (el !== ''));
-                if(newArr.length > 0) this.distinguishDevice(newArr);
+                if(newArr && newArr.length > 0) this.distinguishDevice(newArr, bit);
             }
         })
     }

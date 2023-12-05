@@ -41,7 +41,7 @@ const DeviceBox = ({ list }) => {
                                 </li>)
                             })}
                         </ul>}
-                        {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>mm</span></li></ul>}
+                        {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>cm</span></li></ul>}
                         {el.touch && <ul className={styles.midUl}><li><span>按键</span><span>{el.touch === 0 ? 'press' : 'unpress'}</span></li></ul>}
                         {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {

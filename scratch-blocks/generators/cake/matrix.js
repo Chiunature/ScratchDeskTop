@@ -72,14 +72,14 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
 };
 
 Blockly.cake['matrix_lamp_text'] = function (block) {
-    let text = block.getFieldValue('text');
+    let text = Blockly.cake.valueToCode(block, "matrix_text", Blockly.cake.ORDER_NONE);
     // let hex = Blockly.cake.charToHexArray(text);
     // TODO: Assemble cake into code variable.
     const regex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
     const match = regex.exec(text);
-    if(match && match.length > 0) text = match[0].toUpperCase();
+    if(match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
     // let code = `char Text[] = {${hex.join(",")}};\nmatrix_text_lamp(Text);\n`;
-    let code = `matrix_text_lamp("${text}");\n`;
+    let code = `matrix_text_lamp(${text.indexOf('(') === -1 ? ('"' + text + '"') : text});\n`;
     return code;
 };
 

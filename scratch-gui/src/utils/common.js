@@ -114,7 +114,7 @@ class Common {
      */
     hexToString(list) {
         let result = "";
-        let hexArray = list.slice(5, -2);
+        let hexArray = list;
         for (let i = 0; i < hexArray.length; i++) {
             result += String.fromCharCode(hexArray[i]);
           }
@@ -193,8 +193,8 @@ class Common {
 
     /**
      * 读取文件
-     * @param {*} path 
-     * @param {*} type 
+     * @param {String} path 
+     * @param {String} type 
      * @returns 
      */
     readFiles(path, type) {

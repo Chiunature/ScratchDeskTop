@@ -28,12 +28,13 @@ const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.jso
 /**
  * 校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
  * @param {String} sign 
- * @param {Array} data 
+ * @param {Object} recevieObj 
  * @param {Object} event 
  * @param {Function} hexToString 
  * @returns 
  */
-function verifyActions(sign, data, event, hexToString) {
+function verifyActions(sign, recevieObj, event, hexToString) {
+    const {data, bit} = recevieObj;
     if(sign && sign.search('Boot') !== -1) {
         let obj = {};
         obj[sign] = () => {
@@ -54,10 +55,10 @@ function verifyActions(sign, data, event, hexToString) {
     }else {
         switch (sign) {
             case "Watch_Device":
-                event.reply("response_watch", hexToString(data));
+                event.reply("response_watch", {data: hexToString(data.slice(5, data.length - 2)), bit});
                 return false;
             case "get_version":
-                event.reply("return_version", hexToString(data));
+                event.reply("return_version", hexToString(data.slice(5, data.length - 2)));
                 return false;
             case "delete-exe":
                 const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];

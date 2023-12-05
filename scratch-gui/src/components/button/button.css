@@ -260,9 +260,19 @@
 .select-exe-btn-con {
     width: 60px;
     position: fixed;
-    left: 25%;
+    left: 27%;
     top: 11%;
     z-index: 20;
+}
+
+@media screen and (min-width: 1450px) {
+    .select-exe-btn-con {
+        width: 60px;
+        position: fixed;
+        left: 21%;
+        top: 11%;
+        z-index: 20;
+    }
 }
 
 .select-exe-box {
