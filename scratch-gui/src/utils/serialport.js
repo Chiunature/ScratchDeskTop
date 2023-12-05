@@ -122,10 +122,6 @@ class Serialport extends Common {
      * @returns 
      */
     upload(event, data) {
-        if(data.verifyType === SOURCE_CONFIG) {
-            event.reply("sourceCompleted", { msg: "uploadSuccess" });
-        }
-        
         if(!data.binData || !data.fileName) return;
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;

@@ -45,9 +45,9 @@ class DeviceCards extends React.Component {
         this.initDeviceList();
         const that = this;
         this.timer = setInterval(async () => {
-            if(that.state.stopWatch && (that.props.completed || !that.props.completed)) {
+            if(that.state.stopWatch || that.props.completed) {
                 return;
-            } else if(!that.state.stopWatch) {
+            } else {
                 that.index = that.index === list.length - 1 ? 0 : that.index + 1;
                 await that.watchDevice(that.index);
             }
