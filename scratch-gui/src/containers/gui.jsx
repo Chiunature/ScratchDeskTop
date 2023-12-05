@@ -88,9 +88,12 @@ class GUI extends React.Component {
                     localStorage.setItem('driver', arg);
                 },
             });
-            window.electron.ipcRenderer.once("return_version", (event, arg) => {
-                const version = getVersion(arg);
-                this.props.onSetVersion(version);
+            ipc({
+                eventName: "return_version", 
+                callback: (event, arg) => {
+                    const version = getVersion(arg);
+                    this.props.onSetVersion(version);
+                }
             });
         }
     }
