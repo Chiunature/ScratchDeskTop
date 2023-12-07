@@ -27,7 +27,7 @@ import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
-import { verifyBinType } from "EST-link";
+import { verifyBinType } from "est-link";
 
 const fs = window.fs;
 const { spawn } = window.child_process;

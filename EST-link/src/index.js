@@ -4,7 +4,7 @@ const verify = require("./config/js/verify");
 
 
 module.exports = {
-    name: 'EST-link',
+    name: 'est-link',
     Serialport,
     ...verify,
 }

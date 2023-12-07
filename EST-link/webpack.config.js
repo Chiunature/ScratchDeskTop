@@ -2,9 +2,18 @@ var path = require('path');
 
 module.exports = {
     entry: "./src/index.js",
+    devtool: 'cheap-module-source-map',
     output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, "dist")
+        library: 'est-link',
+        libraryTarget: 'commonjs2',
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js'
+    },
+    optimization: {
+        minimize: false
+    },
+    performance: {
+        hints: false
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     module: {

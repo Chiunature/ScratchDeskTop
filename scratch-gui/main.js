@@ -30,7 +30,7 @@ const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 
-const { Serialport } = require('EST-link');
+const { Serialport } = require('est-link');
 const { exec } = require('child_process');
 
 let mainWindow, loadingWindow, progressInterval, isUpdate;
