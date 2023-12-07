@@ -22,12 +22,15 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
+const serialport = require('serialport');
+const electron = require("electron");
+const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = electron;
 
-const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = require("electron");
 const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
-const Serialport = require(path.join(__dirname, "src/utils/serialport.js"));
+
+const { Serialport } = require('EST-link');
 const { exec } = require('child_process');
 
 let mainWindow, loadingWindow, progressInterval, isUpdate;
@@ -110,7 +113,7 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport();
+        const sp = new Serialport({serialport, electron});
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);

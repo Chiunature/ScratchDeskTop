@@ -114,6 +114,7 @@ function distinguish(filesObj, type, event) {
     function processedForSouceFile(obj, next, event) {
         obj.filesIndex++;
         if (obj.filesIndex <= obj.filesLen - 1) {
+            console.log(`${obj.fileName}已经下载完成`);
             event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
         } else if (obj.fileVerifyType !== next) {
             obj.filesIndex = 0;

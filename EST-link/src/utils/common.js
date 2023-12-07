@@ -1,40 +1,14 @@
-/**
- * @license
- * Visual Blocks Editor
- *
- * Copyright 2023 drluck Inc.
- * http://www.drluck.cn/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview The class representing one block.
- * @author avenger-jxc
- */
-
-const { ipcMain } = require("electron");
-const fs = require("fs");
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 class Common {
+    constructor() {}
     /**
      * 主进程通信
      * @param {String} eventName 
      * @param {Function} callback 
      */
     ipcMain(eventName, callback) {
-        const eventList = ipcMain.eventNames();
-        !eventList.includes(eventName) && ipcMain.on(eventName, (event, arg) => {
+        const eventList = this.electron.ipcMain.eventNames();
+        !eventList.includes(eventName) && this.electron.ipcMain.on(eventName, (event, arg) => {
             return callback(event, arg);
         });
     }

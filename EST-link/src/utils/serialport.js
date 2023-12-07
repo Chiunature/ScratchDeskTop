@@ -1,30 +1,10 @@
-/**
- * @license
- * Visual Blocks Editor
- *
- * Copyright 2023 drluck Inc.
- * http://www.drluck.cn/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview The class representing one block.
- * @author avenger-jxc
- */
-
 /*
-* @params: {
+ * @Description: New features
+ * @Author: jiang
+ * @Date: 2023-06-07 08:58:20
+ * @LastEditors: jiang
+ * @LastEditTime: 2023-06-15 15:30:17
+ * @params: {
  *  port: 串口
  *  chunkBuffer: bin文件数据缓存
  *  chunkIndex: 切片下标
@@ -35,24 +15,27 @@
  *  filesObj: 固件文件对象
  * }
  */
-const { SerialPort } = require("serialport");
 const Common = require("./common.js");
 const { verifyActions, processReceivedConfig } = require("../config/js/verify.js");
-const { SOURCE, SOURCE_CONFIG } = require("../config/json/verifyTypeConfig.json");
-
+const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 
 class Serialport extends Common {
-    port;
-    receiveDataBuffer = [];
-    chunkBuffer = [];
-    chunkIndex = 0;
-    sign;
-    timeOutTimer;
-    verifyType;
-    filesObj;
 
-    constructor() {
+    constructor(...args) {
         super();
+        args.map(item => {
+            Object.keys(item).map(key => {
+                this[key] = item[key];
+            });
+        });
+        this.port;
+        this.receiveDataBuffer = [];
+        this.chunkBuffer = [];
+        this.chunkIndex = 0;
+        this.sign;
+        this.timeOutTimer;
+        this.verifyType;
+        this.filesObj;
     }
 
     /**
@@ -60,7 +43,7 @@ class Serialport extends Common {
      */
     getList() {
         this.ipcMain("getConnectList", (event, arg) => {
-            SerialPort.list().then((res) => event.reply("connectList", res));
+            this.serialport.SerialPort.list().then((res) => event.reply("connectList", res));
         });
     }
 
@@ -92,7 +75,7 @@ class Serialport extends Common {
             return;
         }
 
-        this.port = new SerialPort(
+        this.port = new this.serialport.SerialPort(
             {
                 path: serial.path,
                 baudRate: 115200
@@ -159,6 +142,7 @@ class Serialport extends Common {
         if (!this.port) return;
         this.sign = str;
         this.port.write(data);
+        // console.log("write=>", data);
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         if(str && str.search('Boot') !== -1) this.checkOverTime(event);
     }
@@ -235,6 +219,7 @@ class Serialport extends Common {
 
                 if (verify) this.processReceivedData(event);
             } catch (error) {
+                console.log(error);
                 this.handleReadError(event, this.clearCache);
             }
         });
@@ -254,8 +239,10 @@ class Serialport extends Common {
             for (let i = start; i < list[start + 3] + 7; i++) {
                 newList.push(list[i]);
             }
+            return {data: newList, bit: newList[4]};
+        }else {
+            return false;
         }
-        return {data: newList, bit: newList[4]};
     }
 
     /**
@@ -267,7 +254,8 @@ class Serialport extends Common {
      * @returns 
      */
     verification(sign, obj, event, hexToString) {
-        if(obj.data.length <= 0) return false;
+        if(!obj) return false;
+        if(obj.data && obj.data.length <= 0) return false;
         const result = verifyActions(sign, obj, event, hexToString);
         if(typeof result === 'object') {
             const action = this.actions(result);

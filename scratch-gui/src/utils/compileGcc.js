@@ -27,10 +27,12 @@ import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
-import { verifyBinType } from "../config/js/verify.js";
+import { verifyBinType } from "EST-link";
 
 const fs = window.fs;
 const { spawn } = window.child_process;
+const cpus = window.os.cpus();
+
 
 class Compile {
 
@@ -89,7 +91,7 @@ class Compile {
     commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
-            this.progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: DIR });
+            this.progress = spawn('make', [`-j${cpus ? cpus.length * 2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
 
             this.progress.stderr.on('data', (err) => errStr += err.toString());
 
