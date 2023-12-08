@@ -44,6 +44,7 @@
         "css-loader": "^1.0.0",
         "electron-updater": "^6.1.4",
         "es6-object-assign": "1.1.0",
+        "est-link": "1.0.0",
         "file-loader": "2.0.0",
         "get-float-time-domain-data": "0.1.0",
         "get-user-media-promise": "1.1.4",
@@ -167,7 +168,7 @@
         "productName": "EST3.0",
         "appId": "com.EST3.eletest",
         "copyright": "cd©20211209",
-
+        "afterSign": "./build/scripts/afterSign.js",
         "directories": {
             "buildResources": "./",
             "output": "pack"

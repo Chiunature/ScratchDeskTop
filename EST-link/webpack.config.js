@@ -1,11 +1,13 @@
 var path = require('path');
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: {
+        index: './src/index.js'
+    },
     devtool: 'cheap-module-source-map',
     output: {
         library: 'est-link',
-        libraryTarget: 'commonjs2',
+        libraryTarget: 'umd',
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js'
     },
