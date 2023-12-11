@@ -1,5 +1,4 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
-const fs = require('fs');
 /*
  * @Description: New features
  * @Author: jiang
@@ -177,7 +176,7 @@ class Common {
      * @returns 
      */
     readmidr(folderPath) {
-        const files = fs.readdirSync(folderPath);
+        const files = this.fs.readdirSync(folderPath);
         return files;
     }
 
@@ -189,7 +188,7 @@ class Common {
      */
     readFiles(path, type) {
         try {
-            const data = fs.readFileSync(path, type);
+            const data = this.fs.readFileSync(path, type);
             return data;
         } catch (error) {
             return false;
@@ -204,7 +203,7 @@ class Common {
      */
     writeFiles(path, type) {
         try {
-            fs.writeFileSync(path, type);
+            this.fs.writeFileSync(path, type);
             return true;
         } catch (error) {
             return false;

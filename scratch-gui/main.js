@@ -29,6 +29,7 @@ const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = electron;
 const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
+const fs = require("fs");
 
 const { Serialport } = require('est-link');
 const { exec } = require('child_process');
@@ -113,7 +114,7 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport({serialport, electron});
+        const sp = new Serialport({serialport, electron, fs});
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
