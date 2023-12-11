@@ -24,6 +24,12 @@
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
+const fs = require('fs');
+const path = require('path');
+const { cwd } = require('process');
+const root = cwd();
+
+
 
 /**
  * 校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
@@ -34,17 +40,17 @@ const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.jso
  * @returns 
  */
 function verifyActions(sign, recevieObj, event, hexToString) {
-    const {data, bit} = recevieObj;
-    if(sign && sign.search('Boot') !== -1) {
+    const { data, bit } = recevieObj;
+    if (sign && sign.search('Boot') !== -1) {
         let obj = {};
         obj[sign] = () => {
             const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
             let res;
             for (let i = 0; i < data.length; i++) {
                 const item = data[i];
-                if(item == list[i]) {
+                if (item == list[i]) {
                     res = true;
-                }else {
+                } else {
                     res = false;
                     break;
                 }
@@ -52,10 +58,10 @@ function verifyActions(sign, recevieObj, event, hexToString) {
             return res;
         }
         return obj;
-    }else {
+    } else {
         switch (sign) {
             case "Watch_Device":
-                event.reply("response_watch", {data: hexToString(data.slice(5, data.length - 2)), bit});
+                event.reply("response_watch", { data: hexToString(data.slice(5, data.length - 2)), bit });
                 return false;
             case "get_version":
                 event.reply("return_version", hexToString(data.slice(5, data.length - 2)));
@@ -65,9 +71,9 @@ function verifyActions(sign, recevieObj, event, hexToString) {
                 let res;
                 for (let i = 0; i < data.length; i++) {
                     const item = data[i];
-                    if(item == list[i]) {
+                    if (item == list[i]) {
                         res = true;
-                    }else {
+                    } else {
                         res = false;
                         break;
                     }
@@ -87,12 +93,9 @@ function verifyActions(sign, recevieObj, event, hexToString) {
  * @param {Object} event 
  */
 function distinguish(filesObj, type, event) {
-    let obj = filesObj;
+    let obj = { ...filesObj };
     switch (type) {
         case SOURCE_MUSIC:
-            processedForSouceFile(obj, SOURCE_APP, event);
-            break;
-        case SOURCE_APP:
             processedForSouceFile(obj, SOURCE_BOOT, event);
             break;
         case SOURCE_BOOT:
@@ -102,6 +105,9 @@ function distinguish(filesObj, type, event) {
             processedForSouceFile(obj, SOURCE_CONFIG, event);
             break;
         case SOURCE_CONFIG:
+            processedForSouceFile(obj, SOURCE_APP, event);
+            break;
+        case SOURCE_APP:
             processedForSouceFile(obj, null, event);
             break;
         case BOOTBIN:
@@ -113,14 +119,15 @@ function distinguish(filesObj, type, event) {
     //发送完资源文件后
     function processedForSouceFile(obj, next, event) {
         obj.filesIndex++;
-        if (obj.filesIndex <= obj.filesLen - 1) {
+        if(next) {
+            if (obj.filesIndex < obj.filesLen) {
+                event.reply("nextFile", { subFileIndex: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
+            } else if (obj.filesIndex > obj.filesLen - 1) {
+                obj.fileVerifyType = next;
+                event.reply("nextFile", { subFileIndex: 0, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
+            }
             console.log(`${obj.fileName}已经下载完成`);
-            event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
-        } else if (obj.fileVerifyType !== next) {
-            obj.filesIndex = 0;
-            obj.fileVerifyType = next;
-            event.reply("nextFile", { index: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
-        } else if (!next) {
+        } else {
             event.reply("sourceCompleted", { msg: "uploadSuccess" });
         }
     }
@@ -135,11 +142,11 @@ function distinguish(filesObj, type, event) {
  */
 function processReceivedConfig(...arg) {
     const {
-        event, 
-        chunkIndex, 
-        verifyType, 
-        filesObj, 
-        sendBin, 
+        event,
+        chunkIndex,
+        verifyType,
+        filesObj,
+        sendBin,
         clearCache
     } = arg[0];
     return {
@@ -162,34 +169,34 @@ function verifyBinType(...arg) {
     const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
     switch (verifyType) {
         case SOURCE_MUSIC:
-            const music = readdirForSource(MUSIC, filesObj, filesIndex, readFiles);
+            const music = readdirForSource(path.join(root, MUSIC), filesObj, filesIndex, readFiles);
             data = music.fileData;
             name = music.fileName;
             break;
         case SOURCE_APP:
-            const app = readdirForSource(APP, filesObj, filesIndex, readFiles);
+            const app = readdirForSource(path.join(root, APP), filesObj, filesIndex, readFiles);
             data = app.fileData;
             name = app.fileName;
             break;
         case SOURCE_BOOT:
-            const boot = readdirForSource(BOOT, filesObj, filesIndex, readFiles);
+            const boot = readdirForSource(path.join(root, BOOT), filesObj, filesIndex, readFiles);
             data = boot.fileData;
             name = boot.fileName;
             break;
         case SOURCE_VERSION:
-            const version = readdirForSource(VERSION, filesObj, filesIndex, readFiles);
+            const version = readdirForSource(path.join(root, VERSION), filesObj, filesIndex, readFiles);
             data = version.fileData;
             name = version.fileName;
             break;
         case SOURCE_CONFIG:
-            const config = readdirForSource(CONFIG, filesObj, filesIndex, readFiles);
+            const config = readdirForSource(path.join(root, CONFIG), filesObj, filesIndex, readFiles);
             data = config.fileData;
             name = config.fileName;
             break;
         case BOOTBIN:
             name = `${selectedExe.num}_APP.bin`;
-            data = readFiles(BIN);
-            writeFiles(APP + '/' + name, data);
+            data = readFiles(path.join(root, BIN));
+            writeFiles(path.join(root, APP, name), data);
             break;
         default:
             break;
@@ -198,7 +205,7 @@ function verifyBinType(...arg) {
     function readdirForSource(path, filesObj, filesIndex, readFiles) {
         let fileData, fileName;
         if (Object.keys(filesObj).length === 0) {
-            filesObj.filesList = window.fs.readdirSync(path);
+            filesObj.filesList = fs.readdirSync(path);
             filesObj.filesLen = filesObj.filesList.length;
         }
         if (filesObj.filesList.length > 0) {

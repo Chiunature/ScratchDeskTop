@@ -12,11 +12,11 @@
  *  timeOutTimer: 检测指令是否成功有返回
  *  verifyType: 判断是发固件文件还是bin数据
  *  receiveDataBuffer: 接收到的数据缓存
- *  filesObj: 固件文件对象
+ *  filesObj: 传输的文件对象
  * }
  */
 const Common = require("./common.js");
-const { verifyActions, processReceivedConfig } = require("../config/js/verify.js");
+const { verifyActions, processReceivedConfig, verifyBinType } = require("../config/js/verify.js");
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 
 class Serialport extends Common {
@@ -91,11 +91,37 @@ class Serialport extends Common {
         this.handleRead("readable", event);
         this.listenPortClosed("close", event);
         this.disconnectSerial("disconnected");
-        this.sendToSerial("writeData", this.upload);
+        this.getBinOrHareWare("getFilesAndCommunication");
         this.listenError("transmission-error");
         this.watchDevice("watchDevice");
         this.deleteExe("delete-exe");
         this.getVersion(event);
+    }
+
+    /**
+     * 获取渲染进程发过来的bin文件数据准备通信
+     * @param {String} eventName 
+     */
+    getBinOrHareWare(eventName) {
+        this.ipcMain(eventName, (event, data) => {
+            if (typeof data.subFileIndex === 'number') {
+                this.subFileIndex = data.subFileIndex;
+            }
+            if (data.clearFilesObj) {
+                for (const key in this.files) {
+                    delete this.files[key];
+                }
+            }
+            const { fileData, fileName } = verifyBinType({
+                verifyType: data.verifyType,
+                selectedExe: data.selectedExe,
+                filesObj: this.files,
+                filesIndex: this.subFileIndex,
+                readFiles: this.readFiles.bind(this),
+                writeFiles: this.writeFiles.bind(this)
+            });
+            this.upload(event, { fileName, binData: fileData, verifyType: data.verifyType, filesIndex: this.subFileIndex,  filesLen: this.files.filesLen});
+        });
     }
 
     /**
@@ -105,18 +131,18 @@ class Serialport extends Common {
      * @returns 
      */
     upload(event, data) {
-        if(!data.binData || !data.fileName) return;
+        if (!data.binData || !data.fileName) return;
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
         this.filesObj = {
             filesIndex: data.filesIndex,
-            filesLen: data.filesLen,
             fileVerifyType: data.verifyType,
-            fileName: data.fileName
+            fileName: data.fileName,
+            filesLen: data.filesLen
         };
         const bits = this.getBits(data.verifyType);
         const { binArr } = this.checkFileName(data.fileName, bits);
-        this.writeData(binArr, data.binData ? 'Boot_URL' : null, event);
+        this.writeData(binArr, data.binData ? 'Boot_Name' : null, event);
     }
 
     /**
@@ -143,8 +169,12 @@ class Serialport extends Common {
         this.sign = str;
         this.port.write(data);
         // console.log("write=>", data);
-        if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
-        if(str && str.search('Boot') !== -1) this.checkOverTime(event);
+        if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
+            event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+        }
+        if (str && str.search('Boot') !== -1) {
+            this.checkOverTime(event);
+        }
     }
 
     /**
@@ -183,7 +213,7 @@ class Serialport extends Common {
      */
     watchDevice(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            if(!data.stopWatch) this.writeData(data.instruct, 'Watch_Device', event);
+            if (!data.stopWatch) this.writeData(data.instruct, 'Watch_Device', event);
         });
     }
 
@@ -197,8 +227,11 @@ class Serialport extends Common {
         if (index < 0) return;
         const element = this.chunkBuffer[index];
         const { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
-        if (index === this.chunkBuffer.length - 1) this.writeData(binArr, 'Boot_End', event);
-        else this.writeData(binArr, 'Boot_Bin', event);
+        if (index === this.chunkBuffer.length - 1) {
+            this.writeData(binArr, 'Boot_End', event);
+        } else {
+            this.writeData(binArr, 'Boot_Bin', event);
+        }
     }
 
     /**
@@ -213,13 +246,10 @@ class Serialport extends Common {
             try {
                 this.clearTimer();
                 const receiveData = this.port.read();
-
                 const receiveObj = this.catchData(receiveData);
                 const verify = this.verification(this.sign, receiveObj, event, this.hexToString.bind(this));
-
                 if (verify) this.processReceivedData(event);
             } catch (error) {
-                console.log(error);
                 this.handleReadError(event, this.clearCache);
             }
         });
@@ -235,12 +265,12 @@ class Serialport extends Common {
         const list = this.Get_CRC(data);
         const start = list.indexOf(0x5a);
         let newList = [];
-        if(list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
+        if (list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
             for (let i = start; i < list[start + 3] + 7; i++) {
                 newList.push(list[i]);
             }
-            return {data: newList, bit: newList[4]};
-        }else {
+            return { data: newList, bit: newList[4] };
+        } else {
             return false;
         }
     }
@@ -254,13 +284,13 @@ class Serialport extends Common {
      * @returns 
      */
     verification(sign, obj, event, hexToString) {
-        if(!obj) return false;
-        if(obj.data && obj.data.length <= 0) return false;
+        if (!obj) return false;
+        if (obj.data && obj.data.length <= 0) return false;
         const result = verifyActions(sign, obj, event, hexToString);
-        if(typeof result === 'object') {
+        if (typeof result === 'object') {
             const action = this.actions(result);
             return this.switch(action, sign, true);
-        }else {
+        } else {
             return result;
         }
     }
@@ -270,17 +300,17 @@ class Serialport extends Common {
      * @param {*} event 
      */
     processReceivedData(event) {
-        if (this.sign == 'Boot_URL') {
+        if (this.sign == 'Boot_Name') {
             this.sign = 'Boot_Bin';
         } else {
             this.chunkIndex++;
         }
         const actions = processReceivedConfig({
-            event, 
-            chunkIndex: this.chunkIndex, 
-            verifyType: this.verifyType, 
-            filesObj: this.filesObj, 
-            sendBin: this.sendBin.bind(this), 
+            event,
+            chunkIndex: this.chunkIndex,
+            verifyType: this.verifyType,
+            filesObj: this.filesObj,
+            sendBin: this.sendBin.bind(this),
             clearCache: this.clearCache.bind(this)
         });
         this.switch(actions, this.sign);

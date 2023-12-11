@@ -27,7 +27,7 @@ import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
-import { verifyBinType } from "est-link";
+
 
 const fs = window.fs;
 const { spawn } = window.child_process;
@@ -37,20 +37,13 @@ const cpus = window.os.cpus();
 class Compile {
 
     constructor() {
-        this.filesIndex = 0;
+        // this.filesIndex = 0;
+        // this.filesObj = {};
         this.startSend = true;
-        this.filesObj = {};
         this.eventName;
         this.progress;
     }
 
-    /**
-     * 控制编译前、编译中、编译后通信
-     * @param {Boolean} val 
-     */
-    /* setStartSend(val) {
-        this.startSend = val;
-    } */
 
     /**
      * 将c语言代码写入文件
@@ -142,8 +135,10 @@ class Compile {
 
         //编译
         if (appRes) {
-            this.commendMake().then(result => {
-                this.readBin(verifyType, selectedExe);
+            this.commendMake().then(() => {
+
+                ipc({ sendName: 'getFilesAndCommunication', sendParams: { verifyType, selectedExe } });
+
             }).catch(e => {
                 handlerError(e);
                 ipc({ sendName: "transmission-error" });
@@ -151,35 +146,7 @@ class Compile {
         }
     }
 
-    /**
-     * 获取bin文件数据准备通信
-     * @param {Strign} verifyType 
-     * @param {Object} selectedExe 
-     */
-    readBin(verifyType, selectedExe) {
-        try {
-            const { fileData, fileName } = verifyBinType({ verifyType, selectedExe, filesObj: this.filesObj, filesIndex: this.filesIndex, readFiles: this.readFiles.bind(this), writeFiles: this.writeFiles.bind(this) });
 
-            ipc({
-                sendName: "writeData",
-                sendParams: { binData: fileData, verifyType, fileName, filesIndex: this.filesIndex, filesLen: this.filesObj.filesLen },
-                eventName: "nextFile",
-                callback: (event, data) => {
-                    if(typeof data.index === 'number') this.filesIndex = data.index;
-                    if(data.clearFilesObj) {
-                        for (const key in this.filesObj) {
-                            delete this.filesObj[key];
-                        }
-                    }
-                    this.readBin(data.fileVerifyType);
-                }
-            });
-
-        } catch (error) {
-            handlerError(error);
-            ipc({ sendName: "transmission-error" });
-        }
-    }
     /**
      * 区分是什么类型的通信
      * @param {String} verifyType 
@@ -189,7 +156,14 @@ class Compile {
      */
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
-            this.readBin(SOURCE_MUSIC);
+            ipc({
+                sendName: 'getFilesAndCommunication',
+                sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
+                eventName: "nextFile",
+                callback: (event, data) => {
+                    ipc({sendName: 'getFilesAndCommunication', sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
+                }
+            });
         } else {
             this.runGcc(bufferList, myBlock, selectedExe, verifyType);
         }

@@ -1,6 +1,23 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
+const fs = require('fs');
+/*
+ * @Description: New features
+ * @Author: jiang
+ * @Date: 2023-06-07 08:58:20
+ * @LastEditors: jiang
+ * @LastEditTime: 2023-06-15 15:30:17
+ * @params: {
+ *  subFileIndex:子文件遍历下标
+ *  files: 文件目录对象
+ * }
+ */
 class Common {
-    constructor() {}
+
+    constructor() {
+        this.subFileIndex = 0;
+        this.files = {};
+    }
+
     /**
      * 主进程通信
      * @param {String} eventName 
@@ -12,7 +29,6 @@ class Common {
             return callback(event, arg);
         });
     }
-
 
     /**
      * 文件名校验位和指令
@@ -91,7 +107,7 @@ class Common {
         let hexArray = list;
         for (let i = 0; i < hexArray.length; i++) {
             result += String.fromCharCode(hexArray[i]);
-          }
+        }
         return result;
     }
 
@@ -166,16 +182,35 @@ class Common {
     }
 
     /**
-     * 读取文件
+     * 读取文件内容
      * @param {String} path 
      * @param {String} type 
      * @returns 
      */
     readFiles(path, type) {
-        const data = fs.readFileSync(path, type);
-        return data;
+        try {
+            const data = fs.readFileSync(path, type);
+            return data;
+        } catch (error) {
+            return false;
+        }
     }
-    
+
+    /**
+     * 写入文件
+     * @param {String} path 
+     * @param {String} type 
+     * @returns 
+     */
+    writeFiles(path, type) {
+        try {
+            fs.writeFileSync(path, type);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     /**
      * 判断功能码
      * @param {Number} verifyType 
@@ -201,7 +236,7 @@ class Common {
                 break;
         }
     }
-    
+
     /**
      * 校验数据的switch
      * @param {Object} actions 
