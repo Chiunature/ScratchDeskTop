@@ -31,6 +31,9 @@ const base = {
     },
     resolve: {
         symlinks: false,
+        alias: {
+            'est-link': path.resolve(__dirname, '../EST-link')
+        }
     },
     module: {
         rules: [{
