@@ -12,7 +12,12 @@ const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BO
  */
 class Common {
 
-    constructor() {
+    constructor(...args) {
+        args.map(item => {
+            Object.keys(item).map(key => {
+                this[key] = item[key];
+            });
+        });
         this.subFileIndex = 0;
         this.files = {};
     }

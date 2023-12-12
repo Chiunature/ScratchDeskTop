@@ -114,7 +114,7 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport({serialport, electron, fs});
+        const sp = new Serialport({serialport, electron, fs, path, process: global.process});
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);

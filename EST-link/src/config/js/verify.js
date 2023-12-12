@@ -24,10 +24,6 @@
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
-const fs = require('fs');
-const path = require('path');
-const { cwd } = require('process');
-const root = cwd();
 
 
 
@@ -137,10 +133,10 @@ function distinguish(filesObj, type, event) {
 
 /**
  * 处理接收数据后的操作
- * @param  {...any} arg 
+ * @param  {Object} options 
  * @returns 
  */
-function processReceivedConfig(...arg) {
+function processReceivedConfig(options) {
     const {
         event,
         chunkIndex,
@@ -148,7 +144,7 @@ function processReceivedConfig(...arg) {
         filesObj,
         sendBin,
         clearCache
-    } = arg[0];
+    } = options;
     return {
         Boot_Bin: () => sendBin(chunkIndex, event),
         Boot_End: () => {
@@ -161,12 +157,14 @@ function processReceivedConfig(...arg) {
 
 /**
  * 处理是哪种类型的校验
- * @param  {...any} arg 
+ * @param  {Object} options 
  * @returns 
  */
-function verifyBinType(...arg) {
+function verifyBinType(options, that) {
     let data, name;
-    const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = arg[0];
+    const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = options;
+    const {path, fs, process} = that;
+    const root = process.cwd();
     switch (verifyType) {
         case SOURCE_MUSIC:
             const music = readdirForSource(path.join(root, MUSIC), filesObj, filesIndex, readFiles);

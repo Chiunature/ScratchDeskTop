@@ -22,12 +22,7 @@ const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 class Serialport extends Common {
 
     constructor(...args) {
-        super();
-        args.map(item => {
-            Object.keys(item).map(key => {
-                this[key] = item[key];
-            });
-        });
+        super(...args);
         this.port;
         this.receiveDataBuffer = [];
         this.chunkBuffer = [];
@@ -119,7 +114,7 @@ class Serialport extends Common {
                 filesIndex: this.subFileIndex,
                 readFiles: this.readFiles.bind(this),
                 writeFiles: this.writeFiles.bind(this)
-            });
+            }, this);
             this.upload(event, { fileName, binData: fileData, verifyType: data.verifyType, filesIndex: this.subFileIndex,  filesLen: this.files.filesLen});
         });
     }
