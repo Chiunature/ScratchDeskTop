@@ -9,7 +9,8 @@ module.exports = {
         library: 'est-link',
         libraryTarget: 'umd',
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js'
+        filename: '[name].js',
+        globalObject: 'this',
     },
     optimization: {
         minimize: false
