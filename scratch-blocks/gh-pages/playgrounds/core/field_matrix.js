@@ -178,15 +178,15 @@ Blockly.FieldMatrix.MATRIX_NODE_RADIUS = 4;
  * @type {number}
  * @const
  */
-Blockly.FieldMatrix.MATRIX_NODE_PAD = 8;
-
+Blockly.FieldMatrix.MATRIX_NODE_PAD = 7;
+Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO = 9;
 /**
  * String with 25 '0' chars.
  * Used for clearing a matrix or filling an LED node array.
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ZEROS = '0000000000000000000000000000000000000000000000000000000000000000';
+Blockly.FieldMatrix.ZEROS = '000000000000000000000000000000000000000000000000000000000000000';
 
 /**
  * String with 25 '1' chars.
@@ -194,7 +194,7 @@ Blockly.FieldMatrix.ZEROS = '000000000000000000000000000000000000000000000000000
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ONES = '1111111111111111111111111111111111111111111111111111111111111111';
+Blockly.FieldMatrix.ONES = '111111111111111111111111111111111111111111111111111111111111111';
 
 /**
  * Called when the field is placed on a block.
@@ -222,7 +222,7 @@ Blockly.FieldMatrix.prototype.init = function () {
 
   var thumbX = Blockly.BlockSvg.DROPDOWN_ARROW_PADDING / 2;
   // var thumbY = (this.size_.height - Blockly.FieldMatrix.THUMBNAIL_SIZE) / 2;
-  var thumbY = -4;
+  var thumbY = -7;
   var thumbnail = Blockly.utils.createSvgElement('g', {
     'transform': 'translate(' + thumbX + ', ' + thumbY + ')',
     'pointer-events': 'bounding-box', 'cursor': 'pointer'
@@ -230,8 +230,8 @@ Blockly.FieldMatrix.prototype.init = function () {
   this.ledThumbNodes_ = [];
   var nodeSize = Blockly.FieldMatrix.THUMBNAIL_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.THUMBNAIL_NODE_PAD;
-  for (var i = 0; i < 8; i++) {
-    for (var n = 0; n < 8; n++) {
+  for (var i = 0; i < 9; i++) {
+    for (var n = 0; n < 7; n++) {
       var attr = {
         'x': ((nodeSize + nodePad) * n) + nodePad,
         'y': ((nodeSize + nodePad) * i) + nodePad,
@@ -278,7 +278,7 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
     Blockly.Events.fire(new Blockly.Events.Change(
       this.sourceBlock_, 'field', this.name, this.matrix_, matrix));
   }
-  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 64 - matrix.length);
+  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 63 - matrix.length);
   this.matrix_ = matrix;
   this.updateMatrix_();
 };
@@ -301,24 +301,24 @@ Blockly.FieldMatrix.prototype.showEditor_ = function () {
   Blockly.DropDownDiv.clearContent();
   var div = Blockly.DropDownDiv.getContentDiv();
   // Build the SVG DOM.
-  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 8) +
-    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 9);
+  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 7) +
+    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 8);
   this.matrixStage_ = Blockly.utils.createSvgElement('svg', {
     'xmlns': 'http://www.w3.org/2000/svg',
     'xmlns:html': 'http://www.w3.org/1999/xhtml',
     'xmlns:xlink': 'http://www.w3.org/1999/xlink',
     'version': '1.1',
-    'height': matrixSize + 'px',
+    'height': matrixSize + 70 + 'px',
     'width': matrixSize + 'px'
   }, div);
   // Create the 5x5 matrix
   this.ledButtons_ = [];
-  for (var i = 0; i < 8; i++) {
-    for (var n = 0; n < 8; n++) {
+  for (var i = 0; i < 9; i++) {
+    for (var n = 0; n < 7; n++) {
       var x = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * n) +
         (Blockly.FieldMatrix.MATRIX_NODE_PAD * (n + 1));
       var y = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * i) +
-        (Blockly.FieldMatrix.MATRIX_NODE_PAD * (i + 1));
+        (Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO * (i + 1));
       var attr = {
         'x': x + 'px', 'y': y + 'px',
         'width': Blockly.FieldMatrix.MATRIX_NODE_SIZE,
@@ -445,23 +445,23 @@ Blockly.FieldMatrix.prototype.fillMatrixNode_ = function (node, index, fill) {
 };
 
 Blockly.FieldMatrix.prototype.setLEDNode_ = function (led, state) {
-  if (led < 0 || led > 63) return;
+  if (led < 0 || led > 62) return;
   var matrix = this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
   this.setValue(matrix);
 };
 
 Blockly.FieldMatrix.prototype.fillLEDNode_ = function (led) {
-  if (led < 0 || led > 63) return;
+  if (led < 0 || led > 62) return;
   this.setLEDNode_(led, '1');
 };
 
 Blockly.FieldMatrix.prototype.clearLEDNode_ = function (led) {
-  if (led < 0 || led > 63) return;
+  if (led < 0 || led > 62) return;
   this.setLEDNode_(led, '0');
 };
 
 Blockly.FieldMatrix.prototype.toggleLEDNode_ = function (led) {
-  if (led < 0 || led > 63) return;
+  if (led < 0 || led > 62) return;
   if (this.matrix_.charAt(led) === '0') {
     this.setLEDNode_(led, '1');
   } else {
@@ -528,15 +528,16 @@ Blockly.FieldMatrix.prototype.checkForLED_ = function (e) {
   var bBox = this.matrixStage_.getBoundingClientRect();
   var nodeSize = Blockly.FieldMatrix.MATRIX_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.MATRIX_NODE_PAD;
+  var nodePadTwo = Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO;
   var dx = e.clientX - bBox.left;
   var dy = e.clientY - bBox.top;
   var min = nodePad / 2;
   var max = bBox.width - (nodePad / 2);
-  if (dx < min || dx > max || dy < min || dy > max) {
+  if (dx < min || dx > max || dy < min || dy > max + 72) {
     return -1;
   }
   var xDiv = Math.trunc((dx - nodePad / 2) / (nodeSize + nodePad));
-  var yDiv = Math.trunc((dy - nodePad / 2) / (nodeSize + nodePad));
+  var yDiv = Math.trunc((dy - nodePadTwo / 2) / (nodeSize + nodePadTwo));
   return xDiv + (yDiv * nodePad);
 };
 
