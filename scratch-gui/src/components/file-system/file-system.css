@@ -45,14 +45,38 @@
     /* overflow-y: auto; */
 }
 
-.file-list img {
+.isempty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-list .empty {
+    margin-top: 50px;
+    font-size: 120px;
+    font-weight: 700;
+    position: relative;
+    font-family: 'Montserrat';
+    text-align: center;
+}
+
+.file-list .empty::before {
+    content: 'EST3.0';
+    position: absolute;
+    color: #000;
+    transform: translate(-50px, 21px) scaleY(0.5) skew(50deg);
+    filter: blur(5px);
+    -webkit-mask-image: linear-gradient(transparent, #000);
+}
+
+/* .file-list img {
     width: 50%;
     height: 52%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
+} */
 
 /* .file-list::-webkit-scrollbar {
     display: initial;

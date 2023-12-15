@@ -4,7 +4,6 @@ import deleteIcon from '../device/delete.svg';
 import Filter from "../filter/filter.jsx";
 import { defineMessages } from 'react-intl';
 import classNames from "classnames";
-import emptyIcon from './icon--empty.svg';
 
 const messages = defineMessages({
     filterPlaceholder: {
@@ -16,7 +15,7 @@ const messages = defineMessages({
 
 const FileStystem = (props) => {
     const {
-        intl, 
+        intl,
         inputRef,
         fileList,
         filterQuery,
@@ -58,7 +57,7 @@ const FileStystem = (props) => {
                             <span>操作</span>
                         </li>
                     </ul>
-                    <ul className={styles.fileList}>
+                    <ul className={classNames(styles.fileList, fileList.length === 0 ? styles.isempty : '')}>
                         {fileList.length > 0 ? fileList.map((item, index) => {
                             return (
                                 <li key={index} onClick={() => handleSelect(index)}>
@@ -68,7 +67,7 @@ const FileStystem = (props) => {
                                     <span><img src={deleteIcon} onClick={(e) => handleDeleteRecord(index, e)} /></span>
                                 </li>
                             )
-                        }) : <img src={emptyIcon}/>}
+                        }) : <h1 className={styles.empty}>EST3.0</h1>}
                     </ul>
                 </div>
             </div>
