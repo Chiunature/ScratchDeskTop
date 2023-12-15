@@ -140,6 +140,18 @@ function createWindow() {
             shell.openExternal(url);
         });
 
+        //是否删除记录
+        ipcMain.on('delRecord', (event, arg) => {
+            const index = dialog.showMessageBoxSync({
+                type: "info",
+                title: "Do you want to delete this record",
+                message: "是否要删除此记录",
+                buttons: ["否(no)", "是(yes)"],
+            });
+            event.reply('return_delRecord', index);
+        });
+
+
         ipcMain.on('checkDriver', (event, flag) => {
             if(flag) return;
              // 检测电脑是否安装了某个驱动

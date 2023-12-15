@@ -1,8 +1,8 @@
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux';
-import {projectTitleInitialState} from '../reducers/project-title';
+import { connect } from 'react-redux';
+import { projectTitleInitialState } from '../reducers/project-title';
 import downloadBlob from '../lib/download-blob';
 /**
  * Project saver component passes a downloadProject function to its child.
@@ -19,21 +19,52 @@ import downloadBlob from '../lib/download-blob';
  * )}</SB3Downloader>
  */
 class SB3Downloader extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         bindAll(this, [
             'downloadProject'
         ]);
     }
-    downloadProject () {
+    getCurrentTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+    downloadProject() {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
+
+            const fr = new FileReader();
+            fr.readAsDataURL(content);
+            fr.onload = (e) => {
+                const obj = {
+                    fileName: this.props.projectFilename,
+                    url: e.target.result,
+                    size: Math.ceil(content.size / 1024) + 'KB',
+                    alterTime: this.getCurrentTime(),
+                }
+                if (localStorage.getItem('file')) {
+                    const list = JSON.parse(localStorage.getItem('file'));
+                    if (list && list.length >= 0) {
+                        const newList = [...list, obj];
+                        localStorage.setItem('file', JSON.stringify(newList));
+                    }
+                } else {
+                    localStorage.setItem('file', JSON.stringify([obj]));
+                }
+                localStorage.setItem('recentFile', JSON.stringify(obj));
+            }
             downloadBlob(this.props.projectFilename, content);
         });
     }
-    render () {
+    render() {
         const {
             children
         } = this.props;

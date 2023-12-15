@@ -141,6 +141,7 @@
   "gui.menuBar.settings": "设置",
   "gui.menuBar.select-exe": "程序选择",
   "gui.menuBar.port-data": "端口数据",
+  "gui.menuBar.home": "文件首页",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",

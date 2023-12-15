@@ -264,6 +264,7 @@ const mapStateToProps = (state) => {
         matchMyBlock: state.scratchGui.mode.matchMyBlock,
         exeList: state.scratchGui.mode.exeList,
         selectedExe: state.scratchGui.mode.selectedExe,
+        showFileStytem: state.scratchGui.fileStytem.showFileStytem,
     };
 };
 

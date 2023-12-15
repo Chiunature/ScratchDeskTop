@@ -13,7 +13,8 @@ const FilterComponent = props => {
         onClear,
         placeholderText,
         filterQuery,
-        inputClassName
+        inputClassName,
+        inputRef
     } = props;
     return (
         <div
@@ -26,6 +27,7 @@ const FilterComponent = props => {
                 src={filterIcon}
             />
             <input
+                ref={inputRef}
                 className={classNames(styles.filterInput, inputClassName)}
                 placeholder={placeholderText}
                 type="text"

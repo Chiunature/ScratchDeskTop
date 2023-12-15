@@ -89,6 +89,7 @@ import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
 import { ipc } from "../../utils/ipcRender.js";
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
+import { showFileStytem } from "../../reducers/file-stytem.js";
 
 const ariaMessages = defineMessages({
     language: {
@@ -102,6 +103,43 @@ const ariaMessages = defineMessages({
         description: "accessibility text for the tutorials button",
     },
 });
+
+const saveNowMessage = (
+    <FormattedMessage
+        defaultMessage="Save now"
+        description="Menu bar item for saving now"
+        id="gui.menuBar.saveNow"
+    />
+);
+const createCopyMessage = (
+    <FormattedMessage
+        defaultMessage="Save as a copy"
+        description="Menu bar item for saving as a copy"
+        id="gui.menuBar.saveAsCopy"
+    />
+);
+const remixMessage = (
+    <FormattedMessage
+        defaultMessage="Remix"
+        description="Menu bar item for remixing"
+        id="gui.menuBar.remix"
+    />
+);
+const newProjectMessage = (
+    <FormattedMessage
+        defaultMessage="New"
+        description="Menu bar item for creating a new project"
+        id="gui.menuBar.new"
+    />
+);
+const homeMessage = (
+    <FormattedMessage
+        defaultMessage="File homepage"
+        description="Menu bar item for Home"
+        id="gui.menuBar.home"
+    />
+);
+
 
 const MenuBarItemTooltip = ({
     children,
@@ -185,7 +223,8 @@ class MenuBar extends React.Component {
             "handleConnected",
             "handleDisconnect",
             "scanConnection",
-            "showDeviceCards"
+            "showDeviceCards",
+            "handleClickHome"
         ]);
         this.timer = null;
     }
@@ -196,6 +235,11 @@ class MenuBar extends React.Component {
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress);
     }
+
+    handleClickHome() {
+        this.props.onShowFileSystem(true);
+    }
+
     handleClickNew() {
         // if the project is dirty, and user owns the project, we will autosave.
         // but if they are not logged in and can't save, user should consider
@@ -433,34 +477,6 @@ class MenuBar extends React.Component {
         }
     }
     render() {
-        const saveNowMessage = (
-            <FormattedMessage
-                defaultMessage="Save now"
-                description="Menu bar item for saving now"
-                id="gui.menuBar.saveNow"
-            />
-        );
-        const createCopyMessage = (
-            <FormattedMessage
-                defaultMessage="Save as a copy"
-                description="Menu bar item for saving as a copy"
-                id="gui.menuBar.saveAsCopy"
-            />
-        );
-        const remixMessage = (
-            <FormattedMessage
-                defaultMessage="Remix"
-                description="Menu bar item for remixing"
-                id="gui.menuBar.remix"
-            />
-        );
-        const newProjectMessage = (
-            <FormattedMessage
-                defaultMessage="New"
-                description="Menu bar item for creating a new project"
-                id="gui.menuBar.new"
-            />
-        );
         const remixButton = (
             <Button
                 className={classNames(styles.menuBarButton, styles.remixButton)}
@@ -479,7 +495,7 @@ class MenuBar extends React.Component {
                     <div className={styles.fileGroup}>
                         <div className={classNames(styles.menuBarItem)}>
                             <img
-                                alt="Scratch"
+                                alt=""
                                 className={classNames(styles.scratchLogo, {
                                     [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
                                 })}
@@ -525,6 +541,14 @@ class MenuBar extends React.Component {
                                         this.props.onRequestCloseFile
                                     }
                                 >
+                                    <MenuSection>
+                                        <MenuItem
+                                            isRtl={this.props.isRtl}
+                                            onClick={this.handleClickHome}
+                                        >
+                                            {homeMessage}
+                                        </MenuItem>
+                                    </MenuSection>
                                     <MenuSection>
                                         <MenuItem
                                             isRtl={this.props.isRtl}
@@ -1163,6 +1187,7 @@ const mapDispatchToProps = (dispatch) => ({
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
+    onShowFileSystem: (n) => dispatch(showFileStytem(n))
 });
 
 export default compose(

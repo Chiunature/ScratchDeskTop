@@ -51,6 +51,7 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
 import SelectExeBtn from "../button/selectExeBtn.jsx";
+import FileSystemHoc from "../../containers/file-system.jsx";
 
 /* const messages = defineMessages({
     addExtension: {
@@ -156,6 +157,7 @@ const GUIComponent = (props) => {
         progress,
         exeList,
         selectedExe,
+        showFileStytem,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -265,6 +267,9 @@ const GUIComponent = (props) => {
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
                         ) : null}
+                        {showFileStytem && (
+                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew}/>
+                        )}
                         {peripheralName && !soundsTabVisible ? (
                             <><SelectExeBtn onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
                             <UploadBtn
@@ -273,14 +278,6 @@ const GUIComponent = (props) => {
                                 handleCompile={handleCompile} 
                                 isComplete={isComplete}
                             /></>
-                        ) : null}
-                        {peripheralName && !soundsTabVisible ? (
-                            <UploadBtn
-                                completed={completed} 
-                                progress={progress} 
-                                handleCompile={handleCompile} 
-                                isComplete={isComplete}
-                            />
                         ) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
