@@ -153,14 +153,14 @@ function createWindow() {
 
 
         ipcMain.on('checkDriver', (event, flag) => {
-            if(flag) return;
+            if(flag === 'true') return;
              // 检测电脑是否安装了某个驱动
              exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
                 const index = dialog.showMessageBoxSync({
                     type: "info",
                     title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",
                     message: "检查到你的电脑未安装必要驱动，是否前去安装",
-                    buttons: ["取消(cancel)", "确定(confirm)"],
+                    buttons: ["否(no)", "是(yes)"],
                 });
                 if (index === 0) {
                     mainWindow.webContents.send('installDriver', false);
