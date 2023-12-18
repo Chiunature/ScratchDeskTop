@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from 'classnames';
 import styles from './button.css';
 
@@ -25,37 +25,65 @@ const translate = [
     }
 ];
 
-const SelectExeBtn = ({ exeList, selectedExe, onSetExelist, onSetSelectedExe }) => {
+const SelectExeBtn = (props) => {
+    const { exeList, selectedExe, onSetExelist, onSetSelectedExe } = props;
     const refObj = useRef({});
     let [flag, setFlag] = useState(false);
     const { num } = selectedExe;
 
+
+    useEffect(() => {
+        document.addEventListener('mouseup', handleClick);
+
+        return () => {
+            document.removeEventListener('mouseup', handleClick);
+        }
+    });
+
+    const handleClick = (e) => {
+        if (flag && !refObj.current.box.contains(e.target)) {
+            setFlag(false);
+            const children = Array.from(refObj.current.round.children);
+            const line = refObj.current.line;
+            close(line, children);
+        }
+    }
+
+    const open = (line, children) => {
+        let list = [];
+        children.map(el => {
+            if (!el.classList.contains(styles.selectExeWrapper)) {
+                list.push(el);
+            }
+        });
+        list.map((el, index) => {
+            Object.keys(translate[index]).map(item => {
+                el.style[item] = translate[index][item];
+            });
+        });
+        line.style['transform'] = 'translate(-50%, -50%) scale(1)';
+    }
+
+    const close = (line, children) => {
+        children.map(el => {
+            if (el.hasAttribute('style')) {
+                el.removeAttribute('style');
+            }
+        });
+        line.style['transform'] = 'translate(-50%, -50%) scale(0.5)';
+    }
+
     const toggle = (e) => {
         if (e.target.tagName !== 'SPAN') return;
+
         const children = Array.from(refObj.current.round.children);
         const line = refObj.current.line;
         if (e.target.classList.contains(styles.selectExeWrapper)) {
             setFlag(!flag);
             if (flag) {
-                children.map(el => {
-                    if (el.hasAttribute('style')) {
-                        el.removeAttribute('style');
-                    }
-                });
-                line.style['transform'] = 'translate(-50%, -50%) scale(0.5)';
+                close(line, children);
             } else {
-                let list = [];
-                children.map(el => {
-                    if (!el.classList.contains(styles.selectExeWrapper)) {
-                        list.push(el);
-                    }
-                });
-                list.map((el, index) => {
-                    Object.keys(translate[index]).map(item => {
-                        el.style[item] = translate[index][item];
-                    });
-                });
-                line.style['transform'] = 'translate(-50%, -50%) scale(1)';
+                open(line, children);
             }
         } else {
             const currentLi = e.target;
@@ -69,9 +97,9 @@ const SelectExeBtn = ({ exeList, selectedExe, onSetExelist, onSetSelectedExe }) 
     const changeExe = (item, index) => {
         item.checked = true;
         const newList = exeList.map((item, i) => {
-            if(i === index) {
+            if (i === index) {
                 item.checked = true;
-            }else {
+            } else {
                 item.checked = false;
             }
             return item;
@@ -83,7 +111,7 @@ const SelectExeBtn = ({ exeList, selectedExe, onSetExelist, onSetSelectedExe }) 
     }
 
     return (
-        <div className={styles.selectExeBtnCon} onClick={toggle}>
+        <div className={styles.selectExeBtnCon} onClick={toggle} ref={(c) => refObj.current.box = c}>
             <div className={classNames(styles.selectExeBox, "exe-box")}>
                 <div className={styles.selectExeLine} ref={(c) => refObj.current.line = c}></div>
                 <div className={styles.selectExeRound} ref={(c) => refObj.current.round = c}>

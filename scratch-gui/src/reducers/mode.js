@@ -11,6 +11,8 @@ const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 const exeList = localStorage.getItem('exeList');
 const selItem = localStorage.getItem('selItem');
+selItem ? JSON.parse(selItem) : localStorage.setItem('selItem', JSON.stringify({ name: '1_APP', num: 1, checked: true }));
+
 
 const initialState = {
     showBranding: false,
@@ -31,8 +33,8 @@ const initialState = {
             { name: '4_APP', num: 4, checked: false },
             { name: '5_APP', num: 5, checked: false }
         ],
-    selectedExe: selItem ? JSON.parse(selItem) : { name: '1_APP', num: 1, checked: true }
-};
+    selectedExe: JSON.parse(localStorage.getItem('selItem'))
+}
 
 const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
