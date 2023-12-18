@@ -268,7 +268,7 @@ const GUIComponent = (props) => {
                             />
                         ) : null}
                         {showFileStytem && (
-                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew}/>
+                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload}/>
                         )}
                         {peripheralName && !soundsTabVisible ? (
                             <><SelectExeBtn onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>

@@ -69,6 +69,8 @@ class FileSystemHoc extends Component {
         if (localStorage.getItem('recentFile')) {
             const obj = JSON.parse(localStorage.getItem('recentFile'));
             this.handleFileReader(obj.url);
+        }else {
+            return;
         }
     }
 
@@ -122,6 +124,7 @@ class FileSystemHoc extends Component {
                     intl={this.props.intl}
                     fileList={this.state.fileList}
                     filterQuery={this.state.filterQuery}
+                    onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
                     handleSelect={this.handleSelect.bind(this)}
                     handleClickNew={this.handleClickNew.bind(this)}
                     handleClickRecent={this.handleClickRecent.bind(this)}

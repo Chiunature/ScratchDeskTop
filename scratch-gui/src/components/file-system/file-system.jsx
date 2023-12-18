@@ -2,8 +2,9 @@ import React from "react";
 import styles from './file-system.css';
 import deleteIcon from '../device/delete.svg';
 import Filter from "../filter/filter.jsx";
-import { defineMessages } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import classNames from "classnames";
+import sharedMessages from "../../lib/shared-messages.js";
 
 const messages = defineMessages({
     filterPlaceholder: {
@@ -11,6 +12,41 @@ const messages = defineMessages({
         defaultMessage: 'Search',
         description: 'Placeholder text for library search field'
     },
+    newProjectMessage: {
+        defaultMessage: "New",
+        description: "Menu bar item for creating a new project",
+        id: "gui.menuBar.new"
+    },
+    openRecentMessage: {
+        defaultMessage: "Open Recent Files",
+        description: "Menu bar item for Open Recent Files",
+        id: "gui.menuBar.recent"
+    },
+    titleMessage: {
+        defaultMessage: "My Projects",
+        description: "My Projects",
+        id: "gui.menuBar.myProjects"
+    },
+    projectNameMessage: {
+        defaultMessage: "Name",
+        description: "Project's name",
+        id: "gui.menuBar.projectName"
+    },
+    sizeMessage: {
+        defaultMessage: "Size",
+        description: "Project's size",
+        id: "gui.SpriteInfo.size"
+    },
+    editMessage: {
+        defaultMessage: "Modification date",
+        description: "Modification date",
+        id: "gui.menuBar.modificationDate"
+    },
+    operateMessage: {
+        defaultMessage: "Operate",
+        description: "Operate",
+        id: "gui.menuBar.operate"
+    }
 });
 
 const FileStystem = (props) => {
@@ -25,16 +61,18 @@ const FileStystem = (props) => {
         handleFilterClear,
         handleDeleteRecord,
         handleFilterChange,
+        onStartSelectingFileUpload
     } = props;
     return (
         <div className={styles.fileBox}>
             <div className={styles.fileContainer}>
                 <div className={styles.fileLeft}>
-                    <button className={styles.leftBtn} onClick={handleClickNew}>新建</button>
-                    <button className={styles.leftBtn} onClick={handleClickRecent}>打开最近的文件</button>
+                    <button className={styles.leftBtn} onClick={handleClickNew}>{intl.formatMessage(messages.newProjectMessage)}</button>
+                    <button className={styles.leftBtn} onClick={handleClickRecent}>{intl.formatMessage(messages.openRecentMessage)}</button>
+                    <button className={styles.leftBtn} onClick={onStartSelectingFileUpload}>{intl.formatMessage(sharedMessages.loadFromComputerTitle)}</button>
                 </div>
                 <div className={styles.fileRight}>
-                    <h1>我的项目</h1>
+                    <h1>{intl.formatMessage(messages.titleMessage)}</h1>
                     <div className={styles.fileInp}>
                         <Filter
                             className={classNames(
@@ -51,10 +89,10 @@ const FileStystem = (props) => {
                     </div>
                     <ul className={styles.fileHead}>
                         <li>
-                            <span>名称</span>
-                            <span>大小</span>
-                            <span>修改日期</span>
-                            <span>操作</span>
+                            <span>{intl.formatMessage(messages.projectNameMessage)}</span>
+                            <span>{intl.formatMessage(messages.sizeMessage)}</span>
+                            <span>{intl.formatMessage(messages.editMessage)}</span>
+                            <span>{intl.formatMessage(messages.operateMessage)}</span>
                         </li>
                     </ul>
                     <ul className={classNames(styles.fileList, fileList.length === 0 ? styles.isempty : '')}>
@@ -64,7 +102,7 @@ const FileStystem = (props) => {
                                     <span>{item.fileName}</span>
                                     <span>{item.size}</span>
                                     <span>{item.alterTime}</span>
-                                    <span><img src={deleteIcon} onClick={(e) => handleDeleteRecord(index, e)} /></span>
+                                    <span><img src={deleteIcon} onClick={(e) => handleDeleteRecord(index, e)}/></span>
                                 </li>
                             )
                         }) : <h1 className={styles.empty}>EST3.0</h1>}
