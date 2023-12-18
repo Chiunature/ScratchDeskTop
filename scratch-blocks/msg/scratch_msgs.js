@@ -806,7 +806,7 @@ Blockly.ScratchMsgs.locales["ar"] = {
     "DATA_INDEX_ALL": "الكل",
     "DATA_INDEX_LAST": "الأخير",
     "DATA_INDEX_RANDOM": "عشوائي",
-    "EVENT_WHENFLAGCLICKED": "1%",
+    "EVENT_WHENFLAGCLICKED": "%1",
     "EVENT_WHENTHISSPRITECLICKED": "عند نقر هذا الكائن",
     "EVENT_WHENSTAGECLICKED": "عند نقر المنصة",
     "EVENT_WHENTOUCHINGOBJECT": "عندما يلامس هذا الكائن %1",

@@ -68,7 +68,8 @@
     border-right: 1px solid $ui-black-transparent;
     box-sizing: content-box;
     min-width: 300px;
-    transform: translate(65px, 0px) !important;
+    /* transform: translate(65px, 0px) !important; */
+    transition: all .2s;
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
@@ -76,6 +77,7 @@
     border-left: 1px solid $ui-black-transparent;
     min-width: 300px;
     transform: translate(720px, 0px) !important;
+    transition: all .2s;
 }
 
 .blocks :global(.blocklyBlockDragSurface) {
@@ -103,17 +105,18 @@
 }
 
 .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
-    transform: translate(345px, 2.5px) !important;
+    transition: all .2s;
+    /* transform: translate(345px, 2.5px) !important; */
 }
 
 /* .blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
-    width: 300px !important;
+    width: 350px !important;
 } */
 
 
-[dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
+/* [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     display: none !important;
-}
+} */
 
 .blocks :global(.scratchCategoryItemBubble) {
     width: 1.5rem;
@@ -121,4 +124,8 @@
     border: none;
     border-radius: 20%;
     margin: 0 auto 0.125rem;
+}
+
+.blocks :global(.blocklyToolboxTriggerIcon) {
+    transition: all .2s;
 }

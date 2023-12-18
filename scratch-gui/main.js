@@ -152,7 +152,7 @@ function createWindow() {
         });
 
 
-        ipcMain.on('checkDriver', (event, flag) => {
+        ipcMain.once('checkDriver', (event, flag) => {
             if(flag === 'true') return;
              // 检测电脑是否安装了某个驱动
              exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
