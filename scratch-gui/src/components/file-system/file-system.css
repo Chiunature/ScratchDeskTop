@@ -58,18 +58,6 @@
     position: relative;
     font-family: 'Montserrat';
     text-align: center;
-    animation: showup 1s 1 forwards;
-}
-
-@keyframes showup {
-    from {
-        letter-spacing: -50px;
-        filter: blur(10px);
-    }
-    to {
-        letter-spacing: 10px;
-        filter: blur(0px);
-    }
 }
 
 
