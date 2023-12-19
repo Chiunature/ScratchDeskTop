@@ -13,6 +13,20 @@ const exeList = localStorage.getItem('exeList');
 const selItem = localStorage.getItem('selItem');
 selItem ? JSON.parse(selItem) : localStorage.setItem('selItem', JSON.stringify({ name: '1_APP', num: 1, checked: true }));
 
+/**
+ * 生成默认程序列表
+ * @param {Number} num 
+ * @returns 
+ */
+function getList(num) {
+    return new Array(num).fill().map((item, index) => {
+        return {
+            name: `${index + 1}_APP`,
+            num: index + 1,
+            checked: index === 0 ? true : false
+        }
+    })
+}
 
 const initialState = {
     showBranding: false,
@@ -25,14 +39,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) :
-        [
-            { name: '1_APP', num: 1, checked: true },
-            { name: '2_APP', num: 2, checked: false },
-            { name: '3_APP', num: 3, checked: false },
-            { name: '4_APP', num: 4, checked: false },
-            { name: '5_APP', num: 5, checked: false }
-        ],
+    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(5),
     selectedExe: JSON.parse(localStorage.getItem('selItem'))
 }
 
