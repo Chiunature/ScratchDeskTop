@@ -69,7 +69,7 @@ class FileSystemHoc extends Component {
         if (localStorage.getItem('recentFile')) {
             const obj = JSON.parse(localStorage.getItem('recentFile'));
             this.handleFileReader(obj.url);
-        }else {
+        } else {
             return;
         }
     }
@@ -81,13 +81,13 @@ class FileSystemHoc extends Component {
             sendName: 'delRecord',
             eventName: 'return_delRecord',
             callback: (event, result) => {
-                if(result === 1) {
+                if (result === 1) {
                     this.state.fileList.splice(index, 1);
                     localStorage.setItem('file', JSON.stringify(this.state.fileList));
                     this.setState((state) => ({
                         fileList: state.fileList
                     }));
-                }else {
+                } else {
                     return;
                 }
             }
@@ -95,17 +95,17 @@ class FileSystemHoc extends Component {
     }
 
     handleFilterClear() {
-        this.setState({ filterQuery: '' });
+        const list = JSON.parse(localStorage.getItem('file'));
+        this.setState(() => ({
+            filterQuery: '',
+            fileList: list
+        }));
     }
 
     handleFilterChange() {
         const value = this.inp.current.value;
         if (value.length === 0) {
-            const list = JSON.parse(localStorage.getItem('file'));
-            this.setState(() => ({
-                filterQuery: value,
-                fileList: list
-            }));
+            this.handleFilterClear();
         } else {
             this.state.fileList = this.state.fileList.filter(el => (el.fileName.match(value) || el.size.match(value) || el.alterTime.match(value)));
             this.setState(() => ({
