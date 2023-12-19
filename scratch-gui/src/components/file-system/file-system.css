@@ -58,13 +58,26 @@
     position: relative;
     font-family: 'Montserrat';
     text-align: center;
+    animation: showup 1s 1 forwards;
 }
+
+@keyframes showup {
+    from {
+        letter-spacing: -50px;
+        filter: blur(10px);
+    }
+    to {
+        letter-spacing: 10px;
+        filter: blur(0px);
+    }
+}
+
 
 .file-list .empty::before {
     content: 'EST3.0';
     position: absolute;
     color: #000;
-    transform: translate(-50px, 21px) scaleY(0.5) skew(50deg);
+    transform: translate(-60px, 23px) scaleY(0.5) skew(50deg);
     filter: blur(5px);
     -webkit-mask-image: linear-gradient(transparent, #000);
 }
