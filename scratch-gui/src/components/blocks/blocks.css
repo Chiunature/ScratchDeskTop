@@ -27,6 +27,7 @@
     border: 1px solid $ui-black-transparent;
     border-top-right-radius: $space;
     border-bottom-right-radius: $space;
+    overflow: hidden !important;
 }
 
 [dir="rtl"] .blocks :global(.injectionDiv) {
@@ -34,6 +35,7 @@
     border-bottom-right-radius: 0;
     border-top-left-radius: $space;
     border-bottom-left-radius: $space;
+    overflow: hidden !important;
 }
 
 .blocks :global(.blocklyMainBackground) {
@@ -114,9 +116,9 @@
 } */
 
 
-/* [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
+[dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     display: none !important;
-} */
+}
 
 .blocks :global(.scratchCategoryItemBubble) {
     width: 1.5rem;
