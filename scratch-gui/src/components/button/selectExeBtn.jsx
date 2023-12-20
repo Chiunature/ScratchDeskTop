@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import classNames from 'classnames';
 import styles from './button.css';
+import Matrix from "./matrix.jsx";
 
 const translate = [
     {
@@ -73,12 +74,27 @@ const SelectExeBtn = (props) => {
         line.style['transform'] = 'translate(-50%, -50%) scale(0.5)';
     }
 
-    const toggle = (e) => {
-        if (e.target.tagName !== 'SPAN') return;
+    const findOuterSpan = (element) => {
+        if (!element.parentElement) {
+          return null;
+        }
+      
+        if (element.parentElement.tagName.toLowerCase() === 'span') {
+          return element.parentElement;
+        }
+      
+        return findOuterSpan(element.parentElement);
+      }
 
+
+    const toggle = (e) => {
+        const target = findOuterSpan(e.target);
+        if(!target) {
+            return;
+        }
         const children = Array.from(refObj.current.round.children);
         const line = refObj.current.line;
-        if (e.target.classList.contains(styles.selectExeWrapper)) {
+        if (target.classList.contains(styles.selectExeWrapper)) {
             setFlag(!flag);
             if (flag) {
                 close(line, children);
@@ -86,7 +102,7 @@ const SelectExeBtn = (props) => {
                 open(line, children);
             }
         } else {
-            const currentLi = e.target;
+            const currentLi = target;
             const targetLi = document.getElementsByClassName(styles.selectExeWrapper)[0];
             currentLi.classList.add(styles.selectExeWrapper);
             targetLi.classList.remove(styles.selectExeWrapper);
@@ -117,7 +133,9 @@ const SelectExeBtn = (props) => {
                 <div className={styles.selectExeRound} ref={(c) => refObj.current.round = c}>
                     {exeList.length > 0 && exeList.map((item, index) => {
                         return (
-                            <span onClick={() => changeExe(item, index)} key={index} className={classNames(styles.selectExeBlock, num === index + 1 ? styles.selectExeWrapper : '')}>{item.num}</span>
+                            <span onClick={() => changeExe(item, index)} key={index} className={classNames(styles.selectExeBlock, num === index + 1 ? styles.selectExeWrapper : '')}>
+                                <Matrix num={item.num}/>
+                            </span>
                         )
                     })}
                 </div>
