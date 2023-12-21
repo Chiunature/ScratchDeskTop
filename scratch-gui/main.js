@@ -141,14 +141,14 @@ function createWindow() {
         });
 
         //是否删除记录
-        ipcMain.on('delRecord', (event, arg) => {
+        ipcMain.handle('delRecord', () => {
             const index = dialog.showMessageBoxSync({
                 type: "info",
                 title: "Do you want to delete this record",
                 message: "是否要删除此记录",
                 buttons: ["否(no)", "是(yes)"],
             });
-            event.reply('return_delRecord', index);
+            return index;
         });
 
 

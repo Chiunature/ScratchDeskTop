@@ -32,15 +32,28 @@
  * @params : {sendName, sendParams, eventName, callback}
  */
 
+const { ipcRenderer } = window.electron;
+const fs = fs;
+
+/**
+ * 异步通信
+ * @param {String} sendName 
+ * @param {any} sendParams 
+ * @returns 
+ */
+async function ipcInvoke(sendName, sendParams) {
+    const result = await ipcRenderer.invoke(sendName, sendParams);
+    return result
+}
 
 /**
  * 渲染进程开启事件监听
  * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0 
  */
 function ipc({ sendName, sendParams, eventName, callback }) {
-    if (sendName) window.electron.ipcRenderer.send(sendName, sendParams);
-    const eventList = window.electron.ipcRenderer.eventNames();
-    if (eventName && !eventList.includes(eventName) && typeof callback === "function") window.electron.ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
+    if (sendName) ipcRenderer.send(sendName, sendParams);
+    const eventList = ipcRenderer.eventNames();
+    if (eventName && !eventList.includes(eventName) && typeof callback === "function") ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
 }
 
 /**
@@ -48,7 +61,7 @@ function ipc({ sendName, sendParams, eventName, callback }) {
  * @param {String} eventName 
  */
 function delEvents(eventName) {
-    window.electron.ipcRenderer.removeAllListeners([eventName]);
+    ipcRenderer.removeAllListeners([eventName]);
 }
 
 /**
@@ -73,8 +86,8 @@ function getCurrentTime() {
  * @param {String} data 
  */
 function writeFileWithDirectory(directory, filepath, data) {
-    window.fs.mkdir(directory, { recursive: true }, () => {
-        window.fs.writeFile(filepath, data + '', err => {
+    fs.mkdir(directory, { recursive: true }, () => {
+        fs.writeFile(filepath, data + '', err => {
             console.log(err);
         });
     });
@@ -98,7 +111,7 @@ function handlerError(error) {
  * @returns 
  */
 function getVersion(data, path = window.process.cwd() + '/resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') {
-    const version = window.fs.readFileSync(path, 'utf8');
+    const version = fs.readFileSync(path, 'utf8');
     if (data == version) {
         return true;
     }else {
@@ -129,5 +142,6 @@ export {
     getVersion,
     getCurrentTime,
     delEvents,
-    dataURLToBlob
+    dataURLToBlob,
+    ipcInvoke
 }
