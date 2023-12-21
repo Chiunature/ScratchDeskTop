@@ -75,21 +75,25 @@ const SelectExeBtn = (props) => {
     }
 
     const findOuterSpan = (element) => {
-        if (!element.parentElement) {
-          return null;
+        if (element.tagName.toLowerCase() === 'span') {
+            return element;
+        } else {
+            if (!element.parentElement) {
+                return null;
+            }
+
+            if (element.parentElement.tagName.toLowerCase() === 'span') {
+                return element.parentElement;
+            }
+
+            return findOuterSpan(element.parentElement);
         }
-      
-        if (element.parentElement.tagName.toLowerCase() === 'span') {
-          return element.parentElement;
-        }
-      
-        return findOuterSpan(element.parentElement);
-      }
+    }
 
 
     const toggle = (e) => {
         const target = findOuterSpan(e.target);
-        if(!target) {
+        if (!target) {
             return;
         }
         const children = Array.from(refObj.current.round.children);
