@@ -1,4 +1,3 @@
-const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 /*
  * @Description: New features
  * @Author: jiang
@@ -10,6 +9,8 @@ const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BO
  *  files: 文件目录对象
  * }
  */
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
+const ipc_Main = require("../config/json/communication/ipc.json");
 class Common {
 
     constructor(...args) {
@@ -76,7 +77,9 @@ class Common {
      */
     sendToSerial(eventName, fn) {
         this.ipcMain(eventName, (event, data) => {
-            if (typeof fn === 'function') fn.call(this, event, data);
+            if (typeof fn === 'function') {
+                fn.call(this, event, data);
+            }
         });
     }
 
@@ -85,7 +88,7 @@ class Common {
      * @param {String} eventName 
      */
     listenError(eventName) {
-        this.ipcMain(eventName, (event) => event.reply("completed", { result: false, msg: "uploadError" }));
+        this.ipcMain(eventName, (event) => event.reply(ipc_Main.SEND_OR_ON.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" }));
     }
 
     /**
@@ -171,8 +174,10 @@ class Common {
      * @param {Function} fn 
      */
     handleReadError(event, fn) {
-        if (typeof fn === 'function') fn.apply(this);
-        event.reply("completed", { result: false, msg: "uploadError" });
+        if (typeof fn === 'function') {
+            fn.apply(this);
+        }
+        event.reply(ipc_Main.SEND_OR_ON.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
     }
 
     /**

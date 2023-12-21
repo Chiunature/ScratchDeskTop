@@ -21,7 +21,7 @@ import {
 } from "../reducers/connection-modal";
 import { ipc } from "../utils/ipcRender.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
-
+import {ipc as ipc_Renderer} from "est-link";
 
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -101,7 +101,7 @@ class ConnectionModal extends React.Component {
             this.props.onSetIsConnectedSerial(false);
             this.props.onShowDisonnectAlert(msg);
             // this.props.onCancel();
-            ipc({ sendName: "disconnected"});
+            ipc({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         }
     }
 
@@ -145,9 +145,9 @@ class ConnectionModal extends React.Component {
         if(!this.props.port) return;
         this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
         ipc({
-            sendName: "connect",
+            sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: this.props.port,
-            eventName: "connected",
+            eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
                 if(arg.res) {
                     this.props.onShowConnectAlert(arg.msg);

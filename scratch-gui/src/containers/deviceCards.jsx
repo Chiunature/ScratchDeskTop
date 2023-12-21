@@ -10,6 +10,7 @@ import { ipc, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
+import {ipc as ipc_Renderer} from "est-link";
 
 const list = [
     [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
@@ -147,9 +148,9 @@ class DeviceCards extends React.Component {
     //开启监听
     async watchDevice(index) {
         ipc({
-            sendName: 'watchDevice',
+            sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
             sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
-            eventName: 'response_watch',
+            eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (event, watchData) => {
                 const {data, bit} = watchData;
                 const newArr = data.split('/').filter((el) => (el !== ''));

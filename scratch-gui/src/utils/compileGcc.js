@@ -27,7 +27,7 @@ import { handlerError, ipc, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
-
+import { ipc as ipc_Renderer } from "est-link"
 
 const fs = window.fs;
 const { spawn } = window.child_process;
@@ -137,11 +137,11 @@ class Compile {
         if (appRes) {
             this.commendMake().then(() => {
 
-                ipc({ sendName: 'getFilesAndCommunication', sendParams: { verifyType, selectedExe } });
+                ipc({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
 
             }).catch(e => {
                 handlerError(e);
-                ipc({ sendName: "transmission-error" });
+                ipc({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
             });
         }
     }
@@ -157,11 +157,11 @@ class Compile {
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
             ipc({
-                sendName: 'getFilesAndCommunication',
+                sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                 sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
-                eventName: "nextFile",
+                eventName: ipc_Renderer.RETURN.COMMUNICATION.NEXTFILE,
                 callback: (event, data) => {
-                    ipc({sendName: 'getFilesAndCommunication', sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
+                    ipc({sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
                 }
             });
         } else {

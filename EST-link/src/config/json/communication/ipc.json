@@ -1,0 +1,52 @@
+{
+    "SEND_OR_ON": {
+        "LOGO": {
+            "OPEN": "open-url"
+        },
+        "EXE": {
+            "DELETE": "delete-exe"
+        },
+        "CONNECTION": {
+            "GETLIST": "getConnectList",
+            "CONNECTED": "connect",
+            "DISCONNECTED": "disconnected"
+        },
+        "COMMUNICATION": {
+            "GETFILES": "getFilesAndCommunication"
+        },
+        "DEVICE": {
+            "WATCH": "watchDevice",
+            "CHECK": "checkDriver"
+        },
+        "ERROR": {
+            "TRANSMISSION": "transmission-error"
+        },
+        "FILE": {
+            "DELETE": "delRecord"
+        }
+    },
+    "RETURN": {
+        "EXE": {
+            "DELETE": "return_delExe"
+        },
+        "CONNECTION": {
+            "GETLIST": "return_connectList",
+            "CONNECTED": "return_connected"
+        },
+        "DEVICE": {
+            "WATCH": "return_watchDevice",
+            "CHECK": "return_installDriver"
+        },
+        "COMMUNICATION": {
+            "BIN": {
+                "CONPLETED": "return_completed",
+                "PROGRESS": "return_progress"
+            },
+            "SOURCE": {
+                "CONPLETED": "return_sourceCompleted",
+                "NEXTFILE": "nextFile"
+            }
+        },
+        "VERSION": "return_version"
+    }
+}

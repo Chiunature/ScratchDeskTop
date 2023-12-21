@@ -33,7 +33,7 @@
  */
 
 const { ipcRenderer } = window.electron;
-const fs = fs;
+const fs = window.fs;
 
 /**
  * 异步通信

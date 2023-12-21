@@ -24,7 +24,7 @@
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
-
+const ipc_Main = require("../json/communication/ipc.json");
 
 
 /**
@@ -57,10 +57,10 @@ function verifyActions(sign, recevieObj, event, hexToString) {
     } else {
         switch (sign) {
             case "Watch_Device":
-                event.reply("response_watch", { data: hexToString(data.slice(5, data.length - 2)), bit });
+                event.reply(ipc_Main.RETURN.DEVICE.WATCH, { data: hexToString(data.slice(5, data.length - 2)), bit });
                 return false;
             case "get_version":
-                event.reply("return_version", hexToString(data.slice(5, data.length - 2)));
+                event.reply(ipc_Main.RETURN.VERSION, hexToString(data.slice(5, data.length - 2)));
                 return false;
             case "delete-exe":
                 const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];
@@ -74,7 +74,7 @@ function verifyActions(sign, recevieObj, event, hexToString) {
                         break;
                     }
                 }
-                event.reply("return-delExe", res);
+                event.reply(ipc_Main.RETURN.EXE.DELETE, res);
                 return false;
             default:
                 break;
@@ -107,7 +107,7 @@ function distinguish(filesObj, type, event) {
             processedForSouceFile(obj, null, event);
             break;
         case BOOTBIN:
-            event.reply("completed", { result: true, msg: "uploadSuccess" });
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
             break;
         default:
             break;
@@ -117,14 +117,14 @@ function distinguish(filesObj, type, event) {
         obj.filesIndex++;
         if(next) {
             if (obj.filesIndex < obj.filesLen) {
-                event.reply("nextFile", { subFileIndex: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
+                event.reply(ipc_Main.RETURN.COMMUNICATION.NEXTFILE, { subFileIndex: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
             } else if (obj.filesIndex > obj.filesLen - 1) {
                 obj.fileVerifyType = next;
-                event.reply("nextFile", { subFileIndex: 0, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
+                event.reply(ipc_Main.RETURN.COMMUNICATION.NEXTFILE, { subFileIndex: 0, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
             }
             console.log(`${obj.fileName}已经下载完成`);
         } else {
-            event.reply("sourceCompleted", { msg: "uploadSuccess" });
+            event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
         }
     }
 }

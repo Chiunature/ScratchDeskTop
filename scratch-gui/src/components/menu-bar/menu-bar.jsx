@@ -80,7 +80,7 @@ import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
-
+import {ipc as ipc_Renderer} from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import scratchLogo from "./scratch-logo.svg";
@@ -418,8 +418,8 @@ class MenuBar extends React.Component {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
             ipc({
-                sendName: "getConnectList",
-                eventName: "connectList",
+                sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST,
+                eventName: ipc_Renderer.RETURN.CONNECTION.GETLIST,
                 callback: (event, arg) => {
                     if (arg.length === 0) return;
                     if (this.props.serialList.length >= arg.length) return;
@@ -446,9 +446,9 @@ class MenuBar extends React.Component {
         if (!port) return;
         this.props.onSetConnectionModalPeripheralName(port.friendlyName);
         ipc({
-            sendName: "connect",
+            sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
-            eventName: "connected",
+            eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
                 if (arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
@@ -466,7 +466,7 @@ class MenuBar extends React.Component {
         this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({deviceVisible: false});
-        ipc({ sendName: "disconnected" });
+        ipc({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         this.scanConnection();
     }
     showDeviceCards() {

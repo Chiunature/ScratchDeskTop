@@ -18,7 +18,7 @@
 const Common = require("./common.js");
 const { verifyActions, processReceivedConfig, verifyBinType } = require("../config/js/verify.js");
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
-
+const ipc_Main = require("../config/json/communication/ipc.json");
 class Serialport extends Common {
 
     constructor(...args) {
@@ -37,8 +37,8 @@ class Serialport extends Common {
      * 获取串口列表
      */
     getList() {
-        this.ipcMain("getConnectList", (event, arg) => {
-            this.serialport.SerialPort.list().then((res) => event.reply("connectList", res));
+        this.ipcMain(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, (event, arg) => {
+            this.serialport.SerialPort.list().then((res) => event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, res));
         });
     }
 
@@ -46,7 +46,7 @@ class Serialport extends Common {
      * 连接串口
      */
     connectSerial() {
-        this.ipcMain("connect", (event, arg) => this.linkToSerial(arg, event));
+        this.ipcMain(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, (event, arg) => this.linkToSerial(arg, event));
     }
 
     /**
@@ -55,7 +55,9 @@ class Serialport extends Common {
      */
     disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
-            if (this.port && this.port.isOpen) this.port.close();
+            if (this.port && this.port.isOpen) {
+                this.port.close();
+            }
         });
     }
 
@@ -76,20 +78,23 @@ class Serialport extends Common {
                 baudRate: 115200
             },
             (err) => {
-                if (err && !sign) {
-                    event.reply("connected", { res: false, msg: "failedConnected" });
-                } else if (!err && !sign) {
-                    event.reply("connected", { res: true, msg: "successfullyConnected" });
+                if(!sign) {
+                    if (err) {
+                        event.reply(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
+                    } else {
+                        event.reply(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
+                    }
                 }
+                
             }
         );
         this.handleRead("readable", event);
         this.listenPortClosed("close", event);
-        this.disconnectSerial("disconnected");
-        this.getBinOrHareWare("getFilesAndCommunication");
-        this.listenError("transmission-error");
-        this.watchDevice("watchDevice");
-        this.deleteExe("delete-exe");
+        this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
+        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
+        this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
+        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
+        this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
         this.getVersion(event);
     }
 
@@ -147,7 +152,7 @@ class Serialport extends Common {
      */
     listenPortClosed(eventName, event) {
         this.port.on(eventName, () => {
-            event.reply("connected", { res: false, msg: "disconnect" });
+            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
             this.clearCache();
         });
     }
@@ -160,12 +165,14 @@ class Serialport extends Common {
      * @returns 
      */
     writeData(data, str, event) {
-        if (!this.port) return;
+        if (!this.port) {
+            return;
+        }
         this.sign = str;
         this.port.write(data);
         // console.log("write=>", data);
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
-            event.reply('progress', Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         }
         if (str && str.search('Boot') !== -1) {
             this.checkOverTime(event);
@@ -178,7 +185,7 @@ class Serialport extends Common {
      */
     checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
-            event.reply("completed", { result: false, msg: "uploadTimeout" });
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadTimeout" });
             this.clearCache();
         }, 5000);
     }
@@ -195,7 +202,9 @@ class Serialport extends Common {
      * 清除缓存
      */
     clearCache() {
-        if (this.port && this.port.isOpen) this.port.flush();
+        if (this.port && this.port.isOpen) {
+            this.port.flush();
+        }
         this.receiveDataBuffer = [];
         this.timeOutTimer = null;
         this.chunkIndex = 0;
@@ -208,7 +217,9 @@ class Serialport extends Common {
      */
     watchDevice(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            if (!data.stopWatch) this.writeData(data.instruct, 'Watch_Device', event);
+            if (!data.stopWatch) {
+                this.writeData(data.instruct, 'Watch_Device', event);
+            }
         });
     }
 
@@ -219,7 +230,9 @@ class Serialport extends Common {
      * @returns 
      */
     sendBin(index, event) {
-        if (index < 0) return;
+        if (index < 0) {
+            return;
+        }
         const element = this.chunkBuffer[index];
         const { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
         if (index === this.chunkBuffer.length - 1) {
@@ -236,14 +249,18 @@ class Serialport extends Common {
      * @returns 
      */
     handleRead(eventName, event) {
-        if (!this.port) return;
+        if (!this.port) {
+            return;
+        }
         this.port.on(eventName, () => {
             try {
                 this.clearTimer();
                 const receiveData = this.port.read();
                 const receiveObj = this.catchData(receiveData);
                 const verify = this.verification(this.sign, receiveObj, event, this.hexToString.bind(this));
-                if (verify) this.processReceivedData(event);
+                if (verify) {
+                    this.processReceivedData(event);
+                }
             } catch (error) {
                 this.handleReadError(event, this.clearCache);
             }
@@ -256,7 +273,9 @@ class Serialport extends Common {
      * @returns 
      */
     catchData(data) {
-        if (!this.sign || !data) return;
+        if (!this.sign || !data) {
+            return;
+        }
         const list = this.Get_CRC(data);
         const start = list.indexOf(0x5a);
         let newList = [];
@@ -279,8 +298,12 @@ class Serialport extends Common {
      * @returns 
      */
     verification(sign, obj, event, hexToString) {
-        if (!obj) return false;
-        if (obj.data && obj.data.length <= 0) return false;
+        if (!obj) {
+            return false;
+        }
+        if (obj.data && obj.data.length <= 0) {
+            return false;
+        }
         const result = verifyActions(sign, obj, event, hexToString);
         if (typeof result === 'object') {
             const action = this.actions(result);

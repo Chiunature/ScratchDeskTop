@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
-
+import { ipc as ipc_Renderer } from 'est-link';
 import styles from './card.css';
-import {ipc} from '../../utils/ipcRender.js';
+import { ipc } from '../../utils/ipcRender.js';
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
@@ -44,17 +44,17 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
             <ul className={tabClassNames.tabList}>
                 <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}>
                     <div><FormattedMessage
-                            defaultMessage="Program Selection"
-                            description="Program selection"
-                            id="gui.menuBar.select-exe"
-                        /></div>
+                        defaultMessage="Program Selection"
+                        description="Program selection"
+                        id="gui.menuBar.select-exe"
+                    /></div>
                 </li>
                 <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}>
                     <div><FormattedMessage
-                            defaultMessage="Port Data"
-                            description="Port data"
-                            id="gui.menuBar.port-data"
-                        /></div>
+                        defaultMessage="Port Data"
+                        description="Port data"
+                        id="gui.menuBar.port-data"
+                    /></div>
                 </li>
             </ul>
         </div>
@@ -137,18 +137,18 @@ const DeviceCards = props => {
 
     const [index, setIndex] = useState(0);
     const handleSelect = (i) => {
-        if(i === 0 ) {
+        if (i === 0) {
             handleStopWatch(true);
-        }else {
+        } else {
             handleStopWatch(false);
         }
         setIndex(i);
     }
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
-            if(i === index) {
+            if (i === index) {
                 item.checked = true;
-            }else {
+            } else {
                 item.checked = false;
             }
             return item;
@@ -161,13 +161,13 @@ const DeviceCards = props => {
     const handleDelExe = (item, e) => {
         e.stopPropagation();
         ipc({
-            sendName: 'delete-exe',
-            sendParams: {fileName: item.name + '.bin', verifyType: "DELETE_EXE"},
-            eventName: 'return-delExe',
+            sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
+            sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
+            eventName: ipc_Renderer.RETURN.EXE.DELETE,
             callback: (event, data) => {
-                if(data) {
+                if (data) {
                     onShowDelExeAlert("delExeSuccess");
-                }else {
+                } else {
                     onShowDelExeAlert("delExeFail");
                 }
             }
@@ -204,8 +204,8 @@ const DeviceCards = props => {
                             handleSelect={handleSelect}
                         />
                         <div className={classNames(expanded ? styles.stepBody : styles.hidden, 'input-wrapper')}>
-                            {index === 1 && <Device {...props}/>}
-                            {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe}/>}
+                            {index === 1 && <Device {...props} />}
+                            {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
                         </div>
                     </div>
                 </div>

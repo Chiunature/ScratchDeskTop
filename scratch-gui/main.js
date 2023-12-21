@@ -31,7 +31,7 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 
-const { Serialport } = require('est-link');
+const { Serialport, ipc } = require('est-link');
 const { exec } = require('child_process');
 
 let mainWindow, loadingWindow, progressInterval, isUpdate;
@@ -136,12 +136,12 @@ function createWindow() {
         sp.connectSerial();
 
         //点击logo打开官网
-        ipcMain.on('open-url', (event, url) => {
+        ipcMain.on(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
             shell.openExternal(url);
         });
 
         //是否删除记录
-        ipcMain.handle('delRecord', () => {
+        ipcMain.handle(ipc.SEND_OR_ON.FILE.DELETE, () => {
             const index = dialog.showMessageBoxSync({
                 type: "info",
                 title: "Do you want to delete this record",
@@ -152,7 +152,7 @@ function createWindow() {
         });
 
 
-        ipcMain.once('checkDriver', (event, flag) => {
+        ipcMain.once(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
             if(flag === 'true') return;
              // 检测电脑是否安装了某个驱动
              exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
@@ -163,10 +163,10 @@ function createWindow() {
                     buttons: ["否(no)", "是(yes)"],
                 });
                 if (index === 0) {
-                    mainWindow.webContents.send('installDriver', false);
+                    mainWindow.webContents.send(ipc.RETURN.DEVICE.CHECK, false);
                 } else {
                     exec(`cd ./resources && zadig.exe`);
-                    mainWindow.webContents.send('installDriver', true);
+                    mainWindow.webContents.send(ipc.RETURN.DEVICE.CHECK, true);
                 }
             });
         });

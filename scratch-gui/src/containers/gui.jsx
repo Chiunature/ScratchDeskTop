@@ -34,6 +34,7 @@ import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
+import {ipc as ipc_Renderer} from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
@@ -50,7 +51,7 @@ class GUI extends React.Component {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
             ipc({
-                eventName: "completed",
+                eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onShowCompletedAlert(arg.msg);
                     if (arg.result) {
@@ -66,13 +67,13 @@ class GUI extends React.Component {
                 },
             });
             ipc({
-                eventName: "progress",
+                eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
                 callback: (event, arg) => {
                     this.props.onSetProgress(arg);
                 },
             });
             ipc({
-                eventName: "sourceCompleted",
+                eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onSetSourceCompleted(false);
                     this.props.onShowCompletedAlert(arg.msg);
@@ -80,16 +81,16 @@ class GUI extends React.Component {
             });
             const driver = localStorage.getItem('driver');
             ipc({
-                sendName: "checkDriver",
+                sendName: ipc_Renderer.SEND_OR_ON.DEVICE.CHECK,
                 sendParams: driver,
-                eventName: "installDriver",
+                eventName: ipc_Renderer.RETURN.DEVICE.CHECK,
                 callback: (event, arg) => {
                     if(arg) this.props.onActivateDeck("install-drivers");
                     localStorage.setItem('driver', arg);
                 },
             });
             ipc({
-                eventName: "return_version", 
+                eventName: ipc_Renderer.RETURN.VERSION, 
                 callback: (event, arg) => {
                     const version = getVersion(arg);
                     this.props.onSetVersion(version);

@@ -1,4 +1,5 @@
 const Serialport = require("./utils/serialport");
+const ipc = require("./config/json/communication/ipc.json");
 
 (function() {
 	if (typeof globalThis === 'object') return;
@@ -12,4 +13,5 @@ const Serialport = require("./utils/serialport");
 module.exports = {
     name: 'est-link',
     Serialport,
+	ipc
 }
