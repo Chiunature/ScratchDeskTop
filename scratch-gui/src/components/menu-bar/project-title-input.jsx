@@ -23,7 +23,8 @@ const ProjectTitleInput = ({
     className,
     intl,
     onSubmit,
-    projectTitle
+    projectTitle,
+    readOnly
 }) => (
     <BufferedInput
         className={classNames(styles.titleField, className)}
@@ -33,7 +34,7 @@ const ProjectTitleInput = ({
         type="text"
         value={projectTitle}
         onSubmit={onSubmit}
-        readOnly
+        readOnly={readOnly}
     />
 );
 

@@ -1,10 +1,12 @@
 import React from "react";
 import styles from './file-system.css';
 import deleteIcon from '../device/delete.svg';
+import editIcon from './icon--edit.svg';
 import Filter from "../filter/filter.jsx";
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
 import classNames from "classnames";
 import sharedMessages from "../../lib/shared-messages.js";
+import Input from "../forms/input.jsx";
 
 const messages = defineMessages({
     filterPlaceholder: {
@@ -55,11 +57,14 @@ const FileStystem = (props) => {
         inputRef,
         fileList,
         filterQuery,
+        handleBlur,
+        handleFocus,
         handleSelect,
         handleClickNew,
         handleClickRecent,
         handleFilterClear,
         handleDeleteRecord,
+        handleEditRecord,
         handleFilterChange,
         onStartSelectingFileUpload
     } = props;
@@ -99,10 +104,21 @@ const FileStystem = (props) => {
                         {fileList.length > 0 ? fileList.map((item, index) => {
                             return (
                                 <li key={index} onClick={() => handleSelect(index)}>
-                                    <span>{item.fileName}</span>
+                                    <span>
+                                        {item.editable ?
+                                            <Input className={styles.fileInpSpan}
+                                                type="text"
+                                                defaultValue={item.fileName}
+                                                onBlur={(e) => handleBlur(index, e)}
+                                                onClick={handleFocus}
+                                            /> : <>{item.fileName}</>}
+                                    </span>
                                     <span>{item.size}</span>
                                     <span>{item.alterTime}</span>
-                                    <span><img src={deleteIcon} onClick={(e) => handleDeleteRecord(index, e)}/></span>
+                                    <span>
+                                        <img src={deleteIcon} onClick={(e) => handleDeleteRecord(index, e)} />
+                                        <img src={editIcon} onClick={(e) => handleEditRecord(index, e)} />
+                                    </span>
                                 </li>
                             )
                         }) : <h1 className={styles.empty}>EST3.0</h1>}

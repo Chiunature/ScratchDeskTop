@@ -836,7 +836,7 @@ class MenuBar extends React.Component {
                         )}
                     >
                         <MenuBarItemTooltip enable id="title-field">
-                            <ProjectTitleInput
+                            <ProjectTitleInput readOnly={true}
                                 className={classNames(
                                     styles.titleFieldGrowable
                                 )}

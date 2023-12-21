@@ -1,12 +1,15 @@
 import React, { Component, createRef } from 'react'
-import FileStystem from '../components/file-system/file-system.jsx';
 import { connect } from 'react-redux';
-import { showFileStytem } from '../reducers/file-stytem.js';
-import Modal from "./modal.jsx";
-import { dataURLToBlob, ipc } from '../utils/ipcRender.js';
-import { requestNewProject } from '../reducers/project-state.js';
-import sharedMessages from '../lib/shared-messages.js';
 
+import Modal from "./modal.jsx";
+import FileStystem from '../components/file-system/file-system.jsx';
+
+import { requestNewProject } from '../reducers/project-state.js';
+import { showFileStytem } from '../reducers/file-stytem.js';
+import { setProjectTitle } from '../reducers/project-title.js';
+
+import sharedMessages from '../lib/shared-messages.js';
+import { dataURLToBlob, ipc } from '../utils/ipcRender.js';
 class FileSystemHoc extends Component {
 
     constructor(props) {
@@ -42,6 +45,7 @@ class FileSystemHoc extends Component {
 
     handleSelect(index) {
         const list = JSON.parse(localStorage.getItem('file'));
+        this.props.onSetProjectTitle(list[index].fileName);
         this.handleFileReader(list[index].url);
     }
 
@@ -114,6 +118,29 @@ class FileSystemHoc extends Component {
         }
     }
 
+    handleEditRecord(index, e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.state.fileList[index].editable = !this.state.fileList[index].editable;
+        localStorage.setItem('file', JSON.stringify(this.state.fileList));
+        this.setState({});
+    }
+
+    handleFocus(e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    }
+
+    handleBlur(index, e) {
+        e.persist();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.state.fileList[index].fileName = e.target.value;
+        this.state.fileList[index].editable = false;
+        localStorage.setItem('file', JSON.stringify(this.state.fileList));
+        this.setState({});
+    }
+
     render() {
         return (
             <Modal fullScreen
@@ -131,6 +158,9 @@ class FileSystemHoc extends Component {
                     handleDeleteRecord={this.handleDeleteRecord.bind(this)}
                     handleFilterClear={this.handleFilterClear.bind(this)}
                     handleFilterChange={this.handleFilterChange.bind(this)}
+                    handleEditRecord={this.handleEditRecord.bind(this)}
+                    handleFocus={this.handleFocus.bind(this)}
+                    handleBlur={this.handleBlur.bind(this)}
                 />
             </Modal>
         )
@@ -146,5 +176,6 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestClose: () => dispatch(showFileStytem()),
     onShowFileStytem: (n) => dispatch(showFileStytem(n)),
     onClickNew: (needSave) => dispatch(requestNewProject(needSave)),
+    onSetProjectTitle: (name) => dispatch(setProjectTitle(name))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FileSystemHoc);

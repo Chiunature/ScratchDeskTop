@@ -40,15 +40,16 @@ class SB3Downloader extends React.Component {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
-
+            downloadBlob(this.props.projectFilename, content);
             const fr = new FileReader();
             fr.readAsDataURL(content);
             fr.onload = (e) => {
                 const obj = {
-                    fileName: this.props.projectFilename,
+                    fileName: this.props.projectFilename.slice(0, -4),
                     url: e.target.result,
                     size: Math.ceil(content.size / 1024) + 'KB',
                     alterTime: this.getCurrentTime(),
+                    editable: false
                 }
                 if (localStorage.getItem('file')) {
                     const list = JSON.parse(localStorage.getItem('file'));
@@ -61,7 +62,6 @@ class SB3Downloader extends React.Component {
                 }
                 localStorage.setItem('recentFile', JSON.stringify(obj));
             }
-            downloadBlob(this.props.projectFilename, content);
         });
     }
     render() {
