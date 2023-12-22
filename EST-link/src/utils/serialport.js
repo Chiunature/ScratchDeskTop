@@ -65,29 +65,16 @@ class Serialport extends Common {
      * 连接串口
      * @param {Object} serial 
      * @param {*} event 
-     * @param {String | Null} sign 
      */
-    linkToSerial(serial, event, sign) {
+    linkToSerial(serial, event) {
+        this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
+
         if (this.port && this.port.isOpen && this.port.path === serial.path) {
             return;
+        } else {
+            this.OpenPort(event);
         }
 
-        this.port = new this.serialport.SerialPort(
-            {
-                path: serial.path,
-                baudRate: 115200
-            },
-            (err) => {
-                if(!sign) {
-                    if (err) {
-                        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
-                    } else {
-                        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
-                    }
-                }
-                
-            }
-        );
         this.handleRead("readable", event);
         this.listenPortClosed("close", event);
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
@@ -120,7 +107,7 @@ class Serialport extends Common {
                 readFiles: this.readFiles.bind(this),
                 writeFiles: this.writeFiles.bind(this)
             }, this);
-            this.upload(event, { fileName, binData: fileData, verifyType: data.verifyType, filesIndex: this.subFileIndex,  filesLen: this.files.filesLen});
+            this.upload(event, { fileName, binData: fileData, verifyType: data.verifyType, filesIndex: this.subFileIndex, filesLen: this.files.filesLen });
         });
     }
 
@@ -143,6 +130,20 @@ class Serialport extends Common {
         const bits = this.getBits(data.verifyType);
         const { binArr } = this.checkFileName(data.fileName, bits);
         this.writeData(binArr, data.binData ? 'Boot_Name' : null, event);
+    }
+
+    /**
+     * 串口打开
+     * @param {*} event 
+     */
+    OpenPort(event) {
+        this.port.open((err) => {
+            if (err) {
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
+            } else {
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
+            }
+        });
     }
 
     /**
