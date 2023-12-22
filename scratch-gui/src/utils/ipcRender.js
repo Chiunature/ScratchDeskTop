@@ -142,6 +142,20 @@ function dataURLToBlob(dataurl) {
     return new Blob([u8arr], { type: mime })
 }
 
+/**
+     * 将十六进制转字符串
+     * @param {Array} list 
+     * @returns 
+     */
+function hexToString(list) {
+    let result = "";
+    let hexArray = list;
+    for (let i = 0; i < hexArray.length; i++) {
+        result += String.fromCharCode(hexArray[i]);
+    }
+    return result;
+}
+
 export {
     ipcRender,
     handlerError,
@@ -149,5 +163,6 @@ export {
     getCurrentTime,
     delEvents,
     dataURLToBlob,
-    ipcInvoke
+    ipcInvoke,
+    hexToString
 }

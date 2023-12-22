@@ -32,11 +32,10 @@ const ipc_Main = require("../json/communication/ipc.json");
  * @param {String} sign 
  * @param {Object} recevieObj 
  * @param {Object} event 
- * @param {Function} hexToString 
  * @returns 
  */
-function verifyActions(sign, recevieObj, event, hexToString) {
-    const { data, bit } = recevieObj;
+function verifyActions(sign, recevieObj, event) {
+    const { data } = recevieObj;
     if (sign && sign.search('Boot') !== -1) {
         let obj = {};
         obj[sign] = () => {
@@ -57,10 +56,10 @@ function verifyActions(sign, recevieObj, event, hexToString) {
     } else {
         switch (sign) {
             case "Watch_Device":
-                event.reply(ipc_Main.RETURN.DEVICE.WATCH, { data: hexToString(data.slice(5, data.length - 2)), bit });
+                event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
                 return false;
             case "get_version":
-                event.reply(ipc_Main.RETURN.VERSION, hexToString(data.slice(5, data.length - 2)));
+                event.reply(ipc_Main.RETURN.VERSION, data);
                 return false;
             case "delete-exe":
                 const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];

@@ -6,7 +6,7 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import { ipcRender, delEvents } from "../utils/ipcRender.js";
+import { ipcRender, delEvents, hexToString } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -61,7 +61,7 @@ class DeviceCards extends React.Component {
     }
     componentWillUnmount() {
         clearInterval(this.timer);
-        delEvents("response_watch");
+        delEvents(ipc_Renderer.RETURN.DEVICE.WATCH);
     }
     //控制暂停监听
     handleStopWatch(stopWatch) {
@@ -82,7 +82,7 @@ class DeviceCards extends React.Component {
             }
             list.push(obj);
         }
-        this.setState({ deviceList: list });
+        this.setState(() => ({ deviceList: list }));
     }
 
     //区分什么设备,什么端口
@@ -142,7 +142,7 @@ class DeviceCards extends React.Component {
             default:
                 break;
         }
-        this.setState({ deviceList });
+        this.setState(() => ({ deviceList }));
     }
 
     //开启监听
@@ -153,7 +153,8 @@ class DeviceCards extends React.Component {
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (event, watchData) => {
                 const {data, bit} = watchData;
-                const newArr = data.split('/').filter((el) => (el !== ''));
+                const result = hexToString(data.slice(5, data.length - 2));
+                const newArr = result.split('/').filter((el) => (el !== ''));
                 if(newArr && newArr.length > 0) this.distinguishDevice(newArr, bit);
             }
         })

@@ -113,19 +113,6 @@ class Common {
         return view;
     }
 
-    /**
-     * 将十六进制转字符串
-     * @param {Array} list 
-     * @returns 
-     */
-    hexToString(list) {
-        let result = "";
-        let hexArray = list;
-        for (let i = 0; i < hexArray.length; i++) {
-            result += String.fromCharCode(hexArray[i]);
-        }
-        return result;
-    }
 
     /**
      * 将字符串转十六进制

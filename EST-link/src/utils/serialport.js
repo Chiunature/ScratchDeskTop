@@ -80,9 +80,9 @@ class Serialport extends Common {
             (err) => {
                 if(!sign) {
                     if (err) {
-                        event.reply(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
+                        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
                     } else {
-                        event.reply(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
+                        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
                     }
                 }
                 
@@ -257,7 +257,7 @@ class Serialport extends Common {
                 this.clearTimer();
                 const receiveData = this.port.read();
                 const receiveObj = this.catchData(receiveData);
-                const verify = this.verification(this.sign, receiveObj, event, this.hexToString.bind(this));
+                const verify = this.verification(this.sign, receiveObj, event);
                 if (verify) {
                     this.processReceivedData(event);
                 }
@@ -294,17 +294,16 @@ class Serialport extends Common {
      * @param {String | Null} sign 
      * @param {Array} data 
      * @param {*} event 
-     * @param {Function} hexToString 
      * @returns 
      */
-    verification(sign, obj, event, hexToString) {
+    verification(sign, obj, event) {
         if (!obj) {
             return false;
         }
         if (obj.data && obj.data.length <= 0) {
             return false;
         }
-        const result = verifyActions(sign, obj, event, hexToString);
+        const result = verifyActions(sign, obj, event);
         if (typeof result === 'object') {
             const action = this.actions(result);
             return this.switch(action, sign, true);

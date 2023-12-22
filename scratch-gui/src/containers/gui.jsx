@@ -38,7 +38,7 @@ import { ipc as ipc_Renderer } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipcRender, delEvents, getVersion, ipcInvoke } from "../utils/ipcRender.js";
+import { ipcRender, delEvents, getVersion, ipcInvoke, hexToString } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -82,7 +82,8 @@ class GUI extends React.Component {
             ipcRender({
                 eventName: ipc_Renderer.RETURN.VERSION,
                 callback: (event, arg) => {
-                    const version = getVersion(arg);
+                    const  wareVersion = hexToString(arg.slice(5, arg.length - 2));
+                    const version = getVersion(wareVersion);
                     this.props.onSetVersion(version);
                 }
             }); 
