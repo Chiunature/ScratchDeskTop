@@ -410,9 +410,9 @@ class MenuBar extends React.Component {
     }
     scanConnection() {
         const that = this;
-        that.timer = setInterval(() => {
+        this.timer = setInterval(() => {
             that.handleConnection();
-        }, 1000);
+        }, 2000);
     }
     handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
