@@ -136,7 +136,7 @@ function createWindow() {
         sp.connectSerial();
 
         //点击logo打开官网
-        ipcMain.on(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
+        ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
             shell.openExternal(url);
         });
 
@@ -152,7 +152,7 @@ function createWindow() {
         });
 
 
-        ipcMain.once(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
+        ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
             if(flag === 'true') return;
              // 检测电脑是否安装了某个驱动
              exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
@@ -163,10 +163,10 @@ function createWindow() {
                     buttons: ["否(no)", "是(yes)"],
                 });
                 if (index === 0) {
-                    mainWindow.webContents.send(ipc.RETURN.DEVICE.CHECK, false);
+                    return false;
                 } else {
                     exec(`cd ./resources && zadig.exe`);
-                    mainWindow.webContents.send(ipc.RETURN.DEVICE.CHECK, true);
+                    return true;
                 }
             });
         });

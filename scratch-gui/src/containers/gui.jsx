@@ -33,21 +33,25 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import {BOOTBIN} from "../config/json/verifyTypeConfig.json";
-import {ipc as ipc_Renderer} from "est-link";
+import { BOOTBIN } from "../config/json/verifyTypeConfig.json";
+import { ipc as ipc_Renderer } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipcRender, delEvents, getVersion } from "../utils/ipcRender.js";
+import { ipcRender, delEvents, getVersion, ipcInvoke } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
 class GUI extends React.Component {
-    componentDidMount() {
+    async componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
+
+        await compile.commendMake();
+        this.checkDriver();
+        
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
             ipcRender({
@@ -79,18 +83,8 @@ class GUI extends React.Component {
                     this.props.onShowCompletedAlert(arg.msg);
                 },
             });
-            const driver = localStorage.getItem('driver');
             ipcRender({
-                sendName: ipc_Renderer.SEND_OR_ON.DEVICE.CHECK,
-                sendParams: driver,
-                eventName: ipc_Renderer.RETURN.DEVICE.CHECK,
-                callback: (event, arg) => {
-                    if(arg) this.props.onActivateDeck("install-drivers");
-                    localStorage.setItem('driver', arg);
-                },
-            });
-            ipcRender({
-                eventName: ipc_Renderer.RETURN.VERSION, 
+                eventName: ipc_Renderer.RETURN.VERSION,
                 callback: (event, arg) => {
                     const version = getVersion(arg);
                     this.props.onSetVersion(version);
@@ -117,7 +111,17 @@ class GUI extends React.Component {
             delEvents(item);
         });
     }
-    
+
+    async checkDriver() {
+        const driver = localStorage.getItem('driver');
+        const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
+        if (res) {
+            this.props.onActivateDeck("install-drivers");
+            localStorage.setItem('driver', res);
+        }
+    }
+
+
     handleCompile() {
         if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
@@ -211,7 +215,7 @@ GUI.propTypes = {
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
     onActivateDeck: PropTypes.func,
-    onViewDeviceCards:  PropTypes.func
+    onViewDeviceCards: PropTypes.func
 };
 
 GUI.defaultProps = {

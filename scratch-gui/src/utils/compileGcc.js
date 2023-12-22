@@ -81,7 +81,7 @@ class Compile {
      * 调用编译命令
      * @returns 
      */
-    commendMake() {
+    async commendMake() {
         return new Promise((resolve, reject) => {
             let errStr = '';
             this.progress = spawn('make', [`-j${cpus ? cpus.length * 2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
