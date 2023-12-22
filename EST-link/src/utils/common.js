@@ -24,6 +24,15 @@ class Common {
     }
 
     /**
+     * 主进程handle方式通信
+     * @param {String} eventName 
+     * @param {Function} callback 
+     */
+    ipcHandle(eventName, callback) {
+        this.electron.ipcMain.handle(eventName, (event, arg) => callback(event, arg));
+    }
+
+    /**
      * 主进程通信
      * @param {String} eventName 
      * @param {Function} callback 

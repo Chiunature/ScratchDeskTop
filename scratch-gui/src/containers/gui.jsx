@@ -48,10 +48,6 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
-
-        await compile.commendMake();
-        this.checkDriver();
-        
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
             ipcRender({
@@ -89,7 +85,9 @@ class GUI extends React.Component {
                     const version = getVersion(arg);
                     this.props.onSetVersion(version);
                 }
-            });
+            }); 
+            this.checkDriver();
+            await compile.commendMake();
         }
     }
     componentDidUpdate(prevProps) {

@@ -31,9 +31,11 @@
  * @LastEditTime: 2023-06-02 09:41:04
  * @params : {sendName, sendParams, eventName, callback}
  */
-
+const { VERSION } = require('../config/json/LB_FWLIB.json');
 const { ipcRenderer } = window.electron;
 const fs = window.fs;
+const path = window.path;
+
 
 /**
  * 异步通信
@@ -114,8 +116,8 @@ function handlerError(error) {
  * @param {String} path 
  * @returns 
  */
-function getVersion(data, path = window.process.cwd() + '/resources/gcc-arm-none-eabi/bin/LB_FWLIB/version/Version.txt') {
-    const version = fs.readFileSync(path, 'utf8');
+function getVersion(data, vpath =  path.join(window.process.cwd(), VERSION, '/Version.txt')) {
+    const version = fs.readFileSync(vpath, 'utf8');
     if (data == version) {
         return true;
     }else {
