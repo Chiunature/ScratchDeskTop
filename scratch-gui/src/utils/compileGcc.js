@@ -23,7 +23,7 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError, ipc, getCurrentTime } from "./ipcRender";
+import { handlerError, ipcRender, getCurrentTime } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
@@ -137,11 +137,11 @@ class Compile {
         if (appRes) {
             this.commendMake().then(() => {
 
-                ipc({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+                ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
 
             }).catch(e => {
                 handlerError(e);
-                ipc({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
+                ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
             });
         }
     }
@@ -156,12 +156,12 @@ class Compile {
      */
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
-            ipc({
+            ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                 sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.NEXTFILE,
                 callback: (event, data) => {
-                    ipc({sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
+                    ipcRender({sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
                 }
             });
         } else {

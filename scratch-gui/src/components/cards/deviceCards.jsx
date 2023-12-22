@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
 import { ipc as ipc_Renderer } from 'est-link';
 import styles from './card.css';
-import { ipc } from '../../utils/ipcRender.js';
+import { ipcRender } from '../../utils/ipcRender.js';
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
@@ -160,7 +160,7 @@ const DeviceCards = props => {
     }
     const handleDelExe = (item, e) => {
         e.stopPropagation();
-        ipc({
+        ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
             eventName: ipc_Renderer.RETURN.EXE.DELETE,

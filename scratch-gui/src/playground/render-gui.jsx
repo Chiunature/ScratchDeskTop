@@ -6,12 +6,12 @@ import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
 import HashParserHOC from '../lib/hash-parser-hoc.jsx';
 import log from '../lib/log.js';
-import { ipc } from '../utils/ipcRender.js';
+import { ipcRender } from '../utils/ipcRender.js';
 import {ipc as ipc_Renderer} from 'est-link';
 
 const onClickLogo = () => {
     // window.location = '#';
-    ipc({sendName: ipc_Renderer.SEND_OR_ON.LOGO.OPEN, sendParams: 'http://www.drluck.cn/'});
+    ipcRender({sendName: ipc_Renderer.SEND_OR_ON.LOGO.OPEN, sendParams: 'http://www.drluck.cn/'});
 };
 
 const handleTelemetryModalCancel = () => {

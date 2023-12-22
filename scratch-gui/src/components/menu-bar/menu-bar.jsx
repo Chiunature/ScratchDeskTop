@@ -87,7 +87,7 @@ import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
-import { ipc } from "../../utils/ipcRender.js";
+import { ipcRender } from "../../utils/ipcRender.js";
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 
@@ -417,7 +417,7 @@ class MenuBar extends React.Component {
     handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            ipc({
+            ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST,
                 eventName: ipc_Renderer.RETURN.CONNECTION.GETLIST,
                 callback: (event, arg) => {
@@ -445,7 +445,7 @@ class MenuBar extends React.Component {
     handleConnected(port) {
         if (!port) return;
         this.props.onSetConnectionModalPeripheralName(port.friendlyName);
-        ipc({
+        ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
@@ -466,7 +466,7 @@ class MenuBar extends React.Component {
         this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({deviceVisible: false});
-        ipc({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         this.scanConnection();
     }
     showDeviceCards() {

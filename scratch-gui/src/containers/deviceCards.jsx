@@ -6,7 +6,7 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import { ipc, delEvents } from "../utils/ipcRender.js";
+import { ipcRender, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -147,7 +147,7 @@ class DeviceCards extends React.Component {
 
     //开启监听
     async watchDevice(index) {
-        ipc({
+        ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
             sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,

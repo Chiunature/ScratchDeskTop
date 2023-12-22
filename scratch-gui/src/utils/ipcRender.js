@@ -39,7 +39,7 @@ const fs = window.fs;
  * 异步通信
  * @param {String} sendName 
  * @param {any} sendParams 
- * @returns 
+ * @returns {Promise}
  */
 async function ipcInvoke(sendName, sendParams) {
     const result = await ipcRenderer.invoke(sendName, sendParams);
@@ -50,10 +50,14 @@ async function ipcInvoke(sendName, sendParams) {
  * 渲染进程开启事件监听
  * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0 
  */
-function ipc({ sendName, sendParams, eventName, callback }) {
-    if (sendName) ipcRenderer.send(sendName, sendParams);
+function ipcRender({ sendName, sendParams, eventName, callback }) {
+    if (sendName) {
+        ipcRenderer.send(sendName, sendParams);
+    }
     const eventList = ipcRenderer.eventNames();
-    if (eventName && !eventList.includes(eventName) && typeof callback === "function") ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
+    if (eventName && !eventList.includes(eventName) && typeof callback === "function") {
+        ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
+    }
 }
 
 /**
@@ -137,7 +141,7 @@ function dataURLToBlob(dataurl) {
 }
 
 export {
-    ipc,
+    ipcRender,
     handlerError,
     getVersion,
     getCurrentTime,

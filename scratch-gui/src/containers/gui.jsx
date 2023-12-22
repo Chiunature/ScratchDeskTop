@@ -38,7 +38,7 @@ import {ipc as ipc_Renderer} from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipc, delEvents, getVersion } from "../utils/ipcRender.js";
+import { ipcRender, delEvents, getVersion } from "../utils/ipcRender.js";
 import compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -50,7 +50,7 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
-            ipc({
+            ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onShowCompletedAlert(arg.msg);
@@ -66,13 +66,13 @@ class GUI extends React.Component {
                     }
                 },
             });
-            ipc({
+            ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
                 callback: (event, arg) => {
                     this.props.onSetProgress(arg);
                 },
             });
-            ipc({
+            ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onSetSourceCompleted(false);
@@ -80,7 +80,7 @@ class GUI extends React.Component {
                 },
             });
             const driver = localStorage.getItem('driver');
-            ipc({
+            ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.DEVICE.CHECK,
                 sendParams: driver,
                 eventName: ipc_Renderer.RETURN.DEVICE.CHECK,
@@ -89,7 +89,7 @@ class GUI extends React.Component {
                     localStorage.setItem('driver', arg);
                 },
             });
-            ipc({
+            ipcRender({
                 eventName: ipc_Renderer.RETURN.VERSION, 
                 callback: (event, arg) => {
                     const version = getVersion(arg);
