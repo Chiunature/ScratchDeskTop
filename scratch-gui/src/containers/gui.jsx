@@ -76,6 +76,7 @@ class GUI extends React.Component {
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onSetSourceCompleted(false);
+                    this.props.onSetVersion(true);
                     this.props.onShowCompletedAlert(arg.msg);
                 },
             });
