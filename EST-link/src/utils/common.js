@@ -173,7 +173,7 @@ class Common {
         if (typeof fn === 'function') {
             fn.apply(this);
         }
-        event.reply(ipc_Main.SEND_OR_ON.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
     }
 
     /**
@@ -249,24 +249,20 @@ class Common {
      * @param {String} type 
      * @returns 
      */
-    switch(actions, condition, type) {
+    switch(actions, condition, type = false) {
         if (type) {
-            if (actions[condition]) {
+            if (actions[condition] && typeof actions[condition] === 'function') {
                 return actions[condition]();
             } else {
                 return false;
             }
         } else {
-            if (actions[condition]) {
+            if (actions[condition] && typeof actions[condition] === 'function') {
                 actions[condition]();
             } else {
                 return false;
             }
         }
-    }
-
-    actions(data) {
-        return data
     }
 
 }

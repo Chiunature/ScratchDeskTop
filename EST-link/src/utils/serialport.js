@@ -230,17 +230,13 @@ class Serialport extends Common {
      * @param {*} event 
      * @returns 
      */
-    sendBin(index, event) {
-        if (index < 0) {
+    sendBin(event) {
+        if (this.chunkIndex < 0) {
             return;
         }
-        const element = this.chunkBuffer[index];
-        const { binArr } = this.checkBinData(element, index, this.chunkBuffer.length - 1);
-        if (index === this.chunkBuffer.length - 1) {
-            this.writeData(binArr, 'Boot_End', event);
-        } else {
-            this.writeData(binArr, 'Boot_Bin', event);
-        }
+        const element = this.chunkBuffer[this.chunkIndex];
+        const { binArr } = this.checkBinData(element, this.chunkIndex, this.chunkBuffer.length - 1);
+        this.writeData(binArr, 'Boot_Bin', event);
     }
 
     /**
@@ -306,8 +302,7 @@ class Serialport extends Common {
         }
         const result = verifyActions(sign, obj, event);
         if (typeof result === 'object') {
-            const action = this.actions(result);
-            return this.switch(action, sign, true);
+            return this.switch(result, sign, true);
         } else {
             return result;
         }
@@ -318,20 +313,25 @@ class Serialport extends Common {
      * @param {*} event 
      */
     processReceivedData(event) {
-        if (this.sign == 'Boot_Name') {
+        if (this.sign === 'Boot_Name') {
             this.sign = 'Boot_Bin';
         } else {
             this.chunkIndex++;
         }
+        const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
         const actions = processReceivedConfig({
             event,
-            chunkIndex: this.chunkIndex,
+            sign: this.sign,
             verifyType: this.verifyType,
-            filesObj: this.filesObj,
-            sendBin: this.sendBin.bind(this),
-            clearCache: this.clearCache.bind(this)
+            filesObj: this.filesObj
         });
-        this.switch(actions, this.sign);
+        
+        if(isLast) {
+            this.switch(actions, this.sign);
+            this.clearCache();
+        }else {
+            this.sendBin(event);
+        }
     }
 
     /**

@@ -114,13 +114,11 @@ function distinguish(filesObj, type, event) {
     //发送完资源文件后
     function _processedForSouceFile(obj, next, event) {
         obj.filesIndex++;
-        if(next) {
-            if (obj.filesIndex < obj.filesLen) {
-                event.reply(ipc_Main.RETURN.COMMUNICATION.NEXTFILE, { subFileIndex: obj.filesIndex, fileVerifyType: obj.fileVerifyType, clearFilesObj: false });
-            } else if (obj.filesIndex > obj.filesLen - 1) {
-                obj.fileVerifyType = next;
-                event.reply(ipc_Main.RETURN.COMMUNICATION.NEXTFILE, { subFileIndex: 0, fileVerifyType: obj.fileVerifyType, clearFilesObj: true });
-            }
+        if (next) {
+            const isLastFile = obj.filesIndex > obj.filesLen - 1;
+            const fileVerifyType = isLastFile ? next : obj.fileVerifyType;
+            const subFileIndex = isLastFile ? 0 : obj.filesIndex;
+            event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.NEXTFILE, { subFileIndex, fileVerifyType, clearFilesObj: isLastFile });
             console.log(`${obj.fileName}已经下载完成`);
         } else {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
@@ -138,19 +136,21 @@ function distinguish(filesObj, type, event) {
 function processReceivedConfig(options) {
     const {
         event,
-        chunkIndex,
+        sign,
         verifyType,
         filesObj,
-        sendBin,
-        clearCache
     } = options;
-    return {
-        Boot_Bin: () => sendBin(chunkIndex, event),
-        Boot_End: () => {
-            distinguish(filesObj, verifyType, event);
-            clearCache();
-        }
+
+    let obj = {};
+    switch (sign) {
+        case 'Boot_Bin':
+            obj[sign] = () => distinguish(filesObj, verifyType, event);
+            break;
+        default:
+            break;
     }
+
+    return obj;
 }
 
 
@@ -162,7 +162,7 @@ function processReceivedConfig(options) {
 function verifyBinType(options, that) {
     let data, name;
     const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = options;
-    const {path, fs, process} = that;
+    const { path, fs, process } = that;
     const root = process.cwd();
     switch (verifyType) {
         case SOURCE_MUSIC:

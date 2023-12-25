@@ -136,9 +136,7 @@ class Compile {
         //编译
         if (appRes) {
             this.commendMake().then(() => {
-
                 ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
-
             }).catch(e => {
                 handlerError(e);
                 ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
@@ -159,7 +157,7 @@ class Compile {
             ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                 sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
-                eventName: ipc_Renderer.RETURN.COMMUNICATION.NEXTFILE,
+                eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
                     ipcRender({sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
                 }
