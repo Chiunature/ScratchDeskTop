@@ -91,19 +91,19 @@ function distinguish(filesObj, type, event) {
     let obj = { ...filesObj };
     switch (type) {
         case SOURCE_MUSIC:
-            processedForSouceFile(obj, SOURCE_BOOT, event);
+            _processedForSouceFile(obj, SOURCE_BOOT, event);
             break;
         case SOURCE_BOOT:
-            processedForSouceFile(obj, SOURCE_VERSION, event);
+            _processedForSouceFile(obj, SOURCE_VERSION, event);
             break;
         case SOURCE_VERSION:
-            processedForSouceFile(obj, SOURCE_CONFIG, event);
+            _processedForSouceFile(obj, SOURCE_CONFIG, event);
             break;
         case SOURCE_CONFIG:
-            processedForSouceFile(obj, SOURCE_APP, event);
+            _processedForSouceFile(obj, SOURCE_APP, event);
             break;
         case SOURCE_APP:
-            processedForSouceFile(obj, null, event);
+            _processedForSouceFile(obj, null, event);
             break;
         case BOOTBIN:
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
@@ -112,7 +112,7 @@ function distinguish(filesObj, type, event) {
             break;
     }
     //发送完资源文件后
-    function processedForSouceFile(obj, next, event) {
+    function _processedForSouceFile(obj, next, event) {
         obj.filesIndex++;
         if(next) {
             if (obj.filesIndex < obj.filesLen) {
@@ -166,27 +166,27 @@ function verifyBinType(options, that) {
     const root = process.cwd();
     switch (verifyType) {
         case SOURCE_MUSIC:
-            const music = readdirForSource(path.join(root, MUSIC), filesObj, filesIndex, readFiles);
+            const music = _readdirForSource(path.join(root, MUSIC), filesObj, filesIndex, readFiles);
             data = music.fileData;
             name = music.fileName;
             break;
         case SOURCE_APP:
-            const app = readdirForSource(path.join(root, APP), filesObj, filesIndex, readFiles);
+            const app = _readdirForSource(path.join(root, APP), filesObj, filesIndex, readFiles);
             data = app.fileData;
             name = app.fileName;
             break;
         case SOURCE_BOOT:
-            const boot = readdirForSource(path.join(root, BOOT), filesObj, filesIndex, readFiles);
+            const boot = _readdirForSource(path.join(root, BOOT), filesObj, filesIndex, readFiles);
             data = boot.fileData;
             name = boot.fileName;
             break;
         case SOURCE_VERSION:
-            const version = readdirForSource(path.join(root, VERSION), filesObj, filesIndex, readFiles);
+            const version = _readdirForSource(path.join(root, VERSION), filesObj, filesIndex, readFiles);
             data = version.fileData;
             name = version.fileName;
             break;
         case SOURCE_CONFIG:
-            const config = readdirForSource(path.join(root, CONFIG), filesObj, filesIndex, readFiles);
+            const config = _readdirForSource(path.join(root, CONFIG), filesObj, filesIndex, readFiles);
             data = config.fileData;
             name = config.fileName;
             break;
@@ -199,7 +199,7 @@ function verifyBinType(options, that) {
             break;
     }
     //读取资源文件夹
-    function readdirForSource(path, filesObj, filesIndex, readFiles) {
+    function _readdirForSource(path, filesObj, filesIndex, readFiles) {
         let fileData, fileName;
         if (Object.keys(filesObj).length === 0) {
             filesObj.filesList = fs.readdirSync(path);

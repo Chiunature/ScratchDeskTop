@@ -28,7 +28,7 @@ class DeviceCards extends React.Component {
     constructor(props) {
         super(props);
         this.timer = null;
-        this.index = -1;
+        this.index = 0;
         this.gyroList = [];
         this.flashList = [];
         this.adcList = [];
@@ -49,8 +49,8 @@ class DeviceCards extends React.Component {
             if(that.state.stopWatch || that.props.completed) {
                 return;
             } else {
-                that.index = that.index === list.length - 1 ? 0 : that.index + 1;
                 await that.watchDevice(that.index);
+                that.index = that.index === list.length - 1 ? 0 : that.index + 1;
             }
         }, 300);
     }

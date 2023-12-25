@@ -134,7 +134,6 @@ class GUI extends React.Component {
                 compile.sendSerial(BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
-                // this.props.onViewDeviceCards(true);
             }
         }
     }
@@ -213,8 +212,7 @@ GUI.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
-    onActivateDeck: PropTypes.func,
-    onViewDeviceCards: PropTypes.func
+    onActivateDeck: PropTypes.func
 };
 
 GUI.defaultProps = {
@@ -298,7 +296,6 @@ const mapDispatchToProps = (dispatch) => ({
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: id => dispatch(activateDeck(id)),
-    onViewDeviceCards: (deviceVisible) => dispatch(viewDeviceCards(deviceVisible)),
     onSetVersion: (version) => dispatch(setVersion(version))
 });
 
