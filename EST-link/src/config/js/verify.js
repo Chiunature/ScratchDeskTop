@@ -25,7 +25,7 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 const ipc_Main = require("../json/communication/ipc.json");
-
+const signType = require("../json/communication/sign.json");
 
 /**
  * 校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
@@ -36,10 +36,15 @@ const ipc_Main = require("../json/communication/ipc.json");
  */
 function verifyActions(sign, recevieObj, event) {
     const { data } = recevieObj;
-    if (sign && sign.search('Boot') !== -1) {
-        let obj = {};
-        obj[sign] = () => {
-            const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
+    switch (sign) {
+        case signType.DEVICE.WATCH:
+            event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
+            return false;
+        case signType.VERSION:
+            event.reply(ipc_Main.RETURN.VERSION, data);
+            return false;
+        case signType.EXE.DELETE:
+            const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];
             let res;
             for (let i = 0; i < data.length; i++) {
                 const item = data[i];
@@ -50,19 +55,13 @@ function verifyActions(sign, recevieObj, event) {
                     break;
                 }
             }
-            return res;
-        }
-        return obj;
-    } else {
-        switch (sign) {
-            case "Watch_Device":
-                event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
-                return false;
-            case "get_version":
-                event.reply(ipc_Main.RETURN.VERSION, data);
-                return false;
-            case "delete-exe":
-                const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];
+            event.reply(ipc_Main.RETURN.EXE.DELETE, res);
+            return false;
+        case signType.BOOT.FILENAME:
+        case signType.BOOT.BIN:
+            let obj = {};
+            obj[sign] = () => {
+                const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
                 let res;
                 for (let i = 0; i < data.length; i++) {
                     const item = data[i];
@@ -73,11 +72,11 @@ function verifyActions(sign, recevieObj, event) {
                         break;
                     }
                 }
-                event.reply(ipc_Main.RETURN.EXE.DELETE, res);
-                return false;
-            default:
-                break;
-        }
+                return res;
+            }
+            return obj;
+        default:
+            return false;
     }
 }
 
@@ -127,86 +126,59 @@ function distinguish(filesObj, type, event) {
 }
 
 
-
-/**
- * 处理接收数据后的操作
- * @param  {Object} options 
- * @returns 
- */
-function processReceivedConfig(options) {
-    const {
-        event,
-        sign,
-        verifyType,
-        filesObj,
-    } = options;
-
-    let obj = {};
-    switch (sign) {
-        case 'Boot_Bin':
-            obj[sign] = () => distinguish(filesObj, verifyType, event);
-            break;
-        default:
-            break;
-    }
-
-    return obj;
-}
-
-
 /**
  * 处理是哪种类型的校验
  * @param  {Object} options 
  * @returns 
  */
-function verifyBinType(options, that) {
+function verifyBinType(options) {
     let data, name;
-    const { verifyType, selectedExe, filesObj, filesIndex, readFiles, writeFiles } = options;
-    const { path, fs, process } = that;
+    const { verifyType, selectedExe, filesObj, filesIndex } = options;
+    const { path, fs, process } = this;
     const root = process.cwd();
     switch (verifyType) {
         case SOURCE_MUSIC:
-            const music = _readdirForSource(path.join(root, MUSIC), filesObj, filesIndex, readFiles);
+            const music = _readdirForSource(path.join(root, MUSIC), filesObj, filesIndex);
             data = music.fileData;
             name = music.fileName;
             break;
         case SOURCE_APP:
-            const app = _readdirForSource(path.join(root, APP), filesObj, filesIndex, readFiles);
+            const app = _readdirForSource(path.join(root, APP), filesObj, filesIndex);
             data = app.fileData;
             name = app.fileName;
             break;
         case SOURCE_BOOT:
-            const boot = _readdirForSource(path.join(root, BOOT), filesObj, filesIndex, readFiles);
+            const boot = _readdirForSource(path.join(root, BOOT), filesObj, filesIndex);
             data = boot.fileData;
             name = boot.fileName;
             break;
         case SOURCE_VERSION:
-            const version = _readdirForSource(path.join(root, VERSION), filesObj, filesIndex, readFiles);
+            const version = _readdirForSource(path.join(root, VERSION), filesObj, filesIndex);
             data = version.fileData;
             name = version.fileName;
             break;
         case SOURCE_CONFIG:
-            const config = _readdirForSource(path.join(root, CONFIG), filesObj, filesIndex, readFiles);
+            const config = _readdirForSource(path.join(root, CONFIG), filesObj, filesIndex);
             data = config.fileData;
             name = config.fileName;
             break;
         case BOOTBIN:
             name = `${selectedExe.num}_APP.bin`;
-            data = readFiles(path.join(root, BIN));
-            writeFiles(path.join(root, APP, name), data);
+            data = fs.readFileSync(path.join(root, BIN))
+            fs.writeFileSync(path.join(root, APP, name), data);
             break;
         default:
             break;
     }
     //读取资源文件夹
-    function _readdirForSource(path, filesObj, filesIndex, readFiles) {
+    function _readdirForSource(path, filesObj, filesIndex) {
         let fileData, fileName;
         if (Object.keys(filesObj).length === 0) {
             filesObj.filesList = fs.readdirSync(path);
             filesObj.filesLen = filesObj.filesList.length;
         }
         if (filesObj.filesList.length > 0) {
-            fileData = readFiles(`${path}/${filesObj.filesList[filesIndex]}`);
+            fileData = fs.readFileSync(`${path}/${filesObj.filesList[filesIndex]}`);
             fileName = filesObj.filesList[filesIndex];
         }
 
@@ -224,6 +196,6 @@ function verifyBinType(options, that) {
 
 module.exports = {
     verifyActions,
-    processReceivedConfig,
+    distinguish,
     verifyBinType
 };

@@ -1,0 +1,13 @@
+{
+    "DEVICE": {
+        "WATCH": "Watch_Device"
+    },
+    "EXE": {
+        "DELETE": "Delete_Exe"
+    },
+    "BOOT": {
+        "BIN": "Boot_Bin",
+        "FILENAME": "Boot_Name"
+    },
+    "VERSION": "Get_Version"
+}

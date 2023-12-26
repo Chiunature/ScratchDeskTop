@@ -87,7 +87,7 @@ import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
-import { ipcRender } from "../../utils/ipcRender.js";
+import { ipcInvoke, ipcRender } from "../../utils/ipcRender.js";
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 
@@ -414,29 +414,24 @@ class MenuBar extends React.Component {
             that.handleConnection();
         }, 2000);
     }
-    handleConnection() {
+    async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            ipcRender({
-                sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST,
-                eventName: ipc_Renderer.RETURN.CONNECTION.GETLIST,
-                callback: (event, arg) => {
-                    if (arg.length === 0) return;
-                    if (this.props.serialList.length >= arg.length) return;
-                    let newarr = arg.reduce((pre, cur) => {
-                        if (cur.friendlyName && cur.friendlyName.search("LBS Serial") != -1) {
-                            pre.push(cur);
-                        }
-                        return pre;
-                    }, []);
-                    if (newarr.length === 0) return;
-                    this.props.onSetPort(newarr[0]);
-                    this.props.onGetSerialList(newarr);
-                    this.props.onSetIsConnectedSerial(true);
-                    clearInterval(this.timer);
-                    this.handleConnected(newarr[0]);
+            const result = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            if (result.length === 0) return;
+            if (this.props.serialList.length >= result.length) return;
+            let newarr = result.reduce((pre, cur) => {
+                if (cur.friendlyName && cur.friendlyName.search("LBS Serial") != -1) {
+                    pre.push(cur);
                 }
-            });
+                return pre;
+            }, []);
+            if (newarr.length === 0) return;
+            this.props.onSetPort(newarr[0]);
+            this.props.onGetSerialList(newarr);
+            this.props.onSetIsConnectedSerial(true);
+            clearInterval(this.timer);
+            this.handleConnected(newarr[0]);
         }
     }
     handleConnectionMouseUp() {
