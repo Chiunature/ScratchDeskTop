@@ -72,6 +72,7 @@ class Serialport extends Common {
         this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
 
         if (this.port && this.port.isOpen && this.port.path === serial.path) {
+            this.port.close();
             return;
         } else {
             this.OpenPort(event);
