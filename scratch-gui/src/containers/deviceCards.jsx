@@ -153,7 +153,9 @@ class DeviceCards extends React.Component {
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (event, watchData) => {
                 const {data, bit} = watchData;
-                const result = hexToString(data.slice(5, data.length - 2));
+                const text = new TextDecoder();
+                const arr = new Uint8Array(data.slice(5, data.length - 2));
+                const result = text.decode(arr);
                 const newArr = result.split('/').filter((el) => (el !== ''));
                 if(newArr && newArr.length > 0) this.distinguishDevice(newArr, bit);
             }

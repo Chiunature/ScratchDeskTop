@@ -110,7 +110,7 @@ class Common {
         for (let i = 0; i < buf.length; i++) {
             view.push(buf[i]);
         }
-        return view;
+        return new Uint8Array(view);
     }
 
 
@@ -139,7 +139,7 @@ class Common {
         if (!Array.isArray(data)) {
             arr = this.toArrayBuffer(data);
         } else {
-            arr = [...data];
+            arr = [...new Uint8Array(data)];
         }
         return arr;
     }
