@@ -104,8 +104,7 @@ function writeFileWithDirectory(directory, filepath, data) {
  * @param {String} error 
  */
 function handlerError(error) {
-    console.error(`error: ${error}`);
-    const directory = './Error';
+        const directory = './Error';
     const filepath = `./Error/error_${getCurrentTime()}.txt`;
     writeFileWithDirectory(directory, filepath, error);
 }

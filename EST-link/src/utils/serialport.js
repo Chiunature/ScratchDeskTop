@@ -57,7 +57,7 @@ class Serialport extends Common {
      */
     disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
-            if (this.port && this.port.isOpen) {
+            if (this.port && this.port.opening) {
                 this.port.close();
             }
         });
@@ -69,15 +69,13 @@ class Serialport extends Common {
      * @param {*} event 
      */
     linkToSerial(serial, event) {
-        this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
-
-        if (this.port && this.port.isOpen && this.port.path === serial.path) {
+        if (this.port && this.port.opening && this.port.path === serial.path) {
             this.port.close();
             return;
         } else {
+            this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
             this.OpenPort(event);
         }
-
         this.handleRead("readable", event);
         this.listenPortClosed("close", event);
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
@@ -204,7 +202,7 @@ class Serialport extends Common {
      * 清除缓存
      */
     clearCache() {
-        if (this.port && this.port.isOpen) {
+        if (this.port && this.port.opening) {
             this.port.flush();
         }
         this.receiveDataBuffer = [];
@@ -260,7 +258,7 @@ class Serialport extends Common {
                     this.processReceivedData(event);
                 }
             } catch (error) {
-                this.handleReadError(event, this.clearCache);
+                this.handleReadError(error, event, this.clearCache);
             }
         });
     }
