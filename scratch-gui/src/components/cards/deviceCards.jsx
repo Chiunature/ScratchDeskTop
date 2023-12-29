@@ -155,9 +155,7 @@ const DeviceCards = props => {
         });
         onSetExelist(newList);
         onSetSelectedExe(item);
-        localStorage.setItem('exeList', JSON.stringify(newList));
-        localStorage.setItem('selItem', JSON.stringify(item));
-    }
+            }
     const handleDelExe = (item, e) => {
         e.stopPropagation();
         ipcRender({

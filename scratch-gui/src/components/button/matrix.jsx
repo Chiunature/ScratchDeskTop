@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import classNames from "classnames";
 import styles from "./button.css";
 import matrix from "../../config/json/matrix.json";
 
-const Matrix = ({num}) => {
+const Matrix = ({num, active, ulClassName, liClassName}) => {
     let [arr, setArr] = useState(matrix[num]);
-
+const act = active ? active : styles.active;
     return (
-        <ul className={styles.tb}>
+        <ul className={classNames(styles.tb, ulClassName)}>
             {arr.split('').map((el, index) => {
               return (
-                <li key={index} className={el == 1 ? styles.active : ''}></li>
+                <li key={index} className={classNames(liClassName, el == 1 ? act : '')}></li>
               )  
             })}
         </ul>

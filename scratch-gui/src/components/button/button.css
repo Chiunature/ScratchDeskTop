@@ -261,8 +261,8 @@
 .select-exe-btn-con {
     width: 60px;
     position: fixed;
-    left: 27%;
-    top: 11%;
+    right: 12%;
+    bottom: 7%;
     z-index: 20;
 }
 
@@ -270,8 +270,8 @@
     .select-exe-btn-con {
         width: 60px;
         position: fixed;
-        left: 21%;
-        top: 11%;
+        right: 11%;
+        bottom: 7%;
         z-index: 20;
     }
 }
@@ -341,8 +341,8 @@
 }
 
 .tb {
-    /* width: 23px;
-    height: 35px; */
+    min-width: 40px;
+    min-height: 50px;
     display: flex;
     flex-flow: row wrap;
     transform: scale(.5);
@@ -350,7 +350,7 @@
 
 .tb li {
     margin: 1.8px;
-    width: 7px;
-    height: 7px;
+    width: 7px !important;
+    height: 7px !important;
     flex-grow: 1;
 }

@@ -141,12 +141,14 @@ const setIsComplete = function (isComplete) {
     };
 };
 const setExelist = function (exeList) {
+localStorage.setItem('exeList', JSON.stringify(exeList));
     return {
         type: SET_EXELIST,
         exeList: exeList
     };
 };
 const setSelectedExe = function (selectedExe) {
+localStorage.setItem('selItem', JSON.stringify(selectedExe));
     return {
         type: SET_SELECTEDEXE,
         selectedExe: selectedExe

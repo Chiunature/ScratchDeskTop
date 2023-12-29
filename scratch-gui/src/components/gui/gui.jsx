@@ -271,14 +271,12 @@ const GUIComponent = (props) => {
                             <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload}/>
                         )}
                         {peripheralName && !soundsTabVisible ? (
-                            <><SelectExeBtn onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
-                            <UploadBtn
-                                completed={completed} 
-                                progress={progress} 
-                                handleCompile={handleCompile} 
-                                isComplete={isComplete}
-                            /></>
+                            <>
+                                <SelectExeBtn isRtl={isRtl} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
+                            <UploadBtn completed={completed} progress={progress} handleCompile={handleCompile} isComplete={isComplete}/>
+                            </>
                         ) : null}
+
                         <MenuBar
                             accountNavOpen={accountNavOpen}
                             authorId={authorId}
