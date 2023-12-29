@@ -14,10 +14,9 @@ const SelectExeBtn = (props) => {
 
     return (
         <>
-            <div className={styles.selectExeBtnCon} onClick={toggle}>
+            <div className={styles.selectExeBtnCon} >
                 <div className={classNames(styles.selectExeBox, "exe-box")}>
-                    <div className={styles.selectExeLine}></div>
-                    <div className={styles.selectExeRound}>
+                    <div className={styles.selectExeRound} onClick={toggle}>
                         {exeList.length > 0 && exeList.map((item, index) => {
                             return (
                                 <span key={index} className={classNames(styles.selectExeBlock, selectedExe.num === index + 1 ? styles.selectExeWrapper : '')}>
@@ -26,9 +25,10 @@ const SelectExeBtn = (props) => {
                             )
                         })}
                     </div>
+                    <SelectBox flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>
             </div>
-            <SelectBox flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
+            
         </>
     );
 }

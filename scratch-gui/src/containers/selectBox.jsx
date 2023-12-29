@@ -16,7 +16,7 @@ class SelectBox extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(prevProps.selectedExe !== this.props.selectedExe) {
             this.setState(() => ({
-                sx: (this.props.selectedExe.num - 1) * 98
+                sx: (this.props.selectedExe.num - 1) * 96
             }));
         }
     }
