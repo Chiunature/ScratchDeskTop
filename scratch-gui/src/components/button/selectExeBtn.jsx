@@ -17,13 +17,9 @@ const SelectExeBtn = (props) => {
             <div className={styles.selectExeBtnCon} >
                 <div className={classNames(styles.selectExeBox, "exe-box")}>
                     <div className={styles.selectExeRound} onClick={toggle}>
-                        {exeList.length > 0 && exeList.map((item, index) => {
-                            return (
-                                <span key={index} className={classNames(styles.selectExeBlock, selectedExe.num === index + 1 ? styles.selectExeWrapper : '')}>
-                                    <Matrix num={item.num} />
-                                </span>
-                            )
-                        })}
+                        <span className={classNames(styles.selectExeBlock, styles.selectExeWrapper)}>
+                                <Matrix num={selectedExe.num} />
+                             </span>
                     </div>
                     <SelectBox flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>

@@ -8,8 +8,8 @@ class SelectBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: 0,
-            sx: 0
+            index: this.props.selectedExe.num - 1,
+            sx: (this.props.selectedExe.num - 1) * 96
         }
     }
 
