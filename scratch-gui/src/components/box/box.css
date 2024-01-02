@@ -26,6 +26,7 @@
     line-height: 18px;
     letter-spacing: -0.5px;
     font-weight: 400;
+position: relative;
 }
 
 .select-modal-content {
@@ -146,6 +147,12 @@
     border-top-right-radius: 20px;
 }
 
-/* .btn-hide {
-    display: none;
-} */
+.select-modal .load {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0.5);
+    right: 5%;
+    bottom: 5%;
+    cursor: pointer;
+}

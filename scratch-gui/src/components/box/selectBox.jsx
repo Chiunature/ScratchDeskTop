@@ -5,6 +5,7 @@ import matrix from "../../config/json/matrix.json";
 import rightArrow from '../cards/icon--next.svg';
 import leftArrow from '../cards/icon--prev.svg';
 import Matrix from "../button/matrix.jsx";
+import upload from '../button/icon--upload.svg';
 
 const SelectBoxCom = (props) => {
     const {
@@ -12,7 +13,8 @@ const SelectBoxCom = (props) => {
         flag,
         isRtl,
         handleRight,
-        handleLeft
+        handleLeft,
+        handleCompile
     } = props;
     const [arr, setArr] = useState(Object.keys(matrix));
     let refUl = useRef();
@@ -44,6 +46,7 @@ const SelectBoxCom = (props) => {
                         </div>
                     </div>
                 </div>
+<img className={styles.load} src={upload} alt="" onClick={handleCompile}/>
             </div>
         </div>
     )

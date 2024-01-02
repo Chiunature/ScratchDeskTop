@@ -5,7 +5,8 @@ import Matrix from "./matrix.jsx";
 import SelectBox from "../../containers/selectBox.jsx";
 
 const SelectExeBtn = (props) => {
-    const { exeList, selectedExe, isRtl } = props;
+    const { exeList, selectedExe, isRtl, handleCompile } = props;
+// const refObj = useRef({});
     let [flag, setFlag] = useState(false);
 
     const toggle = () => {
@@ -21,7 +22,7 @@ const SelectExeBtn = (props) => {
                                 <Matrix num={selectedExe.num} />
                              </span>
                     </div>
-                    <SelectBox flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
+                    <SelectBox handleCompile={handleCompile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>
             </div>
             
