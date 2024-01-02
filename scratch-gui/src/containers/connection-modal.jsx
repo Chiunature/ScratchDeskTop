@@ -16,8 +16,7 @@ import {
     setIsConnectedSerial,
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
-    getSerialList,
-    setVersion,
+    getSerialList
 } from "../reducers/connection-modal";
 import { ipcRender } from "../utils/ipcRender.js";
 import { SOURCE } from "../config/json/verifyTypeConfig.json";
@@ -67,11 +66,14 @@ class ConnectionModal extends React.Component {
         );
     }
 
-    /* componentDidUpdate(preProps) {
-        if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
+    componentDidUpdate(preProps) {
+        /*  if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
             this.handleConnected();
+        } */
+        if(preProps.sourceCompleted !== this.props.sourceCompleted) {
+            document.body.removeAttribute("style");
         }
-    } */
+    }
 
     handleScanning() {
         this.setState({
@@ -106,6 +108,10 @@ class ConnectionModal extends React.Component {
     }
 
     handleCancel() {
+if(this.props.sourceCompleted) {
+            document.body.setAttribute("style", "cursor: wait");
+            return;
+        }
         try {
             // If we're not connected to a peripheral, close the websocket so we stop scanning.
             if (
