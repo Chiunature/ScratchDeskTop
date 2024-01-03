@@ -80,7 +80,7 @@ import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
-import {ipc as ipc_Renderer} from 'est-link';
+import { ipc as ipc_Renderer } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import scratchLogo from "./scratch-logo.svg";
@@ -418,19 +418,21 @@ class MenuBar extends React.Component {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
             const result = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
-            if (result.length === 0) return;
-            if (this.props.serialList.length >= result.length) return;
-            let newarr = result.reduce((pre, cur) => {
-                if (cur.friendlyName && cur.friendlyName.search("LBS Serial") != -1) {
-                    pre.push(cur);
-                }
-                return pre;
-            }, []);
-            if (newarr.length === 0) return;
+
+            if (result.length === 0 || this.props.serialList.length >= result.length) {
+                return;
+            }
+
+            const newarr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") != -1));
+
+            if (newarr.length === 0) {
+                return;
+            }
+
+            clearInterval(this.timer);
             this.props.onSetPort(newarr[0]);
             this.props.onGetSerialList(newarr);
             this.props.onSetIsConnectedSerial(true);
-            clearInterval(this.timer);
             this.handleConnected(newarr[0]);
         }
     }
@@ -460,14 +462,14 @@ class MenuBar extends React.Component {
         this.props.onSetIsConnectedSerial(false);
         this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
-        this.props.onSetDeviceCards({deviceVisible: false});
+        this.props.onSetDeviceCards({ deviceVisible: false });
         ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         this.scanConnection();
     }
     showDeviceCards() {
-        if(!this.props.peripheralName) {
+        if (!this.props.peripheralName) {
             this.props.onShowCompletedAlert("selectADeviceFirst");
-        }else {
+        } else {
             this.props.onViewDeviceCards();
         }
     }

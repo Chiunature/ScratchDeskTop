@@ -30,7 +30,7 @@ const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-
+const noble = require('noble');
 const { Serialport, ipc } = require('est-link');
 const { exec } = require('child_process');
 
@@ -114,7 +114,7 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport({serialport, electron, fs, path, process: global.process});
+        const sp = new Serialport({serialport, electron, fs, path, process: global.process, noble});
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
