@@ -33,7 +33,6 @@ import {
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
 import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
-import { handlerError } from '../utils/ipcRender';
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -49,7 +48,7 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex =  /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /void\s+\w+\s*\(\s*int\s+\w+\s*,\s*char\s*\*\s*\w+\s*,\s*bool\s+\w+\s*\)\s*\{[\s\S]*?\};/;
+const regexForMyBlock = /void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};/;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -146,32 +145,27 @@ class Blocks extends React.Component {
     }
     
     workspaceToCode(type) {
-        let code;
-        try {
-            const generatorName = 'cake';
-            code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
+                    const generatorName = 'cake';
+            const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
             this.props.setWorkspace(this.workspace);
-            if(type === 'move' || type === 'change' || type === 'delete') {
+            if (type === 'move' || type === 'change' || type === 'delete') {
                 this.props.getCode(code);
                 this.disableCombinedMotor('combined_motor_starting');
                 this.checkStartHat(this.workspace, this.props.code);
-            }else {
+            } else {
                 return false;
             }
-        } catch (e) {
-            handlerError(e + '\n' + code);
-        }
-    }
+            }
     
     disableCombinedMotor(type) {
         let current, list = this.workspace.getAllBlocks();
         list.map((el, index) => {
-            if(el.type === type) {
+            if (el.type === type) {
                 current = index;
             }
         });
         list.map((el, index) => {
-            if((el.category_ === 'combined_motor' || (!el.category_ && el.parentBlock_.category_ === 'combined_motor')) && index < current) {
+            if ((el.category_ === 'combined_motor' || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ === 'combined_motor')) && index < current) {
                 const list = el.svgGroup_.children;
                 for (let i = 0; i < list.length - 1; i++) {
                     list[i].setAttribute('style', 'opacity: .5;');
@@ -179,7 +173,7 @@ class Blocks extends React.Component {
                 el.svgPath_.setAttribute('style', 'opacity: .5;');
                 el.setEditable(false);
                 el.setDisabled(true);
-            }else {
+            } else {
                 const list = el.svgGroup_.children;
                 for (let i = 0; i < list.length; i++) {
                     list[i].removeAttribute('style', 'opacity: .5;');
@@ -195,14 +189,14 @@ class Blocks extends React.Component {
     checkStartHat(workspace, code) {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
-        if(!hasStart) return;
+        if (!hasStart) return;
 
         const match = code.match(regex);
         const matchMyBlock = code.match(regexForMyBlock);
 
-        if(matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
+        if (matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
 
-        if(match && match[1] !== '\n\n') {
+        if (match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
 
@@ -215,9 +209,9 @@ class Blocks extends React.Component {
         let newArr = [];
         for (let i = 0; i < arr.length; i++) {
 
-            if(arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g,'') == '}') continue;
+            if (arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g, '') == '}') continue;
 
-            if((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g,'') == '}vTaskDelay(50);}')) {
+            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}vTaskDelay(50);}')) {
                 arr[i] += arr[i + 1]; 
             }
 
@@ -231,18 +225,18 @@ class Blocks extends React.Component {
     parserTask(workspace, arr) {
         let list = workspace.getTopBlocks();
         const newArr = this.handleBlockList(arr);
-        let i = 0 ,j = 0 , que = [], newList = [];
+        let i = 0, j = 0, que = [], newList = [];
 
         while (i < list.length) {
             que.push(newArr[i]);
 
-            if(list[i].startHat_) {
-                if(i > 0) j++;
+            if (list[i].startHat_) {
+                if (i > 0) j++;
                 newList[j] = que.shift();
             }
             i++;
         }
-        if(newList.length > 0) {
+        if (newList.length > 0) {
             this.props.setBufferList(newList);
 
         }
@@ -443,12 +437,12 @@ class Blocks extends React.Component {
     onVisualReport(data) {
         this.workspace.reportValue(data.id, data.value);
     }
-    getToolboxXML () {
+    getToolboxXML() {
         // Use try/catch because this requires digging pretty deep into the VM
         // Code inside intentionally ignores several error situations (no stage, etc.)
         // Because they would get caught by this try/catch
         try {
-            let {editingTarget: target, runtime} = this.props.vm;
+            let { editingTarget: target, runtime } = this.props.vm;
             const stage = runtime.getTargetForStage();
             if (!target) target = stage; // If no editingTarget, use the stage
 

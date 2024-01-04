@@ -97,7 +97,7 @@ class Common {
      * @param {String} eventName 
      */
     listenError(eventName) {
-        this.ipcMain(eventName, (event) => event.reply(ipc_Main.SEND_OR_ON.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" }));
+        this.ipcMain(eventName, (event) => event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" }));
     }
 
     /**
