@@ -168,5 +168,43 @@ class Compile {
     }
 }
 
+/**
+ * 对比参数是否相等
+ * @param {Array | Function} val 
+ * @param {Array | Function} cur 
+ * @returns 
+ */
+function isSame(val, cur) {
+    if(val.length !== cur.length) {
+        return false;
+    }
+    for (let i = 0; i < cur.length; i++) {
+        if(val[i] !== cur[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 
-export default new Compile();
+/**
+ * 把类代理成单例模式
+ * @param {object} className 
+ * @returns 
+ */
+function singleton(className) {
+    let ins, parmters;
+    return new Proxy(className, {
+        construct(target, args) {
+            if(!ins) {
+                ins = new className(target, ...args);
+                parmters = args;
+            }
+            if(!isSame(parmters, args)) {
+                throw new Error('Cannot create instance!');
+            }
+            return ins;
+        }
+    })
+}
+
+export default singleton(Compile);

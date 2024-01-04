@@ -39,7 +39,7 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
 import { ipcRender, delEvents, getVersion, ipcInvoke, hexToString } from "../utils/ipcRender.js";
-import compile from "../utils/compileGcc.js";
+import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
@@ -89,7 +89,7 @@ class GUI extends React.Component {
                 }
             }); 
             this.checkDriver();
-            await compile.commendMake();
+            await new Compile().commendMake();
         }
     }
     componentDidUpdate(prevProps) {
@@ -132,6 +132,7 @@ class GUI extends React.Component {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
                 const selectedExe = JSON.parse(localStorage.getItem('selItem'));
+                const compile = new Compile();
                 compile.sendSerial(BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
@@ -177,7 +178,7 @@ class GUI extends React.Component {
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}
-                compile={compile}
+                compile={new Compile()}
             >
                 {children}
             </GUIComponent>
