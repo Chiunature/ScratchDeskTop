@@ -134,7 +134,7 @@ class Common {
      * @param {*} data 
      * @returns 
      */
-    Get_CRC(data) {
+    getBufferArray(data) {
         let arr = [];
         if (!Array.isArray(data)) {
             arr = this.toArrayBuffer(data);

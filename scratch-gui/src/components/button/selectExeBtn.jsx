@@ -5,7 +5,7 @@ import Matrix from "./matrix.jsx";
 import SelectBox from "../../containers/selectBox.jsx";
 
 const SelectExeBtn = (props) => {
-    const { exeList, selectedExe, isRtl, handleCompile } = props;
+    const { completed, exeList, selectedExe, isRtl, handleCompile } = props;
     let refObj = useRef();
     let [flag, setFlag] = useState(false);
 
@@ -27,6 +27,14 @@ const SelectExeBtn = (props) => {
         setFlag(!flag);
     }
 
+    const compile = () => {
+        if(completed) {
+            return;
+        }else {
+            handleCompile();
+        }
+    }
+
     return (
         <>
             <div className={styles.selectExeBtnCon} >
@@ -36,7 +44,7 @@ const SelectExeBtn = (props) => {
                                 <Matrix num={selectedExe.num} />
                              </span>
                     </div>
-                    <SelectBox handleCompile={handleCompile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
+                    <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>
             </div>
             

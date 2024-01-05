@@ -66,7 +66,8 @@ class SelectBox extends React.Component {
 
     render() {
         return (<SelectBoxCom
-handleCompile={this.props.handleCompile}
+            completed={this.props.completed}
+            handleCompile={this.props.handleCompile}
             isRtl={this.props.isRtl}
             sx={this.state.sx}
             flag={this.props.flag}

@@ -133,32 +133,32 @@ function distinguish(filesObj, type, event) {
  */
 function verifyBinType(options) {
     let data, name;
-    const { verifyType, selectedExe, filesObj, filesIndex } = options;
+    const { verifyType, selectedExe, files, filesIndex } = options;
     const { path, fs, process } = this;
     const root = process.cwd();
     switch (verifyType) {
         case SOURCE_MUSIC:
-            const music = _readdirForSource(path.join(root, MUSIC), filesObj, filesIndex);
+            const music = _readdirForSource(path.join(root, MUSIC), files, filesIndex);
             data = music.fileData;
             name = music.fileName;
             break;
         case SOURCE_APP:
-            const app = _readdirForSource(path.join(root, APP), filesObj, filesIndex);
+            const app = _readdirForSource(path.join(root, APP), files, filesIndex);
             data = app.fileData;
             name = app.fileName;
             break;
         case SOURCE_BOOT:
-            const boot = _readdirForSource(path.join(root, BOOT), filesObj, filesIndex);
+            const boot = _readdirForSource(path.join(root, BOOT), files, filesIndex);
             data = boot.fileData;
             name = boot.fileName;
             break;
         case SOURCE_VERSION:
-            const version = _readdirForSource(path.join(root, VERSION), filesObj, filesIndex);
+            const version = _readdirForSource(path.join(root, VERSION), files, filesIndex);
             data = version.fileData;
             name = version.fileName;
             break;
         case SOURCE_CONFIG:
-            const config = _readdirForSource(path.join(root, CONFIG), filesObj, filesIndex);
+            const config = _readdirForSource(path.join(root, CONFIG), files, filesIndex);
             data = config.fileData;
             name = config.fileName;
             break;
@@ -171,15 +171,15 @@ function verifyBinType(options) {
             break;
     }
     //读取资源文件夹
-    function _readdirForSource(path, filesObj, filesIndex) {
+    function _readdirForSource(path, files, filesIndex) {
         let fileData, fileName;
-        if (Object.keys(filesObj).length === 0) {
-            filesObj.filesList = fs.readdirSync(path);
-            filesObj.filesLen = filesObj.filesList.length;
+        if (Object.keys(files).length === 0) {
+            files.filesList = fs.readdirSync(path);
+            files.filesLen = files.filesList.length;
         }
-        if (filesObj.filesList.length > 0) {
-            fileData = fs.readFileSync(`${path}/${filesObj.filesList[filesIndex]}`);
-            fileName = filesObj.filesList[filesIndex];
+        if (files.filesList.length > 0) {
+            fileData = fs.readFileSync(`${path}/${files.filesList[filesIndex]}`);
+            fileName = files.filesList[filesIndex];
         }
 
         return {

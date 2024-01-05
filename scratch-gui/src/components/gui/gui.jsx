@@ -272,7 +272,7 @@ const GUIComponent = (props) => {
                         )}
                         {peripheralName && !soundsTabVisible ? (
                             <>
-                                <SelectExeBtn handleCompile={handleCompile} isRtl={isRtl} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
+                                <SelectExeBtn completed={completed} handleCompile={handleCompile} isRtl={isRtl} onSetSelectedExe={onSetSelectedExe} onSetExelist={onSetExelist} exeList={exeList} selectedExe={selectedExe}/>
                             <UploadBtn completed={completed} progress={progress} handleCompile={handleCompile} isComplete={isComplete}/>
                             </>
                         ) : null}

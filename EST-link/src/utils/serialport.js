@@ -103,10 +103,16 @@ class Serialport extends Common {
             const { fileData, fileName } = verifyBinType.call(this, {
                 verifyType: data.verifyType,
                 selectedExe: data.selectedExe,
-                filesObj: this.files,
+                files: this.files,
                 filesIndex: this.subFileIndex
             });
-            this.upload(event, { fileName, binData: fileData, verifyType: data.verifyType, filesIndex: this.subFileIndex, filesLen: this.files.filesLen });
+            this.upload({
+                fileName, 
+                binData: fileData, 
+                verifyType: data.verifyType, 
+                filesIndex: this.subFileIndex, 
+                filesLen: this.files.filesLen 
+            }, event);
         });
     }
 
@@ -116,8 +122,10 @@ class Serialport extends Common {
      * @param {Object} data 
      * @returns 
      */
-    upload(event, data) {
-        if (!data.binData || !data.fileName) return;
+    upload(data, event) {
+        if (!data.binData || !data.fileName) {
+            return;
+}
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
         this.filesObj = {
@@ -128,7 +136,7 @@ class Serialport extends Common {
         };
         const bits = this.getBits(data.verifyType);
         const { binArr } = this.checkFileName(data.fileName, bits);
-        this.writeData(binArr, data.binData ? signType.BOOT.FILENAME : null, event);
+        this.writeData(binArr, signType.BOOT.FILENAME, event);
     }
 
     /**
@@ -272,7 +280,7 @@ class Serialport extends Common {
         if (!this.sign || !data) {
             return;
         }
-        const list = this.Get_CRC(data);
+        const list = this.getBufferArray(data);
         const start = list.indexOf(0x5a);
         let newList = [];
         if (list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
