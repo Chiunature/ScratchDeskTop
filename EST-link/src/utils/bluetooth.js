@@ -27,10 +27,10 @@ class Bluetooth extends Common {
      * 发现设备
      */
     discover() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.noble.on('discover', function (peripheral) {
                 this.peripheral = peripheral;
-
+                resolve(peripheral);
             });
         });
     }
@@ -43,13 +43,13 @@ class Bluetooth extends Common {
             this.peripheral.connect(function (error) {
                 if (error) {
                     console.error('连接到设备失败', error);
+                    reject(error);
                     return;
                 }
                 console.log('成功连接到设备');
-
+                resolve();
             });
         });
-
     }
 
     /**
@@ -60,11 +60,12 @@ class Bluetooth extends Common {
             this.peripheral.discoverServices([this.serviceUUID], function (error, services) {
                 if (error) {
                     console.error('发现服务失败', error);
+                    reject(error);
                     return;
                 }
 
                 this.service = services[0];
-
+                resolve(services);
             });
         });
     }
@@ -77,11 +78,12 @@ class Bluetooth extends Common {
             this.service.discoverCharacteristics([this.characteristicUUID], function (error, characteristics) {
                 if (error) {
                     console.error('发现特征失败', error);
+                    reject(error);
                     return;
                 }
 
                 this.characteristic = characteristics[0];
-
+                resolve(characteristics);
             });
         });
     }
@@ -95,10 +97,12 @@ class Bluetooth extends Common {
             this.characteristic.write(data, true, function (error) {
                 if (error) {
                     console.error('发送数据失败', error);
+                    reject(error);
                     return;
                 }
 
                 console.log('成功发送数据');
+                resolve();
             });
         });
     }
@@ -126,9 +130,11 @@ class Bluetooth extends Common {
                 if (error) {
                     console.error('启用通知失败', error);
                     this.characteristic.unsubscribe();
+                    reject(error);
                     return;
                 }
                 console.log('已启用通知');
+                resolve();
             });
         });
     }
