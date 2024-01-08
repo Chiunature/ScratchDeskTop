@@ -344,9 +344,10 @@ Blockly.VerticalFlyout.prototype.position = function () {
 
   this.svgGroup_.setAttribute("width", this.width_);
   this.svgGroup_.setAttribute("height", this.height_);
-  var transform = 'translate(' + x + 'px,' + y + 'px)';
+  var transform = 'translate(65px, 0px)';
+ /*  var transform = 'translate(' + x + 'px,' + y + 'px)';
+   */
   Blockly.utils.setCssTransform(this.svgGroup_, transform);
-
   // Update the scrollbar (if one exists).
   if (this.scrollbar_) {
     // Set the scrollbars origin to be the top left of the flyout.

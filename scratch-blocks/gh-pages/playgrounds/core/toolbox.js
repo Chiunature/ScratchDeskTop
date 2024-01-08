@@ -160,9 +160,9 @@ Blockly.Toolbox.prototype.init = function() {
 
   // 给 “显示、隐藏 flyout 的按钮” 添加点击事件
   Blockly.bindEventWithChecks_(this.triggerIcon_, 'click', this, function() {
+    // 当前 this.isHideFlyout_ 是 true，点击后会变成 false，即点击后 flyout 从显示状态变成隐藏状态
     if (this.isHideFlyout_) {
-      // 当前 this.isHideFlyout_ 是 true，点击后会变成 false，即点击后 flyout 从隐藏状态变成显示状态
-      this.scrollToCategoryById(this.getSelectedCategoryId()); // flyout 处于隐藏状态时切换角色，侧边栏会重置成选择第一种积木类型，所以要执行这个函数，将其滚动到对应位置
+      this.scrollToCategoryById(this.getSelectedCategoryId()); // flyout 处于隐藏状态时切换，侧边栏会重置成选择第一种积木类型，所以要执行这个函数，将其滚动到对应位置
       this.showAll_(); // 展示 flyout
 
       this.foldTrigger() // 修改 this.triggerIcon_ 的图标和位置

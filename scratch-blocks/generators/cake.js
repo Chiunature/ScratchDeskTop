@@ -305,12 +305,16 @@ Blockly.cake.scrub_ = function (block, code) {
 };
 
 
-Blockly.cake.stringToHex = function (string) {
-  // 将字符串按照每八个字符一组进行分割
-  const chunks = string.match(/.{1,8}/g);
-  // 将每组元素转换成0xff这种格式的十六进制
-  const hexChunks = chunks.map(chunk => "0x" + parseInt(chunk, 2).toString(16).padStart(2, '0'));
-  return hexChunks;
+Blockly.cake.stringToHex = function (matrix) {
+  const hexArr = [];
+  for (let i = 0; i < matrix.length / 7; i++) {
+    const start = i * 7;
+    const end = start + 7;
+    const subStr = matrix.substring(start, end);
+    const hex = "0x" + parseInt(subStr, 2).toString(16).padStart(2, '0');
+    hexArr.push(hex);
+  }
+  return hexArr;
 }
 
 Blockly.cake.charToHexArray = function (char) {
