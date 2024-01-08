@@ -1,4 +1,5 @@
 const Serialport = require("./utils/serialport");
+const Bluetooth = require("./utils/bluetooth");
 const ipc = require("./config/json/communication/ipc.json");
 
 (function() {
@@ -13,5 +14,6 @@ const ipc = require("./config/json/communication/ipc.json");
 module.exports = {
     name: 'est-link',
     Serialport,
+	Bluetooth,
 	ipc
 }

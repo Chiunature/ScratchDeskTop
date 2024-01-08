@@ -4,6 +4,7 @@ const Common = require("./common");
 class Bluetooth extends Common {
     constructor(...args) {
         super(...args);
+this._type = 'ble';
         this.peripheral;
         this.service;
         this.serviceUUID = '';
@@ -14,9 +15,9 @@ class Bluetooth extends Common {
      * 扫描设备
      */
     scanning() {
-        this.noble.on('stateChange', function (state) {
+        this.noble.on('stateChange', (state) => {
             if (state === 'poweredOn') {
-                this.noble.startScanning();
+                this.noble.startScanning([], true);
             } else {
                 this.noble.stopScanning();
             }
@@ -28,7 +29,7 @@ class Bluetooth extends Common {
      */
     discover() {
         return new Promise((resolve) => {
-            this.noble.on('discover', function (peripheral) {
+            this.noble.on('discover', (peripheral) => {
                 this.peripheral = peripheral;
                 resolve(peripheral);
             });
@@ -40,7 +41,7 @@ class Bluetooth extends Common {
      */
     connect() {
         return new Promise((resolve, reject) => {
-            this.peripheral.connect(function (error) {
+            this.peripheral.connect((error) => {
                 if (error) {
                     console.error('连接到设备失败', error);
                     reject(error);
@@ -57,7 +58,7 @@ class Bluetooth extends Common {
      */
     discoverServices() {
         return new Promise((resolve, reject) => {
-            this.peripheral.discoverServices([this.serviceUUID], function (error, services) {
+            this.peripheral.discoverServices([this.serviceUUID], (error, services) => {
                 if (error) {
                     console.error('发现服务失败', error);
                     reject(error);
@@ -75,7 +76,7 @@ class Bluetooth extends Common {
      */
     discoverCharacteristics() {
         return new Promise((resolve, reject) => {
-            this.service.discoverCharacteristics([this.characteristicUUID], function (error, characteristics) {
+            this.service.discoverCharacteristics([this.characteristicUUID], (error, characteristics) => {
                 if (error) {
                     console.error('发现特征失败', error);
                     reject(error);
@@ -94,7 +95,7 @@ class Bluetooth extends Common {
     bleWrite() {
         const data = Buffer.from('Hello, World!', 'utf8');
         return new Promise((resolve, reject) => {
-            this.characteristic.write(data, true, function (error) {
+            this.characteristic.write(data, true, (error) => {
                 if (error) {
                     console.error('发送数据失败', error);
                     reject(error);
@@ -126,7 +127,7 @@ class Bluetooth extends Common {
      */
     bleSubscribe() {
         return new Promise((resolve, reject) => {
-            this.characteristic.subscribe(function (error) {
+            this.characteristic.subscribe((error) => {
                 if (error) {
                     console.error('启用通知失败', error);
                     this.characteristic.unsubscribe();

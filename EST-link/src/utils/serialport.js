@@ -24,6 +24,7 @@ class Serialport extends Common {
 
     constructor(...args) {
         super(...args);
+this._type = 'serialport';
         this.port;
         this.receiveDataBuffer = [];
         this.chunkBuffer = [];

@@ -30,6 +30,7 @@
         "url": "git+ssh://git@github.com/LLK/scratch-gui.git"
     },
     "dependencies": {
+        "@abandonware/noble": "^1.9.2-23",
         "@babel/plugin-transform-runtime": "^7.23.4",
         "@babel/runtime": "^7.23.5",
         "arraybuffer-loader": "^1.0.6",

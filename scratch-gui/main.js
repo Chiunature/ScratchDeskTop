@@ -25,14 +25,13 @@
 const serialport = require('serialport');
 const electron = require("electron");
 const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = electron;
-
 const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const noble = require('noble');
-const { Serialport, ipc } = require('est-link');
+const noble = require('@abandonware/noble');
 const { exec } = require('child_process');
+const { Serialport, ipc, Bluetooth } = require('est-link');
 
 let mainWindow, loadingWindow, progressInterval, isUpdate;
 const server = 'http://127.0.0.1:2060';
@@ -47,6 +46,14 @@ const options = {
     webSecurity: false,
     preload: path.join(__dirname, "preload.js"),
 }
+
+const pack = {
+    electron, 
+    fs, 
+    path, 
+    process: global.process
+}
+
 
 function updater() {
     autoUpdater.setFeedURL(updateUrl);
@@ -76,8 +83,6 @@ function updater() {
         console.error(message)
     });
 }
-
-
 
 function showLoading() {
     return new Promise((resolve, reject) => {
@@ -114,7 +119,13 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport({serialport, electron, fs, path, process: global.process, noble});
+        const sp = new Serialport({serialport, ...pack});
+        /* const ble = new Bluetooth({noble, ...pack});
+        //开启蓝牙扫描
+        ble.scanning();
+        //发现设备
+        ble.discover().then(res => console.log(res)); */
+
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
