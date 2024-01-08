@@ -27,16 +27,16 @@
 } */
 
 function Task_Stack(item, index) {
-    return `void User_Aplication${index}(void* parameter)\n{\nWait_SystemInit();\n${item ? item.replaceAll('undefined', '') : item}\niap_load_app(0x8040000);\n}\n`;
+    return `void USER_Aplication${index}(void* parameter)\n{\nfor(;;){\n${item ? item.replaceAll('undefined', '') : item}\n}\n}\n`;
 }
 
 function Task_Info_Item(index) {
-    return `\n{\r\n\t\t.Task_Name = "User_Aplication${index}",\r\n\t\t.Task_StackSize = 10 * 1024,\r\n\t\t.UBase_Proier = 7,\r\n\t\t.TaskFunction = User_Aplication${index},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 5*1024,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
 }
 
 
 function Task_Info(taskStr) {
-    return `\nTask_Info user_task[] = {${taskStr}\n};`;
+    return `\nMallocTask_Info User_Task[] = {${taskStr}\n};`;
 }
 
 function headMain(codeStr, myStr) {
