@@ -155,21 +155,14 @@ const DeviceCards = props => {
         });
         onSetExelist(newList);
         onSetSelectedExe(item);
-            }
+    }
     const handleDelExe = (item, e) => {
         e.stopPropagation();
         ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
-            eventName: ipc_Renderer.RETURN.EXE.DELETE,
-            callback: (event, data) => {
-                if (data) {
-                    onShowDelExeAlert("delExeSuccess");
-                } else {
-                    onShowDelExeAlert("delExeFail");
-                }
-            }
         });
+        onShowDelExeAlert("delExeSuccess");
     }
 
 

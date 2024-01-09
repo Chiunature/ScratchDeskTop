@@ -27,7 +27,7 @@
 } */
 
 function Task_Stack(item, index) {
-    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit(2);\n}\n`;
+    return `void USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit(2);\n}`;
 }
 
 function Task_Info_Item(index) {
@@ -35,7 +35,7 @@ function Task_Info_Item(index) {
 }
 
 function Task_Info(taskStr) {
-    return `MallocTask_Info User_Task[] = {${taskStr}\n};\n`;
+    return `MallocTask_Info User_Task[] = {${taskStr}\n};`;
 }
 
 function headMain(myStr) {

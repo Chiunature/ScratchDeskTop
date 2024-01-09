@@ -24,7 +24,7 @@ class Serialport extends Common {
 
     constructor(...args) {
         super(...args);
-this._type = 'serialport';
+        this._type = 'serialport';
         this.port;
         this.receiveDataBuffer = [];
         this.chunkBuffer = [];
@@ -108,11 +108,11 @@ this._type = 'serialport';
                 filesIndex: this.subFileIndex
             });
             this.upload({
-                fileName, 
-                binData: fileData, 
-                verifyType: data.verifyType, 
-                filesIndex: this.subFileIndex, 
-                filesLen: this.files.filesLen 
+                fileName,
+                binData: fileData,
+                verifyType: data.verifyType,
+                filesIndex: this.subFileIndex,
+                filesLen: this.files.filesLen
             }, event);
         });
     }
@@ -126,7 +126,7 @@ this._type = 'serialport';
     upload(data, event) {
         if (!data.binData || !data.fileName) {
             return;
-}
+        }
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
         this.filesObj = {
@@ -324,10 +324,10 @@ this._type = 'serialport';
             this.chunkIndex++;
         }
         const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
-        if(isLast) {
+        if (isLast) {
             distinguish(this.filesObj, this.verifyType, event);
             this.clearCache();
-        }else {
+        } else {
             this.sendBin(event);
         }
     }
@@ -337,7 +337,7 @@ this._type = 'serialport';
      * @param {*} event 
      */
     getVersion(event) {
-        this.writeData([0x5A, 0x97, 0x98, 0x01, 0xE1, 0x01, 0x6C, 0xA5], signType.VERSION, event);
+        this.writeData([0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5], signType.VERSION, event);
     }
 
     /**

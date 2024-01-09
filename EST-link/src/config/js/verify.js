@@ -37,47 +37,49 @@ const signType = require("../json/communication/sign.json");
 function verifyActions(sign, recevieObj, event) {
     const { data } = recevieObj;
     switch (sign) {
-        case signType.DEVICE.WATCH:
+        /* case signType.DEVICE.WATCH:     //设备数据监听
             event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
-            return false;
-        case signType.VERSION:
-            event.reply(ipc_Main.RETURN.VERSION, data);
-            return false;
-        case signType.EXE.DELETE:
-            const list = [0x5A, 0x98, 0x97, 0x00, 0xDF, 0x68, 0xA5];
-            let res;
-            for (let i = 0; i < data.length; i++) {
-                const item = data[i];
-                if (item == list[i]) {
-                    res = true;
-                } else {
-                    res = false;
-                    break;
-                }
+            return false; */
+        case signType.VERSION:          //主机版本
+            if(data.indexOf(0xEA) !== -1) {
+                event.reply(ipc_Main.RETURN.VERSION, data);
             }
-            event.reply(ipc_Main.RETURN.EXE.DELETE, res);
             return false;
-        case signType.BOOT.FILENAME:
-        case signType.BOOT.BIN:
+        /* case signType.EXE.DELETE:       //程序删除
+            if(data.indexOf(0xE8) !== -1) {
+                event.reply(ipc_Main.RETURN.EXE.DELETE, true);
+            }
+            return false; */
+        case signType.BOOT.FILENAME:    //文件名
+        case signType.BOOT.BIN:         //文件数据
             let obj = {};
             obj[sign] = () => {
-                const list = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
-                let res;
-                for (let i = 0; i < data.length; i++) {
-                    const item = data[i];
-                    if (item == list[i]) {
-                        res = true;
-                    } else {
-                        res = false;
-                        break;
-                    }
-                }
-                return res;
+                const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
+                return intercept(listBin, data);
             }
             return obj;
         default:
             return false;
     }
+}
+
+/**
+ * 对接受到的数据进行拦截
+ * @param {Array} list 
+ * @returns 
+ */
+function intercept(list, data) {
+    let res;
+    for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        if (item == list[i]) {
+            res = true;
+        } else {
+            res = false;
+            break;
+        }
+    }
+    return res;
 }
 
 /**

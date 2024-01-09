@@ -89,7 +89,6 @@ class GUI extends React.Component {
                 }
             }); 
             this.checkDriver();
-            await new Compile().commendMake();
         }
     }
     componentDidUpdate(prevProps) {

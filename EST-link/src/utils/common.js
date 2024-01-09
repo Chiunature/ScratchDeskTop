@@ -237,7 +237,7 @@ class Common {
             case SOURCE_CONFIG:
                 return 0xdc;
             case DELETE_EXE:
-                return 0xdf;
+                return 0xe8;
             default:
                 break;
         }
