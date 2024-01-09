@@ -306,6 +306,9 @@ Blockly.cake.scrub_ = function (block, code) {
 
 
 Blockly.cake.stringToHex = function (matrix) {
+  if(matrix.indexOf('0') === -1) {
+    return ['0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff'];
+  }
   const hexArr = [];
   for (let i = 0; i < matrix.length / 7; i++) {
     const start = i * 7;
@@ -318,7 +321,7 @@ Blockly.cake.stringToHex = function (matrix) {
 }
 
 Blockly.cake.charToHexArray = function (char) {
-  if (!char) return ['0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff'];
+  if (!char) return ['0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff'];
   let hexArray = [];
   let res = char.toUpperCase();
   for (let item in Blockly.cake.LED) {

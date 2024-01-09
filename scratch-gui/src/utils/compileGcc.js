@@ -33,7 +33,7 @@ const fs = window.fs;
 const { spawn } = window.child_process;
 const cpus = window.os.cpus();
 
-const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\}/g;
+const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?vTaskExit\(\d+\)\;\s*\}/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;/;
 const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\//;
 
