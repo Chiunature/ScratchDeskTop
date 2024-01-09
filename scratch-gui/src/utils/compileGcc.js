@@ -23,7 +23,7 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError, ipcRender, getCurrentTime } from "./ipcRender";
+import { handlerError, ipcRender } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { DIR, APLICATION } from "../config/json/LB_USER.json";
@@ -33,6 +33,9 @@ const fs = window.fs;
 const { spawn } = window.child_process;
 const cpus = window.os.cpus();
 
+const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\}/g;
+const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;/;
+const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\//;
 
 class Compile {
 
@@ -99,17 +102,53 @@ class Compile {
     }
 
     /**
+     * 根据正则去修改文件特定内容
+     * @param {RegExp | String} regex 
+     * @param {String} targetStr 
+     * @returns 
+     */
+    changeFileByReg(result, regex, targetStr) {
+        let newRes = '', regList, isReg = false;
+        return new Promise((resolve, reject) => {
+            try {
+                if (typeof regex === 'string') {
+                    regList = regex;
+                    isReg = false;
+                } else {
+                    regList = result.match(regex);
+                    isReg = true;
+                }
+                if (!regList) {
+                    return;
+                }
+                newRes = result.replace(isReg ? regList.join('\n') : regList, targetStr);
+                resolve(newRes);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    /**
      * 将生成的C代码写入特定的C文件
      * @param {String} codeStr 
      * @param {String} taskStr 
      * @param {String} myStr 
      * @returns 
      */
-    handleCode(codeStr, taskStr, myStr) {
-        const str = Task_Info(taskStr);
-        const newStr = codeStr + str;
-        const code = headMain(newStr, myStr);
-        const writeAppRes = this.writeFiles(APLICATION, code);
+    async handleCode(codeStr, taskStr, myStr) {
+        //读取Aplication.c文件
+        const result = this.readFiles(APLICATION, { encoding: 'utf8' });
+        //自制积木块放入前面
+        const myCode = headMain(myStr);
+        const newMy = await this.changeFileByReg(result, reg_main, myCode);
+        //替换void USER_Aplication部分
+        const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
+        //替换MallocTask_Info User_Task[]部分
+        const taskIntoStr = Task_Info(taskStr);
+        const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
+        //重新写入Aplication.c文件
+        const writeAppRes = this.writeFiles(APLICATION, newTaskInto);
         return writeAppRes;
     }
 
@@ -120,7 +159,8 @@ class Compile {
      * @param {Object} selectedExe 
      * @param {String} verifyType 
      */
-    runGcc(buffer, myBlock, selectedExe, verifyType) {
+    async runGcc(buffer, myBlock, selectedExe, verifyType) {
+
         let codeStr = '', taskStr = '';
         buffer.map((el, index) => {
             if (el) {
@@ -129,7 +169,7 @@ class Compile {
             }
         });
 
-        const appRes = this.handleCode(codeStr, taskStr, myBlock);
+        const appRes = await this.handleCode(codeStr, taskStr, myBlock);
 
         if (this.progress && this.progress.exitCode !== 0) this.progress.kill('SIGKILL');
 
@@ -159,7 +199,7 @@ class Compile {
                 sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
-                    ipcRender({sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj }});
+                    ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });
                 }
             });
         } else {
@@ -175,11 +215,11 @@ class Compile {
  * @returns 
  */
 function isSame(val, cur) {
-    if(val.length !== cur.length) {
+    if (val.length !== cur.length) {
         return false;
     }
     for (let i = 0; i < cur.length; i++) {
-        if(val[i] !== cur[i]) {
+        if (val[i] !== cur[i]) {
             return false;
         }
     }
@@ -195,11 +235,11 @@ function singleton(className) {
     let ins, parmters;
     return new Proxy(className, {
         construct(target, args) {
-            if(!ins) {
+            if (!ins) {
                 ins = new className(target, ...args);
                 parmters = args;
             }
-            if(!isSame(parmters, args)) {
+            if (!isSame(parmters, args)) {
                 throw new Error('Cannot create instance!');
             }
             return ins;

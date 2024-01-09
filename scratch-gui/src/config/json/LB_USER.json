@@ -2,6 +2,6 @@
     "DIR": "./resources/gcc-arm-none-eabi/bin",
     "USER": "./resources/gcc-arm-none-eabi/bin/LB_USER",
     "SRC": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER",
-    "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/Aplication.c",
+    "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/Core/Src/Aplication.c",
     "PROGRAMMERTASKS": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/ProgrammerTasks.c"
 }

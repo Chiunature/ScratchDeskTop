@@ -27,20 +27,19 @@
 } */
 
 function Task_Stack(item, index) {
-    return `void USER_Aplication${index}(void* parameter)\n{\nfor(;;){\n${item ? item.replaceAll('undefined', '') : item}\n}\n}\n`;
+    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit(2);\n}\n`;
 }
 
 function Task_Info_Item(index) {
-    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 5*1024,\r\n\t\t.UBase_Proier = 6,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 1*1024,\r\n\t\t.UBase_Proier = 5,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
 }
-
 
 function Task_Info(taskStr) {
-    return `\nMallocTask_Info User_Task[] = {${taskStr}\n};`;
+    return `MallocTask_Info User_Task[] = {${taskStr}\n};\n`;
 }
 
-function headMain(codeStr, myStr) {
-    return `#include "main.h"\n${myStr ? myStr : ''}\n${codeStr}\nuint16_t GetTaskUserNumber(void)\n{\nreturn sizeof(user_task)/sizeof(user_task[0]);\n}`;
+function headMain(myStr) {
+    return `#if ExternalPrograment == 1\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/`;
 }
 
 
