@@ -7,10 +7,20 @@
  * @params: {
  *  subFileIndex:子文件遍历下标
  *  files: 文件目录对象
+ *  watchDeviceList: 设备监听列表
  * }
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
+
+const device = {
+    '0': '无设备连接',
+    'a1': '电机',
+    'a2': '颜色识别器',
+    'a3': '超声波',
+    'a4': '触碰'
+};
+
 class Common {
 
     constructor(...args) {
@@ -21,6 +31,11 @@ class Common {
         });
         this.subFileIndex = 0;
         this.files = {};
+        this.watchDeviceList = [];
+        this.gyroList = [];
+        this.flashList = [];
+        this.adcList = [];
+        this.voice;
     }
 
     /**
@@ -173,7 +188,7 @@ class Common {
         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
         const mainPath = this.process.cwd();
         const directory = mainPath + '/Error';
-        const filepath = `${mainPath}/Error/error_${new Date().toLocaleTimeString().replaceAll(':', '-')}.txt`;
+        const filepath = `${mainPath}/Error/error_${new Date().toISOString().replace(':', '-').slice(0, 19)}.txt`;
         this.fs.mkdir(directory, { recursive: true }, () => this.fs.writeFile(filepath, err + '', fn.bind(this)));
     }
 
@@ -266,6 +281,100 @@ class Common {
         }
     }
 
+/**
+     * 根据获取到的功能码判断设备类型
+     * @param {Object} receiveObj 
+     * @returns 
+     */
+    distinguishDevice(receiveObj) {
+        const { data, bit } = receiveObj;
+        if (!data) return false;
+        const text = new TextDecoder();
+        const list = new Uint8Array(data.slice(5, data.length - 2));
+        const res = text.decode(list);
+        const arr = res.split('/').filter((el) => (el !== ''));
+        if (!arr && arr.length <= 0) return false;
+        if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
+        switch (bit) {
+            case 0xD8:
+                arr.slice(0, 8).map((item, i) => {
+                    this.watchDeviceList[i] = {
+                        port: i,
+                        motor: {},
+                        color: {},
+                        ultrasonic: null,
+                        touch: null,
+                        sensing_device: device[item],
+                        deviceId: item
+                    }
+                });
+                break;
+            case 0xD1:
+                this.gyroList = arr;
+                break;
+            case 0xD4:
+                this.flashList = arr;
+                break;
+            case 0xD5:
+                this.adcList = arr;
+                break;
+            case 0xD7:
+                this.voice = arr[0];
+                break;
+            default:
+                this.checkSensingDevice(arr, bit);
+                break;
+        }
+        return {
+            deviceList: this.watchDeviceList,
+            gyroList: this.gyroList,
+            flashList: this.flashList,
+            adcList: this.adcList,
+            voice: this.voice
+        };
+    }
+
+    /**
+     * 根据设备id判断数据对应的端口
+     * @param {String} deviceId 
+     * @param {String} key 
+     * @returns 
+     */
+    checkSensingDevice(arr, key) {
+        if (this.watchDeviceList.length === 0) return;
+        this.watchDeviceList.forEach(el => {
+            if (el.deviceId === arr[0]) {
+                _device(el, key, arr);
+            }
+        });
+
+        function _device(port, key, arr) {
+            switch (key) {
+                case 0xD0:
+                    port.motor = {
+                        direction: arr[1] == 1 ? '正转' : arr[1] == 2 ? '反转' : arr[1] == 3 ? '刹车' : '停止',
+                        pwm: arr[2],
+                        speed: arr[3],
+                        aim_speed: arr[4],
+                    }
+                    break;
+                case 0xD6:
+                    port.color = {
+                        rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
+                        light_intensity: arr[4]
+                    }
+                    break;
+                case 0xD2:
+                    port.ultrasonic = Math.round(arr[1]);
+                    break;
+                case 0xD3:
+                    port.touch = arr[1];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 module.exports = Common;

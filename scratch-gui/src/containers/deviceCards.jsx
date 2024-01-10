@@ -6,35 +6,25 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import { ipcRender, delEvents, hexToString } from "../utils/ipcRender.js";
+import { ipcInvoke, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
-import {ipc as ipc_Renderer} from "est-link";
-
-const list = [
-    [0x5A, 0x97, 0x98, 0x01, 0xD8, 0x01, 0x63, 0xA5], //端口
-    [0x5A, 0x97, 0x98, 0x01, 0xD0, 0x01, 0x5B, 0xA5], //电机
-    [0x5A, 0x97, 0x98, 0x01, 0xD6, 0x01, 0x61, 0xA5], //颜色
-    [0x5A, 0x97, 0x98, 0x01, 0xD2, 0x01, 0x5D, 0xA5], //超声波
-    [0x5A, 0x97, 0x98, 0x01, 0xD1, 0x01, 0x5C, 0xA5], //陀螺仪
-    [0x5A, 0x97, 0x98, 0x01, 0xD4, 0x01, 0x5F, 0xA5], //内存
-    [0x5A, 0x97, 0x98, 0x01, 0xD5, 0x01, 0x60, 0xA5], //电池电压
-    [0x5A, 0x97, 0x98, 0x01, 0xD7, 0x01, 0x62, 0xA5], //声音强度
-    [0x5A, 0x97, 0x98, 0x01, 0xD3, 0x01, 0x5E, 0xA5], //触碰
-];
+import { ipc as ipc_Renderer } from "est-link";
 
 class DeviceCards extends React.Component {
     constructor(props) {
         super(props);
         this.timer = null;
         this.index = 0;
-        this.gyroList = [];
-        this.flashList = [];
-        this.adcList = [];
-        this.voice = null;
         this.state = {
-            deviceList: [],
+            deviceObj: {
+                deviceList: [],
+                gyroList: [],
+                flashList: [],
+                adcList: [],
+                voice: null
+            },
             stopWatch: true
         }
     }
@@ -45,14 +35,9 @@ class DeviceCards extends React.Component {
         }
         this.initDeviceList();
         const that = this;
-        this.timer = setInterval(async () => {
-            if(that.state.stopWatch || that.props.completed) {
-                return;
-            } else {
-                await that.watchDevice(that.index);
-                that.index = that.index === list.length - 1 ? 0 : that.index + 1;
-            }
-        }, 300);
+        this.timer = setInterval(() => {
+            that.watchDevice();
+        }, 100);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {
@@ -62,6 +47,7 @@ class DeviceCards extends React.Component {
     componentWillUnmount() {
         clearInterval(this.timer);
         delEvents(ipc_Renderer.RETURN.DEVICE.WATCH);
+        this.handleStopWatch(true);
     }
     //控制暂停监听
     handleStopWatch(stopWatch) {
@@ -78,93 +64,26 @@ class DeviceCards extends React.Component {
                 motor: {},
                 color: {},
                 ultrasonic: null,
+                deviceId: null,
                 sensing_device: '无设备连接'
             }
             list.push(obj);
         }
-        this.setState(() => ({ deviceList: list }));
-    }
-
-    //区分什么设备,什么端口
-    distinguishDevice(arr, bit) {
-        let { deviceList } = this.state;
-        if (deviceList.length === 0) return;
-        switch (bit) {
-            case 0xD8:
-                arr.map((item, i) => {
-                    if (item == 0) {
-                        deviceList[i] = {
-                            port: i,
-                            motor: {},
-                            color: {},
-                            ultrasonic: null,
-                            touch: null,
-                            sensing_device: '无设备连接'
-                        }
-                    }
-                });
-                break;
-            case 0xD0:
-                deviceList[arr[0]].motor = {
-                    speed: arr[1],
-                    aim_speed: arr[2],
-                    direction: arr[3] == 1 ? '正转' : arr[3] == 2 ? '反转' : arr[3] == 3 ? '刹车' : '停止'
-                }
-                deviceList[arr[0]].sensing_device = '电机';
-                break;
-            case 0xD6:
-                deviceList[arr[0]].color = {
-                    rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
-                    hex: `#${arr[4]}`
-                }
-                deviceList[arr[0]].sensing_device = '颜色识别器';
-                break;
-            case 0xD2:
-                deviceList[arr[0]].ultrasonic = Math.round(arr[1]);
-                deviceList[arr[0]].sensing_device = '超声波';
-                break;
-            case 0xD1:
-                this.gyroList = arr;
-                break;
-            case 0xD4:
-                arr[1] = arr[0] - arr[1];
-                this.flashList = arr;
-                break;
-            case 0xD5:
-                this.adcList = arr;
-                break;
-            case 0xD7:
-                this.voice = arr[0];
-                break;
-            case 0xD3:
-                deviceList[arr[0]].touch = arr[1];
-                deviceList[arr[0]].sensing_device = '触碰';
-            default:
-                break;
-        }
-        this.setState(() => ({ deviceList }));
+        this.state.deviceObj.deviceList = list;
+        this.setState((state) => ({ deviceObj: state.deviceObj }));
     }
 
     //开启监听
-    async watchDevice(index) {
-        ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
-            sendParams: { instruct: list[index], stopWatch: this.state.stopWatch},
-            eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
-            callback: (event, watchData) => {
-                const {data, bit} = watchData;
-                const text = new TextDecoder();
-                const arr = new Uint8Array(data.slice(5, data.length - 2));
-                const result = text.decode(arr);
-                const newArr = result.split('/').filter((el) => (el !== ''));
-                if(newArr && newArr.length > 0) this.distinguishDevice(newArr, bit);
-            }
-        })
+    async watchDevice() {
+        const result = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
+        if (!result) return;
+        const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
+        this.setState(() => ({ deviceObj }));
     }
 
     render() {
         return (
-            <CardsComponent handleStopWatch={this.handleStopWatch.bind(this)}  {...this.props} voice={this.voice} deviceList={this.state.deviceList} gyroList={this.gyroList} flashList={this.flashList} adcList={this.adcList} />
+            <CardsComponent handleStopWatch={this.handleStopWatch.bind(this)}  {...this.props} deviceObj={this.state.deviceObj} />
         );
     }
 }

@@ -70,6 +70,7 @@
 }
 
 .mid-part, .mid-right, .mid-left{
+min-width: 300px;
     display: flex;
     justify-content: flex-start;
     /* max-width: 22rem; */
@@ -102,8 +103,7 @@
 
 .mid-box {
     width: 100%;
-    min-width: 12.5rem;
-    min-height: 8rem;
+        min-height: 8rem;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -127,7 +127,7 @@ ul {
 }
 
 .mid-ul li {
-    min-width: 12.5rem;
+    min-width: 15rem;
     height: 2rem;
     display: flex;
     align-items: center;

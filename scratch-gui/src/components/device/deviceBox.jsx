@@ -6,21 +6,21 @@ const DeviceBox = ({ list }) => {
 
     function getPort(index) {
         switch (index) {
-            case 0:
+            case 0 | '0':
                 return 'A';
-            case 1:
+            case 1 | '1':
                 return 'B';
-            case 2:
+            case 2 | '2':
                 return 'C';
-            case 3:
+            case 3 | '3':
                 return 'D';
-            case 4:
+            case 4 | '4':
                 return 'E';
-            case 5:
+            case 5 | '5':
                 return 'F';
-            case 6:
+            case 6 | '6':
                 return 'G';
-            case 7:
+            case 7 | '7':
                 return 'H';
             default:
                 break;
@@ -36,7 +36,7 @@ const DeviceBox = ({ list }) => {
                         {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
                                 return (<li key={index}>
-                                    <span>{index === 0 ? '速度' : index === 1 ? '目标速度' : '旋转方向'}</span>
+                                    <span>{index === 0 ? '旋转方向' : index === 1 ? 'PWM' : index === 2 ? '实际速度' : '目标速度'}</span>
                                     <span>{el.motor[item]}</span>
                                 </li>)
                             })}
@@ -46,9 +46,9 @@ const DeviceBox = ({ list }) => {
                         {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {
                                 return (<li key={index}>
-                                    <span>{index === 0 ? 'RGB' : 'HEX'}</span>
+                                    <span>{index === 0 ? 'RGB' : '光强'}</span>
                                     <span>{el.color[item]}</span>
-                                    <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>
+                                    {index === 0 && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
                                 </li>)
                             })}
                         </ul>}

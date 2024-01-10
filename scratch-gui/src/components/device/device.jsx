@@ -3,50 +3,20 @@ import styles from './device.css';
 import DeviceBox from './deviceBox.jsx';
 
 const Device = (props) => {
-    const { deviceList, gyroList, flashList, adcList, voice } = props;
+    const { deviceList, gyroList, flashList, adcList, voice } = props.deviceObj;
     const rightList = deviceList.slice(0, 4).reverse();
     const leftList = deviceList.slice(4);
 
     function preName(index) {
         switch (index) {
             case 0:
-                return 'ax';
-            case 1:
-                return 'ay';
-            case 2:
-                return 'az';
-            case 3:
-                return 'gx';
-            case 4:
-                return 'gy';
-            case 5:
-                return 'gz';
-            case 6:
-                return 'max';
-            case 7:
-                return 'may';
-            case 8:
-                return 'maz';
-            case 9:
                 return 'pitch';
-            case 10:
+            case 1:
                 return 'roll';
-            case 11:
+            case 2:
                 return 'yaw';
             default:
                 break;
-        }
-    }
-
-    function appendName(index) {
-        if (index <= 2) {
-            return 'G';
-        } else if (index > 2 && index <= 5) {
-            return '角速度/s';
-        } else if (index > 5 && index <= 8) {
-            return 'Gs';
-        } else {
-            return '度';
         }
     }
 
@@ -61,7 +31,7 @@ const Device = (props) => {
             <div className={styles.middle}>
                 <div className={styles.midContent}>
                     <div className={styles.midLeft}>
-                        <DeviceBox list={leftList}/>
+                        <DeviceBox list={leftList} />
                     </div>
                     <div className={styles.midPart}>
                         <div className={styles.midBox}>
@@ -71,7 +41,6 @@ const Device = (props) => {
                                     return (<li key={index}>
                                         <span>{preName(index)}</span>
                                         <span>{item}</span>
-                                        <span>{appendName(index)}</span>
                                     </li>)
                                 })}
                             </ul>
@@ -106,7 +75,7 @@ const Device = (props) => {
                         </div>
                     </div>
                     <div className={styles.midRight}>
-                        <DeviceBox list={rightList}/>
+                        <DeviceBox list={rightList} />
                     </div>
                 </div>
             </div>

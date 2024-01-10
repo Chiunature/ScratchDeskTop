@@ -33,6 +33,7 @@ class Serialport extends Common {
         this.timeOutTimer;
         this.verifyType;
         this.filesObj;
+        this.receiveObj;
     }
 
     /**
@@ -77,14 +78,22 @@ class Serialport extends Common {
             this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
             this.OpenPort(event);
         }
+        //开启读取数据监听
         this.handleRead("readable", event);
+        //开启串口关闭监听
         this.listenPortClosed("close", event);
+        //开启断开连接监听
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
+        //开启获取文件监听
         this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
+        //开启传输错误监听
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
-        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
+        //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
+        //开启获取主机版本监听
         this.getVersion(event);
+        //开启设备数据监控监听
+        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
     }
 
     /**
@@ -101,18 +110,20 @@ class Serialport extends Common {
                     delete this.files[key];
                 }
             }
+            //处理渲染进程发送过来的通信需要的数据
             const { fileData, fileName } = verifyBinType.call(this, {
                 verifyType: data.verifyType,
                 selectedExe: data.selectedExe,
-                files: this.files,
-                filesIndex: this.subFileIndex
+                files: this.files,                  //文件夹对象
+                filesIndex: this.subFileIndex       //文件夹内的子文件遍历下标
             });
+            //根据返回的子文件数据和子文件名进入上传处理
             this.upload({
                 fileName,
                 binData: fileData,
                 verifyType: data.verifyType,
-                filesIndex: this.subFileIndex,
-                filesLen: this.files.filesLen
+                filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
+                filesLen: this.files.filesLen       //文件夹包含的文件数量
             }, event);
         });
     }
@@ -127,16 +138,20 @@ class Serialport extends Common {
         if (!data.binData || !data.fileName) {
             return;
         }
+        //将子文件数据切割成248个
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
         this.filesObj = {
-            filesIndex: data.filesIndex,
+            filesIndex: data.filesIndex,        //当前文件所在文件夹中的下标
             fileVerifyType: data.verifyType,
-            fileName: data.fileName,
-            filesLen: data.filesLen
+            fileName: data.fileName,            //当前文件名
+            filesLen: data.filesLen             //当前文件所在的文件夹的文件数量
         };
+        //根据文件类型获取功能码
         const bits = this.getBits(data.verifyType);
+        //将文件名放入处理函数获取需要发送给下位机的完整指令
         const { binArr } = this.checkFileName(data.fileName, bits);
+        //写入文件名和指令，告诉下位机要发送的文件
         this.writeData(binArr, signType.BOOT.FILENAME, event);
     }
 
@@ -177,9 +192,12 @@ class Serialport extends Common {
         if (!this.port) {
             return;
         }
+        //修改标识符，根据标识符判断要发送的是文件还是文件名
         this.sign = str;
+        //写入数据
         this.port.write(data);
         // console.log("write=>", data);
+        //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         }
@@ -225,10 +243,10 @@ class Serialport extends Common {
      * @param {String} eventName 
      */
     watchDevice(eventName) {
-        this.ipcMain(eventName, (event, data) => {
-            if (!data.stopWatch) {
-                this.writeData(data.instruct, signType.DEVICE.WATCH, event);
-            }
+        this.ipcHandle(eventName, (event, data) => {
+            if (data.stopWatch) return false;
+            const result = this.distinguishDevice(this.receiveObj);
+            return result;
         });
     }
 
@@ -243,7 +261,9 @@ class Serialport extends Common {
             return;
         }
         const element = this.chunkBuffer[this.chunkIndex];
+        //将文件数据放入处理函数获取需要发送给下位机的完整指令
         const { binArr } = this.checkBinData(element, this.chunkIndex, this.chunkBuffer.length - 1);
+        //传入bin数据并修改标识符
         this.writeData(binArr, signType.BOOT.BIN, event);
     }
 
@@ -259,11 +279,19 @@ class Serialport extends Common {
         }
         this.port.on(eventName, () => {
             try {
+                //清除超时检测
                 this.clearTimer();
+                //获取下位机发送过来的数据
                 const receiveData = this.port.read();
+                //把数据放入处理函数校验是否是完整的一帧并获取数据对象
                 const receiveObj = this.catchData(receiveData);
+                this.receiveObj = { ...receiveObj };
+
+                if (!this.sign) return;
+                //根据标识符进行校验操作检验数据并返回结果
                 const verify = this.verification(this.sign, receiveObj, event);
                 if (verify) {
+                    //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                     this.processReceivedData(event);
                 }
             } catch (error) {
@@ -281,6 +309,7 @@ class Serialport extends Common {
         if (!this.sign || !data) {
             return;
         }
+        //将接收到的数据转成buffer数组
         const list = this.getBufferArray(data);
         const start = list.indexOf(0x5a);
         let newList = [];
@@ -324,8 +353,11 @@ class Serialport extends Common {
             this.chunkIndex++;
         }
         const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
+        //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
         if (isLast) {
+            //进入结束后的处理函数，检测是那种类型的文件发送完毕
             distinguish(this.filesObj, this.verifyType, event);
+            //清除缓存
             this.clearCache();
         } else {
             this.sendBin(event);
