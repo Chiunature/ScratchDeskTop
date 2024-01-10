@@ -41,7 +41,7 @@ function verifyActions(sign, recevieObj, event) {
             event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
             return false; */
         case signType.VERSION:          //主机版本
-            if(data.indexOf(0xEA) !== -1) {
+            if (data.indexOf(0xEA) !== -1) {
                 event.reply(ipc_Main.RETURN.VERSION, data);
             }
             return false;
@@ -95,15 +95,15 @@ function distinguish(filesObj, type, event) {
             _processedForSouceFile(obj, SOURCE_BOOT, event);
             break;
         case SOURCE_BOOT:
-            _processedForSouceFile(obj, SOURCE_VERSION, event);
-            break;
-        case SOURCE_VERSION:
             _processedForSouceFile(obj, SOURCE_CONFIG, event);
             break;
         case SOURCE_CONFIG:
             _processedForSouceFile(obj, SOURCE_APP, event);
             break;
         case SOURCE_APP:
+            _processedForSouceFile(obj, SOURCE_VERSION, event);
+            break;
+        case SOURCE_VERSION:
             _processedForSouceFile(obj, null, event);
             break;
         case BOOTBIN:

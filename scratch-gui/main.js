@@ -119,12 +119,25 @@ function createWindow() {
             webPreferences: options,
         });
 
-        const sp = new Serialport({serialport, ...pack});
-        /* const ble = new Bluetooth({noble, ...pack});
-        //开启蓝牙扫描
-        ble.scanning();
+        
+        const sp = new Serialport({ serialport, ...pack });
+        const ble = new Bluetooth({ noble, ...pack });
+        //获取串口列表
+        sp.getList();
+        //连接串口
+        sp.connectSerial();
+
+/*         //开启蓝牙扫描
+        ble.scanning(true);
         //发现设备
-        ble.discover().then(res => console.log(res)); */
+        ble.discover().then(async () => {
+            const res = await ble.connect();
+            if (res) {
+                const service = await ble.discoverServices();
+                console.log(service);
+            }
+        }); */
+
 
         //关闭默认菜单
         if (app.isPackaged) {
@@ -140,11 +153,6 @@ function createWindow() {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
         }
-
-        //获取串口列表
-        sp.getList();
-        //连接串口
-        sp.connectSerial();
 
         //点击logo打开官网
         ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
@@ -164,7 +172,7 @@ function createWindow() {
 
 
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
-            if(flag === 'true') return;
+            if (flag === 'true') return;
              // 检测电脑是否安装了某个驱动
              exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
                 const index = dialog.showMessageBoxSync({

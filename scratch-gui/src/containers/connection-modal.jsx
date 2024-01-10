@@ -10,6 +10,7 @@ import extensionData from "../lib/libraries/extensions/index.jsx";
 import { connect } from "react-redux";
 import { closeConnectionModal } from "../reducers/modals";
 import { showAlertWithTimeout } from "../reducers/alerts";
+import { setDeviceType } from "../reducers/device.js";
 import {
     ChangeSerialList,
     setPort,
@@ -19,8 +20,8 @@ import {
     getSerialList
 } from "../reducers/connection-modal";
 import { ipcRender } from "../utils/ipcRender.js";
-import { SOURCE } from "../config/json/verifyTypeConfig.json";
-import {ipc as ipc_Renderer} from "est-link";
+import { SOURCE, SERIALPORT } from "../config/json/verifyTypeConfig.json";
+import { ipc as ipc_Renderer } from "est-link";
 
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -70,7 +71,7 @@ class ConnectionModal extends React.Component {
         /*  if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
             this.handleConnected();
         } */
-        if(preProps.sourceCompleted !== this.props.sourceCompleted) {
+        if (preProps.sourceCompleted !== this.props.sourceCompleted) {
             document.body.removeAttribute("style");
         }
     }
@@ -108,7 +109,7 @@ class ConnectionModal extends React.Component {
     }
 
     handleCancel() {
-if(this.props.sourceCompleted) {
+        if (this.props.sourceCompleted) {
             document.body.setAttribute("style", "cursor: wait");
             return;
         }
@@ -148,16 +149,17 @@ if(this.props.sourceCompleted) {
     }
 
     handleConnected() {
-        if(!this.props.port) return;
+        if (!this.props.port) return;
         this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
         ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: this.props.port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
-                if(arg.res) {
+                if (arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
-                }else {
+                    this.props.onSetDeviceType(SERIALPORT);
+                } else {
                     this.handleDisconnect(arg.msg);
                 }
             },
@@ -262,7 +264,8 @@ const mapDispatchToProps = (dispatch) => ({
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial))
+    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
+    onSetDeviceType: (deviceType) => dispatch(setDeviceType(deviceType))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

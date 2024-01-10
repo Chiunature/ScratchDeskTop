@@ -1,22 +1,24 @@
 const Common = require("./common");
-
+const ipc_Main = require("../config/json/communication/ipc.json");
 
 class Bluetooth extends Common {
     constructor(...args) {
         super(...args);
-this._type = 'ble';
-        this.peripheral;
+        this._type = 'ble';
+        this.bleAddress = 'ec:22:05:17:95:a6';
+        this.peripheral = [];
         this.service;
-        this.serviceUUID = '';
-        this.characteristicUUID = '';
+        this.serviceUUID = '0000fff0-0000-1000-8000-00805f9b34fb';
+        this.characteristicUUID = '0000fff0-0000-1000-8000-00805f9b34fb';
     }
 
     /**
      * 扫描设备
+* @param {Boolean} type true表示开启扫描, false表示停止扫描
      */
-    scanning() {
+    scanning(type) {
         this.noble.on('stateChange', (state) => {
-            if (state === 'poweredOn') {
+            if (state === 'poweredOn' && type) {
                 this.noble.startScanning([], true);
             } else {
                 this.noble.stopScanning();
@@ -30,8 +32,11 @@ this._type = 'ble';
     discover() {
         return new Promise((resolve) => {
             this.noble.on('discover', (peripheral) => {
-                this.peripheral = peripheral;
-                resolve(peripheral);
+                if (peripheral.address === this.bleAddress && peripheral.advertisement.localName === 'EST_BLUE') {
+                    this.peripheral = peripheral;
+                    this.noble.stopScanning();
+                    resolve(this.peripheral);
+                }
             });
         });
     }
@@ -44,11 +49,11 @@ this._type = 'ble';
             this.peripheral.connect((error) => {
                 if (error) {
                     console.error('连接到设备失败', error);
-                    reject(error);
+                    reject(false);
                     return;
                 }
                 console.log('成功连接到设备');
-                resolve();
+                resolve(true);
             });
         });
     }

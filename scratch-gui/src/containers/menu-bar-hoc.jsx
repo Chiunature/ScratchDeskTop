@@ -1,11 +1,13 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import React from 'react';
+import { SERIALPORT } from "../config/json/verifyTypeConfig.json";
+import { setDeviceType } from "../reducers/device.js";
 
 const MenuBarHOC = function (WrappedComponent) {
     class MenuBarContainer extends React.PureComponent {
-        constructor (props) {
+        constructor(props) {
             super(props);
 
             bindAll(this, [
@@ -13,17 +15,17 @@ const MenuBarHOC = function (WrappedComponent) {
                 'shouldSaveBeforeTransition'
             ]);
         }
-        confirmReadyToReplaceProject (message) {
+        confirmReadyToReplaceProject(message) {
             let readyToReplaceProject = true;
             if (this.props.projectChanged && !this.props.canCreateNew) {
                 readyToReplaceProject = this.props.confirmWithMessage(message);
             }
             return readyToReplaceProject;
         }
-        shouldSaveBeforeTransition () {
+        shouldSaveBeforeTransition() {
             return (this.props.canSave && this.props.projectChanged);
         }
-        render () {
+        render() {
             const {
                 /* eslint-disable no-unused-vars */
                 projectChanged,
@@ -34,6 +36,7 @@ const MenuBarHOC = function (WrappedComponent) {
                 confirmReadyToReplaceProject={this.confirmReadyToReplaceProject}
                 shouldSaveBeforeTransition={this.shouldSaveBeforeTransition}
                 {...props}
+                onSetDeviceType={() => this.props.onSetDeviceType(SERIALPORT)}
             />);
         }
     }
@@ -51,7 +54,9 @@ const MenuBarHOC = function (WrappedComponent) {
     const mapStateToProps = state => ({
         projectChanged: state.scratchGui.projectChanged
     });
-    const mapDispatchToProps = () => ({});
+    const mapDispatchToProps = (dispatch) => ({
+        onSetDeviceType: (deviceType) => dispatch(setDeviceType(deviceType))
+    });
     // Allow incoming props to override redux-provided props. Used to mock in tests.
     const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
         {}, stateProps, dispatchProps, ownProps

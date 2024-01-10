@@ -449,6 +449,7 @@ class MenuBar extends React.Component {
             callback: (event, arg) => {
                 if (arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
+                    this.props.onSetDeviceType();
                 } else {
                     this.handleDisconnect(arg.msg);
                 }

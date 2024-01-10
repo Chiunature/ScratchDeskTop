@@ -244,6 +244,7 @@ class Serialport extends Common {
      * @param {String} eventName 
      */
     watchDevice(eventName) {
+        this.electron.ipcMain.removeHandler(eventName);
         this.ipcHandle(eventName, (event, data) => {
             if (data.stopWatch) return false;
             const result = this.distinguishDevice(this.receiveObj);
