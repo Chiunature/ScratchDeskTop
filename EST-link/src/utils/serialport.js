@@ -178,6 +178,7 @@ class Serialport extends Common {
         this.port.on(eventName, () => {
             event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
             this.clearCache();
+            this.electron.ipcMain.removeHandler(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
         });
     }
 
