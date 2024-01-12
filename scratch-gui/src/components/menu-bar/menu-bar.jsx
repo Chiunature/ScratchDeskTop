@@ -415,7 +415,7 @@ class MenuBar extends React.Component {
         const that = this;
         this.timer = setInterval(() => {
             that.handleConnection();
-        }, 2000);
+        }, 1500);
     }
 
     async handleConnection() {
@@ -445,6 +445,7 @@ class MenuBar extends React.Component {
             sendParams: !hasSerial,
             eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
             callback: (e, res) => {
+                if(!res) return;
                 const { ble, bleType, msg } = res;
                 this.setPort([ble], bleType, ble.advertisement.localName);
                 this.props.onShowConnectAlert(msg);
@@ -895,6 +896,7 @@ class MenuBar extends React.Component {
                         />
                     </div>
                     <div
+                        id="menuBarGen"
                         className={classNames(
                             styles.menuBarItem,
                             styles.hoverable,

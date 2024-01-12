@@ -48,9 +48,9 @@ const options = {
 }
 
 const pack = {
-    electron, 
-    fs, 
-    path, 
+    electron,
+    fs,
+    path,
     process: global.process
 }
 
@@ -119,7 +119,7 @@ function createWindow() {
             webPreferences: options,
         });
 
-        
+
         const sp = new Serialport({ serialport, ...pack });
         const ble = new Bluetooth({ noble, ...pack });
         //获取串口列表
@@ -127,12 +127,13 @@ function createWindow() {
         //连接串口
         sp.connectSerial();
 
-/*  ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, (event, arg) => {
+        ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, async (event, arg) => {
             //开启蓝牙扫描
-        ble.scanning(event, arg);
-        }); */
+            const res = await ble.scanning(arg).linkBle();
+            if (res) event.reply(ipc.RETURN.BLE.CONNECTION, res);
+        });
 
-// ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
+        // ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
 
         //关闭默认菜单
         if (app.isPackaged) {
@@ -179,8 +180,8 @@ function createWindow() {
 
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
             if (flag === 'true') return;
-             // 检测电脑是否安装了某个驱动
-             exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
+            // 检测电脑是否安装了某个驱动
+            exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
                 const index = dialog.showMessageBoxSync({
                     type: "info",
                     title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",

@@ -24,6 +24,10 @@ let genRef = useRef();
 
     const handleClick = (e) => {
         if (isGen && !genRef.current.contains(e.target)) {
+            const menuBarGen = document.getElementById("menuBarGen");
+            if (menuBarGen.contains(e.target)) {
+                return;
+            }
             onSetGen(isGen);
         }
     }

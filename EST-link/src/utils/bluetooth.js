@@ -16,32 +16,39 @@ class Bluetooth extends Common {
      * 扫描设备
 * @param {Boolean} type true表示开启扫描, false表示停止扫描
      */
-    scanning(event, type) {
+    scanning(type) {
         this.noble.removeAllListeners('stateChange');
         this.noble.on('stateChange', async (state) => {
             if (state === 'poweredOn' && type) {
                 this.noble.startScanning([], true);
-const res = await this.linkBle();
-                if(res) event.reply(ipc_Main.RETURN.BLE.CONNECTION, res);
             } else {
                 this.noble.stopScanning();
             }
         });
+        return this;
     }
 
+    /**
+         * 连接蓝牙并打开监听服务
+         * @returns 
+         */
     async linkBle() {
         this.peripheral = await this.discover();
-        const resForConnect = await this.connect();
-        const resForServices = resForConnect ? await this.discoverServices() : null;
-        const resForCharacteristics = resForServices ? await this.discoverCharacteristics() : null;
-        /* if(resForCharacteristics) {
-            this.bleRead('utf-8').then(res => {
-                console.log(res);
-            })
-        } */
+        const resForConnect = this.peripheral && await this.connect();
+        const resForServices = resForConnect && await this.discoverServices();
+        const resForCharacteristics = resForServices && await this.discoverCharacteristics();
+
+        if (!resForConnect || !resForServices || !resForCharacteristics) {
+            return {
+                ble: null,
+                bleType: null,
+                msg: "failedConnected"
+            }
+        }
+
+        this.bleRead();
 
         return {
-            resBle: resForConnect,
             ble: this.peripheral,
             bleType: this._type,
             msg: resForConnect ? "successfullyConnected" : "failedConnected"
@@ -53,11 +60,11 @@ const res = await this.linkBle();
      * 发现设备
      */
     discover() {
-this.noble.removeAllListeners('discover');
+        this.noble.removeAllListeners('discover');
         return new Promise((resolve) => {
             this.noble.on('discover', (peripheral) => {
                 if (peripheral.address === this.bleAddress && peripheral.advertisement.localName === 'EST_BLUE') {
-                                        this.noble.stopScanning();
+                    this.noble.stopScanning();
                     resolve(peripheral);
                 }
             });
@@ -69,7 +76,7 @@ this.noble.removeAllListeners('discover');
      */
     connect() {
         return new Promise((resolve, reject) => {
-            this.peripheral && this.peripheral.connect((error) => {
+            this.peripheral.connect((error) => {
                 if (error) {
                     console.error('连接到设备失败', error);
                     reject(false);
@@ -146,12 +153,12 @@ this.noble.removeAllListeners('discover');
             this.characteristic.write(data, true, (error) => {
                 if (error) {
                     console.error('发送数据失败', error);
-                    reject(error);
+                    reject(false);
                     return;
                 }
 
                 console.log('成功发送数据');
-                resolve();
+                resolve(true);
             });
         });
     }
@@ -159,14 +166,9 @@ this.noble.removeAllListeners('discover');
     /**
      * 接收数据
      */
-    bleRead(encoding) {
-        return new Promise((resolve, reject) => {
-            this.characteristic.read((err, data) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(data.toString(encoding));
-            });
+    bleRead() {
+        this.characteristic.read((err, data) => {
+            console.log(data);
         });
     }
 
