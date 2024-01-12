@@ -63,6 +63,7 @@ class GUI extends React.Component {
                         }, 2000);
                     } else {
                         this.props.onSetCompleted(false);
+                        this.props.onSetSourceCompleted(false);
                     }
                 },
             });
