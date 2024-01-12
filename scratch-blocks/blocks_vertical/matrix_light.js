@@ -246,3 +246,33 @@ Blockly.Blocks['matrix_lamp_useRGB'] = {
         });
     }
 };
+
+Blockly.Blocks['matrix_color'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MATRIX_COLOR,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "matrix.svg",
+                    "width": 24,
+                    "height": 24,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "COLOR"
+                },
+            ],
+            "category": Blockly.Categories.matrix,
+            "colour": "#9966FF",
+            "secondaryColour": "#774DCB",
+            "extensions": ["colours_pen", "colours_matrix", "shape_statement"],
+        });
+    }
+};

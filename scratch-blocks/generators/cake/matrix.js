@@ -102,3 +102,16 @@ Blockly.cake['matrix_lamp_useRGB'] = function (block) {
     let code = `matrix_useRGB_lamp("${switchSelect}");\n`;
     return code;
 };
+
+Blockly.cake['matrix_color'] = function (block) {
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
+    const pre = Blockly.cake.hexToRgb(color);
+    const target = Blockly.cake.rgbToGrb(pre);
+    const last = Blockly.cake.grbToHex(target);
+    if(!last) {
+        return;
+    }
+    // TODO: Assemble cake into code variable.
+    let code = `matrix_color(NULL, ${last.replace(/\'/g, '')});\n`;
+    return code;
+};
