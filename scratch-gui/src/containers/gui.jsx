@@ -42,7 +42,7 @@ import { ipcRender, delEvents, getVersion, ipcInvoke, hexToString } from "../uti
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
-import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
+import { activateDeck } from "../reducers/cards.js";
 class GUI extends React.Component {
     async componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
@@ -284,8 +284,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onActivateTab: (tab) => {
         dispatch(activateTab(tab));
-        dispatch(setGen(true));
-    },
+            },
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),
     onRequestCloseBackdropLibrary: () => dispatch(closeBackdropLibrary()),
@@ -299,7 +298,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: id => dispatch(activateDeck(id)),
-    onSetVersion: (version) => dispatch(setVersion(version))
+    onSetVersion: (version) => dispatch(setVersion(version)),
+    onSetGen: (gen) => dispatch(setGen(gen))
 });
 
 const ConnectedGUI = injectIntl(

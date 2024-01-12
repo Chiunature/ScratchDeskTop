@@ -549,12 +549,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_0to100_number"></shadow>
             </value>
         </block> 
-     <block type="matrix_color">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>    
-*/}
+     */}
 const matrix = function (isInitialSetup, isStage, targetId, colors) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         "MOTOR_STAGE_SELECTED",
@@ -590,6 +585,11 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="matrix_lamp_useRGB"></block>
+        <block type="matrix_color">
+            <value name="COLOR">
+                <shadow type="colour_picker"/>
+            </value>
+        </block>  
         `
         }
     </category>

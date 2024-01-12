@@ -135,6 +135,7 @@ const GUIComponent = (props) => {
         onSetSelectedExe,
         onViewDeviceCards,
         onSetVersion,
+        onSetGen,
         onActivateDeck,
         showComingSoon,
         soundsTabVisible,
@@ -448,7 +449,7 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    <Generator code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions= {codeEditorOptions} codeEditorTheme="vs"/>
+                                    <Generator onSetGen={onSetGen} code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions= {codeEditorOptions} codeEditorTheme="vs"/>
                                             {/* <StageWrapper
                                         isFullScreen={isFullScreen}
                                         isRendererSupported={isRendererSupported}
