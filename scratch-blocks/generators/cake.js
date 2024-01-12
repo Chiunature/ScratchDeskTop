@@ -214,7 +214,7 @@ Blockly.cake.finish = function (code) {
   var allDefs = includes.join('\n') + '\n\n' + declarations.join('\n') + '\n\n' + defines.join('\n');
   var allFuncs = func_definitions.join('\n');
 
-  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + customFunctions.join('') +'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
+  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + customFunctions.join('') + 'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
 };
 
 Blockly.cake.finishFull = function (code) {
@@ -306,17 +306,17 @@ Blockly.cake.scrub_ = function (block, code) {
 
 
 Blockly.cake.stringToHex = function (matrix) {
-  if(matrix.indexOf('0') === -1) {
-    return ['0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff', '0xff'];
-  }
-  const hexArr = [];
-  for (let i = 0; i < matrix.length / 7; i++) {
-    const start = i * 7;
-    const end = start + 7;
-    const subStr = matrix.substring(start, end);
-    const hex = "0x" + parseInt(subStr, 2).toString(16).padStart(2, '0');
-    hexArr.push(hex);
-  }
+  // 将字符串按照每9个字符分割成数组
+  var matrixArr = matrix.match(/.{1,7}/g);
+  // 定义存储16进制数的数组
+  var hexArr = [];
+  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
+  matrixArr.map(element => {
+    var decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
+    var hexNum = '0x' + decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+    hexArr.push(hexNum);
+  });
+
   return hexArr;
 }
 
@@ -355,9 +355,71 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 Blockly.cake.toStr = function (val) {
   const regex = /[()+\-*><=!&|\/]/g;
   const matches = val.match(regex);
-  if(matches && matches.length > 0) {
+  if (matches && matches.length > 0) {
     return true;
-  }else {
+  } else {
     return false;
   }
+}
+
+// 将hex格式颜色转换为rgb格式
+Blockly.cake.hexToRgb = function (hex) {
+  if(!hex) {
+    return;
+  }
+  // 去除 # 号
+  hex = hex.replace(/\#/, "").replace(/\'/g, '');
+  
+  // 将hex字符串拆分为R、G、B分量
+  var r = parseInt(hex.substring(0, 2), 16);
+  var g = parseInt(hex.substring(2, 4), 16);
+  var b = parseInt(hex.substring(4, 6), 16);
+  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+    return;
+  }
+  // 返回rgb格式
+  return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+// 将rgb格式颜色转换为grb格式
+Blockly.cake.rgbToGrb = function (rgb) {
+  if(!rgb) {
+    return;
+  }
+  // 提取R、G、B分量
+  var values = rgb.match(/\d+/g);
+
+  var r = parseInt(values[0]);
+  var g = parseInt(values[1]);
+  var b = parseInt(values[2]);
+
+  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+    return;
+  }
+  // 返回grb格式
+  return "rgb(" + g + ", " + r + ", " + b + ")";
+}
+
+// 将grb格式颜色转换为hex格式
+Blockly.cake.grbToHex = function (grb) {
+  if(!grb) {
+    return;
+  }
+  // 提取R、G、B分量
+  var values = grb.match(/\d+/g);
+
+  var g = parseInt(values[0]);
+  var r = parseInt(values[1]);
+  var b = parseInt(values[2]);
+
+  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+    return;
+  }
+  // 将每个分量转换为2位十六进制数
+  var hexR = r.toString(16).padStart(2, "0");
+  var hexG = g.toString(16).padStart(2, "0");
+  var hexB = b.toString(16).padStart(2, "0");
+
+  // 返回hex格式
+  return "0x" + hexR + hexG + hexB;
 }

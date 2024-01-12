@@ -122,6 +122,7 @@ function distinguish(filesObj, type, event) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.NEXTFILE, { subFileIndex, fileVerifyType, clearFilesObj: isLastFile });
             console.log(`${obj.fileName}已经下载完成`);
         } else {
+            console.log(`${obj.fileName}已经下载完成`);
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
         }
     }
@@ -172,7 +173,7 @@ function verifyBinType(options) {
         default:
             break;
     }
-    //读取资源文件夹
+    //读取资源文件夹，获取文件夹中的文件列表和文件数量，并根据filesIndex子文件下标获取对应子文件的数据
     function _readdirForSource(path, files, filesIndex) {
         let fileData, fileName;
         if (Object.keys(files).length === 0) {

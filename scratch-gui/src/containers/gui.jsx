@@ -78,6 +78,7 @@ class GUI extends React.Component {
                     this.props.onSetSourceCompleted(false);
                     this.props.onSetVersion(true);
                     this.props.onShowCompletedAlert(arg.msg);
+                    delEvents(ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED);
                 },
             });
             ipcRender({
@@ -86,8 +87,9 @@ class GUI extends React.Component {
                     const  wareVersion = hexToString(arg.slice(5, arg.length - 2));
                     const version = getVersion(wareVersion);
                     this.props.onSetVersion(version);
+                    delEvents(ipc_Renderer.RETURN.VERSION);
                 }
-            }); 
+            });
             this.checkDriver();
         }
     }

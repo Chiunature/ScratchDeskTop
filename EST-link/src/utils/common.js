@@ -44,6 +44,7 @@ class Common {
      * @param {Function} callback 
      */
     ipcHandle(eventName, callback) {
+        this.electron.ipcMain.removeHandler(eventName);
         this.electron.ipcMain.handle(eventName, (event, arg) => callback(event, arg));
     }
 
@@ -281,11 +282,11 @@ class Common {
         }
     }
 
-/**
-     * 根据获取到的功能码判断设备类型
-     * @param {Object} receiveObj 
-     * @returns 
-     */
+    /**
+         * 根据获取到的功能码判断设备类型
+         * @param {Object} receiveObj 
+         * @returns 
+         */
     distinguishDevice(receiveObj) {
         const { data, bit } = receiveObj;
         if (!data) return false;

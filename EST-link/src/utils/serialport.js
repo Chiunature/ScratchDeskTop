@@ -41,8 +41,8 @@ class Serialport extends Common {
      */
     getList() {
         this.ipcHandle(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event, arg) => {
-            const res = await this.serialport.SerialPort.list();
-            return res;
+            const result = await this.serialport.SerialPort.list();
+            return { result, type: this._type };
         });
     }
 
@@ -244,7 +244,6 @@ class Serialport extends Common {
      * @param {String} eventName 
      */
     watchDevice(eventName) {
-        this.electron.ipcMain.removeHandler(eventName);
         this.ipcHandle(eventName, (event, data) => {
             if (data.stopWatch) return false;
             const result = this.distinguishDevice(this.receiveObj);

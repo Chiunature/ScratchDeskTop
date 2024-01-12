@@ -2,7 +2,7 @@ const SET_FILESTYTEM = 'scratch-gui/file-stytem/SET_FILESTYTEM';
 
 
 const initialState = {
-    showFileStytem: true
+    showFileStytem: false
 }
 
 const reducer = function (state, action) {

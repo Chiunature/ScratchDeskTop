@@ -51,6 +51,8 @@
     "gui.connection.unavailable.enablebluetooth": "檢查藍牙是否開啟",
     "gui.connection.unavailable.tryagainbutton": "再試一次",
     "gui.connection.unavailable.helpbutton": "幫助",
+    "gui.connection.firmware": "固件升級",
+    "gui.connection.isNewFirmware": "固件升級(固件已是最新版本)",
     "gui.controls.go": "開始",
     "gui.controls.stop": "停止",
     "gui.crashMessage.label": "哎呀！發生了一些錯誤。",

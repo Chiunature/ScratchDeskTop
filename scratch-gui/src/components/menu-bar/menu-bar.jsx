@@ -231,6 +231,7 @@ class MenuBar extends React.Component {
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
         this.scanConnection();
+        // this.handleBleDisConnect();
     }
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress);
@@ -402,46 +403,75 @@ class MenuBar extends React.Component {
             </div>
         );
     }
+
     wrapAboutMenuCallback(callback) {
         return () => {
             callback();
             this.props.onRequestCloseAbout();
         };
     }
+
     scanConnection() {
         const that = this;
         this.timer = setInterval(() => {
             that.handleConnection();
         }, 2000);
     }
+
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const result = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            const { result, type } = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
 
             if (result.length === 0 || this.props.serialList.length >= result.length) {
                 return;
             }
 
             const newarr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") != -1));
-
-            if (newarr.length === 0) {
+            const hasSerial = newarr.length > 0;
+            if (hasSerial) {
+                this.setPort(newarr, type, newarr[0].friendlyName);
+                this.handleConnected(newarr[0]);
+            } else {
+                // this.handleBleConnect(hasSerial);
                 return;
             }
-
-            clearInterval(this.timer);
-            this.props.onSetPort(newarr[0]);
-            this.props.onGetSerialList(newarr);
-            this.props.onSetIsConnectedSerial(true);
-            this.handleConnected(newarr[0]);
         }
     }
+
+    handleBleConnect(hasSerial) {
+        ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
+            sendParams: !hasSerial,
+            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
+            callback: (e, res) => {
+                const { ble, bleType, msg } = res;
+                this.setPort([ble], bleType, ble.advertisement.localName);
+                this.props.onShowConnectAlert(msg);
+            }
+        })
+    }
+
+    /* async handleBleDisConnect() {
+        await ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);
+        this.scanConnection();
+    } */
+
+    setPort(portList, type, name) {
+        clearInterval(this.timer);
+        this.props.onSetPort(portList[0]);
+        this.props.onGetSerialList(portList);
+        this.props.onSetIsConnectedSerial(true);
+        this.props.onSetDeviceType(type);
+        this.props.onSetConnectionModalPeripheralName(name);
+    }
+
     handleConnectionMouseUp() {
         this.props.onOpenConnectionModal();
     }
+
     handleConnected(port) {
         if (!port) return;
-        this.props.onSetConnectionModalPeripheralName(port.friendlyName);
         ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
@@ -449,13 +479,13 @@ class MenuBar extends React.Component {
             callback: (event, arg) => {
                 if (arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
-                    this.props.onSetDeviceType();
                 } else {
                     this.handleDisconnect(arg.msg);
                 }
             },
         });
     }
+
     handleDisconnect(msg = "disconnect") {
         this.props.onClearConnectionModalPeripheralName();
         this.props.onGetSerialList([]);
@@ -467,6 +497,7 @@ class MenuBar extends React.Component {
         ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         this.scanConnection();
     }
+
     showDeviceCards() {
         if (!this.props.peripheralName) {
             this.props.onShowCompletedAlert("selectADeviceFirst");
@@ -474,6 +505,7 @@ class MenuBar extends React.Component {
             this.props.onViewDeviceCards();
         }
     }
+
     render() {
         const remixButton = (
             <Button

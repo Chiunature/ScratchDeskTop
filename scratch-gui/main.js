@@ -127,17 +127,12 @@ function createWindow() {
         //连接串口
         sp.connectSerial();
 
-/*         //开启蓝牙扫描
-        ble.scanning(true);
-        //发现设备
-        ble.discover().then(async () => {
-            const res = await ble.connect();
-            if (res) {
-                const service = await ble.discoverServices();
-                console.log(service);
-            }
+/*  ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, (event, arg) => {
+            //开启蓝牙扫描
+        ble.scanning(event, arg);
         }); */
 
+// ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
 
         //关闭默认菜单
         if (app.isPackaged) {
@@ -153,6 +148,17 @@ function createWindow() {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
         }
+
+        //点击重新更新固件提示
+        ipcMain.handle(ipc.SEND_OR_ON.VERSION, (event, arg) => {
+            const index = dialog.showMessageBoxSync({
+                type: "info",
+                title: "Do you want to delete this record",
+                message: "固件已是最新版本, 是否要重新更新",
+                buttons: ["否(no)", "是(yes)"],
+            });
+            return index;
+        });
 
         //点击logo打开官网
         ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {

@@ -19,7 +19,7 @@ import {
     clearConnectionModalPeripheralName,
     getSerialList
 } from "../reducers/connection-modal";
-import { ipcRender } from "../utils/ipcRender.js";
+import { ipcInvoke, ipcRender } from "../utils/ipcRender.js";
 import { SOURCE, SERIALPORT } from "../config/json/verifyTypeConfig.json";
 import { ipc as ipc_Renderer } from "est-link";
 
@@ -182,7 +182,13 @@ class ConnectionModal extends React.Component {
         this.handleConnected();
     } */
 
-    handleUpdate() {
+    async handleUpdate() {
+        if (this.props.version) {
+            const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION);
+            if (res === 0) {
+                return;
+            }
+        }
         this.props.compile.sendSerial(SOURCE);
         this.props.onSetSourceCompleted(true);
     }

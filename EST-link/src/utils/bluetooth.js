@@ -9,33 +9,56 @@ class Bluetooth extends Common {
         this.peripheral = [];
         this.service;
         this.serviceUUID = '0000fff0-0000-1000-8000-00805f9b34fb';
-        this.characteristicUUID = '0000fff0-0000-1000-8000-00805f9b34fb';
+        this.characteristicUUID = '0000fff1-0000-1000-8000-00805f9b34fb';
     }
 
     /**
      * 扫描设备
 * @param {Boolean} type true表示开启扫描, false表示停止扫描
      */
-    scanning(type) {
-        this.noble.on('stateChange', (state) => {
+    scanning(event, type) {
+        this.noble.removeAllListeners('stateChange');
+        this.noble.on('stateChange', async (state) => {
             if (state === 'poweredOn' && type) {
                 this.noble.startScanning([], true);
+const res = await this.linkBle();
+                if(res) event.reply(ipc_Main.RETURN.BLE.CONNECTION, res);
             } else {
                 this.noble.stopScanning();
             }
         });
     }
 
+    async linkBle() {
+        this.peripheral = await this.discover();
+        const resForConnect = await this.connect();
+        const resForServices = resForConnect ? await this.discoverServices() : null;
+        const resForCharacteristics = resForServices ? await this.discoverCharacteristics() : null;
+        /* if(resForCharacteristics) {
+            this.bleRead('utf-8').then(res => {
+                console.log(res);
+            })
+        } */
+
+        return {
+            resBle: resForConnect,
+            ble: this.peripheral,
+            bleType: this._type,
+            msg: resForConnect ? "successfullyConnected" : "failedConnected"
+        }
+    }
+
+
     /**
      * 发现设备
      */
     discover() {
+this.noble.removeAllListeners('discover');
         return new Promise((resolve) => {
             this.noble.on('discover', (peripheral) => {
                 if (peripheral.address === this.bleAddress && peripheral.advertisement.localName === 'EST_BLUE') {
-                    this.peripheral = peripheral;
-                    this.noble.stopScanning();
-                    resolve(this.peripheral);
+                                        this.noble.stopScanning();
+                    resolve(peripheral);
                 }
             });
         });
@@ -46,7 +69,7 @@ class Bluetooth extends Common {
      */
     connect() {
         return new Promise((resolve, reject) => {
-            this.peripheral.connect((error) => {
+            this.peripheral && this.peripheral.connect((error) => {
                 if (error) {
                     console.error('连接到设备失败', error);
                     reject(false);
@@ -56,6 +79,26 @@ class Bluetooth extends Common {
                 resolve(true);
             });
         });
+    }
+
+    /**
+     * 断开连接
+     */
+    disconnect() {
+        this.noble.on('disconnect', (err) => {
+            console.log(err);
+        })
+        // this.ipcHandle(ipc_Main.SEND_OR_ON.BLE.DISCONNECTED, (event, arg) => {
+        //     this.peripheral && this.peripheral.disconnect((error) => {
+        //         if (error) {
+        //             console.error('断开连接失败', error);
+        //             reject(false);
+        //             return;
+        //         }
+        //         console.log('成功断开连接');
+        //         resolve(true);
+        //     });
+        // });
     }
 
     /**

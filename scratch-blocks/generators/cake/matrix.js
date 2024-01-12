@@ -43,9 +43,14 @@ Blockly.cake['matrix_lamp'] = function (block) {
     });
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     let lp = Blockly.cake.stringToHex(lamp);
-    let cr = color.replace(/\#/g, '0x');
+    const pre = Blockly.cake.hexToRgb(color);
+    const target = Blockly.cake.rgbToGrb(pre);
+    const last = Blockly.cake.grbToHex(target);
+    if(!last) {
+        return;
+    }
     // TODO: Assemble cake into code variable.
-    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${cr.replace(/\'/g, '')});\n`;
+    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${last.replace(/\'/g, '')});\n`;
     return code;
 };
 

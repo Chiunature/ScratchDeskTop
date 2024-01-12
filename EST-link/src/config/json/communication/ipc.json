@@ -23,7 +23,12 @@
         },
         "FILE": {
             "DELETE": "delRecord"
-        }
+},
+        "BLE": {
+            "CONNECTION": "ble-connection",
+            "DISCONNECTED": "ble-disconnected"
+        },
+        "VERSION": "reupdate"
     },
     "RETURN": {
         "EXE": {
@@ -47,6 +52,10 @@
                 "NEXTFILE": "nextFile"
             }
         },
-        "VERSION": "return_version"
+        "VERSION": "return_version",
+        "BLE": {
+            "CONNECTION": "ble-connection",
+            "DISCONNECTED": "ble-disconnected"
+        }
     }
 }
