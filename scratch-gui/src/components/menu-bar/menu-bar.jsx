@@ -424,7 +424,7 @@ class MenuBar extends React.Component {
         if (userAgent.indexOf(" electron/") > -1) {
             const { result, type } = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
 
-            if (result.length === 0 || this.props.serialList.length >= result.length) {
+            if (!result || (result.length === 0 || this.props.serialList.length >= result.length)) {
                 return;
             }
 

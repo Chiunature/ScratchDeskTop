@@ -121,17 +121,17 @@ function createWindow() {
 
 
         const sp = new Serialport({ serialport, ...pack });
-        const ble = new Bluetooth({ noble, ...pack });
+        // const ble = new Bluetooth({ noble, ...pack });
         //获取串口列表
         sp.getList();
         //连接串口
         sp.connectSerial();
 
-        ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, async (event, arg) => {
+        /* ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, async (event, arg) => {
             //开启蓝牙扫描
             const res = await ble.scanning(arg).linkBle();
             if (res) event.reply(ipc.RETURN.BLE.CONNECTION, res);
-        });
+        }); */
 
         // ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
 
