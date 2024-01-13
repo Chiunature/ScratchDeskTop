@@ -180,6 +180,23 @@ function createWindow() {
 
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
             if (flag === 'true') return;
+
+            if(flag === 'reupdate') {
+                const index = dialog.showMessageBoxSync({
+                    type: "info",
+                    title: "Are you sure you want to reinstall the driver?",
+                    message: "确定要重新安装驱动吗?",
+                    buttons: ["否(no)", "是(yes)"],
+                });
+                if (index === 0) {
+                    return false;
+                } else {
+                    exec(`cd ./resources && zadig.exe`);
+                    return true;
+                }
+            }
+
+
             // 检测电脑是否安装了某个驱动
             exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
                 const index = dialog.showMessageBoxSync({

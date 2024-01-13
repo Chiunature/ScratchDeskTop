@@ -312,6 +312,7 @@ const GUIComponent = (props) => {
                                 onStartSelectingFileUpload
                             }
                             onToggleLoginOpen={onToggleLoginOpen}
+                            onActivateDeck={onActivateDeck}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>

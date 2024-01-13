@@ -224,7 +224,8 @@ class MenuBar extends React.Component {
             "handleDisconnect",
             "scanConnection",
             "showDeviceCards",
-            "handleClickHome"
+            "handleClickHome",
+            "reUpdateDriver"
         ]);
         this.timer = null;
     }
@@ -439,18 +440,18 @@ class MenuBar extends React.Component {
         }
     }
 
-    handleBleConnect(hasSerial) {
+    async handleBleConnect(hasSerial) {
         ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
             sendParams: !hasSerial,
             eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
             callback: (e, res) => {
-                if(!res) return;
+                if (!res) return;
                 const { ble, bleType, msg } = res;
                 this.setPort([ble], bleType, ble.advertisement.localName);
                 this.props.onShowConnectAlert(msg);
             }
-        })
+        });
     }
 
     /* async handleBleDisConnect() {
@@ -507,6 +508,14 @@ class MenuBar extends React.Component {
         }
     }
 
+    async reUpdateDriver() {
+        const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, 'reupdate');
+        if (res) {
+            this.props.onActivateDeck("install-drivers");
+            localStorage.setItem('driver', res);
+        }
+    }
+
     render() {
         const remixButton = (
             <Button
@@ -536,6 +545,7 @@ class MenuBar extends React.Component {
                             />
                         </div>
                         {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
+                            reUpdateDriver={this.reUpdateDriver}
                             canChangeLanguage={this.props.canChangeLanguage}
                             canChangeTheme={this.props.canChangeTheme}
                             isRtl={this.props.isRtl}

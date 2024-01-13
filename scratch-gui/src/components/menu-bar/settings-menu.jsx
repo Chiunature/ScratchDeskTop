@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import LanguageMenu from './language-menu.jsx';
 import MenuBarMenu from './menu-bar-menu.jsx';
 import ThemeMenu from './theme-menu.jsx';
-import {MenuSection} from '../menu/menu.jsx';
+import { MenuSection, MenuItem } from '../menu/menu.jsx';
 
 import menuBarStyles from './menu-bar.css';
 import styles from './settings-menu.css';
@@ -21,7 +21,8 @@ const SettingsMenu = ({
     isRtl,
     onRequestClose,
     onRequestOpen,
-    settingsMenuOpen
+    settingsMenuOpen,
+    reUpdateDriver
 }) => (
     <div
         className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
@@ -50,6 +51,15 @@ const SettingsMenu = ({
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} />}
                 {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
+                <MenuItem onClick={reUpdateDriver}>
+                    <span className={styles.dropdownLabel}>
+                        <FormattedMessage
+                            defaultMessage="Reinstall driver"
+                            description="Reinstall driver"
+                            id="gui.menuBar.reinstallDriver"
+                        />
+                    </span>
+                </MenuItem>
             </MenuSection>
         </MenuBarMenu>
     </div>

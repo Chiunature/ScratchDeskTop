@@ -148,6 +148,7 @@
   "gui.menuBar.projectName": "项目名称",
   "gui.menuBar.modificationDate": "修改日期",
   "gui.menuBar.operate": "操作",
+  "gui.menuBar.reinstallDriver": "重新安装驱动",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",

@@ -131,6 +131,7 @@
   "gui.menuBar.Generator": "Generator",
   "gui.menuBar.Theme": "Theme",
   "gui.menuBar.settings": "Settings",
+  "gui.menuBar.reinstallDriver": "Reinstall Driver",
   "gui.modal.help": "Help",
   "gui.modal.back": "Back",
   "gui.monitor.listMonitor.empty": "(empty)",
