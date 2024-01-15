@@ -233,8 +233,10 @@ class Serialport extends Common {
         if (this.port && this.port.opening) {
             this.port.flush();
         }
+        this.deleteObj(this.files, this.filesObj);
         this.receiveDataBuffer = [];
         this.timeOutTimer = null;
+        this.verifyType= null;
         this.chunkIndex = 0;
         this.sign = null;
     }

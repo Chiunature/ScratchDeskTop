@@ -440,19 +440,20 @@ class MenuBar extends React.Component {
         }
     }
 
-    async handleBleConnect(hasSerial) {
+    /* async handleBleConnect(hasSerial) {
         ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
             sendParams: !hasSerial,
             eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
-            callback: (e, res) => {
-                if (!res) return;
+            callback: (e, result) => {
+                if (!result) return;
+                const res = JSON.parse(result);
                 const { ble, bleType, msg } = res;
                 this.setPort([ble], bleType, ble.advertisement.localName);
                 this.props.onShowConnectAlert(msg);
             }
         });
-    }
+    } */
 
     /* async handleBleDisConnect() {
         await ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);

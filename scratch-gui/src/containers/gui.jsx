@@ -79,8 +79,7 @@ class GUI extends React.Component {
                     this.props.onSetSourceCompleted(false);
                     this.props.onSetVersion(true);
                     this.props.onShowCompletedAlert(arg.msg);
-                    delEvents(ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED);
-                },
+                                    },
             });
             ipcRender({
                 eventName: ipc_Renderer.RETURN.VERSION,

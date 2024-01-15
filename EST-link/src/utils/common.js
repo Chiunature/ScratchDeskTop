@@ -376,6 +376,19 @@ class Common {
             }
         }
     }
+    /**
+     * 清空对象
+     * @param  {...any} args 
+     */
+    deleteObj(...args) {
+        args.map(el => {
+            if (typeof el === 'object') {
+                for (const key in el) {
+                    delete el[key];
+                }
+            }
+        });
+    }
 }
 
 module.exports = Common;

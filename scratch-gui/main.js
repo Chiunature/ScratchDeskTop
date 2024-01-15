@@ -130,7 +130,18 @@ function createWindow() {
         /* ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, async (event, arg) => {
             //开启蓝牙扫描
             const res = await ble.scanning(arg).linkBle();
-            if (res) event.reply(ipc.RETURN.BLE.CONNECTION, res);
+            let cache = [];
+            const json_str = JSON.stringify(res, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (cache.indexOf(value) !== -1) {
+                        return;
+                    }
+                    cache.push(value);
+                }
+                return value;
+            });
+            cache = null;
+            if (res) event.reply(ipc.RETURN.BLE.CONNECTION, json_str);
         }); */
 
         // ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
