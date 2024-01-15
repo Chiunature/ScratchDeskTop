@@ -44,8 +44,8 @@ Blockly.cake['matrix_lamp'] = function (block) {
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     let lp = Blockly.cake.stringToHex(lamp);
     const pre = Blockly.cake.hexToRgb(color);
-    const target = Blockly.cake.rgbToGrb(pre);
-    const last = Blockly.cake.grbToHex(target);
+    // const target = Blockly.cake.rgbToGrb(pre);
+    const last = Blockly.cake.grbToHex(pre);
     if(!last) {
         return;
     }
