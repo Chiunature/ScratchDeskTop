@@ -37,7 +37,7 @@ class DeviceCards extends React.Component {
         const that = this;
         this.timer = setInterval(() => {
             that.watchDevice();
-        }, 100);
+        }, 10);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {
