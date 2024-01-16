@@ -18,8 +18,8 @@ import { BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES } from '../lib/layout-constan
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
-import {DEFAULT_THEME, getColorsForTheme, themeMap} from '../lib/themes';
-import {injectExtensionBlockTheme, injectExtensionCategoryTheme} from '../lib/themes/blockHelpers';
+import { DEFAULT_THEME, getColorsForTheme, themeMap } from '../lib/themes';
+import { injectExtensionBlockTheme, injectExtensionCategoryTheme } from '../lib/themes/blockHelpers';
 import { connect } from 'react-redux';
 import { updateToolbox } from '../reducers/toolbox';
 import { activateColorPicker } from '../reducers/color-picker';
@@ -47,7 +47,7 @@ const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
 
-const regex =  /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
+const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 const regexForMyBlock = /void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};/;
 
 class Blocks extends React.Component {
@@ -100,7 +100,7 @@ class Blocks extends React.Component {
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
-            {rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme)}
+            { rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme) }
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
         // console.log(this.ScratchBlocks.Python)
@@ -143,44 +143,48 @@ class Blocks extends React.Component {
             this.setLocale();
         }
     }
-    
+
     workspaceToCode(type) {
-                    const generatorName = 'cake';
-            const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
-            this.props.setWorkspace(this.workspace);
-            if (type === 'move' || type === 'change' || type === 'delete') {
-                this.props.getCode(code);
-                this.disableCombinedMotor('combined_motor_starting');
-                this.checkStartHat(this.workspace, this.props.code);
-            } else {
-                return false;
-            }
-            }
-    
-    disableCombinedMotor(type) {
-        let current, list = this.workspace.getAllBlocks();
+        const generatorName = 'cake';
+        const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
+        this.props.setWorkspace(this.workspace);
+        if (type === 'move' || type === 'change' || type === 'delete') {
+            this.props.getCode(code);
+            this.disableBlocks('combined_motor_starting', 'combined_motor');
+            this.disableBlocks('data_definevar', 'data');
+            this.checkStartHat(this.workspace, this.props.code);
+        } else {
+            return false;
+        }
+    }
+
+    disableBlocks(type, category_) {
+        let current, targetId, target, list = this.workspace.getAllBlocks();
         list.map((el, index) => {
             if (el.type === type) {
                 current = index;
+                target = el.svgGroup_;
+                targetId = el.svgGroup_.getAttribute('data-id');
             }
         });
         list.map((el, index) => {
-            if ((el.category_ === 'combined_motor' || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ === 'combined_motor')) && index < current) {
-                const list = el.svgGroup_.children;
-                for (let i = 0; i < list.length - 1; i++) {
-                    list[i].setAttribute('style', 'opacity: .5;');
+            const children = el.svgGroup_.children;
+            const isSameCategory = el.category_ === category_ || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ === category_);
+            if (isSameCategory) {
+                const isOpacity = index < current;
+                const opacity = `opacity: ${isOpacity ? '.5' : '1'}`;
+                for (let i = 0; i < children.length; i++) {
+                    const childId = children[i].getAttribute('data-id');
+                    const childClass = children[i].getAttribute('class');
+                    const hasOpacity = children[i].style['opacity'] == '.5';
+                    if ((childId && targetId === childId) || (childClass && childClass.indexOf('blocklyDraggable') !== -1) || hasOpacity) {
+                        continue;
+                    }
+                    children[i].setAttribute('style', opacity);
                 }
-                el.svgPath_.setAttribute('style', 'opacity: .5;');
-                el.setEditable(false);
-                el.setDisabled(true);
-            } else {
-                const list = el.svgGroup_.children;
-                for (let i = 0; i < list.length; i++) {
-                    list[i].removeAttribute('style', 'opacity: .5;');
-                }
-                el.svgPath_.removeAttribute('style', 'opacity: .5;');
-                el.setEditable(true);
-                el.setDisabled(false);
+                el.svgPath_.setAttribute('style', opacity);
+                el.setEditable(!isOpacity);
+                el.setDisabled(isOpacity);
             }
         });
     }
@@ -201,7 +205,7 @@ class Blocks extends React.Component {
             this.props.setCompileList(arr);
 
             this.parserTask(this.workspace, arr);
-        } 
+        }
     }
 
     //处理经上层正则筛选后的C代码
@@ -212,7 +216,7 @@ class Blocks extends React.Component {
             if (arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g, '') == '}') continue;
 
             if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}vTaskDelay(50);}')) {
-                arr[i] += arr[i + 1]; 
+                arr[i] += arr[i + 1];
             }
 
             newArr.push(arr[i]);

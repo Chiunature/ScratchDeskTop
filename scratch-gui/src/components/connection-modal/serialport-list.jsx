@@ -21,7 +21,8 @@ const SerialportList = (props) => (
                         return (
                             <div
                                 className={styles.scratchLinkHelpStep}
-                                key={port.pnpId}
+                                key={index}
+                            //onClick={() => props.onSelectport(port, index)}
                             >
                                 {/* <div className={styles.helpStepNumber}>
                                     {index + 1}
@@ -33,7 +34,7 @@ const SerialportList = (props) => (
                                     readOnly
                                 /> */}
                                 <div className={styles.helpStepText}>
-                                    {port.friendlyName}
+                                    {port.friendlyName || port.advertisement.localName}
                                 </div>
                             </div>
                         );
