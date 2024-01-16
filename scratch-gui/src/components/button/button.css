@@ -306,8 +306,8 @@
 }
 
 .select-exe-block {
-    width: 40px;
-    height: 40px;
+    width: 90px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -318,7 +318,7 @@
     top: 50%;
     left: 50%;
     cursor: pointer;
-    transform: scale(1) translate(-50%, -50%);
+    transform: translate(-73%, -73%);
     transition: all .3s;
     z-index: 20;
 }
@@ -333,7 +333,7 @@
     left: 50% !important;
     top: 50% !important;
     z-index: 21;
-    transform: scale(1.5) translate(-33%, -33%);
+    transform: translate(-73%, -73%);
 }
 
 .active {
@@ -341,16 +341,16 @@
 }
 
 .tb {
-    min-width: 40px;
+    max-width: 70px;
     min-height: 50px;
     display: flex;
     flex-flow: row wrap;
-    transform: scale(.5);
+    transform: scale(.7);
 }
 
 .tb li {
-    margin: 1.8px;
-    width: 7px !important;
-    height: 7px !important;
+    margin: 1.5px;
+    width: 10px !important;
+    height: 10px !important;
     flex-grow: 1;
 }

@@ -11,7 +11,7 @@ const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 const exeList = localStorage.getItem('exeList');
 const selItem = localStorage.getItem('selItem');
-selItem ? JSON.parse(selItem) : localStorage.setItem('selItem', JSON.stringify({ name: '1_APP', num: 1, checked: true }));
+!selItem && localStorage.setItem('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true }));
 
 /**
  * 生成默认程序列表
@@ -21,8 +21,8 @@ selItem ? JSON.parse(selItem) : localStorage.setItem('selItem', JSON.stringify({
 function getList(num) {
     return new Array(num).fill().map((item, index) => {
         return {
-            name: `${index + 1}_APP`,
-            num: index + 1,
+            name: `${index}_APP`,
+            num: index,
             checked: index === 0 ? true : false
         }
     })
@@ -39,7 +39,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(5),
+    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(20),
     selectedExe: JSON.parse(localStorage.getItem('selItem'))
 }
 

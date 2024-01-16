@@ -13,7 +13,7 @@ const act = active ? active : styles.active;
 
     return (
         <ul className={classNames(styles.tb, ulClassName)}>
-            {arr.split('').map((el, index) => {
+            {arr && arr.split('').map((el, index) => {
               return (
                 <li key={index} className={classNames(liClassName, el == 1 ? act : '')}></li>
               )  
@@ -22,4 +22,4 @@ const act = active ? active : styles.active;
     )
 }
 
-export default Matrix
+export default Matrix;

@@ -8,24 +8,25 @@ class SelectBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: this.props.selectedExe.num - 1,
-            sx: (this.props.selectedExe.num - 1) * 96
+            index: this.props.selectedExe.num,
+            sx: this.props.selectedExe.num * 96
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
         if(prevProps.selectedExe !== this.props.selectedExe) {
             this.setState(() => ({
-                sx: (this.props.selectedExe.num - 1) * 96
+                index: this.props.selectedExe.num,
+                sx: this.props.selectedExe.num * 96
             }));
         }
     }
 
     changeSelectExe() {
         this.props.onSetSelectedExe({
-            num: this.state.index + 1, 
+            num: this.state.index, 
             checked: true,
-            name: `${this.state.index + 1}_APP`
+            name: `${this.state.index}_APP`
         });
         const newList = this.props.exeList.map((item, i) => {
             if (i === this.state.index) {
