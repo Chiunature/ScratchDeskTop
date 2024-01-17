@@ -32,10 +32,45 @@ class Common {
         this.subFileIndex = 0;
         this.files = {};
         this.watchDeviceList = [];
-        this.gyroList = [];
-        this.flashList = [];
-        this.adcList = [];
+        this.gyroList = new Array(3).fill(0);
+        this.flashList = new Array(2).fill(0);
+        this.adcList;
         this.voice;
+this.initWatchDeviceList(8);
+    }
+
+    /**
+     * 初始化设备监听列表
+     * @param {Number} n 
+     */
+    initWatchDeviceList(n) {
+        for (let i = 0; i < n; i++) {
+            this.watchDeviceList[i] = {
+                port: i,
+                motor: {},
+                color: {},
+                ultrasonic: null,
+                touch: null,
+                sensing_device: device[0],
+                deviceId: 0
+            }
+        }
+    }
+
+    /**
+     * 清空设备监听列表中的某一项
+     * @param {Number} i 
+     */
+    clearWatchDeviceList(i) {
+        this.watchDeviceList[i] = {
+            port: i,
+            motor: {},
+            color: {},
+            ultrasonic: null,
+            touch: null,
+            sensing_device: device[0],
+            deviceId: 0
+        }
     }
 
     /**
@@ -224,9 +259,9 @@ class Common {
      * @param {String} type 
      * @returns 
      */
-    writeFiles(path, type) {
+    writeFiles(path, data) {
         try {
-            this.fs.writeFileSync(path, type);
+            this.fs.writeFileSync(path, data);
             return true;
         } catch (error) {
             return false;
@@ -293,37 +328,32 @@ class Common {
         const text = new TextDecoder();
         const list = new Uint8Array(data.slice(5, data.length - 2));
         const res = text.decode(list);
-        const arr = res.split('/').filter((el) => (el !== ''));
+        const arr = res.split('/').filter(Boolean);
         if (!arr && arr.length <= 0) return false;
         if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
         switch (bit) {
             case 0xD8:
                 arr.slice(0, 8).map((item, i) => {
-                    this.watchDeviceList[i] = {
-                        port: i,
-                        motor: {},
-                        color: {},
-                        ultrasonic: null,
-                        touch: null,
-                        sensing_device: device[item],
-                        deviceId: item
-                    }
+                    this.watchDeviceList[i].port = i;
+                    this.watchDeviceList[i].deviceId = item;
+                    this.watchDeviceList[i].sensing_device = device[item];
+                    if (item == 0) this.clearWatchDeviceList(i);
                 });
                 break;
             case 0xD1:
-                this.gyroList = arr;
+                this.gyroList = [...arr];
                 break;
             case 0xD4:
-                this.flashList = arr;
+                this.flashList = [...arr];
                 break;
             case 0xD5:
-                this.adcList = arr;
+                this.adcList = arr[0];
                 break;
             case 0xD7:
                 this.voice = arr[0];
                 break;
             default:
-                this.checkSensingDevice(arr, bit);
+                this.checkSensingDevice([...arr], bit);
                 break;
         }
         return {
@@ -352,18 +382,14 @@ class Common {
         function _device(port, key, arr) {
             switch (key) {
                 case 0xD0:
-                    port.motor = {
-                        direction: arr[1] == 1 ? '正转' : arr[1] == 2 ? '反转' : arr[1] == 3 ? '刹车' : '停止',
-                        pwm: arr[2],
-                        speed: arr[3],
-                        aim_speed: arr[4],
-                    }
+                    port.motor.direction = arr[1] == 1 ? '正转' : arr[1] == 2 ? '反转' : arr[1] == 3 ? '刹车' : '停止';
+                    port.motor.pwm = arr[2];
+                    port.motor.speed = arr[3];
+                    port.motor.aim_speed = arr[4];
                     break;
                 case 0xD6:
-                    port.color = {
-                        rgb: `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`,
-                        light_intensity: arr[4]
-                    }
+                    port.color.rgb = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
+                    port.color.light_intensity = arr[4];
                     break;
                 case 0xD2:
                     port.ultrasonic = Math.round(arr[1]);

@@ -20,9 +20,9 @@ class DeviceCards extends React.Component {
         this.state = {
             deviceObj: {
                 deviceList: [],
-                gyroList: [],
-                flashList: [],
-                adcList: [],
+                gyroList: new Array(3).fill(0),
+                flashList: new Array(2).fill(0),
+                adcList: null,
                 voice: null
             },
             stopWatch: true

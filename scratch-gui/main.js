@@ -188,41 +188,24 @@ function createWindow() {
             return index;
         });
 
-
-        ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, (event, flag) => {
+        // 检测电脑是否安装了驱动
+        ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
             if (flag === 'true') return;
 
-            if(flag === 'reupdate') {
-                const index = dialog.showMessageBoxSync({
-                    type: "info",
+            //是否需要重装驱动
+            if (flag === 'reupdate') {
+                const res = await _checkInstallDriver({
                     title: "Are you sure you want to reinstall the driver?",
                     message: "确定要重新安装驱动吗?",
-                    buttons: ["否(no)", "是(yes)"],
                 });
-                if (index === 0) {
-                    return false;
-                } else {
-                    exec(`cd ./resources && zadig.exe`);
-                    return true;
-                }
+                return res;
             }
 
-
-            // 检测电脑是否安装了某个驱动
-            exec('driverquery | findstr "LBS Serial"', (error, stdout, stderr) => {
-                const index = dialog.showMessageBoxSync({
-                    type: "info",
-                    title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",
-                    message: "检查到你的电脑未安装必要驱动，是否前去安装",
-                    buttons: ["否(no)", "是(yes)"],
-                });
-                if (index === 0) {
-                    return false;
-                } else {
-                    exec(`cd ./resources && zadig.exe`);
-                    return true;
-                }
+            const res = await _checkInstallDriver({
+                title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",
+                message: "检查到你的电脑未安装必要驱动，是否前去安装",
             });
+            return res;
         });
 
         mainWindow.once("ready-to-show", () => {
@@ -255,6 +238,24 @@ function createWindow() {
         });
         resolve();
     });
+
+    function _checkInstallDriver({ title, message }) {
+        return new Promise((resolve, reject) => {
+            const index = dialog.showMessageBoxSync({
+                type: "info",
+                title,
+                message,
+                buttons: ["否(no)", "是(yes)"],
+            });
+            if (index === 0) {
+                resolve(false);
+            } else {
+                exec(`cd ./resources && zadig.exe`);
+                resolve(true);
+            }
+        })
+    }
+
     //退出客户端去掉事件监听
     function _delEvents(eventName) {
         ipcMain.removeAllListeners([eventName]);

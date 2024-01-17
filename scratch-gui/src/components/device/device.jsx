@@ -12,9 +12,9 @@ const Device = (props) => {
             case 0:
                 return 'pitch';
             case 1:
-                return 'roll';
-            case 2:
                 return 'yaw';
+            case 2:
+                return 'roll';
             default:
                 break;
         }
@@ -59,12 +59,10 @@ const Device = (props) => {
                         <div className={styles.midBox}>
                             <p>电池电压</p>
                             <ul className={styles.midUl}>
-                                {adcList.length > 0 && adcList.map((item, index) => {
-                                    return (<li key={index}>
-                                        <span>{item}</span>
-                                        <span>V</span>
-                                    </li>)
-                                })}
+                                <li>
+                                    <span>{adcList}</span>
+                                    <span>V</span>
+                                </li>
                             </ul>
                         </div>
                         <div className={styles.midBox}>

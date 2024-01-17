@@ -75,7 +75,7 @@ function delEvents(eventName) {
  * @returns 
  */
 function getCurrentTime() {
-    return new Date().toISOString().replace(':', '-').slice(0, 19);
+    return new Date().toLocaleString().replaceAll('/','-').replaceAll(':','-').replace(/\s/,'_');
 }
 
 /**
@@ -84,22 +84,25 @@ function getCurrentTime() {
  * @param {String} filepath 
  * @param {String} data 
  */
-function writeFileWithDirectory(directory, filepath, data) {
-    fs.mkdir(directory, { recursive: true }, () => {
-        fs.writeFile(filepath, data + '', err => {
-            console.log(err);
+async function writeFileWithDirectory(directory, filepath, data) {
+    if (fs.existsSync(directory)) {
+        await fs.writeFileSync(filepath, data);
+    } else {
+    fs.mkdir(directory, { recursive: true }, async () => {
+        await fs.writeFileSync(filepath, data);
         });
-    });
+    }
 }
 
 /**
  * 错误处理
  * @param {String} error 
  */
-function handlerError(error) {
+async function handlerError(error) {
         const directory = './Error';
-    const filepath = `./Error/error_${getCurrentTime()}.txt`;
-    writeFileWithDirectory(directory, filepath, error);
+    const time = getCurrentTime();
+    const filepath = `${directory}/error_${time}.txt`;
+    await writeFileWithDirectory(directory, filepath, error);
 }
 
 /**
@@ -108,11 +111,11 @@ function handlerError(error) {
  * @param {String} path 
  * @returns 
  */
-function getVersion(data, vpath =  path.join(window.process.cwd(), VERSION, '/Version.txt')) {
+function getVersion(data, vpath = path.join(window.process.cwd(), VERSION, '/Version.txt')) {
     const version = fs.readFileSync(vpath, 'utf8');
     if (data == version) {
         return true;
-    }else {
+    } else {
         return false;
     }
 }
