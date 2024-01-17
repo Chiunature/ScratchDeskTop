@@ -84,7 +84,7 @@ Blockly.cake['matrix_lamp_text'] = function (block) {
     const match = regex.exec(text);
     if(match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
     // let code = `char Text[] = {${hex.join(",")}};\nmatrix_text_lamp(Text);\n`;
-    let code = `matrix_text_lamp(${text.indexOf('(') === -1 ? ('"' + text + '"') : text});\n`;
+    let code = `matrix_text_lamp(sprintf(int(${text.indexOf('(') === -1 ? ('"' + text + '"') : text})));\n`;
     return code;
 };
 

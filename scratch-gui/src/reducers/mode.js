@@ -11,6 +11,7 @@ const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 const exeList = localStorage.getItem('exeList');
 const selItem = localStorage.getItem('selItem');
+(exeList && exeList.length < 20) && localStorage.removeItem('exeList');
 !selItem && localStorage.setItem('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true }));
 
 /**
