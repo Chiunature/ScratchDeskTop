@@ -9,7 +9,7 @@ const blockColors = {
     },
     motor: {
         "primary": "#64c7f0",
-        "secondary": "#4280D7",
+        "secondary": "#00b0f9",
         "tertiary": "#00b0f9",
         "quaternary": "#00b0f9"
     },

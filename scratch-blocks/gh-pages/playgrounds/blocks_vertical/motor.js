@@ -7,6 +7,41 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
+Blockly.Blocks['motor_menu'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "MOTOR_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["C", "C"],
+                        ["D", "D"], 
+                        ["E", "E"], 
+                        ["F", "F"], 
+                        ["G", "G"], 
+                        ["H", "H"]
+                    ]
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "colour": Blockly.Colours.motor.primary,
+            "colourSecondary": Blockly.Colours.motor.secondary,
+            "colourTertiary": Blockly.Colours.motor.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
+
+
+
+
 Blockly.Blocks['motor_starting'] = {
     /**
      * Block to move steps.
@@ -25,26 +60,8 @@ Blockly.Blocks['motor_starting'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "field_dropdown",
@@ -95,26 +112,8 @@ Blockly.Blocks['motor_stop'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
             ],
             "category": Blockly.Categories.motor,
@@ -141,26 +140,8 @@ Blockly.Blocks['motor_speed'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "input_value",
@@ -191,26 +172,8 @@ Blockly.Blocks['motor_specifiedunit'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "field_dropdown",
@@ -283,26 +246,8 @@ Blockly.Blocks['motor_specifiedangle'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "field_dropdown",
@@ -347,26 +292,8 @@ Blockly.Blocks['motor_relative_position'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "field_number",
@@ -398,26 +325,8 @@ Blockly.Blocks['motor_specified_manner'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
                 {
                     "type": "field_dropdown",
@@ -425,15 +334,15 @@ Blockly.Blocks['motor_specified_manner'] = {
                     "options": [
                         [
                             Blockly.Msg.RETARDATION,
-                            "retardation"
+                            "breaking"
                         ],
                         [
                             Blockly.Msg.STILL,
-                            "still"
+                            "hold"
                         ],
                         [
                             Blockly.Msg.FLOAT,
-                            "float"
+                            "slide"
                         ]
                     ]
                 }
@@ -462,26 +371,8 @@ Blockly.Blocks['motor_rate'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
             ],
             "category": Blockly.Categories.motor,
@@ -508,26 +399,8 @@ Blockly.Blocks['motor_angle'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
+                    "type": "input_value",
                     "name": "PORT",
-                    "options": [
-                        [
-                            "A",
-                            "A"
-                        ],
-                        [
-                            "B",
-                            "B"
-                        ],
-                        [
-                            "C",
-                            "C"
-                        ],
-                        [
-                            "D",
-                            "D"
-                        ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-                    ]
                 },
             ],
             "category": Blockly.Categories.motor,

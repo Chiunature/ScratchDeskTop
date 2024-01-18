@@ -6595,6 +6595,7 @@ Blockly.ScratchMsgs.locales["en"] = {
     "TEXT_MATRIX_LAMP": "%1 text display %2",
     "SETRGB_MATRIX_LAMP": "%1 light serial number %2 color %3",
     "USERGB_MATRIX_LAMP": "%1 %2 light",
+    "MATRIX_COLOR": "%1 set the light's color is %2",
     "OPEN": "turn on",
     "CLOSE": "turn off",
     "OPERATORS_ADD": "%1 + %2",
@@ -27226,6 +27227,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
     "TEXT_MATRIX_LAMP": "%1 显示文字 %2",
     "SETRGB_MATRIX_LAMP": "%1 彩灯序号 %2 颜色 %3",
     "USERGB_MATRIX_LAMP": "%1 %2 矩阵灯",
+    "MATRIX_COLOR": "%1 设置矩阵灯的颜色为 %2",
     "CLOSE": "熄灭",
     "OPEN": "打开",
     "OPERATORS_ADD": "%1 + %2",
@@ -27791,6 +27793,7 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
     "TEXT_MATRIX_LAMP": "%1 文字顯示 %2",
     "SETRGB_MATRIX_LAMP": "%1 燈序號 %2 顏色 %3",
     "USERGB_MATRIX_LAMP": "%1 %2 燈",
+    "MATRIX_COLOR": "%1 設定矩陣燈的顏色為 %2",
     "OPEN": "打開",
     "CLOSE": "關閉",
 };

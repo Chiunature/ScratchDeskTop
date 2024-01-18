@@ -365,6 +365,7 @@ Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 Set Pixels x %2 y %3 %4";
 Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
 Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";
+Blockly.Msg.MATRIX_COLOR = "%1 set the light's color is %2";
 Blockly.Msg.OPEN = "turn on";
 Blockly.Msg.CLOSE = "turn off";
 // Category labels

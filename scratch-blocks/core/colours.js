@@ -30,10 +30,16 @@ Blockly.Colours = {
     "secondary": "#4280D7",
     "tertiary": "#00b0f9"
   },
+  motor: {
+    "primary": "#64c7f0",
+    "secondary": "#00b0f9",
+    "tertiary": "#00b0f9",
+    "quaternary": "#00b0f9"
+  },
   "combined_motor": {
     "primary": "#2388ca",
-    "secondary": "#2388ca",
-    "tertiary": "#2388ca"
+    "secondary": "#4280D7",
+    "tertiary": "#3373CC"
   },
   "matrix": {
     "primary": "#7986b8",

@@ -449,20 +449,42 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         <label text="${stageSelected}"></label>
         `
             : `
-        <block type="motor_starting"></block>
-        <block type="motor_stop"></block>
+        <block type="motor_starting">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
+        </block>
+        <block type="motor_stop">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
+        </block>
         <block type="motor_speed">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
             <value name="SPEED">
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="motor_specifiedunit">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
             <value name="COUNT">
                 <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
         </block>
-        <block type="motor_specified_manner"></block>
-        <block type="motor_rate"></block>
+        <block type="motor_specified_manner">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
+        </block>
+        <block type="motor_rate">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
+        </block>
         `
         }
     </category>
