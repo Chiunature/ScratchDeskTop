@@ -59,3 +59,23 @@ Blockly.Blocks['colour_picker'] = {
     });
   }
 };
+
+Blockly.Blocks['colour_card'] = {
+  /**
+   * Block for colour card.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_colour_card",
+          "name": "COLOUR",
+        }
+      ],
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "output": "Colour"
+    });
+  }
+};

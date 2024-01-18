@@ -35,6 +35,13 @@ Blockly.cake['colour_picker'] = function(block) {
   return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
+Blockly.cake['colour_card'] = function(block) {
+  // Colour card.
+  var code = '\'' + block.getFieldValue('COLOUR') + '\'';
+  return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
+
 Blockly.cake['colour_random'] = function(block) {
   // Generate a random colour.
   var functionName = Blockly.cake.provideFunction_(

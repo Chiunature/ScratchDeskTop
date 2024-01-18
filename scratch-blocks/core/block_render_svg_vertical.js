@@ -513,7 +513,8 @@ Blockly.BlockSvg.prototype.updateColour = function() {
     if (this.inputList[0] &&
         this.inputList[0].fieldRow[0] &&
         (this.inputList[0].fieldRow[0] instanceof Blockly.FieldColour ||
-        this.inputList[0].fieldRow[0] instanceof Blockly.FieldColourSlider)) {
+        this.inputList[0].fieldRow[0] instanceof Blockly.FieldColourSlider ||
+        this.inputList[0].fieldRow[0] instanceof Blockly.FieldColourCard)) {
       strokeColour = Blockly.Colours.colourPickerStroke;
     }
   }

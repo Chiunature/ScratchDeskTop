@@ -1426,6 +1426,46 @@ Blockly.Css.CONTENT = [
   '.scratchCategoryMenuItem:hover {',
   'color: $colour_toolboxHover !important;',
   '}',
-  ''
+  
+  '.lls-color-selector-vertical {',
+    'margin: 12px 16px;',
+    'height: 170px;',
+  '}',
+
+  '.lls-color-slider {',
+    'display: flex;',
+    'flex-direction: column;',
+    'position: relative;',
+    'border-radius: 4px;',
+  '}',
+
+  '.lls-color-slider__option {',
+    'flex: 1 1;',
+    'cursor: pointer;',
+    'width: 100%;',
+  '}',
+
+  '.lls-color-slider__option--first {',
+    'border-top-left-radius: 4px;',
+    'border-top-right-radius: 4px;',
+  '}',
+
+  '.lls-color-slider__option--last {',
+    'border-bottom-left-radius: 4px;',
+    'border-bottom-right-radius: 4px;',
+    'margin-bottom: -1px;',
+  '}',
+
+  '.lls-color-slider__handle--not-pressed {',
+    'cursor: -webkit-grab;',
+    'cursor: grab;',
+  '}',
+
+  '.lls-color-slider__handle {',
+    'position: absolute;',
+    'border: 2px solid white;',
+    'border-radius: 5px;',
+    'box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);',
+  '}'
 ];
 
