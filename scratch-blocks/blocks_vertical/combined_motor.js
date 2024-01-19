@@ -126,8 +126,8 @@ Blockly.Blocks['combined_motor_direction'] = {
                         [
                             {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                                "width": 20,
-                                "height": 20,
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.ADVANCE
                             },
                             "up"
@@ -135,26 +135,26 @@ Blockly.Blocks['combined_motor_direction'] = {
                         [
                             {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                                "width": 20,
-                                "height": 20,
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.BACK
                             },
                             "down"
                         ],
                         [
                             {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                                "width": 20,
-                                "height": 20,
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "turn-left.svg",
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.TURNLEFT
                             },
                             "turnleft"
                         ],
                         [
                             {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
-                                "width": 20,
-                                "height": 20,
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "turn-right.svg",
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.TURNRIGHT
                             },
                             "turnright"
@@ -319,8 +319,8 @@ Blockly.Blocks['combined_motor_line'] = {
                         [
                             {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                                "width": 20,
-                                "height": 20,
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.ADVANCE
                             },
                             "up"
@@ -328,26 +328,26 @@ Blockly.Blocks['combined_motor_line'] = {
                         [
                             {
                                 "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                                "width": 20,
-                                "height": 20,
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.BACK
                             },
                             "Down"
                         ],
                         [
                             {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                                "width": 20,
-                                "height": 20,
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "turn-left.svg",
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.TURNLEFT
                             },
                             "turnleft"
                         ],
                         [
                             {
-                                "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
-                                "width": 20,
-                                "height": 20,
+                                "src": Blockly.mainWorkspace.options.pathToMedia + "turn-right.svg",
+                                "width": 25,
+                                "height": 25,
                                 "alt": Blockly.Msg.TURNRIGHT
                             },
                             "turnright"

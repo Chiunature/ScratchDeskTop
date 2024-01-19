@@ -167,14 +167,32 @@ Blockly.FieldTextInput.prototype.setValue = function (newValue) {
   Blockly.Field.prototype.setValue.call(this, newValue);
 };
 
+/**
+ * 根据特定的积木选择菜单修改输入框的值
+ * @returns 
+ */
 Blockly.FieldTextInput.prototype.changeText = function () {
-  if (this.sourceBlock_ && this.sourceBlock_.type === "motor_specifiedunit") {
-    let newText = this.sourceBlock_.childBlocks_[1].inputList[0].fieldRow[0].getText();
-    const option = this.sourceBlock_.inputList[2].fieldRow[0].getValue();
+
+  const changeVal = (textTarget, optionTarget) => {
+    let newText = textTarget.getText();
+    const option = optionTarget.getValue();
     if (option !== 'angle') {
       newText = newText.replace(/^-\d+$/, '0');
     }
-    this.sourceBlock_.childBlocks_[1].inputList[0].fieldRow[0].setText(newText);
+    textTarget.setText(newText);
+  }
+
+  if (this.sourceBlock_) {
+    switch (this.sourceBlock_.type) {
+      case "motor_specifiedunit":
+        changeVal(this.sourceBlock_.childBlocks_[1].inputList[0].fieldRow[0], this.sourceBlock_.inputList[2].fieldRow[0]);
+        break;
+      case "combined_motor_line":
+        changeVal(this.sourceBlock_.childBlocks_[0].inputList[0].fieldRow[0], this.sourceBlock_.inputList[1].fieldRow[0]);
+        break;
+      default:
+        break;
+    }
   } else {
     return;
   }
@@ -196,7 +214,7 @@ Blockly.FieldTextInput.prototype.setText = function (newText) {
     return;
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
-        Blockly.Events.fire(new Blockly.Events.BlockChange(
+    Blockly.Events.fire(new Blockly.Events.BlockChange(
       this.sourceBlock_, 'field', this.name, this.text_, newText));
   }
   Blockly.Field.prototype.setText.call(this, newText);
@@ -414,18 +432,31 @@ Blockly.FieldTextInput.GECKO_KEYCODE_WHITELIST = [
   120 // Cut, META-X.
 ];
 
+/**
+ * 根据特定的积木修改输入框的值
+ * @returns 
+ */
 Blockly.FieldTextInput.prototype.checkHtmlInputByBlocks = function () {
   let htmlInput = Blockly.FieldTextInput.htmlInput_;
+
+  const changeInp = (target) => {
+    const option = target.getValue();
+    if (option !== 'angle') {
+      htmlInput.value = htmlInput.value.replace(/^-\d+$/, '0');
+    }
+  }
+
   if (this.sourceBlock_ && this.sourceBlock_.parentBlock_) {
     switch (this.sourceBlock_.parentBlock_.type) {
       case "matrix_lamp_text":
         htmlInput.value = htmlInput.value.replace(/[\u4e00-\u9fa5]{0,}$/, '');
         break;
+      case "combined_motor_line":
+        changeInp(this.sourceBlock_.parentBlock_.inputList[1].fieldRow[0]);
+        break;
       case "motor_specifiedunit":
-        const option = this.sourceBlock_.parentBlock_.inputList[2].fieldRow[0].getValue();
-        if (option !== 'angle') {
-          htmlInput.value = htmlInput.value.replace(/^-\d+$/, '0');
-        }
+        changeInp(this.sourceBlock_.parentBlock_.inputList[2].fieldRow[0]);
+        break;
       default:
         break;
     }
@@ -468,7 +499,7 @@ Blockly.FieldTextInput.prototype.onHtmlInputChange_ = function (e) {
       return;
     }
   }
-  
+
   var htmlInput = this.checkHtmlInputByBlocks();
 
   // Update source block.
@@ -655,7 +686,7 @@ Blockly.FieldTextInput.prototype.widgetDisposeAnimationFinished_ = function () {
 
 Blockly.FieldTextInput.prototype.maybeSaveEdit_ = function () {
   var htmlInput = Blockly.FieldTextInput.htmlInput_;
-    // Save the edit (if it validates).
+  // Save the edit (if it validates).
   var text = htmlInput.value;
   if (this.sourceBlock_) {
     var text1 = this.callValidator(text);

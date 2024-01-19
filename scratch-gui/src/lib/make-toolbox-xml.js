@@ -596,10 +596,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="combined_motor_stop"></block>
         <block type="combined_motor_movestep">
             <value name="left">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
             <value name="right">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="combined_motor_angle">
