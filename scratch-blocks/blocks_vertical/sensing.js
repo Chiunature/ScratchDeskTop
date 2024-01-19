@@ -537,6 +537,67 @@ Blockly.Blocks['sensing_userid'] = {
     });
   }
 };
+//红色/黄色/蓝色/绿色/ 棕色/紫色/黑色/白色
+Blockly.Blocks['sensing_color_menu'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "COLOR",
+          "options": [
+            [Blockly.Msg.RED, "0xFF0000"],
+            [Blockly.Msg.YELLOW, "0xFFFF00"],
+            [Blockly.Msg.BLUE, "0x0000FF"],
+            [Blockly.Msg.GREEN, "0x00FF00"],
+            [Blockly.Msg.BROWN, "0x804000"],
+            [Blockly.Msg.BLACK, '0x000000'],
+            [Blockly.Msg.WHITE, '0xffffff'],
+            [Blockly.Msg.PURPLE, '0x884898'],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "colour": Blockly.Colours.sensing.primary,
+      "colourSecondary": Blockly.Colours.sensing.secondary,
+      "colourTertiary": Blockly.Colours.sensing.tertiary,
+      "extensions": ["output_string"]
+    });
+  }
+}
+
+Blockly.Blocks['sensing_menu'] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "SENSING_MENU",
+          "options": [
+            ["A", "A"],
+            ["C", "C"],
+            ["D", "D"],
+            ["E", "E"],
+            ["F", "F"],
+            ["G", "G"],
+            ["H", "H"]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "colour": Blockly.Colours.sensing.primary,
+      "colourSecondary": Blockly.Colours.sensing.secondary,
+      "colourTertiary": Blockly.Colours.sensing.tertiary,
+      "extensions": ["output_string"],
+    });
+  }
+};
 
 Blockly.Blocks['sensing_color_judgment'] = {
   /**
@@ -544,44 +605,19 @@ Blockly.Blocks['sensing_color_judgment'] = {
    * @this Blockly.Block
    */
   init: function () {
-    this.jsonInit({
+    this.jsonInit(
+      {
       "type": "sensing_color_judgment",
       "message0": Blockly.Msg.SENSING_COLOR_JUDGMENT,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+          },
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "COLOR",
-          "options": [
-            [Blockly.Msg.RED, "0xFF0000"],
-            [Blockly.Msg.GREEN, "0x00FF00"],
-            [Blockly.Msg.BLUE, "0x0000FF"],
-            [Blockly.Msg.YELLOW, "0xFFFF00"],
-            [Blockly.Msg.DARKRED, "0x910000"],
-            [Blockly.Msg.BROWN, "0x804000"],
-          ]
-        },
+          }
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]
@@ -600,27 +636,9 @@ Blockly.Blocks['sensing_color_detection'] = {
       "message0": Blockly.Msg.SENSING_COLOR_DETECTION,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_number"]
@@ -639,27 +657,9 @@ Blockly.Blocks['sensing_color_detectionRGB'] = {
       "message0": Blockly.Msg.SENSING_COLOR_DETECTIONRGB,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
         {
           "type": "field_dropdown",
           "name": "color",
@@ -680,7 +680,7 @@ Blockly.Blocks['sensing_color_detectionRGB'] = {
         },
       ],
       "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
+      "extensions": ["colours_sensing", "output_number"]
     });
   }
 };
@@ -696,27 +696,9 @@ Blockly.Blocks['sensing_reflected_light_judgment'] = {
       "message0": Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
         {
           "type": "field_dropdown",
           "name": "judgment",
@@ -757,27 +739,9 @@ Blockly.Blocks['sensing_reflected_light_detection'] = {
       "message0": Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_number"]
@@ -853,27 +817,9 @@ Blockly.Blocks['sensing_ultrasonic_judgment'] = {
       "message0": Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
         {
           "type": "field_dropdown",
           "name": "judgment",
@@ -914,27 +860,9 @@ Blockly.Blocks['sensing_ultrasonic_detection'] = {
       "message0": Blockly.Msg.SENSING_ULTRASONIC_DETECTION,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        },
+                  },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_number"]
@@ -968,27 +896,9 @@ Blockly.Blocks['sensing_key_judgment'] = {
       "message0": Blockly.Msg.SENSING_KEY_JUDGMENT,
       "args0": [
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              "A",
-              "A"
-            ],
-            [
-              "B",
-              "B"
-            ],
-            [
-              "C",
-              "C"
-            ],
-            [
-              "D",
-              "D"
-            ], ["E", "E"], ["F", "F"], ["G", "G"], ["H", "H"]
-          ]
-        }
+          },
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]
@@ -1017,15 +927,7 @@ Blockly.Blocks['sensing_key_press'] = {
             [
               Blockly.Msg.PRIGHT,
               "right"
-            ],
-            [
-              Blockly.Msg.UP,
-              "up"
-            ],
-            [
-              Blockly.Msg.DOWN,
-              "down"
-            ],
+            ]
           ]
         },
         {
@@ -1138,21 +1040,17 @@ Blockly.Blocks['sensing_gyroscope_angle'] = {
           "name": "PORT",
           "options": [
             [
-              Blockly.Msg.PLEFT,
-              "left"
-            ],
-            [
-              Blockly.Msg.PRIGHT,
-              "right"
-            ],
-            [
-              Blockly.Msg.UP,
+              Blockly.Msg.FLOATING,
               "up"
             ],
             [
-              Blockly.Msg.DOWN,
-              "down"
+              Blockly.Msg.ROLL,
+              "left"
             ],
+            [
+              Blockly.Msg.YAW,
+              "right"
+            ]
           ]
         },
       ],
@@ -1433,6 +1331,22 @@ Blockly.Blocks['sensing_reset_timer'] = {
     this.jsonInit({
       "type": "sensing_reset_timer",
       "message0": Blockly.Msg.SENSING_RESET_TIMER,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_set_yaw_angle'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit(
+      {
+      "type": "sensing_set_yaw_angle",
+      "message0": Blockly.Msg.SENSING_SET_YAW_ANGLE,
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "shape_statement"]
     });

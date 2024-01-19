@@ -157,7 +157,11 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     `;
 };
 {/*
-   
+   <block type="sensing_card">
+                <value name="COLOR">
+                    <shadow type="colour_card"/>
+                </value>
+            </block>
     <block type="sensing_line_inspection_judgment"></block>
     <block type="sensing_magnetic_calibration"></block>
     <block type="sensing_magnetism"></block>
@@ -181,27 +185,65 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
         ${isStage
             ? ""
             : `
-            <block type="sensing_color_judgment"></block>
-            <block type="sensing_color_detection"></block>
-            <block type="sensing_color_detectionRGB"></block>
+            <block type="sensing_color_judgment">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="COLOR">
+                    <shadow type="sensing_color_menu" />
+                </value>
+            </block>
+            <block type="sensing_color_detection">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            <block type="sensing_color_detectionRGB">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
             <block type="sensing_reflected_light_judgment">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
                 <value name="value">
                     <shadow type="math_number"><field name="NUM">50</field></shadow>
                 </value>
             </block>
-            <block type="sensing_reflected_light_detection"></block>
+            <block type="sensing_reflected_light_detection">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
             <block type="sensing_ultrasonic_judgment">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
                 <value name="value">
                     <shadow type="math_number"><field name="NUM">10</field></shadow>
                 </value>
             </block>
-            <block type="sensing_ultrasonic_detection"></block>
+            <block type="sensing_ultrasonic_detection">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
             <block type="sensing_sound_intensity"></block>
             <block type="sensing_key_press"></block>
-            <block type="sensing_key_judgment"></block> 
+            <block type="sensing_key_judgment">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block> 
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
+            <block type="sensing_gyroscope_angle"></block>
             ${blockSeparator}
+            <block type="sensing_set_yaw_angle"></block>
+            <block type="sensing_timer"></block>
+            <block type="sensing_reset_timer"></block>
         `
         }
         ${categorySeparator}

@@ -4,9 +4,17 @@ goog.provide('Blockly.cake.sensing');
 
 goog.require('Blockly.cake');
 
+
+Blockly.cake['sensing_menu'] = function (block) {
+    const menu = block.getFieldValue('SENSING_MENU');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
+
+
 Blockly.cake['sensing_color_judgment'] = function (block) {
     let dropdown_port = block.getFieldValue('PORT');
-    let color = block.getFieldValue("COLOR");
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_color_judgment("${dropdown_port}1", ${color})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
@@ -200,5 +208,11 @@ Blockly.cake['sensing_current'] = function (block) {
 Blockly.cake['sensing_loudness'] = function (block) {
     // TODO: Assemble cake into code variable.
     let code = `Sensing_loudness()`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['sensing_set_yaw_angle'] = function (block) {
+    // TODO: Assemble cake into code variable.
+    let code = `Sensing_setYawAngle()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };

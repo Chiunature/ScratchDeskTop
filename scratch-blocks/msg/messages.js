@@ -165,6 +165,8 @@ Blockly.Msg.BACK = 'back';
 Blockly.Msg.ADVANCE = 'advance';
 Blockly.Msg.LEFT = 'turnleft';
 Blockly.Msg.RIGHT = 'turnright';
+Blockly.Msg.TURNLEFT = "turnleft",
+Blockly.Msg.TURNRIGHT = "turnright",
 Blockly.Msg.CENTIMETRE = 'centimetre';
 Blockly.Msg.INCH = 'inch';
 Blockly.Msg.CIRCLE = 'circle';
@@ -270,6 +272,7 @@ Blockly.Msg.GREEN = 'green';
 Blockly.Msg.BLUE = 'blue';
 Blockly.Msg.BLACK = 'black';
 Blockly.Msg.WHITE = 'white';
+Blockly.Msg.PURPLE = 'purple';
 Blockly.Msg.PRESS = 'press';
 Blockly.Msg.UNPRESS = 'unpress';
 Blockly.Msg.PLEFT = 'left';
@@ -342,7 +345,8 @@ Blockly.Msg.SENSING_CURRENT_SECOND = 'second';
 Blockly.Msg.SENSING_DAYSSINCE2000 = 'days since 2000';
 Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
-
+Blockly.Msg.SENSING_GYROSCOPE_ANGLE = '%1\'s angle';
+Blockly.Msg.SENSING_SET_YAW_ANGLE = 'Set yaw angle to 0';
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
 Blockly.Msg.SOUND_PLAYUNTILDONE = 'play sound %1 until done';
