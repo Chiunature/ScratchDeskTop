@@ -527,6 +527,11 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_menu"></shadow>
             </value>
         </block>
+        <block type="motor_position">
+            <value name="PORT">
+                <shadow type="motor_menu"></shadow>
+            </value>
+        </block>
         `
         }
     </category>

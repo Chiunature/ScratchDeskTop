@@ -180,6 +180,7 @@ Blockly.Msg.STILL = 'still';
 Blockly.Msg.FLOAT = 'float';
 Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
 Blockly.Msg.ANGLE_MOTOR = '%1 %2 angle';
+Blockly.Msg.MOTOR_POSITION = '%1 %2 position';
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
 Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 %5";
 Blockly.Msg.SPEED_MOTOR = "%1 %2 set speed to %3 %%";

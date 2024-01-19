@@ -408,3 +408,31 @@ Blockly.Blocks['motor_angle'] = {
         });
     }
 };
+
+Blockly.Blocks['motor_position'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_POSITION,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT",
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "output_number"],
+        });
+    }
+};

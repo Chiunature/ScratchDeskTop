@@ -27,7 +27,7 @@
 'use strict';
 
 goog.provide('Blockly.FieldDropdown');
-
+goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.Field');
 goog.require('Blockly.DropDownDiv');
 goog.require('goog.dom');
@@ -314,6 +314,8 @@ Blockly.FieldDropdown.prototype.onItemSelected = function (menu, menuItem) {
   if (value !== null) {
     this.setValue(value);
   }
+
+  Blockly.FieldTextInput.prototype.changeText.call(this);
 };
 
 /**

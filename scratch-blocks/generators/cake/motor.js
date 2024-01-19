@@ -81,3 +81,11 @@ Blockly.cake['motor_angle'] = function (block) {
     let code = `motor_Angle("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
+
+
+Blockly.cake['motor_position'] = function (block) {
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    let code = `motor_Position("${dropdown_port}1")`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
