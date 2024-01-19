@@ -146,18 +146,32 @@ Blockly.Blocks['matrix_lamp_single'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_number",
+                    "type": "field_dropdown",
                     "name": "x",
-                    "value": 0,
-                    "min": 0,
-                    "max": 5
+                    "options": [
+                        ["1", "1"],
+                        ["2", "2"],
+                        ["3", "3"], 
+                        ["4", "4"], 
+                        ["5", "5"], 
+                        ["6", "6"], 
+                        ["7", "7"]
+                    ]
                 },
                 {
-                    "type": "field_number",
-                    "name": "y",
-                    "value": 0,
-                    "min": 0,
-                    "max": 5
+                    "type": "field_dropdown",
+                    "name": "x",
+                    "options": [
+                        ["1", "1"],
+                        ["2", "2"],
+                        ["3", "3"], 
+                        ["4", "4"], 
+                        ["5", "5"], 
+                        ["6", "6"], 
+                        ["7", "7"],
+                        ["8", "8"], 
+                        ["9", "9"]
+                    ]
                 },
                 {
                     "type": "input_value",
