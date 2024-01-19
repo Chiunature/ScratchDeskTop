@@ -98,6 +98,36 @@ Blockly.Blocks['matrix_lamp_set'] = {
     }
 };
 
+Blockly.Blocks['matrix_lamp_setSaturation'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.SET_MATRIX_SATURATION,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "matrix.svg",
+                    "width": 24,
+                    "height": 24,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "saturation"
+                },
+            ],
+            "category": Blockly.Categories.matrix,
+            "colour": "#9966FF",
+            "secondaryColour": "#774DCB",
+            "extensions": ["colours_matrix", "shape_statement"],
+        });
+    }
+};
+
 Blockly.Blocks['matrix_lamp_single'] = {
     /**
      * Block to move steps.

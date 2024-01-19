@@ -51,7 +51,9 @@ Blockly.Blocks['colour_picker'] = {
         {
           "type": "field_colour_slider",
           "name": "COLOUR",
-          "colour": randomColour()
+          "colour": randomColour(),
+          "showSaturation" : false,
+          "showbrightness": false
         }
       ],
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
