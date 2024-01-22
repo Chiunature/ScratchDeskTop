@@ -1,29 +1,35 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './button.css';
-import uploadIcon from "./icon--upload.svg";
-import yesIcon from "./icon--yes.svg";
+import startIcon from "./icon--start.svg";
+import stopIcon from "./icon--stop.svg";
 import ButtonComponent from "./button.jsx";
-import Cirle from "./cirle.jsx";
+import SelectExeBtn from "./selectExeBtn.jsx";
 
 
-
-const UploadBtn = ({completed, progress, handleCompile, isComplete}) => {
+const UploadBtn = (props) => {
+    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist } = props;
     return (
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
+                <SelectExeBtn
+                    isComplete={isComplete}
+                    progress={progress}
+                    completed={completed}
+                    handleCompile={handleCompile}
+                    isRtl={isRtl}
+                    onSetSelectedExe={onSetSelectedExe}
+                    onSetExelist={onSetExelist}
+                    exeList={exeList}
+                    selectedExe={selectedExe}
+                />
                 <ButtonComponent
                     className={classNames(styles.uploadBtn)}
-                    iconSrc={completed ? null : uploadIcon}
-                >
-                    {completed ? <p className={classNames(styles.uploadP)}>{progress}%</p> : null}
-                    <Cirle completed={completed} />
-                </ButtonComponent>
+                    iconSrc={startIcon}
+                />
                 <ButtonComponent
-                    className={classNames(styles.yesBtn, isComplete ? '' : styles.yesBtnSpin)}
-                    iconSrc={yesIcon}
-                    onClick={() => handleCompile()}
-                    disabled={completed}
+                    className={classNames(styles.stopBtn)}
+                    iconSrc={stopIcon}
                 />
             </div>
         </div>

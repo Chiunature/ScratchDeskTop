@@ -38,7 +38,7 @@ import TelemetryModal from "../telemetry-modal/telemetry-modal.jsx";
 
 import layout, { STAGE_SIZE_MODES } from "../../lib/layout-constants";
 import { resolveStageSize } from "../../lib/screen-utils";
-import {themeMap} from '../../lib/themes';
+import { themeMap } from '../../lib/themes';
 import styles from "./gui.css";
 import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
@@ -50,7 +50,6 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
 import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
-import SelectExeBtn from "../button/selectExeBtn.jsx";
 import FileSystemHoc from "../../containers/file-system.jsx";
 
 /* const messages = defineMessages({
@@ -196,7 +195,7 @@ const GUIComponent = (props) => {
             enabled: true //开启小地图
         }
     }
-    
+
     return (
         <MediaQuery minWidth={layout.fullSizeMinWidth}>
             {(isFullSize) => {
@@ -239,16 +238,16 @@ const GUIComponent = (props) => {
                         {isRendererSupported ? null : (
                             <WebGlModal isRtl={isRtl} />
                         )}
-                        {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck}/> : null}
+                        {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck} /> : null}
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible ? (
-                            <DeviceCards 
-                                handleCompile={handleCompile} 
-                                completed={completed} 
-                                exeList={exeList} 
-                                selectedExe={selectedExe} 
-                                onSetSelectedExe={onSetSelectedExe} 
-                                onSetExelist={onSetExelist}/>
+                            <DeviceCards
+                                handleCompile={handleCompile}
+                                completed={completed}
+                                exeList={exeList}
+                                selectedExe={selectedExe}
+                                onSetSelectedExe={onSetSelectedExe}
+                                onSetExelist={onSetExelist} />
                         ) : null}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
@@ -269,24 +268,20 @@ const GUIComponent = (props) => {
                             />
                         ) : null}
                         {showFileStytem && (
-                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload}/>
+                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />
                         )}
                         {peripheralName && !soundsTabVisible ? (
-                            <>
-                                <SelectExeBtn 
-                                    isComplete={isComplete} 
-                                    progress={progress} 
-                                    completed={completed} 
-                                    handleCompile={handleCompile} 
-                                    isRtl={isRtl} 
-                                    onSetSelectedExe={onSetSelectedExe} 
-                                    onSetExelist={onSetExelist} 
-                                    exeList={exeList} 
+                            <UploadBtn
+                                    isComplete={isComplete}
+                                    progress={progress}
+                                    completed={completed}
+                                    handleCompile={handleCompile}
+                                    isRtl={isRtl}
+                                    onSetSelectedExe={onSetSelectedExe}
+                                    onSetExelist={onSetExelist}
+                                    exeList={exeList}
                                     selectedExe={selectedExe}
-                                />
-                            </>
-                        ) : null}
-
+                                />) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
                             authorId={authorId}
@@ -459,8 +454,8 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    <Generator onSetGen={onSetGen} code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions= {codeEditorOptions} codeEditorTheme="vs"/>
-                                            {/* <StageWrapper
+                                    <Generator onSetGen={onSetGen} code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions={codeEditorOptions} codeEditorTheme="vs" />
+                                    {/* <StageWrapper
                                         isFullScreen={isFullScreen}
                                         isRendererSupported={isRendererSupported}
                                         isRtl={isRtl}
