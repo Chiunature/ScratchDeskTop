@@ -21,7 +21,7 @@ const blockColors = {
     },
     matrix: {
         "primary": "#7986b8",
-        "secondary": "#000000",
+        "secondary": "#6877b3",
         "tertiary": "#6877b3",
         "quaternary": "#6877b3"
     },

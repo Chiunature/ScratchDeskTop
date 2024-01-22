@@ -67,12 +67,23 @@ Blockly.cake['matrix_lamp_set'] = function (block) {
     return code;
 };
 
+Blockly.cake['matrix_x'] = function (block) {
+    // Numeric value.
+    var code = block.getFieldValue('X');
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['matrix_y'] = function (block) {
+    // Numeric value.
+    var code = block.getFieldValue('Y');
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
 Blockly.cake['matrix_lamp_single'] = function (block) {
-    let x = block.getFieldValue('x');
-    let y = block.getFieldValue('y');
-    let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
+    let x = Blockly.cake.valueToCode(block, "x", Blockly.cake.ORDER_NONE);
+    let y = Blockly.cake.valueToCode(block, "y", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_single_lamp(${x}, ${y}, ${brightness});\n`;
+    let code = `matrix_single_lamp(${x}, ${y});\n`;
     return code;
 };
 

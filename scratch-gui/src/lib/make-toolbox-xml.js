@@ -659,8 +659,11 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>  
         <block type="matrix_lamp_single">
-            <value name="brightness">
-                <shadow type="math_0to100_number"></shadow>
+            <value name="x">
+                <shadow type="matrix_x"></shadow>
+            </value>
+            <value name="y">
+                <shadow type="matrix_y"></shadow>
             </value>
         </block>   
         `

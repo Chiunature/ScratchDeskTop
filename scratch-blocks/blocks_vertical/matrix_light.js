@@ -128,6 +128,73 @@ Blockly.Blocks['matrix_lamp_setSaturation'] = {
     }
 };
 
+Blockly.Blocks['matrix_x'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "X",
+                    "options": [
+                        ["1", "1"],
+                        ["2", "2"],
+                        ["3", "3"],
+                        ["4", "4"],
+                        ["5", "5"],
+                        ["6", "6"],
+                        ["7", "7"]
+                    ]
+                },
+            ],
+            "category": Blockly.Categories.matrix,
+            "colour": Blockly.Colours.matrix.primary,
+            "colourSecondary": Blockly.Colours.matrix.secondary,
+            "colourTertiary": Blockly.Colours.matrix.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
+
+Blockly.Blocks['matrix_y'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "Y",
+                    "options": [
+                        ["1", "1"],
+                        ["2", "2"],
+                        ["3", "3"],
+                        ["4", "4"],
+                        ["5", "5"],
+                        ["6", "6"],
+                        ["7", "7"],
+                        ["8", "8"],
+                        ["9", "9"]
+                    ]
+                },
+            ],
+            "category": Blockly.Categories.matrix,
+            "colour": Blockly.Colours.matrix.primary,
+            "colourSecondary": Blockly.Colours.matrix.secondary,
+            "colourTertiary": Blockly.Colours.matrix.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
+
+
 Blockly.Blocks['matrix_lamp_single'] = {
     /**
      * Block to move steps.
@@ -146,36 +213,12 @@ Blockly.Blocks['matrix_lamp_single'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
-                    "name": "x",
-                    "options": [
-                        ["1", "1"],
-                        ["2", "2"],
-                        ["3", "3"], 
-                        ["4", "4"], 
-                        ["5", "5"], 
-                        ["6", "6"], 
-                        ["7", "7"]
-                    ]
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "x",
-                    "options": [
-                        ["1", "1"],
-                        ["2", "2"],
-                        ["3", "3"], 
-                        ["4", "4"], 
-                        ["5", "5"], 
-                        ["6", "6"], 
-                        ["7", "7"],
-                        ["8", "8"], 
-                        ["9", "9"]
-                    ]
+                    "type": "input_value",
+                    "name": "x"
                 },
                 {
                     "type": "input_value",
-                    "name": "brightness",
+                    "name": "y"
                 }
             ],
             "category": Blockly.Categories.matrix,
