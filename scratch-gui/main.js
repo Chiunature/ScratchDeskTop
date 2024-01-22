@@ -33,7 +33,7 @@ const noble = require('@abandonware/noble');
 const { exec } = require('child_process');
 const { Serialport, ipc, Bluetooth } = require('est-link');
 
-let mainWindow, loadingWindow, progressInterval, isUpdate;
+let mainWindow, loadingWindow, isUpdate;
 const server = 'http://127.0.0.1:2060';
 const updateUrl = `${server}/update/${process.platform}/`;
 
@@ -95,19 +95,9 @@ function showLoading() {
         });
         loadingWindow.loadFile(path.join(__dirname, "launch.html"));
         loadingWindow.show();
-        _progress();
         resolve();
     });
 
-    function _progress() {
-        let c = 0;
-        progressInterval = setInterval(() => {
-            c++;
-            loadingWindow.setProgressBar(c);
-            loadingWindow.webContents.send("progress", c);
-            if (c == 100) clearInterval(progressInterval);
-        }, 20);
-    }
 };
 
 function createWindow() {
@@ -212,7 +202,6 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            clearInterval(progressInterval);
             updater();
         });
 

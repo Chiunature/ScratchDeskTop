@@ -18,22 +18,7 @@
             color: white;
         }
 
-        h2 {
-            text-align: center;
-            line-height: 200px;
-        }
 
-        .launch-box .loading {
-            font-size: 14px;
-            font-weight: bold;
-            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            width: 120px;
-            text-align: center;
-            position: absolute;
-            left: 50%;
-            bottom: 15px;
-            margin-left: -60px;
-        }
 
         .launch-box {
             position: relative;
@@ -41,40 +26,12 @@
             background-size: cover;
         }
 
-        .version {
-            position: absolute;
-            right: 4px;
-            bottom: 4px;
-            font-size: 12px;
-            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-        }
-
-        .progress-bar {
-            position: absolute;
-            height: 7px;
-            left: 0;
-            width: 0;
-            bottom: 0;
-            background-color: white;
-        }
+        
     </style>
 </head>
 
 <body>
-    <div class="launch-box">
-        <div class="loading">loading <span id="percent">0%</span></div>
-        <div class="progress-bar" id="processBar"></div>
-    </div>
-
-    <script>
-        let processBar = document.getElementById('processBar');
-        let percent = document.getElementById('percent');
-        let progress = 0;
-        window.electron.ipcRenderer.on('progress', (event, progress) => {
-            processBar.style.width = progress + '%';
-            percent.innerHTML = Math.floor(progress) + '%';
-        });
-    </script>
+    <div class="launch-box"></div>
 </body>
 
 </html>
