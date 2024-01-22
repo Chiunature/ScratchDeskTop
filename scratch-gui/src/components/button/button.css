@@ -33,20 +33,20 @@
 .circleBox {
     z-index: -1;
     position: absolute;
-    width: 60px;
-    height: 60px;
-    top: -50%;
+    width: 80px;
+    height: 80px;
+    top: 0;
     left: 50%;
     opacity: .7;
     transition: all 3s;
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, 0);
 }
 
 .circle1,
 .circle2,
 .circle3 {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     background: var(--motion-primary);
     border: 1px solid var(--motion-primary);
     border-radius: 50%;
@@ -174,8 +174,8 @@
 
 
 .select-exe-btn {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background-color: var(--motion-primary);
     position: absolute;
@@ -215,8 +215,8 @@
 }
 
 .yes-btn {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background-color: #57bd38;
     position: absolute;
@@ -246,7 +246,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff;
-    font-size: 14px;
+    font-size: 20px;
     transition: 3s ease-in-out;
 }
 
@@ -261,20 +261,20 @@
 .select-exe-btn-con {
     width: fit-content;
     position: fixed;
-    right: 9%;
-    bottom: 9%;
+    right: 7%;
+    top: 25%;
     z-index: 20;
 }
 
-/* @media screen and (min-width: 1450px) {
+@media screen and (min-width: 1450px) {
     .select-exe-btn-con {
         width: fit-content;
         position: fixed;
-        right: 11%;
-        bottom: 10%;
+        right: 5%;
+        top: 18%;
         z-index: 20;
     }
-} */
+}
 
 .select-exe-box {
     width: fit-content;
@@ -306,21 +306,31 @@
 }
 
 .select-exe-block {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: var(--motion-primary);
+    background: linear-gradient(90deg, var(--motion-primary) 100%, #57bd38 100%);
     color: #fff;
     position: absolute;
     top: 50%;
     left: 50%;
     cursor: pointer;
     transform: translate(-73%, -73%);
-    transition: all .3s;
+    transition: all 1s;
     z-index: 20;
+}
+
+.select-exe-block img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1s;
 }
 
 .select-exe-round .select-exe-block:not(.select-exe-wrapper) {
@@ -353,4 +363,12 @@
     width: 10px !important;
     height: 10px !important;
     flex-grow: 1;
+}
+
+.isCompleteHide {
+    background: linear-gradient(90deg, var(--motion-primary) 0, #57bd38 0);
+}
+
+.displayHide{
+    display: none;
 }

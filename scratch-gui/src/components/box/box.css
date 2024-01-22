@@ -110,7 +110,7 @@
 
 .select-show {
     z-index: 30;
-    transform: translate(-80%, -40%) scale(1);
+    transform: translate(-80%, 0) scale(1);
 }
 
 .back-btn {

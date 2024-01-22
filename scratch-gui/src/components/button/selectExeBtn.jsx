@@ -3,9 +3,14 @@ import classNames from 'classnames';
 import styles from './button.css';
 import Matrix from "./matrix.jsx";
 import SelectBox from "../../containers/selectBox.jsx";
+import Cirle from "./cirle.jsx";
+import yesIcon from "./icon--yes.svg";
+
+
+
 
 const SelectExeBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile } = props;
+    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress } = props;
     let refObj = useRef();
     let [flag, setFlag] = useState(false);
 
@@ -22,15 +27,15 @@ const SelectExeBtn = (props) => {
             setFlag(false);
         }
     }
-    
+
     const toggle = () => {
         setFlag(!flag);
     }
 
     const compile = () => {
-        if(completed) {
+        if (completed) {
             return;
-        }else {
+        } else {
             handleCompile();
         }
     }
@@ -40,14 +45,17 @@ const SelectExeBtn = (props) => {
             <div className={styles.selectExeBtnCon} >
                 <div className={classNames(styles.selectExeBox, "exe-box")} ref={refObj}>
                     <div className={styles.selectExeRound} onClick={toggle}>
-                        <span className={classNames(styles.selectExeBlock, styles.selectExeWrapper)}>
-                                <Matrix num={selectedExe.num} />
-                             </span>
+                        <span className={classNames(styles.selectExeBlock, styles.selectExeWrapper, isComplete ? styles.isCompleteHide: '')}>
+                            <div style={{ 'opacity': isComplete ? '0' : '1' }}>{completed ? <p className={classNames(styles.uploadP)}>{progress}%</p> : <Matrix num={selectedExe.num} />}</div>
+                            <Cirle completed={completed} />
+                            <img className={isComplete ? '' : styles.yesBtnSpin} src={yesIcon} />
+                        </span>
+
                     </div>
                     <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>
             </div>
-            
+
         </>
     );
 }
