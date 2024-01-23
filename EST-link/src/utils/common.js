@@ -36,7 +36,7 @@ class Common {
         this.flashList = new Array(2).fill(0);
         this.adcList;
         this.voice;
-this.initWatchDeviceList(8);
+        this.initWatchDeviceList(8);
     }
 
     /**
@@ -92,6 +92,23 @@ this.initWatchDeviceList(8);
         const eventList = this.electron.ipcMain.eventNames();
         !eventList.includes(eventName) && this.electron.ipcMain.on(eventName, (event, arg) => {
             return callback(event, arg);
+        });
+    }
+
+    /**
+     * 删除主进程的事件监听
+     * @param {String} listener 
+     */
+    removeAllMainListeners(listener) {
+        if (listener) {
+            this.electron.ipcMain.removeAllListeners(listener);
+            return;
+        }
+        const eventList = this.electron.ipcMain.eventNames();
+        eventList.map(el => {
+            if (listener === el) {
+                this.electron.ipcMain.removeAllListeners(el);
+            }
         });
     }
 
@@ -331,29 +348,46 @@ this.initWatchDeviceList(8);
         const arr = res.split('/').filter(Boolean);
         if (!arr && arr.length <= 0) return false;
         if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
+
+        const diffAttribute = (obj, objKey, target) => {
+            if (Array.isArray(obj) && Array.isArray(target)) {
+                if (obj.length === 0) {
+                    obj = [...target];
+                }
+                for (let i = 0; i < obj.length; i++) {
+                    if (obj[i] !== target[i]) {
+                        obj[i] = target[i];
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            obj[objKey] !== target ? obj[objKey] = target : null;
+        }
+
         switch (bit) {
             case 0xD8:
                 arr.slice(0, 8).map((item, i) => {
-                    this.watchDeviceList[i].port = i;
-                    this.watchDeviceList[i].deviceId = item;
-                    this.watchDeviceList[i].sensing_device = device[item];
+                    diffAttribute(this.watchDeviceList[i], 'port', i);
+                    diffAttribute(this.watchDeviceList[i], 'deviceId', item);
+                    diffAttribute(this.watchDeviceList[i], 'sensing_device', device[item]);
                     if (item == 0) this.clearWatchDeviceList(i);
                 });
                 break;
             case 0xD1:
-                this.gyroList = [...arr];
+                diffAttribute(this.gyroList, null, arr);
                 break;
             case 0xD4:
-                this.flashList = [...arr];
+                diffAttribute(this.flashList, null, arr);
                 break;
             case 0xD5:
-                this.adcList = arr[0];
+                if (this.adcList !== arr[0]) this.adcList = Math.floor((arr[0] * 151 / 51 - 7) / 1.4) * 100;
                 break;
             case 0xD7:
-                this.voice = arr[0];
+                if (this.voice !== arr[0]) this.voice = arr[0];
                 break;
             default:
-                this.checkSensingDevice([...arr], bit);
+                this.checkSensingDevice([...arr], bit, diffAttribute);
                 break;
         }
         return {
@@ -371,7 +405,7 @@ this.initWatchDeviceList(8);
      * @param {String} key 
      * @returns 
      */
-    checkSensingDevice(arr, key) {
+    checkSensingDevice(arr, key, diffAttribute) {
         if (this.watchDeviceList.length === 0) return;
         this.watchDeviceList.forEach(el => {
             if (el.deviceId === arr[0]) {
@@ -382,20 +416,20 @@ this.initWatchDeviceList(8);
         function _device(port, key, arr) {
             switch (key) {
                 case 0xD0:
-                    port.motor.direction = arr[1] == 1 ? '正转' : arr[1] == 2 ? '反转' : arr[1] == 3 ? '刹车' : '停止';
-                    port.motor.pwm = arr[2];
-                    port.motor.speed = arr[3];
-                    port.motor.aim_speed = arr[4];
+                    Object.keys(port.motor).map((item, index) => {
+                        diffAttribute(port.motor, item, arr[index]);
+                    });
                     break;
                 case 0xD6:
-                    port.color.rgb = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
-                    port.color.light_intensity = arr[4];
+                    const str = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
+                    diffAttribute(port.color, 'rgb', str);
+                    diffAttribute(port.color, 'light_intensity', arr[4]);
                     break;
                 case 0xD2:
-                    port.ultrasonic = Math.round(arr[1]);
+                    diffAttribute(port, 'ultrasonic', Math.round(arr[1]));
                     break;
                 case 0xD3:
-                    port.touch = arr[1];
+                    diffAttribute(port, 'touch', arr[1]);
                     break;
                 default:
                     break;

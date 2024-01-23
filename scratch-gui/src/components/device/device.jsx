@@ -57,11 +57,11 @@ const Device = (props) => {
                             </ul>
                         </div>
                         <div className={styles.midBox}>
-                            <p>电池电压</p>
+                            <p>电量</p>
                             <ul className={styles.midUl}>
                                 <li>
                                     <span>{adcList}</span>
-                                    <span>V</span>
+                                    <span>%</span>
                                 </li>
                             </ul>
                         </div>

@@ -228,6 +228,7 @@ class MenuBar extends React.Component {
             "reUpdateDriver"
         ]);
         this.timer = null;
+        this.closeTimer = null;
     }
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
@@ -480,10 +481,15 @@ class MenuBar extends React.Component {
             sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
+                const that = this;
                 if (arg.res) {
-                    this.props.onShowConnectAlert(arg.msg);
+                    clearTimeout(that.closeTimer);
+                    if (!this.props.peripheralName) that.props.onShowConnectAlert(arg.msg);
                 } else {
-                    this.handleDisconnect(arg.msg);
+                    that.scanConnection();
+                    that.closeTimer = setTimeout(() => {
+                        that.handleDisconnect(arg.msg);
+                    }, 2000);
                 }
             },
         });
@@ -498,8 +504,7 @@ class MenuBar extends React.Component {
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
         ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-        this.scanConnection();
-    }
+            }
 
     showDeviceCards() {
         if (!this.props.peripheralName) {
