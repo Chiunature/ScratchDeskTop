@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
 import { ipc as ipc_Renderer } from 'est-link';
 import styles from './card.css';
-import { ipcRender } from '../../utils/ipcRender.js';
+
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
@@ -136,6 +136,11 @@ const DeviceCards = props => {
     }
 
     const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        if (index === 0) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES });
+    }, [index]);
+
     const handleSelect = (i) => {
         if (i === 0) {
             handleStopWatch(true);
@@ -158,7 +163,7 @@ const DeviceCards = props => {
     }
     const handleDelExe = (item, e) => {
         e.stopPropagation();
-        ipcRender({
+        window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
         });
@@ -194,7 +199,7 @@ const DeviceCards = props => {
                             onShrinkExpandCards={onShrinkExpandCards}
                             handleSelect={handleSelect}
                         />
-                        <div className={classNames(expanded ? styles.stepBody : styles.hidden, 'input-wrapper')}>
+                        <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
                             {index === 1 && <Device {...props} />}
                             {index === 0 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
                         </div>

@@ -87,7 +87,7 @@ import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
-import { ipcInvoke, ipcRender } from "../../utils/ipcRender.js";
+
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 
@@ -423,7 +423,7 @@ class MenuBar extends React.Component {
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const { result, type } = await ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
 
             if (!result || (result.length === 0 || this.props.serialList.length >= result.length)) {
                 return;
@@ -476,7 +476,7 @@ class MenuBar extends React.Component {
 
     handleConnected(port) {
         if (!port) return;
-        ipcRender({
+        window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
@@ -503,7 +503,7 @@ class MenuBar extends React.Component {
         this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
-        ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
             }
 
     showDeviceCards() {
@@ -515,7 +515,7 @@ class MenuBar extends React.Component {
     }
 
     async reUpdateDriver() {
-        const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, 'reupdate');
+        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, 'reupdate');
         if (res) {
             this.props.onActivateDeck("install-drivers");
             localStorage.setItem('driver', res);

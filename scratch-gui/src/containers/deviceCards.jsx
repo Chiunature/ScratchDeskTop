@@ -6,7 +6,6 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import { ipcInvoke, delEvents } from "../utils/ipcRender.js";
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -36,7 +35,7 @@ class DeviceCards extends React.Component {
         this.initDeviceList();
         const that = this;
         this.timer = setInterval(() => {
-            that.watchDevice();
+            if(!that.state.stopWatch) that.watchDevice();
         }, 10);
     }
     componentDidUpdate(prevProps) {
@@ -46,7 +45,7 @@ class DeviceCards extends React.Component {
     }
     componentWillUnmount() {
         clearInterval(this.timer);
-        delEvents(ipc_Renderer.RETURN.DEVICE.WATCH);
+        window.myAPI.delEvents(ipc_Renderer.RETURN.DEVICE.WATCH);
         this.handleStopWatch(true);
     }
     //控制暂停监听
@@ -75,7 +74,7 @@ class DeviceCards extends React.Component {
 
     //开启监听
     async watchDevice() {
-        const result = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
+        const result = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
         if (!result) return;
         const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
         this.setState(() => ({ deviceObj }));

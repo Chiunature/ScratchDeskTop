@@ -32,50 +32,13 @@
  * @params : {sendName, sendParams, eventName, callback}
  */
 const { VERSION } = require('../config/json/LB_FWLIB.json');
-const { ipcRenderer } = window.electron;
-const fs = window.fs;
-const path = window.path;
-
-
-/**
- * 异步通信
- * @param {String} sendName 
- * @param {any} sendParams 
- * @returns {Promise}
- */
-async function ipcInvoke(sendName, sendParams) {
-    const result = await ipcRenderer.invoke(sendName, sendParams);
-    return result
-}
-
-/**
- * 渲染进程开启事件监听
- * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0 
- */
-function ipcRender({ sendName, sendParams, eventName, callback }) {
-    if (sendName) {
-        ipcRenderer.send(sendName, sendParams);
-    }
-    const eventList = ipcRenderer.eventNames();
-    if (eventName && !eventList.includes(eventName) && typeof callback === "function") {
-        ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
-    }
-}
-
-/**
- * 去掉渲染进程注册的事件监听
- * @param {String} eventName 
- */
-function delEvents(eventName) {
-    ipcRenderer.removeAllListeners([eventName]);
-}
 
 /**
  * 获取当前时间
  * @returns 
  */
 function getCurrentTime() {
-    return new Date().toLocaleString().replaceAll('/','-').replaceAll(':','-').replace(/\s/,'_');
+    return new Date().toLocaleString().replaceAll('/', '-').replaceAll(':', '-').replace(/\s/, '_');
 }
 
 /**
@@ -88,8 +51,8 @@ async function writeFileWithDirectory(directory, filepath, data) {
     if (fs.existsSync(directory)) {
         await fs.writeFileSync(filepath, data);
     } else {
-    fs.mkdir(directory, { recursive: true }, async () => {
-        await fs.writeFileSync(filepath, data);
+        fs.mkdir(directory, { recursive: true }, async () => {
+            await fs.writeFileSync(filepath, data);
         });
     }
 }
@@ -99,26 +62,12 @@ async function writeFileWithDirectory(directory, filepath, data) {
  * @param {String} error 
  */
 async function handlerError(error) {
-        const directory = './Error';
+    const directory = './Error';
     const time = getCurrentTime();
     const filepath = `${directory}/error_${time}.txt`;
     await writeFileWithDirectory(directory, filepath, error);
 }
 
-/**
- * 获取版本并对比是否需要更新
- * @param {String} data 
- * @param {String} path 
- * @returns 
- */
-function getVersion(data, vpath = path.join(window.process.cwd(), VERSION, '/Version.txt')) {
-    const version = fs.readFileSync(vpath, 'utf8');
-    if (data == version) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 /**
  * 把 dataURL 转成 blob
@@ -152,12 +101,8 @@ function hexToString(list) {
 }
 
 export {
-    ipcRender,
     handlerError,
-    getVersion,
     getCurrentTime,
-    delEvents,
     dataURLToBlob,
-    ipcInvoke,
     hexToString
 }

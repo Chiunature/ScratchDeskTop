@@ -38,7 +38,6 @@ import { ipc as ipc_Renderer } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
-import { ipcRender, delEvents, getVersion, ipcInvoke, hexToString } from "../utils/ipcRender.js";
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
@@ -50,7 +49,8 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
-            ipcRender({
+            //下载成功监听
+            window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onShowCompletedAlert(arg.msg);
@@ -67,27 +67,44 @@ class GUI extends React.Component {
                     }
                 },
             });
-            ipcRender({
+            //下载进度监听
+            window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
                 callback: (event, arg) => {
                     this.props.onSetProgress(arg);
                 },
             });
-            ipcRender({
+            //下载资源监听
+            window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
                 callback: (event, arg) => {
                     this.props.onSetSourceCompleted(false);
                     this.props.onSetVersion(true);
                     this.props.onShowCompletedAlert(arg.msg);
-                                    },
+                },
             });
-            ipcRender({
+            //获取主机版本监听
+            window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.VERSION,
                 callback: (event, arg) => {
-                    const  wareVersion = hexToString(arg.slice(5, arg.length - 2));
-                    const version = getVersion(wareVersion);
+                    const version = window.myAPI.getVersion(arg);
                     this.props.onSetVersion(version);
-                    delEvents(ipc_Renderer.RETURN.VERSION);
+                    window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
+                }
+            });
+            //获取主机文件监听
+            window.myAPI.ipcRender({
+                eventName: ipc_Renderer.RETURN.EXE.FILES,
+                callback: (event, arg) => {
+                    const list = arg.split('/').filter(Boolean);
+                    const exeList = list.map((el, index) => {
+                        return {
+                            name: el.replace('.bin', ''),
+                            num: index,
+                            checked: index === 0 ? true : false
+                        }
+                    });
+                    this.props.onSetExelist(exeList);
                 }
             });
             this.checkDriver();
@@ -109,13 +126,13 @@ class GUI extends React.Component {
     componentWillUnmount() {
         const eventList = window.electron.ipcRenderer.eventNames();
         eventList.map(item => {
-            delEvents(item);
+            window.myAPI.delEvents(item);
         });
     }
 
     async checkDriver() {
         const driver = localStorage.getItem('driver');
-        const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
+        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
         if (res) {
             this.props.onActivateDeck("install-drivers");
             localStorage.setItem('driver', res);
@@ -284,7 +301,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onActivateTab: (tab) => {
         dispatch(activateTab(tab));
-            },
+    },
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),
     onRequestCloseBackdropLibrary: () => dispatch(closeBackdropLibrary()),

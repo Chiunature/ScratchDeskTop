@@ -9,7 +9,7 @@ import { showFileStytem } from '../reducers/file-stytem.js';
 import { setProjectTitle } from '../reducers/project-title.js';
 
 import sharedMessages from '../lib/shared-messages.js';
-import { dataURLToBlob, ipcInvoke } from '../utils/ipcRender.js';
+import { dataURLToBlob } from '../utils/ipcRender.js';
 import {ipc as ipc_Renderer} from 'est-link';
 
 class FileSystemHoc extends Component {
@@ -83,7 +83,7 @@ class FileSystemHoc extends Component {
     handleDeleteRecord(index, e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE).then(res => {
+        window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE).then(res => {
             if (res === 1) {
                 this.state.fileList.splice(index, 1);
                 localStorage.setItem('file', JSON.stringify(this.state.fileList));

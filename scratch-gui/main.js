@@ -40,7 +40,7 @@ const updateUrl = `${server}/update/${process.platform}/`;
 const options = {
     nativeWindowOpen: true,
     nodeIntegration: true,
-    contextIsolation: false,
+    contextIsolation: true,
     javascript: true,
     plugins: true,
     webSecurity: false,

@@ -3,7 +3,8 @@
         "WATCH": "Watch_Device"
     },
     "EXE": {
-        "DELETE": "Delete_Exe"
+        "DELETE": "Delete_Exe",
+        "FILES": "Get_FilesOfExe"
     },
     "BOOT": {
         "BIN": "Boot_Bin",

@@ -23,15 +23,12 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError, ipcRender } from "./ipcRender";
+import { handlerError } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
-import { DIR, APLICATION } from "../config/json/LB_USER.json";
+import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer } from "est-link"
 
-const fs = window.fs;
-const { spawn } = window.child_process;
-const cpus = window.os.cpus();
 
 const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?vTaskExit\(\d+\)\;\s*\}/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;/;
@@ -43,63 +40,9 @@ class Compile {
         // this.filesIndex = 0;
         // this.filesObj = {};
         this.startSend = true;
-        this.eventName;
-        this.progress;
-    }
-
-
-    /**
-     * 将c语言代码写入文件
-     * @param {String} path 
-     * @param {String} type 
-     * @returns 
-     */
-    writeFiles(path, type) {
-        try {
-            fs.writeFileSync(path, type);
-            return true;
-        } catch (error) {
-            handlerError(error);
-            return false;
         }
-    }
 
-    /**
-     * 读取文件内容
-     * @param {String} path 
-     * @param {String} type 
-     * @returns 
-     */
-    readFiles(path, type) {
-        try {
-            const data = fs.readFileSync(path, type);
-            return data;
-        } catch (error) {
-            handlerError(error);
-            return false;
-        }
-    }
-
-    /**
-     * 调用编译命令
-     * @returns 
-     */
-    async commendMake() {
-        return new Promise((resolve, reject) => {
-            let errStr = '';
-            this.progress = spawn('make', [`-j${cpus ? cpus.length * 2 : '99'}`, '-C', './LB_USER'], { cwd: DIR });
-
-            this.progress.stderr.on('data', (err) => errStr += err.toString());
-
-            this.progress.on('close', (code, signal) => {
-                if (code === 0) {
-                    resolve(true);
-                } else {
-                    reject(errStr);
-                }
-            });
-        });
-    }
+    
 
     /**
      * 根据正则去修改文件特定内容
@@ -138,7 +81,7 @@ class Compile {
      */
     async handleCode(codeStr, taskStr, myStr) {
         //读取Aplication.c文件
-        const result = this.readFiles(APLICATION, { encoding: 'utf8' });
+        const result = window.myAPI.readFiles(APLICATION, { encoding: 'utf8' });
         //自制积木块放入前面
         const myCode = headMain(myStr);
         const newMy = await this.changeFileByReg(result, reg_main, myCode);
@@ -148,7 +91,7 @@ class Compile {
         const taskIntoStr = Task_Info(taskStr);
         const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
-        const writeAppRes = this.writeFiles(APLICATION, newTaskInto);
+        const writeAppRes = window.myAPI.writeFiles(APLICATION, newTaskInto);
         return writeAppRes;
     }
 
@@ -171,15 +114,14 @@ class Compile {
 
         const appRes = await this.handleCode(codeStr, taskStr, myBlock);
 
-        if (this.progress && this.progress.exitCode !== 0) this.progress.kill('SIGKILL');
-
         //编译
         if (appRes) {
-            this.commendMake().then(() => {
-                ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
-            }).catch(e => {
-                handlerError(e);
-                ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
+            window.myAPI.commendMake().then(() => {
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+            }).catch(err => {
+                console.log(err);
+                handlerError(err);
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
             });
         }
     }
@@ -194,12 +136,12 @@ class Compile {
      */
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === SOURCE) {
-            ipcRender({
+            window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                 sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
-                    ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });
+                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });
                 }
             });
         } else {

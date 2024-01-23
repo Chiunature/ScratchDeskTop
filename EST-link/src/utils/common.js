@@ -381,7 +381,11 @@ class Common {
                 diffAttribute(this.flashList, null, arr);
                 break;
             case 0xD5:
-                if (this.adcList !== arr[0]) this.adcList = Math.floor((arr[0] * 151 / 51 - 7) / 1.4) * 100;
+                if (this.adcList !== arr[0]) {
+                    const res = ((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2);
+                    if (res >= 1) res = 1;
+                    this.adcList = res * 100;
+                }
                 break;
             case 0xD7:
                 if (this.voice !== arr[0]) this.voice = arr[0];

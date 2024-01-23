@@ -185,6 +185,10 @@
     min-height: 256px;
 }
 
+.step-device-body {
+    min-height: fit-content;
+}
+
 .step-video {
     height: 256px;
 }

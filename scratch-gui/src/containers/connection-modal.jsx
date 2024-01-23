@@ -19,7 +19,7 @@ import {
     clearConnectionModalPeripheralName,
     getSerialList
 } from "../reducers/connection-modal";
-import { ipcInvoke, ipcRender } from "../utils/ipcRender.js";
+
 import { SOURCE, SERIALPORT } from "../config/json/verifyTypeConfig.json";
 import { ipc as ipc_Renderer } from "est-link";
 
@@ -104,7 +104,7 @@ class ConnectionModal extends React.Component {
             this.props.onSetIsConnectedSerial(false);
             this.props.onShowDisonnectAlert(msg);
             // this.props.onCancel();
-            ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         }
     }
 
@@ -151,7 +151,7 @@ class ConnectionModal extends React.Component {
     handleConnected() {
         if (!this.props.port) return;
         this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
-        ipcRender({
+        window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: this.props.port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
@@ -184,7 +184,7 @@ class ConnectionModal extends React.Component {
 
     async handleUpdate() {
         if (this.props.version) {
-            const res = await ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION);
+            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION);
             if (res === 0) {
                 return;
             }

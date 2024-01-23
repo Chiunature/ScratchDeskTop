@@ -20,6 +20,12 @@ const { verifyActions, distinguish, verifyBinType } = require("../config/js/veri
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
+
+const instruct = {
+    version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
+    files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5]
+}
+
 class Serialport extends Common {
 
     constructor(...args) {
@@ -80,6 +86,8 @@ class Serialport extends Common {
         }
         //开启读取数据监听
         this.handleRead("readable", event);
+        //开启获取主机版本监听
+        this.getVersion(event);
         //开启串口关闭监听
         this.listenPortClosed("close", event);
         //开启断开连接监听
@@ -90,10 +98,10 @@ class Serialport extends Common {
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
         //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
-        //开启获取主机版本监听
-        this.getVersion(event);
         //开启设备数据监控监听
         this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
+        //开启获取主机文件监听
+        this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
     }
 
     /**
@@ -178,7 +186,6 @@ class Serialport extends Common {
         this.port.on(eventName, () => {
             event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
             this.clearCache();
-            this.electron.ipcMain.removeHandler(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
         });
     }
 
@@ -236,7 +243,7 @@ class Serialport extends Common {
         this.deleteObj(this.files, this.filesObj);
         this.receiveDataBuffer = [];
         this.timeOutTimer = null;
-        this.verifyType= null;
+        this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;
     }
@@ -309,9 +316,7 @@ class Serialport extends Common {
      * @returns 
      */
     catchData(data) {
-        if (!this.sign || !data) {
-            return;
-        }
+        if (!data) return;
         //将接收到的数据转成buffer数组
         const list = this.getBufferArray(data);
         const start = list.indexOf(0x5a);
@@ -372,7 +377,14 @@ class Serialport extends Common {
      * @param {*} event 
      */
     getVersion(event) {
-        this.writeData([0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5], signType.VERSION, event);
+        this.writeData(instruct.version, signType.VERSION, event);
+    }
+    /**
+     * 获取主机有多少个程序
+     * @param {*} event 
+     */
+    getAppExe(eventName) {
+        this.ipcMain(eventName, (event, arg) => this.writeData(instruct.files, signType.EXE.FILES, event));
     }
 
     /**

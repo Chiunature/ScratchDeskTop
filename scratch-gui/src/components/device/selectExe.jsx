@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styles from './device.css';
-import dragImg from './drag.svg';
+// import dragImg from './drag.svg';
 import delImg from './delete.svg';
 import downloadImg from './download.svg';
 
@@ -37,7 +37,7 @@ const SelectExe = (props) => {
         handleCompile();
     }
 
-    const swapEl = (currentIndex, targetIndex) => {
+    /* const swapEl = (currentIndex, targetIndex) => {
         const newList = [...exeList];
         [newList[currentIndex], newList[targetIndex]] = [newList[targetIndex], newList[currentIndex]];
         onSetExelist(newList);
@@ -76,10 +76,10 @@ const SelectExe = (props) => {
     const dragEndUl = () => {
         if (currentLi) currentLi.classList.remove('moving');
         localStorage.setItem('exeList', JSON.stringify(cacheList));
-    }
+    } */
 
     return (
-        <ul className={styles.selExe} ref={refUl} onDragStart={dragStartUl} onDragEnter={dragEnterUl} onDragOver={dragOverUl} onDragEnd={dragEndUl}>
+        <ul className={styles.selExe} ref={refUl}>
             {exeList.map((item, index) => {
                 return (
                     <li className={completed ? styles.ban : ''} key={item.num} draggable onClick={() => handleSelectExe(item, index)}>
@@ -90,7 +90,7 @@ const SelectExe = (props) => {
                         <div className={styles.img}>
                             <img src={downloadImg} onClick={() => download(item)} />
                             <img src={delImg} onClick={(e) => handleDelExe(item, e)} />
-                            <img src={dragImg}/>
+                            {/* <img src={dragImg}/> */}
                         </div>
                     </li>
                 )

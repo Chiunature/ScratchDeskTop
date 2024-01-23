@@ -36,21 +36,21 @@ const signType = require("../json/communication/sign.json");
  */
 function verifyActions(sign, recevieObj, event) {
     const { data } = recevieObj;
+const text = new TextDecoder();
     switch (sign) {
-        /* case signType.DEVICE.WATCH:     //设备数据监听
-            event.reply(ipc_Main.RETURN.DEVICE.WATCH, recevieObj);
-            return false; */
-        case signType.VERSION:          //主机版本
-            if (data.indexOf(0xEA) !== -1) {
-                event.reply(ipc_Main.RETURN.VERSION, data);
+        case signType.EXE.FILES:
+            if(data.indexOf(0xE7) !== -1) {
+                const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
+                event.reply(ipc_Main.RETURN.EXE.FILES, names);
             }
             return false;
-        /* case signType.EXE.DELETE:       //程序删除
-            if(data.indexOf(0xE8) !== -1) {
-                event.reply(ipc_Main.RETURN.EXE.DELETE, true);
+        case signType.VERSION:          //主机版本
+            if (data.indexOf(0xEA) !== -1) {
+                const version = text.decode(Buffer.from(data.slice(5, data.length - 2)));
+                event.reply(ipc_Main.RETURN.VERSION, version);
             }
-            return false; */
-        case signType.BOOT.FILENAME:    //文件名
+            return false;
+                case signType.BOOT.FILENAME:    //文件名
         case signType.BOOT.BIN:         //文件数据
             let obj = {};
             obj[sign] = () => {
@@ -138,7 +138,7 @@ function verifyBinType(options) {
     let data, name;
     const { verifyType, selectedExe, files, filesIndex } = options;
     const { path, fs, process } = this;
-    const root = process.cwd();
+    const root = '';
     switch (verifyType) {
         case SOURCE_MUSIC:
             const music = _readdirForSource(path.join(root, MUSIC), files, filesIndex);
