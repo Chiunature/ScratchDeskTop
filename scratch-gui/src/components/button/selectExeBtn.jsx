@@ -41,22 +41,18 @@ const SelectExeBtn = (props) => {
     }
 
     return (
-        <>
-            <div className={styles.selectExeBtnCon} >
-                <div className={classNames(styles.selectExeBox, "exe-box")} ref={refObj}>
-                    <div className={styles.selectExeRound} onClick={toggle}>
-                        <span className={classNames(styles.selectExeBlock, styles.selectExeWrapper, isComplete ? styles.isCompleteHide: '')}>
-                            <div style={{ 'opacity': isComplete ? '0' : '1' }}>{completed ? <p className={classNames(styles.uploadP)}>{progress}%</p> : <Matrix num={selectedExe.num} />}</div>
-                            <Cirle completed={completed} />
-                            <img className={isComplete ? '' : styles.yesBtnSpin} src={yesIcon} />
-                        </span>
-
+        <div className={styles.selectExeBtnCon} >
+            <div className={classNames(styles.selectExeBox, "exe-box")} ref={refObj}>
+                <div className={styles.selectExeRound}>
+                    <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, isComplete ? styles.isCompleteHide : '')}>
+                        <div onClick={toggle} style={{ 'opacity': isComplete ? '0' : '1' }}>{completed ? <p className={classNames(styles.uploadP)}>{progress}%</p> : <Matrix num={selectedExe.num} />}</div>
+                        <Cirle completed={completed} />
+                        <img className={isComplete ? '' : styles.yesBtnSpin} src={yesIcon} />
                     </div>
-                    <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
                 </div>
+                <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
             </div>
-
-        </>
+        </div>
     );
 }
 

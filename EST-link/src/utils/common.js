@@ -382,7 +382,7 @@ class Common {
                 break;
             case 0xD5:
                 if (this.adcList !== arr[0]) {
-                    const res = ((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2);
+                    let res = ((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2);
                     if (res >= 1) res = 1;
                     this.adcList = res * 100;
                 }

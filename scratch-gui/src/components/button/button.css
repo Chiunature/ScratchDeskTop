@@ -172,7 +172,9 @@
     }
 }
 
-.upload-btn, .select-exe-btn-con, .stop-btn {
+.upload-btn,
+.select-exe-btn-con,
+.stop-btn {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -181,6 +183,7 @@
     place-items: center;
     align-content: center;
     transition: 0.5s ease-in-out;
+    z-index: 30;
 }
 
 .select-exe-btn {
@@ -235,6 +238,7 @@
 }
 
 .yes-btn-spin {
+    z-index: 20;
     opacity: 0;
     /* transform: rotateY(-360deg); */
     /* animation: hiding 1s linear; */
@@ -307,6 +311,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     transition: all 1s;
+    z-index: -1;
 }
 
 .select-exe-round .select-exe-block:not(.select-exe-wrapper) {
@@ -345,6 +350,6 @@
     background: linear-gradient(90deg, var(--motion-primary) 0, #57bd38 0);
 }
 
-.displayHide{
+.displayHide {
     display: none;
 }

@@ -56,10 +56,12 @@ class GUI extends React.Component {
                     this.props.onShowCompletedAlert(arg.msg);
                     if (arg.result) {
                         this.props.onSetIsComplete(true);
-                        setTimeout(() => {
+                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES });
+                        let time = setTimeout(() => {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
                             this.props.onSetProgress(0);
+                            clearTimeout(time);
                         }, 2000);
                     } else {
                         this.props.onSetCompleted(false);
@@ -98,9 +100,10 @@ class GUI extends React.Component {
                 callback: (event, arg) => {
                     const list = arg.split('/').filter(Boolean);
                     const exeList = list.map((el, index) => {
+                        const current = el.indexOf('_');
                         return {
                             name: el.replace('.bin', ''),
-                            num: index,
+                            num: el.slice(0, current),
                             checked: index === 0 ? true : false
                         }
                     });

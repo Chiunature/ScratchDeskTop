@@ -8,8 +8,8 @@ import downloadImg from './download.svg';
 const SelectExe = (props) => {
     const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch, handleDelExe } = props;
     let [timer, setTimer] = useState(null);
-    let [currentLi, setCurrentLi] = useState(null);
-    let [cacheList, setCacheList] = useState([]);
+    // let [currentLi, setCurrentLi] = useState(null);
+    // let [cacheList, setCacheList] = useState([]);
     let refObj = useRef({});
     let refUl = useRef();
 
@@ -83,7 +83,7 @@ const SelectExe = (props) => {
             {exeList.map((item, index) => {
                 return (
                     <li className={completed ? styles.ban : ''} key={item.num} draggable onClick={() => handleSelectExe(item, index)}>
-                        <div><input type='radio' checked={item.checked} readOnly />{index}</div>
+                        <div><input type='radio' checked={item.checked} readOnly />{item.num}</div>
                         <div className={styles.edit}>
                             <input className={item.checked ? styles.check : ''} type='text' disabled={!item.checked} ref={(c) => refObj.current[index] = c} defaultValue={item.name} onChange={handleInpChange} />
                         </div>
