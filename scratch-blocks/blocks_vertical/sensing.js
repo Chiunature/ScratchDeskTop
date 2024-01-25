@@ -28,6 +28,25 @@ goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 
+/* Blockly.Blocks['sensing_card'] = {
+  init: function () {
+      this.jsonInit({
+          "type": "sensing_card",
+          "message0": "%1",
+          "args0": [
+              {
+                  "type": "input_value",
+                  "name": "COLOR"
+              },
+          ],
+          "category": Blockly.Categories.sensing,
+          "colour": "#9966FF",
+          "secondaryColour": "#774DCB",
+          "extensions": ["colours_pen", "colours_sensing", "output_boolean"],
+      });
+  }
+};
+ */
 Blockly.Blocks['sensing_touchingobject'] = {
   /**
    * Block to Report if its touching a Object.
@@ -581,6 +600,7 @@ Blockly.Blocks['sensing_menu'] = {
           "name": "SENSING_MENU",
           "options": [
             ["A", "A"],
+            ["B", "B"],
             ["C", "C"],
             ["D", "D"],
             ["E", "E"],

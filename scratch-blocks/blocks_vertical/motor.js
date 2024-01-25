@@ -7,6 +7,31 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
+Blockly.Blocks['motor_box'] = {
+    /**
+     * Block for colour card.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_motor",
+                    "name": "MOTOR",
+                    "motorList": ["A", "B", "C", "D", "E", "F", "G", "H"]
+                }
+            ],
+            "category": Blockly.Categories.motor,
+            "colour": Blockly.Colours.motor.primary,
+            "colourSecondary": Blockly.Colours.motor.secondary,
+            "colourTertiary": Blockly.Colours.motor.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
+
+
 Blockly.Blocks['motor_menu'] = {
     /**
      * Block to move steps.
@@ -21,6 +46,7 @@ Blockly.Blocks['motor_menu'] = {
                     "name": "MOTOR_MENU",
                     "options": [
                         ["A", "A"],
+["B", "B"],
                         ["C", "C"],
                         ["D", "D"], 
                         ["E", "E"], 

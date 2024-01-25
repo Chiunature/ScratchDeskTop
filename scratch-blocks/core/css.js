@@ -250,7 +250,8 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.blocklyDropDownContent {',
-  'max-height: 300px;', // @todo: spec for maximum height.
+  // 'max-height: 300px;',
+  'height: fit-content;', // @todo: spec for maximum height.
   'overflow: auto;',
   '}',
 
@@ -1155,7 +1156,7 @@ Blockly.Css.CONTENT = [
 'display: flex;',
   'min-width: 100px;',
   'justify-content: center;',
-  'align-item: center',
+  'align-items: center',
   '}',
 
   /* BiDi override for the resting state. */
@@ -1470,6 +1471,132 @@ Blockly.Css.CONTENT = [
     'border: 2px solid white;',
     'border-radius: 5px;',
     'box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);',
-  '}'
+  '}',
+
+  '.lls-port-selector {',
+  'font-family: var(--font-family);',
+  '-webkit-user-select: none;',
+  'user-select: none;',
+  'width: 472px;',
+  'height: fit-content;',
+  '}',
+
+  '.lls-port-selector--no-motors {',
+  'width: 290px;',
+  '}',
+
+  '.lls-port-selector__hub-wrapper {',
+  'display: flex;',
+  'justify-content: space-evenly;',
+  'padding-bottom: 25px;',
+  '}',
+
+  '.lls-port-selector--type-flipper .lls-port-selector__hub {',
+  'position: relative;',
+  'margin-top: 34px;',
+  'height: 300px;',
+  'width: 200px;',
+  'border: 2px solid #000;',
+  'border-radius: 13px;',
+  'box-sizing: content-box;',
+  '}',
+
+  '.lls-port-selector__sensors--left {',
+  'left: 0;',
+  '}',
+
+  '.lls-port-selector__sensors {',
+  'height: 154px;',
+  'width: 72px;',
+  'position: absolute;',
+  'top: 20px;',
+  'display: flex;',
+  'flex-direction: column;',
+  'justify-content: space-between;',
+  '}',
+
+  '.lls-port-selector__sensors--right {',
+  'right: 0;',
+  '}',
+
+  '.lls-port-selector__sensors--right .sensor-port-pair {',
+  'flex-direction: row;',
+  '}',
+
+  '.lls-port-selector .sensor-port-pair--dimmed {',
+  'opacity: .6;',
+  '}',
+
+  '.lls-port-selector .sensor-port-pair {',
+  'display: flex;',
+  'width: 72px;',
+  'justify-content: flex-end;',
+  'align-items: center;',
+  'color: #000;',
+  'border-color: #000;',
+  '}',
+
+  '.lls-port-selector--type-flipper .lls-port-selector__hub::after, .lls-port-selector--type-flipper .lls-port-selector__hub::before {',
+  'content: "";',
+  'border: 2px solid #000;',
+  'position: absolute;',
+  'bottom: 18px;',
+  'height: 31px;',
+  'width: 31px;',
+  'left: 50%;',
+  'border-radius: 50%;',
+  'opacity: .6;',
+  'transform: translateX(-50%);',
+  '}',
+
+  '.lls-port-selector--type-flipper .lls-port-selector__hub::before {',
+  'height: 41px;',
+  'width: 41px;',
+  'margin-bottom: -5px;',
+  '}',
+
+  '.lls-port-selector__sensors--left .sensor-port-pair {',
+  'flex-direction: row-reverse;',
+  '}',
+  
+  '.lls-port-selector .sensor-port-pair__port-button {',
+  'display: flex;',
+  'justify-content: center;',
+  'border: #000;',
+  'border-style: solid;',
+  'border-radius: 2px;',
+  'border-width: 2px;',
+  'width: 34px;',
+  'height: 46px;',
+  'vertical-align: middle;',
+  'text-align: center;',
+  'align-items: center;',
+  'font-size: 16px;',
+  'line-height: 20px;',
+  'letter-spacing: -0.6px;',
+  'font-weight: 700;',
+  'cursor: pointer;',
+  'margin: 5px 0;',
+  '}',
+
+  '.lls-port-selector__sensors--left .sensor-port-pair__port-button {',
+  'border-top-right-radius: 5px;',
+  'border-bottom-right-radius: 5px;',
+  'border-left: 0;',
+  '}',
+
+  '.lls-port-selector__sensors--right .sensor-port-pair__port-button {',
+    'border-top-left-radius: 5px;',
+    'border-bottom-left-radius: 5px;',
+    'border-right: 0;',
+  '}',
+
+  '.lls-port-selector .sensor-port-pair--selected {',
+  'opacity: 1;',
+  '}',
+
+  '.lls-port-selector .button.selected {',
+  'background: #000;',
+  '}',
 ];
 
