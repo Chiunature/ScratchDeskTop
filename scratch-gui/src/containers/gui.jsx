@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import VM from "scratch-vm";
+import ScratchBlocks from 'scratch-blocks';
 import { injectIntl, intlShape } from "react-intl";
 import extensionLibraryContent from '../lib/libraries/extensions/index.jsx';
 import ErrorBoundaryHOC from "../lib/error-boundary-hoc.jsx";
@@ -110,6 +111,21 @@ class GUI extends React.Component {
                     this.props.onSetExelist(exeList);
                 }
             });
+
+            let FieldMotor;
+            window.myAPI.ipcRender({
+                eventName: ipc_Renderer.RETURN.DEVICE.PORT,
+                callback: (event, data) => {
+                    if(!ScratchBlocks.FieldMotor.proxy) return;
+                    if(ScratchBlocks.FieldMotor.postList && ScratchBlocks.FieldMotor.postList.length > 0) {
+                        const flag = data.find((el) => (!ScratchBlocks.FieldMotor.postList.includes(el)));
+                        if(!flag) return;
+                    }
+                    if(!FieldMotor) FieldMotor = ScratchBlocks.FieldMotor.proxy();
+                    FieldMotor.postList = [...data];
+                }
+            }); 
+
             this.checkDriver();
         }
     }
