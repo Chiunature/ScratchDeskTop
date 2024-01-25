@@ -1502,7 +1502,8 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.lls-port-selector__sensors--left {',
-  'left: 0;',
+  'left: -2px;',
+  'transform: translateX(-50%);',
   '}',
 
   '.lls-port-selector__sensors {',
@@ -1516,7 +1517,8 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.lls-port-selector__sensors--right {',
-  'right: 0;',
+  'right: -2px;',
+  'transform: translateX(50%);',
   '}',
 
   '.lls-port-selector__sensors--right .sensor-port-pair {',
@@ -1530,7 +1532,7 @@ Blockly.Css.CONTENT = [
   '.lls-port-selector .sensor-port-pair {',
   'display: flex;',
   'width: 72px;',
-  'justify-content: flex-end;',
+  'justify-content: space-between;',
   'align-items: center;',
   'color: #000;',
   'border-color: #000;',
@@ -1597,6 +1599,11 @@ Blockly.Css.CONTENT = [
 
   '.lls-port-selector .button.selected {',
   'background: #000;',
+  '}',
+
+  '.lls-dsm-icon svg, .lls-dsm-icon use {',
+  'width: 100%;',
+  'height: auto;',
   '}',
 ];
 

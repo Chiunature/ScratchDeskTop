@@ -16,7 +16,8 @@ Blockly.FieldMotor = function (motorList, opt_validator) {
 };
 goog.inherits(Blockly.FieldMotor, Blockly.Field);
 
-
+Blockly.FieldMotor.portList = [];
+Blockly.FieldMotor.proxy = null;
 /**
  * Construct a FieldMotor from a JSON arg object.
  * @param {!Object} options A JSON object with options (colour).
@@ -27,6 +28,8 @@ goog.inherits(Blockly.FieldMotor, Blockly.Field);
 Blockly.FieldMotor.fromJson = function (options) {
     return new Blockly.FieldMotor(options['motorList']);
 };
+
+Blockly.FieldMotor.prototype.btnList = null;
 
 Blockly.FieldMotor.prototype.init = function (block) {
     if (this.fieldGroup_) {
@@ -89,20 +92,20 @@ Blockly.FieldMotor.prototype.setValue = function (motor) {
 
 Blockly.FieldMotor.prototype.setText = function (text) {
     if (text === null || text === this.text_) {
-      // No change if null.
-      return;
+        // No change if null.
+        return;
     }
     this.text_ = text;
     this.updateTextNode_();
-  
+
     if (this.textElement_) {
-      this.textElement_.parentNode.appendChild(this.arrow_);
+        this.textElement_.parentNode.appendChild(this.arrow_);
     }
     if (this.sourceBlock_ && this.sourceBlock_.rendered) {
-      this.sourceBlock_.render();
-      this.sourceBlock_.bumpNeighbours_();
+        this.sourceBlock_.render();
+        this.sourceBlock_.bumpNeighbours_();
     }
-  };
+};
 
 Blockly.FieldMotor.prototype.positionArrow = function (x) {
     if (!this.arrow_) {
@@ -156,7 +159,7 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
             btn.setAttribute('class', 'button sensor-port-pair__port-button');
             btn.setAttribute('role', 'button');
             btn.setAttribute('data-testid', 'button-' + list[i]);
-            if(this.motor_ === list[i]) {
+            if (this.motor_ === list[i]) {
                 btn.classList.add('selected');
                 btn.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
             }
@@ -164,10 +167,8 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
             motor.appendChild(btn);
             box.appendChild(motor);
         }
-
         return box;
     }
-
     const left = createMotorListDom_(this.leftList, 'left');
     const right = createMotorListDom_(this.rightList, 'right');
     hub.appendChild(left);
@@ -179,22 +180,33 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
             for (let i = 0; i < btnList.length; i++) {
                 const element = btnList[i];
                 const child = element.firstChild;
-                if(element === dom) {
+                if (element === dom) {
                     child.classList.add('selected');
                     child.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
                     this.setValue(child.innerHTML);
-                }else {
+                } else {
                     child.classList.remove('selected');
                     child.removeAttribute('style');
                 }
             }
         }
     }
-
     for (let i = 0; i < btnList.length; i++) {
         const element = btnList[i];
         handleClick_(element);
     }
+
+    Blockly.FieldMotor.proxy = function () {
+        return new Proxy(Blockly.FieldMotor, {
+            get(target, key) {
+                return Reflect.get(target, key);
+            },
+            set(target, key, value) {
+                target[key] = value;
+                return true;
+            }
+        });
+    };
 
     return div;
 };
@@ -211,14 +223,16 @@ Blockly.FieldMotor.prototype.showEditor_ = function () {
     Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
     Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
-    // Set value updates the slider positions
-    // Do this before attaching callbacks to avoid extra events from initial set
     this.setValue(this.getValue());
 
 };
 
 Blockly.FieldMotor.prototype.dispose = function () {
     this.motor_ = null;
+    this.motorList = null;
+    this.rightList = null;
+    this.leftList = null;
+    Blockly.FieldMotor.proxy = null;
     Blockly.Events.setGroup(false);
     Blockly.FieldMotor.superClass_.dispose.call(this);
 };

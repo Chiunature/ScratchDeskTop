@@ -17,7 +17,8 @@
         },
         "DEVICE": {
             "WATCH": "watchDevice",
-            "CHECK": "checkDriver"
+            "CHECK": "checkDriver",
+            "PORT": "getPortDevice"
         },
         "ERROR": {
             "TRANSMISSION": "transmission-error"
@@ -42,7 +43,8 @@
         },
         "DEVICE": {
             "WATCH": "return_watchDevice",
-            "CHECK": "return_installDriver"
+            "CHECK": "return_installDriver",
+            "PORT": "return_getPortDevice"
         },
         "COMMUNICATION": {
             "BIN": {

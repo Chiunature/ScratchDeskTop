@@ -99,7 +99,7 @@ class Serialport extends Common {
         //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
         //开启设备数据监控监听
-        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
+        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH, event);
         //开启获取主机文件监听
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
     }
@@ -252,10 +252,10 @@ class Serialport extends Common {
      * 监听设备信息
      * @param {String} eventName 
      */
-    watchDevice(eventName) {
-        this.ipcHandle(eventName, (event, data) => {
+    watchDevice(eventName, event) {
+        this.ipcHandle(eventName, (e, data) => {
             if (data.stopWatch) return false;
-            const result = this.distinguishDevice(this.receiveObj);
+            const result = this.distinguishDevice(this.receiveObj, event);
             return result;
         });
     }

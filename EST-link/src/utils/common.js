@@ -339,7 +339,7 @@ class Common {
          * @param {Object} receiveObj 
          * @returns 
          */
-    distinguishDevice(receiveObj) {
+    distinguishDevice(receiveObj, event) {
         const { data, bit } = receiveObj;
         if (!data) return false;
         const text = new TextDecoder();
@@ -367,12 +367,14 @@ class Common {
 
         switch (bit) {
             case 0xD8:
-                arr.slice(0, 8).map((item, i) => {
+                const list = arr.slice(0, 8);
+                list.map((item, i) => {
                     diffAttribute(this.watchDeviceList[i], 'port', i);
                     diffAttribute(this.watchDeviceList[i], 'deviceId', item);
                     diffAttribute(this.watchDeviceList[i], 'sensing_device', device[item]);
                     if (item == 0) this.clearWatchDeviceList(i);
                 });
+                event.reply(ipc_Main.RETURN.DEVICE.PORT, [...list]);
                 break;
             case 0xD1:
                 diffAttribute(this.gyroList, null, arr);
@@ -381,11 +383,9 @@ class Common {
                 diffAttribute(this.flashList, null, arr);
                 break;
             case 0xD5:
-                if (this.adcList !== arr[0]) {
-                    let res = ((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2);
-                    if (res >= 1) res = 1;
-                    this.adcList = res * 100;
-                }
+                let res = (((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2)) * 100;
+                if (res >= 100) res = 100;
+                if (this.adcList !== res) this.adcList = res;
                 break;
             case 0xD7:
                 if (this.voice !== arr[0]) this.voice = arr[0];
