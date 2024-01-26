@@ -46,7 +46,7 @@ import { activateDeck } from "../reducers/cards.js";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        this.timer = null;
+        this.watchDeviceTimer = null;
         this.state = {
             deviceObj: {
                 deviceList: [],
@@ -130,7 +130,7 @@ class GUI extends React.Component {
             });
 
             const that = this;
-            this.timer = setInterval(() => {
+            this.watchDeviceTimer = setInterval(() => {
                 if (this.props.peripheralName && !that.state.stopWatch) that.watchDevice();
             }, 10);
 
@@ -164,7 +164,7 @@ class GUI extends React.Component {
         eventList.map(item => {
             window.myAPI.delEvents(item);
         });
-        clearInterval(this.timer);
+        clearInterval(this.watchDeviceTimer);
         this.handleStopWatch(true);
     }
     

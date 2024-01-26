@@ -254,7 +254,7 @@ class Serialport extends Common {
      */
     watchDevice(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            if (data.stopWatch) return false;
+            if (data.stopWatch || !this.receiveObj) return false;
             const result = this.distinguishDevice(this.receiveObj, event);
             event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
         });
