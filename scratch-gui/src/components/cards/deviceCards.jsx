@@ -142,11 +142,6 @@ const DeviceCards = props => {
     }, [index]);
 
     const handleSelect = (i) => {
-        if (i === 0) {
-            handleStopWatch(true);
-        } else {
-            handleStopWatch(false);
-        }
         setIndex(i);
     }
     const handleSelectExe = (item, index) => {

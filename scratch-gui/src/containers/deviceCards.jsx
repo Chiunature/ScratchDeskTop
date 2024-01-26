@@ -9,80 +9,27 @@ import {
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
-import { ipc as ipc_Renderer } from "est-link";
+// import { ipc as ipc_Renderer } from "est-link";
 
 class DeviceCards extends React.Component {
     constructor(props) {
         super(props);
-        this.timer = null;
-        this.index = 0;
-        this.state = {
-            deviceObj: {
-                deviceList: [],
-                gyroList: new Array(3).fill(0),
-                flashList: new Array(2).fill(0),
-                adcList: null,
-                voice: null
-            },
-            stopWatch: true
-        }
     }
 
     componentDidMount() {
         if (this.props.locale !== 'en') {
             loadImageData(this.props.locale);
         }
-        this.initDeviceList();
-        const that = this;
-        this.timer = setInterval(() => {
-            if(!that.state.stopWatch) that.watchDevice();
-        }, 10);
     }
     componentDidUpdate(prevProps) {
         if (this.props.locale !== prevProps.locale) {
             loadImageData(this.props.locale);
         }
     }
-    componentWillUnmount() {
-        clearInterval(this.timer);
-        window.myAPI.delEvents(ipc_Renderer.RETURN.DEVICE.WATCH);
-        this.handleStopWatch(true);
-    }
-    //控制暂停监听
-    handleStopWatch(stopWatch) {
-        this.setState({
-            stopWatch: stopWatch
-        });
-    }
-    //初始化设备
-    initDeviceList() {
-        let list = [];
-        for (let i = 0; i < 8; i++) {
-            const obj = {
-                port: i,
-                motor: {},
-                color: {},
-                ultrasonic: null,
-                deviceId: null,
-                sensing_device: '无设备连接'
-            }
-            list.push(obj);
-        }
-        this.state.deviceObj.deviceList = list;
-        this.setState((state) => ({ deviceObj: state.deviceObj }));
-    }
-
-    //开启监听
-    async watchDevice() {
-        const result = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
-        if (!result) return;
-        const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
-        this.setState(() => ({ deviceObj }));
-    }
 
     render() {
         return (
-            <CardsComponent handleStopWatch={this.handleStopWatch.bind(this)}  {...this.props} deviceObj={this.state.deviceObj} />
+            <CardsComponent  {...this.props}/>
         );
     }
 }

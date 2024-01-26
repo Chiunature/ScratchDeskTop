@@ -18,6 +18,10 @@ goog.inherits(Blockly.FieldMotor, Blockly.Field);
 
 Blockly.FieldMotor.portList = [];
 Blockly.FieldMotor.proxy = null;
+Blockly.FieldMotor.motor_svg = 'motor_sensing.svg';
+Blockly.FieldMotor.color_sensing_svg = 'color_sensing_svg';
+Blockly.FieldMotor.sound_sensing_svg = 'super_sound.svg';
+Blockly.FieldMotor.touch_sensing_svg = 'touch_press.svg';
 /**
  * Construct a FieldMotor from a JSON arg object.
  * @param {!Object} options A JSON object with options (colour).
@@ -30,6 +34,12 @@ Blockly.FieldMotor.fromJson = function (options) {
 };
 
 Blockly.FieldMotor.prototype.btnList = null;
+
+Blockly.FieldMotor.prototype.leftDom = null;
+
+Blockly.FieldMotor.prototype.rightDom = null;
+
+Blockly.FieldMotor.prototype.cacheProxy = new WeakMap();
 
 Blockly.FieldMotor.prototype.init = function (block) {
     if (this.fieldGroup_) {
@@ -73,6 +83,13 @@ Blockly.FieldMotor.prototype.init = function (block) {
     // Force a reset of the text to add the arrow.
     this.text_ = null;
     this.setText(this.motor_);
+
+    this.leftDom = this.createMotorListDom_(this.leftList, 'left');
+    this.rightDom = this.createMotorListDom_(this.rightList, 'right');
+    const right = [...this.rightDom.childNodes].reverse();
+    const left = [...this.leftDom.childNodes];
+    this.btnList = [...right, ...left];
+
 };
 
 
@@ -129,6 +146,82 @@ Blockly.FieldMotor.prototype.positionArrow = function (x) {
     return addedWidth;
 };
 
+/**
+ * 创建按钮列表
+ * @param {*} list 
+ * @param {*} side
+ * @returns 
+ */
+Blockly.FieldMotor.prototype.createMotorListDom_ = function (list, side) {
+    const box = document.createElement('div');
+    box.setAttribute('class', 'lls-port-selector__sensors lls-port-selector__sensors--' + side);
+    for (let i = 0; i < list.length; i++) {
+        const motor = document.createElement('div');
+        motor.setAttribute('class', 'sensor-port-pair sensor-port-pair--dimmed');
+        const btn = document.createElement('div');
+        btn.setAttribute('class', 'button sensor-port-pair__port-button');
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('data-testid', 'button-' + list[i]);
+        if (this.motor_ === list[i]) {
+            btn.classList.add('selected');
+            btn.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
+        }
+        btn.innerHTML = list[i];
+        motor.appendChild(btn);
+        box.appendChild(motor);
+    }
+
+    return box;
+}
+
+/**
+ * 给dom绑定点击事件
+ * @param {*} dom 
+ */
+Blockly.FieldMotor.prototype.handleClick_ = function (dom) {
+    dom.onclick = () => {
+        for (let i = 0; i < this.btnList.length; i++) {
+            const element = this.btnList[i];
+            const child = element.firstChild;
+            if (element === dom) {
+                child.classList.add('selected');
+                child.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
+                this.setValue(child.innerHTML);
+            } else {
+                child.classList.remove('selected');
+                child.removeAttribute('style');
+            }
+        }
+    }
+}
+
+/**
+ * 判断数据值是什么类型的设备
+ * @param {*} type 
+ * @returns 
+ */
+Blockly.FieldMotor.prototype.checkType = function (type) {
+    const str = Blockly.mainWorkspace.options.pathToMedia;
+    const img = document.createElement('img');
+    img.setAttribute('class', 'lls-dsm-icon');
+    switch (type) {
+        case 'a1':
+            img.src = str + Blockly.FieldMotor.motor_svg;
+            break;
+        case 'a2':
+            img.src = str + Blockly.FieldMotor.color_sensing_svg;
+            break;
+        case 'a3':
+            img.src = str + Blockly.FieldMotor.sound_sensing_svg;
+            break;
+        case 'a4':
+            img.src = str + Blockly.FieldMotor.touch_sensing_svg;
+            break;
+        default:
+            return false;
+    }
+    return img;
+}
 
 /**
  * 创建电机dom
@@ -149,63 +242,43 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
     hub.setAttribute('class', 'lls-port-selector__hub');
     wrapper.appendChild(hub);
 
-    const createMotorListDom_ = (list, side) => {
-        const box = document.createElement('div');
-        box.setAttribute('class', 'lls-port-selector__sensors lls-port-selector__sensors--' + side);
-        for (let i = 0; i < list.length; i++) {
-            const motor = document.createElement('div');
-            motor.setAttribute('class', 'sensor-port-pair sensor-port-pair--dimmed');
-            const btn = document.createElement('div');
-            btn.setAttribute('class', 'button sensor-port-pair__port-button');
-            btn.setAttribute('role', 'button');
-            btn.setAttribute('data-testid', 'button-' + list[i]);
-            if (this.motor_ === list[i]) {
-                btn.classList.add('selected');
-                btn.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
-            }
-            btn.innerHTML = list[i];
-            motor.appendChild(btn);
-            box.appendChild(motor);
-        }
-        return box;
-    }
-    const left = createMotorListDom_(this.leftList, 'left');
-    const right = createMotorListDom_(this.rightList, 'right');
-    hub.appendChild(left);
-    hub.appendChild(right);
+    hub.appendChild(this.leftDom);
+    hub.appendChild(this.rightDom);
 
-    const btnList = [...left.childNodes, ...right.childNodes];
-    const handleClick_ = (dom) => {
-        dom.onclick = () => {
-            for (let i = 0; i < btnList.length; i++) {
-                const element = btnList[i];
-                const child = element.firstChild;
-                if (element === dom) {
-                    child.classList.add('selected');
-                    child.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
-                    this.setValue(child.innerHTML);
-                } else {
-                    child.classList.remove('selected');
-                    child.removeAttribute('style');
-                }
-            }
-        }
-    }
-    for (let i = 0; i < btnList.length; i++) {
-        const element = btnList[i];
-        handleClick_(element);
+    for (let i = 0; i < this.btnList.length; i++) {
+        this.handleClick_(this.btnList[i]);
     }
 
+    const that = this;
     Blockly.FieldMotor.proxy = function () {
-        return new Proxy(Blockly.FieldMotor, {
+        if (that.cacheProxy.has(that.sourceBlock_)) {
+            return that.cacheProxy.get(that.sourceBlock_);
+        }
+        let p = new Proxy(Blockly.FieldMotor, {
             get(target, key) {
                 return Reflect.get(target, key);
             },
             set(target, key, value) {
                 target[key] = value;
+                if (key === 'portList') {
+                    for (let i = 0; i < value.length; i++) {
+                        const item = value[i];
+                        const element = that.btnList[i];
+                        const lastChild = that.checkType(item);
+                        if (lastChild) {
+                            if (element.childNodes.length > 1) continue;
+                            element.appendChild(lastChild);
+                        } else {
+                            if (element.childNodes.length > 1) element.lastElementChild.remove();
+                            continue;
+                        }
+                    }
+                }
                 return true;
             }
         });
+        that.cacheProxy.set(that.sourceBlock_, p);
+        return p;
     };
 
     return div;
@@ -224,7 +297,6 @@ Blockly.FieldMotor.prototype.showEditor_ = function () {
     Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
     this.setValue(this.getValue());
-
 };
 
 Blockly.FieldMotor.prototype.dispose = function () {

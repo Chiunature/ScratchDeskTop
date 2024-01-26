@@ -1601,9 +1601,9 @@ Blockly.Css.CONTENT = [
   'background: #000;',
   '}',
 
-  '.lls-dsm-icon svg, .lls-dsm-icon use {',
-  'width: 100%;',
-  'height: auto;',
+  '.lls-dsm-icon {',
+  'width: 30px;',
+  'height: 40px;',
   '}',
 ];
 

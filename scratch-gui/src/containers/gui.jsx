@@ -44,10 +44,27 @@ import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../re
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 class GUI extends React.Component {
+    constructor(props) {
+        super(props);
+        this.timer = null;
+        this.state = {
+            deviceObj: {
+                deviceList: [],
+                gyroList: new Array(3).fill(0),
+                flashList: new Array(2).fill(0),
+                adcList: null,
+                voice: null
+            },
+            stopWatch: false
+        }
+    }
+
     async componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
+        this.initDeviceList();
+
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
             //下载成功监听
@@ -112,19 +129,20 @@ class GUI extends React.Component {
                 }
             });
 
+            const that = this;
+            this.timer = setInterval(() => {
+                if (this.props.peripheralName && !that.state.stopWatch) that.watchDevice();
+            }, 10);
+
             let FieldMotor;
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.DEVICE.PORT,
                 callback: (event, data) => {
-                    if(!ScratchBlocks.FieldMotor.proxy) return;
-                    if(ScratchBlocks.FieldMotor.postList && ScratchBlocks.FieldMotor.postList.length > 0) {
-                        const flag = data.find((el) => (!ScratchBlocks.FieldMotor.postList.includes(el)));
-                        if(!flag) return;
-                    }
-                    if(!FieldMotor) FieldMotor = ScratchBlocks.FieldMotor.proxy();
-                    FieldMotor.postList = [...data];
+                    if (!ScratchBlocks.FieldMotor.proxy) return;
+                    FieldMotor = ScratchBlocks.FieldMotor.proxy();
+                    FieldMotor.portList = [...data];
                 }
-            }); 
+            });
 
             this.checkDriver();
         }
@@ -147,6 +165,49 @@ class GUI extends React.Component {
         eventList.map(item => {
             window.myAPI.delEvents(item);
         });
+        clearInterval(this.timer);
+        this.handleStopWatch(true);
+    }
+
+    //控制暂停监听
+    handleStopWatch(stopWatch) {
+        this.setState({
+            stopWatch: stopWatch
+        });
+    }
+    //初始化设备
+    initDeviceList() {
+        let list = [];
+        for (let i = 0; i < 8; i++) {
+            const obj = {
+                port: i,
+                motor: {},
+                color: {},
+                ultrasonic: null,
+                deviceId: null,
+                sensing_device: '无设备连接'
+            }
+            list.push(obj);
+        }
+        this.state.deviceObj.deviceList = list;
+        this.setState((state) => ({ deviceObj: state.deviceObj }));
+    }
+    //开启监听
+    async watchDevice() {
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
+            sendParams: { stopWatch: this.state.stopWatch },
+            eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
+            callback: (e, result) => {
+                const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
+                this.setState(() => ({ deviceObj }));
+            }
+        })
+        /* const result = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
+        if (!result) return;
+        const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
+        this.setState(() => ({ deviceObj }));
+         */
     }
 
     async checkDriver() {
@@ -216,6 +277,8 @@ class GUI extends React.Component {
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}
                 compile={new Compile()}
+                deviceObj={this.state.deviceObj}
+                handleStopWatch={this.handleStopWatch.bind(this)}
             >
                 {children}
             </GUIComponent>

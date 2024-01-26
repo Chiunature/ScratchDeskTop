@@ -153,6 +153,8 @@ const GUIComponent = (props) => {
         handleCompile,
         handleSelectExe,
         handleInpChange,
+        handleStopWatch,
+        deviceObj,
         compile,
         progress,
         exeList,
@@ -242,6 +244,8 @@ const GUIComponent = (props) => {
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible ? (
                             <DeviceCards
+                                handleStopWatch={handleStopWatch}
+                                deviceObj={deviceObj}
                                 handleCompile={handleCompile}
                                 completed={completed}
                                 exeList={exeList}
@@ -272,16 +276,16 @@ const GUIComponent = (props) => {
                         )}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
-                                    isComplete={isComplete}
-                                    progress={progress}
-                                    completed={completed}
-                                    handleCompile={handleCompile}
-                                    isRtl={isRtl}
-                                    onSetSelectedExe={onSetSelectedExe}
-                                    onSetExelist={onSetExelist}
-                                    exeList={exeList}
-                                    selectedExe={selectedExe}
-                                />) : null}
+                                isComplete={isComplete}
+                                progress={progress}
+                                completed={completed}
+                                handleCompile={handleCompile}
+                                isRtl={isRtl}
+                                onSetSelectedExe={onSetSelectedExe}
+                                onSetExelist={onSetExelist}
+                                exeList={exeList}
+                                selectedExe={selectedExe}
+                            />) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
                             authorId={authorId}
