@@ -8,6 +8,27 @@ goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 
+Blockly.Blocks['combined_motor_box'] = {
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_combined_motor",
+                    "name": "MOTOR",
+                    "motorList": ["A", "B", "C", "D", "E", "F", "G", "H"]
+                }
+            ],
+            "category": Blockly.Categories.combined_motor,
+            "colour": Blockly.Colours.combined_motor.primary,
+            "colourSecondary": Blockly.Colours.combined_motor.secondary,
+            "colourTertiary": Blockly.Colours.combined_motor.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
+
+
 Blockly.Blocks['combined_motorOne_menu'] = {
     /**
      * Sound effects drop-down menu.

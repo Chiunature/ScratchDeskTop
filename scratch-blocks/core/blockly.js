@@ -39,6 +39,7 @@ goog.require('Blockly.FieldColour');
 goog.require('Blockly.FieldColourSlider');
 goog.require('Blockly.FieldColourCard');
 goog.require('Blockly.FieldMotor');
+goog.require('Blockly.FieldCombinedMotor');
 // Date picker commented out since it increases footprint by 60%.
 // Add it only if you need it.
 //goog.require('Blockly.FieldDate');

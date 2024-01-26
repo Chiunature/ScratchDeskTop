@@ -134,13 +134,12 @@ class GUI extends React.Component {
                 if (this.props.peripheralName && !that.state.stopWatch) that.watchDevice();
             }, 10);
 
-            let FieldMotor;
+            let FieldMotor, FieldCombinedMotor;
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.DEVICE.PORT,
                 callback: (event, data) => {
-                    if (!ScratchBlocks.FieldMotor.proxy) return;
-                    FieldMotor = ScratchBlocks.FieldMotor.proxy();
-                    FieldMotor.portList = [...data];
+                    this.proxyMotor(FieldMotor, 'FieldMotor', data);
+                    this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
                 }
             });
 
@@ -168,7 +167,16 @@ class GUI extends React.Component {
         clearInterval(this.timer);
         this.handleStopWatch(true);
     }
-
+    
+    proxyMotor(proxyVal, type, data) {
+        if (!ScratchBlocks[type].proxy) return;
+        // if(ScratchBlocks.FieldMotor.portList.length > 0) {
+        //     const flag = data.find((el, index) => (el !== ScratchBlocks.FieldMotor.portList[index]));
+        //     if(!flag) return;
+        // }
+        proxyVal = ScratchBlocks[type].proxy();
+        proxyVal.portList = [...data];
+    }
     //控制暂停监听
     handleStopWatch(stopWatch) {
         this.setState({
