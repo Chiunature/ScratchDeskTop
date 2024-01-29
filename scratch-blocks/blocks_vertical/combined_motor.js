@@ -35,61 +35,61 @@ Blockly.Blocks['combined_motorOne_menu'] = {
      * @this Blockly.Block
      */
     init: function() {
-      this.jsonInit({
-        "message0": "%1",
-        "args0": [
-          {
-            "type": "field_dropdown",
-            "name": "COMBINED_MOTORONE_MENU",
-            "options": [
-                ["A", "A"],
-                ["C", "C"],
-                ["D", "D"], 
-                ["E", "E"], 
-                ["F", "F"], 
-                ["G", "G"], 
-                ["H", "H"]
-            ]
-          }
-        ],
-        "colour": Blockly.Colours.combined_motor.primary,
-        "colourSecondary": Blockly.Colours.combined_motor.secondary,
-        "colourTertiary": Blockly.Colours.combined_motor.tertiary,
-        "extensions": ["output_string"]
-      });
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORONE_MENU",
+                    "options": [
+                        ["A", "A"],
+                        ["C", "C"],
+                        ["D", "D"],
+                        ["E", "E"],
+                        ["F", "F"],
+                        ["G", "G"],
+                        ["H", "H"]
+                    ]
+                }
+            ],
+            "colour": Blockly.Colours.combined_motor.primary,
+            "colourSecondary": Blockly.Colours.combined_motor.secondary,
+            "colourTertiary": Blockly.Colours.combined_motor.tertiary,
+            "extensions": ["output_string"]
+        });
     }
-  };
+};
 
-  Blockly.Blocks['combined_motorTwo_menu'] = {
+Blockly.Blocks['combined_motorTwo_menu'] = {
     /**
      * Sound effects drop-down menu.
      * @this Blockly.Block
      */
     init: function() {
-      this.jsonInit({
-        "message0": "%1",
-        "args0": [
-          {
-            "type": "field_dropdown",
-            "name": "COMBINED_MOTORTWO_MENU",
-            "options": [
-                ["B", "B"],
-                ["C", "C"],
-                ["D", "D"], 
-                ["E", "E"], 
-                ["F", "F"], 
-                ["G", "G"], 
-                ["H", "H"]
-            ]
-          }
-        ],
-        "colour": Blockly.Colours.combined_motor.primary,
-        "colourSecondary": Blockly.Colours.combined_motor.secondary,
-        "colourTertiary": Blockly.Colours.combined_motor.tertiary,
-        "extensions": ["output_string"]
-      });
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "COMBINED_MOTORTWO_MENU",
+                    "options": [
+                        ["B", "B"],
+                        ["C", "C"],
+                        ["D", "D"],
+                        ["E", "E"],
+                        ["F", "F"],
+                        ["G", "G"],
+                        ["H", "H"]
+                    ]
+                }
+            ],
+            "colour": Blockly.Colours.combined_motor.primary,
+            "colourSecondary": Blockly.Colours.combined_motor.secondary,
+            "colourTertiary": Blockly.Colours.combined_motor.tertiary,
+            "extensions": ["output_string"]
+        });
     }
-  };
+};
 
 Blockly.Blocks['combined_motor_starting'] = {
     /**
@@ -110,12 +110,8 @@ Blockly.Blocks['combined_motor_starting'] = {
                 },
                 {
                     "type": "input_value",
-                    "name": "PORT1",
+                    "name": "PORT",
                 },
-                {
-                    "type": "input_value",
-                    "name": "PORT2",
-                }
             ],
             "category": Blockly.Categories.combined_motor,
             "extensions": ["colours_combined_motor", "shape_statement"],

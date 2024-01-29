@@ -11,7 +11,8 @@ Blockly.FieldCombinedMotor = function (motorList, opt_validator) {
     this.rightList = motorList.slice(0, 4).reverse();
     this.leftList = motorList.slice(4);
     this.motor_ = [motorList[0], motorList[1]];
-    Blockly.FieldCombinedMotor.superClass_.constructor.call(this, this.motor_.join('+'), opt_validator);
+    this.combined_motor = this.motor_.join('+');
+    Blockly.FieldCombinedMotor.superClass_.constructor.call(this, this.combined_motor, opt_validator);
     this.addArgType('combined_motor');
 };
 goog.inherits(Blockly.FieldCombinedMotor, Blockly.Field);
@@ -39,6 +40,10 @@ Blockly.FieldCombinedMotor.prototype.btnList = null;
 Blockly.FieldCombinedMotor.prototype.leftDom = null;
 
 Blockly.FieldCombinedMotor.prototype.rightDom = null;
+
+Blockly.FieldCombinedMotor.prototype.leftSideText = null;
+
+Blockly.FieldCombinedMotor.prototype.rightSideText = null;
 
 Blockly.FieldCombinedMotor.prototype.cacheProxy = new WeakMap();
 
@@ -83,7 +88,7 @@ Blockly.FieldCombinedMotor.prototype.init = function (block) {
     }
     // Force a reset of the text to add the arrow.
     this.text_ = null;
-    this.setText(this.motor_.join('+'));
+    this.setText(this.combined_motor);
 
     this.leftDom = this.createMotorListDom_(this.leftList, 'left');
     this.rightDom = this.createMotorListDom_(this.rightList, 'right');
@@ -95,17 +100,17 @@ Blockly.FieldCombinedMotor.prototype.init = function (block) {
 
 
 Blockly.FieldCombinedMotor.prototype.getValue = function () {
-    return this.motor_.join('+');
+    return this.combined_motor;
 };
 
 Blockly.FieldCombinedMotor.prototype.setValue = function (motor) {
     if (this.sourceBlock_ && Blockly.Events.isEnabled() &&
-        this.motor_.join('+') != motor) {
+        this.combined_motor != motor) {
         Blockly.Events.fire(new Blockly.Events.BlockChange(
-            this.sourceBlock_, 'field', this.name, this.motor_.join('+'), motor));
+            this.sourceBlock_, 'field', this.name, this.combined_motor, motor));
     }
-
-    this.setText(motor);
+    this.combined_motor = motor;
+    this.setText(this.combined_motor);
 };
 
 Blockly.FieldCombinedMotor.prototype.setText = function (text) {
@@ -193,7 +198,9 @@ Blockly.FieldCombinedMotor.prototype.handleClick_ = function (dom) {
         child.classList.add('selected');
         child.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
         this.motor_.push(child.innerHTML);
-        this.setValue(this.getValue());
+        this.leftSideText.innerHTML = this.motor_[0] ? this.motor_[0] : '';
+        this.rightSideText.innerHTML = this.motor_[1] ? this.motor_[1] : '';
+        this.setValue(this.motor_.join('+'));
     }
 }
 
@@ -225,6 +232,27 @@ Blockly.FieldCombinedMotor.prototype.checkType = function (type) {
     return img;
 }
 
+Blockly.FieldCombinedMotor.prototype.createSideDom_ = function (side) {
+    const div = document.createElement('div');
+    div.setAttribute('class', `lls-port-selector__motor lls-port-selector__motor--${side} lls-port-selector__motor--highlight`);
+    div.setAttribute('data-testid', 'left-motor-indicator');
+    const icon = document.createElement('div');
+    icon.setAttribute('class', 'lls-port-selector__motor-icon');
+    div.appendChild(icon);
+    const span = document.createElement('span');
+    span.setAttribute('class', 'selected-motor-indicator');
+    if (side === 'left') {
+        span.innerHTML = this.motor_[0] ? this.motor_[0] : '';
+        this.leftSideText = span;
+    } else {
+        span.innerHTML = this.motor_[1] ? this.motor_[1] : '';
+        this.rightSideText = span;
+    }
+
+    icon.appendChild(span);
+    return div;
+}
+
 /**
  * 创建电机dom
  * @returns 
@@ -232,17 +260,21 @@ Blockly.FieldCombinedMotor.prototype.checkType = function (type) {
 Blockly.FieldCombinedMotor.prototype.createMototDom_ = function () {
     const div = document.createElement('div');
     const selector = document.createElement('div');
-    selector.setAttribute('class', 'lls-port-selector lls-port-selector--type-flipper lls-port-selector--no-motors');
+    selector.setAttribute('class', 'lls-port-selector lls-port-selector--type-flipper');
     selector.setAttribute('style', `background-color: ${this.sourceBlock_.getColour()}`);
     div.appendChild(selector);
 
     const wrapper = document.createElement('div');
     wrapper.setAttribute('class', 'lls-port-selector__hub-wrapper');
+    const leftSide = this.createSideDom_('left');
+    const rightSide = this.createSideDom_('right');
     selector.appendChild(wrapper);
 
     const hub = document.createElement('div');
     hub.setAttribute('class', 'lls-port-selector__hub');
+    wrapper.appendChild(leftSide);
     wrapper.appendChild(hub);
+    wrapper.appendChild(rightSide);
 
     hub.appendChild(this.leftDom);
     hub.appendChild(this.rightDom);
@@ -306,6 +338,9 @@ Blockly.FieldCombinedMotor.prototype.dispose = function () {
     this.motorList = null;
     this.rightList = null;
     this.leftList = null;
+    this.combined_motor = null;
+    this.leftSideText = null;
+    this.rightSideText = null;
     Blockly.FieldCombinedMotor.proxy = null;
     Blockly.Events.setGroup(false);
     Blockly.FieldCombinedMotor.superClass_.dispose.call(this);

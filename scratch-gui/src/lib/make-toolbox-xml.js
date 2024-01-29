@@ -491,19 +491,20 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         <label text="${stageSelected}"></label>
         `
             : `
+        ${blockSeparator}
         <block type="motor_starting">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
         </block>
         <block type="motor_stop">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
         </block>
         <block type="motor_speed">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
             <value name="SPEED">
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
@@ -511,7 +512,7 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         </block>
         <block type="motor_specifiedunit">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
             <value name="COUNT">
                 <shadow type="math_number"><field name="NUM">1</field></shadow>
@@ -519,17 +520,17 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
         </block>
         <block type="motor_specified_manner">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
         </block>
         <block type="motor_rate">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
         </block>
         <block type="motor_position">
             <value name="PORT">
-                <shadow type="motor_menu"></shadow>
+                <shadow type="motor_box"></shadow>
             </value>
         </block>
         `
@@ -574,12 +575,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <label text="${stageSelected}"></label>
         `
             : `
+        ${blockSeparator}
         <block type="combined_motor_starting">
-            <value name="PORT1">
-                <shadow type="combined_motorOne_menu"></shadow>
-            </value>
-            <value name="PORT2">
-                <shadow type="combined_motorTwo_menu"></shadow>
+            <value name="PORT">
+                <shadow type="combined_motor_box"></shadow>
             </value>
         </block>
         <block type="combined_motor_direction"></block>

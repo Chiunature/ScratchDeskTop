@@ -4,6 +4,12 @@ goog.provide('Blockly.cake.motor');
 
 goog.require('Blockly.cake');
 
+Blockly.cake['motor_box'] = function (block) {
+    const menu = block.getFieldValue('MOTOR');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
+
 Blockly.cake['motor_menu'] = function (block) {
     const menu = block.getFieldValue('MOTOR_MENU');
     // TODO: Assemble cake into code variable.
