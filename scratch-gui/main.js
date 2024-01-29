@@ -29,7 +29,7 @@ const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const noble = require('@abandonware/noble');
+// const noble = require('@abandonware/noble');
 const { exec } = require('child_process');
 const { Serialport, ipc, Bluetooth } = require('est-link');
 
