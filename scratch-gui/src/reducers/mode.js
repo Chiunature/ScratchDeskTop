@@ -40,7 +40,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(20),
+    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(0),
     selectedExe: JSON.parse(localStorage.getItem('selItem'))
 }
 
