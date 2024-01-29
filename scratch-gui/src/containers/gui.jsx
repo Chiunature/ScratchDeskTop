@@ -160,10 +160,7 @@ class GUI extends React.Component {
         }
     }
     componentWillUnmount() {
-        const eventList = window.electron.ipcRenderer.eventNames();
-        eventList.map(item => {
-            window.myAPI.delEvents(item);
-        });
+        window.myAPI.delEvents();
         clearInterval(this.watchDeviceTimer);
         this.handleStopWatch(true);
     }

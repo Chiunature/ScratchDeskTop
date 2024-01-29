@@ -52,7 +52,7 @@ class ScanningStep extends React.Component {
     }
     handleRefresh() {
         this.props.vm.scanForPeripheral(this.props.extensionId);
-        window.electron.ipcRenderer.send("getConnectList");
+        window.myAPI.ipcRender({sendName: "getConnectList"});
         this.setState({
             scanning: true,
             peripheralList: [],

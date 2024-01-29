@@ -36,6 +36,12 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
  * @param {String} eventName 
  */
 function delEvents(eventName) {
+    if(!eventName) {
+        const eventList = window.electron.ipcRenderer.eventNames();
+        eventList.map(item => {
+            ipcRenderer.removeAllListeners([item]);
+        });
+    }
     ipcRenderer.removeAllListeners([eventName]);
 }
 
