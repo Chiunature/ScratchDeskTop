@@ -204,7 +204,8 @@
     margin: 0 !important;
 }
 
-.upload-btn:hover {
+.upload-btn:hover,
+.stop-btn:hover {
     box-shadow: 0 0 5px 3px #d4d4d4;
 }
 
