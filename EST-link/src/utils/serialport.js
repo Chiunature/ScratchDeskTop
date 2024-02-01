@@ -16,7 +16,7 @@
  * }
  */
 const Common = require("./common.js");
-const { verifyActions, distinguish, verifyBinType } = require("../config/js/verify.js");
+const { distinguish, verifyBinType } = require("../config/js/verify.js");
 const { SOURCE } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
@@ -63,13 +63,13 @@ class Serialport extends Common {
      * 断开连接
      * @param {String} eventName 
      */
-    disconnectSerial(eventName) {
+    /* disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
             if (this.port && this.port.opening) {
                 this.port.close();
             }
         });
-    }
+    } */
 
     /**
      * 连接串口
@@ -90,8 +90,6 @@ class Serialport extends Common {
         this.getVersion(event);
         //开启串口关闭监听
         this.listenPortClosed("close", event);
-        //开启断开连接监听
-        this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
         //开启获取文件监听
         this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
         //开启传输错误监听
@@ -308,46 +306,6 @@ class Serialport extends Common {
                 this.handleReadError(error, event, this.clearCache);
             }
         });
-    }
-
-    /**
-     * 捕捉接收的数据
-     * @param {String} data 
-     * @returns 
-     */
-    catchData(data) {
-        if (!data) return;
-        //将接收到的数据转成buffer数组
-        const list = this.getBufferArray(data);
-        const start = list.indexOf(0x5a);
-        let newList = [];
-        if (list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
-            for (let i = start; i < list[start + 3] + 7; i++) {
-                newList.push(list[i]);
-            }
-            return { data: newList, bit: newList[4] };
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 校验数据
-     * @param {String | Null} sign 
-     * @param {Array} data 
-     * @param {*} event 
-     * @returns 
-     */
-    verification(sign, obj, event) {
-        if (!obj || (obj.data && obj.data.length <= 0)) {
-            return false;
-        }
-        const result = verifyActions(sign, obj, event);
-        if (typeof result === 'object') {
-            return this.switch(result, sign, true);
-        } else {
-            return result;
-        }
     }
 
     /**

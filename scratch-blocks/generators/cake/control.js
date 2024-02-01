@@ -53,6 +53,10 @@ Blockly.cake['control_repeat'] = function (block) {
   } else {
     // External number.
     var repeats = Blockly.cake.valueToCode(block, 'TIMES', Blockly.cake.ORDER_NONE) || '0';
+    let flag = /^[0-9]+$/.test(repeats);
+    if (!flag) {
+      repeats = 'atoi(' + repeats + ')';
+    }
   }
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
@@ -79,6 +83,11 @@ Blockly.cake['control_forever'] = function (block) {
   }
   return 'while (' + argument0 + ') {\n' + branch + 'vTaskDelay(50);\n}\n';
 };
+
+Blockly.cake['control_break'] = function (block) {
+  return 'break;\n';
+};
+
 Blockly.cake['control_if_else'] = function (block) {
   var argument = Blockly.cake.valueToCode(block, 'CONDITION',
     Blockly.cake.ORDER_NONE) || 'False';
@@ -130,13 +139,10 @@ Blockly.cake['control_repeat_until'] = function (block) {
 
 Blockly.cake['control_stop'] = function (block) {
   var argument = block.getFieldValue('STOP_OPTION',
-    Blockly.cake.ORDER_NONE)|| 'all';
+    Blockly.cake.ORDER_NONE) || 'all';
   return `LB_StopThisProgramment();\n`;
 };
 
-Blockly.cake['control_break'] = function (block) {
-  return 'break;\n';
-};
 
 Blockly.cake['control_doWhile'] = function (block) {
   // Do while/until loop.

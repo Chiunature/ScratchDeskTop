@@ -11,9 +11,14 @@ Blockly.cake['sensing_menu'] = function (block) {
     return [menu, Blockly.cake.ORDER_ATOMIC];
 };
 
+Blockly.cake['sensing_color_menu'] = function (block) {
+    const menu = block.getFieldValue('COLOR');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
 
 Blockly.cake['sensing_color_judgment'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_color_judgment("${dropdown_port}1", ${color})`;
@@ -21,14 +26,14 @@ Blockly.cake['sensing_color_judgment'] = function (block) {
 };
 
 Blockly.cake['sensing_color_detection'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_color_detection("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_color_detectionRGB'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = block.getFieldValue('color');
     let rgb;
     switch (color) {
@@ -50,7 +55,7 @@ Blockly.cake['sensing_color_detectionRGB'] = function (block) {
 };
 
 Blockly.cake['sensing_reflected_light_judgment'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let dropdown_judgment = block.getFieldValue('judgment');
     let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
@@ -59,14 +64,14 @@ Blockly.cake['sensing_reflected_light_judgment'] = function (block) {
 };
 
 Blockly.cake['sensing_reflected_light_detection'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_reflected_light_detection("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_line_inspection_judgment'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let dropdown_line = block.getFieldValue('line');
     // TODO: Assemble cake into code variable.
     let code = `Sensing_Line_inspection_judgment("${dropdown_port}1", "${dropdown_line}")`;
@@ -74,7 +79,7 @@ Blockly.cake['sensing_line_inspection_judgment'] = function (block) {
 };
 
 Blockly.cake['sensing_ultrasonic_judgment'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let dropdown_judgment = block.getFieldValue('judgment');
     let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
@@ -83,7 +88,7 @@ Blockly.cake['sensing_ultrasonic_judgment'] = function (block) {
 };
 
 Blockly.cake['sensing_ultrasonic_detection'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `sensing_ultrasonic_detection("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
@@ -96,14 +101,14 @@ Blockly.cake['sensing_sound_intensity'] = function (block) {
 };
 
 Blockly.cake['sensing_key_judgment'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `DetectingTouch("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_key_press'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let dropdown_status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
     let code = `Sensing_key_press("${dropdown_port}1", "${dropdown_status}")`;
@@ -125,7 +130,7 @@ Blockly.cake['sensing_gyroscope_attitude'] = function (block) {
 };
 
 Blockly.cake['sensing_gyroscope_angle'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_gyroscope_angle("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
@@ -151,14 +156,14 @@ Blockly.cake['sensing_compass'] = function (block) {
 };
 
 Blockly.cake['sensing_read_pin'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_read_pin("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_write_pin'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let pin = block.getFieldValue('pin');
     // TODO: Assemble cake into code variable.
     let code = `Sensing_write_pin("${dropdown_port}1", ${pin})`;
@@ -166,7 +171,7 @@ Blockly.cake['sensing_write_pin'] = function (block) {
 };
 
 Blockly.cake['sensing_write_analog'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let pin = block.getFieldValue('pin');
     // TODO: Assemble cake into code variable.
     let code = `Sensing_write_analog("${dropdown_port}1", ${pin})`;
@@ -174,7 +179,7 @@ Blockly.cake['sensing_write_analog'] = function (block) {
 };
 
 Blockly.cake['sensing_read_analog'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `Sensing_read_analog("${dropdown_port}1")`;
     return [code, Blockly.cake.ORDER_RELATIONAL];

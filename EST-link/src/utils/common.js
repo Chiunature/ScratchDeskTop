@@ -12,6 +12,7 @@
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
+const { verifyActions } = require("../config/js/verify.js");
 
 const device = {
     '0': '无设备连接',
@@ -440,6 +441,47 @@ class Common {
             }
         }
     }
+
+    /**
+     * 捕捉接收的数据
+     * @param {String} data 
+     * @returns 
+     */
+    catchData(data) {
+        if (!data) return;
+        //将接收到的数据转成buffer数组
+        const list = this.getBufferArray(data);
+        const start = list.indexOf(0x5a);
+        let newList = [];
+        if (list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
+            for (let i = start; i < list[start + 3] + 7; i++) {
+                newList.push(list[i]);
+            }
+            return { data: newList, bit: newList[4] };
+        } else {
+            return false;
+        }
+    }
+
+    /**
+         * 校验数据
+         * @param {String | Null} sign 
+         * @param {Array} data 
+         * @param {*} event 
+         * @returns 
+         */
+    verification(sign, obj, event) {
+        if (!obj || (obj.data && obj.data.length <= 0)) {
+            return false;
+        }
+        const result = verifyActions(sign, obj, event);
+        if (typeof result === 'object') {
+            return this.switch(result, sign, true);
+        } else {
+            return result;
+        }
+    }
+
     /**
      * 清空对象
      * @param  {...any} args 
