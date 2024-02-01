@@ -29,7 +29,7 @@ Blockly.cake['data_variable'] = function (block) {
     return [varName, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['data_definevar'] = function (block) {
+Blockly.cake['data_definevariable'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
         Blockly.Variables.NAME_TYPE);
     if (varName === 'unnamed') {
@@ -88,7 +88,7 @@ Blockly.cake['data_definelist'] = function (block) {
         return '';
     }
 
-    return `List Node *UserList = LB_ListInit();\n`;
+    return `ListNode *${varName} = NULL;\n${varName} = ListInit();\n`;
 };
 
 Blockly.cake['data_addtolist'] = function (block) {
@@ -101,7 +101,7 @@ Blockly.cake['data_addtolist'] = function (block) {
     }
 
 
-    return `LB_ListPushData(UserList, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
+    return `LB_ListPushData(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
 Blockly.cake['data_deleteoflist'] = function (block) {
@@ -113,7 +113,7 @@ Blockly.cake['data_deleteoflist'] = function (block) {
         return '';
     }
     
-    return `LB_ListDeletIndex(UserList, ${index});\n`;
+    return `LB_ListDeletIndex(${varName}, ${index});\n`;
 };
 
 Blockly.cake['data_deletealloflist'] = function (block) {
@@ -123,7 +123,7 @@ Blockly.cake['data_deletealloflist'] = function (block) {
         return '';
     }
 
-    return `LB_ListDeletAll(UserList);\n`;
+    return `LB_ListDeletAll(${varName});\n`;
 };
 
 Blockly.cake['data_insertatlist'] = function (block) {
@@ -137,7 +137,7 @@ Blockly.cake['data_insertatlist'] = function (block) {
         return '';
     }
 
-    return `LB_ListIndexPullData(UserList, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
+    return `LB_ListIndexPullData(${varName}, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
 Blockly.cake['data_replaceitemoflist'] = function (block) {
@@ -151,7 +151,7 @@ Blockly.cake['data_replaceitemoflist'] = function (block) {
         return '';
     }
 
-    return `LB_ListIndexChangerData(UserList, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
+    return `LB_ListIndexChangerData(${varName}, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
 Blockly.cake['data_itemoflist'] = function (block) {
@@ -160,7 +160,7 @@ Blockly.cake['data_itemoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    return [`LB_ListDeletIndex(UserList, ${index})`, Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListDeletIndex(${varName}, ${index})`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_itemnumoflist'] = function (block) {
@@ -169,7 +169,7 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    let str = `LB_ListGetDataIndex(UserList, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
+    let str = `LB_ListGetDataIndex(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
     return [str, Blockly.cake.ORDER_UNARY_SIGN];
 };
 
@@ -177,7 +177,7 @@ Blockly.cake['data_lengthoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
     
-    return [`LB_ListGetNumber(UserList)`, Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListGetNumber(${varName})`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_listcontainsitem'] = function (block) {
@@ -186,7 +186,7 @@ Blockly.cake['data_listcontainsitem'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    let str = `LB_ListCmpData(UserList, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
+    let str = `LB_ListCmpData(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
     return [str, Blockly.cake.ORDER_RELATIONAL];
 };
 

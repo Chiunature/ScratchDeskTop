@@ -49,6 +49,7 @@ const DroppableBlocks = DropAreaHOC([
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 const regexForMyBlock = /void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};/;
+const regVariable = /(?:char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -150,27 +151,28 @@ class Blocks extends React.Component {
         this.props.setWorkspace(this.workspace);
         if (type === 'move' || type === 'change' || type === 'delete') {
             this.props.getCode(code);
-            this.disableBlocks('combined_motor_starting', 'combined_motor');
-            this.disableBlocks('data_definevar', 'data');
+            this.disableBlocks('combined_motor_starting', 'combined_motor', 'combined');
+            this.disableBlocks('data_definevariable', 'data', 'variable');
+            this.disableBlocks('data_definelist', 'data', 'list');
             this.checkStartHat(this.workspace, this.props.code);
         } else {
             return false;
         }
     }
 
-    disableBlocks(type, category_) {
-        let current, targetId, target, list = this.workspace.getAllBlocks();
+    disableBlocks(type, category_, typeId) {
+        let current, targetId, list = this.workspace.getAllBlocks();
         list.map((el, index) => {
             if (el.type === type) {
                 current = index;
-                target = el.svgGroup_;
                 targetId = el.svgGroup_.getAttribute('data-id');
             }
         });
         list.map((el, index) => {
             const children = el.svgGroup_.children;
-            const isSameCategory = el.category_ === category_ || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ === category_);
-            if (isSameCategory) {
+            const isSameCategory = (el.category_ && el.category_.indexOf(category_) !== -1) || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ && el.parentBlock_.category_.indexOf(category_) !== -1);
+            const isSameType = (el.category_ && el.type.indexOf(typeId) !== -1) || (!el.category_ && el.parentBlock_ && el.parentBlock_.type.indexOf(typeId) !== -1);
+            if (isSameCategory && isSameType) {
                 const isOpacity = index < current;
                 const opacity = `opacity: ${isOpacity ? '.5' : '1'}`;
                 for (let i = 0; i < children.length; i++) {
@@ -196,14 +198,19 @@ class Blocks extends React.Component {
         if (!hasStart) return;
 
         const match = code.match(regex);
-        const matchMyBlock = code.match(regexForMyBlock);
-
-        if (matchMyBlock) this.props.setMatchMyBlock(matchMyBlock);
+        let matchMyBlock = code.match(regexForMyBlock);
+        const variable = code.match(regVariable);
+        if (variable) {
+            matchMyBlock = !matchMyBlock ? '' : matchMyBlock;
+            matchMyBlock += '\n' + variable.join(';\n') + ';';
+        }
+        if (matchMyBlock) {
+            this.props.setMatchMyBlock(matchMyBlock);
+        }
 
         if (match && match[1] !== '\n\n') {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
-
             this.parserTask(this.workspace, arr);
         }
     }
@@ -242,7 +249,6 @@ class Blocks extends React.Component {
         }
         if (newList.length > 0) {
             this.props.setBufferList(newList);
-
         }
     }
 

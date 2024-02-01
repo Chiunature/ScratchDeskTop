@@ -53,7 +53,7 @@ Blockly.Blocks['data_variable'] = {
   }
 };
 
-Blockly.Blocks['data_definevar'] = {
+Blockly.Blocks['data_definevariable'] = {
   /**
    * Block to set variable to a certain value
    * @this Blockly.Block

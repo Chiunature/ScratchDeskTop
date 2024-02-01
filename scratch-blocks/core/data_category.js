@@ -113,7 +113,7 @@ Blockly.DataCategory.addDefineVariableTo = function (xmlList, variable) {
   //    <shadow type="data_variablemenu"></shadow>
   //   </value>
   // </block>
-  Blockly.DataCategory.addBlock(xmlList, variable, 'data_definevar',
+  Blockly.DataCategory.addBlock(xmlList, variable, 'data_definevariable',
     'VARIABLE');
 };
 
