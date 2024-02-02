@@ -35,7 +35,7 @@ Blockly.cake['motor_speed'] = function (block) {
     let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let speed = Blockly.cake.valueToCode(block, "SPEED", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_Speed("${dropdown_port}1", ${speed});\n`;
+    let code = `motor_Speed("${dropdown_port}1", "${speed}");\n`;
     return code;
 };
 
@@ -45,7 +45,7 @@ Blockly.cake['motor_specifiedunit'] = function (block) {
     let count = Blockly.cake.valueToCode(block, "COUNT", Blockly.cake.ORDER_NONE);
     let unit = block.getFieldValue('unit');
     // TODO: Assemble cake into code variable.
-    let code = `motor_specifiedunit("${dropdown_port}1", "${dropdown_spin}", ${count}, "${unit}");\n`;
+    let code = `motor_specifiedunit("${dropdown_port}1", "${dropdown_spin}", "${count}", "${unit}");\n`;
     return code;
 };
 
