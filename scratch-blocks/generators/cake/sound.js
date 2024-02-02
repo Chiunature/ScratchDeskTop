@@ -12,12 +12,12 @@ Blockly.cake['sound_sounds_menu'] = function (block) {
 
 Blockly.cake['sound_playuntildone'] = function (block) {
     let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
-    return `sound_playuntildone("${sound}");\n`;
+    return `sound_playuntildone("${sound}.wav");\n`;
 }
 
 Blockly.cake['sound_play'] = function (block) {
     let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
-    return `sound_play("${sound}");\n`;
+    return `sound_play("${sound}.wav");\n`;
 }
 
 Blockly.cake['sound_stopallsounds'] = function (block) {
@@ -27,13 +27,13 @@ Blockly.cake['sound_stopallsounds'] = function (block) {
 Blockly.cake['sound_seteffectto'] = function (block) {
     let effect = block.getFieldValue('EFFECT');
     let value = Blockly.cake.valueToCode(block, "VALUE", Blockly.cake.ORDER_ATOMIC);
-    return `sound_seteffectto("${effect}", ${value});\n`;
+    return `sound_seteffectto("${effect}", "${value}");\n`;
 }
 
 Blockly.cake['sound_changeeffectby'] = function (block) {
     let effect = block.getFieldValue('EFFECT');
     let value = Blockly.cake.valueToCode(block, "VALUE", Blockly.cake.ORDER_ATOMIC);
-    return `sound_changeeffectby("${effect}", ${value});\n`;
+    return `sound_changeeffectby("${effect}", "${value}");\n`;
 }
 
 Blockly.cake['sound_cleareffects'] = function (block) {
@@ -42,10 +42,10 @@ Blockly.cake['sound_cleareffects'] = function (block) {
 
 Blockly.cake['sound_changevolumeby'] = function (block) {
     let volume = Blockly.cake.valueToCode(block, "VOLUME", Blockly.cake.ORDER_ATOMIC);
-    return `sound_changevolumeby(${volume});\n`;
+    return `sound_changevolumeby("${volume}");\n`;
 }
 
 Blockly.cake['sound_setvolumeto'] = function (block) {
     let volume = Blockly.cake.valueToCode(block, "VOLUME", Blockly.cake.ORDER_ATOMIC);
-    return `sound_setvolumeto(${volume});\n`;
+    return `sound_setvolumeto("${volume}");\n`;
 }
