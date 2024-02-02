@@ -35,8 +35,9 @@ Blockly.cake['data_definevariable'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
-    return `char ${varName}[16];\n`;
+    Blockly.cake.definitions_['data_definevariable'] =
+        `char ${varName}[16];\n`;
+    return ``;
 };
 
 Blockly.cake['data_setvariableto'] = function (block) {
@@ -48,9 +49,9 @@ Blockly.cake['data_setvariableto'] = function (block) {
         return '';
     }
     // Arg is a number
-   /*  if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
-        arg0 = parseFloat(arg0.slice(1, -1)).toString();
-    } */
+    /*  if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
+         arg0 = parseFloat(arg0.slice(1, -1)).toString();
+     } */
 
     return `strcpy((char*)(${varName}),(const char*)(${arg0}));\n`;
 };
@@ -87,8 +88,9 @@ Blockly.cake['data_definelist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
-    return `ListNode *${varName} = NULL;\n${varName} = ListInit();\n`;
+    Blockly.cake.definitions_['data_definelist'] =
+        `ListNode *${varName} = NULL;\n`;
+    return `${varName} = ListInit();\n`;
 };
 
 Blockly.cake['data_addtolist'] = function (block) {
@@ -112,7 +114,7 @@ Blockly.cake['data_deleteoflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    
+
     return `LB_ListDeletIndex(${varName}, ${index});\n`;
 };
 
@@ -176,7 +178,7 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
 Blockly.cake['data_lengthoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-    
+
     return [`LB_ListGetNumber(${varName})`, Blockly.cake.ORDER_ATOMIC];
 };
 
