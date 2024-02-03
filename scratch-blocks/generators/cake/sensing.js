@@ -18,22 +18,22 @@ Blockly.cake['sensing_color_menu'] = function (block) {
 };
 
 Blockly.cake['sensing_color_judgment'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_judgment("${dropdown_port}1", ${color})`;
+    let code = `Sensing_color_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${color})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_color_detection'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_detection("${dropdown_port}1")`;
+    let code = `Sensing_color_detection(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_color_detectionRGB'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = block.getFieldValue('color');
     let rgb;
     switch (color) {
@@ -53,47 +53,47 @@ Blockly.cake['sensing_color_detectionRGB'] = function (block) {
             break;
     }
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_detectionRGB("${dropdown_port}1", "${rgb}")`;
+    let code = `Sensing_color_detectionRGB(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(rgb) ? rgb : '"' + rgb + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_reflected_light_judgment'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let dropdown_judgment = block.getFieldValue('judgment');
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let judgment = block.getFieldValue('judgment');
     let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_Reflected_light_judgment("${dropdown_port}1","${dropdown_judgment}", "${inp}")`;
+    let code = `Sensing_Reflected_light_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(judgment) ? judgment : '"' + judgment + '"'}, ${Blockly.cake.toStr(inp) ? inp : '"' + inp + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_reflected_light_detection'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_reflected_light_detection("${dropdown_port}1")`;
+    let code = `Sensing_reflected_light_detection(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_line_inspection_judgment'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let dropdown_line = block.getFieldValue('line');
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let line = block.getFieldValue('line');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_Line_inspection_judgment("${dropdown_port}1", "${dropdown_line}")`;
+    let code = `Sensing_Line_inspection_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(line) ? line : '"' + line + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_ultrasonic_judgment'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let dropdown_judgment = block.getFieldValue('judgment');
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let judgment = block.getFieldValue('judgment');
     let inp = Blockly.cake.valueToCode(block, "value", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `sensing_ultrasonic_judgment("${dropdown_port}1", "${dropdown_judgment}", "${inp}")`;
+    let code = `sensing_ultrasonic_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(judgment) ? judgment : '"' + judgment + '"'}, ${Blockly.cake.toStr(inp) ? inp : '"' + inp + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_ultrasonic_detection'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `sensing_ultrasonic_detection("${dropdown_port}1")`;
+    let code = `sensing_ultrasonic_detection(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
@@ -104,38 +104,38 @@ Blockly.cake['sensing_sound_intensity'] = function (block) {
 };
 
 Blockly.cake['sensing_key_judgment'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `DetectingTouch("${dropdown_port}1")`;
+    let code = `DetectingTouch(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_key_press'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
-    let dropdown_status = block.getFieldValue('status');
+    let port = block.getFieldValue('PORT');
+    let status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_key_press("${dropdown_port}", "${dropdown_status}")`;
+    let code = `Sensing_key_press(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(status) ? status : '"' + status + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_gyroscope_acceleration'] = function (block) {
     let directiion = block.getFieldValue('directiion');
     // TODO: Assemble cake into code variable.
-    let code = `sensing_gyroscope_acceleration("${directiion}")`;
+    let code = `sensing_gyroscope_acceleration(${Blockly.cake.toStr(directiion) ? directiion : '"' + directiion + '"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_gyroscope_attitude'] = function (block) {
     let attitude = block.getFieldValue('attitude');
     // TODO: Assemble cake into code variable.
-    let code = `sensing_gyroscope_attitude("${attitude}")`;
+    let code = `sensing_gyroscope_attitude(${Blockly.cake.toStr(attitude) ? attitude : '"' + attitude + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
 Blockly.cake['sensing_gyroscope_angle'] = function (block) {
-    let dropdown_port = block.getFieldValue('PORT');
+    let port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
-    let code = `sensing_AngleofAttitude("${dropdown_port}")`;
+    let code = `sensing_AngleofAttitude(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
@@ -148,7 +148,7 @@ Blockly.cake['sensing_magnetic_calibration'] = function (block) {
 Blockly.cake['sensing_magnetism'] = function (block) {
     let direction = block.getFieldValue('direction');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_magnetism("${direction}")`;
+    let code = `Sensing_magnetism(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 

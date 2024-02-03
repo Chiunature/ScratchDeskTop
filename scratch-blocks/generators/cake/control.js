@@ -42,7 +42,7 @@ const addContinueLabel = function (branch) {
 Blockly.cake['control_wait'] = function (block) {
   var arg0 = Blockly.cake.valueToCode(block, 'DURATION',
     Blockly.cake.ORDER_FUNCTION_CALL);
-  var code = 'waiteDelay("' + arg0 + '");\n';
+  var code = `waiteDelay(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
   return code;
 };
 

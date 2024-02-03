@@ -25,15 +25,15 @@ Blockly.cake['combined_motorTwo_menu'] = function (block) {
 Blockly.cake['combined_motor_starting'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_starting("${port}");\n`;
+    const code = `motor_combined_starting(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
 Blockly.cake['combined_motor_direction'] = function (block) {
-    const dropdown_direction = block.getFieldValue('direction');
+    const direction = block.getFieldValue('direction');
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_direction("${dropdown_direction}");\n`;
+    const code = `motor_combined_direction(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'});\n`;
     return code;
 };
 
@@ -42,18 +42,23 @@ Blockly.cake['combined_motor_speed'] = function (block) {
     const speed = Blockly.cake.valueToCode(block, "SPEED", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_speed("${one}", "${two}", ${speed});\n`;
-    const code = `motor_combined_speed(${speed});\n`;
+    const code = `motor_combined_speed(${Blockly.cake.toStr(speed) ? speed : '"' + speed + '"'});\n`;
     return code;
 };
 
 Blockly.cake['combined_motor_turn'] = function (block) {
-    const dropdown_spin = block.getFieldValue('SPIN');
+    const spin = block.getFieldValue('SPIN');
     const angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
     const distance = block.getFieldValue('distance');
     const unit = block.getFieldValue('unit');
     const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_turn("${one}", "${two}", "${dropdown_spin}", ${angle}, ${distance}, "${unit}");\n`;
+    const code = `motor_combined_turn(`+`${Blockly.cake.toStr(one) ? one : '"' + one + '"'},`+ 
+    `${Blockly.cake.toStr(two) ? two : '"' + two + '"'},`+
+    `${Blockly.cake.toStr(spin) ? spin : '"' + spin + '"'},`+
+    `${Blockly.cake.toStr(angle) ? angle : '"' + angle + '"'},`+ 
+    `${Blockly.cake.toStr(distance) ? distance : '"' + distance + '"'},`+
+    `${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
     return code;
 };
 
@@ -64,7 +69,7 @@ Blockly.cake['combined_motor_line'] = function (block) {
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_line("${one}", "${two}", "${line}", ${distance}, "${unit}");\n`;
-    const code = `motor_combined_line("${line}", ${distance}, "${unit}");\n`;
+    const code = `motor_combined_line(${Blockly.cake.toStr(line) ? line : '"' + line + '"'}, ${Blockly.cake.toStr(distance) ? distance : '"' + distance + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
     return code;
 };
 
@@ -82,7 +87,7 @@ Blockly.cake['combined_motor_move'] = function (block) {
     const distance = block.getFieldValue('distance');
     const result = block.getFieldValue('result');
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_move(${left}, ${right}, ${distance}, "${result}");\n`;
+    const code = `motor_combined_move(${Blockly.cake.toStr(left) ? left : '"' + left + '"'}, ${Blockly.cake.toStr(right) ? right : '"' + right + '"'}, ${Blockly.cake.toStr(distance) ? distance : '"' + distance + '"'}, ${Blockly.cake.toStr(result) ? result : '"' + result + '"'});\n`;
     return code;
 };
 
@@ -92,14 +97,14 @@ Blockly.cake['combined_motor_movestep'] = function (block) {
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_movestep("${one}", "${two}", ${left}, ${right});\n`;
-    const code = `motor_combined_movestep(${left}, ${right});\n`;
+    const code = `motor_combined_movestep(${Blockly.cake.toStr(left) ? left : '"' + left + '"'}, ${Blockly.cake.toStr(right) ? right : '"' + right + '"'});\n`;
     return code;
 };
 
 Blockly.cake['combined_motor_angle'] = function (block) {
     const angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_angle(${angle});\n`;
+    const code = `motor_combined_angle(${Blockly.cake.toStr(angle) ? angle : '"' + angle + '"'});\n`;
     return code;
 };
 
@@ -108,6 +113,6 @@ Blockly.cake['combined_motor_stopping'] = function (block) {
     // const {one, two} = Blockly.cake.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble cake into code variable.
     // const code = `motor_combined_stopping("${one}", "${two}", "${style}");\n`;
-    const code = `motor_combined_stopping("${style}");\n`;
+    const code = `motor_combined_stopping(${Blockly.cake.toStr(style) ? style : '"' + style + '"'});\n`;
     return code;
 };

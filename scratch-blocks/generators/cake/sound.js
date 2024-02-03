@@ -47,5 +47,5 @@ Blockly.cake['sound_changevolumeby'] = function (block) {
 
 Blockly.cake['sound_setvolumeto'] = function (block) {
     let volume = Blockly.cake.valueToCode(block, "VOLUME", Blockly.cake.ORDER_ATOMIC);
-    return `sound_setvolumeto("${volume}");\n`;
+    return `sound_setvolumeto(${Blockly.cake.toStr(volume) ? volume : '"' + volume + '"'});\n`;
 }

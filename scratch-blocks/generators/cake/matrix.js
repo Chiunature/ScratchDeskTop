@@ -50,8 +50,9 @@ Blockly.cake['matrix_lamp'] = function (block) {
         return;
     }
     const newColor = last.replace(/\'/g, '');
+    newColor = parseInt(newColor).toString();
     // TODO: Assemble cake into code variable.
-    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, "${parseInt(newColor).toString()}");\n`;
+    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
     return code;
 };
 
@@ -63,8 +64,9 @@ Blockly.cake['matrix_lamp_stop'] = function (block) {
 
 Blockly.cake['matrix_lamp_set'] = function (block) {
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
+    brightness = parseInt(brightness / 10);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_set_lamp(NULL, "${parseInt(brightness / 10)}");\n`;
+    let code = `matrix_set_lamp(NULL, ${Blockly.cake.toStr(brightness) ? brightness : '"' + brightness + '"'});\n`;
     return code;
 };
 
@@ -84,7 +86,7 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
     let x = Blockly.cake.valueToCode(block, "x", Blockly.cake.ORDER_NONE);
     let y = Blockly.cake.valueToCode(block, "y", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_single_lamp("${x}", "${y}");\n`;
+    let code = `matrix_single_lamp(${Blockly.cake.toStr(x) ? x : '"' + x + '"'}, ${Blockly.cake.toStr(y) ? y : '"' + y + '"'});\n`;
     return code;
 };
 
@@ -104,7 +106,7 @@ Blockly.cake['matrix_lamp_setRGB'] = function (block) {
     let order = block.getFieldValue('order');
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_setRGB_lamp(${order}, ${color.replace(/\'/g, '"')});\n`;
+    let code = `matrix_setRGB_lamp(${Blockly.cake.toStr(order) ? order : '"' + order + '"'}, ${color.replace(/\'/g, '"')});\n`;
     return code;
 };
 
@@ -124,7 +126,8 @@ Blockly.cake['matrix_color'] = function (block) {
         return;
     }
     const newColor = last.replace(/\'/g, '');
+    newColor = parseInt(newColor).toString();
     // TODO: Assemble cake into code variable.
-    let code = `matrix_color(NULL, "${parseInt(newColor).toString()}");\n`;
+    let code = `matrix_color(NULL, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
     return code;
 };
