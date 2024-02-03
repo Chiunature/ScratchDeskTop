@@ -25,18 +25,19 @@ goog.require('Blockly.cake');
 
 Blockly.cake['operator_arithmetic'] = function (block) {
     var oplist = {
-        operator_add: [' + ', Blockly.cake.ORDER_ADDITIVE],
-        operator_subtract: [' - ', Blockly.cake.ORDER_ADDITIVE],
-        operator_multiply: [' * ', Blockly.cake.ORDER_MULTIPLICATIVE],
-        operator_divide: [' / ', Blockly.cake.ORDER_MULTIPLICATIVE]
+        operator_add: ['+', Blockly.cake.ORDER_ADDITIVE],
+        operator_subtract: ['-', Blockly.cake.ORDER_ADDITIVE],
+        operator_multiply: ['*', Blockly.cake.ORDER_MULTIPLICATIVE],
+        operator_divide: ['/', Blockly.cake.ORDER_MULTIPLICATIVE]
     };
     var tuple = oplist[block.type];
     var op = tuple[0];
     var order = tuple[1];
     // Numeric value.
-    var argument0 = Blockly.cake.valueToCode(block, 'NUM1', order) || '0';
-    var argument1 = Blockly.cake.valueToCode(block, 'NUM2', order) || '0';
-    var code = argument0 + op + argument1;
+    var arg0 = Blockly.cake.valueToCode(block, 'NUM1', order) || '0';
+    var arg1 = Blockly.cake.valueToCode(block, 'NUM2', order) || '0';
+    // var code = argument0 + op + argument1;
+var code = `valueCalculate(${Blockly.cake.toStr(op) ? op : '"' + op + '"'}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
@@ -48,15 +49,15 @@ Blockly.cake['operator_divide'] = Blockly.cake['operator_arithmetic'];
 Blockly.cake['operator_random'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'FROM', Blockly.cake.ORDER_FUNCTION_CALL) || '0';
     var arg1 = Blockly.cake.valueToCode(block, 'TO', Blockly.cake.ORDER_FUNCTION_CALL) || '0';
-    var code = "LB_Random(" + arg0 + ", " + arg1 + ")";
+    var code = `randomNumber(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
 Blockly.cake['operator_compare'] = function (block) {
     var oplist = {
-        "operator_gt": " > ",
-        "operator_equals": " == ",
-        "operator_lt": " < "
+        "operator_gt": ">",
+        "operator_equals": "=",
+        "operator_lt": "<"
     };
     var order = Blockly.cake.ORDER_RELATIONAL;
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND1', order);
@@ -74,7 +75,8 @@ Blockly.cake['operator_compare'] = function (block) {
     } */
 
     var op = oplist[block.type];
-    var code = arg0 + op + arg1;
+    // var code = arg0 + op + arg1;
+var code = `JudgineTheSize(${Blockly.cake.toStr(op) ? op : '"' + op + '"'}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
@@ -84,15 +86,16 @@ Blockly.cake['operator_lt'] = Blockly.cake['operator_compare'];
 
 Blockly.cake['operator_operation'] = function (block) {
     var oplist = {
-        "operator_and": " && ",
-        "operator_or": " || "
+        "operator_and": "&",
+        "operator_or": "|"
     };
     var order = (block.type == "operator_and") ? Blockly.cake.ORDER_LOGICAL_AND :
         Blockly.cake.ORDER_LOGICAL_OR;
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND1', order) || '0';
     var arg1 = Blockly.cake.valueToCode(block, 'OPERAND2', order) || '0';
     var op = oplist[block.type];
-    var code = arg0 + op + arg1;
+    // var code = arg0 + op + arg1;
+var code = code = `and_or_if(${Blockly.cake.toStr(op) ? op : '"' + op + '"'}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
@@ -141,7 +144,7 @@ Blockly.cake['operator_contains'] = function (block) {
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
     var arg0 = Blockly.cake.valueToCode(block, 'STRING1', order) || '\'\'';
     var arg1 = Blockly.cake.valueToCode(block, 'STRING2', order) || '0';
-    var code = `Str_Matchine(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, '${arg1}')`;
+    var code = `Str_Matchine(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
@@ -149,14 +152,15 @@ Blockly.cake['operator_mod'] = function (block) {
     var order = Blockly.cake.ORDER_MULTIPLICATIVE;
     var arg0 = Blockly.cake.valueToCode(block, 'NUM1', order) || '0';
     var arg1 = Blockly.cake.valueToCode(block, 'NUM2', order) || '0';
-    var code = arg0 + ' % ' + arg1;
+    // var code = arg0 + ' % ' + arg1;
+var code = `uf_mod(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
 Blockly.cake['operator_round'] = function (block) {
     var order = Blockly.cake.ORDER_UNARY_POSTFIX;
     var arg0 = Blockly.cake.valueToCode(block, 'NUM', order) || '0';
-    var code = 'Rounding(' + arg0 + ')';
+    var code = `Rounding(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'})`;
     return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
 
@@ -166,7 +170,7 @@ Blockly.cake['operator_mathop'] = function (block) {
 
     // Blockly.cake.imports_["math"] = "import math";
 
-    var code = `Calculation("${mode}", ${arg0})`;
+    var code = `Calculation(${Blockly.cake.toStr(mode) ? mode : '"' + mode + '"'}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'})`;
     var order = Blockly.cake.ORDER_FUNCTION_CALL;
 
     /* switch (mode) {

@@ -53,7 +53,7 @@ Blockly.cake['data_setvariableto'] = function (block) {
          arg0 = parseFloat(arg0.slice(1, -1)).toString();
      } */
 
-    return `strcpy((char*)(${varName}),(const char*)(${arg0}));\n`;
+    return `SettingVariables(${varName}, "${arg0}");\n`;
 };
 
 Blockly.cake['data_changevariableby'] = function (block) {
@@ -65,7 +65,7 @@ Blockly.cake['data_changevariableby'] = function (block) {
         return '';
     }
 
-    return varName + ' += ' + arg0 + ';\n';
+    return `SettingVariablesAdd(${varName}, "${arg0}");\n`;
 };
 
 Blockly.cake['data_showvariable'] = function () {
