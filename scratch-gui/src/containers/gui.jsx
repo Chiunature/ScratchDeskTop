@@ -52,8 +52,8 @@ class GUI extends React.Component {
                 deviceList: [],
                 gyroList: new Array(3).fill(0),
                 flashList: new Array(2).fill(0),
-                adcList: null,
-                voice: null
+                adcList: 0,
+                voice: 0
             },
             stopWatch: false
         }

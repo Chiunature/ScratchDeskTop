@@ -35,7 +35,7 @@ Blockly.cake['data_definevariable'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    Blockly.cake.definitions_['data_definevariable'] =
+    Blockly.cake.definitions_['data_definevariable_' + varName] =
         `char ${varName}[16];\n`;
     return ``;
 };
@@ -88,7 +88,7 @@ Blockly.cake['data_definelist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    Blockly.cake.definitions_['data_definelist'] =
+    Blockly.cake.definitions_['data_definelist_' + varName] =
         `ListNode *${varName} = NULL;\n`;
     return `${varName} = ListInit();\n`;
 };
@@ -115,7 +115,7 @@ Blockly.cake['data_deleteoflist'] = function (block) {
         return '';
     }
 
-    return `LB_ListDeletIndex(${varName}, ${index});\n`;
+    return `LB_ListDeletIndex(${varName}, "${index}");\n`;
 };
 
 Blockly.cake['data_deletealloflist'] = function (block) {
@@ -139,7 +139,7 @@ Blockly.cake['data_insertatlist'] = function (block) {
         return '';
     }
 
-    return `LB_ListIndexPullData(${varName}, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
+    return `LB_ListIndexPullData(${varName}, "${index}", ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
 Blockly.cake['data_replaceitemoflist'] = function (block) {
@@ -153,7 +153,7 @@ Blockly.cake['data_replaceitemoflist'] = function (block) {
         return '';
     }
 
-    return `LB_ListIndexChangerData(${varName}, ${index}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
+    return `LB_ListIndexChangerData(${varName}, "${index}", ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
 Blockly.cake['data_itemoflist'] = function (block) {
@@ -162,7 +162,7 @@ Blockly.cake['data_itemoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
 
-    return [`LB_ListDeletIndex(${varName}, ${index})`, Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListDeletIndex(${varName}, "${index}")`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_itemnumoflist'] = function (block) {

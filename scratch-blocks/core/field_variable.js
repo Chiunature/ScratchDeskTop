@@ -199,7 +199,7 @@ Blockly.FieldVariable.prototype.getVariable = function() {
  * @param {string} id New variable ID, which must reference an existing
  *     variable.
  */
-Blockly.FieldVariable.prototype.setValue = function(id) {
+Blockly.FieldVariable.prototype.setValue = function(id, index = 0) {
   var workspace = this.sourceBlock_.workspace;
   var variable = Blockly.Variables.getVariable(workspace, id);
 

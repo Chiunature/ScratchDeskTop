@@ -162,33 +162,84 @@ class Blocks extends React.Component {
 
     disableBlocks(type, category_, typeId) {
         let current, targetId, list = this.workspace.getAllBlocks();
-        list.map((el, index) => {
-            if (el.type === type) {
-                current = index;
-                targetId = el.svgGroup_.getAttribute('data-id');
+        for (let i = 0; i < list.length; i++) {
+            const element = list[i];
+            if (element.type === type) {
+                current = i;
+                targetId = element.svgGroup_.getAttribute('data-id');
             }
-        });
-        list.map((el, index) => {
+        }
+        switch (category_) {
+            case 'combined_motor':
+                this.turnToDisable(list, category_, typeId, current, targetId);
+                break;
+            case 'data':
+                this.checkIsSameVar(list, category_, type, typeId);
+                break;
+            default:
+                break;
+        }
+    }
+
+    checkIsSameVar(list, category_, type, typeId) {
+        const newList = list.filter(el => (el.category_ && el.category_.indexOf(category_) !== -1));
+        let definelist = [], targetList = [];
+        for (let i = 0; i < newList.length; i++) {
+            const el = newList[i];
+            if (el.type === type && el.type.indexOf(typeId) !== -1) {
+                definelist.push({ element: el, index: i });
+            } else if(el.type !== type && el.type.indexOf(typeId) !== -1) {
+                targetList.push({ element: el, index: i });
+            }
+        }
+        for (let i = 0; targetList.length > 0 && definelist.length > 0 && i < definelist.length; i++) {
+            const define = definelist[i];
+            for (let j = 0; j < targetList.length; j++) {
+                const el = targetList[j];
+                const isSameText = el.element.inputList[0].fieldRow[1].text_ === define.element.inputList[0].fieldRow[1].text_;
+                const compareIndex = define.index > el.index;
+                if(isSameText) {
+                    const opacity = `opacity: ${compareIndex ? '.5' : '1'}`;
+                    el.element.svgPath_.setAttribute('style', opacity);
+                    el.element.setEditable(!compareIndex);
+                    el.element.setDisabled(compareIndex);
+                }
+            }
+        }
+    }
+
+    turnToDisable(list, category_, typeId, current, targetId) {
+        for (let i = 0; i < list.length; i++) {
+            const el = list[i];
             const children = el.svgGroup_.children;
-            const isSameCategory = (el.category_ && el.category_.indexOf(category_) !== -1) || (!el.category_ && el.parentBlock_ && el.parentBlock_.category_ && el.parentBlock_.category_.indexOf(category_) !== -1);
-            const isSameType = (el.category_ && el.type.indexOf(typeId) !== -1) || (!el.category_ && el.parentBlock_ && el.parentBlock_.type.indexOf(typeId) !== -1);
+            const isSameCategory = _isSameCategory(el);
+            const isSameType = _isSameType(el);
             if (isSameCategory && isSameType) {
-                const isOpacity = index < current;
+                const isOpacity = i < current;
                 const opacity = `opacity: ${isOpacity ? '.5' : '1'}`;
-                for (let i = 0; i < children.length; i++) {
-                    const childId = children[i].getAttribute('data-id');
-                    const childClass = children[i].getAttribute('class');
-                    const hasOpacity = children[i].style['opacity'] == '.5';
+                for (let j = 0; j < children.length; j++) {
+                    const childId = children[j].getAttribute('data-id');
+                    const childClass = children[j].getAttribute('class');
+                    const hasOpacity = children[j].style['opacity'] === '.5';
                     if ((childId && targetId === childId) || (childClass && childClass.indexOf('blocklyDraggable') !== -1) || hasOpacity) {
                         continue;
                     }
-                    children[i].setAttribute('style', opacity);
+                    children[j].setAttribute('style', opacity);
                 }
                 el.svgPath_.setAttribute('style', opacity);
                 el.setEditable(!isOpacity);
                 el.setDisabled(isOpacity);
             }
-        });
+        }
+        function _isSameCategory(element) {
+            return (element.category_ && element.category_.indexOf(category_) !== -1) ||
+                (!element.category_ && element.parentBlock_ && element.parentBlock_.category_ && element.parentBlock_.category_.indexOf(category_) !== -1);
+        }
+
+        function _isSameType(element) {
+            return (element.category_ && element.type.indexOf(typeId) !== -1) ||
+                (!element.category_ && element.parentBlock_ && element.parentBlock_.type.indexOf(typeId) !== -1);
+        }
     }
 
     //检查是不是开始事件头
