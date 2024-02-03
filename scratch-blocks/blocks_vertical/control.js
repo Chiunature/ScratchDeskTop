@@ -178,6 +178,7 @@ Blockly.Blocks['control_stop'] = {
     var ALL_SCRIPTS = 'all';
     var THIS_SCRIPT = 'single';
     var OTHER_SCRIPTS = 'and exit';
+
     var stopDropdown = new Blockly.FieldDropdown(function () {
       if (this.sourceBlock_ &&
       this.sourceBlock_.nextConnection &&
@@ -189,7 +190,7 @@ Blockly.Blocks['control_stop'] = {
       return [
       [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
       [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
-      [Blockly.Msg.CONTROL_STOP_EXIT, OTHER_SCRIPTS]
+      // [Blockly.Msg.CONTROL_STOP_EXIT, OTHER_SCRIPTS]
       ];
     }, function (option) {
       // Create an event group to keep field value and mutator in sync

@@ -140,7 +140,16 @@ Blockly.cake['control_repeat_until'] = function (block) {
 Blockly.cake['control_stop'] = function (block) {
   var argument = block.getFieldValue('STOP_OPTION',
     Blockly.cake.ORDER_NONE) || 'all';
-  return `LB_StopThisProgramment();\n`;
+  let res;
+  switch (argument) {
+    case 'single':
+      res = 1;
+      break;
+    default:
+      res = 2;
+      break;
+  }
+  return `vTaskExit("${res}");\n`;
 };
 
 
