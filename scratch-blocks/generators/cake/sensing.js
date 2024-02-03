@@ -20,9 +20,22 @@ Blockly.cake['sensing_color_menu'] = function (block) {
 Blockly.cake['sensing_color_judgment'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
+    let newColor;
+    if (color.indexOf('(') === -1) {
+        const pre = Blockly.cake.hexToRgb(color);
+        // const target = Blockly.cake.rgbToGrb(pre);
+        const last = Blockly.cake.grbToHex(pre);
+        if (!last) {
+            return;
+        }
+        newColor = last.replace(/\'/g, '');
+        newColor = parseInt(newColor).toString();
+    } else {
+        newColor = color;
+    }
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${color})`;
-    return [code, Blockly.cake.ORDER_RELATIONAL];
+    let code = `Sensing_color_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'})`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_color_detection'] = function (block) {

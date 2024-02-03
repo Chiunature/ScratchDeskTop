@@ -173,6 +173,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     ${blockSeparator}
     <block id="current" type="sensing_current"/>
     <block type="sensing_dayssince2000"/>
+<block type="sensing_key_press"></block>
 */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     const name = ScratchBlocks.ScratchMsgs.translate(
@@ -190,7 +191,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="sensing_menu" />
                 </value>
                 <value name="COLOR">
-                    <shadow type="sensing_color_menu" />
+                    <shadow type="colour_card" />
                 </value>
             </block>
             <block type="sensing_color_detection">
@@ -231,12 +232,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             </block>
             ${blockSeparator}
             <block type="sensing_sound_intensity"></block>
-            <block type="sensing_key_press"></block>
-            <block type="sensing_key_judgment">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block> 
+            <block type="sensing_key_judgment"></block> 
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
             <block type="sensing_gyroscope_angle"></block>

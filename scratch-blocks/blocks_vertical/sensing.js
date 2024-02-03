@@ -45,8 +45,8 @@ goog.require('Blockly.ScratchBlocks.VerticalExtensions');
           "extensions": ["colours_pen", "colours_sensing", "output_boolean"],
       });
   }
-};
- */
+}; */
+
 Blockly.Blocks['sensing_touchingobject'] = {
   /**
    * Block to Report if its touching a Object.
