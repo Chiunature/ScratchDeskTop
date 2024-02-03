@@ -49,7 +49,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     if (!last) {
         return;
     }
-    const newColor = last.replace(/\'/g, '');
+    let newColor = last.replace(/\'/g, '');
     newColor = parseInt(newColor).toString();
     // TODO: Assemble cake into code variable.
     let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
@@ -125,7 +125,7 @@ Blockly.cake['matrix_color'] = function (block) {
     if (!last) {
         return;
     }
-    const newColor = last.replace(/\'/g, '');
+    let newColor = last.replace(/\'/g, '');
     newColor = parseInt(newColor).toString();
     // TODO: Assemble cake into code variable.
     let code = `matrix_color(NULL, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
