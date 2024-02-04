@@ -188,7 +188,7 @@ class Blocks extends React.Component {
             const el = newList[i];
             if (el.type === type && el.type.indexOf(typeId) !== -1) {
                 definelist.push({ element: el, index: i });
-            } else if(el.type !== type && el.type.indexOf(typeId) !== -1) {
+            } else if (el.type !== type && el.type.indexOf(typeId) !== -1) {
                 targetList.push({ element: el, index: i });
             }
         }
@@ -196,9 +196,10 @@ class Blocks extends React.Component {
             const define = definelist[i];
             for (let j = 0; j < targetList.length; j++) {
                 const el = targetList[j];
+                if (!el.element.inputList[0] || !define.element.inputList[0] || !el.element.inputList[0].fieldRow[1] || !define.element.inputList[0].fieldRow[1]) continue;
                 const isSameText = el.element.inputList[0].fieldRow[1].text_ === define.element.inputList[0].fieldRow[1].text_;
                 const compareIndex = define.index > el.index;
-                if(isSameText) {
+                if (isSameText) {
                     const opacity = `opacity: ${compareIndex ? '.5' : '1'}`;
                     el.element.svgPath_.setAttribute('style', opacity);
                     el.element.setEditable(!compareIndex);

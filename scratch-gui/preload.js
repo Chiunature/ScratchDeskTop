@@ -36,7 +36,7 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
  * @param {String} eventName 
  */
 function delEvents(eventName) {
-    if(!eventName) {
+    if (!eventName) {
         const eventList = window.electron.ipcRenderer.eventNames();
         eventList.map(item => {
             ipcRenderer.removeAllListeners([item]);
@@ -114,6 +114,22 @@ function getVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
     }
 }
 
+/**
+ * 查找文件夹并写入文件
+ * @param {String} directory 
+ * @param {String} filepath 
+ * @param {String} data 
+ */
+async function writeFileWithDirectory(directory, filepath, data) {
+    if (fs.existsSync(directory)) {
+        await fs.writeFileSync(filepath, data);
+    } else {
+        fs.mkdir(directory, { recursive: true }, async () => {
+            await fs.writeFileSync(filepath, data);
+        });
+    }
+}
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -121,5 +137,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     delEvents,
     ipcRender,
     getVersion,
-    commendMake
+    commendMake,
+    writeFileWithDirectory
 });

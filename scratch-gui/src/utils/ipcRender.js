@@ -48,21 +48,6 @@ function getCurrentTime() {
     return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 }
 
-/**
- * 查找文件夹并写入文件
- * @param {String} directory 
- * @param {String} filepath 
- * @param {String} data 
- */
-async function writeFileWithDirectory(directory, filepath, data) {
-    if (fs.existsSync(directory)) {
-        await fs.writeFileSync(filepath, data);
-    } else {
-        fs.mkdir(directory, { recursive: true }, async () => {
-            await fs.writeFileSync(filepath, data);
-        });
-    }
-}
 
 /**
  * 错误处理
@@ -72,7 +57,7 @@ async function handlerError(error) {
     const directory = './Error';
     const time = getCurrentTime();
     const filepath = `${directory}/error_${time}.txt`;
-    await writeFileWithDirectory(directory, filepath, error);
+    await window.myAPI.writeFileWithDirectory(directory, filepath, error);
 }
 
 

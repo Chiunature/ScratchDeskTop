@@ -58,7 +58,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     }
 
     // TODO: Assemble cake into code variable.
-    let code = `uint8_t BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
+    let code = `char BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
     return code;
 };
 
@@ -94,7 +94,7 @@ Blockly.cake['matrix_lamp_single'] = function (block) {
     let x = Blockly.cake.valueToCode(block, "x", Blockly.cake.ORDER_NONE);
     let y = Blockly.cake.valueToCode(block, "y", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `matrix_single_lamp(${Blockly.cake.toStr(x) ? x : '"' + x + '"'}, ${Blockly.cake.toStr(y) ? y : '"' + y + '"'});\n`;
+    let code = `matrix_single_lamp(${Blockly.cake.toStr(x) ? x : '"' + x + '"'}, ${Blockly.cake.toStr(y) ? y : '"' + y + '"'}, "5");\n`;
     return code;
 };
 
@@ -141,6 +141,6 @@ Blockly.cake['matrix_color'] = function (block) {
         newColor = color;
     }
     // TODO: Assemble cake into code variable.
-    let code = `matrix_color(NULL, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
+    let code = `matrix_color(${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
     return code;
 };

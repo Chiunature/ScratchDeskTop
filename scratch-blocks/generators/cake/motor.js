@@ -70,21 +70,21 @@ Blockly.cake['motor_specified_manner'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let action = block.getFieldValue('action');
     // TODO: Assemble cake into code variable.
-    let code = `motor_Specified_Manner(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(action) ? action : '"' + action + '"'});\n`;
+    let code = `motor_specified_manner(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(action) ? action : '"' + action + '"'});\n`;
     return code;
 };
 
 Blockly.cake['motor_rate'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_Rate(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
+    let code = `motor_rate(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['motor_angle'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_Angle(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
+    let code = `motor_angle(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -92,6 +92,6 @@ Blockly.cake['motor_angle'] = function (block) {
 Blockly.cake['motor_position'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_Position(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
+    let code = `motor_position(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };

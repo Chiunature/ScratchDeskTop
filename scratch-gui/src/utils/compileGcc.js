@@ -30,9 +30,10 @@ import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer } from "est-link"
 
 
-const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?vTaskExit\(\d+\)\;\s*\}/g;
+const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\}\;/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;/;
 const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\//;
+const reg_Task_Handler = /TaskHandle_t\s+USER_Aplication\d*\_Handle\;/g;
 
 class Compile {
 
@@ -61,6 +62,7 @@ class Compile {
                     regList = result.match(regex);
                     isReg = true;
                 }
+
                 if (!regList) {
                     return;
                 }
@@ -87,9 +89,11 @@ class Compile {
         const newMy = await this.changeFileByReg(result, reg_main, myCode);
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
+//替换TaskHandle_t部分
+        const newTaskHandler = await this.changeFileByReg(newUser, reg_Task_Handler, handlerStr);
         //替换MallocTask_Info User_Task[]部分
-        const taskIntoStr = Task_Info(handlerStr, taskStr);
-        const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
+        const taskIntoStr = Task_Info(taskStr);
+        const newTaskInto = await this.changeFileByReg(newTaskHandler, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
         const writeAppRes = window.myAPI.writeFiles(APLICATION, newTaskInto);
         return writeAppRes;
