@@ -126,7 +126,7 @@ const DeviceCards = props => {
 
     if (x === 0 && y === 0) {
         // initialize positions
-        x = isRtl ? (-200 - wideCardWidth - cardHorizontalDragOffset) : 292;
+        x = isRtl ? (-100 - wideCardWidth - cardHorizontalDragOffset) : -20;
         x += cardHorizontalDragOffset;
     }
 

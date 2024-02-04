@@ -19,7 +19,7 @@ goog.inherits(Blockly.FieldMotor, Blockly.Field);
 Blockly.FieldMotor.portList = [];
 Blockly.FieldMotor.proxy = null;
 Blockly.FieldMotor.motor_svg = 'motor_sensing.svg';
-Blockly.FieldMotor.color_sensing_svg = 'color_sensing_svg';
+Blockly.FieldMotor.color_sensing_svg = 'color_sensing.svg';
 Blockly.FieldMotor.sound_sensing_svg = 'super_sound.svg';
 Blockly.FieldMotor.touch_sensing_svg = 'touch_press.svg';
 /**
