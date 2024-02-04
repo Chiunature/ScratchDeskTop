@@ -133,7 +133,7 @@ const DeviceCards = props => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        if (index === 0) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES });
+        if (index === 0) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
     }, [index]);
 
     const handleSelect = (i) => {
@@ -157,7 +157,7 @@ const DeviceCards = props => {
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
         });
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES });
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
         onShowDelExeAlert("delExeSuccess");
     }
 

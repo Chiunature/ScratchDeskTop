@@ -74,7 +74,7 @@ class GUI extends React.Component {
                     this.props.onShowCompletedAlert(arg.msg);
                     if (arg.result) {
                         this.props.onSetIsComplete(true);
-                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES });
+                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
                         let time = setTimeout(() => {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
@@ -164,7 +164,7 @@ class GUI extends React.Component {
         clearInterval(this.watchDeviceTimer);
         this.handleStopWatch(true);
     }
-    
+
     proxyMotor(proxyVal, type, data) {
         if (!ScratchBlocks[type].proxy) return;
         // if(ScratchBlocks.FieldMotor.portList.length > 0) {
@@ -204,7 +204,7 @@ class GUI extends React.Component {
             sendParams: { stopWatch: this.state.stopWatch },
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
-                const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
+                const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? [...result.deviceList] : [...this.state.deviceObj.deviceList] };
                 this.setState(() => ({ deviceObj }));
             }
         })
@@ -242,6 +242,12 @@ class GUI extends React.Component {
             }
         }
     }
+
+    hadnleRunApp() {
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'APP' });
+    }
+
+
     render() {
         if (this.props.isError) {
             throw new Error(
@@ -281,6 +287,7 @@ class GUI extends React.Component {
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
                 handleCompile={this.handleCompile.bind(this)}
+                hadnleRunApp={this.hadnleRunApp.bind(this)}
                 compile={new Compile()}
                 deviceObj={this.state.deviceObj}
                 handleStopWatch={this.handleStopWatch.bind(this)}

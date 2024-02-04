@@ -25,7 +25,7 @@ const device = {
 class Common {
 
     constructor(...args) {
-        args.map(item => {
+        args.forEach(item => {
             Object.keys(item).map(key => {
                 this[key] = item[key];
             });
@@ -106,7 +106,7 @@ class Common {
             return;
         }
         const eventList = this.electron.ipcMain.eventNames();
-        eventList.map(el => {
+        eventList.forEach(el => {
             if (listener === el) {
                 this.electron.ipcMain.removeAllListeners(el);
             }
@@ -123,7 +123,7 @@ class Common {
         const list = this.stringToHex(item);
         const len = list.length;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
-        list.map(el => sum += el);
+        list.forEach(el => sum += el);
         return {
             binArr: [0x5a, 0x97, 0x98, len, bits, ...list, (sum & 0xff), 0xa5],
             crc: sum & 0xff
@@ -141,7 +141,7 @@ class Common {
         const len = item.length;
         const bits = currentIndex == lastIndex ? 0xbb : 0xaa;
         let sum = 0x5a + 0x97 + 0x98 + len + bits;
-        item.map(el => sum += el);
+        item.forEach(el => sum += el);
         return {
             binArr: [0x5a, 0x97, 0x98, len, bits, ...item, (sum & 0xff), 0xa5],
             crc: sum & 0xff
@@ -369,7 +369,7 @@ class Common {
         switch (bit) {
             case 0xD8:
                 const list = arr.slice(0, 8);
-                list.map((item, i) => {
+                list.forEach((item, i) => {
                     diffAttribute(this.watchDeviceList[i], 'port', i);
                     diffAttribute(this.watchDeviceList[i], 'deviceId', item);
                     diffAttribute(this.watchDeviceList[i], 'sensing_device', device[item]);
@@ -421,10 +421,11 @@ class Common {
         function _device(port, key, arr) {
             switch (key) {
                 case 0xD0:
-                    Object.keys(port.motor).map((item, index) => {
-                        diffAttribute(port.motor, item, arr[index]);
-                    });
-                    break;
+                    diffAttribute(port.motor, 'direction', arr[1]);
+                    diffAttribute(port.motor, 'PWM', arr[2]);
+                    diffAttribute(port.motor, 'aim_speed', arr[3]);
+                    diffAttribute(port.motor, 'target_speed', arr[4]);
+                                        break;
                 case 0xD6:
                     const str = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
                     diffAttribute(port.color, 'rgb', str);
@@ -487,7 +488,7 @@ class Common {
      * @param  {...any} args 
      */
     deleteObj(...args) {
-        args.map(el => {
+        args.forEach(el => {
             if (typeof el === 'object') {
                 for (const key in el) {
                     delete el[key];

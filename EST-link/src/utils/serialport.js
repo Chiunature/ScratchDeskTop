@@ -23,7 +23,8 @@ const signType = require("../config/json/communication/sign.json");
 
 const instruct = {
     version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
-    files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5]
+    files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
+    application: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5]
 }
 
 class Serialport extends Common {
@@ -337,12 +338,19 @@ class Serialport extends Common {
     getVersion(event) {
         this.writeData(instruct.version, signType.VERSION, event);
     }
+
     /**
      * 获取主机有多少个程序
      * @param {*} event 
      */
     getAppExe(eventName) {
-        this.ipcMain(eventName, (event, arg) => this.writeData(instruct.files, signType.EXE.FILES, event));
+        this.ipcMain(eventName, (event, arg) => {
+            if (arg === 'FILE') {
+                this.writeData(instruct.files, signType.EXE.FILES, event);
+                return;
+            }
+            this.writeData(instruct.application, null, event);
+        });
     }
 
     /**

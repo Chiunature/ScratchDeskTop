@@ -6,7 +6,7 @@ const DeviceBox = ({ list }) => {
 
     function getPort(index) {
         const num = parseInt(index);
-        if(isNaN(num)) return;
+        if (isNaN(num)) return;
         switch (num) {
             case 0:
                 return 'A';
@@ -31,7 +31,7 @@ const DeviceBox = ({ list }) => {
 
     function getMotorDirection(direction) {
         const num = parseInt(direction);
-        if(isNaN(num)) return;
+        if (isNaN(num)) return;
         switch (num) {
             case 1:
                 return '正转';
@@ -39,10 +39,8 @@ const DeviceBox = ({ list }) => {
                 return '反转';
             case 3:
                 return '刹车';
-            case 4:
-                return '停止';
             default:
-                break;
+                return '停止';
         }
     }
 

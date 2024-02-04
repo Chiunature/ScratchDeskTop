@@ -24,7 +24,7 @@
  * @author avenger-jxc
  */
 import { handlerError } from "./ipcRender";
-import { headMain, Task_Info, Task_Stack, Task_Info_Item } from "../config/js/ProgrammerTasks.js";
+import { headMain, Task_Info, Task_Stack, Task_Info_Item, Task_Handler } from "../config/js/ProgrammerTasks.js";
 import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer } from "est-link"
@@ -40,9 +40,9 @@ class Compile {
         // this.filesIndex = 0;
         // this.filesObj = {};
         this.startSend = true;
-        }
+    }
 
-    
+
 
     /**
      * 根据正则去修改文件特定内容
@@ -79,7 +79,7 @@ class Compile {
      * @param {String} myStr 
      * @returns 
      */
-    async handleCode(codeStr, taskStr, myStr) {
+    async handleCode(codeStr, taskStr, myStr, handlerStr) {
         //读取Aplication.c文件
         const result = window.myAPI.readFiles(APLICATION, { encoding: 'utf8' });
         //自制积木块放入前面
@@ -88,7 +88,7 @@ class Compile {
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
         //替换MallocTask_Info User_Task[]部分
-        const taskIntoStr = Task_Info(taskStr);
+        const taskIntoStr = Task_Info(handlerStr, taskStr);
         const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
         const writeAppRes = window.myAPI.writeFiles(APLICATION, newTaskInto);
@@ -103,16 +103,16 @@ class Compile {
      * @param {String} verifyType 
      */
     async runGcc(buffer, myBlock, selectedExe, verifyType) {
-
-        let codeStr = '', taskStr = '';
+        let codeStr = '', taskStr = '', handlerStr = '';
         buffer.map((el, index) => {
             if (el) {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
+                handlerStr += Task_Handler(index);
             }
         });
 
-        const appRes = await this.handleCode(codeStr, taskStr, myBlock);
+        const appRes = await this.handleCode(codeStr, taskStr, myBlock, handlerStr);
 
         //编译
         if (appRes) {

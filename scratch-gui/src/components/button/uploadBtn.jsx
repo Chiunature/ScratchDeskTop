@@ -8,7 +8,7 @@ import SelectExeBtn from "./selectExeBtn.jsx";
 
 
 const UploadBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist } = props;
+    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist, hadnleRunApp } = props;
     return (
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
@@ -24,10 +24,12 @@ const UploadBtn = (props) => {
                     selectedExe={selectedExe}
                 />
                 <ButtonComponent
+                    onClick={hadnleRunApp}
                     className={classNames(styles.uploadBtn)}
                     iconSrc={startIcon}
                 />
                 <ButtonComponent
+                    onClick={hadnleRunApp}
                     className={classNames(styles.stopBtn)}
                     iconSrc={stopIcon}
                 />
