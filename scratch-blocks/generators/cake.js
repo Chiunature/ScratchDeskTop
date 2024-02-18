@@ -208,7 +208,7 @@ Blockly.cake.finish = function (code) {
   //imports--> #include
   var customFunctions = [];
   for (var name in Blockly.cake.customFunctions_) {
-      customFunctions.push(Blockly.cake.customFunctions_[name]);
+    customFunctions.push(Blockly.cake.customFunctions_[name]);
   }
   //definitions--> function def, #def
   var allDefs = includes.join('\n') + '\n\n' + declarations.join('\n') + '\n\n' + defines.join('\n');
@@ -353,7 +353,7 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 }
 
 Blockly.cake.toStr = function (val) {
-  const regex = /[()!]/g;
+  const regex = /[()!\[\]_]/g;
   const matches = val.match(regex);
   if (matches && matches.length > 0) {
     return true;
@@ -362,19 +362,37 @@ Blockly.cake.toStr = function (val) {
   }
 }
 
+Blockly.cake.checkVar = function (varName) {
+  let list = [];
+  for (let i = 0; i < varName.length; i++) {
+    const item = varName[i];
+    if (item >= 'A' && item <= 'Z') {
+      list.push('_', item.toLowerCase());
+    } else {
+      list.push(item);
+    }
+  }
+  if (list.includes('_')) {
+    varName = list.join('');
+  } else {
+    varName = varName + '_';
+  }
+  return varName;
+}
+
 // 将hex格式颜色转换为rgb格式
 Blockly.cake.hexToRgb = function (hex) {
-  if(!hex) {
+  if (!hex) {
     return;
   }
   // 去除 # 号
   hex = hex.replace(/\#/, "").replace(/\'/g, '');
-  
+
   // 将hex字符串拆分为R、G、B分量
   var r = parseInt(hex.substring(0, 2), 16);
   var g = parseInt(hex.substring(2, 4), 16);
   var b = parseInt(hex.substring(4, 6), 16);
-  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
   }
   // 返回rgb格式
@@ -383,7 +401,7 @@ Blockly.cake.hexToRgb = function (hex) {
 
 // 将rgb格式颜色转换为grb格式
 Blockly.cake.rgbToGrb = function (rgb) {
-  if(!rgb) {
+  if (!rgb) {
     return;
   }
   // 提取R、G、B分量
@@ -393,7 +411,7 @@ Blockly.cake.rgbToGrb = function (rgb) {
   var g = parseInt(values[1]);
   var b = parseInt(values[2]);
 
-  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
   }
   // 返回grb格式
@@ -402,7 +420,7 @@ Blockly.cake.rgbToGrb = function (rgb) {
 
 // 将grb格式颜色转换为hex格式
 Blockly.cake.grbToHex = function (grb) {
-  if(!grb) {
+  if (!grb) {
     return;
   }
   // 提取R、G、B分量
@@ -412,7 +430,7 @@ Blockly.cake.grbToHex = function (grb) {
   var r = parseInt(values[1]);
   var b = parseInt(values[2]);
 
-  if(isNaN(r) || isNaN(g) || isNaN(b)) {
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
   }
   // 将每个分量转换为2位十六进制数

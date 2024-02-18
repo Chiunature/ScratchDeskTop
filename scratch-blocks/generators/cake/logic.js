@@ -28,19 +28,6 @@ goog.provide('Blockly.cake.logic');
 
 goog.require('Blockly.cake');
 
-Blockly.cake['control_if'] = function (block) {
-  var argument = Blockly.cake.valueToCode(block, 'CONDITION',
-    Blockly.cake.ORDER_NONE) || 'False';
-  var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
-  branch = Blockly.cake.addLoopTrap(branch, block.id);
-  var code = "if (" + argument + ") {\n";
-  if (branch) {
-    code += branch;
-  } else {
-    code += Blockly.cake.INDENT + "\n";
-  }
-  return code + '}\n';
-};
 
 Blockly.cake['logic_compare'] = function (block) {
   // Comparison operator.

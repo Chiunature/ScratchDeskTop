@@ -81,7 +81,7 @@ Blockly.cake['control_forever'] = function (block) {
   if (until) {
     argument0 = '!' + argument0;
   }
-  return 'while (' + argument0 + ') {\n' + branch + 'vTaskDelay(50);\n}\n';
+  return 'while (strcmp(' + argument0 + ', "TRUE") == 0) {\n' + branch + 'vTaskDelay(50);\n}\n';
 };
 
 Blockly.cake['control_break'] = function (block) {
@@ -96,7 +96,7 @@ Blockly.cake['control_if_else'] = function (block) {
   var branch2 = Blockly.cake.statementToCode(block, 'SUBSTACK2');
   branch2 = Blockly.cake.addLoopTrap(branch2, block.id);
 
-  var code = "if (" + argument + ") {\n";
+  var code = 'if (strcmp(' + argument + ', "TRUE") == 0) {\n';
   if (branch) {
     code += branch + "}";
   } else {
@@ -118,7 +118,7 @@ Blockly.cake['control_wait_until'] = function (block) {
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
 
-  var code = "while (" + argument + ") {\n";
+  var code = 'while (strcmp(' + argument + ', "TRUE") == 0) {\n';
   code += branch;
   code += Blockly.cake.INDENT + "vTaskDelay(50);\n}\n";
   return code;
@@ -131,7 +131,7 @@ Blockly.cake['control_repeat_until'] = function (block) {
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
 
-  var code = "while (" + argument + ") {\n";
+  var code = 'while (strcmp(' + argument + ', "TRUE") == 0) {\n';
   code += branch;
   code += Blockly.cake.INDENT + "vTaskDelay(50);\n}\n";
   return code;
@@ -164,7 +164,7 @@ Blockly.cake['control_doWhile'] = function (block) {
   if (until) {
     argument0 = '!' + argument0;
   }
-  return 'do {\n' + branch + 'vTaskDelay(50);\n} while (' + argument0 + ');\n';
+  return 'do {\n' + branch + 'vTaskDelay(50);\n} while (strcmp(' + argument0 + ', "TRUE") == 0);\n';
 };
 
 Blockly.cake['control_for'] = function (block) {
@@ -215,7 +215,7 @@ Blockly.cake['control_if'] = function (block) {
     Blockly.cake.ORDER_NONE) || 'False';
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
-  var code = "if (" + argument + ") {";
+  var code = 'if (strcmp(' + argument + ', "TRUE") == 0) {';
   if (branch) {
     code += branch;
   } else {

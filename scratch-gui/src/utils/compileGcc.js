@@ -89,7 +89,7 @@ class Compile {
         const newMy = await this.changeFileByReg(result, reg_main, myCode);
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
-//替换TaskHandle_t部分
+        //替换TaskHandle_t部分
         const newTaskHandler = await this.changeFileByReg(newUser, reg_Task_Handler, handlerStr);
         //替换MallocTask_Info User_Task[]部分
         const taskIntoStr = Task_Info(taskStr);

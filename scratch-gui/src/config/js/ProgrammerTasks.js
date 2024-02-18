@@ -27,7 +27,7 @@
 } */
 
 function Task_Stack(item, index) {
-    return `void USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};\n`;
+    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};`;
 }
 
 function Task_Info_Item(index) {

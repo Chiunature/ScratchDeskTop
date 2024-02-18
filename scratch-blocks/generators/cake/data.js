@@ -26,7 +26,8 @@ goog.require('Blockly.cake');
 Blockly.cake['data_variable'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
         Blockly.Variables.NAME_TYPE);
-    return [varName, Blockly.cake.ORDER_ATOMIC];
+    let newName = Blockly.cake.checkVar(varName);
+    return [newName, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_definevariable'] = function (block) {
@@ -35,10 +36,12 @@ Blockly.cake['data_definevariable'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
+    let newName = Blockly.cake.checkVar(varName);
     Blockly.cake.definitions_['data_definevariable_' + varName] =
-        `char ${varName}[16];\n`;
+        `char ${newName}[16];\n`;
     return ``;
 };
+
 
 Blockly.cake['data_setvariableto'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'VALUE',
