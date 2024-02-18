@@ -30,7 +30,7 @@ import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer } from "est-link"
 
 
-const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\}\;/g;
+const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;/;
 const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\//;
 const reg_Task_Handler = /TaskHandle_t\s+USER_Aplication\d*\_Handle\;/g;
