@@ -407,7 +407,7 @@ const GUIComponent = (props) => {
                                                     compile={compile}
                                                 />
                                             </Box>
-                                            <Box
+                                            {/* <Box
                                                 className={
                                                     styles.extensionButtonContainer
                                                 }
@@ -432,10 +432,10 @@ const GUIComponent = (props) => {
                                                         src={addExtensionIcon}
                                                     />
                                                 </button>
-                                            </Box>
-                                            <Box className={styles.watermark}>
-                                                {/* <Watermark /> */}
-                                            </Box>
+                                            </Box> */}
+                                            {/* <Box className={styles.watermark}>
+                                                <Watermark />
+                                            </Box> */}
                                         </TabPanel>
                                         {/* <TabPanel className={tabClassNames.tabPanel}>
                                     {costumesTabVisible ? <CostumeTab vm={vm} /> : null}
