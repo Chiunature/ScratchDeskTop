@@ -19,7 +19,7 @@ const selItem = localStorage.getItem('selItem');
  * @param {Number} num 
  * @returns 
  */
-function getList(num) {
+/* function getList(num) {
     return new Array(num).fill().map((item, index) => {
         return {
             name: `${index}_APP`,
@@ -27,7 +27,7 @@ function getList(num) {
             checked: index === 0 ? true : false
         }
     })
-}
+} */
 
 const initialState = {
     showBranding: false,
@@ -40,7 +40,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : getList(0),
+    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : [],
     selectedExe: JSON.parse(localStorage.getItem('selItem'))
 }
 

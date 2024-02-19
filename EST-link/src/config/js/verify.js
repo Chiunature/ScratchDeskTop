@@ -39,13 +39,13 @@ function verifyActions(sign, recevieObj, event) {
 const text = new TextDecoder();
     switch (sign) {
         case signType.EXE.FILES:
-            if(data.indexOf(0xE7) !== -1) {
+            if(data[4] === 0xE7) {
                 const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
                 event.reply(ipc_Main.RETURN.EXE.FILES, names);
             }
             return false;
         case signType.VERSION:          //主机版本
-            if (data.indexOf(0xEA) !== -1) {
+            if (data[4] === 0xEA) {
                 const version = text.decode(Buffer.from(data.slice(5, data.length - 2)));
                 event.reply(ipc_Main.RETURN.VERSION, version);
             }
