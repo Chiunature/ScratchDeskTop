@@ -34,11 +34,11 @@ const persistTheme = (theme, themeInfo) => {
     localStorage.setItem("themeColor", themeInfo.colors.themeColor);
     localStorage.setItem("modalColor", themeInfo.colors.modalColor);
 
-    if (systemPreferencesTheme() === theme) {
+    /* if (systemPreferencesTheme() === theme) {
         // Clear the cookie to represent using the system preferences
         document.cookie = `${COOKIE_KEY}=;path=/`;
         return;
-    }
+    } */
 
     const expires = new Date(new Date().setYear(new Date().getFullYear() + 1)).toUTCString();
     document.cookie = `${COOKIE_KEY}=${theme};expires=${expires};path=/`;
