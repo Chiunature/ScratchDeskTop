@@ -24,7 +24,8 @@ const signType = require("../config/json/communication/sign.json");
 const instruct = {
     version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
     files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
-    application: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5]
+    application: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
+    restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5]
 }
 
 class Serialport extends Common {
@@ -101,6 +102,8 @@ class Serialport extends Common {
         this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
         //开启获取主机文件监听
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
+        //开始重启主机监听
+        this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
     }
 
     /**
@@ -203,7 +206,7 @@ class Serialport extends Common {
         this.sign = str;
         //写入数据
         this.port.write(data);
-        // console.log("write=>", Buffer.from(data));
+        //console.log("write=>", Buffer.from(data));
         //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
@@ -362,6 +365,16 @@ class Serialport extends Common {
             const bits = this.getBits(data.verifyType);
             const { binArr } = this.checkFileName(data.fileName, bits);
             this.writeData(binArr, signType.EXE.DELETE, event);
+        });
+    }
+
+    /**
+     * 重启主机
+     * @param {String} eventName 
+     */
+    restartMain(eventName) {
+        this.ipcMain(eventName, (event, data) => {
+            this.writeData(instruct.restart, null, event);
         });
     }
 }
