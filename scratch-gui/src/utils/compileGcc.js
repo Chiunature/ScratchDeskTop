@@ -37,11 +37,7 @@ const reg_Task_Handler = /TaskHandle_t\s+USER_Aplication\d*\_Handle\;/g;
 
 class Compile {
 
-    constructor() {
-        // this.filesIndex = 0;
-        // this.filesObj = {};
-        this.startSend = true;
-    }
+    constructor() {}
 
 
 
@@ -182,7 +178,7 @@ function singleton(className) {
     return new Proxy(className, {
         construct(target, args) {
             if (!ins) {
-                ins = new className(target, ...args);
+                ins = new target(...args);
                 parmters = args;
             }
             if (!isSame(parmters, args)) {

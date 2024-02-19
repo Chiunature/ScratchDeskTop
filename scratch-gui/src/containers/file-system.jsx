@@ -10,7 +10,8 @@ import { setProjectTitle } from '../reducers/project-title.js';
 
 import sharedMessages from '../lib/shared-messages.js';
 import { dataURLToBlob } from '../utils/ipcRender.js';
-import {ipc as ipc_Renderer} from 'est-link';
+import { ipc as ipc_Renderer } from 'est-link';
+import bindAll from 'lodash.bindall';
 
 class FileSystemHoc extends Component {
 
@@ -21,6 +22,17 @@ class FileSystemHoc extends Component {
             filterQuery: ''
         };
         this.inp = createRef();
+        bindAll(this, [
+            'handleSelect',
+            'handleClickNew',
+            'handleClickRecent',
+            'handleDeleteRecord',
+            'handleFilterClear',
+            'handleFilterChange',
+            'handleEditRecord',
+            'handleFocus',
+            'handleBlur'
+        ])
     }
 
 
@@ -150,15 +162,15 @@ class FileSystemHoc extends Component {
                     fileList={this.state.fileList}
                     filterQuery={this.state.filterQuery}
                     onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
-                    handleSelect={this.handleSelect.bind(this)}
-                    handleClickNew={this.handleClickNew.bind(this)}
-                    handleClickRecent={this.handleClickRecent.bind(this)}
-                    handleDeleteRecord={this.handleDeleteRecord.bind(this)}
-                    handleFilterClear={this.handleFilterClear.bind(this)}
-                    handleFilterChange={this.handleFilterChange.bind(this)}
-                    handleEditRecord={this.handleEditRecord.bind(this)}
-                    handleFocus={this.handleFocus.bind(this)}
-                    handleBlur={this.handleBlur.bind(this)}
+                    handleSelect={this.handleSelect}
+                    handleClickNew={this.handleClickNew}
+                    handleClickRecent={this.handleClickRecent}
+                    handleDeleteRecord={this.handleDeleteRecord}
+                    handleFilterClear={this.handleFilterClear}
+                    handleFilterChange={this.handleFilterChange}
+                    handleEditRecord={this.handleEditRecord}
+                    handleFocus={this.handleFocus}
+                    handleBlur={this.handleBlur}
                 />
             </Modal>
         )

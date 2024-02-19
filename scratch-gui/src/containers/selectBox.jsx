@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SelectBoxCom from '../components/box/selectBox.jsx';
 import { setExelist, setSelectedExe } from '../reducers/mode.js';
+import bindAll from 'lodash.bindall';
 
 class SelectBox extends React.Component {
 
@@ -11,10 +12,11 @@ class SelectBox extends React.Component {
             index: this.props.selectedExe.num,
             sx: this.props.selectedExe.num * 96
         }
+        bindAll(this, ['handleRight', 'handleLeft'])
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.selectedExe !== this.props.selectedExe) {
+        if (prevProps.selectedExe !== this.props.selectedExe) {
             this.setState(() => ({
                 index: this.props.selectedExe.num,
                 sx: this.props.selectedExe.num * 96
@@ -24,7 +26,7 @@ class SelectBox extends React.Component {
 
     changeSelectExe() {
         this.props.onSetSelectedExe({
-            num: this.state.index, 
+            num: this.state.index,
             checked: true,
             name: `${this.state.index}_APP`
         });
@@ -72,8 +74,8 @@ class SelectBox extends React.Component {
             isRtl={this.props.isRtl}
             sx={this.state.sx}
             flag={this.props.flag}
-            handleRight={this.handleRight.bind(this)}
-            handleLeft={this.handleLeft.bind(this)}
+            handleRight={this.handleRight}
+            handleLeft={this.handleLeft}
         />)
     }
 }

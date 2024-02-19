@@ -43,6 +43,7 @@ import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
+import bindAll from "lodash.bindall";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -57,6 +58,7 @@ class GUI extends React.Component {
             },
             stopWatch: false
         }
+        bindAll(this, ['handleCompile', 'handleRunApp', 'handleStopWatch']);
     }
 
     async componentDidMount() {
@@ -79,8 +81,9 @@ class GUI extends React.Component {
                             this.props.onSetIsComplete(false);
                             this.props.onSetCompleted(false);
                             this.props.onSetProgress(0);
+                            JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
                             clearTimeout(time);
-                        }, 2000);
+                        }, 1500);
                     } else {
                         this.props.onSetCompleted(false);
                         this.props.onSetSourceCompleted(false);
@@ -243,7 +246,7 @@ class GUI extends React.Component {
         }
     }
 
-    hadnleRunApp() {
+    handleRunApp() {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'APP' });
     }
 
@@ -286,11 +289,11 @@ class GUI extends React.Component {
                 extensionLibraryContent={extensionLibraryContent}
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
-                handleCompile={this.handleCompile.bind(this)}
-                hadnleRunApp={this.hadnleRunApp.bind(this)}
+                handleCompile={this.handleCompile}
+                handleRunApp={this.handleRunApp}
                 compile={new Compile()}
                 deviceObj={this.state.deviceObj}
-                handleStopWatch={this.handleStopWatch.bind(this)}
+                handleStopWatch={this.handleStopWatch}
             >
                 {children}
             </GUIComponent>

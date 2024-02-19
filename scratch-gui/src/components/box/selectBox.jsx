@@ -31,7 +31,7 @@ const SelectBoxCom = (props) => {
                             />
                         </div>
                         <div className={styles.downloadLi} ref={refUl}>
-                            <ul style={{'transform':`translateX(-${sx}px)`}}>{arr.map((el) => (<li key={el}><Matrix ulClassName={styles.matrixUl} active={styles.active} num={el}/></li>))}</ul>
+                            <ul style={{ 'transform': `translateX(-${sx}px)` }}>{arr.map((el) => (<li key={el}><Matrix ulClassName={styles.matrixUl} active={styles.active} num={el} /></li>))}</ul>
                             <div className={styles.backBtn}>
                                 <span></span>
                                 <span></span>
@@ -46,7 +46,7 @@ const SelectBoxCom = (props) => {
                         </div>
                     </div>
                 </div>
-<img className={styles.load} src={upload} alt="" onClick={handleCompile}/>
+                <img className={styles.load} src={upload} alt="" onClick={() => handleCompile(false)} />
             </div>
         </div>
     )

@@ -160,7 +160,7 @@ const GUIComponent = (props) => {
         exeList,
         selectedExe,
         showFileStytem,
-        hadnleRunApp,
+        handleRunApp,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -286,7 +286,7 @@ const GUIComponent = (props) => {
                                 onSetExelist={onSetExelist}
                                 exeList={exeList}
                                 selectedExe={selectedExe}
-                                hadnleRunApp={hadnleRunApp}
+                                handleRunApp={handleRunApp}
                             />) : null}
                         <MenuBar
                             accountNavOpen={accountNavOpen}
