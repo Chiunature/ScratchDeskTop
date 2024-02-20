@@ -70,7 +70,7 @@ Blockly.cake['matrix_lamp_stop'] = function (block) {
 
 Blockly.cake['matrix_lamp_set'] = function (block) {
     let brightness = Blockly.cake.valueToCode(block, "brightness", Blockly.cake.ORDER_NONE);
-    if (brightness.indexOf('(') === -1) {
+    if (brightness.indexOf('(') === -1 && !isNaN(brightness / 10)) {
         brightness = parseInt(brightness / 10) + '';
     }
     // TODO: Assemble cake into code variable.

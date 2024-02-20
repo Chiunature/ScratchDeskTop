@@ -609,13 +609,6 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
     `;
 };
 
-/* 
-<block type="matrix_lamp_setSaturation">
-            <value name="saturation">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
- */
 
 const matrix = function (isInitialSetup, isStage, targetId, colors) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
@@ -656,6 +649,11 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="colour_picker"/>
             </value>
         </block>  
+        <block type="matrix_lamp_setSaturation">
+            <value name="saturation">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
         <block type="matrix_lamp_single">
             <value name="x">
                 <shadow type="matrix_x"></shadow>

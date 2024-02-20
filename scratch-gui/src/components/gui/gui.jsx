@@ -51,6 +51,7 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
 import FileSystemHoc from "../../containers/file-system.jsx";
+import DeviceSensing from "../device/device-sensing.jsx";
 
 /* const messages = defineMessages({
     addExtension: {
@@ -275,6 +276,7 @@ const GUIComponent = (props) => {
                         {showFileStytem && (
                             <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />
                         )}
+                        {peripheralName && <DeviceSensing deviceObj={deviceObj}/>}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
                                 isComplete={isComplete}

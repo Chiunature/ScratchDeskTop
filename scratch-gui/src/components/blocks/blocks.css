@@ -54,6 +54,7 @@
         below that is for webkit browsers. It isn't possible to do the
         same for Firefox, so a different solution may be needed for them.
     */
+    z-index: 30 !important;
     -ms-overflow-style: none;
 }
 
