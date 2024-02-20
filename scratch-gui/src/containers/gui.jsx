@@ -67,26 +67,27 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         this.initDeviceList();
 
-        let userAgent = navigator.userAgent.toLowerCase();
+        const userAgent = navigator.userAgent.toLowerCase();
+        const that = this;
         if (userAgent.indexOf("electron/") > -1) {
             //下载成功监听
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
                 callback: (event, arg) => {
-                    this.props.onShowCompletedAlert(arg.msg);
+                    that.props.onShowCompletedAlert(arg.msg);
                     if (arg.result) {
-                        this.props.onSetIsComplete(true);
+                        that.props.onSetIsComplete(true);
                         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
                         let time = setTimeout(() => {
-                            this.props.onSetIsComplete(false);
-                            this.props.onSetCompleted(false);
-                            this.props.onSetProgress(0);
-                            JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
+                            that.props.onSetIsComplete(false);
+                            that.props.onSetCompleted(false);
+                            that.props.onSetProgress(0);
+                            JSON.parse(sessionStorage.getItem('run-app')) && that.handleRunApp();
                             clearTimeout(time);
-                        }, 1500);
+                        }, 2000);
                     } else {
-                        this.props.onSetCompleted(false);
-                        this.props.onSetSourceCompleted(false);
+                        that.props.onSetCompleted(false);
+                        that.props.onSetSourceCompleted(false);
                     }
                 },
             });
@@ -94,16 +95,16 @@ class GUI extends React.Component {
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
                 callback: (event, arg) => {
-                    this.props.onSetProgress(arg);
+                    that.props.onSetProgress(arg);
                 },
             });
             //下载资源监听
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
                 callback: (event, arg) => {
-                    this.props.onSetSourceCompleted(false);
-                    this.props.onSetVersion(true);
-                    this.props.onShowCompletedAlert(arg.msg);
+                    that.props.onSetSourceCompleted(false);
+                    that.props.onSetVersion(true);
+                    that.props.onShowCompletedAlert(arg.msg);
                     window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
                 },
             });
@@ -112,7 +113,7 @@ class GUI extends React.Component {
                 eventName: ipc_Renderer.RETURN.VERSION,
                 callback: (event, arg) => {
                     const version = window.myAPI.getVersion(arg);
-                    this.props.onSetVersion(version);
+                    that.props.onSetVersion(version);
                     window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
                 }
             });
@@ -129,25 +130,24 @@ class GUI extends React.Component {
                             checked: index === 0 ? true : false
                         }
                     });
-                    this.props.onSetExelist(exeList);
+                    that.props.onSetExelist(exeList);
                 }
             });
-
-            const that = this;
-            this.watchDeviceTimer = setInterval(() => {
-                if (this.props.peripheralName && !that.state.stopWatch) that.watchDevice();
+            // 设备信息监听
+            that.watchDeviceTimer = setInterval(() => {
+                if (that.props.peripheralName && !that.state.stopWatch) that.watchDevice();
             }, 10);
-
+            // 电机模块设备显示监听
             let FieldMotor, FieldCombinedMotor;
             window.myAPI.ipcRender({
                 eventName: ipc_Renderer.RETURN.DEVICE.PORT,
                 callback: (event, data) => {
-                    this.proxyMotor(FieldMotor, 'FieldMotor', data);
-                    this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
+                    that.proxyMotor(FieldMotor, 'FieldMotor', data);
+                    that.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
                 }
             });
 
-            this.checkDriver();
+            that.checkDriver();
         }
     }
     componentDidUpdate(prevProps) {

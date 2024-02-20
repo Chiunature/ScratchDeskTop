@@ -27,23 +27,23 @@
 } */
 
 function Task_Stack(item, index) {
-    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};`;
+    return `void USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};\n`;
 }
 
 function Task_Info_Item(index) {
-    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 1*512,\r\n\t\t.UBase_Proier = 3,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = &USER_Aplication${index}_Handle\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 1*512,\r\n\t\t.UBase_Proier = 3,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = &UserHandle${index}\r\n},\n`;
 }
 
 function Task_Info(taskStr) {
-    return `MallocTask_Info User_Task[] = {${taskStr}\n};`;
+    return `MallocTask_Info User_Task[] = {${taskStr}\n};\n`;
 }
 
 function Task_Handler(index) {
-    return `TaskHandle_t USER_Aplication${index}_Handle;\n`;
+    return `TaskHandle_t UserHandle${index};\n`;
 }
 
 function headMain(myStr) {
-    return `#if ExternalPrograment == 1\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/`;
+    return `#if ExternalPrograment == 1\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/\n`;
 }
 
 

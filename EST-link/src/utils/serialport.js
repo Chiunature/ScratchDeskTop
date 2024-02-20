@@ -205,8 +205,8 @@ class Serialport extends Common {
         //修改标识符，根据标识符判断要发送的是文件还是文件名
         this.sign = str;
         //写入数据
-        this.port.write(data);
-        //console.log("write=>", Buffer.from(data));
+        this.port.write(Buffer.from(data));
+        // if(!str) console.log("write=>", data);
         //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
