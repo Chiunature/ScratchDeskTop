@@ -51,7 +51,8 @@ const pack = {
     electron,
     fs,
     path,
-    process: global.process
+    process: global.process,
+    isPackaged: app.isPackaged
 }
 
 

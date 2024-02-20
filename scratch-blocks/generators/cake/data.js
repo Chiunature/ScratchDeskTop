@@ -42,7 +42,6 @@ Blockly.cake['data_definevariable'] = function (block) {
     return ``;
 };
 
-
 Blockly.cake['data_setvariableto'] = function (block) {
     var arg0 = Blockly.cake.valueToCode(block, 'VALUE',
         Blockly.cake.ORDER_ADDITIVE);
@@ -55,8 +54,8 @@ Blockly.cake['data_setvariableto'] = function (block) {
     /*  if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
          arg0 = parseFloat(arg0.slice(1, -1)).toString();
      } */
-
-    return `SettingVariables(${varName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
+    let newName = Blockly.cake.checkVar(varName);
+    return `SettingVariables(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 
 Blockly.cake['data_changevariableby'] = function (block) {
@@ -67,8 +66,8 @@ Blockly.cake['data_changevariableby'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
-    return `SettingVariablesAdd(${varName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
+    let newName = Blockly.cake.checkVar(varName);
+    return `SettingVariablesAdd(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 
 Blockly.cake['data_showvariable'] = function () {

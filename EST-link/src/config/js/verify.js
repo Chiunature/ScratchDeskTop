@@ -137,8 +137,9 @@ function distinguish(filesObj, type, event) {
 function verifyBinType(options) {
     let data, name;
     const { verifyType, selectedExe, files, filesIndex } = options;
-    const { path, fs, process } = this;
-    const root = '';
+    const { path, fs, process, isPackaged } = this;
+    const root = isPackaged ? '' : process.cwd();
+    //根据类型判断是哪种通信
     switch (verifyType) {
         case SOURCE_MUSIC:
             const music = _readdirForSource(path.join(root, MUSIC), files, filesIndex);
