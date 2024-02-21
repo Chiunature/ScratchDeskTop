@@ -211,9 +211,7 @@ class Serialport extends Common {
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         }
-        if (str && str.search('Boot') !== -1) {
-            this.checkOverTime(event);
-        }
+        if (str && (str !== signType.VERSION || str !== signType.EXE.FILES)) this.checkOverTime(event);
     }
 
     /**
@@ -244,7 +242,7 @@ class Serialport extends Common {
         }
         this.deleteObj(this.files, this.filesObj);
         this.receiveDataBuffer = [];
-        this.timeOutTimer = null;
+        this.clearTimer();
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;
@@ -343,7 +341,7 @@ class Serialport extends Common {
     }
 
     /**
-     * 获取主机有多少个程序
+     * 获取主机有多少个程序或运行程序
      * @param {*} event 
      */
     getAppExe(eventName) {
@@ -364,7 +362,7 @@ class Serialport extends Common {
         this.ipcMain(eventName, (event, data) => {
             const bits = this.getBits(data.verifyType);
             const { binArr } = this.checkFileName(data.fileName, bits);
-            this.writeData(binArr, signType.EXE.DELETE, event);
+            this.writeData(binArr, null, event);
         });
     }
 
