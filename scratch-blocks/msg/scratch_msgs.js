@@ -6590,7 +6590,7 @@ Blockly.ScratchMsgs.locales["en"] = {
     "MATRIX_LAMP": '%1 light %2 the color is %3',
     "STOP_MATRIX_LAMP": "%1 turn off pixel lights",
     "SET_MATRIX_LAMP": "%1 set the brightness of the pixel light to %2 %%",
-    "SINGLE_MATRIX_LAMP": "%1 Set Pixels x %2 y %3 %4",
+    "SINGLE_MATRIX_LAMP": "%1 Set Pixels x %2 y %3",
     "TEXT_MATRIX_LAMP": "%1 text display %2",
     "SETRGB_MATRIX_LAMP": "%1 light serial number %2 color %3",
     "USERGB_MATRIX_LAMP": "%1 %2 light",
