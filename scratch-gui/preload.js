@@ -78,6 +78,18 @@ function writeFiles(path, type) {
 }
 
 /**
+     * 删除文件
+     * @param {String} path 
+     * @returns 
+     */
+function deleteFiles(path) {
+    fs.unlink(path, (err) => {
+        if (err) handlerError(err);
+        console.log('删除成功');
+    });
+}
+
+/**
      * 调用编译命令
      * @returns 
      */
@@ -122,10 +134,10 @@ function getVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
  */
 async function writeFileWithDirectory(directory, filepath, data) {
     if (fs.existsSync(directory)) {
-        await fs.writeFileSync(filepath, data);
+        fs.writeFileSync(filepath, data);
     } else {
         fs.mkdir(directory, { recursive: true }, async () => {
-            await fs.writeFileSync(filepath, data);
+            fs.writeFileSync(filepath, data);
         });
     }
 }
@@ -133,6 +145,7 @@ async function writeFileWithDirectory(directory, filepath, data) {
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
+    deleteFiles,
     ipcInvoke,
     delEvents,
     ipcRender,

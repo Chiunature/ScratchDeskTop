@@ -13,6 +13,7 @@ import closeIcon from './icon--close.svg';
 import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
+import { APP } from '../../config/json/LB_FWLIB.json'
 
 const tabClassNames = {
     tabs: styles.tabs,
@@ -159,6 +160,7 @@ const DeviceCards = props => {
         });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
         onShowDelExeAlert("delExeSuccess");
+        window.myAPI.deleteFiles(`${APP}/${item.name}.bin`);
     }
 
 
