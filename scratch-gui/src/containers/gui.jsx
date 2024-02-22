@@ -106,7 +106,7 @@ class GUI extends React.Component {
                     that.props.onSetSourceCompleted(false);
                     that.props.onSetVersion(true);
                     that.props.onShowCompletedAlert(arg.msg);
-                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
+                    setTimeout(() => window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART }), 1000);
                 },
             });
             //获取主机版本监听

@@ -17,7 +17,7 @@
  */
 const Common = require("./common.js");
 const { distinguish, verifyBinType } = require("../config/js/verify.js");
-const { SOURCE, EST_RUN, EST_STOP } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE, EST_RUN } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
 
@@ -212,7 +212,7 @@ class Serialport extends Common {
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         }
-        if (str && (str !== signType.VERSION || str !== signType.EXE.FILES)) this.checkOverTime(event);
+        if (str && str !== signType.VERSION && str !== signType.EXE.FILES) this.checkOverTime(event);
     }
 
     /**
