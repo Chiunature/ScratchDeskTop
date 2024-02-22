@@ -19,9 +19,7 @@ import {
     clearConnectionModalPeripheralName,
     getSerialList
 } from "../reducers/connection-modal";
-
-import { SOURCE, SERIALPORT } from "../config/json/verifyTypeConfig.json";
-import { ipc as ipc_Renderer } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -158,7 +156,7 @@ class ConnectionModal extends React.Component {
             callback: (event, arg) => {
                 if (arg.res) {
                     this.props.onShowConnectAlert(arg.msg);
-                    this.props.onSetDeviceType(SERIALPORT);
+                    this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
                 } else {
                     this.handleDisconnect(arg.msg);
                 }
@@ -189,7 +187,7 @@ class ConnectionModal extends React.Component {
                 return;
             }
         }
-        this.props.compile.sendSerial(SOURCE);
+        this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
     }
 

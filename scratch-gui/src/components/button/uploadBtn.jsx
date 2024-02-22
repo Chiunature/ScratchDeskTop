@@ -5,7 +5,7 @@ import stopIcon from "./icon--stop.svg";
 import ButtonComponent from "./button.jsx";
 import SelectExeBtn from "./selectExeBtn.jsx";
 import RunExeBtn from './runExeBtn.jsx';
-
+import { verifyTypeConfig } from 'est-link';
 
 const UploadBtn = (props) => {
     const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist, handleRunApp } = props;
@@ -37,7 +37,7 @@ const UploadBtn = (props) => {
                     onSetExelist={onSetExelist}
                 />
                 <ButtonComponent
-                    onClick={handleRunApp}
+                    onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}
                     className={classNames(styles.stopBtn)}
                     iconSrc={stopIcon}
                 />

@@ -10,7 +10,7 @@
  *  watchDeviceList: 设备监听列表
  * }
  */
-const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE, EST_STOP } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const { verifyActions } = require("../config/js/verify.js");
 
@@ -37,6 +37,7 @@ class Common {
         this.flashList = new Array(2).fill(0);
         this.adcList;
         this.voice;
+        this.deviceStatus = EST_STOP;
         this.initWatchDeviceList(8);
     }
 
@@ -391,6 +392,9 @@ class Common {
             case 0xD7:
                 if (this.voice !== arr[0]) this.voice = arr[0];
                 break;
+            case 0xF1:
+                if (this.deviceStatus !== arr[0]) this.deviceStatus = arr[0]
+                break;
             default:
                 this.checkSensingDevice([...arr], bit, diffAttribute);
                 break;
@@ -400,7 +404,8 @@ class Common {
             gyroList: this.gyroList,
             flashList: this.flashList,
             adcList: this.adcList,
-            voice: this.voice
+            voice: this.voice,
+            deviceStatus: this.deviceStatus
         };
     }
 
@@ -425,7 +430,7 @@ class Common {
                     diffAttribute(port.motor, 'PWM', arr[2]);
                     diffAttribute(port.motor, 'aim_speed', arr[3]);
                     diffAttribute(port.motor, 'target_speed', arr[4]);
-                                        break;
+                    break;
                 case 0xD6:
                     const str = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
                     diffAttribute(port.color, 'rgb', str);

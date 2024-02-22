@@ -34,8 +34,7 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import { BOOTBIN } from "../config/json/verifyTypeConfig.json";
-import { ipc as ipc_Renderer } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
@@ -44,6 +43,7 @@ import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../re
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
+
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -54,7 +54,8 @@ class GUI extends React.Component {
                 gyroList: new Array(3).fill(0),
                 flashList: new Array(2).fill(0),
                 adcList: 0,
-                voice: 0
+                voice: 0,
+                deviceStatus: verifyTypeConfig.EST_STOP
             },
             stopWatch: false
         }
@@ -238,17 +239,20 @@ class GUI extends React.Component {
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
+                if (this.state.deviceObj.deviceStatus === verifyTypeConfig.EST_RUN) {
+                    this.handleRunApp(this.state.deviceObj.deviceStatus);
+                }
                 const selectedExe = JSON.parse(localStorage.getItem('selItem'));
                 const compile = new Compile();
-                compile.sendSerial(BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
+                compile.sendSerial(verifyTypeConfig.BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
         }
     }
 
-    handleRunApp() {
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'APP' });
+    handleRunApp(status) {
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
 

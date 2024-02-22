@@ -6,5 +6,9 @@
     "SOURCE_BOOT": "SOURCE_BOOT",
     "SOURCE_VERSION": "SOURCE_VERSION",
     "SOURCE_CONFIG": "SOURCE_CONFIG",
-    "DELETE_EXE": "DELETE_EXE"
+    "DELETE_EXE": "DELETE_EXE",
+    "SERIALPORT": "serialport",
+    "BLUETOOTH": "ble",
+    "EST_STOP": "EST_STOP",
+    "EST_RUN": "EST_RUN"
 }

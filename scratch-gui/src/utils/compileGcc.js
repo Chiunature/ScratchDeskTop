@@ -25,9 +25,8 @@
  */
 import { handlerError } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item, Task_Handler } from "../config/js/ProgrammerTasks.js";
-import { SOURCE, SOURCE_MUSIC } from "../config/json/verifyTypeConfig.json";
 import { APLICATION } from "../config/json/LB_USER.json";
-import { ipc as ipc_Renderer } from "est-link"
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
 
 const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
@@ -134,10 +133,10 @@ class Compile {
      * @param {Object} selectedExe 
      */
     sendSerial(verifyType, bufferList, myBlock, selectedExe) {
-        if (verifyType === SOURCE) {
+        if (verifyType === verifyTypeConfig.SOURCE) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: { verifyType: SOURCE_MUSIC, selectedExe },
+                sendParams: { verifyType: verifyTypeConfig.SOURCE_MUSIC, selectedExe },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
                     window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });

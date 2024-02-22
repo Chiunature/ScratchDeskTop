@@ -17,14 +17,15 @@
  */
 const Common = require("./common.js");
 const { distinguish, verifyBinType } = require("../config/js/verify.js");
-const { SOURCE } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE, EST_RUN, EST_STOP } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
 
 const instruct = {
     version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
     files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
-    application: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
+    app_run: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
+    app_stop: [0x5A, 0x97, 0x98, 0x01, 0xB9, 0x01, 0x44, 0xA5],
     restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5]
 }
 
@@ -349,8 +350,9 @@ class Serialport extends Common {
             if (arg === 'FILE') {
                 this.writeData(instruct.files, signType.EXE.FILES, event);
                 return;
+            } else {
+                this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
             }
-            this.writeData(instruct.application, null, event);
         });
     }
 
