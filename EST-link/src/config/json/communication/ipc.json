@@ -30,6 +30,7 @@
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"
         },
+        "MATRIX": "MATRIX",
         "VERSION": "reupdate",
         "RESTART": "restart"
     },

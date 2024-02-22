@@ -196,6 +196,8 @@ Blockly.FieldMatrix.ZEROS = '000000000000000000000000000000000000000000000000000
  */
 Blockly.FieldMatrix.ONES = '111111111111111111111111111111111111111111111111111111111111111';
 
+
+Blockly.FieldMatrix.callback = null;
 /**
  * Called when the field is placed on a block.
  * @param {Block} block The owning block.
@@ -280,8 +282,28 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
   }
   matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 63 - matrix.length);
   this.matrix_ = matrix;
+  if (typeof Blockly.FieldMatrix.callback === 'function') {
+    let lp = this.stringToHex(this.matrix_);
+    Blockly.FieldMatrix.callback(lp);
+  }
   this.updateMatrix_();
 };
+
+Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
+  // 将字符串按照每9个字符分割成数组
+  var matrixArr = matrix.match(/.{1,7}/g);
+  // 定义存储16进制数的数组
+  var hexArr = [];
+  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
+  matrixArr.map(element => {
+    var decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
+    // var hexNum = decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+    hexArr.push(decimalNum);
+  });
+
+  return hexArr;
+}
+
 
 /**
  * Get the value from this matrix menu.

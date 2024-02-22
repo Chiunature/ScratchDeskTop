@@ -105,6 +105,7 @@ class Serialport extends Common {
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
         //开始重启主机监听
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
+        this.matrixSend(ipc_Main.SEND_OR_ON.MATRIX)
     }
 
     /**
@@ -375,6 +376,22 @@ class Serialport extends Common {
     restartMain(eventName) {
         this.ipcMain(eventName, (event, data) => {
             this.writeData(instruct.restart, null, event);
+        });
+    }
+
+    /**
+     * 矩阵灯交互
+     * @param {String} eventName 
+     */
+    matrixSend(eventName) {
+        this.ipcMain(eventName, (event, matrix) => {
+            let sum = 0x5a + 0x97 + 0x98 + 0x09 + 0xE0;
+            for (let i = 0; i < matrix.length; i++) {
+                const item = matrix[i];
+                sum += item
+            }
+            let list = [0x5A, 0x97, 0x98, 0x09, 0xE0, ...matrix, (sum & 0xff), 0xA5]
+            this.writeData(list, null, event);
         });
     }
 }

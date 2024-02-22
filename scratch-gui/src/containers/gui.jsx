@@ -149,6 +149,7 @@ class GUI extends React.Component {
             });
 
             that.checkDriver();
+            that.matrixSend();
         }
     }
     componentDidUpdate(prevProps) {
@@ -168,6 +169,12 @@ class GUI extends React.Component {
         window.myAPI.delEvents();
         clearInterval(this.watchDeviceTimer);
         this.handleStopWatch(true);
+    }
+
+    matrixSend() {
+        ScratchBlocks['FieldMatrix'].callback = (matrix) => {
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: matrix });
+        }
     }
 
     proxyMotor(proxyVal, type, data) {
