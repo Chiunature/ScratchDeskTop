@@ -58,11 +58,10 @@ class Compile {
                     regList = result.match(regex);
                     isReg = true;
                 }
-
                 if (!regList) {
                     return;
                 }
-                newRes = result.replace(isReg ? regList.join('\n') : regList, targetStr);
+                newRes = result.replace(isReg ? regList.join('') : regList, targetStr);
                 resolve(newRes);
             } catch (error) {
                 reject(error);
