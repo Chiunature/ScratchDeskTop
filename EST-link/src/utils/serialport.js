@@ -26,7 +26,10 @@ const instruct = {
     files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
     app_run: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
     app_stop: [0x5A, 0x97, 0x98, 0x01, 0xB9, 0x01, 0x44, 0xA5],
-    restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5]
+    restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5],
+    matrix: {
+        clear: [0x5A, 0x97, 0x98, 0x01, 0xEE, 0x01, 0x79, 0xA5],
+    }
 }
 
 class Serialport extends Common {
@@ -385,13 +388,19 @@ class Serialport extends Common {
      */
     matrixSend(eventName) {
         this.ipcMain(eventName, (event, matrix) => {
-            let sum = 0x5a + 0x97 + 0x98 + 0x09 + 0xE0;
-            for (let i = 0; i < matrix.length; i++) {
-                const item = matrix[i];
-                sum += item
-            }
-            let list = [0x5A, 0x97, 0x98, 0x09, 0xE0, ...matrix, (sum & 0xff), 0xA5]
-            this.writeData(list, null, event);
+            // 先清屏
+            this.writeData(instruct.matrix.clear, null, event);
+            // 等一秒再改变
+            const that = this;
+            setTimeout(() => {
+                let sum = 0x5a + 0x97 + 0x98 + 0x09 + 0xE0;
+                for (let i = 0; i < matrix.length; i++) {
+                    const item = matrix[i];
+                    sum += item
+                }
+                let list = [0x5A, 0x97, 0x98, 0x09, 0xE0, ...matrix, (sum & 0xff), 0xA5]
+                that.writeData(list, null, event);
+            }, 100);
         });
     }
 }

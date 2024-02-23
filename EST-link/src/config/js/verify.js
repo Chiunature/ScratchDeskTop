@@ -36,10 +36,10 @@ const signType = require("../json/communication/sign.json");
  */
 function verifyActions(sign, recevieObj, event) {
     const { data } = recevieObj;
-const text = new TextDecoder();
+    const text = new TextDecoder();
     switch (sign) {
         case signType.EXE.FILES:
-            if(data[4] === 0xE7) {
+            if (data[4] === 0xE7) {
                 const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
                 event.reply(ipc_Main.RETURN.EXE.FILES, names);
             }
@@ -50,7 +50,7 @@ const text = new TextDecoder();
                 event.reply(ipc_Main.RETURN.VERSION, version);
             }
             return false;
-                case signType.BOOT.FILENAME:    //文件名
+        case signType.BOOT.FILENAME:    //文件名
         case signType.BOOT.BIN:         //文件数据
             let obj = {};
             obj[sign] = () => {
@@ -120,11 +120,10 @@ function distinguish(filesObj, type, event) {
             const fileVerifyType = isLastFile ? next : obj.fileVerifyType;
             const subFileIndex = isLastFile ? 0 : obj.filesIndex;
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.NEXTFILE, { subFileIndex, fileVerifyType, clearFilesObj: isLastFile });
-            console.log(`${obj.fileName}已经下载完成`);
         } else {
-            console.log(`${obj.fileName}已经下载完成`);
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
         }
+        console.log(`${obj.fileName}已经下载完成`);
     }
 }
 

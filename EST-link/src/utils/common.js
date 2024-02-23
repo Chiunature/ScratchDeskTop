@@ -370,12 +370,13 @@ class Common {
         switch (bit) {
             case 0xD8:
                 const list = arr.slice(0, 8);
-                list.forEach((item, i) => {
+                for (let i = 0; i < list.length; i++) {
+                    const item = list[i];
                     diffAttribute(this.watchDeviceList[i], 'port', i);
                     diffAttribute(this.watchDeviceList[i], 'deviceId', item);
                     diffAttribute(this.watchDeviceList[i], 'sensing_device', device[item]);
                     if (item == 0) this.clearWatchDeviceList(i);
-                });
+                }
                 event.reply(ipc_Main.RETURN.DEVICE.PORT, [...list]);
                 break;
             case 0xD1:
@@ -417,11 +418,14 @@ class Common {
      */
     checkSensingDevice(arr, key, diffAttribute) {
         if (this.watchDeviceList.length === 0) return;
-        this.watchDeviceList.forEach(el => {
+        for (let i = 0; i < this.watchDeviceList.length; i++) {
+            const el = this.watchDeviceList[i];
             if (el.deviceId === arr[0]) {
                 _device(el, key, arr);
+            } else {
+                continue;
             }
-        });
+        }
 
         function _device(port, key, arr) {
             switch (key) {

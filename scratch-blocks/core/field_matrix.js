@@ -196,7 +196,7 @@ Blockly.FieldMatrix.ZEROS = '000000000000000000000000000000000000000000000000000
  */
 Blockly.FieldMatrix.ONES = '111111111111111111111111111111111111111111111111111111111111111';
 
-
+Blockly.FieldMatrix.timer = null;
 Blockly.FieldMatrix.callback = null;
 /**
  * Called when the field is placed on a block.
@@ -282,12 +282,19 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
   }
   matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 63 - matrix.length);
   this.matrix_ = matrix;
-  if (typeof Blockly.FieldMatrix.callback === 'function') {
-    let lp = this.stringToHex(this.matrix_);
-    Blockly.FieldMatrix.callback(lp);
-  }
   this.updateMatrix_();
 };
+
+Blockly.FieldMatrix.prototype.changeMatrix = function () {
+  if (typeof Blockly.FieldMatrix.callback === 'function') {
+    clearTimeout(Blockly.FieldMatrix.timer);
+    const that = this;
+    Blockly.FieldMatrix.timer = setTimeout(() => {
+      let lp = that.stringToHex(this.matrix_);
+      Blockly.FieldMatrix.callback(lp);
+    }, 100);
+  }
+}
 
 Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
   // 将字符串按照每9个字符分割成数组
@@ -435,6 +442,7 @@ Blockly.FieldMatrix.prototype.updateMatrix_ = function () {
       this.fillMatrixNode_(this.ledThumbNodes_, i, '#FFFFFF');
     }
   }
+  this.changeMatrix();
 };
 
 /**
