@@ -117,8 +117,7 @@ class Compile {
             window.myAPI.commendMake().then(() => {
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
             }).catch(err => {
-                console.log(err);
-                handlerError(err);
+                window.myAPI.handlerError(err);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
             });
         }

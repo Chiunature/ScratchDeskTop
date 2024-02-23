@@ -25,16 +25,7 @@ class SB3Downloader extends React.Component {
             'downloadProject'
         ]);
     }
-    getCurrentTime() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
+    
     downloadProject() {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
@@ -48,7 +39,7 @@ class SB3Downloader extends React.Component {
                     fileName: this.props.projectFilename.slice(0, -4),
                     url: e.target.result,
                     size: Math.ceil(content.size / 1024) + 'KB',
-                    alterTime: this.getCurrentTime(),
+                    alterTime: window.myAPI.getCurrentTime(),
                     editable: false
                 }
                 if (localStorage.getItem('file')) {

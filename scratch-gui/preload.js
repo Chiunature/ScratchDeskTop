@@ -142,6 +142,32 @@ async function writeFileWithDirectory(directory, filepath, data) {
     }
 }
 
+/**
+ * 获取当前时间
+ * @returns 
+ */
+function getCurrentTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+}
+
+/**
+ * 错误处理
+ * @param {String} error 
+ */
+async function handlerError(error) {
+    const directory = './Error';
+    const time = getCurrentTime();
+    const filepath = `${directory}/error_${time}.txt`;
+    await writeFileWithDirectory(directory, filepath, error);
+}
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -151,5 +177,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     ipcRender,
     getVersion,
     commendMake,
-    writeFileWithDirectory
+    writeFileWithDirectory,
+    handlerError
 });
