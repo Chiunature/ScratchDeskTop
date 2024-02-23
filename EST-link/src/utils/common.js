@@ -349,7 +349,7 @@ class Common {
         const res = text.decode(list);
         const arr = res.split('/').filter(Boolean);
         if (!arr && arr.length <= 0) return false;
-        if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
+        // if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
 
         const diffAttribute = (obj, objKey, target) => {
             if (Array.isArray(obj) && Array.isArray(target)) {
@@ -363,6 +363,7 @@ class Common {
                         continue;
                     }
                 }
+                return;
             }
             obj[objKey] !== target ? obj[objKey] = target : null;
         }
@@ -397,7 +398,7 @@ class Common {
                 if (this.deviceStatus !== arr[0]) this.deviceStatus = arr[0]
                 break;
             default:
-                this.checkSensingDevice([...arr], bit, diffAttribute);
+                this.checkSensingDevice(arr, bit, diffAttribute);
                 break;
         }
         return {

@@ -102,8 +102,6 @@ class Serialport extends Common {
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
         //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
-        //开启设备数据监控监听
-        this.watchDevice(ipc_Main.SEND_OR_ON.DEVICE.WATCH);
         //开启获取主机文件监听
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
         //开始重启主机监听
@@ -257,12 +255,10 @@ class Serialport extends Common {
      * 监听设备信息
      * @param {String} eventName 
      */
-    watchDevice(eventName) {
-        this.ipcMain(eventName, (event, data) => {
-            if (data.stopWatch || !this.receiveObj) return false;
-            const result = this.distinguishDevice(this.receiveObj, event);
-            event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
-        });
+    watchDevice(event) {
+        if (!this.receiveObj) return false;
+        const result = this.distinguishDevice(this.receiveObj, event);
+        event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
     }
 
     /**
@@ -292,6 +288,7 @@ class Serialport extends Common {
         if (!this.port) {
             return;
         }
+        const that = this;
         this.port.on(eventName, () => {
             try {
                 //清除超时检测
@@ -299,12 +296,13 @@ class Serialport extends Common {
                 //获取下位机发送过来的数据
                 const receiveData = this.port.read();
                 //把数据放入处理函数校验是否是完整的一帧并获取数据对象
-                const receiveObj = this.catchData(receiveData);
-                this.receiveObj = { ...receiveObj };
+                this.receiveObj = this.catchData(receiveData);
+                //开启设备数据监控监听
+                setTimeout(() => that.watchDevice(event));
 
                 if (!this.sign) return;
                 //根据标识符进行校验操作检验数据并返回结果
-                const verify = this.verification(this.sign, receiveObj, event);
+                const verify = this.verification(this.sign, this.receiveObj, event);
                 if (verify) {
                     //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                     this.processReceivedData(event);

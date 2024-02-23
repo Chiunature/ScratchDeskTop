@@ -135,9 +135,7 @@ class GUI extends React.Component {
                 }
             });
             // 设备信息监听
-            that.watchDeviceTimer = setInterval(() => {
-                if (that.props.peripheralName && !that.state.stopWatch) that.watchDevice();
-            }, 10);
+            that.watchDevice();
             // 电机模块设备显示监听
             let FieldMotor, FieldCombinedMotor;
             window.myAPI.ipcRender({
@@ -145,6 +143,7 @@ class GUI extends React.Component {
                 callback: (event, data) => {
                     that.proxyMotor(FieldMotor, 'FieldMotor', data);
                     that.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
+                    this.setState((state) => ({ deviceObj: state.deviceObj }));
                 }
             });
 
@@ -212,14 +211,12 @@ class GUI extends React.Component {
     //开启监听
     watchDevice() {
         window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
-            sendParams: { stopWatch: this.state.stopWatch },
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
-                const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? [...result.deviceList] : [...this.state.deviceObj.deviceList] };
-                this.setState(() => ({ deviceObj }));
+                if (!result) return;
+                this.state.deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? [...result.deviceList] : [...this.state.deviceObj.deviceList] };
             }
-        })
+        });
     }
 
     async checkDriver() {
