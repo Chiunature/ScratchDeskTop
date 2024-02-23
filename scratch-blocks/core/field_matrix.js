@@ -285,16 +285,6 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
   this.updateMatrix_();
 };
 
-Blockly.FieldMatrix.prototype.changeMatrix = function () {
-  if (typeof Blockly.FieldMatrix.callback === 'function') {
-    clearTimeout(Blockly.FieldMatrix.timer);
-    const that = this;
-    Blockly.FieldMatrix.timer = setTimeout(() => {
-      let lp = that.stringToHex(this.matrix_);
-      Blockly.FieldMatrix.callback(lp);
-    }, 100);
-  }
-}
 
 Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
   // 将字符串按照每9个字符分割成数组
@@ -442,8 +432,26 @@ Blockly.FieldMatrix.prototype.updateMatrix_ = function () {
       this.fillMatrixNode_(this.ledThumbNodes_, i, '#FFFFFF');
     }
   }
-  this.changeMatrix();
+  this.changeMatrix('change');
 };
+
+Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
+  if (typeof Blockly.FieldMatrix.callback === 'function') {
+    clearTimeout(Blockly.FieldMatrix.timer);
+    const that = this;
+    Blockly.FieldMatrix.timer = setTimeout(() => {
+      switch (type) {
+        case 'change':
+          let lp = that.stringToHex(this.matrix_);
+          Blockly.FieldMatrix.callback(type, lp);
+          break;
+        default:
+          Blockly.FieldMatrix.callback(type, value);
+          break;
+      }
+    }, 100);
+  }
+}
 
 /**
  * Clear the matrix.

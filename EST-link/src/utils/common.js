@@ -505,6 +505,42 @@ class Common {
             }
         });
     }
+
+    /**
+     * 矩阵灯交互
+     * @param {Object} obj 
+     */
+    matrixChange(obj) {
+        let bit, sum, list;
+        switch (obj.type) {
+            case 'change':
+                bit = 0xE0;
+                sum = 0x5a + 0x97 + 0x98 + 0x09 + bit;
+                for (let i = 0; i < obj.matrix.length; i++) {
+                    const item = obj.matrix[i];
+                    sum += item
+                }
+                list = [0x5A, 0x97, 0x98, 0x09, bit, ...obj.matrix, (sum & 0xff), 0xA5];
+                break;
+            case 'color':
+                bit = 0xE2;
+                sum = 0x5a + 0x97 + 0x98 + 0x04 + bit;
+                for (let i = 0; i < obj.matrix.length; i++) {
+                    const item = obj.matrix[i];
+                    sum += item
+                }
+                list = [0x5A, 0x97, 0x98, 0x04, bit, 0x00, ...obj.matrix, (sum & 0xff), 0xA5];
+                break;
+            case 'brightness':
+                bit = 0xE1;
+                sum = 0x5a + 0x97 + 0x98 + 0x01 + bit + parseInt(obj.matrix);
+                list = [0x5A, 0x97, 0x98, 0x01, bit, parseInt(obj.matrix), (sum & 0xff), 0xA5];
+                break;
+            default:
+                break;
+        }
+        return list;
+    }
 }
 
 module.exports = Common;

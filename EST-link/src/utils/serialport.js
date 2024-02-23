@@ -387,20 +387,13 @@ class Serialport extends Common {
      * @param {String} eventName 
      */
     matrixSend(eventName) {
-        this.ipcMain(eventName, (event, matrix) => {
-            // 先清屏
-            this.writeData(instruct.matrix.clear, null, event);
-            // 等一秒再改变
-            const that = this;
-            setTimeout(() => {
-                let sum = 0x5a + 0x97 + 0x98 + 0x09 + 0xE0;
-                for (let i = 0; i < matrix.length; i++) {
-                    const item = matrix[i];
-                    sum += item
-                }
-                let list = [0x5A, 0x97, 0x98, 0x09, 0xE0, ...matrix, (sum & 0xff), 0xA5]
-                that.writeData(list, null, event);
-            }, 100);
+        this.ipcMain(eventName, (event, obj) => {
+            if (obj.type === 'change') {
+                // 先清屏
+                this.writeData(instruct.matrix.clear, null, event);
+            }
+            const list = this.matrixChange(obj);
+            this.writeData(list, null, event);
         });
     }
 }

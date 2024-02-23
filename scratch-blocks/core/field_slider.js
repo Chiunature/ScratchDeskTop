@@ -13,7 +13,7 @@
 'use strict';
 
 goog.provide('Blockly.FieldSlider');
-
+goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.FieldNumber');
 
 /**
@@ -107,6 +107,8 @@ Blockly.FieldSlider.prototype.showEditor_ = function () {
     Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
     Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
+
+
     this.boundEvents_.push(Blockly.bindEvent_(
         sliderInput, 'input', this, this.onSliderChange_));
 
@@ -126,6 +128,9 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
     this.setValue(this.sliderInput_.value);
     this.validate_();
     this.resizeEditor_();
+    if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'matrix_lamp_set') {
+        Blockly.FieldMatrix.prototype.changeMatrix('brightness', this.sliderInput_.value);
+    }
 };
 
 /**

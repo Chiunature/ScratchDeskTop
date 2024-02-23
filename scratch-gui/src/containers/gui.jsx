@@ -172,8 +172,8 @@ class GUI extends React.Component {
     }
 
     matrixSend() {
-        ScratchBlocks['FieldMatrix'].callback = (matrix) => {
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: matrix });
+        ScratchBlocks['FieldMatrix'].callback = (type, matrix) => {
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, matrix } });
         }
     }
 
@@ -210,7 +210,7 @@ class GUI extends React.Component {
         this.setState((state) => ({ deviceObj: state.deviceObj }));
     }
     //开启监听
-    async watchDevice() {
+    watchDevice() {
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.DEVICE.WATCH,
             sendParams: { stopWatch: this.state.stopWatch },
@@ -220,11 +220,6 @@ class GUI extends React.Component {
                 this.setState(() => ({ deviceObj }));
             }
         })
-        /* const result = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.WATCH, { stopWatch: this.state.stopWatch });
-        if (!result) return;
-        const deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? result.deviceList : this.state.deviceObj.deviceList };
-        this.setState(() => ({ deviceObj }));
-         */
     }
 
     async checkDriver() {

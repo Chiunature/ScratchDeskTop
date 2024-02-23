@@ -25,7 +25,7 @@
 'use strict';
 
 goog.provide('Blockly.FieldColourSlider');
-
+goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.Field');
 goog.require('Blockly.DropDownDiv');
 goog.require('goog.dom');
@@ -207,6 +207,10 @@ Blockly.FieldColourSlider.prototype.updateSliderHandles_ = function () {
       this.brightnessSlider_.setValue(this.brightness_);
     }
     this.sliderCallbacksEnabled_ = true;
+    var m = this.colour_.match(/^#(.)\1(.)\2(.)\3$/);
+    if (m) {
+      Blockly.FieldMatrix.prototype.changeMatrix('color', [Number('0x' + m[2] + m[2]), Number('0x' + m[1] + m[1]), Number('0x' + m[3] + m[3])]);
+    }
   }
 };
 
