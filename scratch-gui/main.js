@@ -153,11 +153,22 @@ function createWindow() {
         }
 
         //点击重新更新固件提示
-        ipcMain.handle(ipc.SEND_OR_ON.VERSION, (event, arg) => {
+        ipcMain.handle(ipc.SEND_OR_ON.VERSION.REUPDATE, (event, arg) => {
             const index = dialog.showMessageBoxSync({
                 type: "info",
                 title: "Do you want to delete this record",
                 message: "固件已是最新版本, 是否要重新更新",
+                buttons: ["否(no)", "是(yes)"],
+            });
+            return index;
+        });
+
+        //更新固件提示
+        ipcMain.handle(ipc.SEND_OR_ON.VERSION.UPDATE, (event, arg) => {
+            const index = dialog.showMessageBoxSync({
+                type: "info",
+                title: "Detected that the firmware version is not the latest. Do you want to update it now",
+                message: "检测到固件版本不是最新，是否前去更新",
                 buttons: ["否(no)", "是(yes)"],
             });
             return index;

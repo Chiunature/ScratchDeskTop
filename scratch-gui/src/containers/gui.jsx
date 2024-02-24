@@ -21,6 +21,7 @@ import {
     closeBackdropLibrary,
     closeTelemetryModal,
     openExtensionLibrary,
+    openConnectionModal,
 } from "../reducers/modals";
 
 import FontLoaderHOC from "../lib/font-loader-hoc.jsx";
@@ -67,88 +68,18 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
         this.initDeviceList();
-
         const userAgent = navigator.userAgent.toLowerCase();
-        const that = this;
         if (userAgent.indexOf("electron/") > -1) {
-            //下载成功监听
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
-                callback: (event, arg) => {
-                    that.props.onShowCompletedAlert(arg.msg);
-                    if (arg.result) {
-                        that.props.onSetIsComplete(true);
-                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
-                        let time = setTimeout(() => {
-                            that.props.onSetIsComplete(false);
-                            that.props.onSetCompleted(false);
-                            that.props.onSetProgress(0);
-                            JSON.parse(sessionStorage.getItem('run-app')) && that.handleRunApp();
-                            clearTimeout(time);
-                        }, 2000);
-                    } else {
-                        that.props.onSetCompleted(false);
-                        that.props.onSetSourceCompleted(false);
-                    }
-                },
-            });
-            //下载进度监听
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
-                callback: (event, arg) => {
-                    that.props.onSetProgress(arg);
-                },
-            });
-            //下载资源监听
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
-                callback: (event, arg) => {
-                    that.props.onSetSourceCompleted(false);
-                    that.props.onSetVersion(true);
-                    that.props.onShowCompletedAlert(arg.msg);
-                    setTimeout(() => window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART }), 1000);
-                },
-            });
-            //获取主机版本监听
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.VERSION,
-                callback: (event, arg) => {
-                    const version = window.myAPI.getVersion(arg);
-                    that.props.onSetVersion(version);
-                    window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
-                }
-            });
-            //获取主机文件监听
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.EXE.FILES,
-                callback: (event, arg) => {
-                    const list = arg.split('/').filter(Boolean);
-                    const exeList = list.map((el, index) => {
-                        const current = el.indexOf('_');
-                        return {
-                            name: el.replace('.bin', ''),
-                            num: el.slice(0, current),
-                            checked: index === 0 ? true : false
-                        }
-                    });
-                    that.props.onSetExelist(exeList);
-                }
-            });
+            this.downloadSuccess();
+            this.downloadProgress();
+            this.downloadSource();
+            this.getFirewareVersion();
+            this.getFirewareFiles();
             // 设备信息监听
-            that.watchDevice();
-            // 电机模块设备显示监听
-            let FieldMotor, FieldCombinedMotor;
-            window.myAPI.ipcRender({
-                eventName: ipc_Renderer.RETURN.DEVICE.PORT,
-                callback: (event, data) => {
-                    that.proxyMotor(FieldMotor, 'FieldMotor', data);
-                    that.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
-                    this.setState((state) => ({ deviceObj: state.deviceObj }));
-                }
-            });
-
-            that.checkDriver();
-            that.matrixSend();
+            this.watchDevice();
+            this.blocksMotorCheck();
+            this.checkDriver();
+            this.matrixSend();
         }
     }
     componentDidUpdate(prevProps) {
@@ -170,6 +101,98 @@ class GUI extends React.Component {
         this.handleStopWatch(true);
     }
 
+    blocksMotorCheck() {
+        // 电机模块设备显示监听
+        let FieldMotor, FieldCombinedMotor;
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.DEVICE.PORT,
+            callback: (event, data) => {
+                this.proxyMotor(FieldMotor, 'FieldMotor', data);
+                this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
+                this.setState((state) => ({ deviceObj: state.deviceObj }));
+            }
+        });
+    }
+
+    getFirewareFiles() {
+        //获取主机文件监听
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.EXE.FILES,
+            callback: (event, arg) => {
+                const list = arg.split('/').filter(Boolean);
+                const exeList = list.map((el, index) => {
+                    const current = el.indexOf('_');
+                    return {
+                        name: el.replace('.bin', ''),
+                        num: el.slice(0, current),
+                        checked: index === 0 ? true : false
+                    }
+                });
+                this.props.onSetExelist(exeList);
+            }
+        });
+    }
+
+    getFirewareVersion() {
+        //获取主机版本监听
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.VERSION,
+            callback: (event, arg) => {
+                const version = window.myAPI.getVersion(arg);
+                this.props.onSetVersion(version);
+                window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
+                if (!version) this.checkUpdateFireware();
+            }
+        });
+    }
+
+    downloadSource() {
+        //下载资源监听
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
+            callback: (event, arg) => {
+                this.props.onSetSourceCompleted(false);
+                this.props.onSetVersion(true);
+                this.props.onShowCompletedAlert(arg.msg);
+                setTimeout(() => window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART }), 1000);
+            },
+        });
+    }
+
+    downloadProgress() {
+        //下载进度监听
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
+            callback: (event, arg) => {
+                this.props.onSetProgress(arg);
+            },
+        });
+    }
+
+    downloadSuccess() {
+        //下载成功监听
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
+            callback: (event, arg) => {
+                this.props.onShowCompletedAlert(arg.msg);
+                if (arg.result) {
+                    this.props.onSetIsComplete(true);
+                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+                    let time = setTimeout(() => {
+                        this.props.onSetIsComplete(false);
+                        this.props.onSetCompleted(false);
+                        this.props.onSetProgress(0);
+                        JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
+                        clearTimeout(time);
+                    }, 2000);
+                } else {
+                    this.props.onSetCompleted(false);
+                    this.props.onSetSourceCompleted(false);
+                }
+            },
+        });
+    }
+
     matrixSend() {
         ScratchBlocks['FieldMatrix'].callback = (type, matrix) => {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, matrix } });
@@ -185,6 +208,17 @@ class GUI extends React.Component {
         proxyVal = ScratchBlocks[type].proxy();
         proxyVal.portList = [...data];
     }
+
+    async checkUpdateFireware() {
+        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
+        if (res === 0) {
+            return;
+        }
+        new Compile().sendSerial(verifyTypeConfig.SOURCE);
+        this.props.onSetSourceCompleted(true);
+        this.props.onOpenConnectionModal();
+    }
+
     //控制暂停监听
     handleStopWatch(stopWatch) {
         this.setState({
@@ -417,7 +451,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: id => dispatch(activateDeck(id)),
     onSetVersion: (version) => dispatch(setVersion(version)),
-    onSetGen: (gen) => dispatch(setGen(gen))
+    onSetGen: (gen) => dispatch(setGen(gen)),
+    onOpenConnectionModal: () => dispatch(openConnectionModal()),
 });
 
 const ConnectedGUI = injectIntl(

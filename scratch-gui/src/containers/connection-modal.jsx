@@ -182,7 +182,7 @@ class ConnectionModal extends React.Component {
 
     async handleUpdate() {
         if (this.props.version) {
-            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION);
+            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.REUPDATE);
             if (res === 0) {
                 return;
             }
