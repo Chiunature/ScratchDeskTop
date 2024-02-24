@@ -29,9 +29,8 @@ const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-// const noble = require('@abandonware/noble');
 const { exec } = require('child_process');
-const { Serialport, ipc, Bluetooth } = require('est-link');
+const { Serialport, ipc } = require('est-link');
 
 let mainWindow, loadingWindow, isUpdate;
 const server = 'http://127.0.0.1:2060';
@@ -112,30 +111,10 @@ function createWindow() {
 
 
         const sp = new Serialport({ serialport, ...pack });
-        // const ble = new Bluetooth({ noble, ...pack });
         //获取串口列表
         sp.getList();
         //连接串口
         sp.connectSerial();
-
-        /* ipcMain.on(ipc.SEND_OR_ON.BLE.CONNECTION, async (event, arg) => {
-            //开启蓝牙扫描
-            const res = await ble.scanning(arg).linkBle();
-            let cache = [];
-            const json_str = JSON.stringify(res, function (key, value) {
-                if (typeof value === 'object' && value !== null) {
-                    if (cache.indexOf(value) !== -1) {
-                        return;
-                    }
-                    cache.push(value);
-                }
-                return value;
-            });
-            cache = null;
-            if (res) event.reply(ipc.RETURN.BLE.CONNECTION, json_str);
-        }); */
-
-        // ipcMain.handle(ipc.SEND_OR_ON.BLE.DISCONNECTED, (event, res) => {});
 
         //关闭默认菜单
         if (app.isPackaged) {
@@ -152,43 +131,31 @@ function createWindow() {
             mainWindow.webContents.openDevTools();
         }
 
-        //点击重新更新固件提示
-        ipcMain.handle(ipc.SEND_OR_ON.VERSION.REUPDATE, (event, arg) => {
-            const index = dialog.showMessageBoxSync({
-                type: "info",
-                title: "Do you want to delete this record",
-                message: "固件已是最新版本, 是否要重新更新",
-                buttons: ["否(no)", "是(yes)"],
-            });
-            return index;
-        });
-
-        //更新固件提示
-        ipcMain.handle(ipc.SEND_OR_ON.VERSION.UPDATE, (event, arg) => {
-            const index = dialog.showMessageBoxSync({
-                type: "info",
-                title: "Detected that the firmware version is not the latest. Do you want to update it now",
-                message: "检测到固件版本不是最新，是否前去更新",
-                buttons: ["否(no)", "是(yes)"],
-            });
-            return index;
-        });
-
         //点击logo打开官网
         ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
             shell.openExternal(url);
         });
 
-        //是否删除记录
-        ipcMain.handle(ipc.SEND_OR_ON.FILE.DELETE, () => {
-            const index = dialog.showMessageBoxSync({
-                type: "info",
-                title: "Do you want to delete this record",
-                message: "是否要删除此记录",
-                buttons: ["否(no)", "是(yes)"],
-            });
-            return index;
+        //点击重新更新固件提示
+        _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, {
+            title: "Do you want to delete this record",
+            message: "固件已是最新版本, 是否要重新更新"
         });
+        
+
+        //更新固件提示
+        _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, {
+            title: "Detected that the firmware version is not the latest. Do you want to update it now",
+            message: "检测到固件版本不是最新，是否前去更新"
+        });
+
+
+        //是否删除记录
+        _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, {
+                title: "Do you want to delete this record",
+                message: "是否要删除此记录"
+        });
+
 
         // 检测电脑是否安装了驱动
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
@@ -239,6 +206,18 @@ function createWindow() {
         });
         resolve();
     });
+
+    function _ipcMainHandle(instruct, obj) {
+        ipcMain.handle(instruct, () => {
+            const index = dialog.showMessageBoxSync({
+                type: obj.type ? obj.type : 'info',
+                title: obj.title,
+                message: obj.message,
+                buttons: ["否(no)", "是(yes)"],
+            });
+            return index;
+        });
+    }
 
     function _checkInstallDriver({ title, message }) {
         return new Promise((resolve, reject) => {
