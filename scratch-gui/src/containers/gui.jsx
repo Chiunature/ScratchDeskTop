@@ -80,6 +80,7 @@ class GUI extends React.Component {
             this.blocksMotorCheck();
             this.checkDriver();
             this.matrixSend();
+            await window.myAPI.commendMake();
         }
     }
     componentDidUpdate(prevProps) {
@@ -367,7 +368,8 @@ GUI.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
-    onActivateDeck: PropTypes.func
+    onActivateDeck: PropTypes.func,
+    onOpenConnectionModal: PropTypes.func
 };
 
 GUI.defaultProps = {

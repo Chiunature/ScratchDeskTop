@@ -40,7 +40,7 @@ import layout, { STAGE_SIZE_MODES } from "../../lib/layout-constants";
 import { resolveStageSize } from "../../lib/screen-utils";
 import { themeMap } from '../../lib/themes';
 import styles from "./gui.css";
-import addExtensionIcon from "./icon--extensions.svg";
+// import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
 // import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
@@ -137,6 +137,7 @@ const GUIComponent = (props) => {
         onSetVersion,
         onSetGen,
         onActivateDeck,
+        onOpenConnectionModal,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -276,7 +277,7 @@ const GUIComponent = (props) => {
                         {showFileStytem && (
                             <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />
                         )}
-                        {peripheralName && <DeviceSensing deviceObj={deviceObj}/>}
+                        {peripheralName && <DeviceSensing deviceObj={deviceObj} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
                                 isComplete={isComplete}
@@ -553,7 +554,8 @@ GUIComponent.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
     progress: PropTypes.number,
-    selectedExe: PropTypes.object
+    selectedExe: PropTypes.object,
+    onOpenConnectionModal: PropTypes.func
 };
 GUIComponent.defaultProps = {
     backpackHost: null,
