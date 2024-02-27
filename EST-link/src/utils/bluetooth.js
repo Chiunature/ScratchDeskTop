@@ -1,8 +1,21 @@
 const Common = require("./common");
-const { verifyActions, distinguish, verifyBinType } = require("../config/js/verify.js");
-const { SOURCE } = require("../config/json/verifyTypeConfig.json");
+const { distinguish, verifyBinType } = require("../config/js/verify.js");
+const { SOURCE, EST_RUN } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
+
+const instruct = {
+    version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
+    files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
+    app_run: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
+    app_stop: [0x5A, 0x97, 0x98, 0x01, 0xB9, 0x01, 0x44, 0xA5],
+    restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5],
+    matrix: {
+        clear: [0x5A, 0x97, 0x98, 0x01, 0xEE, 0x01, 0x79, 0xA5],
+    },
+    ble: [0x5A, 0x97, 0x98, 0x01, 0xB8, 0x01, 0x43, 0xA5]
+}
+
 class Bluetooth extends Common {
     constructor(...args) {
         super(...args);
@@ -46,7 +59,7 @@ class Bluetooth extends Common {
         const resForConnect = this.peripheral && await this.connect();
         const resForServices = resForConnect && await this.discoverServices();
         const resForCharacteristics = resForServices && await this.discoverCharacteristics();
-        const resbleSubscribe = resForCharacteristics && await this.bleSubscribe();
+        resForCharacteristics && await this.bleSubscribe(event);
         if (!resForConnect || !resForServices || !resForCharacteristics) {
             return {
                 ble: null,
@@ -54,10 +67,13 @@ class Bluetooth extends Common {
                 msg: "failedConnected"
             }
         }
-        if (resbleSubscribe) {
-            //开启获取文件监听
-            this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
-        }
+        //开启获取文件监听
+        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
+        //开启获取主机文件监听
+        this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
+        // 切换到串口
+        this.bleWrite(instruct.ble, null, event);
+        // 断开连接监听
         this.disconnect(event);
         return {
             ble: this.peripheral,
@@ -65,7 +81,6 @@ class Bluetooth extends Common {
             msg: resForConnect ? "successfullyConnected" : "failedConnected",
         }
     }
-
 
     /**
      * 发现设备
@@ -93,7 +108,6 @@ class Bluetooth extends Common {
                     reject(false);
                     return;
                 }
-                console.log('成功连接到设备');
                 resolve(true);
             });
         });
@@ -104,7 +118,6 @@ class Bluetooth extends Common {
      */
     disconnect(event) {
         this.peripheral.on('disconnect', (err) => {
-            console.log('成功断开连接');
             clearInterval(this.timeOutTimer);
             event.reply(ipc_Main.RETURN.BLE.DISCONNECTED, "disconnect");
         })
@@ -155,9 +168,6 @@ class Bluetooth extends Common {
         return new Promise((resolve, reject) => {
             //修改标识符，根据标识符判断要发送的是文件还是文件名
             this.sign = str;
-            if (str && str.search('Boot') !== -1) {
-                this.checkOverTime(event);
-            }
             //写入数据
             this.characteristic.write(writeData, withResponse, (error) => {
                 if (error) {
@@ -165,8 +175,12 @@ class Bluetooth extends Common {
                     reject(false);
                     return;
                 }
-                console.log('成功发送数据=>', writeData);
+                // console.log('成功发送数据=>', writeData);
             });
+            if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+            }
+            if (str && str !== signType.VERSION && str !== signType.EXE.FILES) this.checkOverTime(event);
             resolve(true);
         });
     }
@@ -187,19 +201,18 @@ class Bluetooth extends Common {
      */
     clearCache() {
         this.deleteObj(this.files, this.filesObj);
-        this.peripheral = [];
-        this.service = null;
         this.receiveDataBuffer = [];
-        this.timeOutTimer = null;
+        this.clearTimer();
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;
     }
 
+
     /**
-     * 接收数据
+     * 接收数据(这个方法不好用)
      */
-    bleRead(event) {
+    /* bleRead(event) {
         return new Promise((resolve, reject) => {
             this.characteristic.read((err, data) => {
                 if (err) {
@@ -207,20 +220,22 @@ class Bluetooth extends Common {
                 }
                 console.log(data);
                 //把数据放入处理函数校验是否是完整的一帧并获取数据对象
-                // const receiveObj = this.catchData(data);
-                // this.receiveObj = { ...receiveObj };
-                // if (!this.sign) return;
+                this.receiveObj = this.catchData(data);
+                //开启设备数据监控监听
+                setTimeout(() => that.watchDevice(event));
+                if (!this.sign) return;
                 //根据标识符进行校验操作检验数据并返回结果
-                // const verify = this.verification(this.sign, receiveObj, event);
-                resolve(true);
+                const verify = this.verification(this.sign, this.receiveObj, event);
+                if (verify) resolve(true);
+resolve();
             });
         });
-    }
+    } */
 
     /**
      * 启用通知
      */
-    bleSubscribe() {
+    bleSubscribe(event) {
         return new Promise((resolve, reject) => {
             this.characteristic.subscribe((error) => {
                 if (error) {
@@ -229,10 +244,68 @@ class Bluetooth extends Common {
                     reject(false);
                     return;
                 }
-                console.log('已启用通知');
+                // console.log('已启用通知');
+                const that = this;
+                this.characteristic.on('data', (data) => {
+                    //清除超时检测
+                    this.clearTimer();
+                    // console.log(data);
+                    //把数据放入处理函数校验是否是完整的一帧并获取数据对象
+                    this.receiveObj = this.catchData(data);
+                    //开启设备数据监控监听
+                    setTimeout(() => that.watchDevice(event));
+
+                    if (!this.sign) return;
+                    //根据标识符进行校验操作检验数据并返回结果
+                    const verify = this.verification(this.sign, this.receiveObj, event);
+                    if (verify) {
+                        //结果正确进入处理，函数会检测文件数据是否全部发送完毕
+                        this.processReceivedData(event);
+                    }
+                });
                 resolve(true);
             });
         });
+    }
+
+    /**
+     * 清除所有定时器
+     */
+    clearTimer() {
+        clearTimeout(this.timeOutTimer);
+        this.timeOutTimer = null;
+    }
+
+    /**
+     * 监听设备信息
+     * @param {String} eventName 
+     */
+    watchDevice(event) {
+        if (!this.receiveObj) return false;
+        const result = this.distinguishDevice(this.receiveObj, event);
+        event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
+    }
+
+    /**
+     * 处理接收到的数据
+     * @param {*} event 
+     */
+    processReceivedData(event) {
+        if (this.sign === signType.BOOT.FILENAME) {
+            this.sign = signType.BOOT.BIN;
+        } else {
+            this.chunkIndex++;
+        }
+        const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
+        //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
+        if (isLast) {
+            //进入结束后的处理函数，检测是那种类型的文件发送完毕
+            distinguish(this.filesObj, this.verifyType, event);
+            //清除缓存
+            this.clearCache();
+        } else {
+            this.sendBin(event);
+        }
     }
 
     /**
@@ -268,6 +341,21 @@ class Bluetooth extends Common {
     }
 
     /**
+     * 获取主机有多少个程序或运行程序
+     * @param {*} event 
+     */
+    getAppExe(eventName) {
+        this.ipcMain(eventName, async (event, arg) => {
+            if (arg === 'FILE') {
+                await this.bleWrite(instruct.files, signType.EXE.FILES, event);
+                return;
+            } else {
+                await this.bleWrite(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+            }
+        });
+    }
+
+    /**
      * 上传文件
      * @param {*} event 
      * @param {Object} data 
@@ -279,7 +367,7 @@ class Bluetooth extends Common {
                 return;
             }
             //将子文件数据切割成248个
-            this.chunkBuffer = this.uploadSlice(data.binData, 248);
+            this.chunkBuffer = this.uploadSlice(data.binData, 128);
             this.verifyType = data.verifyType;
             this.filesObj = {
                 filesIndex: data.filesIndex,        //当前文件所在文件夹中的下标
@@ -292,11 +380,7 @@ class Bluetooth extends Common {
             //将文件名放入处理函数获取需要发送给下位机的完整指令
             const { binArr } = this.checkFileName(data.fileName, bits);
             //写入文件名和指令，告诉下位机要发送的文件
-            const writeRes = await this.bleWrite(binArr, signType.BOOT.FILENAME, event);
-            //读取发送文件名后下位机返回的数据
-            const readRes = writeRes && await this.bleRead();
-            //数据校验成功就发bin数据
-            if (readRes) this.sendBin(event);
+            await this.bleWrite(binArr, signType.BOOT.FILENAME, event);
         } catch (error) {
             console.log(error);
             this.handleReadError(error, event, this.clearCache);
@@ -310,27 +394,14 @@ class Bluetooth extends Common {
      * @returns 
      */
     async sendBin(event) {
-        if (this.sign === signType.BOOT.FILENAME) {
-            this.sign = signType.BOOT.BIN;
+        if (this.chunkIndex < 0) {
+            return;
         }
-        const item = this.chunkBuffer[this.chunkIndex];
-        const { binArr } = this.checkBinData(item, this.chunkIndex, this.chunkBuffer.length - 1);
-        const writeRes = await this.bleWrite(binArr, signType.BOOT.BIN, event);
-        const readRes = writeRes && await this.bleRead();
-        this.chunkIndex++;
-        if (readRes) {
-            const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
-            //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
-            if (isLast) {
-                //进入结束后的处理函数，检测是那种类型的文件发送完毕
-                distinguish(this.filesObj, this.verifyType, event);
-                //清除缓存
-                this.clearCache();
-                return;
-            } else {
-                this.sendBin(event);
-            }
-        }
+        const element = this.chunkBuffer[this.chunkIndex];
+        //将文件数据放入处理函数获取需要发送给下位机的完整指令
+        const { binArr } = this.checkBinData(element, this.chunkIndex, this.chunkBuffer.length - 1);
+        //传入bin数据并修改标识符
+        await this.bleWrite(binArr, signType.BOOT.BIN, event);
     }
 
 

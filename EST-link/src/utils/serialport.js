@@ -29,7 +29,8 @@ const instruct = {
     restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5],
     matrix: {
         clear: [0x5A, 0x97, 0x98, 0x01, 0xEE, 0x01, 0x79, 0xA5],
-    }
+    },
+    serialport: [0x5A, 0x97, 0x98, 0x01, 0xB8, 0x01, 0x43, 0xA5]
 }
 
 class Serialport extends Common {
@@ -106,7 +107,10 @@ class Serialport extends Common {
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
         //开始重启主机监听
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
-        this.matrixSend(ipc_Main.SEND_OR_ON.MATRIX)
+        //与主机交互
+        this.matrixSend(ipc_Main.SEND_OR_ON.MATRIX);
+        // 切换到串口
+        // this.writeData(instruct.serialport, null, event);
     }
 
     /**
