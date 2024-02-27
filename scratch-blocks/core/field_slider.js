@@ -15,6 +15,7 @@
 goog.provide('Blockly.FieldSlider');
 goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.FieldNumber');
+goog.require('Blockly.FieldColourSlider');
 
 /**
  * Class for an number slider field.
@@ -130,6 +131,13 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
     this.resizeEditor_();
     if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'matrix_lamp_set') {
         Blockly.FieldMatrix.prototype.changeMatrix('brightness', this.sliderInput_.value);
+    }
+    if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'matrix_lamp_setSaturation') {
+        Blockly.FieldColourSlider.Saturation = this.sliderInput_.value;
+        if (Blockly.FieldColourSlider.Hue) {
+            const newColor = Blockly.FieldColourSlider.prototype.calculateNewColor(Blockly.FieldColourSlider.Hue, this.sliderInput_.value);
+            Blockly.FieldMatrix.prototype.changeMatrix('color', newColor);
+        }
     }
 };
 

@@ -76,7 +76,8 @@ Blockly.FieldColourSlider.fromJson = function (options) {
  * @private
  */
 Blockly.FieldColourSlider.activateEyedropper_ = null;
-
+Blockly.FieldColourSlider.Saturation = 1.0;
+Blockly.FieldColourSlider.Hue = [255, 0, 0];
 /**
  * Path to the eyedropper svg icon.
  */
@@ -207,12 +208,87 @@ Blockly.FieldColourSlider.prototype.updateSliderHandles_ = function () {
       this.brightnessSlider_.setValue(this.brightness_);
     }
     this.sliderCallbacksEnabled_ = true;
-    var m = this.colour_.match(/^#(.)\1(.)\2(.)\3$/);
-    if (m) {
-      Blockly.FieldMatrix.prototype.changeMatrix('color', [Number('0x' + m[2] + m[2]), Number('0x' + m[1] + m[1]), Number('0x' + m[3] + m[3])]);
-    }
+this.changeMatrixColor();
   }
 };
+
+Blockly.FieldColourSlider.prototype.changeMatrixColor = function() {
+    var m = this.colour_.match(/^#(.)\1(.)\2(.)\3$/);
+    if (m) {
+      const oldColor = [Number('0x' + m[2] + m[2]), Number('0x' + m[1] + m[1]), Number('0x' + m[3] + m[3])];
+    Blockly.FieldColourSlider.Hue = oldColor;
+    Blockly.FieldMatrix.prototype.changeMatrix('color', oldColor);
+  }
+}
+
+// 将 RGB 颜色值转换为 HSL 颜色值
+Blockly.FieldColourSlider.prototype.rgbToHsl = function(r, g, b) {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  
+  let h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // 灰色
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+
+    h /= 6;
+  }
+
+  return [h, s, l];
+}
+
+// 将 HSL 颜色值转换为 RGB 颜色值
+Blockly.FieldColourSlider.prototype.hslToRgb = function(h, s, l) {
+  let r, g, b;
+
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    }
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+  
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
+// 计算新的颜色值
+Blockly.FieldColourSlider.prototype.calculateNewColor = function(oldColor, saturation) {
+  const [r, g, b] = oldColor;
+  
+  const [h, s, l] = this.rgbToHsl(r, g, b);
+  
+  const newS = saturation / 100; // 将饱和度转换为小数形式
+  
+  const newRgb = this.hslToRgb(h, newS, l);
+  
+  return newRgb;
+}
 
 /**
  * Get the text from this field.  Used when the block is collapsed.
@@ -363,7 +439,7 @@ Blockly.FieldColourSlider.prototype.showEditor_ = function () {
   Blockly.FieldColourSlider.brightnessChangeEventKey_ = goog.events.listen(this.brightnessSlider_,
     goog.ui.Component.EventType.CHANGE,
     this.sliderCallbackFactory_('brightness'));
-  if (!this.showSaturation) {
+  if (!this.showbrightness) {
     brightnessElements[0].setAttribute('style', 'display:none');
     this.brightnessSlider_.getElement().setAttribute('style', 'display:none');
     this.brightness_ = 255;
@@ -409,6 +485,8 @@ Blockly.FieldColourSlider.prototype.dispose = function () {
   }
   Blockly.Events.setGroup(false);
   Blockly.FieldColourSlider.superClass_.dispose.call(this);
+  Blockly.FieldColourSlider.Saturation = null;
+  Blockly.FieldColourSlider.Hue = null;
 };
 
 Blockly.Field.register('field_colour_slider', Blockly.FieldColourSlider);
