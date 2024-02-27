@@ -76,11 +76,20 @@
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
-    border-right: none;
+    /* border-right: none;
     border-left: 1px solid $ui-black-transparent;
     min-width: 300px;
     transform: translate(720px, 0px) !important;
+    transition: all .2s; */
+    border-right: none;
+    border-left: 1px solid hsla(0, 0%, 0%, 0.15);
+    min-width: 300px;
+    right: 130px;
     transition: all .2s;
+}
+
+[dir="rtl"] .blocks :global(.blocklyToolboxTriggerIcon) {
+    display: none !important;
 }
 
 .blocks :global(.blocklyBlockDragSurface) {

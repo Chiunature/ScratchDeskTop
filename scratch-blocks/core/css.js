@@ -746,7 +746,7 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.blocklyFlyoutScrollbar {',
-  'z-index: 30;',
+  'z-index: 10;',
   '}',
 
   '.blocklyScrollbarHorizontal, .blocklyScrollbarVertical {',
