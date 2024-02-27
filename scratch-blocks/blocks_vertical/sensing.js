@@ -930,19 +930,23 @@ Blockly.Blocks['sensing_key_judgment'] = {
       "type": "sensing_key_judgment",
       "message0": Blockly.Msg.SENSING_KEY_JUDGMENT,
       "args0": [
+        // {
+        //   "type": "field_dropdown",
+        //   "name": "PORT",
+        //   "options": [
+        //     [
+        //       Blockly.Msg.PLEFT,
+        //       "left"
+        //     ],
+        //     [
+        //       Blockly.Msg.PRIGHT,
+        //       "right"
+        //     ]
+        //   ]
+        // },
         {
-          "type": "field_dropdown",
+          "type": "input_value",
           "name": "PORT",
-          "options": [
-            [
-              Blockly.Msg.PLEFT,
-              "left"
-            ],
-            [
-              Blockly.Msg.PRIGHT,
-              "right"
-            ]
-          ]
         },
       ],
       "category": Blockly.Categories.sensing,

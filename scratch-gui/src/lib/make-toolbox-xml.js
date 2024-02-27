@@ -232,7 +232,11 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             </block>
             ${blockSeparator}
             <block type="sensing_sound_intensity"></block>
-            <block type="sensing_key_judgment"></block> 
+            <block type="sensing_key_judgment">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block> 
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
             <block type="sensing_gyroscope_angle"></block>
