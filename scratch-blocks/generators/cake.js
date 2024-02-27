@@ -41,7 +41,7 @@ Blockly.cake.C_VARIABLE_TYPES =
   ['bool', 'bool']];
 
 Blockly.cake.C_GLOBAL_VARS = [];
-
+Blockly.cake.oldColor = '#ff0000';
 /**
  * List of illegal variable names.
  * This is not intended to be a security feature.  Blockly is 100% client-side,
