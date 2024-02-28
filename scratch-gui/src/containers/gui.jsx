@@ -48,7 +48,6 @@ import bindAll from "lodash.bindall";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        this.watchDeviceTimer = null;
         this.state = {
             deviceObj: {
                 deviceList: [],
@@ -98,7 +97,6 @@ class GUI extends React.Component {
     }
     componentWillUnmount() {
         window.myAPI.delEvents();
-        clearInterval(this.watchDeviceTimer);
         this.handleStopWatch(true);
     }
 
