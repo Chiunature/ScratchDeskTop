@@ -169,14 +169,7 @@ class Bluetooth extends Common {
             //修改标识符，根据标识符判断要发送的是文件还是文件名
             this.sign = str;
             //写入数据
-            this.characteristic.write(writeData, withResponse, (error) => {
-                if (error) {
-                    console.error('发送数据失败', error);
-                    reject(false);
-                    return;
-                }
-                // console.log('成功发送数据=>', writeData);
-            });
+            this.characteristic.write(writeData, withResponse);
             if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
             }

@@ -243,7 +243,7 @@ class Common {
         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
         const mainPath = this.process.cwd();
         const directory = mainPath + '/Error';
-        const filepath = `${mainPath}/Error/error_${new Date().toISOString().replace(':', '-').slice(0, 19)}.txt`;
+        const filepath = `${mainPath}/error_${new Date().toISOString().replace(':', '-').slice(0, 19)}.txt`;
         this.fs.mkdir(directory, { recursive: true }, () => this.fs.writeFile(filepath, err + '', fn.bind(this)));
     }
 
