@@ -349,6 +349,8 @@ Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
 Blockly.Msg.SENSING_GYROSCOPE_ANGLE = '%1\'s angle';
 Blockly.Msg.SENSING_SET_YAW_ANGLE = 'Set yaw angle to 0';
+Blockly.Msg.SENSING_ISHANDLING = 'Is the %1 button of the handle %2?';
+Blockly.Msg.SENSING_HANDLING = 'Controller %1 rocker %2 axis';
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
 Blockly.Msg.SOUND_PLAYUNTILDONE = 'play sound %1 until done';

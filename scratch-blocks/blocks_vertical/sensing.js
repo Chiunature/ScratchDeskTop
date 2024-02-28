@@ -1401,3 +1401,79 @@ Blockly.Blocks['sensing_set_yaw_angle'] = {
       });
   }
 };
+
+Blockly.Blocks['sensing_isHandling'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_isHandling",
+      "message0": Blockly.Msg.SENSING_ISHANDLING,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "KEYS",
+          "options": [
+            [Blockly.Msg.UP, "up"],
+            [Blockly.Msg.DOWN, "down"],
+            [Blockly.Msg.PLEFT ,"left"],
+            [Blockly.Msg.PRIGHT, "right"],
+            ["X", "X"],
+            ["Y", "Y"],
+            ["A", "A"],
+            ["B", "B"],
+            ["L1", "L1"],
+            ["L2", "L2"],
+            ["R1", "R1"],
+            ["R2", "R2"],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON",
+          "options": [
+            [Blockly.Msg.PRESS, "press"],
+            [Blockly.Msg.UNPRESS, "unpress"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_Handling'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_Handling",
+      "message0": Blockly.Msg.SENSING_HANDLING,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "KEYS",
+          "options": [
+            [Blockly.Msg.PLEFT, "left"],
+            [Blockly.Msg.PRIGHT, "right"],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON",
+          "options": [
+            [Blockly.Msg.MOTION_XPOSITION, "X"],
+            [Blockly.Msg.MOTION_YPOSITION, "Y"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};

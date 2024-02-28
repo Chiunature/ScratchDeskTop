@@ -244,6 +244,9 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_set_yaw_angle"></block>
             <block type="sensing_timer"></block>
             <block type="sensing_reset_timer"></block>
+            ${blockSeparator}
+            <block type="sensing_isHandling"></block>
+            <block type="sensing_Handling"></block>
         `
         }
         ${categorySeparator}
