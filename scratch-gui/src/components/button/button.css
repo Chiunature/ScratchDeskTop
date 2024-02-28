@@ -167,11 +167,28 @@
     z-index: 30;
 }
 
+
+[dir="rtl"] .btn-con {
+    width: 90px;
+    height: 300px;
+    position: fixed;
+    left: 7%;
+    top: 15%;
+    z-index: 30;
+}
+
 @media screen and (min-width: 1450px) {
     .btn-con {
         width: fit-content;
         position: fixed;
         right: 5%;
+        top: 15%;
+        z-index: 30;
+    }
+    [dir="rtl"] .btn-con {
+        width: fit-content;
+        position: fixed;
+        left: 5%;
         top: 15%;
         z-index: 30;
     }
