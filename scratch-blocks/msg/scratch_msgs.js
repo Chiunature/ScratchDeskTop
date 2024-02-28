@@ -8252,7 +8252,7 @@ Blockly.ScratchMsgs.locales["fa"] = {
     "SPECIFIED_MANNER": "%1 %2 When setting the motor to stop %3",
     "COMBINED_MOTOR_MOVE": "%1 %4 %5 را با نرخ %2%% + %3 %% جابه جا می کند،",
     "COMBINED_MOTOR_TURN": "%1 موتور ترکیبی % 2 % 3 % 4 % 5 % 6 % 7حرکت می کند،",
-    "COMBINED_MOTOR_LINE": "%1 شروع به حرکت 4% 3% به سمت 2% کرد",
+    "COMBINED_MOTOR_LINE": "%1 started moving %3 %4 towards %2",
     "COMBINED_MOTOR_SPEED": "%1 سرعت موتور ترکیبی را روی %2 %% تنظیم کنید،",
     "COMBINED_MOTOR_STOP": "%1 موتور ترکیبی از حرکت می ایستد",
     "DIRECTION_MOTOR": "%1 شروع به حرکت به %2 می کند",
