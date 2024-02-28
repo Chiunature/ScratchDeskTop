@@ -107,7 +107,6 @@ const DeviceCards = props => {
         exeList,
         onSetSelectedExe,
         onSetExelist,
-        handleStopWatch,
         onShowDelExeAlert
     } = props;
     let { x, y, expanded } = deviceCards;

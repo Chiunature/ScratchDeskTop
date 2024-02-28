@@ -56,10 +56,9 @@ class GUI extends React.Component {
                 adcList: 0,
                 voice: 0,
                 deviceStatus: verifyTypeConfig.EST_STOP
-            },
-            stopWatch: false
+            }
         }
-        bindAll(this, ['handleCompile', 'handleRunApp', 'handleStopWatch']);
+        bindAll(this, ['handleCompile', 'handleRunApp']);
     }
 
     async componentDidMount() {
@@ -97,7 +96,6 @@ class GUI extends React.Component {
     }
     componentWillUnmount() {
         window.myAPI.delEvents();
-        this.handleStopWatch(true);
     }
 
     blocksMotorCheck() {
@@ -218,12 +216,6 @@ class GUI extends React.Component {
         this.props.onOpenConnectionModal();
     }
 
-    //控制暂停监听
-    handleStopWatch(stopWatch) {
-        this.setState({
-            stopWatch: stopWatch
-        });
-    }
     //初始化设备
     initDeviceList() {
         let list = [];
@@ -330,7 +322,6 @@ class GUI extends React.Component {
                 handleRunApp={this.handleRunApp}
                 compile={new Compile()}
                 deviceObj={this.state.deviceObj}
-                handleStopWatch={this.handleStopWatch}
             >
                 {children}
             </GUIComponent>

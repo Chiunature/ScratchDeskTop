@@ -155,7 +155,6 @@ const GUIComponent = (props) => {
         handleCompile,
         handleSelectExe,
         handleInpChange,
-        handleStopWatch,
         deviceObj,
         compile,
         progress,
@@ -247,7 +246,6 @@ const GUIComponent = (props) => {
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible ? (
                             <DeviceCards
-                                handleStopWatch={handleStopWatch}
                                 deviceObj={deviceObj}
                                 handleCompile={handleCompile}
                                 completed={completed}

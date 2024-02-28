@@ -6,7 +6,7 @@ import downloadImg from './download.svg';
 
 
 const SelectExe = (props) => {
-    const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleStopWatch, handleDelExe } = props;
+    const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleDelExe } = props;
     let [timer, setTimer] = useState(null);
     // let [currentLi, setCurrentLi] = useState(null);
     // let [cacheList, setCacheList] = useState([]);
@@ -33,7 +33,6 @@ const SelectExe = (props) => {
     const download = (item) => {
         if (completed) return;
         localStorage.setItem('selItem', JSON.stringify(item));
-        handleStopWatch(true);
         handleCompile();
     }
 
