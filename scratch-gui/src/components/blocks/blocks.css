@@ -84,7 +84,7 @@
     border-right: none;
     border-left: 1px solid hsla(0, 0%, 0%, 0.15);
     min-width: 300px;
-    right: 130px;
+    /* right: 130px; */
     transition: all .2s;
 }
 

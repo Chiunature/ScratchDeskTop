@@ -403,9 +403,9 @@ Blockly.Scrollbar.prototype.setPosition_ = function(x, y) {
   this.position_.x = x;
   this.position_.y = y;
 
-  if(this.outerSvg_.classList.contains('blocklyFlyoutScrollbar')) {
+  /* if(this.outerSvg_.classList.contains('blocklyFlyoutScrollbar')) {
     this.position_.x += 50; 
-  }
+  } */
   
   var tempX = this.position_.x + this.origin_.x;
   var tempY = this.position_.y + this.origin_.y;

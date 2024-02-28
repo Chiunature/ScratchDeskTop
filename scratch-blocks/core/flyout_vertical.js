@@ -329,11 +329,11 @@ Blockly.VerticalFlyout.prototype.position = function () {
     var toolboxWidth = this.parentToolbox_.getWidth();
     var categoryWidth = toolboxWidth - this.width_;
     var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
-      targetWorkspaceMetrics.viewWidth : categoryWidth;
+      targetWorkspaceMetrics.viewWidth - 55 : categoryWidth + 55;
     var y = 0;
   } else {
     var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
-      targetWorkspaceMetrics.viewWidth - this.width_ : 0;
+      targetWorkspaceMetrics.viewWidth - this.width_ - 55: 0;
     var y = 0;
   }
 
@@ -344,9 +344,9 @@ Blockly.VerticalFlyout.prototype.position = function () {
 
   this.svgGroup_.setAttribute("width", this.width_);
   this.svgGroup_.setAttribute("height", this.height_);
-  var transform = 'translate(65px, 0px)';
- /*  var transform = 'translate(' + x + 'px,' + y + 'px)';
-   */
+  // var transform = 'translate(65px, 0px)';
+  var transform = 'translate(' + x + 'px,' + y + 'px)';
+
   Blockly.utils.setCssTransform(this.svgGroup_, transform);
   // Update the scrollbar (if one exists).
   if (this.scrollbar_) {
