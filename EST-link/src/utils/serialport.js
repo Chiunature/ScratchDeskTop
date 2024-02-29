@@ -70,13 +70,13 @@ class Serialport extends Common {
      * 断开连接
      * @param {String} eventName 
      */
-    /* disconnectSerial(eventName) {
+    disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
-            if (this.port && this.port.opening) {
+            if (this.port && this.port.isOpen) {
                 this.port.close();
             }
         });
-    } */
+    }
 
     /**
      * 连接串口
@@ -84,13 +84,15 @@ class Serialport extends Common {
      * @param {*} event 
      */
     linkToSerial(serial, event) {
-        if (this.port && this.port.opening && this.port.path === serial.path) {
+        if (this.port && this.port.isOpen && this.port.path === serial.path) {
             this.port.close();
             return;
         } else {
             this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
             this.OpenPort(event);
         }
+        //开启断开连接监听
+        this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
         //开启读取数据监听
         this.handleRead("readable", event);
         //开启获取主机版本监听

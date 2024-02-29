@@ -2,22 +2,23 @@ import classNames from 'classnames';
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {connect} from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import locales from 'scratch-l10n';
 
 import check from './check.svg';
-import {MenuItem, Submenu} from '../menu/menu.jsx';
+import { MenuItem, Submenu } from '../menu/menu.jsx';
 import languageIcon from '../language-selector/language-icon.svg';
-import {languageMenuOpen, openLanguageMenu} from '../../reducers/menus.js';
-import {selectLocale} from '../../reducers/locales.js';
+import { languageMenuOpen, openLanguageMenu } from '../../reducers/menus.js';
+import { selectLocale } from '../../reducers/locales.js';
 
 import styles from './settings-menu.css';
 
 import dropdownCaret from './dropdown-caret.svg';
+import { ipc as ipc_Renderer } from 'est-link';
 
 class LanguageMenu extends React.PureComponent {
-    constructor (props) {
+    constructor(props) {
         super(props);
         bindAll(this, [
             'setRef',
@@ -25,25 +26,30 @@ class LanguageMenu extends React.PureComponent {
         ]);
     }
 
-    componentDidUpdate (prevProps) {
+    componentDidUpdate(prevProps) {
         // If the submenu has been toggled open, try scrolling the selected option into view.
         if (!prevProps.menuOpen && this.props.menuOpen && this.selectedRef) {
-            this.selectedRef.scrollIntoView({block: 'center'});
+            this.selectedRef.scrollIntoView({ block: 'center' });
         }
     }
 
-    setRef (component) {
+    setRef(component) {
         this.selectedRef = component;
     }
 
-    handleMouseOver () {
+    handleMouseOver() {
         // If we are using hover rather than clicks for submenus, scroll the selected option into view
         if (!this.props.menuOpen && this.selectedRef) {
-            this.selectedRef.scrollIntoView({block: 'center'});
+            this.selectedRef.scrollIntoView({ block: 'center' });
         }
     }
 
-    render () {
+    changeLanguageAndDisconnect(locale) {
+        this.props.onChangeLanguage(locale);
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+    }
+
+    render() {
         return (
             <MenuItem
                 expanded={this.props.menuOpen}
@@ -80,14 +86,14 @@ class LanguageMenu extends React.PureComponent {
                                     key={locale}
                                     className={styles.languageMenuItem}
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => this.props.onChangeLanguage(locale)}
+                                    onClick={() => this.changeLanguageAndDisconnect(locale)}
                                 >
                                     <img
                                         className={classNames(styles.check, {
                                             [styles.selected]: this.props.currentLocale === locale
                                         })}
                                         src={check}
-                                        {...(this.props.currentLocale === locale && {ref: this.setRef})}
+                                        {...(this.props.currentLocale === locale && { ref: this.setRef })}
                                     />
                                     {locales[locale].name}
                                 </MenuItem>
