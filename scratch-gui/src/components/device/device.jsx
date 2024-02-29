@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './device.css';
 import DeviceBox from './deviceBox.jsx';
+import messages from './deviceMsg.js';
 
 const Device = (props) => {
     const { deviceList, gyroList, flashList, adcList, voice } = props.deviceObj;
@@ -31,11 +32,11 @@ const Device = (props) => {
             <div className={styles.middle}>
                 <div className={styles.midContent}>
                     <div className={styles.midLeft}>
-                        <DeviceBox list={leftList} />
+                        <DeviceBox list={leftList} intl={props.intl} messages={messages}/>
                     </div>
                     <div className={styles.midPart}>
                         <div className={styles.midBox}>
-                            <p>陀螺仪</p>
+                            <p>{props.intl.formatMessage(messages['gyroscope'])}</p>
                             <ul className={styles.midUl}>
                                 {gyroList.length > 0 && gyroList.map((item, index) => {
                                     return (<li key={index}>
@@ -46,7 +47,7 @@ const Device = (props) => {
                             </ul>
                         </div>
                         <div className={styles.midBox}>
-                            <p>内存</p>
+                            <p>{props.intl.formatMessage(messages['memory'])}</p>
                             <ul className={styles.midUl}>
                                 {flashList.length > 0 && flashList.map((item, index) => {
                                     return (<li key={index}>
@@ -57,7 +58,7 @@ const Device = (props) => {
                             </ul>
                         </div>
                         <div className={styles.midBox}>
-                            <p>电量</p>
+                            <p>{props.intl.formatMessage(messages['electricity'])}</p>
                             <ul className={styles.midUl}>
                                 <li>
                                     <span>{adcList}</span>
@@ -66,14 +67,14 @@ const Device = (props) => {
                             </ul>
                         </div>
                         <div className={styles.midBox}>
-                            <p>声音强度</p>
+                            <p>{props.intl.formatMessage(messages['soundIntensity'])}</p>
                             <ul className={styles.midUl}>
                                 {voice && <li><span>{voice}</span></li>}
                             </ul>
                         </div>
                     </div>
                     <div className={styles.midRight}>
-                        <DeviceBox list={rightList} />
+                        <DeviceBox list={rightList} intl={props.intl} messages={messages}/>
                     </div>
                 </div>
             </div>

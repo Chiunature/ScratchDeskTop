@@ -246,6 +246,7 @@ const GUIComponent = (props) => {
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible ? (
                             <DeviceCards
+                                intl={intl}
                                 deviceObj={deviceObj}
                                 handleCompile={handleCompile}
                                 completed={completed}

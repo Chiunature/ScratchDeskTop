@@ -15,11 +15,11 @@ const ipc_Main = require("../config/json/communication/ipc.json");
 const { verifyActions } = require("../config/js/verify.js");
 
 const device = {
-    '0': '无设备连接',
-    'a1': '电机',
-    'a2': '颜色识别器',
-    'a3': '超声波',
-    'a4': '触碰'
+    '0': 'noDevice',
+    'a1': 'motor',
+    'a2': 'color',
+    'a3': 'superSound',
+    'a4': 'touch'
 };
 
 class Common {

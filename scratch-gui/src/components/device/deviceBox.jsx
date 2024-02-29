@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './device.css';
 
 
-const DeviceBox = ({ list }) => {
+const DeviceBox = ({ list, intl, messages }) => {
 
     function getPort(index) {
         const num = parseInt(index);
@@ -34,13 +34,26 @@ const DeviceBox = ({ list }) => {
         if (isNaN(num)) return;
         switch (num) {
             case 1:
-                return '正转';
+                return intl.formatMessage(messages['foreward']);
             case 2:
-                return '反转';
+                return intl.formatMessage(messages['reversal']);
             case 3:
-                return '刹车';
+                return intl.formatMessage(messages['brake']);
             default:
-                return '停止';
+                return intl.formatMessage(messages['stop']);
+        }
+    }
+
+    function motorData(num) {
+        switch (num) {
+            case 0:
+                return intl.formatMessage(messages['rotationDirection']);
+            case 1:
+                return 'PWM';
+            case 2:
+                return intl.formatMessage(messages['actualSpeed']);
+            default:
+                return intl.formatMessage(messages['targetSpeed']);
         }
     }
 
@@ -49,21 +62,21 @@ const DeviceBox = ({ list }) => {
             {list.map((el, index) => {
                 return (
                     <div className={styles.midBox} key={index}>
-                        <p>端口: {getPort(el.port)}-{el.sensing_device}</p>
+                        <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
                                 return (<li key={index}>
-                                    <span>{index === 0 ? '旋转方向' : index === 1 ? 'PWM' : index === 2 ? '实际速度' : '目标速度'}</span>
+                                    <span>{motorData(index)}</span>
                                     <span>{index === 0 ? getMotorDirection(el.motor[item]) : el.motor[item]}</span>
                                 </li>)
                             })}
                         </ul>}
-                        {el.ultrasonic && <ul className={styles.midUl}><li><span>距离</span><span>{el.ultrasonic}</span><span>cm</span></li></ul>}
-                        {el.touch && <ul className={styles.midUl}><li><span>按键</span><span>{el.touch === 0 ? 'press' : 'unpress'}</span></li></ul>}
+                        {el.ultrasonic && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasonic}</span><span>cm</span></li></ul>}
+                        {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch === 0 ? 'press' : 'unpress'}</span></li></ul>}
                         {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {
                                 return (<li key={index}>
-                                    <span>{index === 0 ? 'RGB' : '光强'}</span>
+                                    <span>{index === 0 ? 'RGB' : intl.formatMessage(messages['lightIntensity'])}</span>
                                     <span>{el.color[item]}</span>
                                     {index === 0 && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
                                 </li>)
