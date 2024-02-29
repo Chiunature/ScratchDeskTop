@@ -40,6 +40,8 @@ Blockly.FieldMotor.prototype.leftDom = null;
 Blockly.FieldMotor.prototype.rightDom = null;
 
 Blockly.FieldMotor.prototype.cacheProxy = new WeakMap();
+Blockly.FieldMatrix.timer = null;
+Blockly.FieldMatrix.callback = null;
 
 Blockly.FieldMotor.prototype.init = function (block) {
     if (this.fieldGroup_) {
@@ -298,6 +300,21 @@ Blockly.FieldMotor.prototype.showEditor_ = function () {
 
     this.setValue(this.getValue());
 };
+
+Blockly.FieldMotor.prototype.changeMotor = function (type, obj) {
+    if (typeof Blockly.FieldMotor.callback === 'function') {
+        clearTimeout(Blockly.FieldMotor.timer);
+        Blockly.FieldMotor.timer = setTimeout(() => {
+            switch (type) {
+                case 'speed':
+                    Blockly.FieldMotor.callback(type, { port: obj.port, speed: obj.value});
+                    break;
+                default:
+                    break;
+            }
+        }, 100);
+    }
+}
 
 Blockly.FieldMotor.prototype.dispose = function () {
     this.motor_ = null;

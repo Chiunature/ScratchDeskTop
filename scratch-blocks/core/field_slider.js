@@ -15,6 +15,7 @@
 goog.provide('Blockly.FieldSlider');
 goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.FieldNumber');
+goog.require('Blockly.FieldMotor');
 goog.require('Blockly.FieldColourSlider');
 
 /**
@@ -138,6 +139,19 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
             const newColor = Blockly.FieldColourSlider.prototype.calculateNewColor(Blockly.FieldColourSlider.Hue, this.sliderInput_.value);
             Blockly.FieldMatrix.prototype.changeMatrix('color', newColor);
         }
+    }
+    if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'motor_speed') {
+        console.log(this.sourceBlock_.parentBlock_);
+        const children = this.sourceBlock_.parentBlock_.childBlocks_;
+        let port;
+        for (let i = 0; i < children.length; i++) {
+            const element = children[i];
+            if (element.type === "motor_box") {
+                port = element.inputList[0].fieldRow[0].motor_;
+                break;
+            }
+        }
+        Blockly.FieldMotor.prototype.changeMotor('speed', { port, value: this.sliderInput_.value });
     }
 };
 

@@ -110,7 +110,7 @@ class Serialport extends Common {
         //开始重启主机监听
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
         //与主机交互
-        this.matrixSend(ipc_Main.SEND_OR_ON.MATRIX);
+        this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
         // 切换到串口
         // this.writeData(instruct.serialport, null, event);
     }
@@ -387,18 +387,36 @@ class Serialport extends Common {
     }
 
     /**
-     * 矩阵灯交互
+     * 与主机交互
      * @param {String} eventName 
      */
-    matrixSend(eventName) {
+    interactive(eventName) {
         this.ipcMain(eventName, (event, obj) => {
-            if (obj.type === 'change') {
-                // 先清屏
-                this.writeData(instruct.matrix.clear, null, event);
+            switch (obj.blockName) {
+                case 'FieldMatrix':
+                    this.matrixSend(event, obj);
+                    break;
+                case 'FieldMotor':
+                    this.motorSend(event, obj);
+                    break;
+                default:
+                    break;
             }
-            const list = this.matrixChange(obj);
-            this.writeData(list, null, event);
         });
+    }
+
+    matrixSend(event, obj) {
+        if (obj.type === 'change') {
+            // 先清屏
+            this.writeData(instruct.matrix.clear, null, event);
+        }
+        const list = this.matrixChange(obj);
+        this.writeData(list, null, event);
+    }
+
+    motorSend(event, obj) {
+        const list = this.motorChange(obj);
+        this.writeData(list, null, event);
     }
 }
 

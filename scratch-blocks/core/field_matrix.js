@@ -442,11 +442,11 @@ Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
     Blockly.FieldMatrix.timer = setTimeout(() => {
       switch (type) {
         case 'change':
-          let lp = that.stringToHex(this.matrix_);
-          Blockly.FieldMatrix.callback(type, lp);
+          let lp = that.stringToHex(that.matrix_);
+          Blockly.FieldMatrix.callback(type, { matrix: lp });
           break;
         default:
-          Blockly.FieldMatrix.callback(type, value);
+          Blockly.FieldMatrix.callback(type, { matrix: value });
           break;
       }
     }, 100);

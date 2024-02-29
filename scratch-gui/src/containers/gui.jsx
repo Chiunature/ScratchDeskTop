@@ -77,7 +77,8 @@ class GUI extends React.Component {
             this.watchDevice();
             this.blocksMotorCheck();
             this.checkDriver();
-            this.matrixSend();
+            this.matrixSend('FieldMatrix');
+            this.matrixSend('FieldMotor');
             await window.myAPI.commendMake();
         }
     }
@@ -190,9 +191,9 @@ class GUI extends React.Component {
         });
     }
 
-    matrixSend() {
-        ScratchBlocks['FieldMatrix'].callback = (type, matrix) => {
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, matrix } });
+    matrixSend(blockName) {
+        ScratchBlocks[blockName].callback = (type, obj) => {
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, obj, blockName } });
         }
     }
 

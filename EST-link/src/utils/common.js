@@ -513,34 +513,65 @@ class Common {
      */
     matrixChange(obj) {
         let bit, sum, list;
+        const matrix = obj['obj'].matrix;
         switch (obj.type) {
             case 'change':
                 bit = 0xE0;
                 sum = 0x5a + 0x97 + 0x98 + 0x09 + bit;
-                for (let i = 0; i < obj.matrix.length; i++) {
-                    const item = obj.matrix[i];
+                for (let i = 0; i < matrix.length; i++) {
+                    const item = matrix[i];
                     sum += item
                 }
-                list = [0x5A, 0x97, 0x98, 0x09, bit, ...obj.matrix, (sum & 0xff), 0xA5];
+                list = [0x5A, 0x97, 0x98, 0x09, bit, ...matrix, (sum & 0xff), 0xA5];
                 break;
             case 'color':
                 bit = 0xE2;
                 sum = 0x5a + 0x97 + 0x98 + 0x04 + bit;
-                for (let i = 0; i < obj.matrix.length; i++) {
-                    const item = obj.matrix[i];
+                for (let i = 0; i < matrix.length; i++) {
+                    const item = matrix[i];
                     sum += item
                 }
-                list = [0x5A, 0x97, 0x98, 0x04, bit, 0x00, ...obj.matrix, (sum & 0xff), 0xA5];
+                list = [0x5A, 0x97, 0x98, 0x04, bit, 0x00, ...matrix, (sum & 0xff), 0xA5];
                 break;
             case 'brightness':
                 bit = 0xE1;
-                sum = 0x5a + 0x97 + 0x98 + 0x01 + bit + parseInt(obj.matrix);
-                list = [0x5A, 0x97, 0x98, 0x01, bit, parseInt(obj.matrix), (sum & 0xff), 0xA5];
+                sum = 0x5a + 0x97 + 0x98 + 0x01 + bit + parseInt(matrix);
+                list = [0x5A, 0x97, 0x98, 0x01, bit, parseInt(matrix), (sum & 0xff), 0xA5];
                 break;
             default:
                 break;
         }
         return list;
+    }
+
+    /**
+     * 电机交互
+     * @param {Object} obj 
+     */
+    motorChange(obj) {
+        let bit, sum, list;
+        switch (obj.type) {
+            case 'speed':
+                bit = 0xB0;
+                let data = _stringToHex(`${obj.port}/${obj.speed}`);
+                sum = 0x5a + 0x97 + 0x98 + 0x05 + bit;
+                list = [0x5A, 0x97, 0x98, 0x01, bit, ...data, (sum & 0xff), 0xA5];
+                break;
+
+            default:
+                break;
+        }
+        return list;
+
+        function _stringToHex(str) {
+            let arr = [];
+            for (let index = 0; index < str.length; index++) {
+                const char = str[index];
+                const hex = char.charCodeAt(0).toString(16);
+                arr.push(hex)
+            }
+            return arr;
+        }
     }
 }
 
