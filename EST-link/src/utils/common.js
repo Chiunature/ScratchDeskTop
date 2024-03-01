@@ -387,15 +387,17 @@ class Common {
                 diffAttribute(this.flashList, null, arr);
                 break;
             case 0xD5:
-                let res = (((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2)) * 100;
-                if (res >= 100) res = 100;
-                if (this.adcList !== res) this.adcList = res;
+                if (arr[0]) {
+                    let res = (((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2)) * 100;
+                    if (res >= 100) res = 100;
+                    if (this.adcList !== res) this.adcList = res;
+                }
                 break;
             case 0xD7:
-                if (this.voice !== arr[0]) this.voice = arr[0];
+                if (arr[0] && this.voice !== arr[0]) this.voice = arr[0];
                 break;
             case 0xF1:
-                if (this.deviceStatus !== arr[0]) this.deviceStatus = arr[0]
+                if (arr[0] && this.deviceStatus !== arr[0]) this.deviceStatus = arr[0];
                 break;
             default:
                 this.checkSensingDevice(arr, bit, diffAttribute);
