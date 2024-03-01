@@ -466,14 +466,16 @@ Blockly.FieldTextInput.prototype.checkHtmlInputByBlocks = function () {
             break;
           }
         }
-        let spin;
+        let spin, type;
         for (let i = 0; i < inpEle.length; i++) {
           const element = inpEle[i];
           if (element.fieldRow[0].name === 'SPIN') {
             spin = element.fieldRow[0].value_;
+          } else if (element.fieldRow[0].name === 'unit') {
+            type = element.fieldRow[0].value_;
           }
         }
-        Blockly.FieldMotor.prototype.changeMotor('spinCirle', { port, value: htmlInput.value, spin });
+        Blockly.FieldMotor.prototype.changeMotor('spinCirle', { port, value: htmlInput.value, spin, type });
         break;
       default:
         break;

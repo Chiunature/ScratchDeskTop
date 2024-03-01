@@ -186,7 +186,7 @@ Blockly.Toolbox.prototype.init = function() {
   var triggerIcon = goog.dom.createDom(goog.dom.TagName.IMG, 'blocklyToolboxTriggerIcon');
 
   triggerIcon.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'hide.svg');
-  triggerIcon.style.transform = 'translateX(380px)';
+  triggerIcon.style.right = '-388px';
   trigger.appendChild(triggerIcon);
   this.HtmlDiv.parentNode.insertBefore(trigger, this.HtmlDiv);
 
@@ -197,7 +197,7 @@ Blockly.Toolbox.prototype.init = function() {
  * 修改 this.triggerIcon_ 的图标和位置
  */
 Blockly.Toolbox.prototype.unfoldTrigger = function() {
-  this.triggerIcon_.style.transform = 'translateX(74px)';
+  this.triggerIcon_.style.right = '-86px';
   this.triggerIcon_.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'show.svg');
 };
 
@@ -205,7 +205,7 @@ Blockly.Toolbox.prototype.unfoldTrigger = function() {
  * 修改 this.triggerIcon_ 的图标和位置
  */
 Blockly.Toolbox.prototype.foldTrigger = function() {
-  this.triggerIcon_.style.transform = 'translateX(380px)';
+  this.triggerIcon_.style.right = '-388px';
   this.triggerIcon_.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'hide.svg');
 };
 
@@ -430,7 +430,7 @@ Blockly.Toolbox.prototype.getClientRect = function() {
   }
 
   // If not an auto closing flyout, always use the (larger) flyout client rect
-  if (!this.flyout_.autoClose) {
+  if (!this.flyout_.autoClose && !this.isHideFlyout_) {
     return this.flyout_.getClientRect();
   }
 

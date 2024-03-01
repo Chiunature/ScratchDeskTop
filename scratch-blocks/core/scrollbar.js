@@ -689,12 +689,12 @@ Blockly.Scrollbar.prototype.updateDisplay_ = function() {
     show = this.isVisible();
   }
 
-  Blockly.utils.setCssTransform(this.outerSvg_, show ? 'translate(345px, 2.5px)' : 'translate(0px, 0px)');
-  /* if (show) {
+  // Blockly.utils.setCssTransform(this.outerSvg_, show ? 'translate(345px, 2.5px)' : 'translate(0px, 0px)');
+  if (show) {
     this.outerSvg_.setAttribute('display', 'block');
   } else {
     this.outerSvg_.setAttribute('display', 'none');
-  } */
+  }
 };
 
 /**

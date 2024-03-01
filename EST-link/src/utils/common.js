@@ -551,7 +551,11 @@ class Common {
                 break;
             case 'spinCirle':
                 let dataSpinCirle = _stringToHex(`${motor.port}/${motor.spin}/${motor.value}`);
-                list = this.getInstructLIst(dataSpinCirle.length, 0xB1, dataSpinCirle);
+                if (motor.type === 'angle') {
+                    list = this.getInstructLIst(dataSpinCirle.length, 0xB3, dataSpinCirle);
+                } else {
+                    list = this.getInstructLIst(dataSpinCirle.length, 0xB1, dataSpinCirle);
+                }
                 break;
             default:
                 break;

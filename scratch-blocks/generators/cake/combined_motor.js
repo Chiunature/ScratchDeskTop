@@ -24,8 +24,22 @@ Blockly.cake['combined_motorTwo_menu'] = function (block) {
 
 Blockly.cake['combined_motor_starting'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+let newPort;
+    if(typeof port === 'string') {
+        newPort = port.split('+');
+        for (let i = 0; i < newPort.length; i++) {
+            newPort[i] = newPort[i] + '1';
+        }
+    }else {
+        newPort = port;
+    }
+    if(newPort.length > 1) {
+        newPort = newPort.join('+');
+    }else {
+        newPort = newPort[0];
+    }
     // TODO: Assemble cake into code variable.
-    const code = `motor_combined_starting(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
+    const code = `motor_combined_starting(${Blockly.cake.toStr(newPort) ? newPort : '"' + newPort + '"'});\n`;
     return code;
 };
 

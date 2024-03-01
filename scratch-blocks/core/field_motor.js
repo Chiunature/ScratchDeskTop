@@ -313,7 +313,7 @@ Blockly.FieldMotor.prototype.changeMotor = function (type, obj) {
                     Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), spin: obj.value });
                     break;
                 case 'spinCirle':
-                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), value: obj.value, spin: obj.spin === 'Advance' ? 1 : -1 });
+                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), value: obj.value, spin: obj.spin === 'Advance' ? 1 : -1 , type: obj.type});
                     break;
                 default:
                     break;
