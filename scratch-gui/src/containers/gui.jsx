@@ -269,7 +269,10 @@ class GUI extends React.Component {
                 }
                 const selectedExe = JSON.parse(localStorage.getItem('selItem'));
                 const compile = new Compile();
-                compile.sendSerial(verifyTypeConfig.BOOTBIN, this.props.bufferList, this.props.matchMyBlock, selectedExe);
+                const that = this;
+                setTimeout(() => {
+                    compile.sendSerial(verifyTypeConfig.BOOTBIN, that.props.bufferList, that.props.matchMyBlock, selectedExe);
+                }, 500);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }

@@ -297,16 +297,15 @@ class Serialport extends Common {
         const that = this;
         this.port.on(eventName, () => {
             try {
-                //清除超时检测
-                this.clearTimer();
                 //获取下位机发送过来的数据
                 const receiveData = this.port.read();
                 //把数据放入处理函数校验是否是完整的一帧并获取数据对象
                 this.receiveObj = this.catchData(receiveData);
                 //开启设备数据监控监听
                 setTimeout(() => that.watchDevice(event));
-
                 if (!this.sign) return;
+                //清除超时检测
+                this.clearTimer();
                 //根据标识符进行校验操作检验数据并返回结果
                 const verify = this.verification(this.sign, this.receiveObj, event);
                 if (verify) {
