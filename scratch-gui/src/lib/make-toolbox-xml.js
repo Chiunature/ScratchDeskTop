@@ -560,6 +560,11 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_angle"></shadow>
             </value>
         </block>
+<block type="combined_motor_angle">
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
     */}
 
 const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
@@ -602,11 +607,6 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
             <value name="right">
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_angle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
             </value>
         </block>
         <block type="combined_motor_stopping"></block>

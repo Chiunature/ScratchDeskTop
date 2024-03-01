@@ -237,3 +237,19 @@ Blockly.cake['sensing_set_yaw_angle'] = function (block) {
     let code = `sensing_setYawAngle();\n`;
     return code;
 };
+
+Blockly.cake['sensing_isHandling'] = function (block) {
+    let keys = block.getFieldValue('KEYS');
+    let button = block.getFieldValue('BUTTON');
+    // TODO: Assemble cake into code variable.
+    let code = `sensing_isHandling("${keys}", "${button}")`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['sensing_Handling'] = function (block) {
+    let keys = block.getFieldValue('KEYS');
+    let button = block.getFieldValue('BUTTON');
+    // TODO: Assemble cake into code variable.
+    let code = `sensing_Handling("${keys}", "${button}")`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};
