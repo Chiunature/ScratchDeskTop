@@ -514,31 +514,18 @@ class Common {
      * @param {Object} obj 
      */
     matrixChange(obj) {
-        let bit, sum, list;
+        let list;
         const matrix = obj['obj'].matrix;
         switch (obj.type) {
             case 'change':
-                bit = 0xE0;
-                sum = 0x5a + 0x97 + 0x98 + 0x09 + bit;
-                for (let i = 0; i < matrix.length; i++) {
-                    const item = matrix[i];
-                    sum += item
-                }
-                list = [0x5A, 0x97, 0x98, 0x09, bit, ...matrix, (sum & 0xff), 0xA5];
+                list = this.getInstructLIst(0x09, 0xE0, matrix);
                 break;
             case 'color':
-                bit = 0xE2;
-                sum = 0x5a + 0x97 + 0x98 + 0x04 + bit;
-                for (let i = 0; i < matrix.length; i++) {
-                    const item = matrix[i];
-                    sum += item
-                }
-                list = [0x5A, 0x97, 0x98, 0x04, bit, 0x00, ...matrix, (sum & 0xff), 0xA5];
+                matrix.unshift(0x00);
+                list = this.getInstructLIst(0x04, 0xE2, matrix);
                 break;
             case 'brightness':
-                bit = 0xE1;
-                sum = 0x5a + 0x97 + 0x98 + 0x01 + bit + parseInt(matrix);
-                list = [0x5A, 0x97, 0x98, 0x01, bit, parseInt(matrix), (sum & 0xff), 0xA5];
+                list = this.getInstructLIst(0x01, 0xE1, parseInt(matrix));
                 break;
             default:
                 break;
@@ -551,15 +538,21 @@ class Common {
      * @param {Object} obj 
      */
     motorChange(obj) {
-        let bit, sum, list;
+        let list;
+        const motor = obj['obj'];
         switch (obj.type) {
             case 'speed':
-                bit = 0xB0;
-                let data = _stringToHex(`${obj.port}/${obj.speed}`);
-                sum = 0x5a + 0x97 + 0x98 + 0x05 + bit;
-                list = [0x5A, 0x97, 0x98, 0x01, bit, ...data, (sum & 0xff), 0xA5];
+                let data = _stringToHex(`${motor.port}/${motor.speed}`);
+                list = this.getInstructLIst(data.length, 0xB0, data);
                 break;
-
+            case 'spin':
+                let dataSpin = _stringToHex(`${motor.port}/${motor.spin}`);
+                list = this.getInstructLIst(dataSpin.length, 0xB2, dataSpin);
+                break;
+            case 'spinCirle':
+                let dataSpinCirle = _stringToHex(`${motor.port}/${motor.spin}/${motor.value}`);
+                list = this.getInstructLIst(dataSpinCirle.length, 0xB1, dataSpinCirle);
+                break;
             default:
                 break;
         }
@@ -569,11 +562,31 @@ class Common {
             let arr = [];
             for (let index = 0; index < str.length; index++) {
                 const char = str[index];
-                const hex = char.charCodeAt(0).toString(16);
-                arr.push(hex)
+                const hex = '0x' + char.charCodeAt(0).toString(16);
+                arr.push(Number(hex));
             }
             return arr;
         }
+    }
+
+    sumData(data) {
+        let num = 0;
+        for (let i = 0; i < data.length; i++) {
+            num += data[i]
+        }
+        return num;
+    }
+
+    getInstructLIst(dataLen, bit, data) {
+        let arr, sum;
+        if (Array.isArray(data)) {
+            sum = 0x5a + 0x97 + 0x98 + dataLen + bit + this.sumData(data);
+            arr = [0x5A, 0x97, 0x98, dataLen, bit, ...data, (sum & 0xff), 0xA5];
+        } else {
+            sum = 0x5a + 0x97 + 0x98 + dataLen + bit + parseInt(data);
+            arr = [0x5A, 0x97, 0x98, dataLen, bit, parseInt(data), (sum & 0xff), 0xA5];
+        }
+        return arr;
     }
 }
 

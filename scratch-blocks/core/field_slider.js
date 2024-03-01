@@ -141,7 +141,6 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
         }
     }
     if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'motor_speed') {
-        console.log(this.sourceBlock_.parentBlock_);
         const children = this.sourceBlock_.parentBlock_.childBlocks_;
         let port;
         for (let i = 0; i < children.length; i++) {

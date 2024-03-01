@@ -40,8 +40,8 @@ Blockly.FieldMotor.prototype.leftDom = null;
 Blockly.FieldMotor.prototype.rightDom = null;
 
 Blockly.FieldMotor.prototype.cacheProxy = new WeakMap();
-Blockly.FieldMatrix.timer = null;
-Blockly.FieldMatrix.callback = null;
+Blockly.FieldMotor.timer = null;
+Blockly.FieldMotor.callback = null;
 
 Blockly.FieldMotor.prototype.init = function (block) {
     if (this.fieldGroup_) {
@@ -307,12 +307,41 @@ Blockly.FieldMotor.prototype.changeMotor = function (type, obj) {
         Blockly.FieldMotor.timer = setTimeout(() => {
             switch (type) {
                 case 'speed':
-                    Blockly.FieldMotor.callback(type, { port: obj.port, speed: obj.value});
+                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), speed: obj.value });
+                    break;
+                case 'spin':
+                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), spin: obj.value });
+                    break;
+                case 'spinCirle':
+                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), value: obj.value, spin: obj.spin === 'Advance' ? 1 : -1 });
                     break;
                 default:
                     break;
             }
         }, 100);
+    }
+
+    function _getPort(port) {
+        switch (port) {
+            case 'A':
+                return '00';
+            case 'B':
+                return '01';
+            case 'C':
+                return '02';
+            case 'D':
+                return '03';
+            case 'E':
+                return '04';
+            case 'F':
+                return '05';
+            case 'G':
+                return '06';
+            case 'H':
+                return '07';
+            default:
+                return;
+        }
     }
 }
 

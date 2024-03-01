@@ -32,7 +32,7 @@ goog.require('Blockly.Field');
 goog.require('Blockly.Msg');
 goog.require('Blockly.scratchBlocksUtils');
 goog.require('Blockly.utils');
-
+goog.require('Blockly.FieldMotor');
 goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
@@ -456,6 +456,24 @@ Blockly.FieldTextInput.prototype.checkHtmlInputByBlocks = function () {
         break;
       case "motor_specifiedunit":
         changeInp(this.sourceBlock_.parentBlock_.inputList[2].fieldRow[0]);
+        const children = this.sourceBlock_.parentBlock_.childBlocks_;
+        const inpEle = this.sourceBlock_.parentBlock_.inputList;
+        let port;
+        for (let i = 0; i < children.length; i++) {
+          const element = children[i];
+          if (element.type === "motor_box") {
+            port = element.inputList[0].fieldRow[0].motor_;
+            break;
+          }
+        }
+        let spin;
+        for (let i = 0; i < inpEle.length; i++) {
+          const element = inpEle[i];
+          if (element.fieldRow[0].name === 'SPIN') {
+            spin = element.fieldRow[0].value_;
+          }
+        }
+        Blockly.FieldMotor.prototype.changeMotor('spinCirle', { port, value: htmlInput.value, spin });
         break;
       default:
         break;
