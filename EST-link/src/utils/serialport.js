@@ -304,11 +304,11 @@ class Serialport extends Common {
                 //开启设备数据监控监听
                 setTimeout(() => that.watchDevice(event));
                 if (!this.sign) return;
-                //清除超时检测
-                this.clearTimer();
                 //根据标识符进行校验操作检验数据并返回结果
                 const verify = this.verification(this.sign, this.receiveObj, event);
                 if (verify) {
+                    //清除超时检测
+                    this.clearTimer();
                     //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                     this.processReceivedData(event);
                 }
