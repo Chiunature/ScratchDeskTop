@@ -31,6 +31,7 @@
             "DISCONNECTED": "ble-disconnected"
         },
         "VERSION": {
+            "GETVERSION": "getVersion",
             "UPDATE": "update",
             "REUPDATE": "reupdate"
         },

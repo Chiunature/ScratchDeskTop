@@ -38,9 +38,15 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
 function delEvents(eventName) {
     if (!eventName) {
         const eventList = ipcRenderer.eventNames();
-        eventList.map(item => {
+        eventList.forEach(item => {
             ipcRenderer.removeAllListeners([item]);
         });
+        return;
+    } else if (Array.isArray(eventName)) {
+        eventName.forEach(item => {
+            ipcRenderer.removeAllListeners([item]);
+        });
+        return;
     }
     ipcRenderer.removeAllListeners([eventName]);
 }

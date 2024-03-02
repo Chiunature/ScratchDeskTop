@@ -103,13 +103,13 @@ class Common {
      */
     removeAllMainListeners(listener) {
         if (listener) {
-            this.electron.ipcMain.removeAllListeners(listener);
+            this.electron.ipcMain.removeAllListeners([listener]);
             return;
         }
         const eventList = this.electron.ipcMain.eventNames();
         eventList.forEach(el => {
             if (listener === el) {
-                this.electron.ipcMain.removeAllListeners(el);
+                this.electron.ipcMain.removeAllListeners([el]);
             }
         });
     }
