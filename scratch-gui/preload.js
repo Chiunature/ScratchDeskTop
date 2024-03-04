@@ -89,9 +89,16 @@ function writeFiles(path, type) {
      * @returns 
      */
 function deleteFiles(path) {
-    fs.unlink(path, (err) => {
-        if (err) handlerError(err);
-        console.log('删除成功');
+    // 检测文件是否存在
+    fs.access(path, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.error('文件不存在');
+        } else {
+            fs.unlink(path, (err) => {
+                if (err) handlerError(err);
+                // console.log('删除成功');
+            });
+        }
     });
 }
 
