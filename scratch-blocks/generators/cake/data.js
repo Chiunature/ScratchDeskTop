@@ -37,8 +37,10 @@ Blockly.cake['data_definevariable'] = function (block) {
         return '';
     }
     let newName = Blockly.cake.checkVar(varName);
-    Blockly.cake.definitions_['data_definevariable_' + varName] =
-        `char ${newName}[16];\n`;
+    let str = `char ${newName}[16];`;
+    if (!Blockly.cake.definitions_['data_definevariable_' + varName]) {
+        Blockly.cake.definitions_['data_definevariable_' + varName] = str;
+    }
     return ``;
 };
 
@@ -55,6 +57,10 @@ Blockly.cake['data_setvariableto'] = function (block) {
          arg0 = parseFloat(arg0.slice(1, -1)).toString();
      } */
     let newName = Blockly.cake.checkVar(varName);
+    let str = `char ${newName}[16];`;
+    if (!Blockly.cake.definitions_['data_definevariable_' + varName]) {
+        Blockly.cake.definitions_['data_definevariable_' + varName] = str;
+    }
     return `SettingVariables(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 
@@ -67,6 +73,10 @@ Blockly.cake['data_changevariableby'] = function (block) {
         return '';
     }
     let newName = Blockly.cake.checkVar(varName);
+    let str = `char ${newName}[16];`;
+    if (!Blockly.cake.definitions_['data_definevariable_' + varName]) {
+        Blockly.cake.definitions_['data_definevariable_' + varName] = str;
+    }
     return `SettingVariablesAdd(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 
@@ -90,8 +100,10 @@ Blockly.cake['data_definelist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-    Blockly.cake.definitions_['data_definelist_' + varName] =
-        `ListNode *${varName} = NULL;\n`;
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `${varName} = ListInit();\n`;
 };
 
@@ -104,7 +116,10 @@ Blockly.cake['data_addtolist'] = function (block) {
         return '';
     }
 
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `LB_ListPushData(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
@@ -116,7 +131,10 @@ Blockly.cake['data_deleteoflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `LB_ListDeletIndex(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'});\n`;
 };
 
@@ -126,7 +144,10 @@ Blockly.cake['data_deletealloflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `LB_ListDeletAll(${varName});\n`;
 };
 
@@ -140,7 +161,10 @@ Blockly.cake['data_insertatlist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `LB_ListIndexPullData(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
@@ -154,7 +178,10 @@ Blockly.cake['data_replaceitemoflist'] = function (block) {
     if (varName === 'unnamed') {
         return '';
     }
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return `LB_ListIndexChangerData(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'});\n`;
 };
 
@@ -163,7 +190,10 @@ Blockly.cake['data_itemoflist'] = function (block) {
         Blockly.cake.ORDER_ADDITIVE) || '0';
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return [`LB_ListDeletIndex(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'})`, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -172,7 +202,10 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
         Blockly.cake.ORDER_ADDITIVE) || '0';
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-
+    let newstr = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = newstr;
+    }
     let str = `LB_ListGetDataIndex(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
     return [str, Blockly.cake.ORDER_UNARY_SIGN];
 };
@@ -180,7 +213,10 @@ Blockly.cake['data_itemnumoflist'] = function (block) {
 Blockly.cake['data_lengthoflist'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-
+    let str = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = str;
+    }
     return [`LB_ListGetNumber(${varName})`, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -189,7 +225,10 @@ Blockly.cake['data_listcontainsitem'] = function (block) {
         Blockly.cake.ORDER_ADDITIVE) || '0';
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('LIST'),
         Blockly.Variables.NAME_TYPE);
-
+    let newstr = `ListNode *${varName} = NULL;`;
+    if (!Blockly.cake.definitions_['data_definelist_' + varName]) {
+        Blockly.cake.definitions_['data_definelist_' + varName] = newstr;
+    }
     let str = `LB_ListCmpData(${varName}, ${Blockly.cake.toStr(item) ? item : '"' + item + '"'})`;
     return [str, Blockly.cake.ORDER_RELATIONAL];
 };
