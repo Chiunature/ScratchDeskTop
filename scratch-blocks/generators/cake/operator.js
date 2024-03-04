@@ -76,7 +76,7 @@ Blockly.cake['operator_compare'] = function (block) {
 
     var op = oplist[block.type];
     // var code = arg0 + op + arg1;
-var code = `JudgineTheSize(${Blockly.cake.toStr(op) ? op : '"' + op + '"'}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
+var code = `JudgineTheSize("${op}", ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
@@ -95,7 +95,7 @@ Blockly.cake['operator_operation'] = function (block) {
     var arg1 = Blockly.cake.valueToCode(block, 'OPERAND2', order) || '0';
     var op = oplist[block.type];
     // var code = arg0 + op + arg1;
-var code = code = `and_or_if(${Blockly.cake.toStr(op) ? ('strcmp(' + op +', "TRUE") == 0') : '"' + op + '"'}, ${Blockly.cake.toStr(arg0) ? ('strcmp(' + arg0 +', "TRUE") == 0') : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? ('strcmp(' + arg1 +', "TRUE") == 0') : '"' + arg1 + '"'})`;
+var code = code = `and_or_if("${op}", ${Blockly.cake.toStr(arg0) ?  arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, order];
 };
 
@@ -106,7 +106,7 @@ Blockly.cake['operator_not'] = function (block) {
     // Negation.
     var order = Blockly.cake.ORDER_LOGICAL_NOT;
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND', order) || 'false';
-    var code = `!${Blockly.cake.toStr(arg0) ? ('strcmp(' + arg0 +', "TRUE") == 0') : '"' + arg0 + '"'}`;
+    var code = `!${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}`;
     return [code, order];
 };
 

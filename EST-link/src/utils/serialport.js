@@ -96,8 +96,6 @@ class Serialport extends Common {
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
         //开启读取数据监听
         this.handleRead("readable", event);
-        //开启获取主机版本监听
-        this.getVersion(event);
         //开启串口关闭监听
         this.listenPortClosed("close", event);
         //开启获取文件监听
@@ -112,8 +110,8 @@ class Serialport extends Common {
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
         //与主机交互
         this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
-        // 切换到串口
-        // this.writeData(instruct.serialport, null, event);
+        //开启获取主机版本监听
+        this.getVersion(event);
     }
 
     /**
@@ -216,7 +214,6 @@ class Serialport extends Common {
         this.sign = str;
         //写入数据
         this.port.write(Buffer.from(data));
-        // if(!str) console.log("write=>", data);
         //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
@@ -361,7 +358,7 @@ class Serialport extends Common {
         this.writeData(instruct.version, signType.VERSION, event);
         this.versionTimer = setTimeout(() => {
             event.reply(ipc_Main.RETURN.VERSION, false);
-        }, 1000);
+        }, 2000);
     }
 
     /**

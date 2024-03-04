@@ -6,7 +6,7 @@ import messages from './deviceMsg.js';
 const Device = (props) => {
     const { deviceList, gyroList, flashList, adcList, voice } = props.deviceObj;
     const rightList = deviceList.slice(4);
-    const leftList = deviceList.slice(0, 4).reverse();
+    const leftList = deviceList.slice(0, 4);
 
     function preName(index) {
         switch (index) {
@@ -24,15 +24,15 @@ const Device = (props) => {
     return (<div className={styles.box}>
         <div className={styles.container}>
             <div className={styles.left}>
-                <div className={styles.block}>D</div>
-                <div className={styles.block}>C</div>
-                <div className={styles.block}>B</div>
                 <div className={styles.block}>A</div>
+                <div className={styles.block}>B</div>
+                <div className={styles.block}>C</div>
+                <div className={styles.block}>D</div>
             </div>
             <div className={styles.middle}>
                 <div className={styles.midContent}>
                     <div className={styles.midLeft}>
-                        <DeviceBox list={leftList} intl={props.intl} messages={messages}/>
+                        <DeviceBox list={leftList} intl={props.intl} messages={messages} />
                     </div>
                     <div className={styles.midPart}>
                         <div className={styles.midBox}>
@@ -74,7 +74,7 @@ const Device = (props) => {
                         </div>
                     </div>
                     <div className={styles.midRight}>
-                        <DeviceBox list={rightList} intl={props.intl} messages={messages}/>
+                        <DeviceBox list={rightList} intl={props.intl} messages={messages} />
                     </div>
                 </div>
             </div>
