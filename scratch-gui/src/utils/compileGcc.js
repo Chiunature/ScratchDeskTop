@@ -115,7 +115,7 @@ class Compile {
         //编译
         if (appRes) {
             window.myAPI.commendMake().then(() => {
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+                if(selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
             }).catch(err => {
                 window.myAPI.handlerError(err);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
@@ -135,7 +135,7 @@ class Compile {
         if (verifyType === verifyTypeConfig.SOURCE) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: { verifyType: verifyTypeConfig.SOURCE_MUSIC, selectedExe },
+                sendParams: { verifyType: verifyTypeConfig.SOURCE_APP, selectedExe },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
                     window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });

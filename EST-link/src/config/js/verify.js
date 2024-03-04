@@ -92,19 +92,19 @@ function distinguish(filesObj, type, event) {
     let obj = { ...filesObj };
     switch (type) {
         case SOURCE_MUSIC:
-            _processedForSouceFile(obj, SOURCE_BOOT, event);
-            break;
-        case SOURCE_BOOT:
             _processedForSouceFile(obj, SOURCE_CONFIG, event);
             break;
-        case SOURCE_CONFIG:
-            _processedForSouceFile(obj, SOURCE_APP, event);
-            break;
-        case SOURCE_APP:
+        case SOURCE_BOOT:
             _processedForSouceFile(obj, SOURCE_VERSION, event);
             break;
-        case SOURCE_VERSION:
+        case SOURCE_CONFIG:
             _processedForSouceFile(obj, null, event);
+            break;
+        case SOURCE_APP:
+            _processedForSouceFile(obj, SOURCE_BOOT, event);
+            break;
+        case SOURCE_VERSION:
+            _processedForSouceFile(obj, SOURCE_MUSIC, event);
             break;
         case BOOTBIN:
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
