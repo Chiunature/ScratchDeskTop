@@ -138,7 +138,7 @@ class GUI extends React.Component {
             callback: (event, arg) => {
                 const version = window.myAPI.getVersion(arg);
                 this.props.onSetVersion(version);
-                window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
+                // window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
                 if (!version) this.checkUpdateFireware();
             }
         });

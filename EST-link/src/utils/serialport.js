@@ -44,6 +44,7 @@ class Serialport extends Common {
         this.chunkIndex = 0;
         this.sign;
         this.timeOutTimer;
+        this.versionTimer;
         this.verifyType;
         this.filesObj;
         this.receiveObj;
@@ -238,8 +239,16 @@ class Serialport extends Common {
      * 清除所有定时器
      */
     clearTimer() {
-        clearTimeout(this.timeOutTimer);
-        this.timeOutTimer = null;
+        if (this.versionTimer) {
+            clearTimeout(this.versionTimer);
+            this.versionTimer = null;
+            return;
+        }
+        if (this.timeOutTimer) {
+            clearTimeout(this.timeOutTimer);
+            this.timeOutTimer = null;
+            return;
+        }
     }
 
     /**
@@ -303,7 +312,11 @@ class Serialport extends Common {
                 this.receiveObj = this.catchData(receiveData);
                 //开启设备数据监控监听
                 setTimeout(() => that.watchDevice(event));
-                if (!this.sign) return;
+                if (!this.sign) {
+                    return;
+                } else if (this.sign === signType.VERSION) {
+                    this.clearTimer();
+                }
                 //根据标识符进行校验操作检验数据并返回结果
                 const verify = this.verification(this.sign, this.receiveObj, event);
                 if (verify) {
@@ -346,6 +359,9 @@ class Serialport extends Common {
      */
     getVersion(event) {
         this.writeData(instruct.version, signType.VERSION, event);
+        this.versionTimer = setTimeout(() => {
+            event.reply(ipc_Main.RETURN.VERSION, false);
+        }, 1000);
     }
 
     /**
