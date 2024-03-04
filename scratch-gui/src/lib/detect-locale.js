@@ -4,7 +4,7 @@
  */
 
 import queryString from 'query-string';
-import cookie from 'cookie';
+// import cookie from 'cookie';
 
 /**
  * look for language setting in the browser. Check against supported locales.
@@ -16,18 +16,20 @@ const detectLocale = supportedLocales => {
     let locale = 'en'; // default
     let browserLocale = window.navigator.userLanguage || window.navigator.language;
     browserLocale = browserLocale.toLowerCase();
-    const obj = cookie.parse(document.cookie) || {};
-    const langCookie = obj.lang;
+    // const obj = cookie.parse(document.cookie) || {};
+    const langCookie = localStorage.getItem('lang');
 
     // try to set locale from browserLocale
-    if (supportedLocales.includes(browserLocale) && !langCookie) {
-        locale = browserLocale;
-    } else if (langCookie) {
+    if (langCookie) {
         locale = langCookie;
     } else {
-        browserLocale = browserLocale.split('-')[0];
         if (supportedLocales.includes(browserLocale)) {
             locale = browserLocale;
+        } else {
+            browserLocale = browserLocale.split('-')[0];
+            if (supportedLocales.includes(browserLocale)) {
+                locale = browserLocale;
+            }
         }
     }
 

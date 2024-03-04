@@ -1,4 +1,4 @@
-import cookie from 'cookie';
+// import cookie from 'cookie';
 
 import { DEFAULT_THEME, HIGH_CONTRAST_THEME } from '.';
 
@@ -15,10 +15,10 @@ const systemPreferencesTheme = () => {
 };
 
 const detectTheme = () => {
-    const obj = cookie.parse(document.cookie) || {};
-    const themeCookie = obj.scratchtheme;
-
-    if (isValidTheme(themeCookie)) return themeCookie;
+    /* const obj = cookie.parse(document.cookie) || {};
+    const themeCookie = obj.scratchtheme; */
+    const themeCookie = localStorage.getItem(COOKIE_KEY);
+    if (themeCookie && isValidTheme(themeCookie)) return themeCookie;
 
     // No cookie set. Fall back to system preferences
     return systemPreferencesTheme();
@@ -40,8 +40,9 @@ const persistTheme = (theme, themeInfo) => {
         return;
     } */
 
-    const expires = new Date(new Date().setYear(new Date().getFullYear() + 1)).toUTCString();
-    document.cookie = `${COOKIE_KEY}=${theme};expires=${expires};path=/`;
+    /* const expires = new Date(new Date().setYear(new Date().getFullYear() + 1)).toUTCString();
+    document.cookie = `${COOKIE_KEY}=${theme};expires=${expires};path=/`; */
+    localStorage.setItem(COOKIE_KEY, theme);
 };
 
 export {
