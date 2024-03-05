@@ -236,12 +236,12 @@ class Serialport extends Common {
      * 清除所有定时器
      */
     clearTimer() {
-        if (this.versionTimer) {
+        if (this.versionTimer && this.sign === signType.VERSION) {
             clearTimeout(this.versionTimer);
             this.versionTimer = null;
             return;
         }
-        if (this.timeOutTimer) {
+        if (this.timeOutTimer && (this.sign === signType.BOOT.BIN || this.sign === signType.BOOT.FILENAME)) {
             clearTimeout(this.timeOutTimer);
             this.timeOutTimer = null;
             return;
@@ -309,16 +309,12 @@ class Serialport extends Common {
                 this.receiveObj = this.catchData(receiveData);
                 //开启设备数据监控监听
                 setTimeout(() => that.watchDevice(event));
-                if (!this.sign) {
-                    return;
-                } else if (this.sign === signType.VERSION) {
-                    this.clearTimer();
-                }
+                if (!this.sign) return;
+                //清除超时检测
+                this.clearTimer();
                 //根据标识符进行校验操作检验数据并返回结果
                 const verify = this.verification(this.sign, this.receiveObj, event);
                 if (verify) {
-                    //清除超时检测
-                    this.clearTimer();
                     //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                     this.processReceivedData(event);
                 }
