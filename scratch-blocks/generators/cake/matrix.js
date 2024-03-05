@@ -44,7 +44,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
     let lp = Blockly.cake.stringToHex(lamp);
     let newColor;
-    if (color.indexOf('(') === -1) {
+    if (typeof color === 'string' && color.indexOf('(') === -1 && color.indexOf('#') !== -1) {
         const pre = Blockly.cake.hexToRgb(color);
         // const target = Blockly.cake.rgbToGrb(pre);
         const last = Blockly.cake.grbToHex(pre);
@@ -128,9 +128,9 @@ Blockly.cake['matrix_lamp_useRGB'] = function (block) {
 
 Blockly.cake['matrix_color'] = function (block) {
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_ATOMIC);
-Blockly.cake.oldColor = color;
+    Blockly.cake.oldColor = color;
     let newColor;
-    if (color.indexOf('(') === -1) {
+    if (typeof color === 'string' && color.indexOf('(') === -1 && color.indexOf('#') !== -1) {
         const pre = Blockly.cake.hexToRgb(color);
         // const target = Blockly.cake.rgbToGrb(pre);
         const last = Blockly.cake.grbToHex(pre);
@@ -159,7 +159,7 @@ Blockly.cake['matrix_lamp_setSaturation'] = function (block) {
     }
 
     let newColor;
-    if (color.indexOf('(') === -1) {
+    if (typeof color === 'string' && color.indexOf('(') === -1 && color.indexOf('#') !== -1) {
         const pre = Blockly.cake.hexToRgb(color);
         // const target = Blockly.cake.rgbToGrb(pre);
         const last = Blockly.cake.grbToHex(pre);
