@@ -203,13 +203,13 @@ Blockly.cake['sensing_read_analog'] = function (block) {
 
 Blockly.cake['sensing_timer'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_timer()`;
+    let code = `time_clock()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_reset_timer'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_reset_timer();\n`;
+    let code = `ResetTimeclock();\n`;
     return code;
 };
 

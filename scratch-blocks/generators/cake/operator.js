@@ -106,7 +106,7 @@ Blockly.cake['operator_not'] = function (block) {
     // Negation.
     var order = Blockly.cake.ORDER_LOGICAL_NOT;
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND', order) || 'false';
-    var code = `!${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}`;
+    var code = `NotFALSE(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'})`;
     return [code, order];
 };
 
