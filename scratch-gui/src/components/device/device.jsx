@@ -6,7 +6,7 @@ import messages from './deviceMsg.js';
 const Device = (props) => {
     const { deviceList, gyroList, flashList, adcList, voice } = props.deviceObj;
     const rightList = deviceList.slice(4);
-    const leftList = deviceList.slice(0, 4);
+    const leftList = deviceList.slice(0, 4).reverse();
 
     function preName(index) {
         switch (index) {
@@ -24,10 +24,10 @@ const Device = (props) => {
     return (<div className={styles.box}>
         <div className={styles.container}>
             <div className={styles.left}>
-                <div className={styles.block}>A</div>
-                <div className={styles.block}>B</div>
-                <div className={styles.block}>C</div>
                 <div className={styles.block}>D</div>
+                <div className={styles.block}>C</div>
+                <div className={styles.block}>B</div>
+                <div className={styles.block}>A</div>
             </div>
             <div className={styles.middle}>
                 <div className={styles.midContent}>

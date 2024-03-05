@@ -73,7 +73,7 @@ Blockly.FieldColourCard.fromJson = function (options) {
  * @private
  */
 Blockly.FieldColourCard.activateEyedropper_ = null;
-Blockly.FieldColourCard.colorList = ["#e700a7", "#c061f1", "#0090f5", "#77e8ff", "#00cb54", "#00a845", "#ffe360", "#fcac00", "#ff000c", "#fff", "#571cc1"];
+Blockly.FieldColourCard.colorList = ["#e700a7", "#c061f1", "#0090f5", "#77e8ff", "#00cb54", "#00a845", "#ffe360", "#fcac00", "#ff000c", "#fff", "#571cc1", "#000"];
 Blockly.FieldColourCard.prototype.selectColor = Blockly.FieldColourCard.colorList[0];
 Blockly.FieldColourCard.prototype.selectColorTop = 0;
 

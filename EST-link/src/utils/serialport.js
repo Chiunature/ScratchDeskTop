@@ -356,9 +356,9 @@ class Serialport extends Common {
      */
     getVersion(event) {
         this.writeData(instruct.version, signType.VERSION, event);
-        this.versionTimer = setTimeout(() => {
+        /* this.versionTimer = setTimeout(() => {
             event.reply(ipc_Main.RETURN.VERSION, false);
-        }, 2000);
+        }, 2000); */
     }
 
     /**
