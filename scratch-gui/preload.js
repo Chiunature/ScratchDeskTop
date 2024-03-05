@@ -70,12 +70,11 @@ function readFiles(path, type) {
 /**
      * 将c语言代码写入文件
      * @param {String} path 
-     * @param {String} type 
      * @returns 
      */
-function writeFiles(path, type) {
+function writeFiles(path, data, options = {}) {
     try {
-        fs.writeFileSync(path, type);
+        fs.writeFileSync(path, data, options);
         return true;
     } catch (error) {
         handlerError(error);
