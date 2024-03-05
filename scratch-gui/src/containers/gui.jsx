@@ -272,7 +272,7 @@ class GUI extends React.Component {
                 const that = this;
                 setTimeout(() => {
                     compile.sendSerial(verifyTypeConfig.BOOTBIN, that.props.bufferList, that.props.matchMyBlock, selectedExe);
-                }, 500);
+                }, 1500);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
