@@ -260,7 +260,7 @@ class Blocks extends React.Component {
             this.props.setMatchMyBlock(matchMyBlock);
         }
 
-        if (match && match[1] !== '\n\n') {
+        if (match) {
             const arr = match[1].split("\n\n");
             this.props.setCompileList(arr);
             this.parserTask(this.workspace, arr);
@@ -297,10 +297,23 @@ class Blocks extends React.Component {
                 if (i > 0) j++;
                 newList[j] = que.shift();
             }
+            this.disableAllNoEventsBlocks(list[i], list[i].startHat_);
             i++;
         }
         if (newList.length > 0) {
             this.props.setBufferList(newList);
+        }
+    }
+
+    disableAllNoEventsBlocks(element, disable) {
+        element.setDisabled(!disable);
+        const children = element.childBlocks_;
+        if (children.length === 0) return;
+        for (let i = 0; i < children.length; i++) {
+            const item = children[i];
+            if (item.isShadow_) continue;
+            item.setDisabled(!disable);
+            this.disableAllNoEventsBlocks(item, disable);
         }
     }
 

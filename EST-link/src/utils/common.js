@@ -12,7 +12,7 @@
  */
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE, EST_STOP } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
-const { verifyActions } = require("../config/js/verify.js");
+const signType = require("../config/json/communication/sign.json");
 
 const device = {
     '0': 'noDevice',
@@ -483,15 +483,40 @@ class Common {
          * @param {*} event 
          * @returns 
          */
-    verification(sign, obj, event) {
-        if (!obj || (obj.data && obj.data.length <= 0)) {
-            return false;
+    verification(sign, recevieObj, event) {
+        const { data } = recevieObj;
+        const text = new TextDecoder();
+        switch (sign) {
+            case signType.EXE.FILES:
+                if (data[4] === 0xE7) {
+                    const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
+                    event.reply(ipc_Main.RETURN.EXE.FILES, names);
+                }
+                return false;
+            case signType.VERSION:          //主机版本
+                if (data[4] === 0xEA) {
+                    const version = text.decode(Buffer.from(data.slice(5, data.length - 2)));
+                    event.reply(ipc_Main.RETURN.VERSION, version);
+                }
+                return false;
+            case signType.BOOT.FILENAME:    //文件名
+            case signType.BOOT.BIN:         //文件数据
+                const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
+                return _intercept(listBin, data);
+            default:
+                return false;
         }
-        const result = verifyActions(sign, obj, event);
-        if (typeof result === 'object') {
-            return this.switch(result, sign, true);
-        } else {
-            return result;
+
+        function _intercept(list, data) {
+            let res = true;
+            for (let i = 0; i < data.length; i++) {
+                const item = data[i];
+                if (item !== list[i]) {
+                    res = false;
+                    break;
+                }
+            }
+            return res;
         }
     }
 
