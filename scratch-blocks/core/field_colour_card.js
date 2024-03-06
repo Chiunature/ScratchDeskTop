@@ -155,7 +155,6 @@ Blockly.FieldColourCard.prototype.createCardDom_ = function (dropdown) {
     const cardHandler = this.createCardHandler();
     cards.appendChild(cardHandler);
 
-    const children = cards.childNodes;
     const setHandlerTop = (element) => {
         this.selectColorTop = element.offsetTop;
         this.selectColor = element.style.backgroundColor;
@@ -168,26 +167,43 @@ Blockly.FieldColourCard.prototype.createCardDom_ = function (dropdown) {
         if (e.target && !div.contains(e.target) && e.target.classList.contains('lls-color-slider__option')) return;
         setHandlerTop(e.target);
     }
+    const children = cards.childNodes;
+    let childList = [];
+    for (let i = 0; i < children.length; i++) {
+        const element = children[i];
+        if(element.classList.contains('lls-color-slider__option')) {
+            childList.push(element);
+        }else {
+            continue;
+        }
+    }
+
 
     this.cardHandler.onmousedown = () => {
+        
         document.onmousemove = (event) => {
             let top = Math.floor(event.clientY - parseInt(dropdown.parentNode.style.top) - 45);
-            for (let i = 0; i < children.length; i++) {
-                const ele = children[i];
-                if ((top - ele.offsetTop > 0 && top > ele.offsetTop && top < ele.offsetTop + Math.floor(ele.clientHeight / 2)) && ele.classList.contains('lls-color-slider__option')) {
-                    top = ele.offsetTop;
-                    this.selectColor = ele.style.backgroundColor;
-                }
+            const height = 14;
+            let num = Math.ceil(top / height);
+            let color;
+            if(num < 0) {
+                num = 0;
+            }else if(num > childList.length - 1) {
+                num = childList.length - 1;
             }
-            if (top < 0) {
-                top = 0;
-            } else if (top > 160) {
-                top = 160;
+            color = childList[num].style.backgroundColor;
+            this.selectColorTop = Math.floor(num * height);
+            if (this.selectColorTop < 0) {
+                this.selectColorTop = 0;
+            } else if (this.selectColorTop > 155) {
+                this.selectColorTop = 155;
             }
-            this.selectColorTop = top;
-            this.cardHandler.style['background-color'] = this.selectColor;
-            this.cardHandler.style['top'] = `calc(${this.selectColorTop}px - 2px)`;
-            this.setValue(this.rgbToHex(this.selectColor));
+            if (color) {
+                this.selectColor = color;
+                this.cardHandler.style['background-color'] = this.selectColor;
+                this.cardHandler.style['top'] = `calc(${this.selectColorTop}px - 2px)`;
+                this.setValue(this.rgbToHex(this.selectColor));
+            }
         }
     }
 
