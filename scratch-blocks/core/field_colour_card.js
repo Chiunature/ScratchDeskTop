@@ -135,7 +135,7 @@ Blockly.FieldColourCard.prototype.getText = function () {
  * 创建一个色卡
  * @returns 
  */
-Blockly.FieldColourCard.prototype.createCardDom_ = function () {
+Blockly.FieldColourCard.prototype.createCardDom_ = function (dropdown) {
     let div = document.createElement('div');
     let selector = document.createElement('div');
     selector.setAttribute('class', 'lls-color-selector-vertical');
@@ -154,12 +154,8 @@ Blockly.FieldColourCard.prototype.createCardDom_ = function () {
     }
     const cardHandler = this.createCardHandler();
     cards.appendChild(cardHandler);
-    const children = cards.childNodes;
-    let topList = [];
-    for (let i = 0; i < children.length; i++) {
-        topList.push(children[i].offsetTop);
-    }
 
+    const children = cards.childNodes;
     const setHandlerTop = (element) => {
         this.selectColorTop = element.offsetTop;
         this.selectColor = element.style.backgroundColor;
@@ -168,9 +164,35 @@ Blockly.FieldColourCard.prototype.createCardDom_ = function () {
         this.setValue(this.rgbToHex(this.selectColor));
     }
 
-    div.onmousedown = (e) => {
-        if (e.target && !div.contains(e.target)) return;
+    cards.onmousedown = (e) => {
+        if (e.target && !div.contains(e.target) && e.target.classList.contains('lls-color-slider__option')) return;
         setHandlerTop(e.target);
+    }
+
+    this.cardHandler.onmousedown = () => {
+        document.onmousemove = (event) => {
+            let top = Math.floor(event.clientY - parseInt(dropdown.parentNode.style.top) - 45);
+            for (let i = 0; i < children.length; i++) {
+                const ele = children[i];
+                if ((top - ele.offsetTop > 0 && top > ele.offsetTop && top < ele.offsetTop + Math.floor(ele.clientHeight / 2)) && ele.classList.contains('lls-color-slider__option')) {
+                    top = ele.offsetTop;
+                    this.selectColor = ele.style.backgroundColor;
+                }
+            }
+            if (top < 0) {
+                top = 0;
+            } else if (top > 160) {
+                top = 160;
+            }
+            this.selectColorTop = top;
+            this.cardHandler.style['background-color'] = this.selectColor;
+            this.cardHandler.style['top'] = `calc(${this.selectColorTop}px - 2px)`;
+            this.setValue(this.rgbToHex(this.selectColor));
+        }
+    }
+
+    document.onmouseup = () => {
+        document.onmousemove = null;
     }
 
     return div;
@@ -220,7 +242,7 @@ Blockly.FieldColourCard.prototype.showEditor_ = function () {
     Blockly.DropDownDiv.clearContent();
     var div = Blockly.DropDownDiv.getContentDiv();
 
-    const cardEle = this.createCardDom_();
+    const cardEle = this.createCardDom_(div);
     div.appendChild(cardEle);
 
     Blockly.DropDownDiv.setColour(this.sourceBlock_.getColourTertiary(), this.sourceBlock_.getColourTertiary());
