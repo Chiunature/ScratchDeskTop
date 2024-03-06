@@ -25,7 +25,7 @@ class SB3Downloader extends React.Component {
             'downloadProject'
         ]);
     }
-    
+
     downloadProject() {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
@@ -34,23 +34,20 @@ class SB3Downloader extends React.Component {
             downloadBlob(this.props.projectFilename, content);
             const fr = new FileReader();
             fr.readAsDataURL(content);
+            let list = [];
             fr.onload = (e) => {
+                if (localStorage.getItem('file')) {
+                    list = JSON.parse(localStorage.getItem('file'));
+                }
                 const obj = {
-                    fileName: this.props.projectFilename.slice(0, -4),
+                    fileName: this.props.projectFilename.slice(0, -4) + '_' + (list.length + 1),
                     url: e.target.result,
                     size: Math.ceil(content.size / 1024) + 'KB',
                     alterTime: window.myAPI.getCurrentTime(),
                     editable: false
                 }
-                if (localStorage.getItem('file')) {
-                    const list = JSON.parse(localStorage.getItem('file'));
-                    if (list && list.length >= 0) {
-                        const newList = [...list, obj];
-                        localStorage.setItem('file', JSON.stringify(newList));
-                    }
-                } else {
-                    localStorage.setItem('file', JSON.stringify([obj]));
-                }
+                const newList = [...list, obj];
+                localStorage.setItem('file', JSON.stringify(newList));
                 localStorage.setItem('recentFile', JSON.stringify(obj));
             }
         });
