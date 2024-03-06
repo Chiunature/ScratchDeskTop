@@ -190,5 +190,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     getVersion,
     commendMake,
     writeFileWithDirectory,
-    handlerError
+    handlerError,
+    getCurrentTime
 });
