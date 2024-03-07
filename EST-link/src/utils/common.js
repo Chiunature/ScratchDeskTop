@@ -390,7 +390,7 @@ class Common {
                 if (arr[0]) {
                     let res = (((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2)) * 100;
                     if (res >= 100) res = 100;
-                    if (this.adcList !== res) this.adcList = res;
+                    if (this.adcList !== res) this.adcList = parseInt(res);
                 }
                 break;
             case 0xD7:
