@@ -130,7 +130,7 @@ ul {
 }
 
 .mid-ul li {
-    min-width: 15rem;
+    min-width: 21rem;
     height: 2rem;
     display: flex;
     align-items: center;
