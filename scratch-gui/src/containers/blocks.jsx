@@ -152,8 +152,8 @@ class Blocks extends React.Component {
         if (type === 'move' || type === 'change' || type === 'delete') {
             this.props.getCode(code);
             this.disableBlocks('combined_motor_starting', 'combined_motor', 'combined');
-            this.disableBlocks('data_definevariable', 'data', 'variable');
-            this.disableBlocks('data_definelist', 'data', 'list');
+            // this.disableBlocks('data_definevariable', 'data', 'variable');
+            // this.disableBlocks('data_definelist', 'data', 'list');
             this.checkStartHat(this.workspace, this.props.code);
         } else {
             return false;
