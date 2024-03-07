@@ -149,98 +149,57 @@ class Blocks extends React.Component {
         const generatorName = 'cake';
         const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
         this.props.setWorkspace(this.workspace);
+        let combinedMotorBlocks = [];
+        const list = this.workspace.getTopBlocks();
+        let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {
             this.props.getCode(code);
-            this.disableBlocks('combined_motor_starting', 'combined_motor', 'combined');
-            // this.disableBlocks('data_definevariable', 'data', 'variable');
-            // this.disableBlocks('data_definelist', 'data', 'list');
             this.checkStartHat(this.workspace, this.props.code);
+            this.getCombinedMotor(newList, combinedMotorBlocks);
+            this.disableCombinedMotor(combinedMotorBlocks);
         } else {
             return false;
         }
     }
 
-    disableBlocks(type, category_, typeId) {
-        let current, targetId, list = this.workspace.getAllBlocks();
-        for (let i = 0; i < list.length; i++) {
-            const element = list[i];
-            if (element.type === type) {
-                current = i;
-                targetId = element.svgGroup_.getAttribute('data-id');
-            }
-        }
-        switch (category_) {
-            case 'combined_motor':
-                this.turnToDisable(list, category_, typeId, current, targetId);
-                break;
-            case 'data':
-                this.checkIsSameVar(list, category_, type, typeId);
-                break;
-            default:
-                break;
-        }
-    }
-
-    checkIsSameVar(list, category_, type, typeId) {
-        const newList = list.filter(el => (el.category_ && el.category_.indexOf(category_) !== -1));
-        let definelist = [], targetList = [];
+    getCombinedMotor(newList, combinedMotorBlocks) {
         for (let i = 0; i < newList.length; i++) {
-            const el = newList[i];
-            if (el.type === type && el.type.indexOf(typeId) !== -1) {
-                definelist.push({ element: el, index: i });
-            } else if (el.type !== type && el.type.indexOf(typeId) !== -1) {
-                targetList.push({ element: el, index: i });
+            const element = newList[i];
+            if (element.category_ === 'combined_motor' && !element.isShadow_) {
+                combinedMotorBlocks.push(element);
             }
-        }
-        for (let i = 0; targetList.length > 0 && definelist.length > 0 && i < definelist.length; i++) {
-            const define = definelist[i];
-            for (let j = 0; j < targetList.length; j++) {
-                const el = targetList[j];
-                if (!el.element.inputList[0] || !define.element.inputList[0] || !el.element.inputList[0].fieldRow[1] || !define.element.inputList[0].fieldRow[1]) continue;
-                const isSameText = el.element.inputList[0].fieldRow[1].text_ === define.element.inputList[0].fieldRow[1].text_;
-                const compareIndex = define.index > el.index;
-                if (isSameText) {
-                    const opacity = `opacity: ${compareIndex ? '.5' : '1'}`;
-                    el.element.svgPath_.setAttribute('style', opacity);
-                    el.element.setEditable(!compareIndex);
-                    el.element.setDisabled(compareIndex);
-                }
+            if (element.childBlocks_.length > 0) {
+                this.getCombinedMotor(element.childBlocks_, combinedMotorBlocks);
             }
         }
     }
 
-    turnToDisable(list, category_, typeId, current, targetId) {
-        for (let i = 0; i < list.length; i++) {
-            const el = list[i];
-            const children = el.svgGroup_.children;
-            const isSameCategory = _isSameCategory(el);
-            const isSameType = _isSameType(el);
-            if (isSameCategory && isSameType) {
-                const isOpacity = i < current;
-                const opacity = `opacity: ${isOpacity ? '.5' : '1'}`;
-                for (let j = 0; j < children.length; j++) {
-                    const childId = children[j].getAttribute('data-id');
-                    const childClass = children[j].getAttribute('class');
-                    const hasOpacity = children[j].style['opacity'] === '.5';
-                    if ((childId && targetId === childId) || (childClass && childClass.indexOf('blocklyDraggable') !== -1) || hasOpacity) {
-                        continue;
-                    }
-                    children[j].setAttribute('style', opacity);
-                }
-                el.svgPath_.setAttribute('style', opacity);
-                el.setEditable(!isOpacity);
-                el.setDisabled(isOpacity);
+    disableCombinedMotor(list, type = 'combined_motor_starting') {
+        let current;
+        list.forEach((el, index) => {
+            if(el.type === type) {
+                current = index;
             }
-        }
-        function _isSameCategory(element) {
-            return (element.category_ && element.category_.indexOf(category_) !== -1) ||
-                (!element.category_ && element.parentBlock_ && element.parentBlock_.category_ && element.parentBlock_.category_.indexOf(category_) !== -1);
-        }
-
-        function _isSameType(element) {
-            return (element.category_ && element.type.indexOf(typeId) !== -1) ||
-                (!element.category_ && element.parentBlock_ && element.parentBlock_.type.indexOf(typeId) !== -1);
-        }
+        });
+        list.forEach((el, index) => {
+            if((el.category_ === 'combined_motor' || (!el.category_ && el.parentBlock_.category_ === 'combined_motor')) && index < current) {
+                const list = el.svgGroup_.children;
+                for (let i = 0; i < list.length - 1; i++) {
+                    list[i].setAttribute('style', 'opacity: .5;');
+                }
+                el.svgPath_.setAttribute('style', 'opacity: .5;');
+                el.setEditable(false);
+                el.setDisabled(true);
+            }else {
+                const list = el.svgGroup_.children;
+                for (let i = 0; i < list.length; i++) {
+                    list[i].removeAttribute('style', 'opacity: .5;');
+                }
+                el.svgPath_.removeAttribute('style', 'opacity: .5;');
+                el.setEditable(true);
+                el.setDisabled(false);
+            }
+        });
     }
 
     //检查是不是开始事件头
@@ -248,7 +207,6 @@ class Blocks extends React.Component {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
         if (!hasStart) return;
-
         const match = code.match(regex);
         let matchMyBlock = code.match(regexForMyBlock);
         const variable = code.match(regVariable);
@@ -262,8 +220,9 @@ class Blocks extends React.Component {
 
         if (match) {
             const arr = match[1].split("\n\n");
-            this.props.setCompileList(arr);
-            this.parserTask(this.workspace, arr);
+            const newArr = arr.filter(Boolean);
+            this.props.setCompileList(newArr);
+            this.parserTask(this.workspace, newArr);
         }
     }
 
