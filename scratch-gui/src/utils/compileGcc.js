@@ -23,7 +23,6 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { handlerError } from "./ipcRender";
 import { headMain, Task_Info, Task_Stack, Task_Info_Item, Task_Handler } from "../config/js/ProgrammerTasks.js";
 import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
