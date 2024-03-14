@@ -2063,7 +2063,16 @@ export default {
                     id="gui.howtos.install-drivers.select_parameters"
                 />
             ),
-            image: 'selectParameters'
+            image: 'selectParameters1'
+        },{
+            title: (
+                <FormattedMessage
+                    defaultMessage="Select parameters"
+                    description="Select parameters"
+                    id="gui.howtos.install-drivers.select_parameters"
+                />
+            ),
+            image: 'selectParameters2'
         }, {
             title: (
                 <FormattedMessage

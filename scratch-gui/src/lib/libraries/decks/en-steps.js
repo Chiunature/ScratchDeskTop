@@ -201,7 +201,8 @@ import talesAskAnswer from './steps/talking-13-ask-and-answer.en.png';
 
 //install driver
 import listAllDevices from './steps/list-all-devices.png';
-import selectParameters from './steps/select-parameters.png';
+import selectParameters1 from './steps/select-parameters1.png';
+import selectParameters2 from './steps/select-parameters2.png';
 import clickInstall from './steps/click-install.png';
 
 const enImages = {
@@ -408,7 +409,8 @@ const enImages = {
 
     //install drivers
     listAllDevices: listAllDevices,
-    selectParameters: selectParameters,
+    selectParameters1: selectParameters1,
+    selectParameters2: selectParameters2,
     clickInstall: clickInstall
 };
 
