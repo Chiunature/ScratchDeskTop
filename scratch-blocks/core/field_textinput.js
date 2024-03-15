@@ -439,23 +439,23 @@ Blockly.FieldTextInput.GECKO_KEYCODE_WHITELIST = [
 Blockly.FieldTextInput.prototype.checkHtmlInputByBlocks = function () {
   let htmlInput = Blockly.FieldTextInput.htmlInput_;
 
-  const changeInp = (target) => {
+  /* const changeInp = (target) => {
     const option = target.getValue();
     if (option !== 'angle') {
       htmlInput.value = htmlInput.value.replace(/^-\d+$/, '0');
     }
   }
-
+ */
   if (this.sourceBlock_ && this.sourceBlock_.parentBlock_) {
     switch (this.sourceBlock_.parentBlock_.type) {
       case "matrix_lamp_text":
         htmlInput.value = htmlInput.value.replace(/[\u4e00-\u9fa5]{0,}$/, '');
         break;
       case "combined_motor_line":
-        changeInp(this.sourceBlock_.parentBlock_.inputList[1].fieldRow[0]);
+        // changeInp(this.sourceBlock_.parentBlock_.inputList[1].fieldRow[0]);
         break;
       case "motor_specifiedunit":
-        changeInp(this.sourceBlock_.parentBlock_.inputList[2].fieldRow[0]);
+        // changeInp(this.sourceBlock_.parentBlock_.inputList[2].fieldRow[0]);
         const children = this.sourceBlock_.parentBlock_.childBlocks_;
         const inpEle = this.sourceBlock_.parentBlock_.inputList;
         let port;

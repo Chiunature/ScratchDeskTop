@@ -327,7 +327,7 @@ Blockly.FieldDropdown.prototype.onItemSelected = function (menu, menuItem) {
     this.setValue(value);
   }
 
-  Blockly.FieldTextInput.prototype.changeText.call(this);
+  // Blockly.FieldTextInput.prototype.changeText.call(this);
 };
 
 /**

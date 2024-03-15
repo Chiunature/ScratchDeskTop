@@ -510,7 +510,7 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_box"></shadow>
             </value>
             <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="motor_specifiedunit">
@@ -592,7 +592,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="combined_motor_direction"></block>
         <block type="combined_motor_speed">
             <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="combined_motor_line">
@@ -603,10 +603,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="combined_motor_stop"></block>
         <block type="combined_motor_movestep">
             <value name="left">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
             <value name="right">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
         <block type="combined_motor_stopping"></block>
