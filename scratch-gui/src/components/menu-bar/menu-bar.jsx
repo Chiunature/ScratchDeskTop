@@ -33,7 +33,7 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName, setCompleted } from "../../reducers/connection-modal";
+import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName, setCompleted, setProgress } from "../../reducers/connection-modal";
 import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
@@ -488,6 +488,7 @@ class MenuBar extends React.Component {
                 } else {
                     that.scanConnection();
                     that.closeTimer = setTimeout(() => {
+                        this.props.onSetProgress(0);
                         that.handleDisconnect(arg.msg);
                     }, 2000);
                 }
@@ -504,7 +505,7 @@ class MenuBar extends React.Component {
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-            }
+    }
 
     showDeviceCards() {
         if (!this.props.peripheralName) {
@@ -1235,7 +1236,8 @@ const mapDispatchToProps = (dispatch) => ({
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
-    onShowFileSystem: (n) => dispatch(showFileStytem(n))
+    onShowFileSystem: (n) => dispatch(showFileStytem(n)),
+    onSetProgress: (progress) => dispatch(setProgress(progress))
 });
 
 export default compose(

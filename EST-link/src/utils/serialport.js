@@ -302,24 +302,23 @@ class Serialport extends Common {
         }
         const that = this;
         this.port.on(eventName, () => {
-            try {
-                //获取下位机发送过来的数据
-                const receiveData = this.port.read();
-                //把数据放入处理函数校验是否是完整的一帧并获取数据对象
-                this.receiveObj = this.catchData(receiveData);
-                //开启设备数据监控监听
-                setTimeout(() => that.watchDevice(event));
-                if (!this.sign) return;
+            //获取下位机发送过来的数据
+            const receiveData = this.port.read();
+            //把数据放入处理函数校验是否是完整的一帧并获取数据对象
+            this.receiveObj = this.catchData(receiveData);
+            //开启设备数据监控监听
+            setTimeout(() => that.watchDevice(event));
+            if (!this.sign) return;
+            //根据标识符进行校验操作检验数据并返回结果
+            const verify = this.verification(this.sign, this.receiveObj, event);
+            if (verify) {
                 //清除超时检测
                 this.clearTimer();
-                //根据标识符进行校验操作检验数据并返回结果
-                const verify = this.verification(this.sign, this.receiveObj, event);
-                if (verify) {
-                    //结果正确进入处理，函数会检测文件数据是否全部发送完毕
-                    this.processReceivedData(event);
-                }
-            } catch (error) {
-                this.handleReadError(error, event, this.clearCache);
+                //结果正确进入处理，函数会检测文件数据是否全部发送完毕
+                this.processReceivedData(event);
+            } else {
+                this.clearCache();
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
             }
         });
     }
