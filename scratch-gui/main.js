@@ -24,7 +24,7 @@
  */
 const serialport = require('serialport');
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, shell, ipcMain } = electron;
+const { app, BrowserWindow, dialog, Menu, shell, ipcMain, screen } = electron;
 const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
@@ -35,6 +35,7 @@ const { Serialport, ipc } = require('est-link');
 let mainWindow, loadingWindow, isUpdate;
 const server = 'http://127.0.0.1:2060';
 const updateUrl = `${server}/update/${process.platform}/`;
+
 
 const options = {
     nativeWindowOpen: true,
@@ -101,10 +102,14 @@ function showLoading() {
 };
 
 function createWindow() {
+    // 获取主显示器的宽高信息
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     return new Promise((resolve, reject) => {
         mainWindow = new BrowserWindow({
-            width: 1430,
-            height: 800,
+            width: width,
+            height: height,
+            x: 0,
+            y: 0,
             show: false,
             webPreferences: options,
         });
@@ -141,7 +146,7 @@ function createWindow() {
             title: "Do you want to delete this record",
             message: "固件已是最新版本, 是否要重新更新"
         });
-        
+
 
         //更新固件提示
         _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, {
@@ -152,8 +157,8 @@ function createWindow() {
 
         //是否删除记录
         _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, {
-                title: "Do you want to delete this record",
-                message: "是否要删除此记录"
+            title: "Do you want to delete this record",
+            message: "是否要删除此记录"
         });
 
 
