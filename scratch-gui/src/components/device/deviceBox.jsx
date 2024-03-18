@@ -63,7 +63,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                 return (
                     <div className={styles.midBox} key={index}>
                         <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
-                        {Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
+                        {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
                                 return (<li key={index}>
                                     <span>{motorData(index)}</span>
@@ -71,9 +71,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                                 </li>)
                             })}
                         </ul>}
-                        {el.ultrasonic && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasonic}</span><span>cm</span></li></ul>}
-                        {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch === 0 ? 'press' : 'unpress'}</span></li></ul>}
-                        {Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
+                        {el.ultrasion && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasion}</span><span>cm</span></li></ul>}
+                        {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch.state === 0 ? 'unpress' : 'press'}</span></li></ul>}
+                        {el.color && Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {
                                 return (<li key={index}>
                                     <span>{index === 0 ? 'RGB' : intl.formatMessage(messages['lightIntensity'])}</span>

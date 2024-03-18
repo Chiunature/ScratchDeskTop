@@ -44,6 +44,7 @@ import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../re
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
+import { setDeviceObj } from "../reducers/device.js";
 
 class GUI extends React.Component {
     constructor(props) {
@@ -65,20 +66,16 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
-        this.initDeviceList();
         const userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
             this.downloadSuccess();
             this.downloadProgress();
             this.downloadSource();
-            this.getFirewareVersion();
             this.getFirewareFiles();
             // 设备信息监听
             this.watchDevice();
-            this.blocksMotorCheck();
             this.checkDriver();
             this.matrixSend('FieldMatrix');
-            this.matrixSend('FieldMotor');
             await window.myAPI.commendMake();
         }
     }
@@ -100,16 +97,11 @@ class GUI extends React.Component {
     }
 
     blocksMotorCheck() {
+        if (this.props.deviceObj) return;
         // 电机模块设备显示监听
         let FieldMotor, FieldCombinedMotor;
-        window.myAPI.ipcRender({
-            eventName: ipc_Renderer.RETURN.DEVICE.PORT,
-            callback: (event, data) => {
-                this.proxyMotor(FieldMotor, 'FieldMotor', data);
-                this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', data);
-                this.setState((state) => ({ deviceObj: state.deviceObj }));
-            }
-        });
+        this.proxyMotor(FieldMotor, 'FieldMotor', this.props.deviceObj.deviceList);
+        this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', this.props.deviceObj.deviceList);
     }
 
     getFirewareFiles() {
@@ -132,16 +124,11 @@ class GUI extends React.Component {
     }
 
     getFirewareVersion() {
+        if (this.props.version === this.props.deviceObj.versionlist.ver) return;
         //获取主机版本监听
-        window.myAPI.ipcRender({
-            eventName: ipc_Renderer.RETURN.VERSION,
-            callback: (event, arg) => {
-                const version = window.myAPI.getVersion(arg);
-                this.props.onSetVersion(version);
-                // window.myAPI.delEvents(ipc_Renderer.RETURN.VERSION);
-                if (!version) this.checkUpdateFireware();
-            }
-        });
+        const isNew = window.myAPI.getVersion(this.props.deviceObj.versionlist.ver);
+        this.props.onSetVersion(this.props.deviceObj.versionlist.ver);
+        if (!isNew) this.checkUpdateFireware();
     }
 
     downloadSource() {
@@ -199,12 +186,9 @@ class GUI extends React.Component {
 
     proxyMotor(proxyVal, type, data) {
         if (!ScratchBlocks[type].proxy) return;
-        // if(ScratchBlocks.FieldMotor.portList.length > 0) {
-        //     const flag = data.find((el, index) => (el !== ScratchBlocks.FieldMotor.portList[index]));
-        //     if(!flag) return;
-        // }
         proxyVal = ScratchBlocks[type].proxy();
-        proxyVal.portList = [...data];
+        const newList = data.map(el => el.sensing_device);
+        proxyVal.portList = [...newList];
     }
 
     async checkUpdateFireware() {
@@ -218,7 +202,7 @@ class GUI extends React.Component {
     }
 
     //初始化设备
-    initDeviceList() {
+    /* initDeviceList() {
         let list = [];
         for (let i = 0; i < 8; i++) {
             const obj = {
@@ -233,14 +217,16 @@ class GUI extends React.Component {
         }
         this.state.deviceObj.deviceList = list;
         this.setState((state) => ({ deviceObj: state.deviceObj }));
-    }
+    } */
     //开启监听
     watchDevice() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
                 if (!result) return;
-                this.state.deviceObj = { ...result, deviceList: result.deviceList.length > 0 ? [...result.deviceList] : [...this.state.deviceObj.deviceList] };
+                this.props.onSetDeviceObj(result);
+                this.blocksMotorCheck();
+                this.getFirewareVersion();
             }
         });
     }
@@ -264,15 +250,15 @@ class GUI extends React.Component {
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
-                if (this.state.deviceObj.deviceStatus === verifyTypeConfig.EST_RUN) {
-                    this.handleRunApp(this.state.deviceObj.deviceStatus);
+                if (this.props.deviceObj && this.props.deviceObj.estlist && this.props.deviceObj.estlist.est === verifyTypeConfig.EST_RUN) {
+                    this.handleRunApp(this.props.deviceObj.estlist.est);
                 }
                 const selectedExe = JSON.parse(localStorage.getItem('selItem'));
                 const compile = new Compile();
                 const that = this;
                 setTimeout(() => {
                     compile.sendSerial(verifyTypeConfig.BOOTBIN, that.props.bufferList, that.props.matchMyBlock, selectedExe);
-                }, 1500);
+                }, 2000);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
             }
@@ -325,7 +311,7 @@ class GUI extends React.Component {
                 handleCompile={this.handleCompile}
                 handleRunApp={this.handleRunApp}
                 compile={new Compile()}
-                deviceObj={this.state.deviceObj}
+                deviceObj={this.props.deviceObj}
             >
                 {children}
             </GUIComponent>
@@ -417,6 +403,8 @@ const mapStateToProps = (state) => {
         exeList: state.scratchGui.mode.exeList,
         selectedExe: state.scratchGui.mode.selectedExe,
         showFileStytem: state.scratchGui.fileStytem.showFileStytem,
+        deviceObj: state.scratchGui.device.deviceObj,
+        version: state.scratchGui.connectionModal.version
     };
 };
 
@@ -448,6 +436,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetVersion: (version) => dispatch(setVersion(version)),
     onSetGen: (gen) => dispatch(setGen(gen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
+    onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj))
 });
 
 const ConnectedGUI = injectIntl(

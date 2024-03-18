@@ -162,6 +162,7 @@ const GUIComponent = (props) => {
         selectedExe,
         showFileStytem,
         handleRunApp,
+        onSetDeviceObj,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {

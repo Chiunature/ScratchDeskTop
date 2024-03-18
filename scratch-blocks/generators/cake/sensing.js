@@ -209,7 +209,7 @@ Blockly.cake['sensing_timer'] = function (block) {
 
 Blockly.cake['sensing_reset_timer'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `ResetTimeclock();\n`;
+    let code = `ResetTimeClock();\n`;
     return code;
 };
 

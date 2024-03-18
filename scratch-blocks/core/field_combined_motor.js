@@ -1,6 +1,7 @@
 'use strict';
 
 goog.provide('Blockly.FieldCombinedMotor');
+goog.require('Blockly.FieldMotor');
 goog.require('Blockly.Field');
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -8,8 +9,8 @@ goog.require('goog.style');
 
 Blockly.FieldCombinedMotor = function (motorList, opt_validator) {
     this.motorList = motorList;
-    this.rightList = motorList.slice(0, 4).reverse();
-    this.leftList = motorList.slice(4);
+    this.rightList = motorList.slice(4);
+    this.leftList = motorList.slice(0, 4);
     this.motor_ = [motorList[0], motorList[1]];
     this.combined_motor = this.motor_.join('+');
     Blockly.FieldCombinedMotor.superClass_.constructor.call(this, this.combined_motor, opt_validator);
@@ -19,10 +20,10 @@ goog.inherits(Blockly.FieldCombinedMotor, Blockly.Field);
 
 Blockly.FieldCombinedMotor.portList = [];
 Blockly.FieldCombinedMotor.proxy = null;
-Blockly.FieldCombinedMotor.motor_svg = 'motor_sensing.svg';
-Blockly.FieldCombinedMotor.color_sensing_svg = 'color_sensing_svg';
-Blockly.FieldCombinedMotor.sound_sensing_svg = 'super_sound.svg';
-Blockly.FieldCombinedMotor.touch_sensing_svg = 'touch_press.svg';
+// Blockly.FieldCombinedMotor.motor_svg = 'motor_sensing.svg';
+// Blockly.FieldCombinedMotor.color_sensing_svg = 'color_sensing_svg';
+// Blockly.FieldCombinedMotor.sound_sensing_svg = 'super_sound.svg';
+// Blockly.FieldCombinedMotor.touch_sensing_svg = 'touch_press.svg';
 
 /**
  * Construct a FieldCombinedMotor from a JSON arg object.
@@ -92,9 +93,9 @@ Blockly.FieldCombinedMotor.prototype.init = function (block) {
 
     this.leftDom = this.createMotorListDom_(this.leftList, 'left');
     this.rightDom = this.createMotorListDom_(this.rightList, 'right');
-    const right = [...this.rightDom.childNodes].reverse();
+    const right = [...this.rightDom.childNodes];
     const left = [...this.leftDom.childNodes];
-    this.btnList = [...right, ...left];
+    this.btnList = [...left, ...right];
 
 };
 
@@ -214,17 +215,17 @@ Blockly.FieldCombinedMotor.prototype.checkType = function (type) {
     const img = document.createElement('img');
     img.setAttribute('class', 'lls-dsm-icon');
     switch (type) {
-        case 'a1':
-            img.src = str + Blockly.FieldCombinedMotor.motor_svg;
+        case 'motor':
+            img.src = str + Blockly.FieldMotor.motor_svg;
             break;
-        case 'a2':
-            img.src = str + Blockly.FieldCombinedMotor.color_sensing_svg;
+        case 'color':
+            img.src = str + Blockly.FieldMotor.color_sensing_svg;
             break;
-        case 'a3':
-            img.src = str + Blockly.FieldCombinedMotor.sound_sensing_svg;
+        case 'superSound':
+            img.src = str + Blockly.FieldMotor.sound_sensing_svg;
             break;
-        case 'a4':
-            img.src = str + Blockly.FieldCombinedMotor.touch_sensing_svg;
+        case 'touch':
+            img.src = str + Blockly.FieldMotor.touch_sensing_svg;
             break;
         default:
             return false;

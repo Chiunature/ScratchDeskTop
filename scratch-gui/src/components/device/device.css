@@ -257,9 +257,11 @@ ul {
     width: fit-content;
     height: 40px;
     position: absolute;
-    top: 49px;
+    top: 49.5px;
     left: 27%;
     z-index: 80;
+    background: rgba(0, 0, 0, .1);
+    border-radius: 10px;
 }
 
 @media screen and (min-width: 1450px) {
@@ -267,9 +269,11 @@ ul {
         width: fit-content;
         height: 40px;
         position: absolute;
-        top: 49px;
+        top: 49.5px;
         left: 20%;
         z-index: 80;
+        background: rgba(0, 0, 0, .1);
+        border-radius: 10px;
     }
     
 }
@@ -281,7 +285,7 @@ ul {
 }
 
 .device-sensing-box ul li {
-    width: fit-content;
+    min-width: 70px;
     height: 100%;
     display: flex;
     padding: 0 5px;

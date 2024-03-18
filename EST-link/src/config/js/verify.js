@@ -25,62 +25,8 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
 const ipc_Main = require("../json/communication/ipc.json");
-const signType = require("../json/communication/sign.json");
 
-/**
- * 校验接收的数据, Boot_URL是发文件路径的时候, Boot_Bin是发文件数据的时候, Boot_End是文件发完的时候
- * @param {String} sign 
- * @param {Object} recevieObj 
- * @param {Object} event 
- * @returns 
- */
-function verifyActions(sign, recevieObj, event) {
-    const { data } = recevieObj;
-    const text = new TextDecoder();
-    switch (sign) {
-        case signType.EXE.FILES:
-            if (data[4] === 0xE7) {
-                const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
-                event.reply(ipc_Main.RETURN.EXE.FILES, names);
-            }
-            return false;
-        case signType.VERSION:          //主机版本
-            if (data[4] === 0xEA) {
-                const version = text.decode(Buffer.from(data.slice(5, data.length - 2)));
-                event.reply(ipc_Main.RETURN.VERSION, version);
-            }
-            return false;
-        case signType.BOOT.FILENAME:    //文件名
-        case signType.BOOT.BIN:         //文件数据
-            let obj = {};
-            obj[sign] = () => {
-                const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
-                return intercept(listBin, data);
-            }
-            return obj;
-        default:
-            return false;
-    }
-}
 
-/**
- * 对接受到的数据进行拦截
- * @param {Array} list 
- * @returns 
- */
-function intercept(list, data) {
-    let res;
-    for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        if (item == list[i]) {
-            res = true;
-        } else {
-            res = false;
-            break;
-        }
-    }
-    return res;
-}
 
 /**
  * 区分是哪种类型操作
@@ -198,7 +144,6 @@ function verifyBinType(options) {
 }
 
 module.exports = {
-    verifyActions,
     distinguish,
     verifyBinType
 };

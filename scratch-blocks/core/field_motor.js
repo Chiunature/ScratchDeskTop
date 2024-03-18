@@ -8,8 +8,8 @@ goog.require('goog.style');
 
 Blockly.FieldMotor = function (motorList, opt_validator) {
     this.motorList = motorList;
-    this.rightList = motorList.slice(0, 4).reverse();
-    this.leftList = motorList.slice(4);
+    this.rightList = motorList.slice(4);
+    this.leftList = motorList.slice(0, 4);
     this.motor_ = motorList[0];
     Blockly.FieldMotor.superClass_.constructor.call(this, this.motor_, opt_validator);
     this.addArgType('motor');
@@ -88,9 +88,9 @@ Blockly.FieldMotor.prototype.init = function (block) {
 
     this.leftDom = this.createMotorListDom_(this.leftList, 'left');
     this.rightDom = this.createMotorListDom_(this.rightList, 'right');
-    const right = [...this.rightDom.childNodes].reverse();
+    const right = [...this.rightDom.childNodes];
     const left = [...this.leftDom.childNodes];
-    this.btnList = [...right, ...left];
+    this.btnList = [...left, ...right];
 
 };
 
@@ -207,16 +207,16 @@ Blockly.FieldMotor.prototype.checkType = function (type) {
     const img = document.createElement('img');
     img.setAttribute('class', 'lls-dsm-icon');
     switch (type) {
-        case 'a1':
+        case 'motor':
             img.src = str + Blockly.FieldMotor.motor_svg;
             break;
-        case 'a2':
+        case 'color':
             img.src = str + Blockly.FieldMotor.color_sensing_svg;
             break;
-        case 'a3':
+        case 'superSound':
             img.src = str + Blockly.FieldMotor.sound_sensing_svg;
             break;
-        case 'a4':
+        case 'touch':
             img.src = str + Blockly.FieldMotor.touch_sensing_svg;
             break;
         default:

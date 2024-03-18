@@ -32,6 +32,7 @@ const instruct = {
     },
     serialport: [0x5A, 0x97, 0x98, 0x01, 0xB8, 0x01, 0x43, 0xA5]
 }
+const reg = /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"estlist\"\:\s*[\s\S]*?\}\}\s*/i;
 
 class Serialport extends Common {
 
@@ -48,6 +49,7 @@ class Serialport extends Common {
         this.verifyType;
         this.filesObj;
         this.receiveObj;
+        this.watchDeviceData;
     }
 
     /**
@@ -110,8 +112,6 @@ class Serialport extends Common {
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
         //与主机交互
         this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
-        //开启获取主机版本监听
-        this.getVersion(event);
     }
 
     /**
@@ -252,7 +252,7 @@ class Serialport extends Common {
      * 清除缓存
      */
     clearCache() {
-        if (this.port && this.port.opening) {
+        if (this.port && this.port.isOpen) {
             this.port.flush();
         }
         this.deleteObj(this.files, this.filesObj);
@@ -268,8 +268,8 @@ class Serialport extends Common {
      * @param {String} eventName 
      */
     watchDevice(event) {
-        if (!this.receiveObj) return false;
-        const result = this.distinguishDevice(this.receiveObj, event);
+        if (!this.watchDeviceData) return false;
+        const result = this.distinguishDevice(this.watchDeviceData);
         event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
     }
 
@@ -301,12 +301,14 @@ class Serialport extends Common {
             return;
         }
         const that = this;
+        const text = new TextDecoder();
         this.port.on(eventName, () => {
             //获取下位机发送过来的数据
             const receiveData = this.port.read();
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //开启设备数据监控监听
+            this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
             setTimeout(() => that.watchDevice(event));
             if (!this.sign) return;
             //根据标识符进行校验操作检验数据并返回结果
@@ -317,8 +319,10 @@ class Serialport extends Common {
                 //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                 this.processReceivedData(event);
             } else {
-                this.clearCache();
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+                if (this.sign && this.sign.indexOf('Boot') !== -1) {
+                    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+                    this.clearCache();
+                }
             }
         });
     }
@@ -345,16 +349,6 @@ class Serialport extends Common {
         }
     }
 
-    /**
-     * 获取主机版本
-     * @param {*} event 
-     */
-    getVersion(event) {
-        this.writeData(instruct.version, signType.VERSION, event);
-        /* this.versionTimer = setTimeout(() => {
-            event.reply(ipc_Main.RETURN.VERSION, false);
-        }, 2000); */
-    }
 
     /**
      * 获取主机有多少个程序或运行程序
@@ -402,9 +396,6 @@ class Serialport extends Common {
             switch (obj.blockName) {
                 case 'FieldMatrix':
                     this.matrixSend(event, obj);
-                    break;
-                case 'FieldMotor':
-                    this.motorSend(event, obj);
                     break;
                 default:
                     break;

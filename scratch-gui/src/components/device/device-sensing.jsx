@@ -54,13 +54,13 @@ const DeviceSensing = ({ deviceObj }) => {
         const num = parseInt(item.deviceId.slice(-1));
         switch (num) {
             case 1:
-                return item.motor.aim_speed;
+                return item.motor.cspeed;
             case 2:
-                return item.color.light_intensity;
+                return item.color.l;
             case 3:
-                return item.ultrasonic;
+                return item.ultrasion;
             case 4:
-                return item.touch;
+                return item.touch.state;
             default:
                 break;
         }
@@ -70,9 +70,9 @@ const DeviceSensing = ({ deviceObj }) => {
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
-                {deviceObj.deviceList.map((item, index) => {
+                {(deviceObj && deviceObj.deviceList) && deviceObj.deviceList.map((item, index) => {
                     return (
-                        <li key={index} className={item.deviceId && !item.deviceId !== 0 ? '' : styles.hide}>
+                        <li key={index} className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
                             <div className={styles.deviceSensingText}>{getPort(index)}</div>
                             <div className={styles.deviceSensingContent}>
                                 <img src={getSensing(item.deviceId)} />

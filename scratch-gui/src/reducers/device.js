@@ -4,42 +4,53 @@ const SET_NAME = 'scratch-gui/device/setName';
 const CLEAR_NAME = 'scratch-gui/device/clearName';
 const SET_TYPE = 'scratch-gui/device/setType';
 const CLEAR_TYPE = 'scratch-gui/device/clearType';
+const SET_DEVICEOBJ = 'scratch-gui/device/deviceObj';
 
 const initialState = {
     deviceId: null,
     deviceName: null,
-    deviceType: null
+    deviceType: null,
+    deviceObj: {
+        deviceList: [],
+        gyrolist: {}, 
+        flashlist: {}, 
+        adclist: {}
+    }
 };
 
 const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
-    case SET_ID:
-        return Object.assign({}, state, {
-            deviceId: action.deviceId
-        });
-    case CLEAR_ID:
-        return Object.assign({}, state, {
-            deviceId: null
-        });
-    case SET_NAME:
-        return Object.assign({}, state, {
-            deviceName: action.deviceName
-        });
-    case CLEAR_NAME:
-        return Object.assign({}, state, {
-            deviceName: null
-        });
-    case SET_TYPE:
-        return Object.assign({}, state, {
-            deviceType: action.deviceType
-        });
-    case CLEAR_TYPE:
-        return Object.assign({}, state, {
-            deviceType: null
-        });
-    default:
-        return state;
+        case SET_ID:
+            return Object.assign({}, state, {
+                deviceId: action.deviceId
+            });
+        case CLEAR_ID:
+            return Object.assign({}, state, {
+                deviceId: null
+            });
+        case SET_NAME:
+            return Object.assign({}, state, {
+                deviceName: action.deviceName
+            });
+        case CLEAR_NAME:
+            return Object.assign({}, state, {
+                deviceName: null
+            });
+        case SET_TYPE:
+            return Object.assign({}, state, {
+                deviceType: action.deviceType
+            });
+        case CLEAR_TYPE:
+            return Object.assign({}, state, {
+                deviceType: null
+            });
+        case SET_DEVICEOBJ:
+            return Object.assign({}, state, {
+                deviceObj: action.deviceObj
+            });
+        default:
+            return state;
     }
 };
 
@@ -82,6 +93,13 @@ const clearDeviceType = function () {
     };
 };
 
+const setDeviceObj = function (obj) {
+    return {
+        type: SET_DEVICEOBJ,
+        deviceObj: obj
+    };
+};
+
 export {
     reducer as default,
     initialState as deviceInitialState,
@@ -90,5 +108,6 @@ export {
     setDeviceName,
     clearDeviceName,
     setDeviceType,
-    clearDeviceType
+    clearDeviceType,
+    setDeviceObj
 };

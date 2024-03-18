@@ -44,26 +44,35 @@ class SelectBox extends React.Component {
 
     handleRight(ul) {
         if (this.state.index >= ul.current.children[0].children.length - 1) {
+            this.setState({
+                index: 0,
+                sx: 0
+            });
             return;
         } else {
             this.state.index++;
-            this.changeSelectExe();
             this.setState((state) => ({
                 sx: state.index * ul.current.offsetWidth
             }));
         }
+        this.changeSelectExe();
     }
 
     handleLeft(ul) {
         if (this.state.index <= 0) {
+            this.state.index = ul.current.children[0].children.length - 1;
+            this.setState((state) => ({
+                index: state.index,
+                sx: state.index * ul.current.children[0].children[0].offsetWidth
+            }));
             return;
         } else {
             this.state.index--;
-            this.changeSelectExe();
             this.setState((state) => ({
                 sx: state.index * ul.current.offsetWidth
             }));
         }
+        this.changeSelectExe();
     }
 
 

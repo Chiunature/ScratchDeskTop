@@ -33,12 +33,6 @@ class Common {
         this.subFileIndex = 0;
         this.files = {};
         this.watchDeviceList = [];
-        this.gyroList = new Array(3).fill(0);
-        this.flashList = new Array(2).fill(0);
-        this.adcList;
-        this.voice;
-        this.deviceStatus = EST_STOP;
-        this.initWatchDeviceList(8);
     }
 
     /**
@@ -338,20 +332,11 @@ class Common {
 
     /**
          * 根据获取到的功能码判断设备类型
-         * @param {Object} receiveObj 
+         * @param {Object} watchDeviceData 
          * @returns 
          */
-    distinguishDevice(receiveObj, event) {
-        const { data, bit } = receiveObj;
-        if (!data) return false;
-        const text = new TextDecoder();
-        const list = new Uint8Array(data.slice(5, data.length - 2));
-        const res = text.decode(list);
-        const arr = res.split('/').filter(Boolean);
-        if (!arr && arr.length <= 0) return false;
-        // if (bit !== 0xD8 && this.watchDeviceList.length === 0) return false;
-
-        const diffAttribute = (obj, objKey, target) => {
+    distinguishDevice(watchDeviceData) {
+        /* const diffAttribute = (obj, objKey, target) => {
             if (Array.isArray(obj) && Array.isArray(target)) {
                 if (obj.length === 0) {
                     obj = [...target];
@@ -366,93 +351,32 @@ class Common {
                 return;
             }
             obj[objKey] !== target ? obj[objKey] = target : null;
-        }
+        } */
 
-        switch (bit) {
-            case 0xD8:
-                const list = arr.slice(0, 8);
-                for (let i = 0; i < list.length; i++) {
-                    const item = list[i];
-                    diffAttribute(this.watchDeviceList[i], 'port', i);
-                    diffAttribute(this.watchDeviceList[i], 'deviceId', item);
-                    diffAttribute(this.watchDeviceList[i], 'sensing_device', device[item]);
-                    if (item == 0) this.clearWatchDeviceList(i);
+        for (let i = 0; i < watchDeviceData.deviceList.length; i++) {
+            const item = watchDeviceData.deviceList[i];
+            item.sensing_device = device['0'];
+            item.deviceId = '0';
+            if (item.color) {
+                item.sensing_device = device['a2'];
+                item.deviceId = 'a2';
+                item.color = {
+                    'rgb': `rgb(${item.color.r}, ${item.color.g}, ${item.color.b})`,
+                    'l': item.color.l
                 }
-                event.reply(ipc_Main.RETURN.DEVICE.PORT, [...list]);
-                break;
-            case 0xD1:
-                diffAttribute(this.gyroList, null, arr);
-                break;
-            case 0xD4:
-                diffAttribute(this.flashList, null, arr);
-                break;
-            case 0xD5:
-                if (arr[0]) {
-                    let res = (((arr[0] * 151 / 51 - 7) / 1.4).toFixed(2)) * 100;
-                    if (res >= 100) res = 100;
-                    if (this.adcList !== res) this.adcList = parseInt(res);
-                }
-                break;
-            case 0xD7:
-                if (arr[0] && this.voice !== arr[0]) this.voice = arr[0];
-                break;
-            case 0xF1:
-                if (arr[0] && this.deviceStatus !== arr[0]) this.deviceStatus = arr[0];
-                break;
-            default:
-                this.checkSensingDevice(arr, bit, diffAttribute);
-                break;
-        }
-        return {
-            deviceList: this.watchDeviceList,
-            gyroList: this.gyroList,
-            flashList: this.flashList,
-            adcList: this.adcList,
-            voice: this.voice,
-            deviceStatus: this.deviceStatus
-        };
-    }
-
-    /**
-     * 根据设备id判断数据对应的端口
-     * @param {String} deviceId 
-     * @param {String} key 
-     * @returns 
-     */
-    checkSensingDevice(arr, key, diffAttribute) {
-        if (this.watchDeviceList.length === 0) return;
-        for (let i = 0; i < this.watchDeviceList.length; i++) {
-            const el = this.watchDeviceList[i];
-            if (el.deviceId === arr[0]) {
-                _device(el, key, arr);
-            } else {
-                continue;
+            } else if (item.motor) {
+                item.sensing_device = device['a1'];
+                item.deviceId = 'a1';
+            } else if (item.ultrasion) {
+                item.sensing_device = device['a3'];
+                item.deviceId = 'a3';
+            } else if (item.touch) {
+                item.sensing_device = device['a4'];
+                item.deviceId = 'a4';
             }
         }
 
-        function _device(port, key, arr) {
-            switch (key) {
-                case 0xD0:
-                    diffAttribute(port.motor, 'direction', arr[1]);
-                    diffAttribute(port.motor, 'PWM', arr[2]);
-                    diffAttribute(port.motor, 'aim_speed', arr[3]);
-                    diffAttribute(port.motor, 'target_speed', arr[4]);
-                    break;
-                case 0xD6:
-                    const str = `rgb(${Math.floor(arr[1])}, ${Math.floor(arr[2])}, ${Math.floor(arr[3])})`;
-                    diffAttribute(port.color, 'rgb', str);
-                    diffAttribute(port.color, 'light_intensity', arr[4]);
-                    break;
-                case 0xD2:
-                    diffAttribute(port, 'ultrasonic', Math.round(arr[1]));
-                    break;
-                case 0xD3:
-                    diffAttribute(port, 'touch', arr[1]);
-                    break;
-                default:
-                    break;
-            }
-        }
+        return { ...watchDeviceData };
     }
 
     /**
@@ -484,19 +408,15 @@ class Common {
          * @returns 
          */
     verification(sign, recevieObj, event) {
+        if (!recevieObj) return;
         const { data } = recevieObj;
+        if (!data) return;
         const text = new TextDecoder();
         switch (sign) {
             case signType.EXE.FILES:
-                if (data[4] === 0xE7) {
+                if (data && data[4] === 0xE7) {
                     const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
                     event.reply(ipc_Main.RETURN.EXE.FILES, names);
-                }
-                return false;
-            case signType.VERSION:          //主机版本
-                if (data[4] === 0xEA) {
-                    const version = text.decode(Buffer.from(data.slice(5, data.length - 2)));
-                    event.reply(ipc_Main.RETURN.VERSION, version);
                 }
                 return false;
             case signType.BOOT.FILENAME:    //文件名
@@ -616,6 +536,15 @@ class Common {
             arr = [0x5A, 0x97, 0x98, dataLen, bit, parseInt(data), (sum & 0xff), 0xA5];
         }
         return arr;
+    }
+
+    checkIsDeviceData(data, reg) {
+        const result = data.match(reg);
+        if (result && result[0].length > 0) {
+            return JSON.parse(result[0]);
+        } else {
+            return null;
+        }
     }
 }
 
