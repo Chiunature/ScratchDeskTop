@@ -86,8 +86,8 @@ Blockly.cake['operator_lt'] = Blockly.cake['operator_compare'];
 
 Blockly.cake['operator_operation'] = function (block) {
     var oplist = {
-        "operator_and": "&",
-        "operator_or": "|"
+        "operator_and": "&&",
+        "operator_or": "||"
     };
     var order = (block.type == "operator_and") ? Blockly.cake.ORDER_LOGICAL_AND :
         Blockly.cake.ORDER_LOGICAL_OR;

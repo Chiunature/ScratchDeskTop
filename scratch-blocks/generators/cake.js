@@ -353,6 +353,13 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 }
 
 Blockly.cake.toStr = function (val) {
+  let arr = ['up_int', 'down_int', '_abs_'];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (typeof val === 'string' && val === item) {
+      return false;
+    }
+  }
   const regex = /[()!\[\]_]/g;
   const matches = val.match(regex);
   if (matches && matches.length > 0) {
