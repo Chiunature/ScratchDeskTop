@@ -648,3 +648,35 @@ Blockly.Blocks['combined_motor_stopping'] = {
         });
     }
 };
+
+Blockly.Blocks['combined_motor_startWithPower'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "POWER_ONE",
+                },
+                {
+                    "type": "input_value",
+                    "name": "POWER_TWO",
+                },
+            ],
+            "category": Blockly.Categories.combined_motor,
+            "extensions": ["colours_combined_motor", "shape_statement"],
+        });
+    }
+};

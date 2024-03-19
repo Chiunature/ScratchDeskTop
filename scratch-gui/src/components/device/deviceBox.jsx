@@ -72,7 +72,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                             })}
                         </ul>}
                         {el.ultrasion && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasion}</span><span>cm</span></li></ul>}
-                        {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch.state === 0 ? 'unpress' : 'press'}</span></li></ul>}
+                        {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch.state}</span></li></ul>}
                         {el.color && Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {
                                 return (<li key={index}>

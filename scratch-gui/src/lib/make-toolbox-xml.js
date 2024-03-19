@@ -111,6 +111,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
                         <shadow type="event_broadcast_menu"></shadow>
                     </value>
                 </block>
+                <block type="event_when"/>
 */}
 const events = function (isInitialSetup, isStage, targetId, colors) {
     return `
@@ -476,6 +477,14 @@ const myBlocks = function (colors) {
             </value>
         </block>
         <block type="motor_relative_position"></block>
+    <block type="motor_startWithPower">
+            <value name="PORT">
+                <shadow type="motor_box"></shadow>
+            </value>
+            <value name="POWER">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
 */
 
 const motor = function (isInitialSetup, isStage, targetId, colors) {
@@ -563,6 +572,14 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
 <block type="combined_motor_angle">
             <value name="ANGLE">
                 <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_startWithPower">
+            <value name="POWER_ONE">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="POWER_TWO">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
     */}

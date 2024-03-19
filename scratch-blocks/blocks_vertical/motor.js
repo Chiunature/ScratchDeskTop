@@ -46,12 +46,12 @@ Blockly.Blocks['motor_menu'] = {
                     "name": "MOTOR_MENU",
                     "options": [
                         ["A", "A"],
-["B", "B"],
+                        ["B", "B"],
                         ["C", "C"],
-                        ["D", "D"], 
-                        ["E", "E"], 
-                        ["F", "F"], 
-                        ["G", "G"], 
+                        ["D", "D"],
+                        ["E", "E"],
+                        ["F", "F"],
+                        ["G", "G"],
                         ["H", "H"]
                     ]
                 },
@@ -459,6 +459,38 @@ Blockly.Blocks['motor_position'] = {
             ],
             "category": Blockly.Categories.motor,
             "extensions": ["colours_motion", "output_number"],
+        });
+    }
+};
+
+Blockly.Blocks['motor_startWithPower'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_STARTWITHPOWER,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT",
+                },
+                {
+                    "type": "input_value",
+                    "name": "POWER",
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "shape_statement"],
         });
     }
 };

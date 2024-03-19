@@ -101,6 +101,7 @@ Blockly.Msg.EVENT_CHECKCOLOR = '%1 color is %2';
 Blockly.Msg.EVENT_KEYJUDEMENT = 'when %1 %2';
 Blockly.Msg.EVENT_TILTS = 'When the intelligent hub tilts %1';
 Blockly.Msg.EVENT_KEYPRESS = 'When the %1 button is %2';
+Blockly.Msg.EVENT_WHEN = 'When the %1';
 // Looks blocks
 Blockly.Msg.LOOKS_SAYFORSECS = 'say %1 for %2 seconds';
 Blockly.Msg.LOOKS_SAY = 'say %1';
@@ -161,6 +162,7 @@ Blockly.Msg.MOVE_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move %4 %5";
 Blockly.Msg.MOVESTEP_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move";
 Blockly.Msg.MOVEPOWER_COMBINED_MOTOR = "Starting at 2% %% power for% 3% 4 movement";
 Blockly.Msg.STOPPING_COMBINED_MOTOR = "%1 When setting the running motor to stop %2";
+Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER = "%1 at a speed of %2 and %3 %% to move";
 // Motor blocks
 Blockly.Msg.BACK = 'back';
 Blockly.Msg.ADVANCE = 'advance';
@@ -189,6 +191,7 @@ Blockly.Msg.STOP_MOTOR = '%1 %2 stop motor';
 Blockly.Msg.STARTING_MOTOR = '%1 %2 %3 starting motor';
 Blockly.Msg.RELATIVE_POSITION = "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
+Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 The Motor %2 starts at %3 power";
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
 Blockly.Msg.MOTION_MOVE9STEPS = 'move 9 steps';

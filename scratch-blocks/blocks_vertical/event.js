@@ -504,3 +504,26 @@ Blockly.Blocks['event_whenkeypressed'] = {
     });
   }
 };
+
+Blockly.Blocks['event_when'] = {
+  /**
+   * Block to send a broadcast.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "id": "event_whenkeypressed",
+      "message0": Blockly.Msg.EVENT_WHEN,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
+

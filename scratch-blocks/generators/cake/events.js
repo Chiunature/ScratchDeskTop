@@ -26,6 +26,12 @@ Blockly.cake['event_whenflagclicked'] = function (block) {
     return '';
 };
 
+Blockly.cake['event_when'] = function (block) {
+    var argument = Blockly.cake.valueToCode(block, 'CONDITION',
+    Blockly.cake.ORDER_NONE) || 'False';
+    return '';
+};
+
 Blockly.cake['event_whenmicrobitbegin'] = function (block) {
     Blockly.cake.imports_["microbit"] = "from microbit import *";
 
