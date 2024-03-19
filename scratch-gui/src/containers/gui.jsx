@@ -97,7 +97,7 @@ class GUI extends React.Component {
     }
 
     blocksMotorCheck() {
-        if (this.props.deviceObj) return;
+        if (!this.props.deviceObj) return;
         // 电机模块设备显示监听
         let FieldMotor, FieldCombinedMotor;
         this.proxyMotor(FieldMotor, 'FieldMotor', this.props.deviceObj.deviceList);

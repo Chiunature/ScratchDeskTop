@@ -256,7 +256,7 @@ class Serialport extends Common {
             this.port.flush();
         }
         this.deleteObj(this.files, this.filesObj);
-        this.receiveDataBuffer = [];
+        this.chunkBuffer.splice(0, this.chunkBuffer.length);
         this.clearTimer();
         this.verifyType = null;
         this.chunkIndex = 0;
@@ -310,7 +310,7 @@ class Serialport extends Common {
             //开启设备数据监控监听
             this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
             setTimeout(() => that.watchDevice(event));
-            if (!this.sign) return;
+            if (!this.sign || !this.receiveObj) return;
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
             if (verify) {

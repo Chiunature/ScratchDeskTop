@@ -408,7 +408,6 @@ class Common {
          * @returns 
          */
     verification(sign, recevieObj, event) {
-        if (!recevieObj) return;
         const { data } = recevieObj;
         if (!data) return;
         const text = new TextDecoder();
@@ -422,7 +421,8 @@ class Common {
             case signType.BOOT.FILENAME:    //文件名
             case signType.BOOT.BIN:         //文件数据
                 const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
-                return _intercept(listBin, data);
+                const result = _intercept(listBin, data);
+                return result;
             default:
                 return false;
         }
@@ -431,7 +431,7 @@ class Common {
             let res = true;
             for (let i = 0; i < data.length; i++) {
                 const item = data[i];
-                if (item !== list[i]) {
+                if (item !== parseInt(list[i])) {
                     res = false;
                     break;
                 }
