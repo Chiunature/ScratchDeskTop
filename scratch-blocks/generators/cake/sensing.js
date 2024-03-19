@@ -119,7 +119,7 @@ Blockly.cake['sensing_sound_intensity'] = function (block) {
 Blockly.cake['sensing_key_judgment'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `DetectingTouch(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
+    let code = `DetectingTouch(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 
@@ -127,7 +127,7 @@ Blockly.cake['sensing_key_press'] = function (block) {
     let port = block.getFieldValue('PORT');
     let status = block.getFieldValue('status');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_key_press(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(status) ? status : '"' + status + '"'})`;
+    let code = `Sensing_key_press(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(status) ? status : '"' + status + '"'})`;
     return [code, Blockly.cake.ORDER_RELATIONAL];
 };
 

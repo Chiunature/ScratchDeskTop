@@ -10,5 +10,5 @@
     "SERIALPORT": "serialport",
     "BLUETOOTH": "ble",
     "EST_STOP": "EST_STOP",
-    "EST_RUN": "EST_RUN"
+    "EST_RUN": "run"
 }
