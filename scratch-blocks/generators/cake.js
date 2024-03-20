@@ -448,3 +448,20 @@ Blockly.cake.grbToHex = function (grb) {
   // 返回hex格式
   return "0x" + hexR + hexG + hexB;
 }
+
+Blockly.cake.setValueList = function (type = 'value') {
+  let list = [];
+  for (let i = 0; i < Object.keys(Blockly.cake.definitions_).length; i++) {
+    const item = Object.keys(Blockly.cake.definitions_)[i];
+    if(item.indexOf(type) !== -1) {
+      list.push(item);
+    }
+  }
+  const index = list.length;
+  const name = type + index;
+  let str = `__attribute__((section(".USER_RAM_D2"))) char ${name}[16];`;
+  if (!Blockly.cake.definitions_['definevalue_' + name]) {
+    Blockly.cake.definitions_['definevalue_' + name] = str;
+  }
+  return `${name}`;
+}
