@@ -1477,3 +1477,37 @@ Blockly.Blocks['sensing_Handling'] = {
     });
   }
 };
+
+
+Blockly.Blocks['sensing_mainIsPress'] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_Handling",
+      "message0": Blockly.Msg.SENSING_MAINISPRESS,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "KEYS",
+          "options": [
+            [Blockly.Msg.PLEFT, "left"],
+            [Blockly.Msg.PRIGHT, "right"],
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON",
+          "options": [
+            [Blockly.Msg.PRESS, "press"],
+            [Blockly.Msg.UNPRESS, "unpress"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};

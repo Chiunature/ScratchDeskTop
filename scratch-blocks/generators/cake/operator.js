@@ -124,13 +124,13 @@ Blockly.cake['operator_letter_of'] = function (block) {
     var arg1 = Blockly.cake.valueToCode(block, 'LETTER', Blockly.cake.ORDER_MEMBER) || '0';
 
     // Arg is a number
-    if (parseFloat(arg1) == arg1) {
+    /* if (parseFloat(arg1) == arg1) {
         arg1 = arg1 - 1;
     } else {
         arg1 = arg1 + ' - 1';
-    }
+    } */
 
-    var code = arg0 + '[' + arg1 + ']';
+    var code = `GetStrIndex(${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'}, ${Blockly.cake.toStr(arg1) ? arg1 : '"' + arg1 + '"'})`;
     return [code, Blockly.cake.ORDER_MEMBER];
 };
 

@@ -27834,6 +27834,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
     "SENSING_SET_YAW_ANGLE": "将偏航角度设为0",
     "SENSING_ISHANDLING": '手柄 %1 是否 %2',
     "SENSING_HANDLING": '手柄 %1 摇杆 %2',
+    "SENSING_MAINISPRESS": '主机 %1 按钮是否 %2',
     "PLEFT": '左',
     "PRIGHT": '右',
     "UP": '上',

@@ -162,7 +162,6 @@ class GUI extends React.Component {
                 this.props.onShowCompletedAlert(arg.msg);
                 if (arg.result) {
                     this.props.onSetIsComplete(true);
-                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
                     let time = setTimeout(() => {
                         this.props.onSetIsComplete(false);
                         this.props.onSetCompleted(false);

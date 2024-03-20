@@ -176,6 +176,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block type="sensing_dayssince2000"/>
     <block type="sensing_key_press"></block>
     <block type="sensing_set_yaw_angle"></block>
+    <block type="sensing_mainIsPress"></block>
 */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     const name = ScratchBlocks.ScratchMsgs.translate(
