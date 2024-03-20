@@ -178,8 +178,9 @@ class GUI extends React.Component {
     }
 
     matrixSend(blockName) {
+        const that = this;
         ScratchBlocks[blockName].callback = (type, obj) => {
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, obj, blockName } });
+            if (!that.props.completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, obj, blockName } });
         }
     }
 

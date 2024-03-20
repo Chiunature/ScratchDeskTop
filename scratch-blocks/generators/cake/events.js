@@ -29,7 +29,7 @@ Blockly.cake['event_whenflagclicked'] = function (block) {
 Blockly.cake['event_when'] = function (block) {
     var argument = Blockly.cake.valueToCode(block, 'CONDITION',
     Blockly.cake.ORDER_NONE) || 'False';
-    return '';
+    return 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);}\n';
 };
 
 Blockly.cake['event_whenmicrobitbegin'] = function (block) {

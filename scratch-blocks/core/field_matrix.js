@@ -245,8 +245,9 @@ Blockly.FieldMatrix.prototype.init = function () {
       );
     }
     thumbnail.style.cursor = 'default';
-    this.updateMatrix_();
   }
+
+  this.updateMatrix_();
 
   if (!this.arrow_) {
     var arrowX = Blockly.FieldMatrix.THUMBNAIL_SIZE +
@@ -432,7 +433,6 @@ Blockly.FieldMatrix.prototype.updateMatrix_ = function () {
       this.fillMatrixNode_(this.ledThumbNodes_, i, '#FFFFFF');
     }
   }
-  this.changeMatrix('change');
 };
 
 Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
@@ -460,6 +460,7 @@ Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
 Blockly.FieldMatrix.prototype.clearMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ZEROS);
+  this.changeMatrix('change');
 };
 
 /**
@@ -469,6 +470,7 @@ Blockly.FieldMatrix.prototype.clearMatrix_ = function (e) {
 Blockly.FieldMatrix.prototype.fillMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ONES);
+  this.changeMatrix('change');
 };
 
 /**
@@ -486,6 +488,7 @@ Blockly.FieldMatrix.prototype.setLEDNode_ = function (led, state) {
   if (led < 0 || led > 62) return;
   var matrix = this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
   this.setValue(matrix);
+  this.changeMatrix('change');
 };
 
 Blockly.FieldMatrix.prototype.fillLEDNode_ = function (led) {
