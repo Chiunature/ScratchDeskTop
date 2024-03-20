@@ -1,6 +1,6 @@
 {
     "name": "scratch-gui",
-    "version": "1.1.9",
+    "version": "1.2.0",
     "description": "EST 3.0",
     "main": "main.js",
     "scripts": {
@@ -19,7 +19,7 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "pack": "electron-builder",
+        "pack": "electron-builder --win --x64",
         "postinstall": "electron-builder install-app-deps"
     },
     "author": "Massachusetts Institute of Technology",
