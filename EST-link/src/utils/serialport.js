@@ -218,7 +218,7 @@ class Serialport extends Common {
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
         }
-        if (str && str !== signType.VERSION && str !== signType.EXE.FILES) this.checkOverTime(event);
+        if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
     }
 
     /**

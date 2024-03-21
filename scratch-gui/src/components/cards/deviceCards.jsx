@@ -107,7 +107,8 @@ const DeviceCards = props => {
         exeList,
         onSetSelectedExe,
         onSetExelist,
-        onShowDelExeAlert
+        onShowDelExeAlert,
+        completed
     } = props;
     let { x, y, expanded } = deviceCards;
 
@@ -132,12 +133,9 @@ const DeviceCards = props => {
 
     const [index, setIndex] = useState(0);
 
-    useEffect(() => {
-        if (index === 0) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
-    }, [index]);
-
     const handleSelect = (i) => {
         setIndex(i);
+        if (i === 0 && !completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
     }
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
