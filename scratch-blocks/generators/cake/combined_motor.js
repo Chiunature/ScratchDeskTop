@@ -130,3 +130,10 @@ Blockly.cake['combined_motor_stopping'] = function (block) {
     const code = `motor_combined_stopping(${Blockly.cake.toStr(style) ? style : '"' + style + '"'});\n`;
     return code;
 };
+
+Blockly.cake['combined_motor_startWithPower'] = function (block) {
+    const one = Blockly.cake.valueToCode(block, "POWER_ONE", Blockly.cake.ORDER_NONE);
+    const two = Blockly.cake.valueToCode(block, "POWER_TWO", Blockly.cake.ORDER_NONE);
+    const code = `combined_motor_startWithPower(${Blockly.cake.toStr(one) ? one : '"' + one + '"'}, ${Blockly.cake.toStr(two) ? two : '"' + two + '"'});\n`;
+    return code;
+};

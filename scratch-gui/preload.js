@@ -131,7 +131,8 @@ function commendMake() {
  */
 function getVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
     const version = fs.readFileSync(vpath, 'utf8');
-    if (data == version) {
+    const ver = parseInt(version);
+    if (ver && !isNaN(ver) && data === ver) {
         return true;
     } else {
         return false;

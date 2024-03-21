@@ -256,3 +256,12 @@ Blockly.cake['sensing_Handling'] = function (block) {
     let code = `sensing_Handling("${keys}", "${button}", ${value})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
+
+Blockly.cake['sensing_mainIsPress'] = function (block) {
+    let keys = block.getFieldValue('KEYS');
+    let button = block.getFieldValue('BUTTON');
+    button = button === 'press' ? 1 : 0;
+    // TODO: Assemble cake into code variable.
+    let code = `Sensing_key_judment("${keys}", "${button}")`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
+};

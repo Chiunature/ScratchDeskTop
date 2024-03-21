@@ -176,8 +176,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block type="sensing_dayssince2000"/>
     <block type="sensing_key_press"></block>
     <block type="sensing_set_yaw_angle"></block>
-    <block type="sensing_mainIsPress"></block>
-*/}
+    */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     const name = ScratchBlocks.ScratchMsgs.translate(
         "SENSING_ASK_TEXT",
@@ -249,6 +248,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             ${blockSeparator}
             <block type="sensing_isHandling"></block>
             <block type="sensing_Handling"></block>
+            <block type="sensing_mainIsPress"></block>
         `
         }
         ${categorySeparator}
@@ -478,15 +478,7 @@ const myBlocks = function (colors) {
             </value>
         </block>
         <block type="motor_relative_position"></block>
-    <block type="motor_startWithPower">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="POWER">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-*/
+    */
 
 const motor = function (isInitialSetup, isStage, targetId, colors) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
@@ -546,6 +538,14 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_box"></shadow>
             </value>
         </block>
+        <block type="motor_startWithPower">
+            <value name="PORT">
+                <shadow type="motor_box"></shadow>
+            </value>
+            <value name="POWER">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
         `
         }
     </category>
@@ -575,15 +575,7 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_angle"></shadow>
             </value>
         </block>
-        <block type="combined_motor_startWithPower">
-            <value name="POWER_ONE">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="POWER_TWO">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-    */}
+            */}
 
 const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
@@ -628,6 +620,14 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="combined_motor_stopping"></block>
+        <block type="combined_motor_startWithPower">
+            <value name="POWER_ONE">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="POWER_TWO">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
         `
         }
     </category>

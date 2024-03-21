@@ -95,3 +95,10 @@ Blockly.cake['motor_position'] = function (block) {
     let code = `motor_position(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
+
+Blockly.cake['motor_startWithPower'] = function (block) {
+    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    const power = Blockly.cake.valueToCode(block, "POWER", Blockly.cake.ORDER_NONE);
+    const code = `motor_startWithPower(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(power) ? power : '"' + power + '"'});\n`;
+    return code;
+};
