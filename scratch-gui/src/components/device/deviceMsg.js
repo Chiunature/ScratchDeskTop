@@ -109,6 +109,16 @@ const messages = defineMessages({
         "id": "gui.device.stop",
         "description": "Stop",
         "defaultMessage": "Stop"
+    },
+    "angle": {
+        "id": "gui.device.angle",
+        "description": "Angle",
+        "defaultMessage": "Angle"
+    },
+    "circly": {
+        "id": "gui.device.circly",
+        "description": "Circly",
+        "defaultMessage": "Circly"
     }
 });
 

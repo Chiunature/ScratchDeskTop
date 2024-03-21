@@ -54,7 +54,7 @@ const DeviceSensing = ({ deviceObj }) => {
         const num = parseInt(item.deviceId.slice(-1));
         switch (num) {
             case 1:
-                return item.motor.cspeed;
+                return item.motor.speed;
             case 2:
                 return item.color.l;
             case 3:

@@ -47,13 +47,13 @@ const DeviceBox = ({ list, intl, messages }) => {
     function motorData(num) {
         switch (num) {
             case 0:
-                return intl.formatMessage(messages['rotationDirection']);
+                return intl.formatMessage(messages['circly']);
             case 1:
-                return 'PWM';
+                return intl.formatMessage(messages['angle']);
             case 2:
                 return intl.formatMessage(messages['actualSpeed']);
             default:
-                return intl.formatMessage(messages['targetSpeed']);
+                return '';
         }
     }
 
@@ -67,7 +67,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                             {Object.keys(el.motor).map((item, index) => {
                                 return (<li key={index}>
                                     <span>{motorData(index)}</span>
-                                    <span>{index === 0 ? getMotorDirection(el.motor[item]) : el.motor[item]}</span>
+                                    <span>{el.motor[item]}</span>
                                 </li>)
                             })}
                         </ul>}
