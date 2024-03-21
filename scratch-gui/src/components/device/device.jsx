@@ -41,6 +41,7 @@ const Device = (props) => {
                                     return (<li key={index}>
                                         <span>{index === 0 ? props.intl.formatMessage(messages['memoryTotal']) : props.intl.formatMessage(messages['memoryRemaining'])}</span>
                                         <span>{flashlist[item]}</span>
+                                        <span>MB</span>
                                     </li>)
                                 })}
                             </ul>
