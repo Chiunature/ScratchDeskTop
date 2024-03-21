@@ -45,7 +45,7 @@
 
 .middle {
     min-width: 18.7rem;
-    max-height: 37.5rem;
+    max-height: 54rem;
     justify-content: flex-start;
     /* flex-grow: 1; */
 }
@@ -165,7 +165,7 @@ ul {
 .sel-exe {
     width: 100%;
     height: fit-content;
-    max-height: 500px;
+    max-height: 850px;
     list-style-type: none;
     overflow: auto;
 }
