@@ -236,16 +236,9 @@ class Serialport extends Common {
      * 清除所有定时器
      */
     clearTimer() {
-        if (this.versionTimer && this.sign === signType.VERSION) {
-            clearTimeout(this.versionTimer);
-            this.versionTimer = null;
-            return;
-        }
-        if (this.timeOutTimer && (this.sign === signType.BOOT.BIN || this.sign === signType.BOOT.FILENAME)) {
-            clearTimeout(this.timeOutTimer);
-            this.timeOutTimer = null;
-            return;
-        }
+        if (!this.timeOutTimer || (this.sign && this.sign.indexOf('Boot_') === -1)) return;
+        clearTimeout(this.timeOutTimer);
+        this.timeOutTimer = null;
     }
 
     /**
@@ -257,7 +250,6 @@ class Serialport extends Common {
         }
         this.deleteObj(this.files, this.filesObj);
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
-        this.clearTimer();
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;
@@ -310,19 +302,17 @@ class Serialport extends Common {
             //开启设备数据监控监听
             this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
             setTimeout(() => that.watchDevice(event));
-            if (!this.sign || !this.receiveObj) return;
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
+            if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) return;
+            //清除超时检测
+            this.clearTimer();
             if (verify) {
-                //清除超时检测
-                this.clearTimer();
                 //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                 this.processReceivedData(event);
             } else {
-                if (this.sign && this.sign.indexOf('Boot') !== -1) {
-                    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
-                    this.clearCache();
-                }
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+                this.clearCache();
             }
         });
     }
@@ -356,9 +346,9 @@ class Serialport extends Common {
      */
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
+            if (this.sign && this.sign.indexOf('Boot_') !== -1) return;
             if (arg === 'FILE') {
                 this.writeData(instruct.files, signType.EXE.FILES, event);
-                return;
             } else {
                 this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
             }

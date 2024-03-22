@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
 import { ipc as ipc_Renderer } from 'est-link';
 import styles from './card.css';
-
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
 import connectedIcon from "../menu-bar/icon--connected.svg";
@@ -45,16 +44,16 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
             <ul className={tabClassNames.tabList}>
                 <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}>
                     <div><FormattedMessage
-                        defaultMessage="Program Selection"
-                        description="Program selection"
-                        id="gui.menuBar.select-exe"
+                        defaultMessage="Port Data"
+                        description="Port data"
+                        id="gui.menuBar.port-data"
                     /></div>
                 </li>
                 <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}>
                     <div><FormattedMessage
-                        defaultMessage="Port Data"
-                        description="Port data"
-                        id="gui.menuBar.port-data"
+                        defaultMessage="Program Selection"
+                        description="Program selection"
+                        id="gui.menuBar.select-exe"
                     /></div>
                 </li>
             </ul>
@@ -129,13 +128,22 @@ const DeviceCards = props => {
         // initialize positions
         x = isRtl ? (-100 - wideCardWidth - cardHorizontalDragOffset) : -20;
         x += cardHorizontalDragOffset;
+        // The tallest cards are about 320px high, and the default position is pinned
+        // to near the bottom of the blocks palette to allow room to work above.
+        // const tallCardHeight = 320;
+        // const bottomMargin = 60; // To avoid overlapping the backpack region
+        // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 310;
     }
 
     const [index, setIndex] = useState(0);
 
     const handleSelect = (i) => {
         setIndex(i);
-        if (i === 0 && !completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+        if (completed) {
+            return;
+        } else {
+            if (i === 1) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+        }
     }
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
