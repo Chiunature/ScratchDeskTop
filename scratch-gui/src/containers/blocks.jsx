@@ -247,7 +247,7 @@ class Blocks extends React.Component {
         const variable = code.match(regVariable);
         if (variable) {
             matchMyBlock = !matchMyBlock ? '' : matchMyBlock;
-            matchMyBlock += '\n' + variable.join(';\n') + ';';
+            matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlock;
         }
         if (matchMyBlock) {
             this.props.setMatchMyBlock(matchMyBlock);

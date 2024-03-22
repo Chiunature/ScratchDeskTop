@@ -303,10 +303,11 @@ Blockly.cake['procedures_call'] = function (block) {
         }
     }
 
-    list.map((item, index) => {
-        if(item.toUpperCase() == 'S') {
-            argCode[index] = `"${argCode[index]}"`;
-        }
+    list.forEach((item, index) => {
+        argCode[index] = `${Blockly.cake.toStr(argCode[index]) ? argCode[index] : '"' + argCode[index] + '"'}`;
+        /* if (item.toUpperCase() == 'B') {
+            argCode[index] = `strcmp(${argCode[index]}, "TRUE") == 0`;
+        } */
     });
 
     return `${funcName}(${argCode.join(',')});\n`;
@@ -340,19 +341,19 @@ Blockly.cake['procedures_prototype'] = function (block) {
     for (var i = 0; i < argName.length; i++) {
         var ch = funcName.charAt(funcName.indexOf('%') + 1);
         var safeArgName = Blockly.cake.variableDB_.getName(argName[i], Blockly.Procedures.NAME_TYPE);
-        Blockly.cake.customFunctionsArgName_[argName[i]] = safeArgName;
+        Blockly.cake.customFunctionsArgName_[argName[i]] = safeArgName + '_';
 
         if (ch === 'n') {
             funcName = funcName.replace('%n', 'N');
-            argCode.push('int ' + safeArgName);
+            argCode.push('char *' + (safeArgName + '_'));
         }
         else if (ch === 's') {
             funcName = funcName.replace('%s', 'S');
-            argCode.push('char *' + safeArgName);
+            argCode.push('char *' + (safeArgName + '_'));
         }
         else {
             funcName = funcName.replace('%b', 'B');
-            argCode.push('bool ' + safeArgName);
+            argCode.push('char *' + (safeArgName + '_'));
         }
     }
     funcName = Blockly.cake.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
