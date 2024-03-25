@@ -33,8 +33,8 @@ const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 
 let mainWindow, loadingWindow, isUpdate;
-const server = 'http://127.0.0.1:2060';
-const updateUrl = `${server}/update/${process.platform}/`;
+const server = 'https://zsff.drluck.club';
+const updateUrl = `${server}/static/ATC/${process.platform}/`;
 
 
 const options = {
@@ -186,7 +186,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            updater();
+            // updater();
         });
 
         // 关闭window时触发下列事件.

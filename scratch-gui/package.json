@@ -209,7 +209,7 @@
         "publish": [
             {
                 "provider": "generic",
-                "url": ""
+                "url": "https://zsff.drluck.club/static/ATC"
             }
         ],
         "win": {

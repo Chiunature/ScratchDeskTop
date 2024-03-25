@@ -514,6 +514,7 @@ Blockly.Blocks['event_when'] = {
     this.jsonInit({
       "id": "event_whenkeypressed",
       "message0": Blockly.Msg.EVENT_WHEN,
+      "message1": "%1",
       "args0": [
         {
           "type": "input_value",
@@ -521,8 +522,14 @@ Blockly.Blocks['event_when'] = {
           "check": "Boolean"
         }
       ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
       "category": Blockly.Categories.event,
-      "extensions": ["colours_event", "shape_hat"]
+      "extensions": ["colours_event", "shape_startAndEnd"]
     });
   }
 };

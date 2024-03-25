@@ -28,8 +28,13 @@ Blockly.cake['event_whenflagclicked'] = function (block) {
 
 Blockly.cake['event_when'] = function (block) {
     var argument = Blockly.cake.valueToCode(block, 'CONDITION',
-    Blockly.cake.ORDER_NONE) || 'False';
-    return 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);}\n';
+        Blockly.cake.ORDER_NONE) || 'False';
+    var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
+    branch = Blockly.cake.addLoopTrap(branch, block.id);
+    var code =  'while(true)\n{\nwhile (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);}\n'
+    code += branch;
+    code += Blockly.cake.INDENT + '}\n';
+    return code;
 };
 
 Blockly.cake['event_whenmicrobitbegin'] = function (block) {

@@ -215,6 +215,13 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU = {
 Blockly.ScratchBlocks.VerticalExtensions.SCRATCH_EXTENSION = function () {
   this.isScratchExtension = true;
 };
+
+Blockly.ScratchBlocks.VerticalExtensions.SHAPE_STARTANDEND = function () {
+  this.setInputsInline(true);
+  this.setPreviousStatement(false, null);
+  this.setNextStatement(false, null);
+};
+
 /**
  * Register all extensions for scratch-blocks.
  * @package
@@ -241,6 +248,8 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function () {
     Blockly.ScratchBlocks.VerticalExtensions.SHAPE_HAT);
   Blockly.Extensions.register('shape_end',
     Blockly.ScratchBlocks.VerticalExtensions.SHAPE_END);
+  Blockly.Extensions.register('shape_startAndEnd',
+    Blockly.ScratchBlocks.VerticalExtensions.SHAPE_STARTANDEND);
 
   // Output shapes and types are related.
   Blockly.Extensions.register('output_number',
