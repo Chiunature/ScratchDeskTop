@@ -1,6 +1,6 @@
 {
     "name": "scratch-gui",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "EST 3.0",
     "main": "main.js",
     "scripts": {
@@ -169,7 +169,6 @@
         "productName": "EST3.0",
         "appId": "com.EST3.eletest",
         "copyright": "cd©20211209",
-        "afterSign": "./build/scripts/afterSign.js",
         "directories": {
             "buildResources": "./",
             "output": "pack"
