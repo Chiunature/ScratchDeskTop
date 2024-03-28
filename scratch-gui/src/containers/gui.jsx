@@ -203,7 +203,8 @@ class GUI extends React.Component {
 
     async checkUpdateFireware() {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
-        if (res === 0) {
+        sessionStorage.setItem('version', res);
+        if (res === 0 && sessionStorage.getItem('version')) {
             return;
         }
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
