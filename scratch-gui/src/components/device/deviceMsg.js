@@ -35,6 +35,21 @@ const messages = defineMessages({
         "description": "Gyroscope",
         "defaultMessage": "Gyroscope"
     },
+    "yaw": {
+        "id": "gui.device.yaw",
+        "description": "Yaw",
+        "defaultMessage": "Yaw"
+    },
+    "pitch": {
+        "id": "gui.device.pitch",
+        "description": "Pitch",
+        "defaultMessage": "Pitch"
+    },
+    "roll": {
+        "id": "gui.device.roll",
+        "description": "Roll",
+        "defaultMessage": "Roll"
+    },
     "memory": {
         "id": "gui.device.memory",
         "description": "Memory",

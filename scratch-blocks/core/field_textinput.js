@@ -520,8 +520,7 @@ Blockly.FieldTextInput.prototype.onHtmlInputChange_ = function (e) {
     }
   }
 
-  var htmlInput = this.checkHtmlInputByBlocks();
-
+  let htmlInput = Blockly.FieldTextInput.htmlInput_;
   // Update source block.
   var text = htmlInput.value;
   if (text !== htmlInput.oldValue_) {

@@ -19,7 +19,7 @@
         "watch": "webpack --colors --watch",
         "coverage": "jest --coverage",
         "electron": "electron .",
-        "pack": "electron-builder --win --x64",
+        "pack": "npm run clean && webpack --colors --bail && electron-builder --win --x64",
         "postinstall": "electron-builder install-app-deps"
     },
     "author": "Massachusetts Institute of Technology",
@@ -46,6 +46,7 @@
         "es6-object-assign": "1.1.0",
         "est-link": "file:../EST-link",
         "file-loader": "2.0.0",
+        "fs-extra": "^11.2.0",
         "get-float-time-domain-data": "0.1.0",
         "get-user-media-promise": "1.1.4",
         "immutable": "3.8.2",
@@ -187,10 +188,10 @@
             "build/**/*",
             "node_modules/**/*",
             "static/**/*",
-            "src/utils/**/*",
             "src/config/**/*",
             "main.js",
             "preload.js",
+            "update.js",
             "launch.html"
         ],
         "nsis": {
@@ -203,15 +204,18 @@
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
             "shortcutName": "EST3.0",
-            "runAfterFinish": false
+            "runAfterFinish": false,
+            "perMachine": false,
+            "deleteAppDataOnUninstall": true
         },
         "publish": [
             {
                 "provider": "generic",
-                "url": "https://zsff.drluck.club/static/ATC"
+                "url": ""
             }
         ],
         "win": {
+            "requestedExecutionLevel": "requireAdministrator",
             "icon": "./favicon.ico",
             "target": [
                 {

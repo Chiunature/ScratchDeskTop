@@ -87,9 +87,10 @@ import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
-
+import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
+import { projectTitleInitialState } from '../../reducers/project-title';
 
 const ariaMessages = defineMessages({
     language: {
@@ -305,6 +306,7 @@ class MenuBar extends React.Component {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
         if (modifier && event.key === "s") {
             this.props.onClickSave();
+            this.getSaveToComputerHandler(this.downloadProject.bind(this))();
             event.preventDefault();
         }
     }
@@ -523,6 +525,33 @@ class MenuBar extends React.Component {
         }
     }
 
+    downloadProject() {
+        this.props.saveProjectSb3().then(content => {
+            if (this.props.onSaveFinished) {
+                this.props.onSaveFinished();
+            }
+            downloadBlob(this.props.projectFilename, content);
+            const fr = new FileReader();
+            fr.readAsDataURL(content);
+            let list = [];
+            fr.onload = (e) => {
+                if (localStorage.getItem('file')) {
+                    list = JSON.parse(localStorage.getItem('file'));
+                }
+                const obj = {
+                    fileName: this.props.projectFilename.slice(0, -4) + '_' + (list.length + 1),
+                    url: e.target.result,
+                    size: Math.ceil(content.size / 1024) + 'KB',
+                    alterTime: window.myAPI.getCurrentTime(),
+                    editable: false
+                }
+                const newList = [...list, obj];
+                localStorage.setItem('file', JSON.stringify(newList));
+                localStorage.setItem('recentFile', JSON.stringify(obj));
+            }
+        });
+    }
+
     render() {
         const remixButton = (
             <Button
@@ -652,13 +681,12 @@ class MenuBar extends React.Component {
                                         </MenuItem>
                                         <SB3Downloader>
                                             {(
-                                                className,
-                                                downloadProjectCallback
+                                                className
                                             ) => (
                                                 <MenuItem
                                                     className={className}
                                                     onClick={this.getSaveToComputerHandler(
-                                                        downloadProjectCallback
+                                                        this.downloadProject.bind(this)
                                                     )}
                                                 >
                                                     <FormattedMessage
@@ -666,6 +694,7 @@ class MenuBar extends React.Component {
                                                         description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
                                                         id="gui.menuBar.downloadToComputer"
                                                     />
+                                                    <span>  Ctrl+s </span>
                                                 </MenuItem>
                                             )}
                                         </SB3Downloader>
@@ -1165,6 +1194,14 @@ MenuBar.defaultProps = {
     onShare: () => { },
 };
 
+const getProjectFilename = (curTitle, defaultTitle) => {
+    let filenameTitle = curTitle;
+    if (!filenameTitle || filenameTitle.length === 0) {
+        filenameTitle = defaultTitle;
+    }
+    return `${filenameTitle.substring(0, 100)}.sb3`;
+};
+
 const mapStateToProps = (state, ownProps) => {
     const loadingState = state.scratchGui.projectState.loadingState;
     const user =
@@ -1195,6 +1232,8 @@ const mapStateToProps = (state, ownProps) => {
         deviceId: state.scratchGui.device.deviceId,
         deviceName: state.scratchGui.device.deviceName,
         serialList: state.scratchGui.connectionModal.serialList,
+        saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
+        projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
     };
 };
 

@@ -45,11 +45,14 @@ import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
 import { setDeviceObj } from "../reducers/device.js";
+import { setTipsUpdateObj } from "../reducers/tips.js";
+import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
+
 
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        /* this.state = {
             deviceObj: {
                 deviceList: [],
                 gyroList: new Array(3).fill(0),
@@ -58,7 +61,7 @@ class GUI extends React.Component {
                 voice: 0,
                 deviceStatus: verifyTypeConfig.EST_STOP
             }
-        }
+        } */
         bindAll(this, ['handleCompile', 'handleRunApp']);
     }
 
@@ -67,6 +70,7 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
         const userAgent = navigator.userAgent.toLowerCase();
+        const that = this;
         if (userAgent.indexOf("electron/") > -1) {
             this.downloadSuccess();
             this.downloadProgress();
@@ -77,6 +81,11 @@ class GUI extends React.Component {
             this.checkDriver();
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake();
+
+            window.myAPI.onUpdate((_event, info) => {
+                that.props.onSetTipsUpdate(info);
+            });
+
         }
     }
     componentDidUpdate(prevProps) {
@@ -305,17 +314,20 @@ class GUI extends React.Component {
             ...componentProps
         } = this.props;
         return (
-            <GUIComponent
-                extensionLibraryContent={extensionLibraryContent}
-                loading={fetchingProject || isLoading || loadingStateVisible}
-                {...componentProps}
-                handleCompile={this.handleCompile}
-                handleRunApp={this.handleRunApp}
-                compile={new Compile()}
-                deviceObj={this.props.deviceObj}
-            >
-                {children}
-            </GUIComponent>
+            <>
+                <GUIComponent
+                    extensionLibraryContent={extensionLibraryContent}
+                    loading={fetchingProject || isLoading || loadingStateVisible}
+                    {...componentProps}
+                    handleCompile={this.handleCompile}
+                    handleRunApp={this.handleRunApp}
+                    compile={new Compile()}
+                    deviceObj={this.props.deviceObj}
+                >
+                    {children}
+                </GUIComponent>
+                <TipsForUpdate tipsUpdateObj={this.props.updateObj} />
+            </>
         );
     }
 }
@@ -405,7 +417,8 @@ const mapStateToProps = (state) => {
         selectedExe: state.scratchGui.mode.selectedExe,
         showFileStytem: state.scratchGui.fileStytem.showFileStytem,
         deviceObj: state.scratchGui.device.deviceObj,
-        version: state.scratchGui.connectionModal.version
+        version: state.scratchGui.connectionModal.version,
+        updateObj: state.scratchGui.tips.updateObj,
     };
 };
 
@@ -437,7 +450,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetVersion: (version) => dispatch(setVersion(version)),
     onSetGen: (gen) => dispatch(setGen(gen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
-    onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj))
+    onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),
+    onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj))
 });
 
 const ConnectedGUI = injectIntl(

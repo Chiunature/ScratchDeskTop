@@ -32,6 +32,7 @@ import deviceReducer, { deviceInitialState } from './device';
 import throttle from 'redux-throttle';
 import fileStytemReducer, { fileStytemInitialState } from './file-stytem';
 import decks from '../lib/libraries/decks/index.jsx';
+import tipsReducer,{ tipsInitialState } from './tips';
 
 const guiMiddleware = compose(applyMiddleware(throttle(300, { leading: true, trailing: true })));
 
@@ -66,7 +67,8 @@ const guiInitialState = {
     vm: vmInitialState,
     vmStatus: vmStatusInitialState,
     workspaceMetrics: workspaceMetricsInitialState,
-    fileStytem: fileStytemInitialState
+    fileStytem: fileStytemInitialState,
+    tips: tipsInitialState
 };
 
 const initPlayer = function (currentState) {
@@ -175,7 +177,8 @@ const guiReducer = combineReducers({
     vm: vmReducer,
     vmStatus: vmStatusReducer,
     workspaceMetrics: workspaceMetricsReducer,
-    fileStytem: fileStytemReducer
+    fileStytem: fileStytemReducer,
+    tips: tipsReducer
 });
 
 export {

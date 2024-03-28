@@ -140,7 +140,7 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
             Blockly.FieldMatrix.prototype.changeMatrix('color', newColor);
         }
     }
-    if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'motor_speed') {
+    /* if (this.sourceBlock_.parentBlock_ && this.sourceBlock_.parentBlock_.type === 'motor_speed') {
         const children = this.sourceBlock_.parentBlock_.childBlocks_;
         let port;
         for (let i = 0; i < children.length; i++) {
@@ -151,7 +151,7 @@ Blockly.FieldSlider.prototype.onSliderChange_ = function () {
             }
         }
         Blockly.FieldMotor.prototype.changeMotor('speed', { port, value: this.sliderInput_.value });
-    }
+    } */
 };
 
 /**

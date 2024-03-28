@@ -1,9 +1,6 @@
-import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { projectTitleInitialState } from '../reducers/project-title';
-import downloadBlob from '../lib/download-blob';
 /**
  * Project saver component passes a downloadProject function to its child.
  * It expects this child to be a function with the signature
@@ -21,55 +18,18 @@ import downloadBlob from '../lib/download-blob';
 class SB3Downloader extends React.Component {
     constructor(props) {
         super(props);
-        bindAll(this, [
-            'downloadProject'
-        ]);
     }
 
-    downloadProject() {
-        this.props.saveProjectSb3().then(content => {
-            if (this.props.onSaveFinished) {
-                this.props.onSaveFinished();
-            }
-            downloadBlob(this.props.projectFilename, content);
-            const fr = new FileReader();
-            fr.readAsDataURL(content);
-            let list = [];
-            fr.onload = (e) => {
-                if (localStorage.getItem('file')) {
-                    list = JSON.parse(localStorage.getItem('file'));
-                }
-                const obj = {
-                    fileName: this.props.projectFilename.slice(0, -4) + '_' + (list.length + 1),
-                    url: e.target.result,
-                    size: Math.ceil(content.size / 1024) + 'KB',
-                    alterTime: window.myAPI.getCurrentTime(),
-                    editable: false
-                }
-                const newList = [...list, obj];
-                localStorage.setItem('file', JSON.stringify(newList));
-                localStorage.setItem('recentFile', JSON.stringify(obj));
-            }
-        });
-    }
     render() {
         const {
             children
         } = this.props;
         return children(
-            this.props.className,
-            this.downloadProject
+            this.props.className
         );
     }
 }
 
-const getProjectFilename = (curTitle, defaultTitle) => {
-    let filenameTitle = curTitle;
-    if (!filenameTitle || filenameTitle.length === 0) {
-        filenameTitle = defaultTitle;
-    }
-    return `${filenameTitle.substring(0, 100)}.sb3`;
-};
 
 SB3Downloader.propTypes = {
     children: PropTypes.func,
@@ -82,10 +42,7 @@ SB3Downloader.defaultProps = {
     className: ''
 };
 
-const mapStateToProps = state => ({
-    saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
-    projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
-});
+const mapStateToProps = state => ({});
 
 export default connect(
     mapStateToProps,

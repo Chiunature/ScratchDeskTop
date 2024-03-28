@@ -50,7 +50,7 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
 import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
-import FileSystemHoc from "../../containers/file-system.jsx";
+import FileSystemHoc from "../../containers/file-system-hoc.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
 
 /* const messages = defineMessages({
@@ -163,6 +163,8 @@ const GUIComponent = (props) => {
         showFileStytem,
         handleRunApp,
         onSetDeviceObj,
+        updateObj,
+        onSetTipsUpdate,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {

@@ -305,7 +305,7 @@ Blockly.FieldDropdown.prototype.onItemSelected = function (menu, menuItem) {
   if (this.sourceBlock_) {
     // Call any validation function, and allow it to override.
     value = this.callValidator(value);
-    if (this.sourceBlock_.type === 'motor_starting') {
+    /* if (this.sourceBlock_.type === 'motor_starting') {
       const children = this.sourceBlock_.childBlocks_;
       let port;
       for (let i = 0; i < children.length; i++) {
@@ -316,7 +316,7 @@ Blockly.FieldDropdown.prototype.onItemSelected = function (menu, menuItem) {
         }
       }
       Blockly.FieldMotor.prototype.changeMotor('spin', { port, value });
-    }
+    } */
   }
   // If the value of the menu item is a function, call it and do not select it.
   if (typeof value == 'function') {

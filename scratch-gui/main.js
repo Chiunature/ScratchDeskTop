@@ -25,16 +25,14 @@
 const serialport = require('serialport');
 const electron = require("electron");
 const { app, BrowserWindow, dialog, Menu, shell, ipcMain, screen } = electron;
-const { autoUpdater } = require('electron-updater');
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
+const checkUpdate = require('./update.js');
 
 let mainWindow, loadingWindow, isUpdate;
-const server = 'https://zsff.drluck.club';
-const updateUrl = `${server}/static/ATC/${process.platform}/`;
 
 
 const options = {
@@ -45,6 +43,7 @@ const options = {
     plugins: true,
     webSecurity: false,
     preload: path.join(__dirname, "preload.js"),
+    requestedExecutionLevel: 'requireAdministrator'
 }
 
 const pack = {
@@ -55,34 +54,9 @@ const pack = {
     isPackaged: app.isPackaged
 }
 
-
-function updater() {
-    autoUpdater.setFeedURL(updateUrl);
-    autoUpdater.checkForUpdates();
-    autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-        const dialogOpts = {
-            type: 'info',
-            buttons: ['Update(更新)', 'Later(稍后再说)'],
-            title: 'Application Update(应用更新)',
-            message: process.platform === 'win32' ? releaseNotes : releaseName,
-            detail:
-                'A new version was found. Do you want to update?(发现新版本，是否更新？)'
-        }
-        dialog.showMessageBox(dialogOpts).then((returnValue) => {
-            if (returnValue.response == 0) {  //选择是，则退出程序，安装新版本
-                isUpdate = true;
-                autoUpdater.quitAndInstall();
-                app.quit();
-            } else {
-                event.preventDefault();
-            }
-        });
-    });
-
-    autoUpdater.on('error', (message) => {
-        console.error('There was a problem updating the application')
-        console.error(message)
-    });
+async function updater(win) {
+    const res = await checkUpdate(win);
+    isUpdate = res;
 }
 
 function showLoading() {
@@ -120,7 +94,6 @@ function createWindow() {
         sp.getList();
         //连接串口
         sp.connectSerial();
-
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
@@ -135,6 +108,8 @@ function createWindow() {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
         }
+        // 防止页面失去焦点
+        _handleOnFocus();
 
         //点击logo打开官网
         ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
@@ -186,21 +161,20 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            // updater();
+            updater(mainWindow);
         });
 
         // 关闭window时触发下列事件.
-        mainWindow.on("close", (e) => {
+        mainWindow.on("close", async (e) => {
+            e.preventDefault();
             if (isUpdate) return;
-            const index = dialog.showMessageBoxSync({
+            const { response } = await dialog.showMessageBox({
                 type: "info",
                 title: "The changes you made may not be saved",
                 message: "你所做的更改可能未保存",
                 buttons: ["取消(cancel)", "确定(confirm)"],
             });
-            if (index === 0) {
-                e.preventDefault();
-            } else {
+            if (response === 1) {
                 mainWindow = null;
                 const eventList = ipcMain.eventNames();
                 eventList.map(item => {
@@ -213,14 +187,14 @@ function createWindow() {
     });
 
     function _ipcMainHandle(instruct, obj) {
-        ipcMain.handle(instruct, () => {
-            const index = dialog.showMessageBoxSync({
+        ipcMain.handle(instruct, async () => {
+            const { response } = await dialog.showMessageBox({
                 type: obj.type ? obj.type : 'info',
                 title: obj.title,
                 message: obj.message,
                 buttons: ["否(no)", "是(yes)"],
             });
-            return index;
+            return response;
         });
     }
 
@@ -239,6 +213,13 @@ function createWindow() {
                 resolve(true);
             }
         })
+    }
+
+    function _handleOnFocus() {
+        ipcMain.on('mainOnFocus', () => {
+            mainWindow.blur();
+            mainWindow.focus();
+        });
     }
 
     //退出客户端去掉事件监听

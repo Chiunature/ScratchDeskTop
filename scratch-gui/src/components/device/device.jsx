@@ -27,8 +27,8 @@ const Device = (props) => {
                             <p>{props.intl.formatMessage(messages['gyroscope'])}</p>
                             <ul className={styles.midUl}>
                                 {Object.keys(gyrolist).length > 0 && Object.keys(gyrolist).map((item, index) => {
-                                    return (<li key={index}>
-                                        <span>{item}</span>
+                                    return (item.indexOf('id') === -1 && <li key={index}>
+                                        <span>{props.intl.formatMessage(messages[item])}</span>
                                         <span>{gyrolist[item]}</span>
                                     </li>)
                                 })}

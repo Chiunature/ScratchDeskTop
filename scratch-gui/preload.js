@@ -192,5 +192,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     commendMake,
     writeFileWithDirectory,
     handlerError,
-    getCurrentTime
+    getCurrentTime,
+    onUpdate: (callback) => ipcRenderer.on('update', callback),
 });
