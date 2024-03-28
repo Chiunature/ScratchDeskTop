@@ -37,7 +37,7 @@ class FileSystemHoc extends Component {
 
 
     componentDidMount() {
-        let data = localStorage.getItem('file');
+        const data = window.myAPI.readFiles('./cache-files.json');
         if (data) {
             this.setState(() => ({
                 fileList: JSON.parse(data)
@@ -58,9 +58,12 @@ class FileSystemHoc extends Component {
     }
 
     handleSelect(index) {
-        const list = JSON.parse(localStorage.getItem('file'));
-        this.props.onSetProjectTitle(list[index].fileName);
-        this.handleFileReader(list[index].url);
+        const list = window.myAPI.readFiles('./cache-files.json');
+        if (list) {
+            list = JSON.parse(list);
+            this.props.onSetProjectTitle(list[index].fileName);
+            this.handleFileReader(list[index].url);
+        }
     }
 
     confirmReadyToReplaceProject(message) {
@@ -98,7 +101,7 @@ class FileSystemHoc extends Component {
         window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE).then(res => {
             if (res === 1) {
                 this.state.fileList.splice(index, 1);
-                localStorage.setItem('file', JSON.stringify(this.state.fileList));
+                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
                 this.setState((state) => ({
                     fileList: state.fileList
                 }));
@@ -109,11 +112,14 @@ class FileSystemHoc extends Component {
     }
 
     handleFilterClear() {
-        const list = JSON.parse(localStorage.getItem('file'));
-        this.setState(() => ({
-            filterQuery: '',
-            fileList: list
-        }));
+        const list = window.myAPI.readFiles('./cache-files.json');
+        if (list) {
+            list = JSON.parse(list);
+            this.setState(() => ({
+                filterQuery: '',
+                fileList: list
+            }));
+        }
     }
 
     handleFilterChange() {
@@ -132,7 +138,7 @@ class FileSystemHoc extends Component {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         this.state.fileList[index].editable = !this.state.fileList[index].editable;
-        localStorage.setItem('file', JSON.stringify(this.state.fileList));
+        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
         this.setState({});
     }
 
@@ -147,7 +153,7 @@ class FileSystemHoc extends Component {
         e.nativeEvent.stopImmediatePropagation();
         this.state.fileList[index].fileName = e.target.value;
         this.state.fileList[index].editable = false;
-        localStorage.setItem('file', JSON.stringify(this.state.fileList));
+        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
         this.setState({});
     }
 

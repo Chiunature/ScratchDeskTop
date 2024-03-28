@@ -535,8 +535,9 @@ class MenuBar extends React.Component {
             fr.readAsDataURL(content);
             let list = [];
             fr.onload = (e) => {
-                if (localStorage.getItem('file')) {
-                    list = JSON.parse(localStorage.getItem('file'));
+                const data = window.myAPI.readFiles('./cache-files.json');
+                if (data) {
+                    list = JSON.parse(data);
                 }
                 const obj = {
                     fileName: this.props.projectFilename.slice(0, -4) + '_' + (list.length + 1),
@@ -546,8 +547,8 @@ class MenuBar extends React.Component {
                     editable: false
                 }
                 const newList = [...list, obj];
-                localStorage.setItem('file', JSON.stringify(newList));
                 localStorage.setItem('recentFile', JSON.stringify(obj));
+                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(newList));
             }
         });
     }

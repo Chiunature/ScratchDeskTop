@@ -57,7 +57,7 @@ function delEvents(eventName) {
      * @param {String} type 
      * @returns 
      */
-function readFiles(path, type) {
+function readFiles(path, type = 'utf-8') {
     try {
         const data = fs.readFileSync(path, type);
         return data;
@@ -145,7 +145,7 @@ function getVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
  * @param {String} filepath 
  * @param {String} data 
  */
-async function writeFileWithDirectory(directory, filepath, data) {
+async function writeFileWithDirectory(directory = cwd(), filepath, data) {
     if (fs.existsSync(directory)) {
         fs.writeFileSync(filepath, data);
     } else {
