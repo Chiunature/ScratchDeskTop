@@ -19,6 +19,8 @@ npm-*
 /.opt-in
 /cache-files
 /cache-files.json
+/Logs
+/ATC-updater
 # Generated translation files
 /translations
 /locale

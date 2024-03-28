@@ -28,9 +28,20 @@ const { app, BrowserWindow, dialog, Menu, shell, ipcMain, screen } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const { cwd } = require('process');
 const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 const checkUpdate = require('./update.js');
+const logger = require('electron-log');
+
+logger.transports.file.maxSize = 1002430;
+logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
+let date = new Date();
+date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+//需要保存的了路径
+logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
+//全局的console.info写进日志文件
+console.info = logger.info || logger.warn;
 
 let mainWindow, loadingWindow, isUpdate;
 

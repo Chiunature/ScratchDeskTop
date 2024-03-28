@@ -165,6 +165,8 @@ const GUIComponent = (props) => {
         onSetDeviceObj,
         updateObj,
         onSetTipsUpdate,
+        deviceStatus,
+        onSetDeviceStatus,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -282,6 +284,7 @@ const GUIComponent = (props) => {
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
+                                deviceStatus={deviceStatus}
                                 isComplete={isComplete}
                                 progress={progress}
                                 completed={completed}

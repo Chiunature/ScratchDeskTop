@@ -9,7 +9,7 @@ import startIcon from "./icon--start.svg";
 
 
 const RunExeBtn = (props) => {
-    const { completed, compile, isComplete, progress } = props;
+    const { completed, compile, isComplete, progress, deviceStatus } = props;
     let refObj = useRef();
     let [flag, setFlag] = useState(false);
 
@@ -44,7 +44,7 @@ const RunExeBtn = (props) => {
                                     iconSrc={startIcon}
                                 />}
                         </div>
-                        <Cirle completed={completed} />
+                        <Cirle completed={completed} deviceStatus={deviceStatus} />
                         <img className={isComplete ? '' : styles.yesBtnSpin} src={yesIcon} />
                     </div>
                 </div>

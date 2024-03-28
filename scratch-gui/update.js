@@ -5,7 +5,7 @@ const path = require("path");
 const { cwd } = require('process');
 
 const server = 'https://zsff.drluck.club';
-const updateUrl = `${server}/static/ATC/`;
+const updateUrl = `${server}/ATC`;
 let updaterCache = 'ATC-updater';
 
 
@@ -27,6 +27,7 @@ const dialogOpts = {
 
 autoUpdater.autoDownload = true; // 自动下载
 autoUpdater.autoInstallOnAppQuit = true; // 应用退出后自动安装
+autoUpdater.setFeedURL({ provider: 'generic', url: updateUrl, updaterCacheDirName: updaterCache });
 
 Object.defineProperty(autoUpdater.app, 'baseCachePath', {
   get() {
@@ -35,7 +36,6 @@ Object.defineProperty(autoUpdater.app, 'baseCachePath', {
 });
 
 const checkUpdate = (mainWin) => {
-  autoUpdater.setFeedURL({ provider: 'generic', url: updateUrl, updaterCacheDirName: updaterCache });
   // 更新前，删除本地安装包
   const updatePendingPath = path.join(autoUpdater.app.baseCachePath, updaterCache, 'pending');
   fs.emptyDir(updatePendingPath);

@@ -5,11 +5,13 @@ const CLEAR_NAME = 'scratch-gui/device/clearName';
 const SET_TYPE = 'scratch-gui/device/setType';
 const CLEAR_TYPE = 'scratch-gui/device/clearType';
 const SET_DEVICEOBJ = 'scratch-gui/device/deviceObj';
+const SET_DEVICESTATUS = 'scratch-gui/device/deviceStatus';
 
 const initialState = {
     deviceId: null,
     deviceName: null,
     deviceType: null,
+    deviceStatus: null,
     deviceObj: {
         deviceList: [],
         gyrolist: {}, 
@@ -48,6 +50,10 @@ const reducer = function (state, action) {
         case SET_DEVICEOBJ:
             return Object.assign({}, state, {
                 deviceObj: action.deviceObj
+            });
+        case SET_DEVICESTATUS:
+            return Object.assign({}, state, {
+                deviceStatus: action.deviceStatus
             });
         default:
             return state;
@@ -100,6 +106,13 @@ const setDeviceObj = function (obj) {
     };
 };
 
+const setDeviceStatus = function (status) {
+    return {
+        type: SET_DEVICESTATUS,
+        deviceStatus: status
+    }
+}
+
 export {
     reducer as default,
     initialState as deviceInitialState,
@@ -109,5 +122,6 @@ export {
     clearDeviceName,
     setDeviceType,
     clearDeviceType,
-    setDeviceObj
+    setDeviceObj,
+    setDeviceStatus
 };

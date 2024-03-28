@@ -44,7 +44,7 @@ import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../re
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
-import { setDeviceObj } from "../reducers/device.js";
+import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 
@@ -235,6 +235,10 @@ class GUI extends React.Component {
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
                 if (!result) return;
+                if (this.props.deviceObj && this.props.deviceObj.estlist &&
+                    result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
+                    this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
+                }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 this.getFirewareVersion();
@@ -324,6 +328,7 @@ class GUI extends React.Component {
                     handleRunApp={this.handleRunApp}
                     compile={new Compile()}
                     deviceObj={this.props.deviceObj}
+                    deviceStatus={this.props.deviceStatus}
                 >
                     {children}
                 </GUIComponent>
@@ -420,6 +425,7 @@ const mapStateToProps = (state) => {
         deviceObj: state.scratchGui.device.deviceObj,
         version: state.scratchGui.connectionModal.version,
         updateObj: state.scratchGui.tips.updateObj,
+        deviceStatus: state.scratchGui.device.deviceStatus,
     };
 };
 
@@ -452,7 +458,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetGen: (gen) => dispatch(setGen(gen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),
-    onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj))
+    onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj)),
+    onSetDeviceStatus: (status) => dispatch(setDeviceStatus(status))
 });
 
 const ConnectedGUI = injectIntl(

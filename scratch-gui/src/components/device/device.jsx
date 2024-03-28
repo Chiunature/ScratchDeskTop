@@ -50,7 +50,7 @@ const Device = (props) => {
                             <p>{props.intl.formatMessage(messages['electricity'])}</p>
                             <ul className={styles.midUl}>
                                 {adc && <li>
-                                    <span>{adc >= 100 ? '100' : parseInt(adc)}</span>
+                                    <span>{adc >= 100 ? '100' : adc <= 0 ? '0' : parseInt(adc)}</span>
                                     <span>%</span>
                                 </li>}
                             </ul>

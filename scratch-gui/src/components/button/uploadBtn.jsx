@@ -8,8 +8,7 @@ import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
 
 const UploadBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist, handleRunApp } = props;
-
+    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus } = props;
     const compile = (flag) => {
         if (completed) {
             return;
@@ -29,6 +28,7 @@ const UploadBtn = (props) => {
                     selectedExe={selectedExe}
                 />
                 <RunExeBtn
+                    deviceStatus={deviceStatus}
                     compile={compile}
                     isComplete={isComplete}
                     progress={progress}
@@ -38,7 +38,8 @@ const UploadBtn = (props) => {
                 />
                 <ButtonComponent
                     onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}
-                    className={classNames(styles.stopBtn)}
+                    className={classNames(styles.stopBtn, deviceStatus !== verifyTypeConfig.EST_RUN ? styles.stopDisable: '')}
+                    disabled={deviceStatus !== verifyTypeConfig.EST_RUN}
                     iconSrc={stopIcon}
                 />
             </div>
