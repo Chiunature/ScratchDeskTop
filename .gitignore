@@ -17,8 +17,8 @@ npm-*
 /build
 /dist
 /.opt-in
-./cache-files
-./cache-files.json
+/cache-files
+/cache-files.json
 # Generated translation files
 /translations
 /locale
