@@ -353,6 +353,7 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 }
 
 Blockly.cake.toStr = function (val) {
+  if (!val) return;
   let arr = ['up_int', 'down_int', '_abs_'];
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
@@ -453,7 +454,7 @@ Blockly.cake.setValueList = function (type = 'value') {
   let list = [];
   for (let i = 0; i < Object.keys(Blockly.cake.definitions_).length; i++) {
     const item = Object.keys(Blockly.cake.definitions_)[i];
-    if(item.indexOf(type) !== -1) {
+    if (item.indexOf(type) !== -1) {
       list.push(item);
     }
   }

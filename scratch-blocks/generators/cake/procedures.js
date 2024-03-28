@@ -302,15 +302,17 @@ Blockly.cake['procedures_call'] = function (block) {
             }
         }
     }
-
-    list.forEach((item, index) => {
-        argCode[index] = `${Blockly.cake.toStr(argCode[index]) ? argCode[index] : '"' + argCode[index] + '"'}`;
-        /* if (item.toUpperCase() == 'B') {
-            argCode[index] = `strcmp(${argCode[index]}, "TRUE") == 0`;
-        } */
-    });
-
-    return `${funcName}(${argCode.join(',')});\n`;
+    if (argCode.length > 0) {
+        list.forEach((item, index) => {
+            argCode[index] = `${Blockly.cake.toStr(argCode[index]) ? argCode[index] : '"' + argCode[index] + '"'}`;
+            /* if (item.toUpperCase() == 'B') {
+                argCode[index] = `strcmp(${argCode[index]}, "TRUE") == 0`;
+            } */
+        });
+        return `${funcName}(${argCode.join(',')});\n`;
+    } else {
+        return `${funcName}();\n`;
+    }
 }
 
 Blockly.cake['procedures_definition'] = function (block) {
