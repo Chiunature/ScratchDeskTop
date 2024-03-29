@@ -418,26 +418,17 @@ class MenuBar extends React.Component {
     scanConnection() {
         const that = this;
         this.timer = setInterval(() => {
-            that.handleConnection();
-        }, 1500);
+            if (!that.props.peripheralName) that.handleConnection();
+        }, 2000);
     }
 
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
             const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
-
-            if (!result || (result.length === 0 || this.props.serialList.length >= result.length)) {
-                return;
-            }
-
-            const newarr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") != -1));
-            const hasSerial = newarr.length > 0;
-            if (hasSerial) {
-                this.setPort(newarr, type, newarr[0].friendlyName);
-                this.handleConnected(newarr[0]);
+            if (result) {
+                this.handleConnected(result, type);
             } else {
-                // this.handleBleConnect(hasSerial);
                 return;
             }
         }
@@ -452,7 +443,7 @@ class MenuBar extends React.Component {
                 if (!result) return;
                 const res = JSON.parse(result);
                 const { ble, bleType, msg } = res;
-                this.setPort([ble], bleType, ble.advertisement.localName);
+                this.setPortItem([ble], bleType, ble.advertisement.localName);
                 this.props.onShowConnectAlert(msg);
             }
         });
@@ -463,10 +454,9 @@ class MenuBar extends React.Component {
         this.scanConnection();
     } */
 
-    setPort(portList, type, name) {
-        clearInterval(this.timer);
-        this.props.onSetPort(portList[0]);
-        this.props.onGetSerialList(portList);
+    setPortItem(port, type, name) {
+        this.props.onSetPort(port);
+        this.props.onGetSerialList(port);
         this.props.onSetIsConnectedSerial(true);
         this.props.onSetDeviceType(type);
         this.props.onSetConnectionModalPeripheralName(name);
@@ -476,34 +466,34 @@ class MenuBar extends React.Component {
         this.props.onOpenConnectionModal();
     }
 
-    handleConnected(port) {
+    handleConnected(port, type) {
         if (!port) return;
+        const that = this;
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
-                const that = this;
                 if (arg.res) {
                     clearTimeout(that.closeTimer);
-                    if (!this.props.peripheralName) that.props.onShowConnectAlert(arg.msg);
+                    that.setPortItem(arg.serial, type, arg.serial.friendlyName);
+                    that.props.onShowConnectAlert(arg.msg);
                 } else {
-                    that.scanConnection();
                     that.closeTimer = setTimeout(() => {
-                        this.props.onSetProgress(0);
-                        that.handleDisconnect(arg.msg);
+                        if(arg.msg.length > 0) that.handleDisconnect(arg.msg);
                     }, 2000);
                 }
             },
         });
     }
 
-    handleDisconnect(msg = "disconnect") {
+    handleDisconnect(msg) {
         this.props.onClearConnectionModalPeripheralName();
         this.props.onGetSerialList([]);
         this.props.onSetPort(null);
+        this.props.onSetProgress(0);
         this.props.onSetIsConnectedSerial(false);
-        this.props.onShowDisonnectAlert(msg);
+        if (msg.lenght > 0) this.props.onShowDisonnectAlert("disconnect");
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });

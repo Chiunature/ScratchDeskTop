@@ -62,9 +62,8 @@ const reducer = function (state, action) {
                 isListAll: action.isListAll,
             });
         case GET_SERIAL_LIST:
-            return Object.assign({}, state, {
-                serialList: action.serialList,
-            });
+            state.serialList.push(action.serialList);
+            return Object.assign({}, state);
         case CHANGE_SERIAL_LIST:
             return Object.assign({}, state, {
                 serialList: action.serialList,

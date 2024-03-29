@@ -40,6 +40,9 @@ class Serialport extends Common {
         super(...args);
         this._type = 'serialport';
         this.port;
+        this.portIndex = 0;
+        this.portList = [];
+        this.isConnectedPortList = [];
         this.receiveDataBuffer = [];
         this.chunkBuffer = [];
         this.chunkIndex = 0;
@@ -58,7 +61,14 @@ class Serialport extends Common {
     getList() {
         this.ipcHandle(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event, arg) => {
             const result = await this.serialport.SerialPort.list();
-            return { result, type: this._type };
+            const newArr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") !== -1));
+            for (let i = 0; i < newArr.length; i++) {
+                const item = newArr[i];
+                if (!this.isConnectedPortList.includes(item.pnpId)) {
+                    this.portList.push(item);
+                }
+            }
+            return { result: this.portList[this.portIndex] ? this.portList[this.portIndex] : null, type: this._type };
         });
     }
 
@@ -180,9 +190,18 @@ class Serialport extends Common {
     OpenPort(event) {
         this.port.open((err) => {
             if (err) {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "failedConnected" });
+                this.isConnectedPortList.push(this.portList[this.portIndex]);
+                this.portIndex++;
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
+                if (this.portIndex === this.portList.length) {
+                    this.portIndex = 0;
+                    return;
+                }
             } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected" });
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
+                this.portIndex = 0;
+                this.portList.splice(0, this.portList.length);
+                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
             }
         });
     }
@@ -250,6 +269,7 @@ class Serialport extends Common {
         }
         this.deleteObj(this.files, this.filesObj);
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
+        this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;

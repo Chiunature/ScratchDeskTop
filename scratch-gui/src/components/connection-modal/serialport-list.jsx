@@ -34,7 +34,7 @@ const SerialportList = (props) => (
                                     readOnly
                                 /> */}
                                 <div className={styles.helpStepText}>
-                                    {port.friendlyName || port.advertisement.localName}
+                                    {port.friendlyName || (port.advertisement && port.advertisement.localName)}
                                 </div>
                             </div>
                         );
