@@ -57,9 +57,9 @@ Blockly.cake['operator_random'] = function (block) {
 
 Blockly.cake['operator_compare'] = function (block) {
     var oplist = {
-        "operator_gt": ">>",
+        "operator_gt": ">",
         "operator_equals": "==",
-        "operator_lt": "<<"
+        "operator_lt": "<"
     };
     var order = Blockly.cake.ORDER_RELATIONAL;
     var arg0 = Blockly.cake.valueToCode(block, 'OPERAND1', order);

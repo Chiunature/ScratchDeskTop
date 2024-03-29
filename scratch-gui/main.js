@@ -172,7 +172,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            updater(mainWindow);
+            // updater(mainWindow);
         });
 
         // 关闭window时触发下列事件.
