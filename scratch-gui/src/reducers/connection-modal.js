@@ -62,7 +62,7 @@ const reducer = function (state, action) {
                 isListAll: action.isListAll,
             });
         case GET_SERIAL_LIST:
-            state.serialList.push(action.serialList);
+            state.serialList = [action.serialList];
             return Object.assign({}, state);
         case CHANGE_SERIAL_LIST:
             return Object.assign({}, state, {
@@ -76,7 +76,7 @@ const reducer = function (state, action) {
             return Object.assign({}, state, {
                 completed: action.completed,
             });
-        case SET_SOURCE: 
+        case SET_SOURCE:
             return Object.assign({}, state, {
                 sourceCompleted: action.sourceCompleted,
             });
