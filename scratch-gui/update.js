@@ -2,11 +2,10 @@ const { autoUpdater } = require('electron-updater');
 const { app, dialog } = require('electron');
 const fs = require("fs-extra");
 const path = require("path");
-const { cwd } = require('process');
 
 const server = 'https://zsff.drluck.club';
 const updateUrl = `${server}/ATC`;
-let updaterCache = 'ATC-updater';
+const updaterCache = 'ATC-updater';
 
 
 const opt = {
@@ -25,24 +24,20 @@ const dialogOpts = {
     'A new version was found. Do you want to update?(发现新版本，是否更新？)'
 }
 
-autoUpdater.autoDownload = true; // 自动下载
+autoUpdater.autoDownload = false; // 自动下载
 autoUpdater.autoInstallOnAppQuit = true; // 应用退出后自动安装
-autoUpdater.setFeedURL({ provider: 'generic', url: updateUrl, updaterCacheDirName: updaterCache });
 
-Object.defineProperty(autoUpdater.app, 'baseCachePath', {
-  get() {
-    return `${cwd()}/${updaterCache}`;
-  }
-});
 
 const checkUpdate = (mainWin) => {
+  autoUpdater.setFeedURL(updateUrl);
   // 更新前，删除本地安装包
   const updatePendingPath = path.join(autoUpdater.app.baseCachePath, updaterCache, 'pending');
   fs.emptyDir(updatePendingPath);
 
+  // 检测是否有更新包并通知
+  autoUpdater.checkForUpdatesAndNotify();
+
   return new Promise((resolve, reject) => {
-    // 检测是否有更新包并通知
-    autoUpdater.checkForUpdatesAndNotify().catch();
     //有新版本时
     autoUpdater.on('update-available', (_info) => {
       dialog.showMessageBox(opt).then(res => {

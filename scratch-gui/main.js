@@ -150,7 +150,7 @@ function createWindow() {
 
         // 检测电脑是否安装了驱动
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
-            if (flag === 'true') return;
+            if (flag === 'install') return;
 
             //是否需要重装驱动
             if (flag === 'reupdate') {
@@ -209,21 +209,19 @@ function createWindow() {
         });
     }
 
-    function _checkInstallDriver({ title, message }) {
-        return new Promise((resolve, reject) => {
-            const index = dialog.showMessageBoxSync({
-                type: "info",
-                title,
-                message,
-                buttons: ["否(no)", "是(yes)"],
-            });
-            if (index === 0) {
-                resolve(false);
-            } else {
-                exec(`cd ./resources && zadig.exe`);
-                resolve(true);
-            }
-        })
+    async function _checkInstallDriver({ title, message }) {
+        const { response } = await dialog.showMessageBox({
+            type: "info",
+            title,
+            message,
+            buttons: ["否(no)", "是(yes)"],
+        });
+        if (response === 0) {
+            return false;
+        } else {
+            exec(`cd ./resources && zadig.exe`);
+            return true;
+        }
     }
 
     function _handleOnFocus() {
