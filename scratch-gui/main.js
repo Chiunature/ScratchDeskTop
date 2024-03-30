@@ -31,7 +31,7 @@ const fs = require("fs");
 const { cwd } = require('process');
 const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
-const checkUpdate = require('./update.js');
+// const checkUpdate = require('./update.js');
 const logger = require('electron-log');
 
 logger.transports.file.maxSize = 1002430;
@@ -65,10 +65,10 @@ const pack = {
     isPackaged: app.isPackaged
 }
 
-async function updater(win) {
+/* async function updater(win) {
     const res = await checkUpdate(win);
     isUpdate = res;
-}
+} */
 
 function showLoading() {
     return new Promise((resolve, reject) => {
@@ -172,7 +172,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            updater(mainWindow);
+            // updater(mainWindow);
         });
 
         // 关闭window时触发下列事件.

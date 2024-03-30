@@ -1507,7 +1507,7 @@ Blockly.Blocks['sensing_mainIsPress'] = {
         },
       ],
       "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
+      "extensions": ["colours_sensing", "output_boolean"]
     });
   }
 };
