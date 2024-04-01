@@ -416,10 +416,9 @@ class MenuBar extends React.Component {
     }
 
     scanConnection() {
-        const that = this;
         this.timer = setInterval(() => {
-            if (!that.props.peripheralName) that.handleConnection();
-        }, 2000);
+            this.handleConnection();
+        }, 1500);
     }
 
     async handleConnection() {
@@ -427,6 +426,8 @@ class MenuBar extends React.Component {
         if (userAgent.indexOf(" electron/") > -1) {
             const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
             if (result) {
+                clearInterval(this.timer);
+                this.timer = null;
                 this.handleConnected(result, type);
             } else {
                 return;
@@ -468,20 +469,22 @@ class MenuBar extends React.Component {
 
     handleConnected(port, type) {
         if (!port) return;
-        const that = this;
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
             sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
                 if (arg.res) {
-                    clearTimeout(that.closeTimer);
-                    that.setPortItem(arg.serial, type, arg.serial.friendlyName);
-                    that.props.onShowConnectAlert(arg.msg);
+                    clearTimeout(this.closeTimer);
+                    if (!this.props.peripheralName) {
+                        this.setPortItem(arg.serial, type, arg.serial.friendlyName);
+                        this.props.onShowConnectAlert(arg.msg);
+                    }
                 } else {
-                    that.closeTimer = setTimeout(() => {
-                        if(arg.msg.length > 0) that.handleDisconnect(arg.msg);
-                    }, 2000);
+                    this.scanConnection();
+                    this.closeTimer = setTimeout(() => {
+                        if (arg.msg.length > 0) this.handleDisconnect(arg.msg);
+                    }, 3000);
                 }
             },
         });
@@ -491,9 +494,9 @@ class MenuBar extends React.Component {
         this.props.onClearConnectionModalPeripheralName();
         this.props.onGetSerialList([]);
         this.props.onSetPort(null);
-        this.props.onSetProgress(0);
         this.props.onSetIsConnectedSerial(false);
-        if (msg.lenght > 0) this.props.onShowDisonnectAlert("disconnect");
+        this.props.onSetProgress(0);
+        if (msg.length > 0) this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
