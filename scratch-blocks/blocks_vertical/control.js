@@ -255,7 +255,7 @@ Blockly.Blocks['control_wait_until'] = {
   init: function () {
     this.jsonInit({
       "message0": Blockly.Msg.CONTROL_WAITUNTIL,
-      "message1": "%1",
+      // "message1": "%1",
       "lastDummyAlign2": "RIGHT",
       "args0": [
         {
@@ -264,12 +264,12 @@ Blockly.Blocks['control_wait_until'] = {
           "check": "Boolean"
         }
       ],
-      "args1": [
+      /* "args1": [
         {
           "type": "input_statement",
           "name": "SUBSTACK"
         }
-      ],
+      ], */
       "category": Blockly.Categories.control,
       "extensions": ["colours_control", "shape_statement"]
     });
