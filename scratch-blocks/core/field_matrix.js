@@ -209,11 +209,11 @@ Blockly.FieldMatrix.prototype.init = function () {
   }
 
   // Change the color to parent block color.
-  if (this.sourceBlock_.getParent()) {
+  /* if (this.sourceBlock_.getParent()) {
     var parentBlock = this.sourceBlock_.getParent();
     this.sourceBlock_.setColour(parentBlock.getColour(), parentBlock.getColourSecondary(),
       parentBlock.getColourTertiary());
-  }
+  } */
 
   // Build the DOM.
   this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);

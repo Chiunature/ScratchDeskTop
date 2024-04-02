@@ -35,9 +35,7 @@ Blockly.Blocks['matrix_lamp'] = {
                 },
             ],
             "category": Blockly.Categories.matrix,
-            "colour": "#9966FF",
-            "secondaryColour": "#774DCB",
-            "extensions": ["colours_pen", "colours_matrix", "shape_statement"],
+            "extensions": ["colours_matrix", "shape_statement"],
         });
     }
 };
