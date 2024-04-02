@@ -149,6 +149,11 @@ Blockly.cake['matrix_color'] = function (block) {
 
 Blockly.cake['matrix_lamp_setSaturation'] = function (block) {
     let saturation = Blockly.cake.valueToCode(block, "saturation", Blockly.cake.ORDER_ATOMIC);
+
+    if(typeof saturation === 'string' && (saturation.indexOf('(') !== -1 || saturation.indexOf('_') !== -1)) {
+        return `matrix_color(${saturation});\n`;
+    }
+
     let color = Blockly.cake.oldColor;
     if (color) {
         var m = color.match(/^#(.)\1(.)\2(.)\3$/);
@@ -159,7 +164,7 @@ Blockly.cake['matrix_lamp_setSaturation'] = function (block) {
     }
 
     let newColor;
-    if (typeof color === 'string' && color.indexOf('(') === -1 && color.indexOf('#') !== -1) {
+    if (typeof color === 'string' && color.indexOf('(') === -1 && color.indexOf('#') !== -1 && color.indexOf('_') === -1) {
         const pre = Blockly.cake.hexToRgb(color);
         // const target = Blockly.cake.rgbToGrb(pre);
         const last = Blockly.cake.grbToHex(pre);

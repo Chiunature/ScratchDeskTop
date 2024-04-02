@@ -7,7 +7,7 @@ const TipsForUpdate = ({ tipsUpdateObj }) => {
             tipsUpdateObj && <div className={styles.tipsBox}>
                 <p>检测到更新，安装包下载中...</p>
                 <div>
-                    <span>网速: {tipsUpdateObj.speed}kb/s</span>
+                    {tipsUpdateObj.speed && <span>网速: {tipsUpdateObj.speed}kb/s</span>}
                     <span>进度: {tipsUpdateObj.percent}%</span>
                 </div>
             </div>
