@@ -67,5 +67,9 @@
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"
         }
+    },
+    "DRIVER": {
+        "INSTALL": "install",
+        "REUPDATE": "reupdate"
     }
 }

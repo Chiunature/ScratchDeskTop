@@ -511,10 +511,10 @@ class MenuBar extends React.Component {
     }
 
     async reUpdateDriver() {
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, 'reupdate');
+        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, ipc_Renderer.DRIVER.REUPDATE);
         if (res) {
             this.props.onActivateDeck("install-drivers");
-            localStorage.setItem('driver', res);
+            localStorage.setItem('driver', ipc_Renderer.DRIVER.INSTALL);
         }
     }
 

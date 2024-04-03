@@ -252,7 +252,7 @@ class GUI extends React.Component {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
         if (res) {
             this.props.onActivateDeck("install-drivers");
-            localStorage.setItem('driver', "install");
+            localStorage.setItem('driver', ipc_Renderer.DRIVER.INSTALL);
         }
     }
 

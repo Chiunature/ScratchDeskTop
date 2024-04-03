@@ -150,10 +150,10 @@ function createWindow() {
 
         // 检测电脑是否安装了驱动
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
-            if (flag === 'install') return;
+            if (flag === ipc.DRIVER.INSTALL) return;
 
             //是否需要重装驱动
-            if (flag === 'reupdate') {
+            if (flag === ipc.DRIVER.REUPDATE) {
                 const res = await _checkInstallDriver({
                     title: "Are you sure you want to reinstall the driver?",
                     message: "确定要重新安装驱动吗?",
