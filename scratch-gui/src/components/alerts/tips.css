@@ -18,3 +18,8 @@
 .tips-box span {
     margin: 0 20px;
 }
+
+.tips-success {
+    background: rgb(195, 253, 183);
+    color: rgb(52, 169, 58);
+}

@@ -33,6 +33,7 @@ const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 // const checkUpdate = require('./update.js');
 const logger = require('electron-log');
+// const createProtocol = require("./src/config/js/createProtocol.js");
 
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
@@ -66,8 +67,7 @@ const pack = {
 }
 
 /* async function updater(win) {
-    const res = await checkUpdate(win);
-    isUpdate = res;
+    await checkUpdate(win, isUpdate);
 } */
 
 function showLoading() {
@@ -108,6 +108,7 @@ function createWindow() {
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
+            // createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
             mainWindow.loadURL(
                 url.format({
                     pathname: path.join(__dirname, "build/index.html"),
@@ -115,6 +116,7 @@ function createWindow() {
                     slashes: true,
                 })
             );
+            // updater(mainWindow);
         } else {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
@@ -172,7 +174,6 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            // updater(mainWindow);
         });
 
         // 关闭window时触发下列事件.
