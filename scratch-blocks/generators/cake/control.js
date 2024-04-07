@@ -118,10 +118,10 @@ Blockly.cake['control_wait_until'] = function (block) {
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
 
-  /* var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);} {\n';
+  /* var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){vTaskDelay(50);} {\n';
   code += branch;
   code += Blockly.cake.INDENT + "}\n"; */
-  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);};\n';
+  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){vTaskDelay(50);};\n';
   return code;
 };
 

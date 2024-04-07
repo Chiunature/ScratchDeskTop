@@ -31,7 +31,7 @@ Blockly.cake['event_when'] = function (block) {
         Blockly.cake.ORDER_NONE) || 'False';
     var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
     branch = Blockly.cake.addLoopTrap(branch, block.id);
-    var code =  'while(true)\n{\nwhile (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0); {vTaskDelay(50);}\n'
+    var code =  'while(true)\n{\nwhile (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){vTaskDelay(50);}\n'
     code += branch;
     code += Blockly.cake.INDENT + '}\n';
     return code;
