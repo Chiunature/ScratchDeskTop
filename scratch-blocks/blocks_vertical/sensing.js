@@ -1054,17 +1054,17 @@ Blockly.Blocks['sensing_gyroscope_attitude'] = {
               "up"
             ],
             [
+              Blockly.Msg.DOWN,
+              "down"
+            ],
+            [
               Blockly.Msg.PLEFT,
               "left"
             ],
             [
               Blockly.Msg.PRIGHT,
               "right"
-            ],
-            [
-              Blockly.Msg.DOWN,
-              "down"
-            ],
+            ]
           ]
         },
       ],
@@ -1418,7 +1418,7 @@ Blockly.Blocks['sensing_isHandling'] = {
           "options": [
             [Blockly.Msg.UP, "up"],
             [Blockly.Msg.DOWN, "down"],
-            [Blockly.Msg.PLEFT ,"left"],
+            [Blockly.Msg.PLEFT, "left"],
             [Blockly.Msg.PRIGHT, "right"],
             ["X", "X"],
             ["Y", "Y"],

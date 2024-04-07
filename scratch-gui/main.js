@@ -142,6 +142,12 @@ function createWindow() {
             message: "检测到固件版本不是最新，是否前去更新"
         });
 
+        //更新电机传感器提示
+        _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, {
+            title: "Detected that the firmware version is not the latest. Do you want to update it now",
+            message: "检测到外设版本不是最新，是否前去更新"
+        });
+
 
         //是否删除记录
         _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, {

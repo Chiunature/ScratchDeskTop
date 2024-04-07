@@ -29,7 +29,7 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    function getMotorDirection(direction) {
+    /* function getMotorDirection(direction) {
         const num = parseInt(direction);
         if (isNaN(num)) return;
         switch (num) {
@@ -42,7 +42,7 @@ const DeviceBox = ({ list, intl, messages }) => {
             default:
                 return intl.formatMessage(messages['stop']);
         }
-    }
+    } */
 
     function motorData(num) {
         switch (num) {
@@ -52,6 +52,8 @@ const DeviceBox = ({ list, intl, messages }) => {
                 return intl.formatMessage(messages['angle']);
             case 2:
                 return intl.formatMessage(messages['actualSpeed']);
+            case 3:
+                return intl.formatMessage(messages['version']);
             default:
                 return '';
         }

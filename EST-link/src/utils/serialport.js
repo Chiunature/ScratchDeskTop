@@ -20,18 +20,8 @@ const { distinguish, verifyBinType } = require("../config/js/verify.js");
 const { SOURCE, EST_RUN } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
+const { instruct } = require("../config/js/instructions.js");
 
-const instruct = {
-    version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
-    files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
-    app_run: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
-    app_stop: [0x5A, 0x97, 0x98, 0x01, 0xB9, 0x01, 0x44, 0xA5],
-    restart: [0x5A, 0x97, 0x98, 0x01, 0xB7, 0x01, 0x42, 0xA5],
-    matrix: {
-        clear: [0x5A, 0x97, 0x98, 0x01, 0xEE, 0x01, 0x79, 0xA5],
-    },
-    serialport: [0x5A, 0x97, 0x98, 0x01, 0xB8, 0x01, 0x43, 0xA5]
-}
 const reg = /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"estlist\"\:\s*[\s\S]*?\}\}\s*/i;
 
 class Serialport extends Common {
@@ -362,10 +352,18 @@ class Serialport extends Common {
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
             if (this.sign && this.sign.indexOf('Boot_') !== -1) return;
-            if (arg === 'FILE') {
-                this.writeData(instruct.files, signType.EXE.FILES, event);
-            } else {
-                this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+            switch (arg.type) {
+                case 'FILE':
+                    this.writeData(instruct.files, signType.EXE.FILES, event);
+                    break;
+                case 'SENSING_UPDATE':
+                    this.writeData(instruct.sensing_update, null, event);
+                    break;
+                case 'APP':
+                    this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+                    break;
+                default:
+                    break;
             }
         });
     }

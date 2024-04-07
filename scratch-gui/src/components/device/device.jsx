@@ -4,10 +4,9 @@ import DeviceBox from './deviceBox.jsx';
 import messages from './deviceMsg.js';
 
 const Device = (props) => {
-    const { deviceList, gyrolist, flashlist, adclist } = props.deviceObj;
+    const { deviceList, gyrolist, flashlist, adclist, electric } = props.deviceObj;
     const rightList = deviceList ? deviceList.slice(4) : [];
     const leftList = deviceList ? deviceList.slice(0, 4) : [];
-    let adc = (adclist && adclist.bat) ? (((adclist.bat * 151 / 51 - 7) / 1.4).toFixed(2)) * 100 : null;
 
     return (<div className={styles.box}>
         <div className={styles.container}>
@@ -46,11 +45,11 @@ const Device = (props) => {
                                 })}
                             </ul>
                         </div>}
-                        {adclist && <div className={styles.midBox}>
+                        {electric && <div className={styles.midBox}>
                             <p>{props.intl.formatMessage(messages['electricity'])}</p>
                             <ul className={styles.midUl}>
-                                {adc && <li>
-                                    <span>{adc >= 100 ? '100' : adc <= 0 ? '0' : parseInt(adc)}</span>
+                                {electric.value && <li>
+                                    <span>{electric.value}</span>
                                     <span>%</span>
                                 </li>}
                             </ul>

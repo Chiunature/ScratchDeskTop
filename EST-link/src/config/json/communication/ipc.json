@@ -36,7 +36,8 @@
             "REUPDATE": "reupdate"
         },
         "MATRIX": "MATRIX",
-        "RESTART": "restart"
+        "RESTART": "restart",
+        "SENSING_UPDATE": "sensing_update"
     },
     "RETURN": {
         "EXE": {

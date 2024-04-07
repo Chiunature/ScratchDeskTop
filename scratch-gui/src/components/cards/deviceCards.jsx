@@ -142,7 +142,7 @@ const DeviceCards = props => {
         if (completed) {
             return;
         } else {
-            if (i === 1) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+            if (i === 1) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         }
     }
     const handleSelectExe = (item, index) => {
@@ -163,7 +163,7 @@ const DeviceCards = props => {
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
         });
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         onShowDelExeAlert("delExeSuccess");
         window.myAPI.deleteFiles(`${APP}/${item.name}.bin`);
     }

@@ -13,14 +13,7 @@
 const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, DELETE_EXE, EST_STOP } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
-
-const device = {
-    '0': 'noDevice',
-    'a1': 'motor',
-    'a2': 'color',
-    'a3': 'superSound',
-    'a4': 'touch'
-};
+const { device } = require("../config/js/instructions.js");
 
 class Common {
 

@@ -567,5 +567,6 @@
   "gui.device.electricity": "电量",
   "gui.device.soundIntensity": "声音强度",
   "gui.device.angle": "角度",
-  "gui.device.circly": "圈数"
+  "gui.device.circly": "圈数",
+  "gui.device.version": "版本"
 }

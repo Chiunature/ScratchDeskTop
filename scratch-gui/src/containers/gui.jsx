@@ -35,7 +35,7 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig, instructions } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
@@ -176,7 +176,7 @@ class GUI extends React.Component {
                         this.props.onSetCompleted(false);
                         this.props.onSetProgress(0);
                         // JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
-                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: 'FILE' });
+                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
                         clearTimeout(time);
                         time = null;
                     }, 2000);
@@ -205,7 +205,7 @@ class GUI extends React.Component {
     async checkUpdateFireware() {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         sessionStorage.setItem('version', res);
-        if (res === 0 && sessionStorage.getItem('version')) {
+        if (res === 0 || sessionStorage.getItem('version')) {
             return;
         }
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
@@ -232,6 +232,7 @@ class GUI extends React.Component {
     } */
     //开启监听
     watchDevice() {
+        let isUpdate = false;
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -240,11 +241,31 @@ class GUI extends React.Component {
                     result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
+                if (result.deviceList.length > 0 && !isUpdate) {
+                    for (let i = 0; i < result.deviceList.length; i++) {
+                        const item = result.deviceList[i];
+                        if (item.deviceId !== '0' && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]]['Not_Run']) {
+                            isUpdate = true;
+                            this.updateSensing(isUpdate);
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 this.getFirewareVersion();
             }
         });
+    }
+
+    async updateSensing(isUpdate) {
+        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
+        if (res === 1) {
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
+            isUpdate = false;
+        }
     }
 
     async checkDriver() {

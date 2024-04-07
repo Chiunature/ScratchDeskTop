@@ -134,6 +134,11 @@ const messages = defineMessages({
         "id": "gui.device.circly",
         "description": "Circly",
         "defaultMessage": "Circly"
+    },
+    "version": {
+        "id": "gui.device.version",
+        "description": "Version",
+        "defaultMessage": "Version"
     }
 });
 
