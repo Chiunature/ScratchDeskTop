@@ -65,7 +65,64 @@ Blockly.Blocks['motor_menu'] = {
     }
 };
 
+Blockly.Blocks['motor_acceleration_menu'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": "%1",
+            "args0": [
+                {
+                    "type": "field_dropdown",
+                    "name": "MENU",
+                    "options": [
+                        [ Blockly.Msg.DEFAULT, "default" ],
+                        [ Blockly.Msg.FAST, "fast" ],
+                        [ Blockly.Msg.BALANCE, "balance" ],
+                        [ Blockly.Msg.SMOOTH, "smooth" ],
+                        [ Blockly.Msg.SLOW, "slow" ],
+                        [ Blockly.Msg.SLOWER, "slower" ],
+                    ]
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "colour": Blockly.Colours.motor.primary,
+            "colourSecondary": Blockly.Colours.motor.secondary,
+            "colourTertiary": Blockly.Colours.motor.tertiary,
+            "extensions": ["output_string"],
+        });
+    }
+};
 
+Blockly.Blocks['motor_acceleration'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_ACCELERATION,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "MENU",
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "shape_statement"],
+        });
+    }
+};
 
 
 Blockly.Blocks['motor_starting'] = {

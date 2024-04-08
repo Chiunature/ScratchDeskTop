@@ -27922,6 +27922,13 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
     "NEW_BROADCAST_MESSAGE_TITLE": "新消息的名称：",
     "BROADCAST_MODAL_TITLE": "新消息",
     "DEFAULT_BROADCAST_MESSAGE_NAME": "消息1",
+    "MOTOR_ACCELERATION": "%1 将电机加速度设为 %2",
+    "DEFAULT": "默认",
+    "FAST": "快",
+    "BALANCE": "平衡",
+    "SMOOTH": "平滑",
+    "SLOW": "慢",
+    "SLOWER": "更慢"
 };
 
 Blockly.ScratchMsgs.locales["zh-tw"] = {

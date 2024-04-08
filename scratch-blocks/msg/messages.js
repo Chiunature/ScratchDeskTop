@@ -192,6 +192,13 @@ Blockly.Msg.STARTING_MOTOR = '%1 %2 %3 starting motor';
 Blockly.Msg.RELATIVE_POSITION = "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
 Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 The Motor %2 starts at %3 power";
+Blockly.Msg.MOTOR_ACCELERATION = "%1 Set the motor's acceleration as %2";
+Blockly.Msg.DEFAULT = "default";
+Blockly.Msg.FAST = "fast";
+Blockly.Msg.BALANCE = "balance";
+Blockly.Msg.SMOOTH = "smooth";
+Blockly.Msg.SLOW = "slow";
+Blockly.Msg.SLOWER = "slower";
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
 Blockly.Msg.MOTION_MOVE9STEPS = 'move 9 steps';

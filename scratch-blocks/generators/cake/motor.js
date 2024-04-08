@@ -16,6 +16,19 @@ Blockly.cake['motor_menu'] = function (block) {
     return [menu, Blockly.cake.ORDER_ATOMIC];
 };
 
+Blockly.cake['motor_acceleration_menu'] = function (block) {
+    const menu = block.getFieldValue('MENU');
+    // TODO: Assemble cake into code variable.
+    return [menu, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['motor_acceleration'] = function (block) {
+    let menu = Blockly.cake.valueToCode(block, "MENU", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    let code = `motor_acceleration(${Blockly.cake.toStr(menu) ? menu : '"' + menu + '"'});\n`;
+    return code;
+};
+
 Blockly.cake['motor_starting'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let spin = block.getFieldValue('SPIN');

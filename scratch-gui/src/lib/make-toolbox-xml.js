@@ -546,6 +546,11 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
+        <block type="motor_acceleration">
+            <value name="MENU">
+                <shadow type="motor_acceleration_menu"></shadow>
+            </value>
+        </block>
         `
         }
     </category>
