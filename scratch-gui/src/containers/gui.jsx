@@ -184,7 +184,7 @@ class GUI extends React.Component {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
                 }
-            },
+            }
         });
     }
 
@@ -203,11 +203,10 @@ class GUI extends React.Component {
     }
 
     async checkUpdateFireware() {
+        if(this.props.version == localStorage.getItem('version')) return;
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
-        sessionStorage.setItem('version', res);
-        if (res === 0 || sessionStorage.getItem('version')) {
-            return;
-        }
+        if (res === 0) return;
+        localStorage.setItem('version', JSON.stringify(this.props.version));
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
