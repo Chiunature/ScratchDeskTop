@@ -81,11 +81,9 @@ class GUI extends React.Component {
             this.checkDriver();
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake();
-
             window.myAPI.onUpdate((_event, info) => {
                 that.props.onSetTipsUpdate(info);
             });
-
         }
     }
     componentDidUpdate(prevProps) {
@@ -203,10 +201,10 @@ class GUI extends React.Component {
     }
 
     async checkUpdateFireware() {
-        if(this.props.version == localStorage.getItem('version')) return;
+        if(this.props.version == window.myAPI.getStoreValue('version')) return;
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
-        localStorage.setItem('version', JSON.stringify(this.props.version));
+        window.myAPI.setStoreValue('version', JSON.stringify(this.props.version));
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
@@ -268,11 +266,11 @@ class GUI extends React.Component {
     }
 
     async checkDriver() {
-        const driver = localStorage.getItem('driver');
+        const driver = window.myAPI.getStoreValue('driver');
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
         if (res) {
             this.props.onActivateDeck("install-drivers");
-            localStorage.setItem('driver', ipc_Renderer.DRIVER.INSTALL);
+            window.myAPI.setStoreValue('driver', ipc_Renderer.DRIVER.INSTALL);
         }
     }
 
@@ -289,7 +287,7 @@ class GUI extends React.Component {
                 if (this.props.deviceObj && this.props.deviceObj.estlist && this.props.deviceObj.estlist.est === verifyTypeConfig.EST_RUN) {
                     this.handleRunApp(this.props.deviceObj.estlist.est);
                 }
-                const selectedExe = JSON.parse(localStorage.getItem('selItem'));
+                const selectedExe = JSON.parse(window.myAPI.getStoreValue('selItem'));
                 const compile = new Compile();
                 const that = this;
                 setTimeout(() => {

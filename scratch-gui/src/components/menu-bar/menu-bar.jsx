@@ -514,7 +514,7 @@ class MenuBar extends React.Component {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, ipc_Renderer.DRIVER.REUPDATE);
         if (res) {
             this.props.onActivateDeck("install-drivers");
-            localStorage.setItem('driver', ipc_Renderer.DRIVER.INSTALL);
+            window.myAPI.setStoreValue('driver', ipc_Renderer.DRIVER.INSTALL);
         }
     }
 
@@ -540,7 +540,7 @@ class MenuBar extends React.Component {
                     editable: false
                 }
                 const newList = [...list, obj];
-                localStorage.setItem('recentFile', JSON.stringify(obj));
+                window.myAPI.setStoreValue('recentFile', JSON.stringify(obj));
                 window.myAPI.writeFiles('./cache-files.json', JSON.stringify(newList));
             }
         });

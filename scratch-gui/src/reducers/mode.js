@@ -9,10 +9,11 @@ const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
 const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
-const exeList = localStorage.getItem('exeList');
-const selItem = localStorage.getItem('selItem');
-(exeList && exeList.length < 20) && localStorage.removeItem('exeList');
-!selItem && localStorage.setItem('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true }));
+
+const exeList = window.myAPI.getStoreValue('exeList');
+const selItem = window.myAPI.getStoreValue('selItem');
+(exeList && exeList.length < 20) && window.myAPI.removeStoreValue('exeList');
+!selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true }));
 
 /**
  * 生成默认程序列表
@@ -41,7 +42,7 @@ const initialState = {
     bufferList: [],
     matchMyBlock: [],
     exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : [],
-    selectedExe: JSON.parse(localStorage.getItem('selItem'))
+    selectedExe: JSON.parse(window.myAPI.getStoreValue('selItem'))
 }
 
 const reducer = function (state, action) {
@@ -142,14 +143,14 @@ const setIsComplete = function (isComplete) {
     };
 };
 const setExelist = function (exeList) {
-localStorage.setItem('exeList', JSON.stringify(exeList));
+    window.myAPI.setStoreValue('exeList', JSON.stringify(exeList));
     return {
         type: SET_EXELIST,
         exeList: exeList
     };
 };
 const setSelectedExe = function (selectedExe) {
-localStorage.setItem('selItem', JSON.stringify(selectedExe));
+    window.myAPI.setStoreValue('selItem', JSON.stringify(selectedExe));
     return {
         type: SET_SELECTEDEXE,
         selectedExe: selectedExe

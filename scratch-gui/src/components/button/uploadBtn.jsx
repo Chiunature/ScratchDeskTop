@@ -14,7 +14,7 @@ const UploadBtn = (props) => {
             return;
         } else {
             handleCompile();
-            sessionStorage.setItem('run-app', JSON.stringify(flag));
+            // sessionStorage.setItem('run-app', JSON.stringify(flag));
         }
     }
 
@@ -38,7 +38,7 @@ const UploadBtn = (props) => {
                 />
                 <ButtonComponent
                     onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}
-                    className={classNames(styles.stopBtn, deviceStatus !== verifyTypeConfig.EST_RUN ? styles.stopDisable: '')}
+                    className={classNames(styles.stopBtn, deviceStatus !== verifyTypeConfig.EST_RUN ? styles.stopDisable : '')}
                     disabled={deviceStatus !== verifyTypeConfig.EST_RUN}
                     iconSrc={stopIcon}
                 />

@@ -25,57 +25,17 @@ const SelectExe = (props) => {
                 return item;
             });
             onSetExelist(newList);
-            localStorage.setItem('exeList', JSON.stringify(newList));
+            window.myAPI.setStoreValue('exeList', JSON.stringify(newList));
         }, 300);
         setTimer(timer);
     }
 
     const download = (item) => {
         if (completed) return;
-        localStorage.setItem('selItem', JSON.stringify(item));
+        window.myAPI.setStoreValue('selItem', JSON.stringify(item));
         handleCompile();
     }
 
-    /* const swapEl = (currentIndex, targetIndex) => {
-        const newList = [...exeList];
-        [newList[currentIndex], newList[targetIndex]] = [newList[targetIndex], newList[currentIndex]];
-        onSetExelist(newList);
-        setCacheList(newList);
-    }
-
-    const dragStartUl = (e) => {
-        e.dataTransfer.effectAllowed = 'move';
-        setCurrentLi(e.target);
-        setTimeout(() => {
-            if (currentLi) currentLi.classList.add('moving');
-        });
-    }
-
-    const dragEnterUl = (e) => {
-        e.preventDefault();
-        const list = refUl.current;
-        if (e.target === currentLi || e.target === list) {
-            return;
-        }
-        let liArray = Array.from(list.childNodes);
-        let currentIndex = liArray.indexOf(currentLi);
-        let targetIndex = liArray.indexOf(e.target);
-        if (e.target.tagName === 'LI' && currentLi.tagName === 'LI') {
-            swapEl(currentIndex, targetIndex);
-            if (currentIndex < targetIndex) {
-                list.insertBefore(currentLi, e.target.nextElementSibling);
-            } else {
-                list.insertBefore(currentLi, e.target);
-            }
-        }
-    }
-
-    const dragOverUl = (e) => e.preventDefault();
-
-    const dragEndUl = () => {
-        if (currentLi) currentLi.classList.remove('moving');
-        localStorage.setItem('exeList', JSON.stringify(cacheList));
-    } */
 
     return (
         <ul className={styles.selExe} ref={refUl}>

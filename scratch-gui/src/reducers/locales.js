@@ -40,7 +40,7 @@ const reducer = function (state, action) {
 const selectLocale = function (locale) {
     /* const expires = new Date(new Date().setYear(new Date().getFullYear() + 1)).toUTCString();
     document.cookie = `lang=${locale};expires=${expires};path=/`; */
-    localStorage.setItem('lang', locale);
+    window.myAPI.setStoreValue('lang', locale);
     return {
         type: SELECT_LOCALE,
         locale: locale

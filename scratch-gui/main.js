@@ -35,6 +35,9 @@ const { Serialport, ipc } = require('est-link');
 const logger = require('electron-log');
 // const createProtocol = require("./src/config/js/createProtocol.js");
 
+const Store = require('electron-store');
+Store.initRenderer();
+
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
 let date = new Date();
@@ -83,7 +86,6 @@ function showLoading() {
         loadingWindow.show();
         resolve();
     });
-
 };
 
 function createWindow() {
@@ -98,7 +100,6 @@ function createWindow() {
             show: false,
             webPreferences: options,
         });
-
 
         const sp = new Serialport({ serialport, ...pack });
         //获取串口列表

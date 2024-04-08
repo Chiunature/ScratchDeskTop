@@ -84,6 +84,9 @@ const checkUpdate = (mainWin, isUpdate) => {
         if (returnValue.response == 0) {  //选择是，则退出程序，安装新版本
           isUpdate = true;
           autoUpdater.quitAndInstall();
+          if (mainWin && mainWin.destroy) {
+            mainWin.destroy();
+          }
           app.quit();
         } else {
           isUpdate = false;

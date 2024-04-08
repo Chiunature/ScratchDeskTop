@@ -17,7 +17,7 @@ const systemPreferencesTheme = () => {
 const detectTheme = () => {
     /* const obj = cookie.parse(document.cookie) || {};
     const themeCookie = obj.scratchtheme; */
-    const themeCookie = localStorage.getItem(COOKIE_KEY);
+    const themeCookie = window.myAPI.getStoreValue(COOKIE_KEY);
     if (themeCookie && isValidTheme(themeCookie)) return themeCookie;
 
     // No cookie set. Fall back to system preferences
@@ -31,8 +31,8 @@ const persistTheme = (theme, themeInfo) => {
 
     document.body.style.setProperty("--motion-primary", themeInfo.colors.themeColor);
     document.body.style.setProperty("--modal-overlay", themeInfo.colors.modalColor);
-    localStorage.setItem("themeColor", themeInfo.colors.themeColor);
-    localStorage.setItem("modalColor", themeInfo.colors.modalColor);
+    window.myAPI.setStoreValue("themeColor", themeInfo.colors.themeColor);
+    window.myAPI.setStoreValue("modalColor", themeInfo.colors.modalColor);
 
     /* if (systemPreferencesTheme() === theme) {
         // Clear the cookie to represent using the system preferences
@@ -42,7 +42,7 @@ const persistTheme = (theme, themeInfo) => {
 
     /* const expires = new Date(new Date().setYear(new Date().getFullYear() + 1)).toUTCString();
     document.cookie = `${COOKIE_KEY}=${theme};expires=${expires};path=/`; */
-    localStorage.setItem(COOKIE_KEY, theme);
+    window.myAPI.setStoreValue(COOKIE_KEY, theme);
 };
 
 export {

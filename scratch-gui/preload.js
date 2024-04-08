@@ -5,6 +5,27 @@ const { spawn } = require("child_process");
 const { cwd } = require('process');
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
+const Store = require('electron-store');
+const store = new Store();
+
+
+function setStoreValue(key, value) {
+    store.set(key, value);
+}
+
+function getStoreValue(key) {
+    const value = store.get(key);
+    return value;
+}
+
+function removeStoreValue(key) {
+    store.delete(key);
+}
+
+function hasStoreValue(key) {
+    return store.has(key);
+}
+
 
 /**
  * 异步通信
@@ -193,5 +214,9 @@ contextBridge.exposeInMainWorld('myAPI', {
     writeFileWithDirectory,
     handlerError,
     getCurrentTime,
+    setStoreValue,
+    getStoreValue,
+    removeStoreValue,
+    hasStoreValue,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
 });

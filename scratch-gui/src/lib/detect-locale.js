@@ -17,7 +17,7 @@ const detectLocale = supportedLocales => {
     let browserLocale = window.navigator.userLanguage || window.navigator.language;
     browserLocale = browserLocale.toLowerCase();
     // const obj = cookie.parse(document.cookie) || {};
-    const langCookie = localStorage.getItem('lang');
+    const langCookie = window.myAPI.getStoreValue('lang');
 
     // try to set locale from browserLocale
     if (langCookie) {

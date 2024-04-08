@@ -25,11 +25,11 @@ const handleTelemetryModalOptOut = () => {
     log('User opted out of telemetry');
 };
 const getThemeStorage = () => {
-    let theme = localStorage.getItem('themeColor');
+    let theme = window.myAPI.getStoreValue('themeColor');
     return theme ? theme : '#7986b8';
 }
 const getModalStorage = () => {
-    let modal = localStorage.getItem('modalColor');
+    let modal = window.myAPI.getStoreValue('modalColor');
     return modal ? modal : 'hsla(227.62, 29.73%, 59.8%, .7)';
 }
 document.body.style.setProperty('--motion-primary', getThemeStorage());

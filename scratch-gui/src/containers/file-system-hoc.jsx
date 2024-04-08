@@ -87,8 +87,8 @@ class FileSystemHoc extends Component {
     }
 
     handleClickRecent() {
-        if (localStorage.getItem('recentFile')) {
-            const obj = JSON.parse(localStorage.getItem('recentFile'));
+        if (window.myAPI.hasStoreValue('recentFile')) {
+            const obj = JSON.parse(window.myAPI.getStoreValue('recentFile'));
             this.handleFileReader(obj.url);
         } else {
             return;
