@@ -47,7 +47,7 @@ import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
-import getMainMsg from "../config/js/message.js";
+import getMainMsg from "../lib/alerts/message.js";
 
 let isUpdate = false;
 class GUI extends React.Component {
