@@ -47,8 +47,9 @@ import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
+import getMainMsg from "../config/js/message.js";
 
-
+let isUpdate = false;
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -72,11 +73,11 @@ class GUI extends React.Component {
         const userAgent = navigator.userAgent.toLowerCase();
         const that = this;
         if (userAgent.indexOf("electron/") > -1) {
+            this.getMainMessage();
             this.downloadSuccess();
             this.downloadProgress();
             this.downloadSource();
             this.getFirewareFiles();
-            // 设备信息监听
             this.watchDevice();
             this.checkDriver();
             this.matrixSend('FieldMatrix');
@@ -101,6 +102,11 @@ class GUI extends React.Component {
     }
     componentWillUnmount() {
         window.myAPI.delEvents();
+    }
+
+    getMainMessage() {
+        const mainMsg = getMainMsg(this.props.intl);
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.GETMAINMSG, sendParams: mainMsg });
     }
 
     blocksMotorCheck() {
@@ -201,7 +207,7 @@ class GUI extends React.Component {
     }
 
     async checkUpdateFireware() {
-        if(this.props.version == window.myAPI.getStoreValue('version')) return;
+        if (this.props.version == window.myAPI.getStoreValue('version')) return;
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
         window.myAPI.setStoreValue('version', JSON.stringify(this.props.version));
@@ -229,7 +235,6 @@ class GUI extends React.Component {
     } */
     //开启监听
     watchDevice() {
-        let isUpdate = false;
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -243,7 +248,7 @@ class GUI extends React.Component {
                         const item = result.deviceList[i];
                         if (item.deviceId !== '0' && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]]['Not_Run']) {
                             isUpdate = true;
-                            this.updateSensing(isUpdate);
+                            this.updateSensing();
                             break;
                         } else {
                             continue;
@@ -257,12 +262,12 @@ class GUI extends React.Component {
         });
     }
 
-    async updateSensing(isUpdate) {
+    async updateSensing() {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
-        if (res === 1) {
+        if (res === 0) {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
-            isUpdate = false;
         }
+        isUpdate = false;
     }
 
     async checkDriver() {

@@ -37,7 +37,8 @@
         },
         "MATRIX": "MATRIX",
         "RESTART": "restart",
-        "SENSING_UPDATE": "sensing_update"
+        "SENSING_UPDATE": "sensing_update",
+        "GETMAINMSG": "get_main_msg"
     },
     "RETURN": {
         "EXE": {

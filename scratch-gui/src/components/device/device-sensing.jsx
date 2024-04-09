@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styles from './device.css';
 import colorSensingIcon from 'scratch-blocks/media/color_sensing.svg';
 import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';

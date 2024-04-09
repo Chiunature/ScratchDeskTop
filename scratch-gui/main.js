@@ -29,15 +29,15 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { cwd } = require('process');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 // const checkUpdate = require('./update.js');
-const logger = require('electron-log');
 // const createProtocol = require("./src/config/js/createProtocol.js");
 
 const Store = require('electron-store');
 Store.initRenderer();
 
+const logger = require('electron-log');
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
 let date = new Date();
@@ -47,7 +47,7 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 //全局的console.info写进日志文件
 console.info = logger.info || logger.warn;
 
-let mainWindow, loadingWindow, isUpdate;
+let mainWindow, loadingWindow, isUpdate, mainMsg;
 
 
 const options = {
@@ -130,32 +130,17 @@ function createWindow() {
             shell.openExternal(url);
         });
 
+        ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
+            mainMsg = { ...msg };
         //点击重新更新固件提示
-        _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, {
-            title: "Do you want to delete this record",
-            message: "固件已是最新版本, 是否要重新更新"
-        });
-
-
+            _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, { message: mainMsg['reupdate'] });
         //更新固件提示
-        _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, {
-            title: "Detected that the firmware version is not the latest. Do you want to update it now",
-            message: "检测到固件版本不是最新，是否前去更新"
-        });
-
+            _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, { message: mainMsg['update'] });
         //更新电机传感器提示
-        _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, {
-            title: "Detected that the firmware version is not the latest. Do you want to update it now",
-            message: "检测到外设版本不是最新，是否前去更新"
-        });
-
-
+            _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
         //是否删除记录
-        _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, {
-            title: "Do you want to delete this record",
-            message: "是否要删除此记录"
+            _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
         });
-
 
         // 检测电脑是否安装了驱动
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
@@ -163,17 +148,11 @@ function createWindow() {
 
             //是否需要重装驱动
             if (flag === ipc.DRIVER.REUPDATE) {
-                const res = await _checkInstallDriver({
-                    title: "Are you sure you want to reinstall the driver?",
-                    message: "确定要重新安装驱动吗?",
-                });
+                const res = await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
                 return res;
             }
 
-            const res = await _checkInstallDriver({
-                title: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them",
-                message: "检查到你的电脑未安装必要驱动，是否前去安装",
-            });
+            const res = await _checkInstallDriver({ message: mainMsg['installDriver'] });
             return res;
         });
 
@@ -189,9 +168,9 @@ function createWindow() {
             if (isUpdate) return;
             const { response } = await dialog.showMessageBox({
                 type: "info",
-                title: "The changes you made may not be saved",
-                message: "你所做的更改可能未保存",
-                buttons: ["取消(cancel)", "确定(confirm)"],
+                title: " ",
+                message: mainMsg.exit,
+                buttons: [mainMsg['cancel'], mainMsg['confirm']],
             });
             if (response === 1) {
                 mainWindow = null;
@@ -205,13 +184,13 @@ function createWindow() {
         resolve();
     });
 
-    function _ipcMainHandle(instruct, obj) {
+    function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
         ipcMain.handle(instruct, async () => {
             const { response } = await dialog.showMessageBox({
                 type: obj.type ? obj.type : 'info',
-                title: obj.title,
+                title: obj.title ? obj.title : ' ',
                 message: obj.message,
-                buttons: ["否(no)", "是(yes)"],
+                buttons
             });
             return response;
         });
@@ -222,12 +201,17 @@ function createWindow() {
             type: "info",
             title,
             message,
-            buttons: ["否(no)", "是(yes)"],
+            buttons: [mainMsg['cancel'], mainMsg['confirm']],
         });
         if (response === 0) {
             return false;
         } else {
-            exec(`cd ./resources && zadig.exe`);
+            const zadigPath = path.join(__dirname, 'resources', 'zadig.exe');
+            spawn(zadigPath, [], {
+                detached: true,
+                stdio: 'ignore',
+                shell: true
+            });
             return true;
         }
     }
