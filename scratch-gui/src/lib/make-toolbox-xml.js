@@ -478,6 +478,11 @@ const myBlocks = function (colors) {
             </value>
         </block>
         <block type="motor_relative_position"></block>
+        <block type="motor_acceleration">
+            <value name="MENU">
+                <shadow type="motor_acceleration_menu"></shadow>
+            </value>
+        </block>
     */
 
 const motor = function (isInitialSetup, isStage, targetId, colors) {
@@ -544,11 +549,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
             <value name="POWER">
                 <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="motor_acceleration">
-            <value name="MENU">
-                <shadow type="motor_acceleration_menu"></shadow>
             </value>
         </block>
         `

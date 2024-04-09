@@ -132,26 +132,24 @@ function createWindow() {
 
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
             mainMsg = { ...msg };
-        //点击重新更新固件提示
+            //点击重新更新固件提示
             _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, { message: mainMsg['reupdate'] });
-        //更新固件提示
+            //更新固件提示
             _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, { message: mainMsg['update'] });
-        //更新电机传感器提示
+            //更新电机传感器提示
             _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
-        //是否删除记录
+            //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
         });
 
         // 检测电脑是否安装了驱动
         ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
             if (flag === ipc.DRIVER.INSTALL) return;
-
             //是否需要重装驱动
             if (flag === ipc.DRIVER.REUPDATE) {
                 const res = await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
                 return res;
             }
-
             const res = await _checkInstallDriver({ message: mainMsg['installDriver'] });
             return res;
         });
