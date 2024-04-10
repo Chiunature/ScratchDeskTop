@@ -199,7 +199,7 @@ function createWindow() {
         });
     }
 
-    async function _checkInstallDriver({ title, message }) {
+    async function _checkInstallDriver({ title = ' ', message }) {
         const { response } = await dialog.showMessageBox({
             type: "info",
             title,
