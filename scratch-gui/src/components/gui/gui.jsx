@@ -167,6 +167,7 @@ const GUIComponent = (props) => {
         onSetTipsUpdate,
         deviceStatus,
         onSetDeviceStatus,
+        getMainMessage,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -331,6 +332,7 @@ const GUIComponent = (props) => {
                             }
                             onToggleLoginOpen={onToggleLoginOpen}
                             onActivateDeck={onActivateDeck}
+                            getMainMessage={getMainMessage}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>

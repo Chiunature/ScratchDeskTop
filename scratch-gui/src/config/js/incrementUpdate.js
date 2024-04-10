@@ -7,16 +7,16 @@ const AdmZip = require("adm-zip");
 let currentIncrementUpdateVersion = '', decompressing = false, hasCheckWaitUpdate = false, downloadApplying = false;
 
 // 增量更新
-async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin) {
+async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin, mainMsg) {
     let oldPath = process.resourcesPath + "/app.asar.unpacked";
     let targetPath = process.resourcesPath + "/unpacked.zip";
     if (hasCheckWaitUpdate) {
         let { response } = await dialog.showMessageBox({
             type: "info",
-            buttons: ["否", "是"],
-            title: "应用更新",
-            message: "更新包下载完成",
-            detail: "请立即完成更新",
+            buttons: [mainMsg['cancel'], mainMsg['confirm']],
+            title: mainMsg['updateApp'],
+            message: mainMsg['updateAppSuccess'],
+            detail: mainMsg['restartUpdate'],
             defaultId: 0,
             cancelId: 0,
         });
@@ -27,10 +27,10 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
     if (downloadApplying) {
         let res = await dialog.showMessageBox({
             type: "info",
-            buttons: ["我知道了"],
-            title: "应用更新",
-            message: "更新包正在下载",
-            detail: "请耐心等待",
+            buttons: ["OK"],
+            title: mainMsg['updateApp'],
+            message: mainMsg['updating'],
+            detail: mainMsg['waiting'],
         });
         return;
     }
@@ -41,13 +41,14 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
             //两个版本号不同，触发更新
             if (currentIncrementUpdate != obsIncrementUpdate) {
                 downloadApplying = true;
-                let received_bytes = 0, total_bytes = 0, startTime = Date.now(), prevLoaded = 0;
+                let received_bytes = 0, total_bytes = 0;
+                // let startTime = Date.now(), prevLoaded = 0;
                 let req = await axios.get("https://zsff.drluck.club/ATC/unpacked.zip", {
                     responseType: 'stream',
                     onDownloadProgress: progressEvent => {
                         if (total_bytes === 0) total_bytes = progressEvent.total;
                         received_bytes = progressEvent.loaded;
-                        const currentTime = Date.now();
+                        /* const currentTime = Date.now();
                         const timeElapsed = (currentTime - startTime) / 1000;
                         const loaded = progressEvent.loaded;
                         const speed = (loaded - prevLoaded) / timeElapsed / 1024;
@@ -57,7 +58,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
                             speed: speed.toFixed(2),
                             percent: percentComplete.toFixed(2),
                         });
-                        startTime = currentTime;
+                        startTime = currentTime; */
                     }
                 });
                 try {
@@ -67,7 +68,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
                         if (req.status === 200) {
                             const percentComplete = (received_bytes / total_bytes) * 100;
                             if (Math.ceil(percentComplete.toFixed(2)) >= 100) {
-                                updateAtOnce(oldPath, targetPath, obsIncrementUpdate);
+                                updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainWin, mainMsg);
                             } else {
                                 out.end();
                                 downloadApplying = false;
@@ -93,20 +94,20 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
 }
 
 
-async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate) {
+async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainWin, mainMsg) {
     hasCheckWaitUpdate = true;
     let { response } = await dialog.showMessageBox({
         type: "info",
-        buttons: ["否", "是"],
-        title: "应用更新",
-        message: "更新包下载完成",
-        detail: "请立即完成更新",
+        buttons: [mainMsg['cancel'], mainMsg['confirm']],
+        title: mainMsg['updateApp'],
+        message: mainMsg['updateAppSuccess'],
+        detail: mainMsg['updateAppSuccessDetail'],
         defaultId: 0,
         cancelId: 0,
     });
     if (response === 1) {
         //立即更新
-        await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate);
+        await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainWin);
     }
 }
 
@@ -149,17 +150,8 @@ async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mai
         }
         // 解压
         let zip = new AdmZip(targetPath);
-        // 把整个压缩包完全解压到 app.asar.unpacked 目录中
-        zip.extractAllToAsync(oldPath, true, (err) => {
-            if (err) {
-                console.info(err)
-                downloadApplying = false;
-                decompressing = false;
-                //恢复
-                fs.rename(oldPath + ".old", oldPath, (err) => console.info(err));
-                return;
-            }
-        });
+        try {
+            zip.extractAllTo(oldPath, true);
         //删除目标文件夹以及文件夹下的所有文件
         deleteOld(oldPath + ".old");
         //解压完之后别忘了要修改本地hotVersion文件的版本号，否则会一直触发更新
@@ -181,6 +173,15 @@ async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mai
                 decompressing = false;
             }
         });
+        } catch (error) {
+            console.info(error)
+            downloadApplying = false;
+            decompressing = false;
+            //恢复
+            fs.rename(oldPath + ".old", oldPath, (err) => console.info(err));
+            return;
+        }
+
     });
 }
 

@@ -63,7 +63,7 @@ class GUI extends React.Component {
                 deviceStatus: verifyTypeConfig.EST_STOP
             }
         } */
-        bindAll(this, ['handleCompile', 'handleRunApp']);
+        bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
     }
 
     async componentDidMount() {
@@ -352,6 +352,7 @@ class GUI extends React.Component {
                     {...componentProps}
                     handleCompile={this.handleCompile}
                     handleRunApp={this.handleRunApp}
+                    getMainMessage={this.getMainMessage}
                     compile={new Compile()}
                     deviceObj={this.props.deviceObj}
                     deviceStatus={this.props.deviceStatus}

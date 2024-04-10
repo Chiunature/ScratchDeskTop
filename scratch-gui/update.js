@@ -3,34 +3,18 @@ const { app, dialog } = require('electron');
 const fs = require("fs-extra");
 const path = require("path");
 const incrementUpdate = require("./src/config/js/incrementUpdate.js");
-// const { cwd } = require('process');
 
 const server = 'https://zsff.drluck.club';
 const updateUrl = `${server}/ATC`;
 const updaterCache = 'ATC-updater';
 let updateDownloading = false, currentIncrementUpdate = "1.2.4", obsIncrementUpdate = "1.2.5";
 
-const opt = {
-  type: 'info',
-  title: '更新提示',
-  message: '有新版本发布了',
-  buttons: ['更新', '取消'],
-  cancelId: 1
-}
-const dialogOpts = {
-  type: 'info',
-  buttons: ['Update(更新)', 'Later(稍后再说)'],
-  title: 'Application Update(应用更新)',
-  message: '已为您下载最新应用，点击确定马上替换为最新版本！',
-  detail:
-    'A new version was found. Do you want to update?(发现新版本，是否更新？)'
-}
 
 autoUpdater.autoDownload = false; // 自动下载
 autoUpdater.autoInstallOnAppQuit = true; // 应用退出后自动安装
 
 
-const checkUpdate = (mainWin, isUpdate) => {
+const checkUpdate = (mainWin, isUpdate, mainMsg) => {
   autoUpdater.setFeedURL(updateUrl);
   // 更新前，删除本地安装包
   const updatePendingPath = path.join(autoUpdater.app.baseCachePath, updaterCache, 'pending');
@@ -43,8 +27,14 @@ const checkUpdate = (mainWin, isUpdate) => {
     //有新版本时
     autoUpdater.on('update-available', (_info) => {
       updateDownloading = true;
-      dialog.showMessageBox(opt).then(res => {
-        if (res.response == 0) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: mainMsg['updateApp'],
+        message: mainMsg['discoverUpdate'],
+        buttons: [mainMsg['cancel'], mainMsg['confirm']],
+        cancelId: 0
+      }).then(res => {
+        if (res.response == 1) {
           //开始下载更新
           autoUpdater.downloadUpdate();
         }
@@ -62,7 +52,7 @@ const checkUpdate = (mainWin, isUpdate) => {
           } else {
             //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
             currentIncrementUpdate = JSON.parse(data).version;
-            incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin);
+            incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin, mainMsg);
           }
         }
       );
@@ -80,8 +70,16 @@ const checkUpdate = (mainWin, isUpdate) => {
     autoUpdater.on('update-downloaded', (event) => {
       console.info(event)
       updateDownloading = false;
-      dialog.showMessageBox(dialogOpts).then((returnValue) => {
-        if (returnValue.response == 0) {  //选择是，则退出程序，安装新版本
+      dialog.showMessageBox({
+        type: "info",
+        buttons: [mainMsg['cancel'], mainMsg['confirm']],
+        title: mainMsg['updateApp'],
+        message: mainMsg['updateAppSuccess'],
+        detail: mainMsg['updateAppSuccessDetail'],
+        defaultId: 0,
+        cancelId: 0,
+      }).then((returnValue) => {
+        if (returnValue.response == 1) {  //选择是，则退出程序，安装新版本
           isUpdate = true;
           autoUpdater.quitAndInstall();
           if (mainWin && mainWin.destroy) {

@@ -46,6 +46,41 @@ const MainMessages = defineMessages({
         id: "gui.main.installDriver",
         defaultMessage: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them?",
         description: "Checked that your computer does not have the necessary drivers installed. Would you like to go ahead and install them?",
+    },
+    "updateApp": {
+        id: "gui.main.updateApp",
+        defaultMessage: "Application updates",
+        description: "Application updates",
+    },
+    "updateAppSuccess": {
+        id: "gui.main.updateAppSuccess",
+        defaultMessage: "Update package download completed.",
+        description: "Update package download completed.",
+    },
+    "updateAppSuccessDetail": {
+        id: "gui.main.updateAppSuccessDetail",
+        defaultMessage: "Do you want to restart immediately to complete the update (data will not be automatically saved)?",
+        description: "Do you want to restart immediately to complete the update (data will not be automatically saved)?",
+    },
+    "updating": {
+        id: "gui.main.updating",
+        defaultMessage: "The update package is currently being downloaded.",
+        description: "The update package is currently being downloaded.",
+    },
+    "waiting": {
+        id: "gui.main.waiting",
+        defaultMessage: "Please be patient and wait.",
+        description: "Please be patient and wait.",
+    },
+    "restartUpdate": {
+        id: "gui.main.restartUpdate",
+        defaultMessage: "Please restart to complete the update.",
+        description: "Please restart to complete the update.",
+    },
+    "discoverUpdate": {
+        id: "gui.main.discoverUpdate",
+        defaultMessage: "Discovered a new version, do you want to update it?",
+        description: "Discovered a new version, do you want to update it?",
     }
 });
 

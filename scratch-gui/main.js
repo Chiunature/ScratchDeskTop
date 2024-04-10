@@ -29,7 +29,7 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { cwd } = require('process');
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 // const checkUpdate = require('./update.js');
 // const createProtocol = require("./src/config/js/createProtocol.js");
@@ -70,7 +70,7 @@ const pack = {
 }
 
 /* async function updater(win) {
-    await checkUpdate(win, isUpdate);
+    await checkUpdate(win, isUpdate, mainMsg);
 } */
 
 function showLoading() {
@@ -117,7 +117,6 @@ function createWindow() {
                     slashes: true,
                 })
             );
-            // updater(mainWindow);
         } else {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
@@ -140,6 +139,7 @@ function createWindow() {
             _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
             //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
+            // updater(mainWindow, mainMsg);
         });
 
         // 检测电脑是否安装了驱动
@@ -169,6 +169,8 @@ function createWindow() {
                 title: " ",
                 message: mainMsg.exit,
                 buttons: [mainMsg['cancel'], mainMsg['confirm']],
+                defaultId: 0,
+                cancelId: 0,
             });
             if (response === 1) {
                 mainWindow = null;
@@ -183,12 +185,15 @@ function createWindow() {
     });
 
     function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
+        ipcMain.removeHandler(instruct);
         ipcMain.handle(instruct, async () => {
             const { response } = await dialog.showMessageBox({
                 type: obj.type ? obj.type : 'info',
                 title: obj.title ? obj.title : ' ',
                 message: obj.message,
-                buttons
+                buttons,
+                defaultId: 0,
+                cancelId: 0,
             });
             return response;
         });
@@ -200,16 +205,19 @@ function createWindow() {
             title,
             message,
             buttons: [mainMsg['cancel'], mainMsg['confirm']],
+            defaultId: 0,
+            cancelId: 0,
         });
         if (response === 0) {
             return false;
         } else {
-            const zadigPath = path.join(__dirname, 'resources', 'zadig.exe');
+            /* const zadigPath = path.join(__dirname, 'resources', 'zadig.exe');
             spawn(zadigPath, [], {
                 detached: true,
                 stdio: 'ignore',
                 shell: true
-            });
+            }); */
+            exec(`cd ./resources && zadig.exe`);
             return true;
         }
     }

@@ -22,7 +22,8 @@ const SettingsMenu = ({
     onRequestClose,
     onRequestOpen,
     settingsMenuOpen,
-    reUpdateDriver
+    reUpdateDriver,
+    getMainMessage
 }) => (
     <div
         className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
@@ -48,7 +49,7 @@ const SettingsMenu = ({
             onRequestClose={onRequestClose}
         >
             <MenuSection>
-                {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} />}
+                {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage}/>}
                 {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
                 <MenuItem onClick={reUpdateDriver}>

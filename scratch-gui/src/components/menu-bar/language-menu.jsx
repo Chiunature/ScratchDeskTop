@@ -47,6 +47,7 @@ class LanguageMenu extends React.PureComponent {
     changeLanguageAndDisconnect(locale) {
         this.props.onChangeLanguage(locale);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        this.props.getMainMessage();
     }
 
     render() {
