@@ -67,7 +67,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                         <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
-                                return (<li key={index}>
+                                return (index !== 3 && <li key={index}>
                                     <span>{motorData(index)}</span>
                                     <span>{el.motor[item]}</span>
                                 </li>)

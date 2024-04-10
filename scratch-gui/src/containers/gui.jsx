@@ -235,6 +235,7 @@ class GUI extends React.Component {
     } */
     //开启监听
     watchDevice() {
+        const list = ['a1', 'a2'];
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -246,7 +247,8 @@ class GUI extends React.Component {
                 if (result.deviceList.length > 0 && !isUpdate) {
                     for (let i = 0; i < result.deviceList.length; i++) {
                         const item = result.deviceList[i];
-                        if (item.deviceId !== '0' && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]]['Not_Run']) {
+                        if (list.includes(item.deviceId) && instructions.device[item.deviceId] &&
+                            item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]]) {
                             isUpdate = true;
                             this.updateSensing();
                             break;
@@ -290,7 +292,7 @@ class GUI extends React.Component {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
                 if (this.props.deviceObj && this.props.deviceObj.estlist && this.props.deviceObj.estlist.est === verifyTypeConfig.EST_RUN) {
-                    this.handleRunApp(this.props.deviceObj.estlist.est);
+                    this.handleRunApp(verifyTypeConfig.EST_RUN);
                 }
                 const selectedExe = JSON.parse(window.myAPI.getStoreValue('selItem'));
                 const compile = new Compile();
