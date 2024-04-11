@@ -191,6 +191,13 @@
             {
                 "from": "build",
                 "to": "app.asar.unpacked"
+            },
+            {
+                "from": "build",
+                "to": "./",
+                "filter": [
+                    "**/hotVersion.json"
+                ]
             }
         ],
         "files": [
