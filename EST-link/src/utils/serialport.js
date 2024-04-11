@@ -305,7 +305,7 @@ class Serialport extends Common {
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //开启设备数据监控监听
-            this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
+            if(receiveData) this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
             setTimeout(() => that.watchDevice(event));
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
