@@ -1,6 +1,6 @@
 {
     "name": "scratch-gui",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "description": "EST3",
     "main": "main.js",
     "scripts": {
@@ -32,8 +32,10 @@
     "dependencies": {
         "@babel/plugin-transform-runtime": "^7.23.4",
         "@babel/runtime": "^7.23.5",
+        "adm-zip": "^0.5.12",
         "arraybuffer-loader": "^1.0.6",
         "autoprefixer": "^9.0.1",
+        "axios": "^1.6.8",
         "babel-plugin-react-intl": "^2.4.0",
         "base64-loader": "1.0.0",
         "bowser": "1.9.4",
@@ -176,6 +178,7 @@
             "buildResources": "./",
             "output": "pack"
         },
+        "afterPack": "./scripts/afterPack.js",
         "extraResources": [
             {
                 "from": "./resources/gcc-arm-none-eabi",
@@ -184,10 +187,13 @@
             {
                 "from": "./resources/zadig.exe",
                 "to": "./zadig.exe"
+            },
+            {
+                "from": "build",
+                "to": "app.asar.unpacked"
             }
         ],
         "files": [
-            "build/**/*",
             "node_modules/**/*",
             "static/**/*",
             "src/config/**/*",
@@ -205,7 +211,7 @@
             "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "EST3.0",
+            "shortcutName": "EST3",
             "runAfterFinish": false,
             "perMachine": false,
             "deleteAppDataOnUninstall": true

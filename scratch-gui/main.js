@@ -31,8 +31,8 @@ const fs = require("fs");
 const { cwd } = require('process');
 const { spawn, exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
-// const checkUpdate = require('./update.js');
-// const createProtocol = require("./src/config/js/createProtocol.js");
+const checkUpdate = require('./update.js');
+const createProtocol = require("./src/config/js/createProtocol.js");
 
 const Store = require('electron-store');
 Store.initRenderer();
@@ -69,9 +69,9 @@ const pack = {
     isPackaged: app.isPackaged
 }
 
-/* async function updater(win) {
+async function updater(win) {
     await checkUpdate(win, isUpdate, mainMsg);
-} */
+}
 
 function showLoading() {
     return new Promise((resolve, reject) => {
@@ -100,7 +100,6 @@ function createWindow() {
             show: false,
             webPreferences: options,
         });
-
         const sp = new Serialport({ serialport, ...pack });
         //获取串口列表
         sp.getList();
@@ -109,14 +108,12 @@ function createWindow() {
         //关闭默认菜单
         if (app.isPackaged) {
             Menu.setApplicationMenu(null);
-            // createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
-            mainWindow.loadURL(
-                url.format({
-                    pathname: path.join(__dirname, "build/index.html"),
+            createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
+            mainWindow.loadURL(url.format({
+                pathname: path.join(process.resourcesPath, "app.asar.unpacked/index.html"),
                     protocol: "file:",
                     slashes: true,
-                })
-            );
+            }));
         } else {
             mainWindow.loadURL("http://127.0.0.1:8601/");
             mainWindow.webContents.openDevTools();
@@ -139,7 +136,7 @@ function createWindow() {
             _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
             //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
-            // updater(mainWindow, mainMsg);
+            updater(mainWindow, mainMsg);
         });
 
         // 检测电脑是否安装了驱动
