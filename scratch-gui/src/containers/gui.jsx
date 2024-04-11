@@ -49,7 +49,6 @@ import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 
-let isUpdate = false;
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -236,6 +235,7 @@ class GUI extends React.Component {
     //开启监听
     watchDevice() {
         const list = ['a1', 'a2'];
+        window.myAPI.setStoreValue('isSensingUpdate', false);
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -244,12 +244,13 @@ class GUI extends React.Component {
                     result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
+                const isUpdate = window.myAPI.getStoreValue('isSensingUpdate');
                 if (result.deviceList.length > 0 && !isUpdate) {
                     for (let i = 0; i < result.deviceList.length; i++) {
                         const item = result.deviceList[i];
                         if (list.includes(item.deviceId) && instructions.device[item.deviceId] &&
                             item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]]) {
-                            isUpdate = true;
+                            window.myAPI.setStoreValue('isSensingUpdate', true);
                             this.updateSensing();
                             break;
                         } else {
@@ -269,7 +270,9 @@ class GUI extends React.Component {
         if (res === 0) {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
-        isUpdate = false;
+        setTimeout(() => {
+            window.myAPI.setStoreValue('isSensingUpdate', false);
+        }, 1000);
     }
 
     async checkDriver() {

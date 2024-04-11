@@ -353,9 +353,11 @@ class Common {
             if (item.color) {
                 item.sensing_device = device['a2'];
                 item.deviceId = 'a2';
-                item.color = {
-                    'rgb': `rgb(${item.color.r}, ${item.color.g}, ${item.color.b})`,
-                    'l': item.color.l
+                if (!('Not_Run' in item.color)) {
+                    item.color = {
+                        'rgb': `rgb(${item.color.r}, ${item.color.g}, ${item.color.b})`,
+                        'l': item.color.l
+                    }
                 }
             } else if (item.motor) {
                 item.sensing_device = device['a1'];
