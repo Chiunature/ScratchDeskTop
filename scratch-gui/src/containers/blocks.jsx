@@ -254,8 +254,8 @@ class Blocks extends React.Component {
         }
 
         if (match) {
-            const arr = match[1].split("\n\n");
-            const newArr = arr.filter(Boolean);
+            const arr = match[1].split("\/\* Start \*\/");
+            const newArr = arr.filter(item => /[^ \n]/.test(item));
             this.props.setCompileList(newArr);
             this.parserTask(this.workspace, newArr);
         }

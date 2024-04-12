@@ -23,7 +23,7 @@ goog.provide('Blockly.cake.event');
 goog.require('Blockly.cake');
 
 Blockly.cake['event_whenflagclicked'] = function (block) {
-    return '';
+    return '/* Start */\n';
 };
 
 Blockly.cake['event_when'] = function (block) {
