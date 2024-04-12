@@ -96,7 +96,7 @@ Blockly.Generator.prototype.workspaceToCode = function(workspace) {
   }
   var code = [];
   this.init(workspace);
-  var blocks = workspace.getTopBlocks(true);
+  var blocks = workspace.getTopBlocks(false);
   for (var x = 0, block; block = blocks[x]; x++) {
     var line = this.blockToCode(block);
     if (goog.isArray(line)) {
