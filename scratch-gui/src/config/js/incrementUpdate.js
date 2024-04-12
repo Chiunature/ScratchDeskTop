@@ -4,7 +4,7 @@ const fs = require('fs');
 const axios = require('axios');
 const AdmZip = require("adm-zip");
 
-let currentIncrementUpdateVersion = '', decompressing = false, hasCheckWaitUpdate = false, downloadApplying = false;
+let currentIncrementUpdateVersion = '', decompressing = false, hasCheckWaitUpdate = false, downloadApplying = false, timer = null;
 
 // 增量更新
 async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin, mainMsg) {
@@ -25,13 +25,17 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
         }
     }
     if (downloadApplying) {
-        let res = await dialog.showMessageBox({
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            dialog.showMessageBox({
             type: "info",
             buttons: ["OK"],
             title: mainMsg['updateApp'],
             message: mainMsg['updating'],
             detail: mainMsg['waiting'],
-        });
+            }).catch();
+            timer = null;
+        }, 1000);
         return;
     }
     axios.get("https://zsff.drluck.club/ATC/hotVersion.json").then(async (response) => {
@@ -64,7 +68,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
                 try {
                     let out = fs.createWriteStream(targetPath);
                     req.data.pipe(out);
-                    req.data.on("end", function () {
+                    req.data.on("end", () => {
                         if (req.status === 200) {
                             const percentComplete = (received_bytes / total_bytes) * 100;
                             if (Math.ceil(percentComplete.toFixed(2)) >= 100) {
