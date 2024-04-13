@@ -7,7 +7,7 @@ const AdmZip = require("adm-zip");
 let currentIncrementUpdateVersion = '', decompressing = false, hasCheckWaitUpdate = false, downloadApplying = false, timer = null;
 
 // 增量更新
-async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainWin, mainMsg) {
+async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainMsg, updateFunc) {
     let oldPath = process.resourcesPath + "/app.asar.unpacked";
     let targetPath = process.resourcesPath + "/unpacked.zip";
     if (hasCheckWaitUpdate) {
@@ -21,7 +21,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
             cancelId: 0,
         });
         if (response === 1) {
-            await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainWin);
+            await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc);
         }
     }
     if (downloadApplying) {
@@ -72,7 +72,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
                         if (req.status === 200) {
                             const percentComplete = (received_bytes / total_bytes) * 100;
                             if (Math.ceil(percentComplete.toFixed(2)) >= 100) {
-                                updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainWin, mainMsg);
+                                updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc);
                             } else {
                                 out.end();
                                 downloadApplying = false;
@@ -98,7 +98,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainW
 }
 
 
-async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainWin, mainMsg) {
+async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc) {
     hasCheckWaitUpdate = true;
     let { response } = await dialog.showMessageBox({
         type: "info",
@@ -110,8 +110,9 @@ async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainWin, ma
         cancelId: 0,
     });
     if (response === 1) {
-        //立即更新
-        await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainWin);
+        await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc);
+    } else {
+        await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc, false);
     }
 }
 
@@ -132,7 +133,19 @@ function deleteOld(url) {
     }
 }
 
-async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainWin, reload = true) {
+function extractZip(targetPath, oldPath) {
+    return new Promise((resolve) => {
+        // 解压
+        let zip = new AdmZip(targetPath);
+        zip.extractAllTo(oldPath, true);
+        //删除目标文件夹以及文件夹下的所有文件
+        deleteOld(oldPath + ".old");
+        fs.unlink(targetPath, (err) => console.info(err));
+        resolve(true);
+    });
+}
+
+async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, updateFunc, reload = true) {
     if (!fs.existsSync(targetPath)) {
         hasCheckWaitUpdate = false;
         downloadApplying = false;
@@ -152,14 +165,9 @@ async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mai
             decompressing = false;
             return;
         }
-        // 解压
-        let zip = new AdmZip(targetPath);
         try {
-            zip.extractAllTo(oldPath, true);
-        //删除目标文件夹以及文件夹下的所有文件
-        deleteOld(oldPath + ".old");
         //解压完之后别忘了要修改本地hotVersion文件的版本号，否则会一直触发更新
-        fs.writeFile(path.join(process.resourcesPath, "./scripts/hotVersion.json"), JSON.stringify({ version: obsIncrementUpdate, }, null, 2), (err) => {
+            fs.writeFile(path.join(process.resourcesPath, "./scripts/hotVersion.json"), JSON.stringify({ version: obsIncrementUpdate, }, null, 2), async (err) => {
             if (err) {
                 console.info(err)
                 return;
@@ -167,11 +175,19 @@ async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mai
                 currentIncrementUpdateVersion = obsIncrementUpdate;
                 hasCheckWaitUpdate = false;
                 if (reload) {
+                        dialog.showMessageBox({
+                            type: "info",
+                            noLink: true,
+                            title: mainMsg['updateApp'],
+                            message: mainMsg['updating'],
+                            detail: mainMsg['waiting'],
+                        }).catch();
+                        await extractZip(targetPath, oldPath);
                     //重启应用
                     app.relaunch();
                     app.exit(0);
-                    //刷新页面
-                    // mainWin.webContents.reloadIgnoringCache();
+                    } else {
+                        updateFunc = Promise.resolve(extractZip(targetPath, oldPath));
                 }
                 downloadApplying = false;
                 decompressing = false;
@@ -185,7 +201,6 @@ async function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mai
             fs.rename(oldPath + ".old", oldPath, (err) => console.info(err));
             return;
         }
-
     });
 }
 

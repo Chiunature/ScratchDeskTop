@@ -1,6 +1,6 @@
 {
     "name": "scratch-gui",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "description": "EST3",
     "main": "main.js",
     "scripts": {

@@ -359,7 +359,8 @@ class Common {
                         'l': item.color.l
                     }
                 }
-            } else if (item.motor) {
+            } else if (item.big_motor || item.small_motor) {
+                item.motor = item.big_motor || item.small_motor;
                 item.sensing_device = device['a1'];
                 item.deviceId = 'a1';
             } else if (item.ultrasion) {

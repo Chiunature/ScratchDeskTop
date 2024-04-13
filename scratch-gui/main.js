@@ -47,7 +47,7 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 //全局的console.info写进日志文件
 console.info = logger.info || logger.warn;
 
-let mainWindow, loadingWindow, isUpdate, mainMsg;
+let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
 
 const options = {
@@ -70,7 +70,7 @@ const pack = {
 }
 
 async function updater(win) {
-    await checkUpdate(win, isUpdate, mainMsg);
+    await checkUpdate(win, isUpdate, mainMsg, updateFunc);
 }
 
 function showLoading() {
@@ -127,7 +127,10 @@ function createWindow() {
         });
 
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
+            if(!mainMsg) {
             mainMsg = { ...msg };
+                updater(mainWindow, mainMsg);
+            }
             //点击重新更新固件提示
             _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, { message: mainMsg['reupdate'] });
             //更新固件提示
@@ -136,7 +139,6 @@ function createWindow() {
             _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
             //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
-            updater(mainWindow, mainMsg);
         });
 
         // 检测电脑是否安装了驱动
@@ -175,6 +177,11 @@ function createWindow() {
                 eventList.map(item => {
                     _delEvents(item);
                 });
+                if(updateFunc && typeof updateFunc === 'function') {
+                    const res = await updateFunc();
+                    if(res) app.exit();
+                    return;
+                }
                 app.exit();
             }
         });
