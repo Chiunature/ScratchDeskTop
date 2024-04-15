@@ -121,7 +121,7 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.EXE.FILES,
             callback: (event, arg) => {
-                const list = arg.split('/').filter(Boolean);
+                const list = arg.split('/').filter(item => item.indexOf('_APP') !== -1);
                 const exeList = list.map((el, index) => {
                     const current = el.indexOf('_');
                     return {

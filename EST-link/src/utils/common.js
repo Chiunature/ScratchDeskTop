@@ -404,6 +404,7 @@ class Common {
          * @returns 
          */
     verification(sign, recevieObj, event) {
+        if(!recevieObj) return;
         const { data } = recevieObj;
         if (!data) return;
         const text = new TextDecoder();

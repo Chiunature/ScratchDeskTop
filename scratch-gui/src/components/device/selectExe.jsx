@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import styles from './device.css';
-// import dragImg from './drag.svg';
 import delImg from './delete.svg';
 import downloadImg from './download.svg';
 
@@ -41,7 +40,7 @@ const SelectExe = (props) => {
         <ul className={styles.selExe} ref={refUl}>
             {exeList.map((item, index) => {
                 return (
-                    item.num !== 'blu' && <li className={completed ? styles.ban : ''} key={item.num} draggable onClick={() => handleSelectExe(item, index)}>
+                    <li className={completed ? styles.ban : ''} key={item.num} draggable onClick={() => handleSelectExe(item, index)}>
                         <div><input type='radio' checked={item.checked} readOnly />{item.num}</div>
                         <div className={styles.edit}>
                             <input className={item.checked ? styles.check : ''} type='text' disabled={!item.checked} ref={(c) => refObj.current[index] = c} defaultValue={item.name} onChange={handleInpChange} />
@@ -49,7 +48,6 @@ const SelectExe = (props) => {
                         <div className={styles.img}>
                             <img src={downloadImg} onClick={() => download(item)} />
                             <img src={delImg} onClick={(e) => handleDelExe(item, e)} />
-                            {/* <img src={dragImg}/> */}
                         </div>
                     </li>
                 )
