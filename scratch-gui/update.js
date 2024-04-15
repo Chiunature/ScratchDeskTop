@@ -14,7 +14,7 @@ autoUpdater.autoDownload = false; // 自动下载
 autoUpdater.autoInstallOnAppQuit = true; // 应用退出后自动安装
 
 
-const checkUpdate = (mainWin, isUpdate, mainMsg, updateFunc) => {
+const checkUpdate = (mainWin, isUpdate, mainMsg) => {
   autoUpdater.setFeedURL(updateUrl);
   // 更新前，删除本地安装包
   const updatePendingPath = path.join(autoUpdater.app.baseCachePath, updaterCache, 'pending');
@@ -54,13 +54,14 @@ const checkUpdate = (mainWin, isUpdate, mainMsg, updateFunc) => {
       fs.readFile(
         path.join(process.resourcesPath, "./scripts/hotVersion.json"),
         "utf8",
-        (err, data) => {
+        async (err, data) => {
           if (err) {
             console.info(err);
           } else {
             //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
             currentIncrementUpdate = JSON.parse(data).version;
-            incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainMsg, updateFunc);
+            const res = await incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainMsg);
+            resolve(res);
           }
         }
       );

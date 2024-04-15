@@ -140,7 +140,10 @@ class GUI extends React.Component {
         //获取主机版本监听
         const isNew = window.myAPI.getVersion(this.props.deviceObj.versionlist.ver);
         this.props.onSetVersion(this.props.deviceObj.versionlist.ver);
-        if (!isNew) this.checkUpdateFireware();
+        if (!isNew) {
+            window.myAPI.setStoreValue('version', JSON.stringify(this.props.deviceObj.versionlist.ver));
+            this.checkUpdateFireware();
+        }
     }
 
     downloadSource() {
@@ -209,7 +212,6 @@ class GUI extends React.Component {
         if (this.props.version == window.myAPI.getStoreValue('version')) return;
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
-        window.myAPI.setStoreValue('version', JSON.stringify(this.props.version));
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
@@ -245,11 +247,13 @@ class GUI extends React.Component {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
                 const isUpdate = window.myAPI.getStoreValue('isSensingUpdate');
-                if (result.deviceList.length > 0 && !isUpdate) {
+                const version = window.myAPI.getStoreValue('version');
+                if (result.deviceList.length > 0 && !isUpdate && version == this.props.version) {
                     for (let i = 0; i < result.deviceList.length; i++) {
                         const item = result.deviceList[i];
-                        if (list.includes(item.deviceId) && instructions.device[item.deviceId] &&
-                            item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]]) {
+                        const not_run = item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]].hasOwnProperty('Not_Run');
+                        const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] !== 0 && item[instructions.device[item.deviceId]]['version'] != version;
+                        if (list.includes(item.deviceId) && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]] && (not_run || isNew)) {
                             window.myAPI.setStoreValue('isSensingUpdate', true);
                             this.updateSensing();
                             break;
@@ -270,9 +274,7 @@ class GUI extends React.Component {
         if (res === 0) {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
-        setTimeout(() => {
-            window.myAPI.setStoreValue('isSensingUpdate', false);
-        }, 1000);
+        window.myAPI.setStoreValue('isSensingUpdate', false);
     }
 
     async checkDriver() {

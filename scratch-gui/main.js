@@ -70,7 +70,8 @@ const pack = {
 }
 
 async function updater(win) {
-    await checkUpdate(win, isUpdate, mainMsg, updateFunc);
+    updateFunc = await checkUpdate(win, isUpdate, mainMsg, updateFunc);
+    console.info(updateFunc);
 }
 
 function showLoading() {
@@ -178,6 +179,13 @@ function createWindow() {
                     _delEvents(item);
                 });
                 if(updateFunc && typeof updateFunc === 'function') {
+                    dialog.showMessageBox({
+                        type: "info",
+                        buttons: ["OK"],
+                        title: mainMsg['updateApp'],
+                        message: mainMsg['updating'],
+                        detail: mainMsg['waiting'],
+                    }).catch();
                     const res = await updateFunc();
                     if(res) app.exit();
                     return;
