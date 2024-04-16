@@ -13,7 +13,7 @@ const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 const exeList = window.myAPI.getStoreValue('exeList');
 const selItem = window.myAPI.getStoreValue('selItem');
 (exeList && exeList.length < 20) && window.myAPI.removeStoreValue('exeList');
-!selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true }));
+!selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true, index: 0 }));
 
 /**
  * 生成默认程序列表

@@ -31,7 +31,7 @@ class SelectBox extends React.Component {
             name: `${this.state.index}_APP`
         });
         const newList = this.props.exeList.map((item, i) => {
-            if (i === this.state.index) {
+            if (item.num == this.state.index) {
                 item.checked = true;
             } else {
                 item.checked = false;

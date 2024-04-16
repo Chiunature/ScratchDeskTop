@@ -117,7 +117,11 @@ function createWindow() {
             }));
         } else {
             mainWindow.loadURL("http://127.0.0.1:8601/");
-            mainWindow.webContents.openDevTools();
+            const devtools = new BrowserWindow();
+            // 解决 Windows 无法正常打开开发者工具的问题
+            mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+            // 打开开发者工具
+            mainWindow.webContents.openDevTools({ mode: 'detach' });
         }
         // 防止页面失去焦点
         _handleOnFocus();

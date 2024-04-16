@@ -127,12 +127,39 @@ class GUI extends React.Component {
                     return {
                         name: el.replace('.bin', ''),
                         num: el.slice(0, current),
-                        checked: index === 0 ? true : false
+                        checked: index === 0 ? true : false,
+                        index
                     }
                 });
-                this.props.onSetExelist(exeList);
+                const oldList = window.myAPI.getStoreValue('exeList');
+                const newList = _compareOldList(oldList, [...exeList]);
+                this.props.onSetExelist(newList);
             }
         });
+        function _compareOldList(oldList, newList) {
+            if (!oldList) return newList;
+            let list = [], i = 0;
+            let oldQue = JSON.parse(JSON.stringify(JSON.parse(oldList)));
+            if (oldQue.length === 0) return newList;
+            while (newList.length > i) {
+                const newItem = newList[i];
+                if (oldQue.length > 0) {
+                    const oldItem = oldQue.shift();
+                    if (oldItem.num === newItem.num && oldItem.name === newItem.name) {
+                        list.push(newItem);
+                        i++;
+                        continue;
+                    } else if (oldItem.num === newItem.num && oldItem.name !== newItem.name) {
+                        list.push(oldItem);
+                        i++;
+                        continue;
+                    }
+                }
+                list.push(newItem);
+                i++;
+            }
+            return list;
+        }
     }
 
     getFirewareVersion() {
@@ -217,23 +244,6 @@ class GUI extends React.Component {
         this.props.onOpenConnectionModal();
     }
 
-    //初始化设备
-    /* initDeviceList() {
-        let list = [];
-        for (let i = 0; i < 8; i++) {
-            const obj = {
-                port: i,
-                motor: {},
-                color: {},
-                ultrasonic: null,
-                deviceId: null,
-                sensing_device: '无设备连接'
-            }
-            list.push(obj);
-        }
-        this.state.deviceObj.deviceList = list;
-        this.setState((state) => ({ deviceObj: state.deviceObj }));
-    } */
     //开启监听
     watchDevice() {
         const list = ['a1', 'a2'];

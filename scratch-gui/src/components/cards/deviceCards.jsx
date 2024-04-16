@@ -147,6 +147,7 @@ const DeviceCards = props => {
     }
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
+            item.index = i;
             if (i === index) {
                 item.checked = true;
             } else {

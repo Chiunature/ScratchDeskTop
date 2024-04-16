@@ -7,19 +7,17 @@ import downloadImg from './download.svg';
 const SelectExe = (props) => {
     const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleDelExe } = props;
     let [timer, setTimer] = useState(null);
-    // let [currentLi, setCurrentLi] = useState(null);
-    // let [cacheList, setCacheList] = useState([]);
     let refObj = useRef({});
     let refUl = useRef();
 
     const handleInpChange = () => {
-        const { num } = selectedExe;
-        if (refObj.current[num - 1].value.length <= 0) return;
+        const { index } = selectedExe;
+        if (refObj.current[index].value.length <= 0) return;
         clearTimeout(timer);
         timer = setTimeout(() => {
             const newList = exeList.map((item, i) => {
-                if (i === num - 1) {
-                    item.name = refObj.current[num - 1].value;
+                if (i === index) {
+                    item.name = refObj.current[index].value;
                 }
                 return item;
             });
