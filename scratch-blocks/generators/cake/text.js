@@ -254,3 +254,9 @@ Blockly.cake['text_prompt_ext'] = function (block) {
   }
   return [code, Blockly.cake.ORDER_FUNCTION_CALL];
 };
+
+Blockly.cake['note'] = function (block) {
+  // Numeric value.
+  var code = parseFloat(block.getFieldValue('NOTE'));
+  return [code, Blockly.cake.ORDER_ATOMIC];
+};

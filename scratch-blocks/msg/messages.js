@@ -77,7 +77,7 @@ Blockly.Msg.DATA_INDEX_ALL = 'all';
 Blockly.Msg.DATA_INDEX_LAST = 'last';
 Blockly.Msg.DATA_INDEX_RANDOM = 'random';
 Blockly.Msg.DATA_DEFINEVAR = 'Define a variable %1';
-Blockly.Msg.DATA_DEFINELIST = 'Define a list %1'
+Blockly.Msg.DATA_DEFINELIST = 'Define a list %1';
 // Event blocks
 Blockly.Msg.EVENT_WHENFLAGCLICKED = 'when %1 clicked';
 Blockly.Msg.EVENT_WHENTHISSPRITECLICKED = 'when this sprite clicked';
@@ -375,7 +375,8 @@ Blockly.Msg.SOUND_CHANGEVOLUMEBY = 'change volume by %1';
 Blockly.Msg.SOUND_SETVOLUMETO = 'set volume to %1%';
 Blockly.Msg.SOUND_VOLUME = 'volume';
 Blockly.Msg.SOUND_RECORD = 'record...';
-
+Blockly.Msg.SOUND_SETPLAYSPEED = 'Set performance speed to %1';
+Blockly.Msg.SOUND_PLAYMUSIC = 'Play note %1 for %2 beats';
 //Matrix blocks
 Blockly.Msg.MATRIX_LAMP = '%1 light %2 the color is %3';
 Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";

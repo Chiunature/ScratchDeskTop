@@ -47,6 +47,23 @@ const xmlEscape = function (unsafe) {
             </value>
         </block>
             ${blockSeparator} 
+            <block type="sound_setPlaySpeed">
+            <value name="SPEED">
+                <shadow type="math_number">
+                    <field name="NUM">60</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_PlayMusic">
+            <value name="NOTE">
+                <shadow type="note"></shadow>
+            </value>
+            <value name="BEATS">
+                <shadow type="math_number">
+                    <field name="NUM">0.25</field>
+                </shadow>
+            </value>
+        </block>
 */}
 const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
     return `

@@ -49,3 +49,14 @@ Blockly.cake['sound_setvolumeto'] = function (block) {
     let volume = Blockly.cake.valueToCode(block, "VOLUME", Blockly.cake.ORDER_ATOMIC);
     return `sound_setvolumeto(${Blockly.cake.toStr(volume) ? volume : '"' + volume + '"'});\n`;
 }
+
+Blockly.cake['sound_setPlaySpeed'] = function (block) {
+    let speed = Blockly.cake.valueToCode(block, "SPEED", Blockly.cake.ORDER_ATOMIC);
+    return `sound_setPlaySpeed(${Blockly.cake.toStr(speed) ? speed : '"' + speed + '"'});\n`;
+}
+
+Blockly.cake['sound_PlayMusic'] = function (block) {
+    let note = Blockly.cake.valueToCode(block, "NOTE", Blockly.cake.ORDER_ATOMIC);
+    let beats = Blockly.cake.valueToCode(block, "BEATS", Blockly.cake.ORDER_ATOMIC);
+    return `sound_playMusic(${Blockly.cake.toStr(note) ? note : '"' + note + '"'}, ${Blockly.cake.toStr(beats) ? beats : '"' + beats + '"'});\n`;
+}

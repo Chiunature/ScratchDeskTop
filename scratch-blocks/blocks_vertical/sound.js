@@ -243,3 +243,50 @@ Blockly.Blocks['sound_volume'] = {
     });
   }
 };
+
+Blockly.Blocks['sound_setPlaySpeed'] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function () {
+      this.jsonInit({
+          "message0": Blockly.Msg.SOUND_SETPLAYSPEED,
+          "args0": [
+              {
+                  "type": "input_value",
+                  "name": "SPEED",
+              }
+          ],
+          "category": Blockly.Categories.sound,
+          "extensions": ["colours_sounds", "shape_statement"],
+      });
+  }
+};
+
+Blockly.Blocks['sound_PlayMusic'] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PLAYMUSIC,
+      "args0": [
+        // {
+        //   "type": "field_vertical_separator"
+        // },
+        {
+          "type": "input_value",
+          "name": "NOTE"
+        },
+        {
+          "type": "input_value",
+          "name": "BEATS"
+        }
+      ],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
