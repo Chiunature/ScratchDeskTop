@@ -261,7 +261,7 @@ class GUI extends React.Component {
                 if (result.deviceList.length > 0 && !isUpdate && version == this.props.version) {
                     for (let i = 0; i < result.deviceList.length; i++) {
                         const item = result.deviceList[i];
-                        const not_run = item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]].hasOwnProperty('Not_Run');
+                        const not_run = item[instructions.device[item.deviceId]] && Object.keys(item[instructions.device[item.deviceId]]).includes('Not_Run');
                         const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] !== 0 && item[instructions.device[item.deviceId]]['version'] != version;
                         if (list.includes(item.deviceId) && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]] && (not_run || isNew)) {
                             window.myAPI.setStoreValue('isSensingUpdate', true);
