@@ -389,6 +389,13 @@ Blockly.ScratchMsgs.locales["ab"] = {
     "SET_MATRIX_SATURATION": "%1 Тофташавии нури матритсаро ба %2 %% таъин кунед",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 шитоби моторро ба %2 муқаррар мекунад",
+    "DEFAULT": "Пешфарз",
+    "FAST": "тез",
+    "BALANCE": "тавозун",
+    "SMOOTH": "ҳамвор",
+    "SLOW": "САСТ",
+    "SLOWER": "Охиртар"
 };
 
 Blockly.ScratchMsgs.locales["af"] = {
@@ -775,6 +782,13 @@ Blockly.ScratchMsgs.locales["af"] = {
     "SET_MATRIX_SATURATION": "%1 Stel die versadiging van die matrikslig op %2 %%",
     "OPEN": "skakel aan",
     "CLOSE": "skakel af",
+    "MOTOR_ACCELERATION": "%1 stel die motorversnelling op %2",
+    "DEFAULT": "Verstek",
+    "FAST": "vinnig",
+    "BALANCE": "balans",
+    "SMOOTH": "Glad",
+    "SLOW": "SLOW",
+    "SLOWER": "stadiger"
 };
 
 Blockly.ScratchMsgs.locales["ar"] = {
@@ -1157,6 +1171,13 @@ Blockly.ScratchMsgs.locales["ar"] = {
     "SET_MATRIX_SATURATION": "%1 اضبط تشبع ضوء المصفوفة على %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 يضبط تسارع المحرك على %2",
+    "DEFAULT": "Default",
+    "FAST": "fast",
+    "BALANCE": "balance",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["am"] = {
@@ -1539,6 +1560,13 @@ Blockly.ScratchMsgs.locales["am"] = {
     "SET_MATRIX_SATURATION": "%1 የማትሪክስ ብርሃኑን ሙሌት ወደ %2 %% ያቀናብሩ",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 የሞተርን ፍጥነት ወደ %2",
+    "DEFAULT": "ነባሪ",
+    "FAST": "ፈጣን",
+    "BALANCE": "ሚዛን",
+    "SMOOTH": "ለስላሳ",
+    "SLOW": "ቀስ በቀስ",
+    "SLOWER": "ቀስ ያለ"
 };
 
 Blockly.ScratchMsgs.locales["an"] = {
@@ -1921,6 +1949,13 @@ Blockly.ScratchMsgs.locales["an"] = {
     "SET_MATRIX_SATURATION": "%1 Establece la saturación de la luz de la matriz en %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 establece la aceleración del motor en %2",
+    "DEFAULT": "Predeterminado",
+    "FAST": "rápido",
+    "BALANCE": "equilibrio",
+    "SMOOTH": "Suave",
+    "SLOW": "DESPACIO",
+    "SLOWER": "Más lento"
 };
 
 Blockly.ScratchMsgs.locales["az"] = {
@@ -2303,6 +2338,13 @@ Blockly.ScratchMsgs.locales["az"] = {
     "SET_MATRIX_SATURATION": "%1 Matris işığının doyma səviyyəsini %2 %% olaraq təyin edin",
     "OPEN": "açmaq",
     "CLOSE": "söndürmək",
+    "MOTOR_ACCELERATION": "%1 motor sürətlənməsini %2 olaraq təyin edir",
+    "DEFAULT": "Defolt",
+    "FAST": "sürətli",
+    "BALANCE": "balans",
+    "SMOOTH": "hamar",
+    "SLOW": "YAVAŞ",
+    "SLOWER": "Daha yavaş"
 };
 
 Blockly.ScratchMsgs.locales["id"] = {
@@ -2685,6 +2727,13 @@ Blockly.ScratchMsgs.locales["id"] = {
     "SET_MATRIX_SATURATION": "%1 Atur saturasi cahaya matriks ke %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 menyetel akselerasi motor ke %2",
+    "DEFAULT": "Bawaan",
+    "FAST": "cepat",
+    "BALANCE": "keseimbangan",
+    "SMOOTH": "Halus",
+    "SLOW": "PELAN",
+    "SLOWER": "Lebih Lambat"
 };
 
 Blockly.ScratchMsgs.locales["bn"] = {
@@ -3067,6 +3116,13 @@ Blockly.ScratchMsgs.locales["bn"] = {
     "SET_MATRIX_SATURATION": "%1 ম্যাট্রিক্স আলোর স্যাচুরেশন %2 %% এ সেট করুন",
     "OPEN": "চালু করুন",
     "CLOSE": "বন্ধ করুন",
+    "MOTOR_ACCELERATION": "%1 মোটর ত্বরণকে %2 এ সেট করে",
+    "DEFAULT": "ডিফল্ট",
+    "FAST": "দ্রুত",
+    "BALANCE": "ব্যালেন্স",
+    "SMOOTH": "মসৃণ",
+    "SLOW": "আস্তে",
+    "SLOWER": "ধীরে"
 };
 
 Blockly.ScratchMsgs.locales["be"] = {
@@ -3449,6 +3505,13 @@ Blockly.ScratchMsgs.locales["be"] = {
     "SET_MATRIX_SATURATION": "%1 Усталяваць насычанасць матрычнага святла на %2 %%",
     "OPEN": "уключыць",
     "CLOSE": "выключыць",
+    "MOTOR_ACCELERATION": "%1 задае паскарэнне рухавіка на %2",
+    "DEFAULT": "Па змаўчанні",
+    "FAST": "хутка",
+    "BALANCE": "баланс",
+    "SMOOTH": "Гладкі",
+    "SLOW": "ПАВОЛЬНА",
+    "SLOWER": "Павольней"
 };
 
 Blockly.ScratchMsgs.locales["bg"] = {
@@ -3831,6 +3894,13 @@ Blockly.ScratchMsgs.locales["bg"] = {
     "SET_MATRIX_SATURATION": "%1 Задайте наситеността на матричната светлина на %2 %%",
     "OPEN": "включване",
     "CLOSE": "изключи",
+    "MOTOR_ACCELERATION": "%1 задава ускорението на двигателя на %2",
+    "DEFAULT": "По подразбиране",
+    "FAST": "бърз",
+    "BALANCE": "салдо",
+    "SMOOTH": "Гладко",
+    "SLOW": "БАВНО",
+    "SLOWER": "По-бавно"
 };
 
 Blockly.ScratchMsgs.locales["ca"] = {
@@ -4213,6 +4283,13 @@ Blockly.ScratchMsgs.locales["ca"] = {
     "SET_MATRIX_SATURATION": "%1 Estableix la saturació de la llum de la matriu a %2 %%",
     "OPEN": "activar",
     "CLOSE": "apagar",
+    "MOTOR_ACCELERATION": "%1 estableix l'acceleració del motor a %2",
+    "DEFAULT": "Per defecte",
+    "FAST": "ràpid",
+    "BALANCE": "equilibri",
+    "SMOOTH": "Llis",
+    "SLOW": "LENT",
+    "SLOWER": "Més lent"
 };
 
 Blockly.ScratchMsgs.locales["cs"] = {
@@ -4595,6 +4672,13 @@ Blockly.ScratchMsgs.locales["cs"] = {
     "SET_MATRIX_SATURATION": "%1 Nastavit sytost světla matice na %2 %%",
     "OPEN": "zapnout",
     "CLOSE": "vypnout",
+    "MOTOR_ACCELERATION": "%1 nastaví zrychlení motoru na %2",
+    "DEFAULT": "Výchozí",
+    "FAST": "rychle",
+    "BALANCE": "zůstatek",
+    "SMOOTH": "Hladký",
+    "SLOW": "POMALU",
+    "SLOWER": "Pomalejší"
 };
 
 Blockly.ScratchMsgs.locales["cy"] = {
@@ -4977,6 +5061,13 @@ Blockly.ScratchMsgs.locales["cy"] = {
     "SET_MATRIX_SATURATION": "%1 Gosod dirlawnder y golau matrics i %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "Mae %1 yn gosod y cyflymiad modur i %2",
+    "DEFAULT": "Diofyn",
+    "FAST": "cyflym",
+    "BALANCE": "cydbwysedd",
+    "SMOOTH": "llyfn",
+    "SLOW": "ARAF",
+    "SLOWER": "Arafach"
 };
 
 Blockly.ScratchMsgs.locales["da"] = {
@@ -5359,6 +5450,13 @@ Blockly.ScratchMsgs.locales["da"] = {
     "SET_MATRIX_SATURATION": "%1 Indstil matrixlysets mætning til %2 %%",
     "OPEN": "tænd",
     "CLOSE": "sluk",
+    "MOTOR_ACCELERATION": "%1 indstiller motoraccelerationen til %2",
+    "DEFAULT": "Standard",
+    "FAST": "hurtigt",
+    "BALANCE": "balance",
+    "SMOOTH": "Glad",
+    "SLOW": "SLOW",
+    "SLOWER": "Langsommere"
 };
 
 Blockly.ScratchMsgs.locales["de"] = {
@@ -5741,6 +5839,13 @@ Blockly.ScratchMsgs.locales["de"] = {
     "SET_MATRIX_SATURATION": "%1 Setzt die Sättigung des Matrixlichts auf %2 %%",
     "OPEN": "einschalten",
     "CLOSE": "ausschalten",
+    "MOTOR_ACCELERATION": "%1 setzt die Motorbeschleunigung auf %2",
+    "DEFAULT": "Standard",
+    "FAST": "schnell",
+    "BALANCE": "Balance",
+    "SMOOTH": "Glatt",
+    "SLOW": "LANGSAM",
+    "SLOWER": "Langsamer"
 };
 
 Blockly.ScratchMsgs.locales["et"] = {
@@ -6123,6 +6228,13 @@ Blockly.ScratchMsgs.locales["et"] = {
     "SET_MATRIX_SATURATION": "%1 määra maatriksi valguse küllastus %2 %%",
     "OPEN": "lülita sisse",
     "CLOSE": "välja lülitada",
+    "MOTOR_ACCELERATION": "% 1 määrab mootori kiirenduseks % 2",
+    "DEFAULT": "Vaikimisi",
+    "FAST": "kiire",
+    "BALANCE": "bilance",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["el"] = {
@@ -6505,6 +6617,13 @@ Blockly.ScratchMsgs.locales["el"] = {
     "SET_MATRIX_SATURATION": "%1 Ορίστε τον κορεσμό του φωτός μήτρας σε %2 %%",
     "OPEN": "ενεργοποίηση",
     "CLOSE": "απενεργοποίηση",
+    "MOTOR_ACCELERATION": "Το %1 ρυθμίζει την επιτάχυνση του κινητήρα σε %2",
+    "DEFAULT": "Προεπιλογή",
+    "FAST": "γρήγορα",
+    "BALANCE": "ισορροπία",
+    "SMOOTH": "Smooth",
+    "SLOW": "ΣΙΓΑ",
+    "SLOWER": "Πιο αργά"
 };
 
 Blockly.ScratchMsgs.locales["en"] = {
@@ -6894,6 +7013,13 @@ Blockly.ScratchMsgs.locales["en"] = {
     "NEW_BROADCAST_MESSAGE_TITLE": "New message name:",
     "BROADCAST_MODAL_TITLE": "New Message",
     "DEFAULT_BROADCAST_MESSAGE_NAME": "message1",
+    "MOTOR_ACCELERATION": "%1 sets the motor acceleration to %2",
+    "DEFAULT": "Default",
+    "FAST": "fast",
+    "BALANCE": "balance",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["es"] = {
@@ -7276,6 +7402,13 @@ Blockly.ScratchMsgs.locales["es"] = {
     "SET_MATRIX_SATURATION": "%1 Establece la saturación de la luz de la matriz en %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 establece la aceleración del motor en %2",
+    "DEFAULT": "Predeterminado",
+    "FAST": "rápido",
+    "BALANCE": "equilibrio",
+    "SMOOTH": "Suave",
+    "SLOW": "DESPACIO",
+    "SLOWER": "Más lento"
 };
 
 Blockly.ScratchMsgs.locales["es-419"] = {
@@ -7658,6 +7791,13 @@ Blockly.ScratchMsgs.locales["es-419"] = {
     "SET_MATRIX_SATURATION": "%1 Establece la saturación de la luz de la matriz en %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 establece la aceleración del motor en %2",
+    "DEFAULT": "Predeterminado",
+    "FAST": "rápido",
+    "BALANCE": "equilibrio",
+    "SMOOTH": "Suave",
+    "SLOW": "DESPACIO",
+    "SLOWER": "Más lento"
 };
 
 Blockly.ScratchMsgs.locales["eu"] = {
@@ -8040,6 +8180,13 @@ Blockly.ScratchMsgs.locales["eu"] = {
     "SET_MATRIX_SATURATION": "%1 Ezarri matrizearen argiaren saturazioa %2 %%-ra",
     "OPEN": "piztu",
     "CLOSE": "itzali",
+    "MOTOR_ACCELERATION": "% 1ek motorraren azelerazioa %2-n ezartzen du",
+    "DEFAULT": "Lehenetsia",
+    "FAST": "azkar",
+    "BALANCE": "oreka",
+    "SMOOTH": "Leuna",
+    "SLOW": "SLOW",
+    "SLOWER": "Motelago"
 };
 
 Blockly.ScratchMsgs.locales["fa"] = {
@@ -8422,6 +8569,13 @@ Blockly.ScratchMsgs.locales["fa"] = {
     "SET_MATRIX_SATURATION": "%1 اشباع نور ماتریس را روی %2 %% تنظیم کنید",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "% 1 شتاب موتور را روی %2 تنظیم می کند",
+    "DEFAULT": "Default",
+    "FAST": "fast",
+    "BALANCE": "balance",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["fr"] = {
@@ -8803,6 +8957,13 @@ Blockly.ScratchMsgs.locales["fr"] = {
     "SET_MATRIX_SATURATION": "%1 Réglez la saturation de la lumière matricielle sur %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 définit l'accélération du moteur sur %2",
+    "DEFAUT": "Par défaut",
+    "FAST": "vite",
+    "BALANCE": "solde",
+    "SMOOTH": "Lisse",
+    "SLOW": "LENTEMENT",
+    "SLOWER": " Plus lent "
 };
 
 Blockly.ScratchMsgs.locales["fy"] = {
@@ -9185,6 +9346,13 @@ Blockly.ScratchMsgs.locales["fy"] = {
     "SET_MATRIX_SATURATION": "%1 Stel de sêding fan it matrixljocht yn op %2 %%",
     "OPEN": "oansette",
     "CLOSE": "útsette",
+    "MOTOR_ACCELERATION": "%1 stelt de motorfersnelling yn op %2",
+    "DEFAULT": "Standert",
+    "FAST": "snel",
+    "BALANCE": "saldo",
+    "SMOOTH": "Glêd",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["ga"] = {
@@ -9567,6 +9735,13 @@ Blockly.ScratchMsgs.locales["ga"] = {
     "SET_MATRIX_SATURATION": "%1 Sáithiú an tsolais maitrís go %2 %%",
     "OPEN": "cas ar",
     "CLOSE": "mhúchadh",
+    "MOTOR_ACCELERATION": "Socraíonn % 1 luasghéarú an mhótair go %2",
+    "DEFAULT": "Réamhshocrú",
+    "FAST": "tapa",
+    "BALANCE": "cothromaíocht",
+    "SMOOTH": "réidh",
+    "SLOW": "MALL",
+    "SLOWER": "Níos moille"
 };
 
 Blockly.ScratchMsgs.locales["gd"] = {
@@ -9949,6 +10124,13 @@ Blockly.ScratchMsgs.locales["gd"] = {
     "SET_MATRIX_SATURATION": "%1 Suidhich sùghaidh an t-solais mhaitrix gu %2 %%",
     "OPEN": "tionndaidh air",
     "CLOSE": "cuir dheth",
+    "MOTOR_ACCELERATION": "Tha %1 a' suidheachadh luathachadh motair gu %2",
+    "DEFAULT": "Bunaiteach",
+    "FAST": "luath",
+    "BALANCE": "cothromachadh",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Nas slaodaiche"
 };
 
 Blockly.ScratchMsgs.locales["gl"] = {
@@ -10331,6 +10513,13 @@ Blockly.ScratchMsgs.locales["gl"] = {
     "SET_MATRIX_SATURATION": "%1 Defina a saturação da luz da matriz para %2 %%",
     "OPEN": "encender",
     "CLOSE": "apagar",
+    "MOTOR_ACCELERATION": "%1 define a aceleração do motor para %2",
+    "DEFAULT": "Padrão",
+    "FAST": "rapido",
+    "BALANCE": "saldo",
+    "SMOOTH": "Suave",
+    "SLOW": "DEVAGAR",
+    "SLOWER": "Mais lento"
 };
 
 Blockly.ScratchMsgs.locales["ko"] = {
@@ -10717,6 +10906,13 @@ Blockly.ScratchMsgs.locales["ko"] = {
     "SET_MATRIX_SATURATION": "%1 매트릭스 조명의 채도를 %2 %%로 설정합니다",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1은(는) 모터 가속도를 %2(으)로 설정합니다",
+    "DEFAULT": "기본값",
+    "FAST": "빨리",
+    "BALANCE": "균형",
+    "SMOOTH": "부드럽다",
+    "SLOW": "느리게",
+    "SLOWER": "느리게"
 };
 
 Blockly.ScratchMsgs.locales["hy"] = {
@@ -11099,6 +11295,13 @@ Blockly.ScratchMsgs.locales["hy"] = {
     "SET_MATRIX_SATURATION": "%1 Սահմանել մատրիցային լույսի հագեցվածությունը %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "% 1-ը սահմանում է շարժիչի արագացումը %2",
+    "DEFAULT": "Լռելյայն",
+    "FAST": "արագ",
+    "BALANCE": "մնացորդ",
+    "SMOOTH": "Սահուն",
+    "SLOW": "ԴԱՂԱՑ",
+    "SLOWER": "Դանդաղ"
 };
 
 Blockly.ScratchMsgs.locales["he"] = {
@@ -11481,6 +11684,13 @@ Blockly.ScratchMsgs.locales["he"] = {
     "SET_MATRIX_SATURATION": "%1 הגדר את הרוויה של אור המטריצה ​​ל-%2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 מגדיר את תאוצת המנוע ל-%2",
+    "DEFAULT": "Default",
+    "FAST": "fast",
+    "BALANCE": "balance",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Slower"
 };
 
 Blockly.ScratchMsgs.locales["hr"] = {
@@ -11863,6 +12073,13 @@ Blockly.ScratchMsgs.locales["hr"] = {
     "SET_MATRIX_SATURATION": "%1 Postavite zasićenost matričnog svjetla na %2 %%",
     "OPEN": "uključi",
     "CLOSE": "isključi",
+    "MOTOR_ACCELERATION": "%1 postavlja ubrzanje motora na %2",
+    "DEFAULT": "Zadano",
+    "FAST": "brzo",
+    "BALANCE": "stanje",
+    "SMOOTH": "Glatko",
+    "SLOW": "POLO",
+    "SLOWER": "Sporije"
 };
 
 Blockly.ScratchMsgs.locales["xh"] = {
@@ -12245,6 +12462,13 @@ Blockly.ScratchMsgs.locales["xh"] = {
     "SET_MATRIX_SATURATION": "%1 Misa ukugcwaliswa kwesibani se-matrix sibe %2 %%",
     "OPEN": "vula",
     "CLOSE": "cima",
+    "MOTOR_ACCELERATION": "%1 imisa ukusheshisa kwenjini ku-%2",
+    "DEFAULT": "Okuzenzakalelayo",
+    "FAST": "shesha",
+    "BALANCE": "bhalansi",
+    "SMOOTH": "Bushelelezi",
+    "SLOW": "SLOW",
+    "SLOWER": "Kancane kancane"
 };
 
 Blockly.ScratchMsgs.locales["zu"] = {
@@ -12627,6 +12851,13 @@ Blockly.ScratchMsgs.locales["zu"] = {
     "SET_MATRIX_SATURATION": "%1 Misa ukugcwaliswa kwesibani se-matrix sibe %2 %%",
     "OPEN": "vula",
     "CLOSE": "cisha",
+    "MOTOR_ACCELERATION": "%1 imisa ukusheshisa kwenjini ku-%2",
+    "DEFAULT": "Okuzenzakalelayo",
+    "FAST": "shesha",
+    "BALANCE": "bhalansi",
+    "SMOOTH": "Bushelelezi",
+    "SLOW": "SLOW",
+    "SLOWER": "Kancane kancane"
 };
 
 Blockly.ScratchMsgs.locales["is"] = {
@@ -13009,6 +13240,13 @@ Blockly.ScratchMsgs.locales["is"] = {
     "SET_MATRIX_SATURATION": "%1 Stilltu mettun fylkisljóssins á %2 %%",
     "OPEN": "kveikja á",
     "CLOSE": "slökkva",
+    "MOTOR_ACCELERATION": "%1 stillir mótorhröðunina á %2",
+    "DEFAULT": "Sjálfgefið",
+    "FAST": "hratt",
+    "BALANCE": "jöfnuður",
+    "SMOOTH": "Slétt",
+    "SLOW": "SLOW",
+    "SLOWER": "Hægari"
 };
 
 Blockly.ScratchMsgs.locales["it"] = {
@@ -13391,6 +13629,13 @@ Blockly.ScratchMsgs.locales["it"] = {
     "SET_MATRIX_SATURATION": "%1 Imposta la saturazione della luce della matrice su %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 imposta l'accelerazione del motore su %2",
+    "DEFAULT": "Predefinito",
+    "FAST": "veloce",
+    "BALANCE": "equilibrio",
+    "SMOOTH": "Liscio",
+    "SLOW": "PIANO",
+    "SLOWER": "Più lento"
 };
 
 Blockly.ScratchMsgs.locales["ka"] = {
@@ -13773,6 +14018,13 @@ Blockly.ScratchMsgs.locales["ka"] = {
     "SET_MATRIX_SATURATION": "%1 დააყენეთ მატრიცის სინათლის გაჯერება %2%%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "% 1 ადგენს ძრავის აჩქარებას %2",
+    "DEFAULT": "ნაგულისხმევი",
+    "FAST": "სწრაფი",
+    "BALANCE": "ბალანსი",
+    "SMOOTH": "გლუვი",
+    "SLOW": "ნელი",
+    "SLOWER": "ნელა"
 };
 
 Blockly.ScratchMsgs.locales["kk"] = {
@@ -14155,6 +14407,13 @@ Blockly.ScratchMsgs.locales["kk"] = {
     "SET_MATRIX_SATURATION": "%1 матрицалық жарықтың қанықтылығын %2 %% етіп орнатыңыз",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "% 1 қозғалтқыш үдеуін % 2 мәніне орнатады",
+    "DEFAULT": "Әдепкі",
+    "FAST": "жылдам",
+    "BALANCE": "баланс",
+    "SMOOTH": "Тегіс",
+    "SLOW": "БАЯН",
+    "SLOWER": "Баяуырақ"
 };
 
 Blockly.ScratchMsgs.locales["qu"] = {
@@ -14537,6 +14796,13 @@ Blockly.ScratchMsgs.locales["qu"] = {
     "SET_MATRIX_SATURATION": "%1 Matriz k'anchaypa saturacionninta %2 %% nisqaman churay",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 motorpa utqaylla puriyninta %2 nisqaman churan",
+    "DEFAULT": "Ñawpaqmanta",
+    "FAST": "utqaylla",
+    "BALANCE": "equilibrio",
+    "SMOOTH": "Llamp'u",
+    "SLOW": "LLAQTA",
+    "SLOWER": "Aswan pisi"
 };
 
 Blockly.ScratchMsgs.locales["sw"] = {
@@ -14919,6 +15185,13 @@ Blockly.ScratchMsgs.locales["sw"] = {
     "SET_MATRIX_SATURATION": "%1 Weka mjazo wa mwanga wa tumbo hadi %2 %%",
     "OPEN": "washa",
     "CLOSE": "zima",
+    "MOTOR_ACCELERATION": "%1 inaweka kasi ya gari hadi %2",
+    "DEFAULT": "Chaguo-msingi",
+    "FAST": "haraka",
+    "BALANCE": "mizani",
+    "SMOOTH": "Laini",
+    "SLOW": "SLOW",
+    "SLOWER": "Polepole"
 };
 
 Blockly.ScratchMsgs.locales["ht"] = {
@@ -15301,6 +15574,13 @@ Blockly.ScratchMsgs.locales["ht"] = {
     "SET_MATRIX_SATURATION": "%1 Mete saturation limyè matris la sou %2 %%",
     "OPEN": "limen",
     "CLOSE": "fèmen",
+    "MOTOR_ACCELERATION": "%1 mete akselerasyon motè a sou %2",
+    "DEFAULT": "Default",
+    "FAST": "vit",
+    "BALANCE": "balans",
+    "SMOOTH": "Smooth",
+    "SLOW": "RALENT",
+    "SLOWER": "Pi dousman"
 };
 
 Blockly.ScratchMsgs.locales["ku"] = {
@@ -15683,6 +15963,13 @@ Blockly.ScratchMsgs.locales["ku"] = {
     "SET_MATRIX_SATURATION": "%1 Têrbûna ronahiya matrixê bike %2 %%",
     "OPEN": "vekirin",
     "CLOSE": "vemire",
+    "MOTOR_ACCELERATION": "% 1 leza motorê dike %2",
+    "DEFAULT": "Default",
+    "FAST": "Zû",
+    "BALANCE": "balans",
+    "SMOOTH": "Hêm",
+    "SLOW": "HÊDÎ",
+    "SLOWER": "Hêdîtir"
 };
 
 Blockly.ScratchMsgs.locales["ckb"] = {
@@ -16065,6 +16352,13 @@ Blockly.ScratchMsgs.locales["ckb"] = {
     "SET_MATRIX_SATURATION": "%1 تێربوونی ڕووناکی ماتریکسەکە دابنێ بۆ %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 د موټرو سرعت %2 ته ټاکي",
+    "DEFAULT": "تفصیل",
+    "FAST": "چټک",
+    "BALANCE": "توازن",
+    "SMOOTH": "مسؤل",
+    "SLOW": "سلو",
+    "SLOWER": "ورو"
 };
 
 Blockly.ScratchMsgs.locales["lv"] = {
@@ -16447,6 +16741,13 @@ Blockly.ScratchMsgs.locales["lv"] = {
     "SET_MATRIX_SATURATION": "%1 Iestatīt matricas gaismas piesātinājumu uz %2 %%,",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 iestata motora paātrinājumu uz %2",
+    "DEFAULT": "Noklusējums",
+    "FAST": "ātrs",
+    "BALANCE": "bilance",
+    "SMOOTH": "Gluds",
+    "SLOW": "SLOW",
+    "SLOWER": "Lēnāk"
 };
 
 Blockly.ScratchMsgs.locales["lt"] = {
@@ -16829,6 +17130,13 @@ Blockly.ScratchMsgs.locales["lt"] = {
     "SET_MATRIX_SATURATION": "%1 Nustatyti matricos šviesos sodrumą į %2 %%,",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 nustato variklio pagreitį į %2",
+    "DEFAULT": "Numatytasis",
+    "FAST": "greitai",
+    "BALANCE": "balansas",
+    "SMOOTH": "Smooth",
+    "SLOW": "SLOW",
+    "SLOWER": "Lėčiau"
 };
 
 Blockly.ScratchMsgs.locales["hu"] = {
@@ -17211,6 +17519,13 @@ Blockly.ScratchMsgs.locales["hu"] = {
     "SET_MATRIX_SATURATION": "%1 Állítsa be a mátrixfény telítettségét %2 %%-ra",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 a motor gyorsulását %2-re állítja",
+    "DEFAULT": "Alapértelmezett",
+    "FAST": "gyors",
+    "BALANCE": "egyenleg",
+    "SMOOTH": "Smooth",
+    "SLOW": "LASSAN",
+    "SLOWER": "Lassabb"
 };
 
 Blockly.ScratchMsgs.locales["mi"] = {
@@ -17593,6 +17908,13 @@ Blockly.ScratchMsgs.locales["mi"] = {
     "SET_MATRIX_SATURATION": "%1 Tautuhia te waiwai o te rama matrix ki %2 %%",
     "OPEN": "whakakā",
     "CLOSE": "whakaweto",
+    "MOTOR_ACCELERATION": "Ka tautuhia e %1 te whakatere waka ki te %2",
+    "DEFAULT": "Taunoa",
+    "FAST": "tere",
+    "BALANCE": "taurite",
+    "SMOOTH": "Maeneene",
+    "SLOW": "PĀHO",
+    "SLOWER": "Poturi ake"
 };
 
 Blockly.ScratchMsgs.locales["mn"] = {
@@ -17975,6 +18297,13 @@ Blockly.ScratchMsgs.locales["mn"] = {
     "SET_MATRIX_SATURATION": "%1 Матрицын гэрлийн ханалтыг %2 %% болгож тохируулах",
     "OPEN": "асаах",
     "CLOSE": "унтраах",
+    "MOTOR_ACCELERATION": "%1 моторын хурдатгалыг %2 болгож тохируулсан",
+    "DEFAULT": "Өгөгдмөл",
+    "FAST": "хурдан",
+    "BALANCE": "баланс",
+    "SMOOTH": "Гөлгөр",
+    "SLOW": "УДААН",
+    "SLOWER": "Удаан"
 };
 
 Blockly.ScratchMsgs.locales["nl"] = {
@@ -18357,6 +18686,13 @@ Blockly.ScratchMsgs.locales["nl"] = {
     "SET_MATRIX_SATURATION": "%1 Stel de verzadiging van het matrixlicht in op %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 stelt de motorversnelling in op %2",
+    "DEFAULT": "Standaard",
+    "FAST": "snel",
+    "BALANCE": "balans",
+    "SMOOTH": "Glad",
+    "SLOW": "LANGZAAM",
+    "SLOWER": "Langzamer"
 };
 
 Blockly.ScratchMsgs.locales["ja"] = {
@@ -18743,6 +19079,13 @@ Blockly.ScratchMsgs.locales["ja"] = {
     "SET_MATRIX_SATURATION": "%1 マトリックス ライトの彩度を %2 に設定します %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 はモーター加速度を %2 に設定します",
+    "DEFAULT": "デフォルト",
+    "FAST": "早く",
+    "BALANCE": "バランス",
+    "SMOOTH": "スムーズ",
+    "SLOW": "遅い",
+    "SLOWER": "遅い"
 };
 
 Blockly.ScratchMsgs.locales["ja-Hira"] = {
@@ -19129,6 +19472,13 @@ Blockly.ScratchMsgs.locales["ja-Hira"] = {
     "SET_MATRIX_SATURATION": "%1 マトリックス ライトの彩度を %2 に設定します %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 はモーター加速度を %2 に設定します",
+    "DEFAULT": "デフォルト",
+    "FAST": "早く",
+    "BALANCE": "バランス",
+    "SMOOTH": "スムーズ",
+    "SLOW": "遅い",
+    "SLOWER": "遅い"
 };
 
 Blockly.ScratchMsgs.locales["nb"] = {
@@ -19511,6 +19861,13 @@ Blockly.ScratchMsgs.locales["nb"] = {
     "SET_MATRIX_SATURATION": "%1 Sett metningen av matriselyset til %2 %%",
     "OPEN": "slå på",
     "CLOSE": "slå av",
+    "MOTOR_ACCELERATION": "%1 setter motorakselerasjonen til %2",
+    "DEFAULT": "Standard",
+    "FAST": "fort",
+    "BALANCE": "balanse",
+    "SMOOTH": "Glatt",
+    "SLOW": "SAKTE",
+    "SLOWER": "Saktere"
 };
 
 Blockly.ScratchMsgs.locales["nn"] = {
@@ -19893,6 +20250,13 @@ Blockly.ScratchMsgs.locales["nn"] = {
     "SET_MATRIX_SATURATION": "%1 Sett metningen av matriselyset til %2 %%",
     "OPEN": "slå på",
     "CLOSE": "slå av",
+    "MOTOR_ACCELERATION": "%1 setter motorakselerasjonen til %2",
+    "DEFAULT": "Standard",
+    "FAST": "fort",
+    "BALANCE": "balanse",
+    "SMOOTH": "Glatt",
+    "SLOW": "SAKTE",
+    "SLOWER": "Saktere"
 };
 
 Blockly.ScratchMsgs.locales["or"] = {
@@ -20275,6 +20639,13 @@ Blockly.ScratchMsgs.locales["or"] = {
     "SET_MATRIX_SATURATION": "%1 ମ୍ୟାଟ୍ରିକ୍ସ ଆଲୋକର ପରିପୃଷ୍ଠତାକୁ %2 %% ସେଟ୍ କରନ୍ତୁ",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "% 1 ମୋଟର ତ୍ୱରଣକୁ% 2 ରେ ସେଟ୍ କରେ",
+    "DEFAULT": "ଡିଫଲ୍ଟ",
+    "FAST": "ଦ୍ରୁତ",
+    "BALANCE": "ସନ୍ତୁଳନ",
+    "SMOOTH": "ସ୍ମୁଥ୍",
+    "SLOW": "SLOW",
+    "SLOWER": "ଧୀର"
 };
 
 Blockly.ScratchMsgs.locales["uz"] = {
@@ -20657,6 +21028,13 @@ Blockly.ScratchMsgs.locales["uz"] = {
     "SET_MATRIX_SATURATION": "%1 Matritsa nurining toʻyinganligini %2 %% ga oʻrnating",
     "OPEN": "yoqish",
     "CLOSE": "o'chirish",
+    "MOTOR_ACCELERATION": "% 1 vosita tezlanishini %2 ga o'rnatadi",
+    "DEFAULT": "Standart",
+    "FAST": "tez",
+    "BALANCE": "balans",
+    "SMOOTH": "silliq",
+    "SLOW": "SESTIN",
+    "SLOWER": "sekinroq"
 };
 
 Blockly.ScratchMsgs.locales["th"] = {
@@ -21039,6 +21417,13 @@ Blockly.ScratchMsgs.locales["th"] = {
     "SET_MATRIX_SATURATION": "%1 ตั้งค่าความอิ่มตัวของแสงเมทริกซ์เป็น %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 ตั้งค่าความเร่งของมอเตอร์เป็น %2",
+    "DEFAULT": "ค่าเริ่มต้น",
+    "FAST": "เร็ว",
+    "BALANCE": "สมดุล",
+    "SMOOTH": "เรียบ",
+    "SLOW": "ช้า",
+    "SLOWER": "ช้าลง"
 };
 
 Blockly.ScratchMsgs.locales["km"] = {
@@ -21421,6 +21806,13 @@ Blockly.ScratchMsgs.locales["km"] = {
     "SET_MATRIX_SATURATION": "%1 កំណត់ភាពឆ្អែតនៃពន្លឺម៉ាទ្រីសទៅជា %2 %%",
     "OPEN": "បើក",
     "CLOSE": "បិទ",
+    "MOTOR_ACCELERATION": "%1 កំណត់ការបង្កើនល្បឿនម៉ូទ័រទៅ %2",
+    "DEFAULT": "លំនាំដើម",
+    "FAST": "លឿន",
+    "BALANCE": "សមតុល្យ",
+    "SMOOTH": "រលោង",
+    "SLOW": "យឺត",
+    "SLOWER": "យឺត"
 };
 
 Blockly.ScratchMsgs.locales["pl"] = {
@@ -21803,6 +22195,13 @@ Blockly.ScratchMsgs.locales["pl"] = {
     "SET_MATRIX_SATURATION": "%1 Ustaw nasycenie światła matrycy na %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 ustawia przyspieszenie silnika na %2",
+    "DEFAULT": "Domyślny",
+    "FAST": "szybko",
+    "BALANCE": "saldo",
+    "SMOOTH": "Gładki",
+    "SLOW": "WOLNO",
+    "SLOWER": "WOLNIEJ"
 };
 
 Blockly.ScratchMsgs.locales["pt"] = {
@@ -22185,6 +22584,13 @@ Blockly.ScratchMsgs.locales["pt"] = {
     "SET_MATRIX_SATURATION": "%1 Defina a saturação da luz da matriz para %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 define a aceleração do motor para %2",
+    "DEFAULT": "Padrão",
+    "FAST": "rapido",
+    "BALANCE": "saldo",
+    "SMOOTH": "Suave",
+    "SLOW": "DEVAGAR",
+    "SLOWER": "Mais lento"
 };
 
 Blockly.ScratchMsgs.locales["pt-br"] = {
@@ -22567,6 +22973,13 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
     "SET_MATRIX_SATURATION": "%1 Defina a saturação da luz da matriz para %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 define a aceleração do motor para %2",
+    "DEFAULT": "Padrão",
+    "FAST": "rapido",
+    "BALANCE": "saldo",
+    "SMOOTH": "Suave",
+    "SLOW": "DEVAGAR",
+    "SLOWER": "Mais lento"
 };
 
 Blockly.ScratchMsgs.locales["rap"] = {
@@ -22949,6 +23362,13 @@ Blockly.ScratchMsgs.locales["rap"] = {
     "SET_MATRIX_SATURATION": "%1 Tautuhia te waiwai o te rama matrix ki %2 %%",
     "OPEN": "whakakā",
     "CLOSE": "whakaweto",
+    "MOTOR_ACCELERATION": "Ka tautuhia e %1 te whakatere waka ki te %2",
+    "DEFAULT": "Taunoa",
+    "FAST": "tere",
+    "BALANCE": "taurite",
+    "SMOOTH": "Maeneene",
+    "SLOW": "PĀHO",
+    "SLOWER": "Poturi ake"
 };
 
 Blockly.ScratchMsgs.locales["ro"] = {
@@ -23331,6 +23751,13 @@ Blockly.ScratchMsgs.locales["ro"] = {
     "SET_MATRIX_SATURATION": "%1 Setați saturația luminii matricei la %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 устанавливает ускорение двигателя на %2",
+    "DEFAULT": "По умолчанию",
+    "FAST": "быстро",
+    "BALANCE": "баланс",
+    "SMOOTH": "Гладкий",
+    "SLOW": "МЕДЛЕННО",
+    "SLOWER": "Медленнее"
 };
 
 Blockly.ScratchMsgs.locales["ru"] = {
@@ -23713,6 +24140,13 @@ Blockly.ScratchMsgs.locales["ru"] = {
     "SET_MATRIX_SATURATION": "%1 Установите насыщенность матричного света на %2 %%",
     "OPEN": "turn on",
     "CLOSE": "turn off",
+    "MOTOR_ACCELERATION": "%1 устанавливает ускорение двигателя на %2",
+    "DEFAULT": "По умолчанию",
+    "FAST": "быстрый",
+    "BALANCE": "баланс",
+    "SMOOTH": "Гладкий",
+    "SLOW": "медленный",
+    "SLOWER": "Медленнее"
 };
 
 Blockly.ScratchMsgs.locales["nso"] = {
@@ -24094,6 +24528,13 @@ Blockly.ScratchMsgs.locales["nso"] = {
     "SET_MATRIX_SATURATION": "%1 Beakanya go tlala ga seetša sa matrix go %2 %%",
     "OPEN": "bulela",
     "CLOSE": "tima",
+    "MOTOR_ACCELERATION": "%1 e beakanya go akgofiša ga entšene go %2",
+    "DEFAULT": "Tlwaelo",
+    "FAST": "ka potlako",
+    "BALANCE": "tekatekano",
+    "SMOOTH": "Boreledi",
+    "SLOW": "BO NANYA",
+    "SLOWER": "E nanya"
 };
 
 Blockly.ScratchMsgs.locales["tn"] = {
@@ -24475,6 +24916,13 @@ Blockly.ScratchMsgs.locales["tn"] = {
     "SET_MATRIX_SATURATION": "%1 Beakanya go tlala ga seetša sa matrix go %2 %%",
     "OPEN": "bulela",
     "CLOSE": "tima",
+    "MOTOR_ACCELERATION": "%1 e beakanya go akgofiša ga entšene go %2",
+    "DEFAULT": "Tlwaelo",
+    "FAST": "ka potlako",
+    "BALANCE": "tekatekano",
+    "SMOOTH": "Boreledi",
+    "SLOW": "BO NANYA",
+    "SLOWER": "E nanya"
 };
 
 Blockly.ScratchMsgs.locales["sk"] = {
@@ -24857,6 +25305,13 @@ Blockly.ScratchMsgs.locales["sk"] = {
     "SET_MATRIX_SATURATION": "%1 Nastaviť sýtosť maticového svetla na %2 %%",
     "OPEN": "zapnúť",
     "CLOSE": "vypnúť",
+    "MOTOR_ACCELERATION": "%1 nastavuje zrýchlenie motora na %2",
+    "DEFAULT": "Predvolené",
+    "FAST": "rýchlo",
+    "BALANCE": "zostatok",
+    "SMOOTH": "Hladký",
+    "SLOW": "SLOW",
+    "SLOWER": "Pomalšie"
 };
 
 Blockly.ScratchMsgs.locales["sl"] = {
@@ -25239,6 +25694,13 @@ Blockly.ScratchMsgs.locales["sl"] = {
     "SET_MATRIX_SATURATION": "%1 Nastavi nasičenost matrične svetlobe na %2 %%",
     "OPEN": "vklopi",
     "CLOSE": "izklopi",
+    "MOTOR_ACCELERATION": "%1 nastavi pospešek motorja na %2",
+    "DEFAULT": "Privzeto",
+    "FAST": "hitro",
+    "BALANCE": "ravnotežje",
+    "SMOOTH": "Gladko",
+    "SLOW": "POČASI",
+    "SLOWER": "Počasneje"
 };
 
 Blockly.ScratchMsgs.locales["sr"] = {
@@ -25617,6 +26079,13 @@ Blockly.ScratchMsgs.locales["sr"] = {
     "USERGB_MATRIKS_LAMP": "%1 %2 svetlo",
     "OPEN": "uključi",
     "CLOSE": "isključi",
+    "MOTOR_ACCELERATION": "%1 postavlja ubrzanje motora na %2",
+    "DEFAULT": "Zadano",
+    "FAST": "brzo",
+    "BALANCE": "stanje",
+    "SMOOTH": "Glatko",
+    "SLOW": "POLO",
+    "SLOWER": "Sporije"
 };
 
 Blockly.ScratchMsgs.locales["fi"] = {
@@ -25999,6 +26468,13 @@ Blockly.ScratchMsgs.locales["fi"] = {
     "SET_MATRIX_SATURATION": "%1 Aseta matriisivalon kylläisyydeksi %2 %%",
     "OPEN": "käännä päälle",
     "CLOSE": "sammuta",
+    "MOTOR_ACCELERATION": "%1 asettaa moottorin kiihtyvyydeksi %2",
+    "DEFAULT": "Oletus",
+    "FAST": "nopea",
+    "BALANCE": "saldo",
+    "SMOOTH": "Smooth",
+    "SLOW": "hidas",
+    "SLOWER": "Hitammin"
 };
 
 Blockly.ScratchMsgs.locales["sv"] = {
@@ -26381,6 +26857,13 @@ Blockly.ScratchMsgs.locales["sv"] = {
     "SET_MATRIX_SATURATION": "%1 Ställ in mättnaden för matrisljuset till %2 %%",
     "OPEN": "slå på",
     "CLOSE": "stäng av",
+    "MOTOR_ACCELERATION": "%1 ställer in motoraccelerationen till %2",
+    "DEFAULT": "Standard",
+    "FAST": "snabbt",
+    "BALANCE": "saldo",
+    "SMOOTH": "Smidig",
+    "SLOW": "långsam",
+    "SLOWER": "Långsammare"
 };
 
 Blockly.ScratchMsgs.locales["vi"] = {
@@ -26763,6 +27246,13 @@ Blockly.ScratchMsgs.locales["vi"] = {
     "SET_MATRIX_SATUATION": "%1 Đặt độ bão hòa của ánh sáng ma trận thành %2 %%",
     "OPEN": "bật",
     "CLOSE": "tắt",
+    "MOTOR_ACCELERATION": "%1 đặt gia tốc động cơ thành %2",
+    "DEFAULT": "mặc định",
+    "FAST": "nhanh",
+    "BALANCE": "cân bằng",
+    "SMOOTH": "Mượt",
+    "SLOW": "CHẬM",
+    "SLOWER": "Chậm hơn"
 };
 
 Blockly.ScratchMsgs.locales["tr"] = {
@@ -27145,6 +27635,13 @@ Blockly.ScratchMsgs.locales["tr"] = {
     "SET_MATRIX_SATURATION": "%1 Matris ışığının doygunluğunu %2 %% olarak ayarlayın",
     "OPEN": "aç",
     "CLOSE": "kapat",
+    "MOTOR_ACCELERATION": "%1, motor hızlanmasını %2 olarak ayarlar",
+    "DEFAULT": "Varsayılan",
+    "FAST": "hızlı",
+    "BALANCE": "denge",
+    "SMOOTH": "Pürüzsüz",
+    "SLOW": "yavaş",
+    "SLOWER": "Daha yavaş"
 };
 
 Blockly.ScratchMsgs.locales["uk"] = {
@@ -27527,6 +28024,13 @@ Blockly.ScratchMsgs.locales["uk"] = {
     "SET_MATRIX_SATURATION": "%1 Встановити насиченість світла матриці на %2 %%",
     "OPEN": "увімкнути",
     "CLOSE": "вимкнути",
+    "MOTOR_ACCELERATION": "%1 встановлює прискорення двигуна на %2",
+    "DEFAULT": "За замовчуванням",
+    "FAST": "швидко",
+    "BALANCE": "баланс",
+    "SMOOTH": "Гладкий",
+    "SLOW": "ПОВІЛЬНО",
+    "SLOWER": "Повільніше"
 };
 
 Blockly.ScratchMsgs.locales["zh-cn"] = {
@@ -28321,5 +28825,12 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
     "MATRIX_COLOR": "%1 設定矩陣燈的顏色為 %2",
     "OPEN": "打開",
     "CLOSE": "關閉",
+    "MOTOR_ACCELERATION": "%1 將馬達加速度設為 %2",
+    "DEFAULT": "預設",
+    "FAST": "快",
+    "BALANCE": "平衡",
+    "SMOOTH": "平滑",
+    "SLOW": "慢",
+    "SLOWER": "更慢"
 };
 // End of combined translations

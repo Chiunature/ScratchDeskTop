@@ -284,7 +284,9 @@ class GUI extends React.Component {
         if (res === 0) {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
-        window.myAPI.setStoreValue('isSensingUpdate', false);
+        setTimeout(() => {
+            window.myAPI.setStoreValue('isSensingUpdate', false);
+        }, 1000);
     }
 
     async checkDriver() {

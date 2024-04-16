@@ -355,7 +355,7 @@ class Common {
                 item.deviceId = 'a2';
                 if (!('Not_Run' in item.color)) {
                     item.color = {
-                        'rgb': `rgb(${item.color.r}, ${item.color.g}, ${item.color.b})`,
+                        'rgb': `rgb(${item.color.r >= 255 ? '255' : item.color.r}, ${item.color.g >= 255 ? '255' : item.color.g}, ${item.color.b >= 255 ? '255' : item.color.b})`,
                         'l': item.color.l
                     }
                 }
