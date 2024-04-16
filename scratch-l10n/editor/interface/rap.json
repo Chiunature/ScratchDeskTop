@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Katoa te kaha",
     "gui.device.memoryRemaining": "E toe ana te kaha",
     "gui.device.electricity": "Hiko",
-    "gui.device.soundIntensity": "Te Kaha oro"
+    "gui.device.soundIntensity": "Te Kaha oro",
+    "gui.device.angle": "koki",
+    "gui.device.circly": "Tau porowhita",
+    "gui.device.version": "putanga",
+    "gui.main.Exit": "Ko nga huringa i mahia e koe kare pea e tiakina!",
+    "gui.main.reupdateFireware": "Ko te firmware te putanga hou, kei te pirangi koe ki te whakahou ano?",
+    "gui.main.updateFireware": "Kua kitea ko te putanga firmware ehara i te mea hou. Kei te pirangi koe ki te whakahou?",
+    "gui.main.sensingUpdate": "Kua kitea ko te putanga peripheral ehara i te mea hou me te whakahou",
+    "gui.main.delete": "Kei te hiahia koe ki te muku i tenei rekoata?",
+    "gui.main.reinstallDriver": "Kei te tino hiahia koe ki te tāuta anō i te atekōkiri?",
+    "gui.main.installDriver": "Kua kitea karekau he atekōkiri e tika ana kia whakauruhia e to rorohiko. Kei te pirangi koe ki te whakauru?",
+    "gui.main.updateApp": "Whakahoutanga taupānga",
+    "gui.main.updateAppSuccess": "Kua oti te tango i te kete whakahōu",
+    "gui.main.updateAppSuccessDetail": "Mehemea ka timata ano tonu ki te whakaoti i te whakahou (kaore nga raraunga e tiakina aunoa)?",
+    "gui.main.updating": "Kei te tikiake te mōkihi whakahōu",
+    "gui.main.waiting": "Tatari marie",
+    "gui.main.restartUpdate": "Tīmata anō kia oti te whakahou",
+    "gui.main.discoverUpdate": "I kitea he putanga hou. Kei te pirangi koe ki te whakahou?"
 }

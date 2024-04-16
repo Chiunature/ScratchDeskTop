@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kogu võimsus",
     "gui.device.memoryRemaining": "Järeljäänud maht",
     "gui.device.electricity": "Elekter",
-    "gui.device.soundIntensity": "Heli intensiivsus"
+    "gui.device.soundIntensity": "Heli intensiivsus",
+    "gui.device.angle": "nurk",
+    "gui.device.circly": "Suhtlusringide arv",
+    "gui.device.version": "version",
+    "gui.main.Exit": "Teie tehtud muudatusi ei pruugita salvestada!",
+    "gui.main.reupdateFireware": "Püsivara on juba uusim versioon, kas soovite seda uuesti värskendada?",
+    "gui.main.updateFireware": "Tuvastati, et püsivara versioon ei ole uusim. Kas soovite seda värskendada?",
+    "gui.main.sensingUpdate": "Tuvastati, et välisseadmete versioon ei ole uusim ja vajab värskendamist",
+    "gui.main.delete": "Kas soovite selle kirje kustutada?",
+    "gui.main.reinstallDriver": "Kas soovite kindlasti draiveri uuesti installida?",
+    "gui.main.installDriver": "Tuvastati, et teie arvutisse pole installitud vajalikku draiverit. Kas soovite selle installida?",
+    "gui.main.updateApp": "Rakenduse värskendus",
+    "gui.main.updateAppSuccess": "Värskenduspaketi allalaadimine on lõpetatud",
+    "gui.main.updateAppSuccessDetail": "Värskenduse lõpuleviimiseks viivitamatult taaskäivitada (andmeid ei salvestata automaatselt)?",
+    "gui.main.updating": "Uuenduspaketti laaditakse alla",
+    "gui.main.waiting": "Palun oodake kannatlikult",
+    "gui.main.restartUpdate": "Värskenduse lõpuleviimiseks taaskäivitage",
+    "gui.main.discoverUpdate": "Leiti uus versioon. Kas soovite värskendada?"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "საერთო ტევადობა",
     "gui.device.memoryRemaining": "დარჩენილი სიმძლავრე",
     "gui.device.electricity": "ელექტროენერგია",
-    "gui.device.soundIntensity": "ხმის ინტენსივობა"
+    "gui.device.soundIntensity": "ხმის ინტენსივობა",
+    "gui.device.angle": "კუთხე",
+    "gui.device.circly": "წრეების რაოდენობა",
+    "gui.device.version": "ვერსია",
+    "gui.main.Exit": "თქვენ მიერ განხორციელებული ცვლილებები შეიძლება არ იყოს შენახული!",
+    "gui.main.reupdateFireware": "პროგრამული უზრუნველყოფა უკვე უახლესი ვერსიაა, გსურთ მისი ხელახლა განახლება?",
+    "gui.main.updateFireware": "აღმოჩნდა, რომ firmware ვერსია არ არის უახლესი. გსურთ მისი განახლება?",
+    "gui.main.sensingUpdate": "გამოვლინდა, რომ პერიფერიული ვერსია არ არის უახლესი და საჭიროებს განახლებას",
+    "gui.main.delete": "გსურთ ამ ჩანაწერის წაშლა?",
+    "gui.main.reinstallDriver": "დარწმუნებული ხართ, რომ გსურთ დრაივერის ხელახლა ინსტალაცია?",
+    "gui.main.installDriver": "გამოვლინდა, რომ თქვენს კომპიუტერს არ აქვს დაინსტალირებული საჭირო დრაივერი. გსურთ მისი ინსტალაცია?",
+    "gui.main.updateApp": "აპის განახლება",
+    "gui.main.updateAppSuccess": "პაკეტის განახლების ჩამოტვირთვა დასრულდა",
+    "gui.main.updateAppSuccessDetail": "გადატვირთეთ დაუყოვნებლივ განახლების დასასრულებლად (მონაცემები ავტომატურად არ შეინახება)?",
+    "gui.main.updating": "განახლების პაკეტი იტვირთება",
+    "gui.main.waiting": "გთხოვთ მოითმინოთ",
+    "gui.main.restartUpdate": "გთხოვთ გადატვირთოთ განახლების დასასრულებლად",
+    "gui.main.discoverUpdate": "იპოვეს ახალი ვერსია. გსურთ განახლება?"
 }

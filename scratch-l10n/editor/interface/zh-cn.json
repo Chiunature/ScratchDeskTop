@@ -578,7 +578,7 @@
   "gui.main.installDriver": "检查到你的电脑未安装必要驱动，是否前去安装?",
   "gui.main.updateApp": "应用更新",
   "gui.main.updateAppSuccess": "更新包下载完成",
-  "gui.main.updateAppSuccessDetail": "是否立即重启完成更新(数据不会自动保存)",
+  "gui.main.updateAppSuccessDetail": "是否立即重启完成更新(数据不会自动保存)?",
   "gui.main.updating": "更新包正在下载",
   "gui.main.waiting": "请耐心等待",
   "gui.main.restartUpdate": "请重启完成更新",

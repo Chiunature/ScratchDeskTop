@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Агульная ёмістасць",
     "gui.device.memoryRemaining": "Астатняя ёмістасць",
     "gui.device.electricity": "Электрычнасць",
-    "gui.device.soundIntensity": "Інтэнсіўнасць гуку"
+    "gui.device.soundIntensity": "Інтэнсіўнасць гуку",
+    "gui.device.angle": "кут",
+    "gui.device.circly": "Колькасць колаў",
+    "gui.device.version": "версія",
+    "gui.main.Exit": "Унесеныя вамі змены могуць не быць захаваны!",
+    "gui.main.reupdateFireware": "Прашыўка ўжо апошняя версія, вы хочаце абнавіць яе зноў?",
+    "gui.main.updateFireware": "Было выяўлена, што версія прашыўкі не апошняя. Вы хочаце абнавіць яе?",
+    "gui.main.sensingUpdate": "Выяўлена, што перыферыйная версія не апошняя і патрабуе абнаўлення",
+    "gui.main.delete": "Вы хочаце выдаліць гэты запіс?",
+    "gui.main.reinstallDriver": "Вы ўпэўнены, што хочаце пераўсталяваць драйвер?",
+    "gui.main.installDriver": "Выяўлена, што на вашым кампутары не ўсталяваны патрэбны драйвер. Вы жадаеце яго ўсталяваць?",
+    "gui.main.updateApp": "Абнаўленне праграмы",
+    "gui.main.updateAppSuccess": "Спампоўка пакета абнаўлення завершана",
+    "gui.main.updateAppSuccessDetail": "Неадкладна перазапусціць, каб завяршыць абнаўленне (дадзеныя не будуць аўтаматычна захаваны)?",
+    "gui.main.updating": "Ідзе загрузка пакета абнаўлення",
+    "gui.main.waiting": "Калі ласка, цярпліва пачакайце",
+    "gui.main.restartUpdate": "Калі ласка, перазапусціце, каб завяршыць абнаўленне",
+    "gui.main.discoverUpdate": "Знойдзена новая версія. Жадаеце абнавіць?"
 }

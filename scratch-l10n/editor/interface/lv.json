@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kopējā jauda",
     "gui.device.memoryRemaining": "Atlikušā jauda",
     "gui.device.electricity": "Elektrība",
-    "gui.device.soundIntensity": "Skaņas intensitāte"
+    "gui.device.soundIntensity": "Skaņas intensitāte",
+    "gui.device.angle": "leņķis",
+    "gui.device.circly": "Apļu skaits",
+    "gui.device.version": "versija",
+    "gui.main.Exit": "Jūsu veiktās izmaiņas var netikt saglabātas!",
+    "gui.main.reupdateFireware": "Aparātprogrammatūra jau ir jaunākā versija, vai vēlaties to atjaunināt vēlreiz?",
+    "gui.main.updateFireware": "Tika konstatēts, ka programmaparatūras versija nav jaunākā. Vai vēlaties to atjaunināt?",
+    "gui.main.sensingUpdate": "Tiek konstatēts, ka perifērijas versija nav jaunākā un tā ir jāatjaunina",
+    "gui.main.delete": "Vai vēlaties dzēst šo ierakstu?",
+    "gui.main.reinstallDriver": "Vai tiešām vēlaties pārinstalēt draiveri?",
+    "gui.main.installDriver": "Tiek konstatēts, ka jūsu datorā nav instalēts nepieciešamais draiveris. Vai vēlaties to instalēt?",
+    "gui.main.updateApp": "Lietotnes atjauninājums",
+    "gui.main.updateAppSuccess": "Atjaunināšanas pakotnes lejupielāde pabeigta",
+    "gui.main.updateAppSuccessDetail": "Vai nekavējoties restartēt, lai pabeigtu atjaunināšanu (dati netiks automātiski saglabāti)？",
+    "gui.main.updating": "Notiek atjaunināšanas pakotnes lejupielāde",
+    "gui.main.waiting": "Lūdzu, pagaidiet pacietīgi",
+    "gui.main.restartUpdate": "Lūdzu, restartējiet, lai pabeigtu atjaunināšanu",
+    "gui.main.discoverUpdate": "Tika atrasta jauna versija. Vai vēlaties atjaunināt?"
 }

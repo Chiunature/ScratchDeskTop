@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "کۆی توانای",
     "gui.device.memoryRemaining": "توانای ماوەتەوە",
     "gui.device.electricity": "کارەبا",
-    "gui.device.soundIntensity": "چڕی دەنگ"
+    "gui.device.soundIntensity": "چڕی دەنگ",
+    "gui.device.angle": "گۆشە",
+    "gui.device.circly": "ژمارەی بازنەکان",
+    "gui.device.version": "وەشان",
+    "gui.main.Exit": "ئەو گۆڕانکاریانەی کە کردووتە لەوانەیە پاشەکەوت نەکرێن!",
+    "gui.main.reupdateFireware": "فیرموێری لە ئێستاوە نوێترین وەشانە, دەتەوێت دووبارە نوێی بکەیتەوە؟",
+    "gui.main.updateFireware": "دۆزراوەتەوە کە وەشانی فیرموێری نوێترین نییە. دەتەوێت نوێ بکەیتەوە؟",
+    "gui.main.sensingUpdate": "دۆزراوەتەوە کە وەشانی لاوەکی نوێترین نییە و پێویستی بە نوێکردنەوە هەیە",
+    "gui.main.delete": "دەتەوێت ئەم تۆمارە بسڕیتەوە؟",
+    "gui.main.reinstallDriver": "دڵنیای کە دەتەوێت شۆفێرەکە دووبارە دابمەزرێنیتەوە؟",
+    "gui.main.installDriver": "دۆزراوەتەوە کە کۆمپیوتەرەکەت درایڤەری پێویستی دانەناوە. دەتەوێت دایبمەزرێنیت؟",
+    "gui.main.updateApp": "نوێکردنەوەی ئەپ",
+    "gui.main.updateAppSuccess": "دابەزاندنی پاکێجی نوێکردنەوە تەواو بووە",
+    "gui.main.updateAppSuccessDetail": "دەستبەجێ دەستپێبکەرەوە بۆ تەواوکردنی نوێکردنەوەکە (داتاکان بە شێوەیەکی ئۆتۆماتیکی پاشەکەوت ناکرێن)؟",
+    "gui.main.updating": "پاکێجی نوێکردنەوە لە دابەزاندندایە",
+    "gui.main.waiting": "تکایە بە سەبرەوە چاوەڕوان بن",
+    "gui.main.restartUpdate": "تکایە دووبارە دەستپێبکەرەوە بۆ تەواوکردنی نوێکردنەوەکە",
+    "gui.main.discoverUpdate": "وەشانێکی نوێ دۆزرایەوە. دەتەوێت نوێ بکەیتەوە؟"
 }

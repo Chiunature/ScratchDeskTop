@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "ظرفیت کل",
     "gui.device.memoryRemaining": "ظرفیت باقیمانده",
     "gui.device.electricity": "برق",
-    "gui.device.soundIntensity": "شدت صدا"
+    "gui.device.soundIntensity": "شدت صدا",
+    "gui.device.angle": "زاویه",
+    "gui.device.circly": "تعداد حلقه ها",
+    "gui.device.version": "نسخه",
+    "gui.main.Exit": "تغییراتی که ایجاد کردید ممکن است ذخیره نشوند!",
+    "gui.main.reupdateFireware": "سیستم افزار از قبل آخرین نسخه است، آیا می خواهید دوباره آن را به روز کنید؟",
+    "gui.main.updateFireware": "مشخص شده است که نسخه سیستم عامل جدیدترین نیست. آیا می خواهید آن را به روز کنید؟",
+    "gui.main.sensingUpdate": "مشخص شد که نسخه جانبی جدیدترین نسخه نیست و باید به روز شود",
+    "gui.main.delete": "آیا می خواهید این رکورد را حذف کنید؟",
+    "gui.main.reinstallDriver": "آیا مطمئن هستید که می خواهید درایور را دوباره نصب کنید؟",
+    "gui.main.installDriver": "مشخص شد که رایانه شما درایور لازم را نصب نکرده است. آیا می خواهید آن را نصب کنید؟",
+    "gui.main.updateApp": "به روز رسانی برنامه",
+    "gui.main.updateAppSuccess": "دانلود بسته به روز رسانی کامل شد",
+    "gui.main.updateAppSuccessDetail": "برای تکمیل به روز رسانی فوراً راه اندازی مجدد شود (داده ها به طور خودکار ذخیره نمی شوند)؟",
+    "gui.main.updating": "بسته به روز رسانی در حال دانلود است",
+    "gui.main.waiting": "لطفا صبورانه منتظر بمانید",
+    "gui.main.restartUpdate": "لطفاً برای تکمیل به روز رسانی، راه اندازی مجدد کنید",
+    "gui.main.discoverUpdate": "نسخه جدیدی پیدا شد. آیا می خواهید به روز رسانی کنید؟"
 }

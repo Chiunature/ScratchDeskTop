@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Gesamtkapazität",
     "gui.device.memoryRemaining": "Verbleibende Kapazität",
     "gui.device.electricity": "Elektrizität",
-    "gui.device.soundIntensity": "Klangintensität"
+    "gui.device.soundIntensity": "Klangintensität",
+    "gui.device.angle": "Winkel",
+    "gui.device.circly": "Anzahl der Kreise",
+    "gui.device.version": "Version",
+    "gui.main.Exit": "Die von Ihnen vorgenommenen Änderungen werden möglicherweise nicht gespeichert!",
+    "gui.main.reupdateFireware": "Die Firmware ist bereits die neueste Version, möchten Sie sie erneut aktualisieren?",
+    "gui.main.updateFireware": "Es wurde festgestellt, dass die Firmware-Version nicht die neueste ist. Möchten Sie sie aktualisieren?",
+    "gui.main.sensingUpdate": "Es wurde festgestellt, dass die Peripherieversion nicht die neueste ist und aktualisiert werden muss",
+    "gui.main.delete": "Möchten Sie diesen Datensatz löschen?",
+    "gui.main.reinstallDriver": "Sind Sie sicher, dass Sie den Treiber neu installieren möchten?",
+    "gui.main.installDriver": "Es wurde festgestellt, dass auf Ihrem Computer nicht der erforderliche Treiber installiert ist. Möchten Sie ihn installieren?",
+    "gui.main.updateApp": "App-Update",
+    "gui.main.updateAppSuccess": "Download des Update-Pakets abgeschlossen",
+    "gui.main.updateAppSuccessDetail": "Sofort neu starten, um das Update abzuschließen (Daten werden nicht automatisch gespeichert)?",
+    "gui.main.updating": "Update-Paket wird heruntergeladen",
+    "gui.main.waiting": "Bitte warten Sie geduldig",
+    "gui.main.restartUpdate": "Bitte starten Sie neu, um das Update abzuschließen",
+    "gui.main.discoverUpdate": "Eine neue Version wurde gefunden. Möchten Sie aktualisieren?"
 }

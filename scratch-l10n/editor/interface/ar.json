@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "السعة الإجمالية",
     "gui.device.memoryRemaining": "السعة المتبقية",
     "gui.device.electricity": "كهرباء",
-    "gui.device.soundIntensity": "كثافة الصوت"
+    "gui.device.soundIntensity": "كثافة الصوت",
+    "gui.device.angle": "زاوية",
+    "gui.device.circly": "عدد الدوائر",
+    "gui.device.version": "الإصدار",
+    "gui.main.Exit": "قد لا يتم حفظ التغييرات التي أجريتها!",
+    "gui.main.reupdateFireware": "البرنامج الثابت هو الإصدار الأحدث بالفعل، هل تريد تحديثه مرة أخرى؟",
+    "gui.main.updateFireware": "تم اكتشاف أن إصدار البرنامج الثابت ليس هو الأحدث. هل تريد تحديثه؟",
+    "gui.main.sensingUpdate": "تم اكتشاف أن الإصدار الطرفي ليس هو الأحدث ويحتاج إلى التحديث",
+    "gui.main.delete": "هل تريد حذف هذا السجل؟",
+    "gui.main.reinstallDriver": "هل أنت متأكد من أنك تريد إعادة تثبيت برنامج التشغيل؟",
+    "gui.main.installDriver": "تم الكشف عن أن جهاز الكمبيوتر الخاص بك لا يحتوي على برنامج التشغيل الضروري المثبت. هل ترغب في تثبيته؟",
+    "gui.main.updateApp": "تحديث التطبيق",
+    "gui.main.updateAppSuccess": "اكتمل تنزيل حزمة التحديث",
+    "gui.main.updateAppSuccessDetail": "أعد التشغيل فورًا لإكمال التحديث (لن يتم حفظ البيانات تلقائيًا)؟",
+    "gui.main.updating": "جارٍ تنزيل حزمة التحديث",
+    "gui.main.waiting": "يرجى الإنتظار بصبر",
+    "gui.main.restartUpdate": "يُرجى إعادة التشغيل لإكمال التحديث",
+    "gui.main.discoverUpdate": "تم العثور على إصدار جديد. هل تريد التحديث؟"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Tota kapacito",
     "gui.device.memoryRemaining": "Restanta kapacito",
     "gui.device.electricity": "Elektro",
-    "gui.device.soundIntensity": "Sonintenso"
+    "gui.device.soundIntensity": "Sonintenso",
+    "gui.device.angle": "angulo",
+    "gui.device.circly": "Nombro da rondoj",
+    "gui.device.version": "versio",
+    "gui.main.Exit": "La ŝanĝoj kiujn vi faris eble ne estas konservitaj!",
+    "gui.main.reupdateFireware": "La firmvaro jam estas la plej nova versio, ĉu vi volas ĝisdatigi ĝin denove?",
+    "gui.main.updateFireware": "Oni konstatis, ke la firmware-versio ne estas la plej nova. Ĉu vi volas ĝisdatigi ĝin?",
+    "gui.main.sensingUpdate": "Estas detektita, ke la periferia versio ne estas la lasta kaj devas esti ĝisdatigita",
+    "gui.main.delete": "Ĉu vi volas forigi ĉi tiun rekordon?",
+    "gui.main.reinstallDriver": "Ĉu vi certas, ke vi volas reinstali la pelilon?",
+    "gui.main.installDriver": "Estas detektita, ke via komputilo ne havas la necesan pelilon instalitan. Ĉu vi volas instali ĝin?",
+    "gui.main.updateApp": "Ĝisdatigo de la aplikaĵo",
+    "gui.main.updateAppSuccess": "Elŝuto de la pakaĵo de ĝisdatigo finiĝis",
+    "gui.main.updateAppSuccessDetail": "Rekomencu tuj por kompletigi la ĝisdatigon (datumoj ne estos aŭtomate konservitaj)?",
+    "gui.main.updating": "La pako de ĝisdatigo estas elŝuta",
+    "gui.main.waiting": "Bonvolu atendi pacience",
+    "gui.main.restartUpdate": "Bonvolu rekomenci por fini la ĝisdatigon",
+    "gui.main.discoverUpdate": "Nova versio estis trovita. Ĉu vi volas ĝisdatigi?"
 }

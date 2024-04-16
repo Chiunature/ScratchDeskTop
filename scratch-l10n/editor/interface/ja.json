@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "総容量",
     "gui.device.memoryRemaining": "残り容量",
     "gui.device.electricity": "電気",
-    "gui.device.soundIntensity": "サウンドの強度"
+    "gui.device.soundIntensity": "サウンドの強度",
+    "gui.device.angle": "角度",
+    "gui.device.circly": "円の数",
+    "gui.device.version": "バージョン",
+    "gui.main.Exit": "行った変更は保存されない可能性があります!",
+    "gui.main.reupdateFireware": "ファームウェアはすでに最新バージョンです。もう一度更新しますか?",
+    "gui.main.updateFireware": "ファームウェアのバージョンが最新ではないことが検出されました。アップデートしますか?",
+    "gui.main.sensingUpdate": "ペリフェラルのバージョンが最新ではないため、更新する必要があることが検出されました",
+    "gui.main.delete": "このレコードを削除しますか?",
+    "gui.main.reinstallDriver": "ドライバーを再インストールしてもよろしいですか?",
+    "gui.main.installDriver": "コンピューターに必要なドライバーがインストールされていないことが検出されました。インストールしますか?",
+    "gui.main.updateApp": "アプリのアップデート",
+    "gui.main.updateAppSuccess": "更新パッケージのダウンロードが完了しました",
+    "gui.main.updateAppSuccessDetail": "すぐに再起動して更新を完了します (データは自動的に保存されません)?",
+    "gui.main.updating": "更新パッケージをダウンロードしています",
+    "gui.main.waiting": "しばらくお待ちください",
+    "gui.main.restartUpdate": "更新を完了するには再起動してください",
+    "gui.main.discoverUpdate": "新しいバージョンが見つかりました。更新しますか?"
 }

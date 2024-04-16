@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kapasitas total",
     "gui.device.memoryRemaining": "Kapasitas yang tersisa",
     "gui.device.electricity": "Listrik",
-    "gui.device.soundIntensity": "Intensitas Suara"
+    "gui.device.soundIntensity": "Intensitas Suara",
+    "gui.device.angle": "sudut",
+    "gui.device.circly": "Jumlah lingkaran",
+    "gui.device.version": "versi",
+    "gui.main.Exit": "Perubahan yang Anda buat mungkin tidak disimpan!",
+    "gui.main.reupdateFireware": "Firmware sudah versi terbaru, apakah Anda ingin mengupdatenya lagi?",
+    "gui.main.updateFireware": "Terdeteksi bahwa versi firmware bukan yang terbaru. Apakah Anda ingin memperbaruinya?",
+    "gui.main.sensingUpdate": "Terdeteksi bahwa versi periferal bukan yang terbaru dan perlu diperbarui",
+    "gui.main.delete": "Apakah Anda ingin menghapus catatan ini?",
+    "gui.main.reinstallDriver": "Apakah Anda yakin ingin menginstal ulang driver?",
+    "gui.main.installDriver": "Terdeteksi bahwa komputer Anda tidak menginstal driver yang diperlukan. Apakah Anda ingin menginstalnya?",
+    "gui.main.updateApp": "Pembaruan aplikasi",
+    "gui.main.updateAppSuccess": "Pengunduhan paket pembaruan selesai",
+    "gui.main.updateAppSuccessDetail": "Segera mulai ulang untuk menyelesaikan pembaruan (data tidak akan disimpan secara otomatis)?",
+    "gui.main.updateting": "Paket pembaruan sedang diunduh",
+    "gui.main.waiting": "Mohon menunggu dengan sabar",
+    "gui.main.restartUpdate": "Silakan mulai ulang untuk menyelesaikan pembaruan",
+    "gui.main.discoverUpdate": "Versi baru ditemukan. Apakah Anda ingin memperbarui?"
 }

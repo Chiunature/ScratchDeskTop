@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kabuuang kapasidad",
     "gui.device.memoryRemaining": "Natitirang kapasidad",
     "gui.device.electricity": "Elektrisidad",
-    "gui.device.soundIntensity": "Intensity ng Tunog"
+    "gui.device.soundIntensity": "Intensity ng Tunog",
+    "gui.device.angle": "anggulo",
+    "gui.device.circly": "Bilang ng mga lupon",
+    "gui.device.version": "bersyon",
+    "gui.main.Exit": "Ang mga pagbabagong ginawa mo ay maaaring hindi mai-save!",
+    "gui.main.reupdateFireware": "Ang firmware ay ang pinakabagong bersyon na, gusto mo ba itong i-update muli?",
+    "gui.main.updateFireware": "Natukoy na ang bersyon ng firmware ay hindi ang pinakabago. Gusto mo ba itong i-update?",
+    "gui.main.sensingUpdate": "Natukoy na ang peripheral na bersyon ay hindi ang pinakabago at kailangang i-update",
+    "gui.main.delete": "Gusto mo bang tanggalin ang talang ito?",
+    "gui.main.reinstallDriver": "Sigurado ka bang gusto mong muling i-install ang driver?",
+    "gui.main.installDriver": "Natukoy na ang iyong computer ay walang kinakailangang driver na naka-install. Gusto mo bang i-install ito?",
+    "gui.main.updateApp": "Pag-update ng app",
+    "gui.main.updateAppSuccess": "Nakumpleto na ang pag-download ng package",
+    "gui.main.updateAppSuccessDetail": "I-restart kaagad upang makumpleto ang pag-update (hindi awtomatikong mase-save ang data)?",
+    "gui.main.updating": "Nagda-download ang update package",
+    "gui.main.waiting": "Mangyaring maghintay nang matiyaga",
+    "gui.main.restartUpdate": "Mangyaring simulan muli upang makumpleto ang pag-update",
+    "gui.main.discoverUpdate": "May nakitang bagong bersyon. Gusto mo bang mag-update?"
 }

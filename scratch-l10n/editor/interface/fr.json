@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Capacité totale",
     "gui.device.memoryRemaining": "Capacité restante",
     "gui.device.electricity": "Électricité",
-    "gui.device.soundIntensity": "Intensité sonore"
+    "gui.device.soundIntensity": "Intensité sonore",
+    "gui.device.angle": "angle",
+    "gui.device.circly": "Nombre de cercles",
+    "gui.device.version": "version",
+    "gui.main.Exit": "Les modifications que vous avez apportées ne seront peut-être pas enregistrées !",
+    "gui.main.reupdateFireware": "Le firmware est déjà la dernière version, voulez-vous le mettre à jour à nouveau ?",
+    "gui.main.updateFireware": "Il a été détecté que la version du firmware n'est pas la plus récente. Voulez-vous la mettre à jour ?",
+    "gui.main.sensingUpdate": "Il est détecté que la version du périphérique n'est pas la dernière et doit être mise à jour",
+    "gui.main.delete": "Voulez-vous supprimer cet enregistrement ?",
+    "gui.main.reinstallDriver": "Êtes-vous sûr de vouloir réinstaller le pilote ?",
+    "gui.main.installDriver": "Il est détecté que le pilote nécessaire n'est pas installé sur votre ordinateur. Voulez-vous l'installer ?",
+    "gui.main.updateApp": "Mise à jour de l'application",
+    "gui.main.updateAppSuccess": "Téléchargement du package de mise à jour terminé",
+    "gui.main.updateAppSuccessDetail": "Redémarrer immédiatement pour terminer la mise à jour (les données ne seront pas automatiquement enregistrées) ?",
+    "gui.main.updating": "Le package de mise à jour est en cours de téléchargement",
+    "gui.main.waiting": "Veuillez patienter",
+    "gui.main.restartUpdate": "Veuillez redémarrer pour terminer la mise à jour",
+    "gui.main.discoverUpdate": "Une nouvelle version a été trouvée. Voulez-vous mettre à jour ?"
 }

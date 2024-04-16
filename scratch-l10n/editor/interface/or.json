@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "ମୋଟ କ୍ଷମତା",
     "gui.device.memoryRemaining": "ବଳକା କ୍ଷମତା",
     "gui.device.electricity": "ବିଦ୍ୟୁତ୍",
-    "gui.device.soundIntensity": "ଶବ୍ଦ ତୀବ୍ରତା"
+    "gui.device.soundIntensity": "ଶବ୍ଦ ତୀବ୍ରତା",
+    "gui.device.angle": "କୋଣ",
+    "gui.device.circly": "ବୃତ୍ତ ସଂଖ୍ୟା",
+    "gui.device.version": "ସଂସ୍କରଣ",
+    "gui.main.Exit": "ଆପଣ କରିଥିବା ପରିବର୍ତ୍ତନଗୁଡିକ ସଞ୍ଚୟ ହୋଇନପାରେ!",
+    "gui.main.reupdateFireware": "ଫର୍ମୱେୟାର ସର୍ବଶେଷ ସଂସ୍କରଣ ଅଟେ, ଆପଣ ଏହାକୁ ପୁନର୍ବାର ଅଦ୍ୟତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?",
+    "gui.main.updateFireware": "ଏହା ଚିହ୍ନଟ ହୋଇଛି ଯେ ଫର୍ମୱେୟାର ସଂସ୍କରଣ ସର୍ବଶେଷ ନୁହେଁ। ଆପଣ ଏହାକୁ ଅଦ୍ୟତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?",
+    "gui.main.sensingUpdate": "ଏହା ଚିହ୍ନଟ ହୋଇଛି ଯେ ପେରିଫେରାଲ୍ ସଂସ୍କରଣ ସର୍ବଶେଷ ନୁହେଁ ଏବଂ ଏହାକୁ ଅଦ୍ୟତନ କରିବା ଆବଶ୍ୟକ",
+    "gui.main.delete": "ଆପଣ ଏହି ରେକର୍ଡ ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?",
+    "gui.main.reinstallDriver": "ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ଡ୍ରାଇଭରକୁ ପୁନ st ସଂସ୍ଥାପନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?",
+    "gui.main.installDriver": "ଏହା ଚିହ୍ନଟ ହୋଇଛି ଯେ ଆପଣଙ୍କ କମ୍ପ୍ୟୁଟରରେ ଆବଶ୍ୟକ ଡ୍ରାଇଭର ସଂସ୍ଥାପିତ ହୋଇନାହିଁ। ଆପଣ ଏହାକୁ ସଂସ୍ଥାପନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?",
+    "gui.main.updateApp": "ଆପ୍ ଅପଡେଟ୍",
+    "gui.main.updateAppSuccess": "ପ୍ୟାକେଜ୍ ଡାଉନଲୋଡ୍ ଅପଡେଟ୍ ସମାପ୍ତ ହେଲା",
+    "gui.main.updateAppSuccessDetail": "ଅଦ୍ୟତନ ସଂପୂର୍ଣ୍ଣ କରିବା ପାଇଁ ତୁରନ୍ତ ପୁନ art ଆରମ୍ଭ ହେବ କି ନାହିଁ (ତଥ୍ୟ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ସଞ୍ଚୟ ହେବ ନାହିଁ)?",
+    "gui.main.updating": "ପ୍ୟାକେଜ୍ ଅପଡେଟ୍ ଡାଉନଲୋଡ୍ କରୁଛି",
+    "gui.main.waiting": "ଦୟାକରି ଧ ently ର୍ଯ୍ୟର ସହିତ ଅପେକ୍ଷା କରନ୍ତୁ",
+    "gui.main.restartUpdate": "ଦୟାକରି ଅଦ୍ୟତନ ସମ୍ପୂର୍ଣ୍ଣ କରିବାକୁ ପୁନ rest ଆରମ୍ଭ କରନ୍ତୁ",
+    "gui.main.discoverUpdate": "ଏକ ନୂତନ ସଂସ୍କରଣ ମିଳିଲା। ଆପଣ ଅଦ୍ୟତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?"
 }

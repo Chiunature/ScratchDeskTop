@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Toplam kapasite",
     "gui.device.memoryRemaining": "Kalan kapasite",
     "gui.device.electricity": "Elektrik",
-    "gui.device.soundIntensity": "Ses Yoğunluğu"
+    "gui.device.soundIntensity": "Ses Yoğunluğu",
+    "gui.device.angle": "açı",
+    "gui.device.circly": "Çevre sayısı",
+    "gui.device.version": "sürüm",
+    "gui.main.Exit": "Yaptığınız değişiklikler kaydedilemeyebilir!",
+    "gui.main.reupdateFireware": "Firmware zaten en son sürüm, tekrar güncellemek ister misiniz?",
+    "gui.main.updateFireware": "Firmware sürümünün en son sürüm olmadığı algılandı. Güncellemek istiyor musunuz?",
+    "gui.main.sensingUpdate": "Çevresel sürümün en son sürüm olmadığı ve güncellenmesi gerektiği algılandı",
+    "gui.main.delete": "Bu kaydı silmek istiyor musunuz?",
+    "gui.main.reinstallDriver": "Sürücüyü yeniden yüklemek istediğinizden emin misiniz?",
+    "gui.main.installDriver": "Bilgisayarınızda gerekli sürücünün yüklü olmadığı algılandı. Yüklemek istiyor musunuz?",
+    "gui.main.updateApp": "Uygulama güncellemesi",
+    "gui.main.updateAppSuccess": "Güncelleme paketinin indirilmesi tamamlandı",
+    "gui.main.updateAppSuccessDetail": "Güncellemeyi tamamlamak için hemen yeniden başlatılıp başlatılmayacağı (veriler otomatik olarak kaydedilmeyecektir)?",
+    "gui.main.updating": "Güncelleme paketi indiriliyor",
+    "gui.main.waiting": "Lütfen sabırla bekleyin",
+    "gui.main.restartUpdate": "Güncellemeyi tamamlamak için lütfen yeniden başlatın",
+    "gui.main.discoverUpdate": "Yeni bir sürüm bulundu. Güncellemek istiyor musunuz?"
 }

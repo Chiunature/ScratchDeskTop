@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kokonaiskapasiteetti",
     "gui.device.memoryRemaining": "Jäljellä oleva kapasiteetti",
     "gui.device.electricity": "Sähkö",
-    "gui.device.soundIntensity": "Äänen voimakkuus"
+    "gui.device.soundIntensity": "Äänen voimakkuus",
+    "gui.device.angle": "kulma",
+    "gui.device.circly": "Piirien lukumäärä",
+    "gui.device.version": "versio",
+    "gui.main.Exit": "Tekemiäsi muutoksia ei välttämättä tallenneta!",
+    "gui.main.reupdateFireware": "Laiteohjelmisto on jo uusin versio, haluatko päivittää sen uudelleen?",
+    "gui.main.updateFireware": "On havaittu, että laiteohjelmistoversio ei ole uusin. Haluatko päivittää sen?",
+    "gui.main.sensingUpdate": "On havaittu, että oheislaitteiden versio ei ole uusin ja se on päivitettävä",
+    "gui.main.delete": "Haluatko poistaa tämän tietueen?",
+    "gui.main.reinstallDriver": "Haluatko varmasti asentaa ohjaimen uudelleen?",
+    "gui.main.installDriver": "On havaittu, että tietokoneellesi ei ole asennettu tarvittavaa ohjainta. Haluatko asentaa sen?",
+    "gui.main.updateApp": "Sovelluspäivitys",
+    "gui.main.updateAppSuccess": "Päivityspaketin lataus valmis",
+    "gui.main.updateAppSuccessDetail": "Käynnistä välittömästi uudelleen päivityksen viimeistelemiseksi (tietoja ei tallenneta automaattisesti)?",
+    "gui.main.updating": "Päivityspakettia ladataan",
+    "gui.main.waiting": "Odota kärsivällisesti",
+    "gui.main.restartUpdate": "Käynnistä uudelleen suorittaaksesi päivityksen loppuun",
+    "gui.main.discoverUpdate": "Uusi versio löytyi. Haluatko päivittää?"
 }

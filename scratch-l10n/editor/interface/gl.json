@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Capacidade total",
     "gui.device.memoryRemaining": "Capacidade restante",
     "gui.device.electricity": "Electricidade",
-    "gui.device.soundIntensity": "Intensidade do son"
+    "gui.device.soundIntensity": "Intensidade do son",
+    "gui.device.angle": "ángulo",
+    "gui.device.circly": "Número de círculos",
+    "gui.device.version": "versión",
+    "gui.main.Exit": "É posible que non se garden os cambios que fixeches!",
+    "gui.main.reupdateFireware": "O firmware xa é a última versión, queres actualizalo de novo?",
+    "gui.main.updateFireware": "Detectouse que a versión do firmware non é a máis recente. Desexa actualizalo?",
+    "gui.main.sensingUpdate": "Detéctase que a versión do periférico non é a máis recente e cómpre actualizar",
+    "gui.main.delete": "Queres eliminar este rexistro?",
+    "gui.main.reinstallDriver": "Está seguro de que quere reinstalar o controlador?",
+    "gui.main.installDriver": "Detéctase que o seu ordenador non ten instalado o controlador necesario. Quere instalalo?",
+    "gui.main.updateApp": "Actualización da aplicación",
+    "gui.main.updateAppSuccess": "Actualizouse a descarga do paquete",
+    "gui.main.updateAppSuccessDetail": "Reinicie inmediatamente para completar a actualización (os datos non se gardarán automaticamente)?",
+    "gui.main.updating": "Estáse descargando o paquete de actualización",
+    "gui.main.waiting": "Espere pacientemente",
+    "gui.main.restartUpdate": "Reinicie para completar a actualización",
+    "gui.main.discoverUpdate": "Atopouse unha nova versión. Queres actualizar?"
 }

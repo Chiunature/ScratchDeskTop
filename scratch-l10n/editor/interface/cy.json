@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Cyfanswm gallu",
     "gui.device.memoryRemaining": "Capasiti sy'n weddill",
     "gui.device.electricity": "Trydan",
-    "gui.device.soundIntensity": "Dwysedd Sain"
+    "gui.device.soundIntensity": "Dwysedd Sain",
+    "gui.device.angle": "ongl",
+    "gui.device.circly": "Nifer o gylchoedd",
+    "gui.device.version": "fersiwn",
+    "gui.main.Exit": "Mae'n bosib na fydd y newidiadau a wnaethoch yn cael eu cadw!",
+    "gui.main.reupdateFireware": " Y cadarnwedd yw'r fersiwn diweddaraf yn barod, a ydych am ei ddiweddaru eto?",
+    "gui.main.updateFireware": " Canfuwyd nad y fersiwn cadarnwedd yw'r diweddaraf. Ydych chi am ei ddiweddaru?",
+    "gu.main.sensingUpdate": " Canfyddir nad y fersiwn ymylol yw'r diweddaraf a bod angen ei ddiweddaru",
+    "gui.main.delete": " Ydych chi am ddileu'r cofnod hwn?",
+    "gui.main.reinstallDriver": " A ydych yn siŵr eich bod am ailosod y gyrrwr?",
+    "gui.main.installDriver": " Canfyddir nad oes gan eich cyfrifiadur y gyrrwr angenrheidiol wedi'i osod. Ydych chi am ei osod?",
+    "gui.main.updateApp": " Diweddariad ap",
+    "gui.main.updateAppSuccess": " Cwblhawyd lawrlwythiad pecyn diweddaru",
+    "gui.main.updateAppSuccessDetail": " Ailgychwyn ar unwaith i gwblhau'r diweddariad (ni fydd data'n cael ei gadw'n awtomatig)?",
+    "gui.main.updating": " Mae'r pecyn diweddaru yn cael ei lwytho i lawr",
+    "gui.main.waiting": " Arhoswch yn amyneddgar",
+    "gui.main.restartUpdate": " Ailgychwynnwch i gwblhau'r diweddariad ",
+    "gui.main.discoverUpdate": " Cafwyd hyd i fersiwn newydd. Ydych chi am ddiweddaru?"
 }

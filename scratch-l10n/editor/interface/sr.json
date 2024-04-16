@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Укупни капацитет",
     "gui.device.memoryRemaining": "Преостали капацитет",
     "gui.device.electricity": "Струја",
-    "gui.device.soundIntensity": "Интензитет звука"
+    "gui.device.soundIntensity": "Интензитет звука",
+    "gui.device.angle": "угао",
+    "gui.device.circly": "Број кругова",
+    "gui.device.version": "верзија",
+    "gui.main.Exit": "Промене које сте направили можда неће бити сачуване!",
+    "gui.main.reupdateFireware": "Фирмвер је већ најновија верзија, да ли желите да га ажурирате поново?",
+    "gui.main.updateFireware": "Откривено је да верзија фирмвера није најновија. Да ли желите да је ажурирате?",
+    "gui.main.sensingUpdate": "Откривено је да периферна верзија није најновија и да треба да се ажурира",
+    "gui.main.delete": "Желите ли да избришете овај запис?",
+    "gui.main.reinstallDriver": "Да ли сте сигурни да желите да поново инсталирате драјвер?",
+    "gui.main.installDriver": "Откривено је да ваш рачунар нема инсталиран потребан драјвер. Да ли желите да га инсталирате?",
+    "gui.main.updateApp": "Ажурирање апликације",
+    "gui.main.updateAppSuccess": "Преузимање ажурирања пакета је завршено",
+    "gui.main.updateAppSuccessDetail": "Да ли да се одмах поново покрене да се ажурирање заврши (подаци неће бити аутоматски сачувани)?",
+    "gui.main.updating": "Пакет ажурирања се преузима",
+    "gui.main.waiting": "Молим вас сачекајте стрпљиво",
+    "gui.main.restartUpdate": "Поново покрените да бисте довршили ажурирање",
+    "gui.main.discoverUpdate": "Пронађена је нова верзија. Да ли желите да ажурирате?"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Total kapacitet",
     "gui.device.memoryRemaining": "Återstående kapacitet",
     "gui.device.electricity": "El",
-    "gui.device.soundIntensity": "Ljudintensitet"
+    "gui.device.soundIntensity": "Ljudintensitet",
+    "gui.device.angle": "vinkel",
+    "gui.device.circly": "Antal cirklar",
+    "gui.device.version": "version",
+    "gui.main.Exit": "Ändringarna du gjorde kanske inte sparas!",
+    "gui.main.reupdateFireware": "Den fasta programvaran är redan den senaste versionen, vill du uppdatera den igen?",
+    "gui.main.updateFireware": "Det har upptäckts att firmwareversionen inte är den senaste. Vill du uppdatera den?",
+    "gui.main.sensingUpdate": "Det har upptäckts att den perifera versionen inte är den senaste och behöver uppdateras",
+    "gui.main.delete": "Vill du radera denna post?",
+    "gui.main.reinstallDriver": "Är du säker på att du vill installera om drivrutinen?",
+    "gui.main.installDriver": "Det har upptäckts att din dator inte har den nödvändiga drivrutinen installerad. Vill du installera den?",
+    "gui.main.updateApp": "Appuppdatering",
+    "gui.main.updateAppSuccess": "Hämtning av uppdateringspaketet har slutförts",
+    "gui.main.updateAppSuccessDetail": "Om man ska starta om omedelbart för att slutföra uppdateringen (data kommer inte att sparas automatiskt)?",
+    "gui.main.updating": "Uppdateringspaketet laddas ner",
+    "gui.main.waiting": "Vänta tålmodigt",
+    "gui.main.restartUpdate": "Starta om för att slutföra uppdateringen",
+    "gui.main.discoverUpdate": "En ny version hittades. Vill du uppdatera?"
 }

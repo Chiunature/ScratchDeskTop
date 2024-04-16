@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "ጠቅላላ አቅም",
     "gui.device.memoryRemaining": "ቀሪ አቅም",
     "gui.device.electricity": "ኤሌክትሪክ",
-    "gui.device.soundIntensity": "የድምፅ ጥንካሬ"
+    "gui.device.soundIntensity": "የድምፅ ጥንካሬ",
+    "gui.device.angle": "አንግል",
+    "gui.device.circly": "የክበቦች ብዛት",
+    "gui.device.version": "ስሪት",
+    "gui.main.Exit": "ያደረጓቸው ለውጦች ላይቀመጡ ይችላሉ!",
+    "gui.main.reupdateFireware": "firmware አስቀድሞ የቅርብ ጊዜ ስሪት ነው፣ እንደገና ማዘመን ይፈልጋሉ?",
+    "gui.main.updateFireware": "የጽኑ ትዕዛዝ ስሪት የቅርብ ጊዜ እንዳልሆነ ታወቀ። ማዘመን ትፈልጋለህ?",
+    "gui.main.sensingUpdate": "የዳርቻው እትም የቅርብ ጊዜ እንዳልሆነ እና መዘመን እንዳለበት ታውቋል",
+    "gui.main.delete": "ይህን መዝገብ መሰረዝ ትፈልጋለህ?",
+    "gui.main.reinstallDriver": "እርግጠኛ ነዎት ነጂውን እንደገና መጫን ይፈልጋሉ?",
+    "gui.main.installDriver": "የእርስዎ ኮምፒውተር አስፈላጊው ሾፌር እንዳልተጫነ ታወቀ። መጫን ይፈልጋሉ?",
+    "gui.main.updateApp": "የመተግበሪያ ዝማኔ",
+    "gui.main.updateAppSuccess": "የጥቅል ማውረጃ ማዘመን ተጠናቅቋል",
+    "gui.main.updateAppSuccessDetail": "ዝማኔውን ለማጠናቀቅ ወዲያውኑ እንደገና ይጀምሩ (ውሂቡ በራስ-ሰር አይቀመጥም)?",
+    "gui.main.updating": "የዝማኔ ጥቅል እየወረደ ነው",
+    "gui.main.waiting": "እባክዎ በትዕግስት ይጠብቁ",
+    "gui.main.restartUpdate": "እባክዎ ዝመናውን ለማጠናቀቅ እንደገና ያስጀምሩ",
+    "gui.main.discoverUpdate": "አዲስ ስሪት ተገኘ። ማዘመን ትፈልጋለህ?"
 }

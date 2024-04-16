@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Całkowita pojemność",
     "gui.device.memoryRemaining": "Pozostała pojemność",
     "gui.device.electricity": "prąd",
-    "gui.device.soundIntensity": "Natężenie dźwięku"
+    "gui.device.soundIntensity": "Natężenie dźwięku",
+    "gui.device.angle": "kąt",
+    "gui.device.circly": "Liczba okręgów",
+    "gui.device.version": "wersja",
+    "gui.main.Exit": "Wprowadzone zmiany mogą nie zostać zapisane!",
+    "gui.main.reupdateFireware": "Oprogramowanie jest już w najnowszej wersji, czy chcesz je zaktualizować ponownie?",
+    "gui.main.updateFireware": "Wykryto, że wersja oprogramowania sprzętowego nie jest najnowsza. Czy chcesz go zaktualizować?",
+    "gui.main.sensingUpdate": "Wykryto, że wersja urządzenia peryferyjnego nie jest najnowsza i wymaga aktualizacji",
+    "gui.main.delete": "Czy chcesz usunąć ten rekord?",
+    "gui.main.reinstallDriver": "Czy na pewno chcesz ponownie zainstalować sterownik?",
+    "gui.main.installDriver": "Wykryto, że na Twoim komputerze nie ma zainstalowanego niezbędnego sterownika. Czy chcesz go zainstalować?",
+    "gui.main.updateApp": "Aktualizacja aplikacji",
+    "gui.main.updateAppSuccess": "Pobieranie pakietu aktualizacji zakończone",
+    "gui.main.updateAppSuccessDetail": "Czy natychmiast uruchomić ponownie, aby zakończyć aktualizację (dane nie zostaną automatycznie zapisane)?",
+    "gui.main.updating": "Trwa pobieranie pakietu aktualizacji",
+    "gui.main.waiting": "Proszę czekać cierpliwie",
+    "gui.main.restartUpdate": "Proszę uruchomić ponownie, aby dokończyć aktualizację",
+    "gui.main.discoverUpdate": "Znaleziono nową wersję. Czy chcesz dokonać aktualizacji?"
 }

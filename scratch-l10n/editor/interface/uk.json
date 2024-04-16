@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Загальна ємність",
     "gui.device.memoryRemaining": "Залишкова ємність",
     "gui.device.electricity": "Електрика",
-    "gui.device.soundIntensity": "Інтенсивність звуку"
+    "gui.device.soundIntensity": "Інтенсивність звуку",
+    "gui.device.angle": "кут",
+    "gui.device.circly": "Кількість кіл",
+    "gui.device.version": "версія",
+    "gui.main.Exit": "Внесені зміни можуть не бути збережені!",
+    "gui.main.reupdateFireware": "Мікропрограма вже має останню версію, оновити її знову?",
+    "gui.main.updateFireware": "Виявлено, що версія мікропрограми не остання. Ви хочете її оновити?",
+    "gui.main.sensingUpdate": "Виявлено, що версія периферійного пристрою не остання і потребує оновлення",
+    "gui.main.delete": "Видалити цей запис?",
+    "gui.main.reinstallDriver": "Ви впевнені, що хочете перевстановити драйвер?",
+    "gui.main.installDriver": "Виявлено, що на вашому комп'ютері не встановлено необхідний драйвер. Бажаєте його встановити?",
+    "gui.main.updateApp": "Оновлення програми",
+    "gui.main.updateAppSuccess": "Завантаження пакета оновлення завершено",
+    "gui.main.updateAppSuccessDetail": "Чи потрібно негайно перезавантажити для завершення оновлення (дані не будуть автоматично збережені)?",
+    "gui.main.updating": "Завантажується пакет оновлень",
+    "gui.main.waiting": "Будь ласка, терпляче зачекайте",
+    "gui.main.restartUpdate": "Перезапустіть, щоб завершити оновлення",
+    "gui.main.discoverUpdate": "Знайдено нову версію. Оновити?"
 }

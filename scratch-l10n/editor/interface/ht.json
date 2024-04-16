@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kapasite total",
     "gui.device.memoryRemaining": "Kapasite ki rete",
     "gui.device.electricity": "Elektrisite",
-    "gui.device.soundIntensity": "Entansite son"
+    "gui.device.soundIntensity": "Entansite son",
+    "gui.device.angle": "ang",
+    "gui.device.circly": "Kantite sèk",
+    "gui.device.version": "vèsyon",
+    "gui.main.Exit": "Chanjman ou te fè yo pa ka sove!",
+    "gui.main.reupdateFireware": "Firmware a deja dènye vèsyon an, èske ou vle mete l ajou ankò?",
+    "gui.main.updateFireware": "Yo detekte ke vèsyon firmwèr la pa dènye a. Èske ou vle mete l ajou?",
+    "gui.main.sensingUpdate": "Li detekte ke vèsyon periferik la pa dènye e li bezwen mete ajou",
+    "gui.main.delete": "Èske w vle efase dosye sa a?",
+    "gui.main.reinstallDriver": "Èske w sèten ou vle re-enstale chofè a?",
+    "gui.main.installDriver": "Li detekte ke òdinatè w lan pa gen chofè ki nesesè yo enstale. Èske ou vle enstale li?",
+    "gui.main.updateApp": "Aplikasyon aktyalizasyon",
+    "gui.main.updateAppSuccess": "Mizajou telechajman pake a fini",
+    "gui.main.updateAppSuccessDetail": "Rekòmanse imedyatman pou konplete aktyalizasyon a (done yo pa pral otomatikman sove)?",
+    "gui.main.updating": "Pake mizajou ap telechaje",
+    "gui.main.waiting": "Tanpri tann avèk pasyans",
+    "gui.main.rstartUpdate": "Tanpri rekòmanse pou konplete aktyalizasyon a",
+    "gui.main.discoverUpdate": "Yo jwenn yon nouvo vèsyon. Èske ou vle mete ajou?"
 }

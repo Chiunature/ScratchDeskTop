@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Capacitate totală",
     "gui.device.memoryRemaining": "Capacitate rămasă",
     "gui.device.electricity": "Electricitate",
-    "gui.device.soundIntensity": "Intensitatea sunetului"
+    "gui.device.soundIntensity": "Intensitatea sunetului",
+    "gui.device.angle": "unghi",
+    "gui.device.circly": "Număr de cercuri",
+    "gui.device.version": "versiune",
+    "gui.main.Exit": "Modificările pe care le-ați făcut pot să nu fie salvate!",
+    "gui.main.reupdateFireware": "Firmware-ul este deja cea mai recentă versiune, vrei să-l actualizezi din nou?",
+    "gui.main.updateFireware": "S-a detectat că versiunea de firmware nu este cea mai recentă. Doriți să o actualizați?",
+    "gui.main.sensingUpdate": "Se detectează că versiunea periferică nu este cea mai recentă și trebuie actualizată",
+    "gui.main.delete": "Doriți să ștergeți această înregistrare?",
+    "gui.main.reinstallDriver": "Sunteți sigur că doriți să reinstalați driverul?",
+    "gui.main.installDriver": "S-a detectat că computerul dvs. nu are driverul necesar instalat. Doriți să îl instalați?",
+    "gui.main.updateApp": "Actualizare aplicație",
+    "gui.main.updateAppSuccess": "Descărcarea pachetului de actualizare a fost finalizată",
+    "gui.main.updateAppSuccessDetail": "Dacă să reporniți imediat pentru a finaliza actualizarea (datele nu vor fi salvate automat)?",
+    "gui.main.updating": "Pachetul de actualizare se descarcă",
+    "gui.main.waiting": "Vă rugăm să așteptați cu răbdare",
+    "gui.main.restartUpdate": "Vă rugăm să reporniți pentru a finaliza actualizarea",
+    "gui.main.discoverUpdate": "A fost găsită o nouă versiune. Doriți să actualizați?"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Kapasîteya tevahî",
     "gui.device.memoryRemaining": "Kapasîteya mayî",
     "gui.device.electricity": "Elektrîk",
-    "gui.device.soundIntensity": "Zêdebûna deng"
+    "gui.device.soundIntensity": "Zêdebûna deng",
+    "gui.device.angle": "goşe",
+    "gui.device.circly": "Hejmara çemberan",
+    "gui.device.version": "guherto",
+    "gui.main.Exit": "Guhertinên ku te kirî dibe ku neyê tomarkirin!",
+    "gui.main.reupdateFireware": "Firmware jixwe guhertoya herî dawî ye, tu dixwazî ​​wê dîsa nûve bikî?",
+    "gui.main.updateFireware": "Hat dîtin ku guhertoya firmware ne ya herî dawî ye. Ma hûn dixwazin wê nûve bikin?",
+    "gui.main.sensingUpdate": "Tê dîtin ku guhertoya derdor ne ya herî dawî ye û pêdivî ye ku were nûve kirin",
+    "gui.main.delete": "Tu dixwazî ​​vê qeydê jê bibî?",
+    "gui.main.reinstallDriver": "Tu bi rastî dixwazî ​​ajokerê ji nû ve saz bikî?",
+    "gui.main.installDriver": "Hat dîtin ku ajokara pêwîst a komputera te tune ye. Ma tu dixwazî ​​wê saz bikî?",
+    "gui.main.updateApp": "Nûvekirina sepanê",
+    "gui.main.updateAppSuccess": "Daxistina pakêtê ya nûvekirinê qediya",
+    "gui.main.updateAppSuccessDetail": "Ji bo temamkirina nûvekirinê tavilê ji nû ve were destpêkirin (dane dê bixweber neyê tomarkirin)",
+    "gui.main.updating": "Pakêta nûvekirinê tê daxistin",
+    "gui.main.waiting": "Ji kerema xwe bi sebir bisekinin",
+    "gui.main.restartUpdate": "Ji kerema xwe ji nû ve dest pê bikin da ku nûvekirinê temam bikin",
+    "gui.main.discoverUpdate": "Guhertoyek nû hat dîtin. Ma hûn dixwazin nûve bikin?"
 }

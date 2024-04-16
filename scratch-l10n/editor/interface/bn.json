@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "মোট ক্ষমতা",
     "gui.device.memoryRemaining": "অবশিষ্ট ক্ষমতা",
     "gui.device.electricity": "বিদ্যুত",
-    "gui.device.soundIntensity": "শব্দের তীব্রতা"
+    "gui.device.soundIntensity": "শব্দের তীব্রতা",
+    "gui.device.angle": "কোণ",
+    "gui.device.circly": "চেনাশোনার সংখ্যা",
+    "gui.device.version": "সংস্করণ",
+    "gui.main.Exit": "আপনার করা পরিবর্তনগুলি সংরক্ষিত নাও হতে পারে!",
+    "gui.main.reupdateFireware": "ফার্মওয়্যারটি ইতিমধ্যেই সর্বশেষ সংস্করণ, আপনি কি এটি আবার আপডেট করতে চান?",
+    "gui.main.updateFireware": "এটি সনাক্ত করা হয়েছে যে ফার্মওয়্যার সংস্করণটি সর্বশেষ নয়। আপনি কি এটি আপডেট করতে চান?",
+    "gui.main.sensingUpdate": "এটি সনাক্ত করা হয়েছে যে পেরিফেরাল সংস্করণটি সর্বশেষ নয় এবং আপডেট করা দরকার",
+    "gui.main.delete": "আপনি কি এই রেকর্ড মুছতে চান?",
+    "gui.main.reinstallDriver": "আপনি কি নিশ্চিত যে আপনি ড্রাইভারটি পুনরায় ইনস্টল করতে চান?",
+    "gui.main.installDriver": "এটি সনাক্ত করা হয়েছে যে আপনার কম্পিউটারে প্রয়োজনীয় ড্রাইভার ইনস্টল করা নেই। আপনি কি এটি ইনস্টল করতে চান?",
+    "gui.main.updateApp": "অ্যাপ আপডেট",
+    "gui.main.updateAppSuccess": "আপডেট প্যাকেজ ডাউনলোড সম্পন্ন হয়েছে",
+    "gui.main.updateAppSuccessDetail": "আপডেট সম্পূর্ণ করতে অবিলম্বে পুনরায় চালু করুন (ডেটা স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে না)?",
+    "gui.main.updating": "আপডেট প্যাকেজ ডাউনলোড হচ্ছে",
+    "gui.main.waiting": "দয়া করে ধৈর্য ধরে অপেক্ষা করুন",
+    "gui.main.restartUpdate": "আপডেট সম্পূর্ণ করতে অনুগ্রহ করে পুনরায় চালু করুন",
+    "gui.main.discoverUpdate": "একটি নতুন সংস্করণ পাওয়া গেছে। আপনি কি আপডেট করতে চান?"
 }

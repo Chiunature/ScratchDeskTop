@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Иқтидори умумии",
     "gui.device.memoryRemaining": "Иқтидори боқимонда",
     "gui.device.electricity": "Барқ",
-    "gui.device.soundIntensity": "Шиддати садо"
+    "gui.device.soundIntensity": "Шиддати садо",
+    "gui.device.angle": "кунҷи",
+    "gui.device.circly": "Миқдори доираҳо",
+    "gui.device.version": "версия",
+    "gui.main.Exit": "Тағйироте, ки шумо ворид кардаед, мумкин аст захира нашаванд!",
+    "gui.main.reupdateFireware": "Прошивка аллакай версияи охирин аст, оё шумо мехоҳед онро дубора навсозӣ кунед?",
+    "gui.main.updateFireware": "Муайян карда шуд, ки версияи нармафзори навтарин нест. Оё мехоҳед онро навсозӣ кунед?",
+    "gui.main.sensingUpdate": "Муайян карда шуд, ки версияи периферӣ охирин нест ва бояд навсозӣ шавад",
+    "gui.main.delete": "Оё мехоҳед ин сабтро нест кунед?",
+    "gui.main.reinstallDriver": "Шумо мутмаин ҳастед, ки драйверро аз нав насб кардан мехоҳед?",
+    "gui.main.installDriver": "Муайян карда шуд, ки дар компютери шумо драйвери лозимӣ насб нашудааст. Оё мехоҳед онро насб кунед?",
+    "gui.main.updateApp": "Навсозии барнома",
+    "gui.main.updateAppSuccess": "Боргирии бастаи навсозӣ анҷом ёфт",
+    "gui.main.updateAppSuccessDetail": "Барои анҷом додани навсозӣ фавран бозоғоз намоед (маълумот ба таври худкор захира карда намешавад)?",
+    "gui.main.updating": "Бастаи навсозӣ зеркашӣ карда мешавад",
+    "gui.main.waiting": "Лутфан сабр кунед",
+    "gui.main.restartUpdate": "Лутфан, барои анҷом додани навсозӣ бозоғоз намоед",
+    "gui.main.discoverUpdate": "Нусхаи нав пайдо шуд. Оё мехоҳед навсозӣ кунед?"
 }

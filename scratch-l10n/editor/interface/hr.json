@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Ukupni kapacitet",
     "gui.device.memoryRemaining": "Preostali kapacitet",
     "gui.device.electricity": "Električna energija",
-    "gui.device.soundIntensity": "Intenzitet zvuka"
+    "gui.device.soundIntensity": "Intenzitet zvuka",
+    "gui.device.angle": "kut",
+    "gui.device.circly": "Broj krugova",
+    "gui.device.version": "verzija",
+    "gui.main.Exit": "Promjene koje ste napravili možda neće biti spremljene!",
+    "gui.main.reupdateFireware": "Firmware je već najnovija verzija, želite li ga ponovno ažurirati?",
+    "gui.main.updateFireware": "Otkriveno je da verzija firmvera nije najnovija. Želite li je ažurirati?",
+    "gui.main.sensingUpdate": "Otkriveno je da periferna verzija nije najnovija i treba je ažurirati",
+    "gui.main.delete": "Želite li izbrisati ovaj zapis?",
+    "gui.main.reinstallDriver": "Jeste li sigurni da želite ponovno instalirati upravljački program?",
+    "gui.main.installDriver": "Otkriveno je da vaše računalo nema instaliran potreban upravljački program. Želite li ga instalirati?",
+    "gui.main.updateApp": "Ažuriranje aplikacije",
+    "gui.main.updateAppSuccess": "Preuzimanje paketa ažuriranja dovršeno",
+    "gui.main.updateAppSuccessDetail": "Odmah ponovno pokrenuti da biste dovršili ažuriranje (podaci neće biti automatski spremljeni)?",
+    "gui.main.updating": "Paket ažuriranja se preuzima",
+    "gui.main.waiting": "Molimo vas da strpljivo pričekate",
+    "gui.main.restartUpdate": "Molimo ponovno pokrenite da dovršite ažuriranje",
+    "gui.main.discoverUpdate": "Pronađena je nova verzija. Želite li ažurirati?"
 }

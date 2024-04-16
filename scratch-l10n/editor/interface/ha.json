@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Jimlar iya aiki",
     "gui.device.memoryRemaining": "Sauran iya aiki",
     "gui.device.electricity": "Electricity",
-    "gui.device.soundIntensity": "Ƙarfin Sauti"
+    "gui.device.soundIntensity": "Ƙarfin Sauti",
+    "gui.device.angle": "angle",
+    "gui.device.circly": "Yawan da'irori",
+    "gui.device.version": "version",
+    "gui.main.Exit": " Canje-canjen da kuka yi ƙila ba za a sami ceto ba!",
+    "gui.main.reupdateFireware": "Fireware ya riga ya zama sabon sigar, kuna son sake sabunta shi?",
+    "gui.main.updateFireware": "An gano cewa sigar firmware ba ita ce ta baya-bayan nan ba. Kuna son sabunta shi?",
+    "gui.main.sensingUpdate": "An gano cewa sigar gefe ba ta baya ba ce kuma tana buƙatar sabuntawa",
+    "gui.main.delete": "Shin kuna son share wannan rikodin?",
+    "gui.main.reinstallDriver": "Ka tabbata kana son sake shigar da direban?",
+    "gui.main.installDriver": "An gano cewa kwamfutarka ba ta shigar da direban da ya dace ba. Shin kuna son saka ta?",
+    "gui.main.updateApp": "Sabuntawa App",
+    "gui.main.updateAppSuccess": "An kammala zazzagewar fakiti",
+    "gui.main.updateAppSuccessDetail": "Sake farawa nan da nan don kammala sabuntawa (ba za a adana bayanai ta atomatik ba)?",
+    "gui.main.updating": "Ana zazzage fakitin sabuntawa",
+    "gui.main.waiting": "Da fatan za a jira da haƙuri",
+    "gui.main.restartUpdate": "Da fatan a sake farawa don kammala sabuntawa",
+    "gui.main.discoverUpdate": "An samo sabon sigar. Kuna son sabuntawa?"
 }

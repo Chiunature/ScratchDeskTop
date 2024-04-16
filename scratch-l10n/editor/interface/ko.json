@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "총 용량",
     "gui.device.memoryRemaining": "남은 용량",
     "gui.device.electricity": "전기",
-    "gui.device.soundIntensity": "소리 강도"
+    "gui.device.soundIntensity": "소리 강도",
+    "gui.device.angle": "각도",
+    "gui.device.circly": "원 수",
+    "gui.device.version": "버전",
+    "gui.main.Exit": "변경 사항이 저장되지 않을 수 있습니다!",
+    "gui.main.reupdateFireware": "펌웨어는 이미 최신 버전입니다. 다시 업데이트하시겠습니까?",
+    "gui.main.updateFireware": "펌웨어 버전이 최신이 아닌 것으로 감지되었습니다. 업데이트하시겠습니까?",
+    "gui.main.sensingUpdate": "주변기기 버전이 최신이 아니며 업데이트가 필요한 것으로 감지되었습니다.",
+    "gui.main.delete": "이 기록을 삭제하시겠습니까?",
+    "gui.main.reinstallDriver": "드라이버를 다시 설치하시겠습니까?",
+    "gui.main.installDriver": "컴퓨터에 필요한 드라이버가 설치되어 있지 않은 것으로 감지되었습니다. 설치하시겠습니까?",
+    "gui.main.updateApp": "앱 업데이트",
+    "gui.main.updateAppSuccess": "업데이트 패키지 다운로드가 완료되었습니다",
+    "gui.main.updateAppSuccessDetail": "업데이트를 완료하기 위해 즉시 다시 시작할지 여부(데이터는 자동으로 저장되지 않음)?",
+    "gui.main.updating": "업데이트 패키지를 다운로드하는 중",
+    "gui.main.waiting": "인내심을 가지고 기다려 주십시오",
+    "gui.main.restartUpdate": "업데이트를 완료하려면 다시 시작하세요",
+    "gui.main.discoverUpdate": "새 버전이 발견되었습니다. 업데이트하시겠습니까?"
 }

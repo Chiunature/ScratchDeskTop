@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Umumiy sig'im",
     "gui.device.memoryRemaining": "Qolgan imkoniyatlar",
     "gui.device.electricity": "Elektr",
-    "gui.device.soundIntensity": "Ovoz intensivligi"
+    "gui.device.soundIntensity": "Ovoz intensivligi",
+    "gui.device.angle": "burchak",
+    "gui.device.circly": "Doiralar soni",
+    "gui.device.version": "versiya",
+    "gui.main.Exit": "Siz kiritgan o'zgarishlar saqlanmasligi mumkin!",
+    "gui.main.reupdateFireware": "Proshivka allaqachon eng so'nggi versiya, uni yana yangilashni xohlaysizmi?",
+    "gui.main.updateFireware": "Proshivka versiyasi eng so'nggi emasligi aniqlandi. Uni yangilashni xohlaysizmi?",
+    "gui.main.sensingUpdate": "Perferik versiya eng so'nggi emasligi va yangilanishi kerakligi aniqlandi",
+    "gui.main.delete": "Ushbu yozuvni o'chirib tashlamoqchimisiz?",
+    "gui.main.reinstallDriver": "Haqiqatan ham drayverni qayta o'rnatmoqchimisiz?",
+    "gui.main.installDriver": "Kompyuteringizda kerakli drayver o'rnatilmaganligi aniqlandi. Uni o'rnatmoqchimisiz?",
+    "gui.main.updateApp": "Ilova yangilanishi",
+    "gui.main.updateAppSuccess": "Yangilanish paketini yuklab olish tugallandi",
+    "gui.main.updateAppSuccessDetail": "Yangilanishni yakunlash uchun darhol qayta ishga tushirish kerakmi (ma'lumotlar avtomatik ravishda saqlanmaydi)?",
+    "gui.main.updating": "Yangilanish paketi yuklab olinmoqda",
+    "gui.main.waiting": "Iltimos, sabr bilan kuting",
+    "gui.main.restartUpdate": "Yangilanishni yakunlash uchun qayta ishga tushiring",
+    "gui.main.discoverUpdate": "Yangi versiya topildi. Yangilashni xohlaysizmi?"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Жалпы сыйымдылық",
     "gui.device.memoryRemaining": "Қалған сыйымдылық",
     "gui.device.electricity": "Электр",
-    "gui.device.soundIntensity": "Дыбыс қарқындылығы"
+    "gui.device.soundIntensity": "Дыбыс қарқындылығы",
+    "gui.device.angle": "бұрыш",
+    "gui.device.circly": "Шеңберлер саны",
+    "gui.device.version": "нұсқа",
+    "gui.main.Exit": "Енгізілген өзгертулер сақталмауы мүмкін!",
+    "gui.main.reupdateFireware": "Микробағдарлама қазірдің өзінде соңғы нұсқасы, оны қайтадан жаңартқыңыз келе ме?",
+    "gui.main.updateFireware": "Микробағдарлама нұсқасы соңғы емес екені анықталды. Оны жаңартқыңыз келе ме?",
+    "gui.main.sensingUpdate": "Шеткі нұсқаның соңғы емес екені анықталды және оны жаңарту қажет",
+    "gui.main.delete": "Осы жазбаны жойғыңыз келе ме?",
+    "gui.main.reinstallDriver": "Драйверді қайта орнатқыңыз келетініне сенімдісіз бе?",
+    "gui.main.installDriver": "Компьютерде қажетті драйвер орнатылмағаны анықталды. Оны орнатқыңыз келе ме?",
+    "gui.main.updateApp": "Қолданбаны жаңарту",
+    "gui.main.updateAppSuccess": "Жаңарту бумасын жүктеп алу аяқталды",
+    "gui.main.updateAppSuccessDetail": "Жаңартуды аяқтау үшін дереу қайта іске қосыңыз (деректер автоматты түрде сақталмайды)?",
+    "gui.main.updating": "Жаңарту пакеті жүктелуде",
+    "gui.main.waiting": "Сабырмен күте тұрыңыз",
+    "gui.main.restartUpdate": "Жаңартуды аяқтау үшін қайта іске қосыңыз",
+    "gui.main.discoverUpdate": "Жаңа нұсқа табылды. Жаңартқыңыз келе ме?"
 }

@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Bendra talpa",
     "gui.device.memoryRemaining": "Likusi talpa",
     "gui.device.electricity": "Elektra",
-    "gui.device.soundIntensity": "Garso intensyvumas"
+    "gui.device.soundIntensity": "Garso intensyvumas",
+    "gui.device.angle": "kampas",
+    "gui.device.circly": "Apskritimų skaičius",
+    "gui.device.version": "versija",
+    "gui.main.Exit": "Jūsų atlikti pakeitimai gali būti neišsaugoti!",
+    "gui.main.reupdateFireware": "Programinė įranga jau yra naujausia versija, ar norite ją atnaujinti dar kartą?",
+    "gui.main.updateFireware": "Nustatyta, kad programinės įrangos versija nėra naujausia. Ar norite ją atnaujinti?",
+    "gui.main.sensingUpdate": "Aptikta, kad periferinė versija nėra naujausia ir ją reikia atnaujinti",
+    "gui.main.delete": "Ar norite ištrinti šį įrašą?",
+    "gui.main.reinstallDriver": "Ar tikrai norite iš naujo įdiegti tvarkyklę?",
+    "gui.main.installDriver": "Aptikta, kad jūsų kompiuteryje nėra įdiegta reikiama tvarkyklė. Ar norite ją įdiegti?",
+    "gui.main.updateApp": "Programos naujinimas",
+    "gui.main.updateAppSuccess": "Atnaujinimo paketo atsisiuntimas baigtas",
+    "gui.main.updateAppSuccessDetail": "Ar nedelsiant paleisti iš naujo, kad būtų baigtas naujinimas (duomenys nebus automatiškai išsaugomi)",
+    "gui.main.updating": "Atnaujinimo paketas atsisiunčiamas",
+    "gui.main.waiting": "Prašome kantriai palaukti",
+    "gui.main.restartUpdate": "Paleiskite iš naujo, kad užbaigtumėte atnaujinimą",
+    "gui.main.discoverUpdate": "Rasta nauja versija. Ar norite atnaujinti?"
 }

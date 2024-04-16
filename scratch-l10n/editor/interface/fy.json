@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Totale kapasiteit",
     "gui.device.memoryRemaining": "Oerbliuwende kapasiteit",
     "gui.device.electricity": "Elektrisiteit",
-    "gui.device.soundIntensity": "Lûdintensiteit"
+    "gui.device.soundIntensity": "Lûdintensiteit",
+    "gui.device.angle": "hoek",
+    "gui.device.circly": "Aantal sirkels",
+    "gui.device.version": "ferzje",
+    "gui.main.Exit": "De wizigings dy't jo makke hawwe kinne net bewarre wurde!",
+    "gui.main.reupdateFireware": "De firmware is al de lêste ferzje, wolle jo dizze nochris bywurkje?",
+    "gui.main.updateFireware": "It is ûntdutsen dat de firmwareferzje net de lêste is. Wolle jo it bywurkje?",
+    "gui.main.sensingUpdate": "It wurdt ûntdutsen dat de perifeare ferzje net de lêste is en bywurke moat wurde",
+    "gui.main.delete": "Wolle jo dit record wiskje?",
+    "gui.main.reinstallDriver": "Binne jo wis dat jo it stjoerprogramma opnij ynstallearje wolle?",
+    "gui.main.installDriver": "It wurdt ûntdutsen dat jo kompjûter de nedige stjoerprogramma net ynstallearre hat. Wolle jo it ynstallearje?",
+    "gui.main.updateApp": "App-fernijing",
+    "gui.main.updateAppSuccess": "Download fan it bywurkjen fan pakket klear",
+    "gui.main.updateAppSuccessDetail": "Derstart daliks opnij om de fernijing te foltôgjen (gegevens wurde net automatysk bewarre)?",
+    "gui.main.updating": "Updatepakket wurdt ynladen",
+    "gui.main.waiting": "Wachtsje asjebleaft geduldich",
+    "gui.main.restartUpdate": "Begjin asjebleaft opnij om de fernijing te foltôgjen",
+    "gui.main.discoverUpdate": "Der is in nije ferzje fûn. Wolle jo bywurkje?"
 }

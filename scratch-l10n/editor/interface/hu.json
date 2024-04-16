@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Teljes kapacitás",
     "gui.device.memoryRemaining": "Fennmaradó kapacitás",
     "gui.device.electricity": "Elektromos energia",
-    "gui.device.soundIntensity": "Hangintenzitás"
+    "gui.device.soundIntensity": "Hangintenzitás",
+    "gui.device.angle": "angle",
+    "gui.device.circly": "Körök száma",
+    "gui.device.version": "verzió",
+    "gui.main.Exit": "Elképzelhető, hogy az Ön által végrehajtott módosítások nem kerülnek mentésre!",
+    "gui.main.reupdateFireware": "A firmware már a legújabb verzió, szeretné újra frissíteni?",
+    "gui.main.updateFireware": "Azt észleltük, hogy a firmware verziója nem a legújabb. Szeretné frissíteni?",
+    "gui.main.sensingUpdate": "Azt észleltük, hogy a periféria verziója nem a legújabb, ezért frissítésre szorul",
+    "gui.main.delete": "Törölni szeretné ezt a rekordot?",
+    "gui.main.reinstallDriver": "Biztosan újra akarja telepíteni az illesztőprogramot?",
+    "gui.main.installDriver": "A rendszer azt észlelte, hogy a számítógépen nincs telepítve a szükséges illesztőprogram. Szeretné telepíteni?",
+    "gui.main.updateApp": "Alkalmazásfrissítés",
+    "gui.main.updateAppSuccess": "A frissítési csomag letöltése befejeződött",
+    "gui.main.updateAppSuccessDetail": "Azonnali újraindítás a frissítés befejezéséhez (az adatok nem kerülnek automatikusan mentésre)?",
+    "gui.main.updating": "A frissítési csomag letöltés alatt áll",
+    "gui.main.waiting": "Kérjük, várjon türelmesen",
+    "gui.main.restartUpdate": "Kérjük, indítsa újra a frissítés befejezéséhez",
+    "gui.main.discoverUpdate": "Új verzió található. Szeretné frissíteni?"
 }

@@ -555,5 +555,22 @@
     "gui.device.memoryTotal": "總容量",
     "gui.device.memoryRemaining": "剩餘容量",
     "gui.device.electricity": "電量",
-    "gui.device.soundIntensity": "聲音強度"
+    "gui.device.soundIntensity": "聲音強度",
+    "gui.device.angle": "角度",
+    "gui.device.circly": "圈數",
+    "gui.device.version": "版本",
+    "gui.main.Exit": "你所做的更改可能未儲存!",
+    "gui.main.reupdateFireware": "韌體已是最新版本, 是否要重新更新?",
+    "gui.main.updateFireware": "偵測到韌體版本不是最新, 是否前去更新?",
+    "gui.main.sensingUpdate": "偵測到週邊版本不是最新, 需要更新",
+    "gui.main.delete": "是否要刪除此記錄?",
+    "gui.main.reinstallDriver": "確定要重新安裝驅動程式嗎?",
+    "gui.main.installDriver": "檢查到你的電腦未安裝必要驅動，是否前去安裝?",
+    "gui.main.updateApp": "應用程式更新",
+    "gui.main.updateAppSuccess": "更新套件下載完成",
+    "gui.main.updateAppSuccessDetail": "是否立即重新啟動完成更新(資料不會自動儲存)?",
+    "gui.main.updating": "更新套件正在下載",
+    "gui.main.waiting": "請耐心等待",
+    "gui.main.restartUpdate": "請重新啟動完成更新",
+    "gui.main.discoverUpdate": "發現新版本，是否更新？"
 }

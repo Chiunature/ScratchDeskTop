@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Capacitat total",
     "gui.device.memoryRemaining": "Capacitat restant",
     "gui.device.electricity": "Electricitat",
-    "gui.device.soundIntensity": "Intensitat del so"
+    "gui.device.soundIntensity": "Intensitat del so",
+    "gui.device.angle": "angle",
+    "gui.device.circly": "Nombre de cercles",
+    "gui.device.version": "versió",
+    "gui.main.Exit": "És possible que els canvis que heu fet no es desin!",
+    "gui.main.reupdateFireware": "El microprogramari ja és la darrera versió, el voleu actualitzar de nou?",
+    "gui.main.updateFireware": "S'ha detectat que la versió del microprogramari no és l'última. Voleu actualitzar-la?",
+    "gui.main.sensingUpdate": "S'ha detectat que la versió del perifèric no és l'última i s'ha d'actualitzar",
+    "gui.main.delete": "Voleu eliminar aquest registre?",
+    "gui.main.reinstallDriver": "Estàs segur que vols tornar a instal·lar el controlador?",
+    "gui.main.installDriver": "S'ha detectat que el vostre ordinador no té el controlador necessari instal·lat. El voleu instal·lar?",
+    "gui.main.updateApp": "Actualització de l'aplicació",
+    "gui.main.updateAppSuccess": "S'ha completat la descàrrega del paquet d'actualització",
+    "gui.main.updateAppSuccessDetail": "Si cal reiniciar immediatament per completar l'actualització (les dades no es desaran automàticament)?",
+    "gui.main.updating": "El paquet d'actualització s'està baixant",
+    "gui.main.waiting": "Espereu pacientment",
+    "gui.main.restartUpdate": "Reinicieu per completar l'actualització",
+    "gui.main.discoverUpdate": "S'ha trobat una versió nova. Vols actualitzar-la?"
 }

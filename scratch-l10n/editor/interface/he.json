@@ -538,5 +538,22 @@
     "gui.device.memoryTotal": "קיבולת כוללת",
     "gui.device.memoryRemaining": "קיבולת נותרת",
     "gui.device.electricity": "חשמל",
-    "gui.device.soundIntensity": "עוצמת קול"
+    "gui.device.soundIntensity": "עוצמת קול",
+    "gui.device.angle": "זווית",
+    "gui.device.circly": "מספר מעגלים",
+    "gui.device.version": "גרסה",
+    "gui.main.Exit": "ייתכן שהשינויים שביצעת לא יישמרו!",
+    "gui.main.reupdateFireware": "הקושחה היא כבר הגרסה העדכנית ביותר, האם אתה רוצה לעדכן אותה שוב?",
+    "gui.main.updateFireware": "זוהה שגרסת הקושחה אינה העדכנית ביותר. האם ברצונך לעדכן אותה?",
+    "gui.main.sensingUpdate": "זוהה שגרסת הציוד ההיקפית אינה העדכנית ביותר ויש לעדכן",
+    "gui.main.delete": "האם אתה רוצה למחוק את הרשומה הזו?",
+    "gui.main.reinstallDriver": "האם אתה בטוח שברצונך להתקין מחדש את מנהל ההתקן?",
+    "gui.main.installDriver": "זהה שבמחשב שלך לא מותקן מנהל ההתקן הדרוש. האם ברצונך להתקין אותו?",
+    "gui.main.updateApp": "עדכון אפליקציה",
+    "gui.main.updateAppSuccess": "הורדת עדכון החבילה הושלמה",
+    "gui.main.updateAppSuccessDetail": "הפעל מחדש מיד כדי להשלים את העדכון (הנתונים לא יישמרו אוטומטית)?",
+    "gui.main.updating": "הורדת חבילת העדכון",
+    "gui.main.waiting": "אנא המתן בסבלנות",
+    "gui.main.restartUpdate": "אנא הפעל מחדש כדי להשלים את העדכון",
+    "gui.main.discoverUpdate": "נמצאה גרסה חדשה. האם ברצונך לעדכן?"
 }

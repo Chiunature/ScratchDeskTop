@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Heildargeta",
     "gui.device.memoryRemaining": "Eftir getu",
     "gui.device.electricity": "Rafmagn",
-    "gui.device.soundIntensity": "Hljóðstyrkur"
+    "gui.device.soundIntensity": "Hljóðstyrkur",
+    "gui.device.angle": "horn",
+    "gui.device.circly": "Fjöldi hringja",
+    "gui.device.version": "útgáfa",
+    "gui.main.Exit": "Ekki er hægt að vista breytingarnar sem þú gerðir!",
+    "gui.main.reupdateFireware": "Vefbúnaðarinn er nú þegar nýjasta útgáfan, viltu uppfæra hann aftur?",
+    "gui.main.updateFireware": "Það hefur komið í ljós að fastbúnaðarútgáfan er ekki nýjasta. Viltu uppfæra hana?",
+    "gui.main.sensingUpdate": "Það er greint að jaðarútgáfan er ekki sú nýjasta og þarf að uppfæra",
+    "gui.main.delete": "Viltu eyða þessari færslu?",
+    "gui.main.reinstallDriver": "Ertu viss um að þú viljir setja bílstjórinn upp aftur?",
+    "gui.main.installDriver": "Það er greint að tölvan þín er ekki með nauðsynlega rekla uppsettan. Viltu setja hann upp?",
+    "gui.main.updateApp": "Uppfærsla forrita",
+    "gui.main.updateAppSuccess": "Niðurhali uppfærslu pakka lokið",
+    "gui.main.updateAppSuccessDetail": "Endurræstu strax til að ljúka uppfærslunni (gögn verða ekki vistuð sjálfkrafa)?",
+    "gui.main.updating": "Uppfærslupakki er að hlaðast niður",
+    "gui.main.waiting": "Vinsamlegast bíðið þolinmóður",
+    "gui.main.restartUpdate": "Vinsamlegast endurræstu til að ljúka uppfærslunni",
+    "gui.main.discoverUpdate": "Ný útgáfa fannst. Viltu uppfæra?"
 }

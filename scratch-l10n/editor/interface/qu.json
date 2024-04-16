@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Tukuy atiy",
     "gui.device.memoryRemaining": "Puchuq atiy",
     "gui.dispositivo.electricidad": "Electricidad",
-    "gui.device.soundIntensity": "T'uqyaypa kallpan"
+    "gui.device.soundIntensity": "T'uqyaypa kallpan",
+    "gui.dispositivo.ángulo": "k'uchu",
+    "gui.device.circly": "Yapay muyukuna",
+    "gui.dispositivo.versión": "versión",
+    "gui.main.Exit": "¡Rurasqayki tikraykunaqa manapaschá waqaychasqachu kanman!",
+    "gui.main.reupdateFireware": "Firmwareqa qhipa kaq layañam, ¿hukmanta musuqyachiyta munankichu?",
+    "gui.main.updateFireware": "Firmware kaqpa laya mana qhipa kaqchu tarisqa. ¿Munawaqchu musuqyachiyta?",
+    "gui.main.sensingUpdate": "Tarikunmi periférico nisqa laya mana qhipa kaqchu, musuqchasqa kananmi",
+    "gui.main.delete": "¿Kay qillqasqata qulluyta munankichu?",
+    "gui.main.reinstallDriver": "¿Segurochu kanki controladorta wakmanta churayta munanki?",
+    "gui.main.installDriver": "Computadoraykipi mana necesario controlador churasqachu kasqan tarisqa. ¿Instalayta munankichu?",
+    "gui.main.updateApp": "App musuqyachiy",
+    "gui.main.updateAppSuccess": "Paquete musuqchay uraykachiy tukusqa",
+    "gui.main.updateAppSuccessDetail": "Imapas musuqchayta tukunapaq chaylla musuqmanta qallarinapaq (willakuykunaqa manam kikillanmantachu waqaychasqa kanqa)?",
+    "gui.main.updating": "Kunanchay paquete uraykachichkan",
+    "gui.main.waiting": "Ama hina kaspa, pacienciawan suyay",
+    "gui.main.restartUpdate": "Ama hina kaspa, musuqmanta qallariy musuqchayta tukunaykipaq",
+    "gui.main.discoverUpdate": "Huk musuq laya tarisqa. Musuqchayta munankichu?"
 }

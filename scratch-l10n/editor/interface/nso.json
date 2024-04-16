@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Palo yohle ya bokgoni",
     "gui.device.memoryRemaining": "Bokgoni bjo bo šetšego",
     "gui.sesebediswa.motlakase": "Motlakase",
-    "gui.device.soundIntensity": "Matla a modumo"
+    "gui.device.soundIntensity": "Matla a modumo",
+    "gui.sedirišwa.khutlo": "khutlo",
+    "gui.device.circly": "Palo ya didikadikwe",
+    "gui.sedirišwa.phetolelo": "phetolelo",
+    "gui.main.Exit": "Diphetogo tšeo o di dirilego di ka no se bolokwa!",
+    "gui.main.reupdateFireware": "Firmware e šetše e le phetolelo ya moragorago, na o nyaka go e mpshafatša gape?",
+    "gui.main.updateFireware": "Go lemogilwe gore phetolelo ya firmware ga se ya moragorago. Na o nyaka go e mpshafatša?",
+    "gui.main.sensingUpdate": "Go lemogilwe gore phetolelo ya pheriferale ga se ya moragorago gomme e swanetše go mpshafatšwa",
+    "gui.main.delete": "Na o nyaka go phumola rekoto ye?",
+    "gui.main.reinstallDriver": "Na o na le bonnete bja gore o nyaka go tsenya mootledi gape?",
+    "gui.main.installDriver": "Go lemogilwe gore khomphutha ya gago ga e na mootledi yo a nyakegago yo a tsentšwego. Na o nyaka go e tsenya?",
+    "gui.main.updateApp": "Ntšhwafatšo ya tirišo",
+    "gui.main.updateAppSuccess": "Ntšhatšatši ya go taonelouta sephuthelwana e phethilwe",
+    "gui.main.updateAppSuccessDetail": "Gore o swanetše go thoma gape ka pela go phetha mpshafatšo (data e ka se bolokwe ka go itiriša)?",
+    "gui.main.updating": "Sephuthelwana sa mpshafatšo se a taonelouta",
+    "gui.main.waiting": "Hle ema ka go se fele pelo",
+    "gui.main.restartUpdate": "Hle thoma gape go phetha mpshafatšo",
+    "gui.main.discoverUpdate": "E hweditšwe phetolelo ye mpsha. Na o nyaka go mpshafatša?"
 }

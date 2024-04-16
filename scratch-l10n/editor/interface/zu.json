@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Isamba somthamo",
     "gui.device.memoryRemaining": "Umthamo osele",
     "gui.device.electricity": "Ugesi",
-    "gui.device.soundIntensity": "Ukuqina komsindo"
+    "gui.device.soundIntensity": "Ukuqina komsindo",
+    "gui.device.angle": "i-angle",
+    "gui.device.circly": "Inani lemibuthano",
+    "gui.device.version": "inguqulo",
+    "gui.main.Exit": "Izinguquko ozenzile zingahle zingalondolozwa!",
+    "gui.main.reupdateFireware": "I-firmware isivele iyinguqulo yakamuva, uyafuna ukuyibuyekeza futhi?",
+    "gui.main.updateFireware": "Kutholakele ukuthi inguqulo ye-firmware akuyona eyakamuva. Uyafuna ukuyibuyekeza?",
+    "gui.main.sensingUpdate": "Kutholakele ukuthi inguqulo yeperipheral akuyona eyakamuva futhi idinga ukubuyekezwa",
+    "gui.main.delete": "Ingabe uyafuna ukususa leli rekhodi?",
+    "gui.main.reinstallDriver": "Uqinisekile ukuthi ufuna ukuphinda ufake umshayeli?",
+    "gui.main.installDriver": "Kutholakele ukuthi ikhompuyutha yakho ayinawo umshayeli odingekayo. Uyafuna ukuyifaka?",
+    "gui.main.updateApp": "Isibuyekezo sohlelo lokusebenza",
+    "gui.main.updateAppSuccess": "Ukubuyekeza iphakheji kuqediwe",
+    "gui.main.updateAppSuccessDetail": "Ukuthi ungaqala kabusha ngokushesha ukuze uqedele isibuyekezo (idatha ngeke igcineke ngokuzenzakalelayo)?",
+    "gui.main.updating": "Iphakheji yokubuyekeza iyadawuniloda",
+    "gui.main.waiting": "Ngicela ulinde ngesineke",
+    "gui.main.restartUpdate": "Sicela uqale kabusha ukuze uqedele isibuyekezo",
+    "gui.main.discoverUpdate": "Inguqulo entsha itholakele. Uyafuna ukuyibuyekeza?"
 }

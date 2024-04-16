@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Celková kapacita",
     "gui.device.memoryRemaining": "Zostávajúca kapacita",
     "gui.device.electricity": "Elektrina",
-    "gui.device.soundIntensity": "Intenzita zvuku"
+    "gui.device.soundIntensity": "Intenzita zvuku",
+    "gui.device.angle": "úhel",
+    "gui.device.circly": "Počet kruhů",
+    "gui.device.version": "verze",
+    "gui.main.Exit": "Provedené změny nemusí být uloženy!",
+    "gui.main.reupdateFireware": "Firmware je již nejnovější verze, chcete ji znovu aktualizovat?",
+    "gui.main.updateFireware": "Bylo zjištěno, že verze firmwaru není nejnovější. Chcete ji aktualizovat?",
+    "gui.main.sensingUpdate": "Bylo zjištěno, že verze periferie není nejnovější a je třeba ji aktualizovat",
+    "gui.main.delete": "Chcete smazat tento záznam?",
+    "gui.main.reinstallDriver": "Opravdu chcete přeinstalovat ovladač?",
+    "gui.main.installDriver": "Bylo zjištěno, že váš počítač nemá nainstalovaný potřebný ovladač. Chcete jej nainstalovat?",
+    "gui.main.updateApp": "Aktualizace aplikace",
+    "gui.main.updateAppSuccess": "Stahování balíčku aktualizace dokončeno",
+    "gui.main.updateAppSuccessDetail": "Zda okamžitě restartovat pro dokončení aktualizace (data nebudou automaticky uložena)?",
+    "gui.main.updating": "Stahuje se aktualizační balíček",
+    "gui.main.waiting": "Počkejte prosím trpělivě",
+    "gui.main.restartUpdate": "Prosím restartujte pro dokončení aktualizace",
+    "gui.main.discoverUpdate": "Byla nalezena nová verze. Chcete provést aktualizaci?"
 }

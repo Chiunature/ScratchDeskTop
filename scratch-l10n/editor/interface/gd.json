@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Comas iomlan",
     "gui.device.memoryRemaining": "An comas air fhàgail",
     "gui.device.electricity": "Dealain",
-    "gui.device.soundIntensity": "Dian fuaim"
+    "gui.device.soundIntensity": "Dian fuaim",
+    "gui.device.angle": "uillinn",
+    "gui.device.circly": "Líon na gciorcal",
+    "gui.device.version": "leagan",
+    "gui.main.Exit": " Seans nach sábhálfar na hathruithe a rinne tú!",
+    "gui.main.reupdateFireware": " Is é an firmware an leagan is déanaí cheana féin, ar mhaith leat é a nuashonrú arís?",
+    "gui.main.updateFireware": " Tá sé tugtha faoi deara nach é an leagan firmware an leagan is déanaí. An bhfuil fonn ort é a nuashonrú?",
+    "gui.main.sensingUpdate": "Braitheadh ​​nach é an leagan forimeallach an leagan is déanaí agus is gá é a nuashonrú",
+    "gui.main.delete": "An bhfuil fonn ort an taifead seo a scriosadh?",
+    "gui.main.reinstallDriver": " An bhfuil tú cinnte go dteastaíonn uait an tiománaí a athshuiteáil?",
+    "gui.main.installDriver": " Braitheadh ​​nach bhfuil an tiománaí riachtanach suiteáilte ar do ríomhaire. Ar mhaith leat é a shuiteáil?",
+    "gui.main.updateApp": "Nuashonrú aipe",
+    "gui.main.updateAppSuccess": " Íosluchtú an phacáiste nuashonraithe curtha i gcrích",
+    "gui.main.updateAppSuccessDetail": " Atosaigh láithreach chun an nuashonrú a chur i gcrích (ní shábhálfar na sonraí go huathoibríoch)?",
+    "gui.main.updating": " Tá an pacáiste nuashonraithe á íosluchtú",
+    "gui.main.waiting": "Fan go foighneach",
+    "gui.main.restartUpdate": "Atosaigh le do thoil chun an nuashonrú a chur i gcrích",
+    "gui.main.discoverUpdate": " Fuarthas leagan nua. An bhfuil fonn ort nuashonrú?"
 }

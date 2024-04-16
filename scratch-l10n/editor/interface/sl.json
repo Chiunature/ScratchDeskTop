@@ -539,5 +539,22 @@
     "gui.device.memoryTotal": "Skupna zmogljivost",
     "gui.device.memoryRemaining": "Preostala zmogljivost",
     "gui.device.electricity": "Elektrika",
-    "gui.device.soundIntensity": "Intenzivnost zvoka"
+    "gui.device.soundIntensity": "Intenzivnost zvoka",
+    "gui.device.angle": "kot",
+    "gui.device.circly": "Število krogov",
+    "gui.device.version": "različica",
+    "gui.main.Exit": "Spremembe, ki ste jih naredili, morda ne bodo shranjene!",
+    "gui.main.reupdateFireware": "Vdelana programska oprema je že najnovejša različica, jo želite znova posodobiti?",
+    "gui.main.updateFireware": "Ugotovljeno je bilo, da različica vdelane programske opreme ni najnovejša. Ali jo želite posodobiti?",
+    "gui.main.sensingUpdate": "Zaznano je, da periferna različica ni najnovejša in jo je treba posodobiti",
+    "gui.main.delete": "Ali želite izbrisati ta zapis?",
+    "gui.main.reinstallDriver": "Ali ste prepričani, da želite znova namestiti gonilnik?",
+    "gui.main.installDriver": "Zaznano je, da vaš računalnik nima nameščenega potrebnega gonilnika. Ali ga želite namestiti?",
+    "gui.main.updateApp": "Posodobitev aplikacije",
+    "gui.main.updateAppSuccess": "Prenos paketa posodobitve je končan",
+    "gui.main.updateAppSuccessDetail": "Ali naj se takoj znova zažene za dokončanje posodobitve (podatki ne bodo samodejno shranjeni)?",
+    "gui.main.updating": "Posodobitveni paket se prenaša",
+    "gui.main.waiting": "Prosimo, počakajte potrpežljivo",
+    "gui.main.restartUpdate": "Prosim znova zaženite, da dokončate posodobitev",
+    "gui.main.discoverUpdate": "Najdena je bila nova različica. Ali želite posodobiti?"
 }
