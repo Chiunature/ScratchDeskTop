@@ -178,6 +178,7 @@
             "buildResources": "./",
             "output": "pack"
         },
+        "afterSign": "./scripts/afterSign.js",
         "afterPack": "./scripts/afterPack.js",
         "extraResources": [
             {
