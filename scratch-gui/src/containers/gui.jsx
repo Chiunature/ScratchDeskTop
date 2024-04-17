@@ -247,7 +247,7 @@ class GUI extends React.Component {
     //开启监听
     watchDevice() {
         const list = ['a1', 'a2'];
-        window.myAPI.setStoreValue('isSensingUpdate', false);
+        sessionStorage.setItem('isSensingUpdate', JSON.stringify(false));
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -256,27 +256,30 @@ class GUI extends React.Component {
                     result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
-                const isUpdate = window.myAPI.getStoreValue('isSensingUpdate');
-                const version = window.myAPI.getStoreValue('version');
-                if (result.deviceList.length > 0 && !isUpdate && version == this.props.version) {
-                    for (let i = 0; i < result.deviceList.length; i++) {
-                        const item = result.deviceList[i];
-                        const not_run = item[instructions.device[item.deviceId]] && Object.keys(item[instructions.device[item.deviceId]]).includes('Not_Run');
-                        const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] !== 0 && item[instructions.device[item.deviceId]]['version'] != version;
-                        if (list.includes(item.deviceId) && instructions.device[item.deviceId] && item[instructions.device[item.deviceId]] && (not_run || isNew)) {
-                            window.myAPI.setStoreValue('isSensingUpdate', true);
-                            this.updateSensing();
-                            break;
-                        } else {
-                            continue;
-                        }
-                    }
-                }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 this.getFirewareVersion();
+                this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
             }
         });
+    }
+
+    checkUpdateSensing(list, deviceList, ver) {
+        const isUpdate = JSON.parse(sessionStorage.getItem('isSensingUpdate'));
+        if (deviceList.length > 0 && !isUpdate && ver == this.props.version) {
+            for (let i = 0; i < deviceList.length; i++) {
+                const item = deviceList[i];
+                const not_run = item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]];
+                const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] > 0 && item[instructions.device[item.deviceId]]['version'] != ver;
+                if (list.includes(item.deviceId) && instructions.device[item.deviceId] && (not_run || isNew)) {
+                    sessionStorage.setItem('isSensingUpdate', JSON.stringify(true));
+                    this.updateSensing();
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        }
     }
 
     async updateSensing() {
@@ -285,7 +288,7 @@ class GUI extends React.Component {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
         setTimeout(() => {
-            window.myAPI.setStoreValue('isSensingUpdate', false);
+            sessionStorage.setItem('isSensingUpdate', JSON.stringify(false));
         }, 1000);
     }
 

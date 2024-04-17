@@ -22,7 +22,7 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainM
                 cancelId: 0,
             }).then(async (response) => {
                 if (response === 1) {
-                    const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg);
+                    const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
                     resolve(res);
                 } else {
                     const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
@@ -119,13 +119,13 @@ async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg) {
             cancelId: 0,
         }).then(async (response) => {
             if (response === 1) {
-                const resFn = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg);
-                console.info(resFn);
-                resolve(resFn);
+                const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
+                console.info(res);
+                resolve(res);
             } else {
-                const resFn = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
-                console.info(resFn);
-                resolve(resFn);
+                const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
+                console.info(res);
+                resolve(res);
             }
         })
 

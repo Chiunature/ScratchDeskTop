@@ -112,8 +112,8 @@ function createWindow() {
             createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
             mainWindow.loadURL(url.format({
                 pathname: path.join(process.resourcesPath, "app.asar.unpacked/index.html"),
-                    protocol: "file:",
-                    slashes: true,
+                protocol: "file:",
+                slashes: true,
             }));
         } else {
             mainWindow.loadURL("http://127.0.0.1:8601/");
@@ -132,8 +132,8 @@ function createWindow() {
         });
 
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
-            if(!mainMsg) {
-            mainMsg = { ...msg };
+            if (!mainMsg) {
+                mainMsg = { ...msg };
                 updater(mainWindow, mainMsg);
             }
             //点击重新更新固件提示
@@ -182,7 +182,7 @@ function createWindow() {
                 eventList.map(item => {
                     _delEvents(item);
                 });
-                if(updateFunc && typeof updateFunc === 'function') {
+                if (updateFunc && typeof updateFunc === 'function') {
                     dialog.showMessageBox({
                         type: "info",
                         buttons: ["OK"],
@@ -191,7 +191,7 @@ function createWindow() {
                         detail: mainMsg['waiting'],
                     }).catch();
                     const res = await updateFunc();
-                    if(res) app.exit();
+                    if (res) app.exit();
                     return;
                 }
                 app.exit();

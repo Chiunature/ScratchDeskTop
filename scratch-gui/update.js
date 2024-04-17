@@ -57,6 +57,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
         async (err, data) => {
           if (err) {
             console.info(err);
+            return;
           } else {
             //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
             currentIncrementUpdate = JSON.parse(data).version;

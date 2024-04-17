@@ -187,6 +187,7 @@ class ConnectionModal extends React.Component {
                 return;
             }
         }
+        window.myAPI.setStoreValue('version', JSON.stringify(this.props.version));
         this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
     }
