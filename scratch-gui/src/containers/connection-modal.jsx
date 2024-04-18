@@ -20,6 +20,7 @@ import {
     getSerialList
 } from "../reducers/connection-modal";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
+import { HELP_DOCX } from "../config/json/LB_USER.json";
 
 class ConnectionModal extends React.Component {
     constructor(props) {
@@ -166,6 +167,7 @@ class ConnectionModal extends React.Component {
 
     handleHelp() {
         // window.open(this.state.extension.helpLink, "_blank");
+        window.myAPI.getDocxUrl(HELP_DOCX);
         analytics.event({
             category: "extensions",
             action: "help",

@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 const fs = require("fs");
 const path = require("path");
-const { spawn } = require("child_process");
+const { spawn, exec } = require("child_process");
 const { cwd } = require('process');
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
@@ -202,6 +202,11 @@ async function handlerError(error) {
     await writeFileWithDirectory(directory, filepath, error);
 }
 
+function getDocxUrl(link) {
+    exec(path.join(cwd(), link))
+}
+
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -219,4 +224,5 @@ contextBridge.exposeInMainWorld('myAPI', {
     removeStoreValue,
     hasStoreValue,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
+    getDocxUrl
 });

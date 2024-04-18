@@ -23,7 +23,8 @@ const SettingsMenu = ({
     onRequestOpen,
     settingsMenuOpen,
     reUpdateDriver,
-    getMainMessage
+    getMainMessage,
+    handleHelp
 }) => (
     <div
         className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
@@ -49,7 +50,7 @@ const SettingsMenu = ({
             onRequestClose={onRequestClose}
         >
             <MenuSection>
-                {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage}/>}
+                {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
                 {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
                 <MenuItem onClick={reUpdateDriver}>
@@ -58,6 +59,15 @@ const SettingsMenu = ({
                             defaultMessage="Reinstall driver"
                             description="Reinstall driver"
                             id="gui.menuBar.reinstallDriver"
+                        />
+                    </span>
+                </MenuItem>
+                <MenuItem onClick={handleHelp}>
+                    <span className={styles.dropdownLabel}>
+                        <FormattedMessage
+                            defaultMessage="Help"
+                            description="Button to view help content"
+                            id="gui.connection.unavailable.helpbutton"
                         />
                     </span>
                 </MenuItem>

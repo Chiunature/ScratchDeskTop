@@ -3,5 +3,6 @@
     "USER": "./resources/gcc-arm-none-eabi/bin/LB_USER",
     "SRC": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER",
     "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/Core/Src/Aplication.c",
-    "PROGRAMMERTASKS": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/ProgrammerTasks.c"
+    "PROGRAMMERTASKS": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/ProgrammerTasks.c",
+    "HELP_DOCX": "./Atc智能编程套装说明书.docx"
 }

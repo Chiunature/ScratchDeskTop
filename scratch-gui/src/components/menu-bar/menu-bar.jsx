@@ -91,6 +91,11 @@ import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState } from '../../reducers/project-title';
+import { HELP_DOCX } from "../../config/json/LB_USER.json";
+
+
+
+
 
 const ariaMessages = defineMessages({
     language: {
@@ -518,6 +523,10 @@ class MenuBar extends React.Component {
         }
     }
 
+    handleHelp() {
+        window.myAPI.getDocxUrl(HELP_DOCX);
+    }
+
     downloadProject() {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
@@ -576,6 +585,7 @@ class MenuBar extends React.Component {
                         </div>
                         {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
                             reUpdateDriver={this.reUpdateDriver}
+                            handleHelp={this.handleHelp}
                             canChangeLanguage={this.props.canChangeLanguage}
                             canChangeTheme={this.props.canChangeTheme}
                             isRtl={this.props.isRtl}
