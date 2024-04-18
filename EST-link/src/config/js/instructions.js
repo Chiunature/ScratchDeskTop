@@ -16,7 +16,9 @@ const deviceId = {
     'a1': 'motor',
     'a2': 'color',
     'a3': 'superSound',
-    'a4': 'touch'
+    'a4': 'touch',
+    'a5': 'big_motor',
+    'a6': 'small_motor'
 }
 
 module.exports = {

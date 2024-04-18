@@ -26,6 +26,7 @@ class Common {
         this.subFileIndex = 0;
         this.files = {};
         this.watchDeviceList = [];
+        this.deviceIdList = Object.keys(device);
     }
 
     /**
@@ -329,30 +330,13 @@ class Common {
          * @returns 
          */
     distinguishDevice(watchDeviceData) {
-        /* const diffAttribute = (obj, objKey, target) => {
-            if (Array.isArray(obj) && Array.isArray(target)) {
-                if (obj.length === 0) {
-                    obj = [...target];
-                }
-                for (let i = 0; i < obj.length; i++) {
-                    if (obj[i] !== target[i]) {
-                        obj[i] = target[i];
-                    } else {
-                        continue;
-                    }
-                }
-                return;
-            }
-            obj[objKey] !== target ? obj[objKey] = target : null;
-        } */
-
         for (let i = 0; i < watchDeviceData.deviceList.length; i++) {
             const item = watchDeviceData.deviceList[i];
-            item.sensing_device = device['0'];
-            item.deviceId = '0';
+            item.sensing_device = device[this.deviceIdList[0]];
+            item.deviceId = this.deviceIdList[0];
             if (item.color) {
-                item.sensing_device = device['a2'];
-                item.deviceId = 'a2';
+                item.sensing_device = device[this.deviceIdList[2]];
+                item.deviceId = this.deviceIdList[2];
                 if (!('Not_Run' in item.color)) {
                     item.color = {
                         'rgb': `rgb(${item.color.r >= 255 ? '255' : item.color.r}, ${item.color.g >= 255 ? '255' : item.color.g}, ${item.color.b >= 255 ? '255' : item.color.b})`,
@@ -361,14 +345,14 @@ class Common {
                 }
             } else if (item.big_motor || item.small_motor) {
                 item.motor = item.big_motor || item.small_motor;
-                item.sensing_device = device['a1'];
-                item.deviceId = 'a1';
+                item.sensing_device = item.big_motor ? device[this.deviceIdList[5]] : item.small_motor ? device[this.deviceIdList[6]] : device[this.deviceIdList[1]];
+                item.deviceId = item.big_motor ? this.deviceIdList[5] : item.small_motor ? this.deviceIdList[6] : this.deviceIdList[1];
             } else if (item.ultrasion) {
-                item.sensing_device = device['a3'];
-                item.deviceId = 'a3';
+                item.sensing_device = device[this.deviceIdList[3]];
+                item.deviceId = this.deviceIdList[3];
             } else if (item.touch) {
-                item.sensing_device = device['a4'];
-                item.deviceId = 'a4';
+                item.sensing_device = device[this.deviceIdList[4]];
+                item.deviceId = this.deviceIdList[4];
             }
         }
 

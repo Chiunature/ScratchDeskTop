@@ -246,7 +246,8 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice() {
-        const list = ['a1', 'a2'];
+        const deviceIdList = Object.keys(instructions.device);
+        const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         sessionStorage.setItem('isSensingUpdate', JSON.stringify(false));
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,

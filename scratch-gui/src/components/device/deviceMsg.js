@@ -15,6 +15,16 @@ const messages = defineMessages({
         "description": "Motor",
         "defaultMessage": "Motor"
     },
+    "big_motor": {
+        "id": "gui.device.big_motor",
+        "description": "Big motor",
+        "defaultMessage": "Big motor"
+    },
+    "small_motor": {
+        "id": "gui.device.small_motor",
+        "description": "Small motor",
+        "defaultMessage": "Small motor"
+    },
     "color": {
         "id": "gui.device.color",
         "description": "Color recognizer",

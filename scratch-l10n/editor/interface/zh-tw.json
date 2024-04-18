@@ -537,6 +537,8 @@
     "gui.device.port": "連接埠",
     "gui.device.noDevice": "無裝置連線",
     "gui.device.motor": "馬達",
+    "gui.device.big_motor": "大馬達",
+    "gui.device.small_motor": "小馬達",
     "gui.device.rotationDirection": "旋轉方向",
     "gui.device.actualSpeed": "實際速度",
     "gui.device.targetSpeed": "目標速度",

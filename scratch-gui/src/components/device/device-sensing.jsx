@@ -37,6 +37,8 @@ const DeviceSensing = ({ deviceObj }) => {
         const num = parseInt(deviceId.slice(-1));
         switch (num) {
             case 1:
+            case 5:
+            case 6:
                 return motorSensingIcon;
             case 2:
                 return colorSensingIcon;
@@ -54,6 +56,8 @@ const DeviceSensing = ({ deviceObj }) => {
         const num = parseInt(item.deviceId.slice(-1));
         switch (num) {
             case 1:
+            case 5:
+            case 6:
                 return item.motor.speed;
             case 2:
                 return item.color.l;
