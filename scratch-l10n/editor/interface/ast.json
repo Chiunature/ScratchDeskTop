@@ -521,6 +521,8 @@
     "gui.device.port": "Puerto",
     "gui.device.noDevice": "Ningún dispositivo conectado",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Motor grande",
+    "gui.device.small_motor": "Motor pequeñu",
     "gui.device.rotationDirection": "Dirección de rotación",
     "gui.device.actualSpeed": "Velocidad real",
     "gui.device.targetSpeed": "Velocidad objetivo",

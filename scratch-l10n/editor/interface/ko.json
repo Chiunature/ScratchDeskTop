@@ -521,6 +521,8 @@
     "gui.device.port": "포트",
     "gui.device.noDevice": "연결된 장치가 없습니다",
     "gui.device.motor": "모터",
+    "gui.device.big_motor": "큰 모터",
+    "gui.device.small_motor": "소형 모터",
     "gui.device.rotationDirection": "회전 방향",
     "gui.device.actualSpeed": "실제 속도",
     "gui.device.targetSpeed": "목표 속도",

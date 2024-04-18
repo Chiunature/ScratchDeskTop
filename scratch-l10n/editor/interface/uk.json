@@ -521,6 +521,8 @@
     "gui.device.port": "Порт",
     "gui.device.noDevice": "Немає підключених пристроїв",
     "gui.device.motor": "Двигун",
+    "gui.device.big_motor": "Великий двигун",
+    "gui.device.small_motor": "маленький двигун",
     "gui.device.rotationDirection": "Напрямок обертання",
     "gui.device.actualSpeed": "Фактична швидкість",
     "gui.device.targetSpeed": "Цільова швидкість",

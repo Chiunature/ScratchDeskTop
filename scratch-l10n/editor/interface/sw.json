@@ -521,6 +521,8 @@
     "gui.device.port": "Bandari",
     "gui.device.noDevice": "Hakuna kifaa kilichounganishwa",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Motor kubwa",
+    "gui.device.small_motor": "motor ndogo",
     "gui.device.rotationDirection": "Uelekeo wa mzunguko",
     "gui.device.actualSpeed": "Kasi halisi",
     "gui.device.targetSpeed": "Kasi inayolengwa",

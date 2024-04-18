@@ -521,6 +521,8 @@
     "gui.device.port": "Θύρα",
     "gui.device.noDevice": "Δεν έχει συνδεθεί συσκευή",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Big motor",
+    "gui.device.small_motor": "Small motor",
     "gui.device.rotationDirection": "Κατεύθυνση περιστροφής",
     "gui.device.actualSpeed": "Πραγματική ταχύτητα",
     "gui.device.targetSpeed": "Target speed",

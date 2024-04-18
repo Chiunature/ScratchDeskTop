@@ -521,6 +521,8 @@
     "gui.device.port": "Cổng",
     "gui.device.noDevice": "Không có thiết bị nào được kết nối",
     "gui.device.motor": "Động cơ",
+    "gui.device.big_motor": "Động cơ lớn",
+    "gui.device.small_motor": "động cơ nhỏ",
     "gui.device.rotationDirection": "Hướng quay",
     "gui.device.actualSpeed": "Tốc độ thực tế",
     "gui.device.targetSpeed": "Tốc độ mục tiêu",

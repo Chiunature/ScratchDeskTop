@@ -521,6 +521,8 @@
     "gui.device.port": "Portua",
     "gui.device.noDevice": "Ez dago gailurik konektatuta",
     "gui.device.motor": "Motorra",
+    "gui.device.big_motor": "Motor handia",
+    "gui.device.small_motor": "Motor txikia",
     "gui.device.rotationDirection": "Biraketaren norabidea",
     "gui.device.actualSpeed": "Benetako abiadura",
     "gui.device.targetSpeed": "Helburuko abiadura",

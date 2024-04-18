@@ -521,6 +521,8 @@
     "gui.device.port": "Poarte",
     "gui.device.noDevice": "Gjin apparaat ferbûn",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Grut motor",
+    "gui.device.small_motor": "Lytse motor",
     "gui.device.rotationDirection": "Rotaasjerjochting",
     "gui.device.actualSpeed": "Wirklike snelheid",
     "gui.device.targetSpeed": "Doelsnelheid",

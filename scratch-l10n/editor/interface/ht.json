@@ -521,6 +521,8 @@
     "gui.device.port": "Pò",
     "gui.device.noDevice": "Pa gen aparèy ki konekte",
     "gui.device.motor": "Motè",
+    "gui.device.big_motor": "Motor bras",
+    "gui.device.small_motor": "Motor bihan",
     "gui.device.rotationDirection": "Direksyon wotasyon",
     "gui.device.actualSpeed": "Vitès aktyèl la",
     "gui.device.targetSpeed": "Vitès sib",

@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Nie je pripojené žiadne zariadenie",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Veľký motor",
+    "gui.device.small_motor": "malý motor",
     "gui.device.rotationDirection": "Smer otáčania",
     "gui.device.actualSpeed": "Skutočná rýchlosť",
     "gui.device.targetSpeed": "Cieľová rýchlosť",

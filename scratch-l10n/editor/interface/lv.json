@@ -521,6 +521,8 @@
     "gui.device.port": "Ports",
     "gui.device.noDevice": "Neviena ierīce nav pievienota",
     "gui.device.motor": "Motors",
+    "gui.device.big_motor": "Liels motors",
+    "gui.device.small_motor": "mazs motors",
     "gui.device.rotationDirection": "Rotācijas virziens",
     "gui.device.actualSpeed": "Faktiskais ātrums",
     "gui.device.targetSpeed": "Mērķa ātrums",

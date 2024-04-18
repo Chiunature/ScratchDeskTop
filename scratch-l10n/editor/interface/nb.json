@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Ingen enhet tilkoblet",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Stor motor",
+    "gui.device.small_motor": "liten motor",
     "gui.device.rotationDirection": "Rotasjonsretning",
     "gui.device.actualSpeed": "Faktisk hastighet",
     "gui.device.targetSpeed": "Målhastighet",

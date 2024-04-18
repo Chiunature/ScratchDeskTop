@@ -521,6 +521,8 @@
     "gui.device.port": "Priključak",
     "gui.device.noDevice": "Nijedan uređaj nije povezan",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Big motor",
+    "gui.device.small_motor": "Small motor",
     "gui.device.rotationDirection": "Smjer rotacije",
     "gui.device.actualSpeed": "Stvarna brzina",
     "gui.device.targetSpeed": "Ciljana brzina",

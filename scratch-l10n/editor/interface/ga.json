@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Níl aon ghléas nasctha",
     "gui.device.motor": "Mótair",
+    "gui.device.big_motor": "Mórmotor",
+    "gui.device.small_motor": "Mótor beag",
     "gui.device.rotationDirection": "Treo uainíochta",
     "gui.device.actualSpeed": "Luas iarbhír",
     "gui.device.targetSpeed": "Luas sprice",

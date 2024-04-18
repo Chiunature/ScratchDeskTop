@@ -521,6 +521,8 @@
     "gui.device.port": "Bender",
     "gui.device.noDevice": "Alavek nayê girêdan",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Motorê mezin",
+    "gui.device.small_motor": "motorê piçûk",
     "gui.device.rotationDirection": "Arastiya zivirandinê",
     "gui.device.actualSpeed": "Leza rastîn",
     "gui.device.targetSpeed": "Leza armanc",

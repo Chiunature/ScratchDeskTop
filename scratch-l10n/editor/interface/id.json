@@ -521,6 +521,8 @@
     "gui.device.port": "Pelabuhan",
     "gui.device.noDevice": "Tidak ada perangkat yang terhubung",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Motor besar",
+    "gui.device.small_motor": "motor kecil",
     "gui.device.rotationDirection": "Arah rotasi",
     "gui.device.actualSpeed": "Kecepatan aktual",
     "gui.device.targetSpeed": "Kecepatan target",

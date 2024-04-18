@@ -521,6 +521,8 @@
     "gui.device.port": "พอร์ต",
     "gui.device.noDevice": "ไม่มีอุปกรณ์เชื่อมต่ออยู่",
     "gui.device.motor": "มอเตอร์",
+    "gui.device.big_motor": "มอเตอร์ขนาดใหญ่",
+    "gui.device.small_motor": "มอเตอร์ขนาดเล็ก",
     "gui.device.rotationDirection": "ทิศทางการหมุน",
     "gui.device.actualSpeed": "ความเร็วจริง",
     "gui.device.targetSpeed": "ความเร็วเป้าหมาย",

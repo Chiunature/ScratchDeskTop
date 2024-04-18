@@ -521,6 +521,8 @@
     "gui.device.port": "Gátt",
     "gui.device.noDevice": "Ekkert tæki tengt",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Stór mótor",
+    "gui.device.small_motor": "lítill mótor",
     "gui.device.rotationDirection": "Snúningsstefna",
     "gui.device.actualSpeed": "Raunhraði",
     "gui.device.targetSpeed": "Markhraði",

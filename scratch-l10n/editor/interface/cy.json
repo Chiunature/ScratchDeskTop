@@ -521,6 +521,8 @@
     "gui.device.port": "Porth",
     "gui.device.noDevice": "Dim dyfais wedi'i chysylltu",
     "gui.device.motor": " Modur",
+    "gui.device.big_motor": "Motor mawr",
+    "gui.device.small_motor": "Motor bach",
     "gui.device.rotationDirection": "Cyfeiriad cylchdroi",
     "gui.device.actualSpeed": "Cyflymder gwirioneddol",
     "gui.device.targetSpeed": "Cyflymder targed",

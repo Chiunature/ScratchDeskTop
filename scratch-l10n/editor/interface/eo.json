@@ -521,6 +521,8 @@
     "gui.device.port": "Haveno",
     "gui.device.noDevice": "Neniu aparato konektita",
     "gui.device.motor": "Motoro",
+    "gui.device.big_motor": "Granda motoro",
+    "gui.device.small_motor": "Malgranda motoro",
     "gui.device.rotationDirection": "Rotacia direkto",
     "gui.device.actualSpeed": "Efektiva rapido",
     "gui.device.targetSpeed": "Cela rapido",

@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Heç bir cihaz qoşulmur",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Büyük motor",
+    "gui.device.small_motor": "Kiçik motor",
     "gui.device.rotationDirection": "Fırlanma istiqaməti",
     "gui.device.actualSpeed": "Faktiki sürət",
     "gui.device.targetSpeed": "Hədəf sürəti",

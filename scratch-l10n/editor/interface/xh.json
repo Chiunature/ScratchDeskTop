@@ -521,6 +521,8 @@
     "gui.device.port": "Izibuko",
     "gui.device.noDevice": "Akukho sixhobo siqhagamshelweyo",
     "gui.device.motor": "Imoto",
+    "gui.device.big_motor": "Injini enkulu",
+    "gui.device.small_motor": "imoto encane",
     "gui.device.rotationDirection": "Indlela yokujikeleza",
     "gui.device.actualSpeed": "Esona santya",
     "gui.device.targetSpeed": "Isantya ekujoliswe kuso",

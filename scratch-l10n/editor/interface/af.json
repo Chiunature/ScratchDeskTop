@@ -521,6 +521,8 @@
     "gui.device.port": "Poort",
     "gui.device.noDevice": "Geen toestel gekoppel nie",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Groot motor",
+    "gui.device.small_motor": "Klein motor",
     "gui.device.rotationDirection": "Draairigting",
     "gui.device.actualSpeed": "Werklike spoed",
     "gui.device.targetSpeed": "Teikenspoed",

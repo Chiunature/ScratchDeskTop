@@ -521,6 +521,8 @@
     "gui.device.port": "ବନ୍ଦର",
     "gui.device.noDevice": "କ device ଣସି ଉପକରଣ ସଂଯୁକ୍ତ ନୁହେଁ",
     "gui.device.motor": "ମୋଟର",
+    "gui.device.big_motor": "ବଡ ମୋଟର",
+    "gui.device.small_motor": "ଛୋଟ ମୋଟର",
     "gui.device.rotationDirection": "ଘୂର୍ଣ୍ଣନ ଦିଗ",
     "gui.device.actualSpeed": "ପ୍ରକୃତ ଗତି",
     "gui.device.targetSpeed": "ଲକ୍ଷ୍ୟ ଗତି",

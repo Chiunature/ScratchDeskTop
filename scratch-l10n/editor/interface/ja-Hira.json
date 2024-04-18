@@ -521,6 +521,8 @@
     "gui.device.port": "ポート",
     "gui.device.noDevice": "デバイスが接続されていません",
     "gui.device.motor": "モーター",
+    "gui.device.big_motor": "ビッグモーター",
+    "gui.device.small_motor": "小型モーター",
     "gui.device.rotationDirection": "回転方向",
     "gui.device.actualSpeed": "実際の速度",
     "gui.device.targetSpeed": "ターゲット速度",

@@ -521,6 +521,8 @@
     "gui.device.port": "Порт",
     "gui.device.noDevice": "Қосылған құрылғы жоқ",
     "gui.device.motor": "Мотор",
+    "gui.device.big_motor": "Үлкен мотор",
+    "gui.device.small_motor": "шағын мотор",
     "gui.device.rotationDirection": "Айналу бағыты",
     "gui.device.actualSpeed": "Нақты жылдамдық",
     "gui.device.targetSpeed": "Нысаналы жылдамдық",

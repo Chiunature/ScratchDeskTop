@@ -521,6 +521,8 @@
     "gui.device.port": "Tauranga",
     "gui.device.noDevice": "Karekau he taputapu hono",
     "gui.device.motor": "Motini",
+    "gui.device.big_motor": "Motini nui",
+    "gui.device.small_motor": "mutini iti",
     "gui.device.rotationDirection": "Arohanga hurihanga",
     "gui.device.actualSpeed": "Te tere tonu",
     "gui.device.targetSpeed": "Te tere whainga",

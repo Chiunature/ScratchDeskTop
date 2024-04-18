@@ -521,6 +521,8 @@
     "gui.device.port": "Порт",
     "gui.device.noDevice": "Холбогдсон төхөөрөмж байхгүй",
     "gui.device.motor": "Мотор",
+    "gui.device.big_motor": "Том мотор",
+    "gui.device.small_motor": "жижиг мотор",
     "gui.device.rotationDirection": "Эргэх чиглэл",
     "gui.device.actualSpeed": "Бодит хурд",
     "gui.device.targetSpeed": "Зорилтот хурд",

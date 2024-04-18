@@ -521,6 +521,8 @@
     "gui.device.port": "პორტი",
     "gui.device.noDevice": "არ არის დაკავშირებული მოწყობილობა",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "დიდი ძრავა",
+    "gui.device.small_motor": "მცირე ძრავა",
     "gui.device.rotationDirection": "როტაციის მიმართულება",
     "gui.device.actualSpeed": "ფაქტობრივი სიჩქარე",
     "gui.device.targetSpeed": "სამიზნე სიჩქარე",

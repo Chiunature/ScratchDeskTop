@@ -521,6 +521,8 @@
     "gui.device.port": "المنفذ",
     "gui.device.noDevice": "لا يوجد جهاز متصل",
     "gui.device.motor": "المحرك",
+    "gui.device.big_motor": "محرك كبير",
+    "gui.device.small_motor": "المحركات الصغيرة",
     "gui.device.rotationDirection": "اتجاه الدوران",
     "gui.device.actualSpeed": "السرعة الفعلية",
     "gui.device.targetSpeed": "السرعة المستهدفة",

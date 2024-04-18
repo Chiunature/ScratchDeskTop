@@ -521,6 +521,8 @@
     "gui.device.port": "Порт",
     "gui.device.noDevice": "Няма падключанай прылады",
     "gui.device.motor": "Рухавік",
+    "gui.device.big_motor": "Велікі рухавік",
+    "gui.device.small_motor": "Маленькі рухавік",
     "gui.device.rotationDirection": "Кірунак кручэння",
     "gui.device.actualSpeed": "Фактычная хуткасць",
     "gui.device.targetSpeed": "Мэтавая хуткасць",

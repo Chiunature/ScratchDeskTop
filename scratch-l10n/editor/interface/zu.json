@@ -521,6 +521,8 @@
     "gui.device.port": "Imbobo",
     "gui.device.noDevice": "Ayikho idivayisi exhunyiwe",
     "gui.device.motor": "Imoto",
+    "gui.device.big_motor": "Injini enkulu",
+    "gui.device.small_motor": "imoto encane",
     "gui.device.rotationDirection": "Indlela yokuzungeza",
     "gui.device.actualSpeed": "Isivinini sangempela",
     "gui.device.targetSpeed": "Ijubane lethagethi",

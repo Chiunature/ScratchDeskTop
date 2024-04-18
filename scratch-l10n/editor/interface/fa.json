@@ -521,6 +521,8 @@
     "gui.device.port": "پورت",
     "gui.device.noDevice": "دستگاهی متصل نیست",
     "gui.device.motor": "موتور",
+    "gui.device.big_motor": "موتور بزرگ",
+    "gui.device.small_motor": "موتور کوچک",
     "gui.device.rotationDirection": "جهت چرخش",
     "gui.device.actualSpeed": "سرعت واقعی",
     "gui.device.targetSpeed": "سرعت هدف",

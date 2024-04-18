@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Ha ho sesebelisoa se hoketsoeng",
     "gui.device.motor": "Motoroi",
+    "gui.device.big_motor": "Enjene e kholo",
+    "gui.device.small_motor": "enjene e nyane",
     "gui.device.rotationDirection": "Tshupo ea ho potoloha",
     "gui.device.actualSpeed": "Lebelo la sebele",
     "gui.device.targetSpeed": "Lebelo le lebeletsoeng",

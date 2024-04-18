@@ -520,6 +520,8 @@
     "gui.device.port": "יציאה",
     "gui.device.noDevice": "אין מכשיר מחובר",
     "gui.device.motor": "מנוע",
+    "gui.device.big_motor": "מנוע גדול",
+    "gui.device.small_motor": "מנוע קטן",
     "gui.device.rotationDirection": "כיוון סיבוב",
     "gui.device.actualSpeed": "מהירות בפועל",
     "gui.device.targetSpeed": "מהירות יעד",

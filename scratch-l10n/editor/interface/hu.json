@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Nincs csatlakoztatott eszköz",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Big motor",
+    "gui.device.small_motor": "small motor",
     "gui.device.rotationDirection": "Forgásirány",
     "gui.device.actualSpeed": "Tényleges sebesség",
     "gui.device.targetSpeed": "Célsebesség",

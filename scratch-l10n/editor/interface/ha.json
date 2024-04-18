@@ -521,6 +521,8 @@
     "gui.device.port": "Port",
     "gui.device.noDevice": "Babu na'ura da aka haɗa",
     "gui.device.motor": "Motar",
+    "gui.device.big_motor": "Suurmootor",
+    "gui.device.small_motor": "Väike mootor",
     "gui.device.rotationDirection": "Tsarin juyawa",
     "gui.device.actualSpeed": "Gudun gaske",
     "gui.device.targetSpeed": "Gudun manufa",

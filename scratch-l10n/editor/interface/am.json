@@ -521,6 +521,8 @@
     "gui.device.port": "ወደብ",
     "gui.device.noDevice": "ምንም መሳሪያ አልተገናኘም",
     "gui.device.motor": "ሞተር",
+    "gui.device.big_motor": "ትልቅ ማተሚያ",
+    "gui.device.small_motor": "ትንሽ",
     "gui.device.rotationDirection": "የማዞሪያ አቅጣጫ",
     "gui.device.actualSpeed": "ትክክለኛ ፍጥነት",
     "gui.device.targetSpeed": "የዒላማ ፍጥነት",

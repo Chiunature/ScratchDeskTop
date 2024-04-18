@@ -521,6 +521,8 @@
     "gui.device.port": "বন্দর",
     "gui.device.noDevice": "কোন ডিভাইস সংযুক্ত নেই",
     "gui.device.motor": "মোটর",
+    "gui.device.big_motor": "বড় মোটর",
+    "gui.device.small_motor": "ছোট মোটর",
     "gui.device.rotationDirection": "ঘূর্ণন দিক",
     "gui.device.actualSpeed": "প্রকৃত গতি",
     "gui.device.targetSpeed": "লক্ষ্য গতি",

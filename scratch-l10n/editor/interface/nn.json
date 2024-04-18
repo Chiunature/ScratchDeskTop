@@ -521,6 +521,8 @@
     "gui.device.port": "Poort",
     "gui.device.noDevice": "Geen apparaat aangesloten",
     "gui.device.motor": "Motor",
+    "gui.device.big_motor": "Stor motor",
+    "gui.device.small_motor": "liten motor",
     "gui.device.rotationDirection": "Rotatierichting",
     "gui.device.actualSpeed": "Werkelijke snelheid",
     "gui.device.targetSpeed": "Doelsnelheid",

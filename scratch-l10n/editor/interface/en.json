@@ -523,6 +523,8 @@
   "gui.device.port": "Port",
   "gui.device.noDevice": "No device connected",
   "gui.device.motor": "Motor",
+  "gui.device.big_motor": "Big motor",
+  "gui.device.small_motor": "Small motor",
   "gui.device.rotationDirection": "Rotation direction",
   "gui.device.actualSpeed": "Actual speed",
   "gui.device.targetSpeed": "Target speed",

@@ -521,6 +521,8 @@
     "gui.device.port": "Portti",
     "gui.device.noDevice": "Ei laitetta kytketty",
     "gui.device.motor": "Moottori",
+    "gui.device.big_motor": "Suuri moottori",
+    "gui.device.small_motor": "Pieni moottori",
     "gui.device.rotationDirection": "Kiertosuunta",
     "gui.device.actualSpeed": "Todellinen nopeus",
     "gui.device.targetSpeed": "Tavoitenopeus",

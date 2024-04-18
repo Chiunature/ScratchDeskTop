@@ -521,6 +521,8 @@
     "gui.device.port": "Бандар",
     "gui.device.noDevice": "Ягон дастгоҳ пайваст нест",
     "gui.device.motor": "Мотор",
+    "gui.device.big_motor": "Электродвигатель",
+    "gui.device.small_motor": "Электрическая машина",
     "gui.device.rotationDirection": "Самти гардиш",
     "gui.device.actualSpeed": "Суръати воқеӣ",
     "gui.device.targetSpeed": "Суръати ҳадаф",
