@@ -199,6 +199,10 @@
                 "filter": [
                     "**/hotVersion.json"
                 ]
+            },
+            {
+                "from": "Atc智能编程套装说明书.docx",
+                "to": "../"
             }
         ],
         "files": [
