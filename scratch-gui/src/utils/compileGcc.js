@@ -28,16 +28,14 @@ import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
 
-const reg_USER_Aplication = /void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
+const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;\s{1}/;
 const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\/\s{1}/;
-const reg_Task_Handler = /TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
+const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;/g;
 
 class Compile {
 
-    constructor() {}
-
-
+    constructor() { }
 
     /**
      * 根据正则去修改文件特定内容
@@ -59,7 +57,7 @@ class Compile {
                 if (!regList) {
                     return;
                 }
-                newRes = result.replace(isReg ? regList.join('') : regList, targetStr);
+                newRes = result.replace(isReg ? regList.join('\n') : regList, targetStr);
                 resolve(newRes);
             } catch (error) {
                 reject(error);
@@ -110,11 +108,10 @@ class Compile {
         });
 
         const appRes = await this.handleCode(codeStr, taskStr, myBlock, handlerStr);
-
         //编译
         if (appRes) {
             window.myAPI.commendMake().then(() => {
-                if(selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
             }).catch(err => {
                 window.myAPI.handlerError(err);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });

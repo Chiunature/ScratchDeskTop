@@ -35,7 +35,7 @@ exports.default = async ({ appOutDir, packager }) => {
         }
 
         //替换文件内容
-        let fileArrs = getFiles(appPath, ["node_modules", "static", "build", "src", ".css", ".html", ".md", ".json", ".xml"]);
+        let fileArrs = getFiles(appPath, ["node_modules", "src", ".css", ".html", ".md", ".json", ".xml"]);
 
         for (let i = 0; i < fileArrs.length; i++) {
             let con = fs.readFileSync(fileArrs[i], 'utf8');

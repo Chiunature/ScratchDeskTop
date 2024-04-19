@@ -136,7 +136,8 @@ module.exports = [
                     test: /\.(svg|png|wav|mp3|gif|jpg)$/,
                     loader: 'file-loader',
                     options: {
-                        outputPath: 'static/assets/'
+                        outputPath: 'static/assets/',
+                        publicPath: '../static/assets/'
                     }
                 }
             ])
@@ -244,7 +245,7 @@ module.exports = [
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/assets/',
-                            publicPath: `${STATIC_PATH}/assets/`
+                            publicPath: `../static/assets/`
                         }
                     }
                 ])

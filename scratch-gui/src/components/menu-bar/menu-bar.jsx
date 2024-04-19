@@ -774,7 +774,7 @@ class MenuBar extends React.Component {
                             </MenuBarMenu>
                         </div>
                     </div>
-                    <Divider className={classNames(styles.divider)} />
+                    {/* <Divider className={classNames(styles.divider)} />
                     <div
                         aria-label={this.props.intl.formatMessage(
                             ariaMessages.tutorials
@@ -787,7 +787,7 @@ class MenuBar extends React.Component {
                     >
                         <img className={styles.helpIcon} src={helpIcon} />
                         <FormattedMessage {...ariaMessages.tutorials} />
-                    </div>
+                    </div> */}
                     <Divider className={classNames(styles.divider)} />
                     <div
                         className={classNames(

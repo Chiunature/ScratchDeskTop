@@ -207,6 +207,11 @@ function getDocxUrl(link) {
 }
 
 
+function getMediaPath() {
+  return path.join(cwd(), './resources/static/blocks-media/');
+}
+
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -224,5 +229,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     removeStoreValue,
     hasStoreValue,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
-    getDocxUrl
+    getDocxUrl,
+    getMediaPath
 });

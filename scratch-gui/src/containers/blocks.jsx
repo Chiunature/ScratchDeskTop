@@ -98,13 +98,13 @@ class Blocks extends React.Component {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
+        this.props.options.media = window.myAPI.getMediaPath();
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
             { rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme) }
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
-        // console.log(this.ScratchBlocks.Python)
         // Register buttons under new callback keys for creating variables,
         // lists, and procedures from extensions.
 
@@ -245,14 +245,11 @@ class Blocks extends React.Component {
         const match = code.match(regex);
         let matchMyBlock = code.match(regexForMyBlock);
         const variable = code.match(regVariable);
+        const matchMyBlockRes = matchMyBlock ? matchMyBlock : '\n';
         if (variable) {
-            matchMyBlock = !matchMyBlock ? '' : matchMyBlock;
-            matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlock;
+            matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlockRes;
         }
-        if (matchMyBlock) {
-            this.props.setMatchMyBlock(matchMyBlock);
-        }
-
+        this.props.setMatchMyBlock(matchMyBlock);
         if (match) {
             const arr = match[1].split("\/\* Start \*\/");
             const newArr = arr.filter(item => /[^ \n]/.test(item));

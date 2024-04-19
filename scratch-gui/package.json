@@ -1,6 +1,6 @@
 {
     "name": "scratch-gui",
-    "version": "1.2.8",
+    "version": "1.2.9",
     "description": "EST3",
     "main": "main.js",
     "scripts": {
@@ -180,6 +180,12 @@
         },
         "afterSign": "./scripts/afterSign.js",
         "afterPack": "./scripts/afterPack.js",
+        "extraFiles": [
+            {
+                "from": "build/static",
+                "to": "./resources/static"
+            }
+        ],
         "extraResources": [
             {
                 "from": "./resources/gcc-arm-none-eabi",
@@ -191,7 +197,11 @@
             },
             {
                 "from": "build",
-                "to": "app.asar.unpacked"
+                "to": "app.asar.unpacked",
+                "filter": [
+                    "!**/static/**/*",
+                    "!**/scripts/**/*"
+                ]
             },
             {
                 "from": "build",
@@ -207,7 +217,6 @@
         ],
         "files": [
             "node_modules/**/*",
-            "static/**/*",
             "src/config/**/*",
             "main.js",
             "preload.js",

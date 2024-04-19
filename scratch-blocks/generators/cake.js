@@ -214,7 +214,15 @@ Blockly.cake.finish = function (code) {
   var allDefs = includes.join('\n') + '\n\n' + declarations.join('\n') + '\n\n' + defines.join('\n');
   var allFuncs = func_definitions.join('\n');
 
-  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + customFunctions.join('') + 'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
+  let result = allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n') + customFunctions.join('') + 'int main() {\n' + code + allFuncs.replace(/\n\n+/g, '\n\n') + '}';
+
+  delete Blockly.cake.definitions_;
+  delete Blockly.cake.customFunctions_;
+  delete Blockly.cake.customFunctionsArgName_;
+  delete Blockly.cake.times_;
+  delete Blockly.cake.functionNames_;
+  
+  return result;
 };
 
 Blockly.cake.finishFull = function (code) {
