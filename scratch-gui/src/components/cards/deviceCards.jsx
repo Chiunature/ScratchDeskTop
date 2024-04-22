@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
@@ -110,6 +110,14 @@ const DeviceCards = props => {
         completed
     } = props;
     let { x, y, expanded } = deviceCards;
+    let screenRef = useRef(null);
+
+    useEffect(() => {
+        window.onresize = () => handleScreenAuto();
+        return () => {
+            window.onresize = null;
+        }
+    })
 
     const onCloseCards = () => onSetDeviceCards({ ...deviceCards, deviceVisible: false });
     const onShrinkExpandCards = () => onSetDeviceCards({ ...deviceCards, expanded: !expanded });
@@ -169,11 +177,27 @@ const DeviceCards = props => {
         window.myAPI.deleteFiles(`${APP}/${item.name}.bin`);
     }
 
+    const handleScreenAuto = () => {
+        const designDraftWidth = 1920;
+        const designDraftHeight = 960;
+        // 根据屏幕的变化适配的比例
+        const scale =
+            document.documentElement.clientWidth /
+                document.documentElement.clientHeight <
+                designDraftWidth / designDraftHeight
+                ? document.documentElement.clientWidth / designDraftWidth
+                : document.documentElement.clientHeight / designDraftHeight;
+        // 缩放比例
+        screenRef.current.style.transform = `scale(${scale})`;
+    }
+
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
         <div
+            ref={screenRef}
             className={styles.cardContainerOverlay}
+            id='screen'
             style={{
                 width: `${window.innerWidth + (2 * cardHorizontalDragOffset)}px`,
                 height: `${window.innerHeight - menuBarHeight + cardVerticalDragOffset}px`,
