@@ -113,6 +113,7 @@ const DeviceCards = props => {
     let screenRef = useRef(null);
 
     useEffect(() => {
+        handleScreenAuto();
         window.onresize = () => handleScreenAuto();
         return () => {
             window.onresize = null;
@@ -195,7 +196,6 @@ const DeviceCards = props => {
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
         <div
-            ref={screenRef}
             className={styles.cardContainerOverlay}
             id='screen'
             style={{
@@ -214,7 +214,7 @@ const DeviceCards = props => {
                 onStop={onEndDrag}
             >
                 <div className={styles.cardContainer}>
-                    <div className={styles.card}>
+                    <div className={styles.card} ref={screenRef}>
                         <DeviecCardHeader
                             index={index}
                             expanded={expanded}
