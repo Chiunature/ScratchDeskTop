@@ -152,7 +152,7 @@ function commendMake() {
  * @returns 
  */
 function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
-    const version = fs.readFileSync(vpath, 'utf8');
+    const version = fs.readFileSync(vpath, 'utf-8');
     if (version && !isNaN(version) && data == version) {
         return true;
     } else {
@@ -167,7 +167,7 @@ function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt'))
  * @returns 
  */
 function getVersion(vpath = path.join(cwd(), VERSION, '/Version.txt')) {
-    const version = fs.readFileSync(vpath, 'utf8');
+    const version = fs.readFileSync(vpath, 'utf-8');
     return version;
 }
 

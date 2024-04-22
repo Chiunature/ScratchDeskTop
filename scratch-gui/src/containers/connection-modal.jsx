@@ -17,7 +17,8 @@ import {
     setIsConnectedSerial,
     setConnectionModalPeripheralName,
     clearConnectionModalPeripheralName,
-    getSerialList
+    getSerialList,
+    setVersion
 } from "../reducers/connection-modal";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import { HELP_DOCX } from "../config/json/LB_USER.json";
@@ -39,7 +40,7 @@ class ConnectionModal extends React.Component {
             extension: extensionData.find(
                 (ext) => ext.extensionId === props.extensionId
             ),
-            firewareVersion: window.myAPI.getVersion(),
+            firewareVersion: null,
             phase: props.vm.getPeripheralIsConnected(props.extensionId)
                 ? PHASES.connected
                 : PHASES.scanning,
@@ -50,6 +51,7 @@ class ConnectionModal extends React.Component {
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
+        this.setState({ firewareVersion: window.myAPI.getVersion() });
     }
 
     componentWillUnmount() {
@@ -190,9 +192,10 @@ class ConnectionModal extends React.Component {
                 return;
             }
         }
-        window.myAPI.setStoreValue('version', this.props.version);
+        window.myAPI.setStoreValue('version', this.state.firewareVersion);
         this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
+        this.props.onSetVersion(this.state.firewareVersion);
     }
 
     render() {
@@ -274,7 +277,8 @@ const mapDispatchToProps = (dispatch) => ({
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
-    onSetDeviceType: (deviceType) => dispatch(setDeviceType(deviceType))
+    onSetDeviceType: (deviceType) => dispatch(setDeviceType(deviceType)),
+    onSetVersion: (version) => dispatch(setVersion(version)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionModal);

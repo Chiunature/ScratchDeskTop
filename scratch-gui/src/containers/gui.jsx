@@ -246,9 +246,9 @@ class GUI extends React.Component {
     watchDevice() {
         const deviceIdList = Object.keys(instructions.device);
         const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
+        const firewareVersion = window.myAPI.getVersion();
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
-        const firewareVersion = window.myAPI.getVersion();
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -267,15 +267,22 @@ class GUI extends React.Component {
 
     checkUpdateSensing(list, deviceList, ver) {
         const isUpdate = sessionStorage.getItem('isSensingUpdate');
+        const { device } = instructions;
         if (deviceList.length > 0 && isUpdate == 'done' && ver == this.props.version) {
             for (let i = 0; i < deviceList.length; i++) {
                 const item = deviceList[i];
-                const not_run = item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]];
-                const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] > 0 && item[instructions.device[item.deviceId]]['version'] != ver;
-                if (list.includes(item.deviceId) && instructions.device[item.deviceId] && (not_run || isNew)) {
-                    sessionStorage.setItem('isSensingUpdate', 'updating');
-                    this.updateSensing();
-                    break;
+                const deviceItem = device[item.deviceId];
+                const portItem = item[deviceItem];
+                if (deviceItem && portItem) {
+                    const not_run = 'Not_Run' in portItem;
+                    const isNew = !not_run && portItem['version'] > 0 && portItem['version'] != ver;
+                    if (list.includes(item.deviceId) && (not_run || isNew)) {
+                        sessionStorage.setItem('isSensingUpdate', 'updating');
+                        this.updateSensing();
+                        break;
+                    } else {
+                        continue;
+                    }
                 } else {
                     continue;
                 }
