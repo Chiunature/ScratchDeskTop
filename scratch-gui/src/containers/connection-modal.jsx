@@ -39,6 +39,7 @@ class ConnectionModal extends React.Component {
             extension: extensionData.find(
                 (ext) => ext.extensionId === props.extensionId
             ),
+            firewareVersion: window.myAPI.getVersion(),
             phase: props.vm.getPeripheralIsConnected(props.extensionId)
                 ? PHASES.connected
                 : PHASES.scanning,
@@ -183,13 +184,13 @@ class ConnectionModal extends React.Component {
     } */
 
     async handleUpdate() {
-        if (this.props.version) {
+        if (this.props.version == this.state.firewareVersion) {
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.REUPDATE);
             if (res === 0) {
                 return;
             }
         }
-        window.myAPI.setStoreValue('version', JSON.stringify(this.props.version));
+        window.myAPI.setStoreValue('version', this.props.version);
         this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
     }
@@ -234,6 +235,7 @@ class ConnectionModal extends React.Component {
                 // onSelectport={this.handleSelectport}
                 onUpdate={this.handleUpdate}
                 sourceCompleted={this.props.sourceCompleted}
+                firewareVersion={this.state.firewareVersion}
             />
         );
     }

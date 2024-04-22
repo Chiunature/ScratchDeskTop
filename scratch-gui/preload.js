@@ -10,6 +10,7 @@ const store = new Store();
 
 
 function setStoreValue(key, value) {
+    if (store.has(key)) store.delete(key);
     store.set(key, value);
 }
 
@@ -150,14 +151,24 @@ function commendMake() {
  * @param {String} path 
  * @returns 
  */
-function getVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
+function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
     const version = fs.readFileSync(vpath, 'utf8');
-    const ver = parseInt(version);
-    if (ver && !isNaN(ver) && data === ver) {
+    if (version && !isNaN(version) && data == version) {
         return true;
     } else {
         return false;
     }
+}
+
+/**
+ * 获取硬件版本
+ * @param {String} data 
+ * @param {String} path 
+ * @returns 
+ */
+function getVersion(vpath = path.join(cwd(), VERSION, '/Version.txt')) {
+    const version = fs.readFileSync(vpath, 'utf8');
+    return version;
 }
 
 /**
@@ -208,7 +219,7 @@ function getDocxUrl(link) {
 
 
 function getMediaPath() {
-  return path.join(cwd(), './resources/static/blocks-media/');
+    return path.join(cwd(), './resources/static/blocks-media/');
 }
 
 
@@ -219,7 +230,7 @@ contextBridge.exposeInMainWorld('myAPI', {
     ipcInvoke,
     delEvents,
     ipcRender,
-    getVersion,
+    compareVersion,
     commendMake,
     writeFileWithDirectory,
     handlerError,
@@ -230,5 +241,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     hasStoreValue,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     getDocxUrl,
-    getMediaPath
+    getMediaPath,
+    getVersion
 });

@@ -162,15 +162,12 @@ class GUI extends React.Component {
         }
     }
 
-    getFirewareVersion() {
-        if (this.props.version === this.props.deviceObj.versionlist.ver) return;
-        //获取主机版本监听
-        const isNew = window.myAPI.getVersion(this.props.deviceObj.versionlist.ver);
-        this.props.onSetVersion(this.props.deviceObj.versionlist.ver);
-        if (!isNew) {
-            window.myAPI.setStoreValue('version', JSON.stringify(this.props.deviceObj.versionlist.ver));
-            this.checkUpdateFireware();
-        }
+    getFirewareVersion(firewareVersion) {
+        const status = sessionStorage.getItem('isFirewareUpdate');
+        const isNew = firewareVersion == this.props.deviceObj.versionlist.ver;
+        if (isNew || status === 'updating') return;
+        sessionStorage.setItem('isFirewareUpdate', 'updating');
+        if (!isNew) this.checkUpdateFireware(firewareVersion);
     }
 
     downloadSource() {
@@ -179,7 +176,6 @@ class GUI extends React.Component {
             eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
             callback: (event, arg) => {
                 this.props.onSetSourceCompleted(false);
-                this.props.onSetVersion(true);
                 this.props.onShowCompletedAlert(arg.msg);
                 setTimeout(() => window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART }), 1000);
             },
@@ -235,20 +231,24 @@ class GUI extends React.Component {
         proxyVal.portList = [...newList];
     }
 
-    async checkUpdateFireware() {
-        if (this.props.version == window.myAPI.getStoreValue('version')) return;
+    async checkUpdateFireware(firewareVersion) {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
+        this.props.onSetVersion(firewareVersion);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
+        window.myAPI.setStoreValue('version', firewareVersion);
+        sessionStorage.setItem('isFirewareUpdate', 'done');
     }
 
     //开启监听
     watchDevice() {
         const deviceIdList = Object.keys(instructions.device);
         const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
-        sessionStorage.setItem('isSensingUpdate', JSON.stringify(false));
+        sessionStorage.setItem('isSensingUpdate', 'done');
+        sessionStorage.setItem('isFirewareUpdate', 'done');
+        const firewareVersion = window.myAPI.getVersion();
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -259,21 +259,21 @@ class GUI extends React.Component {
                 }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
-                this.getFirewareVersion();
+                this.getFirewareVersion(firewareVersion);
                 this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
             }
         });
     }
 
     checkUpdateSensing(list, deviceList, ver) {
-        const isUpdate = JSON.parse(sessionStorage.getItem('isSensingUpdate'));
-        if (deviceList.length > 0 && !isUpdate && ver == this.props.version) {
+        const isUpdate = sessionStorage.getItem('isSensingUpdate');
+        if (deviceList.length > 0 && isUpdate == 'done' && ver == this.props.version) {
             for (let i = 0; i < deviceList.length; i++) {
                 const item = deviceList[i];
                 const not_run = item[instructions.device[item.deviceId]] && 'Not_Run' in item[instructions.device[item.deviceId]];
                 const isNew = !not_run && item[instructions.device[item.deviceId]] && item[instructions.device[item.deviceId]]['version'] > 0 && item[instructions.device[item.deviceId]]['version'] != ver;
                 if (list.includes(item.deviceId) && instructions.device[item.deviceId] && (not_run || isNew)) {
-                    sessionStorage.setItem('isSensingUpdate', JSON.stringify(true));
+                    sessionStorage.setItem('isSensingUpdate', 'updating');
                     this.updateSensing();
                     break;
                 } else {
@@ -289,7 +289,7 @@ class GUI extends React.Component {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
         setTimeout(() => {
-            sessionStorage.setItem('isSensingUpdate', JSON.stringify(false));
+            sessionStorage.setItem('isSensingUpdate', 'done');
         }, 1000);
     }
 
