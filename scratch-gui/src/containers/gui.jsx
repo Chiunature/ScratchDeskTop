@@ -163,6 +163,7 @@ class GUI extends React.Component {
     }
 
     getFirewareVersion(firewareVersion) {
+        this.props.onSetVersion(firewareVersion);
         const status = sessionStorage.getItem('isFirewareUpdate');
         const isNew = firewareVersion == this.props.deviceObj.versionlist.ver;
         if (isNew || status === 'updating') return;
@@ -235,7 +236,6 @@ class GUI extends React.Component {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
         new Compile().sendSerial(verifyTypeConfig.SOURCE);
-        this.props.onSetVersion(firewareVersion);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
