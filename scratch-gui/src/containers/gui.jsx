@@ -275,7 +275,7 @@ class GUI extends React.Component {
                 const portItem = item[deviceItem];
                 if (deviceItem && portItem) {
                     const not_run = 'Not_Run' in portItem;
-                    const isNew = !not_run && portItem['version'] > 0 && portItem['version'] != ver;
+                    const isNew = !not_run && portItem['version'] && portItem['version'] > 0 && portItem['version'] != ver;
                     if (list.includes(item.deviceId) && (not_run || isNew)) {
                         sessionStorage.setItem('isSensingUpdate', 'updating');
                         this.updateSensing();

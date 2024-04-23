@@ -20,10 +20,10 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainM
                 detail: mainMsg['restartUpdate'],
                 defaultId: 0,
                 cancelId: 0,
-            }).then(async (response) => {
-                if (response === 1) {
-                    const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
-                    resolve(res);
+            }).then(async (res) => {
+                if (res.response == 1) {
+                    const resReload = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
+                    resolve(resReload);
                 } else {
                     const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
                     resolve(res);
@@ -106,10 +106,10 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainM
 }
 
 
-async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg) {
-    return new Promise(resolve => {
+function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg) {
+    return new Promise(async (resolve) => {
         hasCheckWaitUpdate = true;
-        dialog.showMessageBox({
+        const { response } = await dialog.showMessageBox({
             type: "info",
             buttons: [mainMsg['cancel'], mainMsg['confirm']],
             title: mainMsg['updateApp'],
@@ -117,18 +117,16 @@ async function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg) {
             detail: mainMsg['updateAppSuccessDetail'],
             defaultId: 0,
             cancelId: 0,
-        }).then(async (response) => {
-            if (response === 1) {
-                const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
-                console.info(res);
-                resolve(res);
-            } else {
-                const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
-                console.info(res);
-                resolve(res);
-            }
-        })
-
+        });
+        if (response === 1) {
+            const res = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, true);
+            console.info(res);
+            resolve(res);
+        } else {
+            const resFn = await handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, false);
+            console.info(resFn);
+            resolve(resFn);
+        }
     })
 }
 
@@ -161,7 +159,7 @@ function extractZip(targetPath, oldPath) {
     });
 }
 
-function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, reload = true) {
+function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, reload) {
     return new Promise((resolve, reject) => {
         if (!fs.existsSync(targetPath)) {
             hasCheckWaitUpdate = false;
@@ -201,10 +199,10 @@ function handleIncreaseUpdate(oldPath, targetPath, obsIncrementUpdate, mainMsg, 
                         detail: mainMsg['waiting'],
                     }).catch();
                     await extractZip(targetPath, oldPath);
+                    resolve(null);
                     //重启应用
                     app.relaunch();
                     app.exit(0);
-                    resolve(null);
                 } else {
                     const resFn = () => Promise.resolve(extractZip(targetPath, oldPath));
                     resolve(resFn);

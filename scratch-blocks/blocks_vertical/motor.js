@@ -78,12 +78,12 @@ Blockly.Blocks['motor_acceleration_menu'] = {
                     "type": "field_dropdown",
                     "name": "MENU",
                     "options": [
-                        [ Blockly.Msg.DEFAULT, "default" ],
-                        [ Blockly.Msg.FAST, "fast" ],
-                        [ Blockly.Msg.BALANCE, "balance" ],
-                        [ Blockly.Msg.SMOOTH, "smooth" ],
-                        [ Blockly.Msg.SLOW, "slow" ],
-                        [ Blockly.Msg.SLOWER, "slower" ],
+                        [Blockly.Msg.DEFAULT, "default"],
+                        [Blockly.Msg.FAST, "fast"],
+                        [Blockly.Msg.BALANCE, "balance"],
+                        [Blockly.Msg.SMOOTH, "smooth"],
+                        [Blockly.Msg.SLOW, "slow"],
+                        [Blockly.Msg.SLOWER, "slower"],
                     ]
                 },
             ],
@@ -544,6 +544,56 @@ Blockly.Blocks['motor_startWithPower'] = {
                 {
                     "type": "input_value",
                     "name": "POWER",
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "shape_statement"],
+        });
+    }
+};
+
+Blockly.Blocks['motor_setStill'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_SETSTILL,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "field_dropdown",
+                    "name": "MOTOR_TYPE",
+                    "options": [
+                        [
+                            Blockly.Msg.BIG_MOTOR,
+                            "big_motor_hold_pid"
+                        ],
+                        [
+                            Blockly.Msg.SMALL_MOTOR,
+                            "small_motor_hold_pid"
+                        ]
+                    ]
+                },
+                {
+                    "type": "input_value",
+                    "name": "P",
+                },
+                {
+                    "type": "input_value",
+                    "name": "I",
+                },
+                {
+                    "type": "input_value",
+                    "name": "D",
                 },
             ],
             "category": Blockly.Categories.motor,

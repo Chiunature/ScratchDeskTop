@@ -130,7 +130,7 @@ const DeviceCards = props => {
     // edges of the workspace.
     const cardHorizontalDragOffset = 300; // ~80% of card width
     const cardVerticalDragOffset = expanded ? 257 : 0; // ~80% of card height, if expanded
-    const menuBarHeight = 48; // TODO: get pre-calculated from elsewhere?
+    const menuBarHeight = 0; // TODO: get pre-calculated from elsewhere?
     const wideCardWidth = 500;
 
     if (x === 0 && y === 0) {
@@ -139,9 +139,9 @@ const DeviceCards = props => {
         x += cardHorizontalDragOffset;
         // The tallest cards are about 320px high, and the default position is pinned
         // to near the bottom of the blocks palette to allow room to work above.
-        // const tallCardHeight = 320;
-        // const bottomMargin = 60; // To avoid overlapping the backpack region
-        // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight - 310;
+        const tallCardHeight = 320;
+        const bottomMargin = 60; // To avoid overlapping the backpack region
+        y = window.innerHeight - tallCardHeight * 2.5 - bottomMargin - menuBarHeight;
     }
 
     const [index, setIndex] = useState(0);
@@ -188,8 +188,13 @@ const DeviceCards = props => {
                 designDraftWidth / designDraftHeight
                 ? document.documentElement.clientWidth / designDraftWidth
                 : document.documentElement.clientHeight / designDraftHeight;
+        const newScale = `scale(${scale})`;
         // 缩放比例
-        screenRef.current.style.transform = `scale(${scale})`;
+        if (screenRef.current.style.transform.indexOf('scale') === -1) {
+            screenRef.current.style.transform += newScale;
+        } else {
+            screenRef.current.style.transform = screenRef.current.style.transform.replace(/scale\([\s*\S*]*\)/, newScale);
+        }
     }
 
 
@@ -213,8 +218,8 @@ const DeviceCards = props => {
                 onStart={onStartDrag}
                 onStop={onEndDrag}
             >
-                <div className={styles.cardContainer}>
-                    <div className={styles.card} ref={screenRef}>
+                <div className={styles.cardContainer} ref={screenRef}>
+                    <div className={styles.card}>
                         <DeviecCardHeader
                             index={index}
                             expanded={expanded}

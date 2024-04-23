@@ -568,6 +568,17 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_acceleration_menu"></shadow>
             </value>
         </block>
+        <block type="motor_setStill">
+            <value name="P">
+                <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+            </value>
+            <value name="I">
+                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+            </value>
+            <value name="D">
+                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+            </value>
+        </block>
         `
         }
     </category>
