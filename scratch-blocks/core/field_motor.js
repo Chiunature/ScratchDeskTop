@@ -18,6 +18,7 @@ goog.inherits(Blockly.FieldMotor, Blockly.Field);
 
 Blockly.FieldMotor.portList = [];
 Blockly.FieldMotor.proxy = null;
+Blockly.FieldMotor.small_motor_svg = 'small_motor_sensing.svg';
 Blockly.FieldMotor.motor_svg = 'motor_sensing.svg';
 Blockly.FieldMotor.color_sensing_svg = 'color_sensing.svg';
 Blockly.FieldMotor.sound_sensing_svg = 'super_sound.svg';
@@ -208,7 +209,11 @@ Blockly.FieldMotor.prototype.checkType = function (type) {
     img.setAttribute('class', 'lls-dsm-icon');
     switch (type) {
         case 'motor':
+        case 'big_motor':
             img.src = str + Blockly.FieldMotor.motor_svg;
+            break;
+        case 'small_motor':
+            img.src = str + Blockly.FieldMotor.small_motor_svg;
             break;
         case 'color':
             img.src = str + Blockly.FieldMotor.color_sensing_svg;
@@ -313,7 +318,7 @@ Blockly.FieldMotor.prototype.changeMotor = function (type, obj) {
                     Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), spin: obj.value });
                     break;
                 case 'spinCirle':
-                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), value: obj.value, spin: obj.spin === 'Advance' ? '01' : '-1' , type: obj.type});
+                    Blockly.FieldMotor.callback(type, { port: _getPort(obj.port), value: obj.value, spin: obj.spin === 'Advance' ? '01' : '-1', type: obj.type });
                     break;
                 default:
                     break;

@@ -107,7 +107,6 @@ class Blocks extends React.Component {
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
         // Register buttons under new callback keys for creating variables,
         // lists, and procedures from extensions.
-
         const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
 
         const varListButtonCallback = type =>
@@ -574,6 +573,7 @@ class Blocks extends React.Component {
         // fresh workspace and we don't want any changes made to another sprites
         // workspace to be 'undone' here.
         this.workspace.clearUndo();
+        this.ScratchBlocks.setDefaultStartBlock(this.workspace);
     }
     handleMonitorsUpdate(monitors) {
         // Update the checkboxes of the relevant monitors.

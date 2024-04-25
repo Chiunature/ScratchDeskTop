@@ -545,7 +545,7 @@
   "gui.device.noDevice": "无设备连接",
   "gui.device.motor": "电机",
   "gui.device.big_motor": "大电机",
-  "gui.device.small_motor": "小电机",
+  "gui.device.small_motor": "中电机",
   "gui.device.rotationDirection": "旋转方向",
   "gui.device.actualSpeed": "实际速度",
   "gui.device.targetSpeed": "目标速度",

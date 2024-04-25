@@ -28166,7 +28166,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
     "RATE_MOTOR": "%1 电机%2 速度",
     "MOTOR_SETSTILL": "%1 将 %2 保持系数设定为 P %3 I %4 D %5",
     "BIG_MOTOR": "大电机",
-    "SMALL_MOTOR": "小电机",
+    "SMALL_MOTOR": "中电机",
     "RETARDATION": "制动",
     "STILL": "保持位置不动",
     "FLOAT": "惯性滑行(float)",

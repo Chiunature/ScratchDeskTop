@@ -239,13 +239,13 @@ class GUI extends React.Component {
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
-        sessionStorage.setItem('isFirewareUpdate', 'done');
+        setTimeout(() => sessionStorage.setItem('isFirewareUpdate', 'done'), 1000);
     }
 
     //开启监听
     watchDevice() {
-        const deviceIdList = Object.keys(instructions.device);
-        const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
+        // const deviceIdList = Object.keys(instructions.device);
+        // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         const firewareVersion = window.myAPI.getVersion();
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
@@ -260,7 +260,7 @@ class GUI extends React.Component {
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 this.getFirewareVersion(firewareVersion);
-                this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
+                // this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
             }
         });
     }
@@ -295,9 +295,7 @@ class GUI extends React.Component {
         if (res === 0) {
             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         }
-        setTimeout(() => {
-            sessionStorage.setItem('isSensingUpdate', 'done');
-        }, 1000);
+        setTimeout(() => sessionStorage.setItem('isSensingUpdate', 'done'), 1000);
     }
 
     async checkDriver() {

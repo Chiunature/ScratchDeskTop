@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './device.css';
 import colorSensingIcon from 'scratch-blocks/media/color_sensing.svg';
 import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';
+import smallMotorSensingIcon from 'scratch-blocks/media/small_motor_sensing.svg';
 import superSoundIcon from 'scratch-blocks/media/super_sound.svg';
 import touchPressIcon from 'scratch-blocks/media/touch_press.svg';
 
@@ -38,8 +39,9 @@ const DeviceSensing = ({ deviceObj }) => {
         switch (num) {
             case 1:
             case 5:
-            case 6:
                 return motorSensingIcon;
+            case 6:
+                return smallMotorSensingIcon;
             case 2:
                 return colorSensingIcon;
             case 3:

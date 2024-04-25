@@ -899,7 +899,7 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   this.item_.appendChild(this.label_);
   this.parentHtml_.appendChild(this.item_);
   Blockly.bindEvent_(
-      this.item_, 'mouseup', toolbox, toolbox.setSelectedItemFactory(this));
+      this.item_, 'mouseover', toolbox, toolbox.setSelectedItemFactory(this));
 };
 
 /**

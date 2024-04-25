@@ -462,7 +462,7 @@ class MenuBar extends React.Component {
 
     setPortItem(port, type, name) {
         this.props.onSetPort(port);
-        this.props.onGetSerialList(port);
+        this.props.onGetSerialList([port]);
         this.props.onSetIsConnectedSerial(true);
         this.props.onSetDeviceType(type);
         this.props.onSetConnectionModalPeripheralName(name);

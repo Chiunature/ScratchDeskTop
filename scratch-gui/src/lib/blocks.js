@@ -366,6 +366,6 @@ export default function (vm) {
     ScratchBlocks.utils.is3dSupported = function () {
         return true;
     };
-
+    ScratchBlocks.setDefaultStartBlock = (workspace) => ScratchBlocks.Procedures.setDefaultStartBlock_(workspace)();
     return ScratchBlocks;
 }

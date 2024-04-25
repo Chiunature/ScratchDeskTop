@@ -216,7 +216,11 @@ Blockly.FieldCombinedMotor.prototype.checkType = function (type) {
     img.setAttribute('class', 'lls-dsm-icon');
     switch (type) {
         case 'motor':
+        case 'big_motor':
             img.src = str + Blockly.FieldMotor.motor_svg;
+            break;
+        case 'small_motor':
+            img.src = str + Blockly.FieldMotor.small_motor_svg;
             break;
         case 'color':
             img.src = str + Blockly.FieldMotor.color_sensing_svg;

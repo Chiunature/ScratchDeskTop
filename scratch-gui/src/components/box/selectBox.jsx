@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 import styles from './box.css';
 import matrix from "../../config/json/matrix.json";
@@ -17,10 +17,33 @@ const SelectBoxCom = (props) => {
         handleCompile
     } = props;
     const [arr, setArr] = useState(Object.keys(matrix));
+    let [timer, setTimer] = useState(null);
     let refUl = useRef();
+    let refBox = useRef();
+
+    useEffect(() => {
+        document.addEventListener('wheel', handleWheel)
+        return () => {
+            document.removeEventListener('wheel', handleWheel);
+        }
+    });
+
+    function handleWheel(e) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            if (refBox.current.contains(e.target)) {
+                if (e.deltaY < 0) {
+                    handleRight(refUl);
+                } else {
+                    handleLeft(refUl);
+                }
+            }
+        }, 100);
+        setTimer(timer);
+    }
 
     return (
-        <div className={classNames(styles.selectBox, flag ? styles.selectShow : '')}>
+        <div className={classNames(styles.selectBox, flag ? styles.selectShow : '')} ref={refBox}>
             <div className={styles.selectModal}>
                 <div className={styles.selectModalContent}>
                     <div className={styles.downloadUi}>
