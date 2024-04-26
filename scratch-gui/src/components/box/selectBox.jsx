@@ -33,9 +33,9 @@ const SelectBoxCom = (props) => {
         timer = setTimeout(() => {
             if (refBox.current.contains(e.target)) {
                 if (e.deltaY < 0) {
-                    handleRight(refUl);
-                } else {
                     handleLeft(refUl);
+                } else {
+                    handleRight(refUl);
                 }
             }
         }, 100);
