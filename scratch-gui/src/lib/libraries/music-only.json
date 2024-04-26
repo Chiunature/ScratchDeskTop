@@ -1,0 +1,1043 @@
+[
+    {
+        "_md5": "c04ebf21e5e19342fa1535e4efcdb43b.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "c04ebf21e5e19342fa1535e4efcdb43b",
+        "dataFormat": "",
+        "sampleCount": 56320,
+        "rate": 44100
+    },
+    {
+        "_md5": "5cb46ddd903fc2c9976ff881df9273c9.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "5cb46ddd903fc2c9976ff881df9273c9",
+        "dataFormat": "",
+        "sampleCount": 11840,
+        "rate": 44100
+    },
+    {
+        "_md5": "fa5f7fea601e9368dd68449d9a54c995.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "fa5f7fea601e9368dd68449d9a54c995",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "ee753e87d212d4b2fb650ca660f1e839.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "ee753e87d212d4b2fb650ca660f1e839",
+        "dataFormat": "",
+        "sampleCount": 63744,
+        "rate": 44100
+    },
+    {
+        "_md5": "69d25af0fd065da39c71439174efc589.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Minor Ukulele",
+        "tags": [
+            "music",
+            "instruments",
+            "notes",
+            "chords"
+        ],
+        "assetId": "69d25af0fd065da39c71439174efc589",
+        "dataFormat": "",
+        "sampleCount": 36534,
+        "rate": 44100
+    },
+    {
+        "_md5": "0727959edb2ea0525feed9b0c816991c.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "0727959edb2ea0525feed9b0c816991c",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "420991e0d6d99292c6d736963842536a.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "420991e0d6d99292c6d736963842536a",
+        "dataFormat": "",
+        "sampleCount": 12944,
+        "rate": 44100
+    },
+    {
+        "_md5": "863ccc8ba66e6dabbce2a1261c22be0f.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "863ccc8ba66e6dabbce2a1261c22be0f",
+        "dataFormat": "adpcm",
+        "sampleCount": 17273,
+        "rate": 22050
+    },
+    {
+        "_md5": "d2dd6b4372ca17411965dc92d52b2172.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "A Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "d2dd6b4372ca17411965dc92d52b2172",
+        "dataFormat": "",
+        "sampleCount": 27822,
+        "rate": 44100
+    },
+    {
+        "_md5": "e31dcaf7bcdf58ac2a26533c48936c45.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "e31dcaf7bcdf58ac2a26533c48936c45",
+        "dataFormat": "",
+        "sampleCount": 51584,
+        "rate": 44100
+    },
+    {
+        "_md5": "5a0701d0a914223b5288300ac94e90e4.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "5a0701d0a914223b5288300ac94e90e4",
+        "dataFormat": "",
+        "sampleCount": 12416,
+        "rate": 44100
+    },
+    {
+        "_md5": "81f142d0b00189703d7fe9b1f13f6f87.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "81f142d0b00189703d7fe9b1f13f6f87",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "2ae2d67de62df8ca54d638b4ad2466c3.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "2ae2d67de62df8ca54d638b4ad2466c3",
+        "dataFormat": "",
+        "sampleCount": 59008,
+        "rate": 44100
+    },
+    {
+        "_md5": "86826c6022a46370ed1afae69f1ab1b9.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "86826c6022a46370ed1afae69f1ab1b9",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "653ebe92d491b49ad5d8101d629f567b.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "653ebe92d491b49ad5d8101d629f567b",
+        "dataFormat": "",
+        "sampleCount": 19110,
+        "rate": 44100
+    },
+    {
+        "_md5": "85b663229525b73d9f6647f78eb23e0a.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "85b663229525b73d9f6647f78eb23e0a",
+        "dataFormat": "",
+        "sampleCount": 31044,
+        "rate": 44100
+    },
+    {
+        "_md5": "cad2bc57729942ed9b605145fc9ea65d.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "B Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "cad2bc57729942ed9b605145fc9ea65d",
+        "dataFormat": "",
+        "sampleCount": 29408,
+        "rate": 44100
+    },
+    {
+        "_md5": "c3566ec797b483acde28f790994cc409.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "c3566ec797b483acde28f790994cc409",
+        "dataFormat": "",
+        "sampleCount": 89216,
+        "rate": 44100
+    },
+    {
+        "_md5": "69eee3d038ea0f1c34ec9156a789236d.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "69eee3d038ea0f1c34ec9156a789236d",
+        "dataFormat": "",
+        "sampleCount": 10432,
+        "rate": 44100
+    },
+    {
+        "_md5": "0d340de02e14bebaf8dfa0e43eb3f1f9.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "0d340de02e14bebaf8dfa0e43eb3f1f9",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "22baa07795a9a524614075cdea543793.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "22baa07795a9a524614075cdea543793",
+        "dataFormat": "",
+        "sampleCount": 89728,
+        "rate": 44100
+    },
+    {
+        "_md5": "aa2ca112507b59b5337f341aaa75fb08.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Major Ukulele",
+        "tags": [
+            "music",
+            "instruments",
+            "notes",
+            "chords"
+        ],
+        "assetId": "aa2ca112507b59b5337f341aaa75fb08",
+        "dataFormat": "",
+        "sampleCount": 36406,
+        "rate": 44100
+    },
+    {
+        "_md5": "d27ed8d953fe8f03c00f4d733d31d2cc.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "d27ed8d953fe8f03c00f4d733d31d2cc",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "4d2c939d6953b5f241a27a62cf72de64.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "4d2c939d6953b5f241a27a62cf72de64",
+        "dataFormat": "",
+        "sampleCount": 18982,
+        "rate": 44100
+    },
+    {
+        "_md5": "821b23a489201a0f21f47ba8528ba47f.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "821b23a489201a0f21f47ba8528ba47f",
+        "dataFormat": "",
+        "sampleCount": 38106,
+        "rate": 44100
+    },
+    {
+        "_md5": "8970afcdc4e47bb54959a81fe27522bd.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "8970afcdc4e47bb54959a81fe27522bd",
+        "dataFormat": "",
+        "sampleCount": 26236,
+        "rate": 44100
+    },
+    {
+        "_md5": "667d6c527b79321d398e85b526f15b99.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "667d6c527b79321d398e85b526f15b99",
+        "dataFormat": "",
+        "sampleCount": 48256,
+        "rate": 44100
+    },
+    {
+        "_md5": "56fc995b8860e713c5948ecd1c2ae572.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "56fc995b8860e713c5948ecd1c2ae572",
+        "dataFormat": "",
+        "sampleCount": 11584,
+        "rate": 44100
+    },
+    {
+        "_md5": "3a8ed3129f22cba5b0810bc030d16b5f.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "3a8ed3129f22cba5b0810bc030d16b5f",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "75d7d2c9b5d40dd4e1cb268111abf1a2.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "75d7d2c9b5d40dd4e1cb268111abf1a2",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "ea8d34b18c3d8fe328cea201666458bf.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "ea8d34b18c3d8fe328cea201666458bf",
+        "dataFormat": "adpcm",
+        "sampleCount": 8129,
+        "rate": 22050
+    },
+    {
+        "_md5": "68aec107bd3633b2ee40c532eedc3897.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "68aec107bd3633b2ee40c532eedc3897",
+        "dataFormat": "",
+        "sampleCount": 27808,
+        "rate": 44100
+    },
+    {
+        "_md5": "df08249ed5446cc5e10b7ac62faac89b.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "C2 Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "df08249ed5446cc5e10b7ac62faac89b",
+        "dataFormat": "",
+        "sampleCount": 31698,
+        "rate": 44100
+    },
+    {
+        "_md5": "5a3ae8a2665f50fdc38cc301fbac79ba.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "5a3ae8a2665f50fdc38cc301fbac79ba",
+        "dataFormat": "",
+        "sampleCount": 80384,
+        "rate": 44100
+    },
+    {
+        "_md5": "67a6d1aa68233a2fa641aee88c7f051f.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "67a6d1aa68233a2fa641aee88c7f051f",
+        "dataFormat": "",
+        "sampleCount": 11136,
+        "rate": 44100
+    },
+    {
+        "_md5": "1b5de9866801eb2f9d4f57c7c3b473f5.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "1b5de9866801eb2f9d4f57c7c3b473f5",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "2dbcfae6a55738f94bbb40aa5fcbf7ce.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "2dbcfae6a55738f94bbb40aa5fcbf7ce",
+        "dataFormat": "",
+        "sampleCount": 82240,
+        "rate": 44100
+    },
+    {
+        "_md5": "51381ac422605ee8c7d64cfcbfd75efc.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "51381ac422605ee8c7d64cfcbfd75efc",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "39f41954a73c0e15d842061e1a4c5e1d.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "39f41954a73c0e15d842061e1a4c5e1d",
+        "dataFormat": "",
+        "sampleCount": 19110,
+        "rate": 44100
+    },
+    {
+        "_md5": "f3afca380ba74372d611d3f518c2f35b.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "f3afca380ba74372d611d3f518c2f35b",
+        "dataFormat": "",
+        "sampleCount": 34678,
+        "rate": 44100
+    },
+    {
+        "_md5": "0b1345b8fe2ba3076fedb4f3ae48748a.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "D Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "0b1345b8fe2ba3076fedb4f3ae48748a",
+        "dataFormat": "",
+        "sampleCount": 25404,
+        "rate": 44100
+    },
+    {
+        "_md5": "0657e39bae81a232b01a18f727d3b891.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "0657e39bae81a232b01a18f727d3b891",
+        "dataFormat": "",
+        "sampleCount": 72320,
+        "rate": 44100
+    },
+    {
+        "_md5": "0704b8ceabe54f1dcedda8c98f1119fd.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "0704b8ceabe54f1dcedda8c98f1119fd",
+        "dataFormat": "",
+        "sampleCount": 11382,
+        "rate": 44100
+    },
+    {
+        "_md5": "2e6a6ae3e0f72bf78c74def8130f459a.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "2e6a6ae3e0f72bf78c74def8130f459a",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "4b5d1da83e59bf35578324573c991666.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "4b5d1da83e59bf35578324573c991666",
+        "dataFormat": "",
+        "sampleCount": 76800,
+        "rate": 44100
+    },
+    {
+        "_md5": "c818fdfaf8a0efcb562e24e794700a57.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "c818fdfaf8a0efcb562e24e794700a57",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "3568b7dfe173fab6877a9ff1dcbcf1aa.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "3568b7dfe173fab6877a9ff1dcbcf1aa",
+        "dataFormat": "",
+        "sampleCount": 14978,
+        "rate": 44100
+    },
+    {
+        "_md5": "c859fb0954acaa25c4b329df5fb76434.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "c859fb0954acaa25c4b329df5fb76434",
+        "dataFormat": "",
+        "sampleCount": 33398,
+        "rate": 44100
+    },
+    {
+        "_md5": "494295a92314cadb220945a6711c568c.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "E Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "494295a92314cadb220945a6711c568c",
+        "dataFormat": "adpcm",
+        "sampleCount": 9145,
+        "rate": 22050
+    },
+    {
+        "_md5": "8fe470b5f2fb58364b153fe647adcbbf.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Elec Piano A Minor",
+        "tags": [
+            "music",
+            "notes",
+            "instruments"
+        ],
+        "assetId": "8fe470b5f2fb58364b153fe647adcbbf",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "228429930dfc60f48d75ce8e14291416.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Elec Piano C Major",
+        "tags": [
+            "music",
+            "notes",
+            "instruments"
+        ],
+        "assetId": "228429930dfc60f48d75ce8e14291416",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "740098316ed06d9a64c14b93f65c5da5.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Elec Piano F Major",
+        "tags": [
+            "music",
+            "notes",
+            "instruments"
+        ],
+        "assetId": "740098316ed06d9a64c14b93f65c5da5",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "5a5f5de80bcdf782250e889747b374bd.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Elec Piano G Major",
+        "tags": [
+            "music",
+            "notes",
+            "instruments"
+        ],
+        "assetId": "5a5f5de80bcdf782250e889747b374bd",
+        "dataFormat": "",
+        "sampleCount": 87816,
+        "rate": 44100
+    },
+    {
+        "_md5": "7b4822ccca655db47de0880bab0e7bd9.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Elec Piano Loop",
+        "tags": [
+            "music",
+            "notes",
+            "instruments",
+            "loops"
+        ],
+        "assetId": "7b4822ccca655db47de0880bab0e7bd9",
+        "dataFormat": "",
+        "sampleCount": 87688,
+        "rate": 44100
+    },
+    {
+        "_md5": "ea21bdae86f70d60b28f1dddcf50d104.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "ea21bdae86f70d60b28f1dddcf50d104",
+        "dataFormat": "",
+        "sampleCount": 68736,
+        "rate": 44100
+    },
+    {
+        "_md5": "45eedb4ce62a9cbbd2207824b94a4641.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "45eedb4ce62a9cbbd2207824b94a4641",
+        "dataFormat": "",
+        "sampleCount": 10624,
+        "rate": 44100
+    },
+    {
+        "_md5": "5eb00f15f21f734986aa45156d44478d.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "5eb00f15f21f734986aa45156d44478d",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "b51d086aeb1921ec405561df52ecbc50.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "b51d086aeb1921ec405561df52ecbc50",
+        "dataFormat": "",
+        "sampleCount": 72832,
+        "rate": 44100
+    },
+    {
+        "_md5": "cd0ab5d1b0120c6ed92a1654ccf81376.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Major Ukulele",
+        "tags": [
+            "music",
+            "instruments",
+            "notes",
+            "chords"
+        ],
+        "assetId": "cd0ab5d1b0120c6ed92a1654ccf81376",
+        "dataFormat": "",
+        "sampleCount": 36470,
+        "rate": 44100
+    },
+    {
+        "_md5": "cdab3cce84f74ecf53e3941c6a003b5e.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "cdab3cce84f74ecf53e3941c6a003b5e",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "2ae3083817bcd595e26ea2884b6684d5.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "2ae3083817bcd595e26ea2884b6684d5",
+        "dataFormat": "adpcm",
+        "sampleCount": 8129,
+        "rate": 22050
+    },
+    {
+        "_md5": "d6758470457aac2aa712717a676a5163.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "d6758470457aac2aa712717a676a5163",
+        "dataFormat": "",
+        "sampleCount": 38746,
+        "rate": 44100
+    },
+    {
+        "_md5": "5fa3108b119ca266029b4caa340a7cd0.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "F Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "5fa3108b119ca266029b4caa340a7cd0",
+        "dataFormat": "",
+        "sampleCount": 25532,
+        "rate": 44100
+    },
+    {
+        "_md5": "05c192194e8f1944514dce3833e33439.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "05c192194e8f1944514dce3833e33439",
+        "dataFormat": "",
+        "sampleCount": 61952,
+        "rate": 44100
+    },
+    {
+        "_md5": "97b187d72219b994a6ef6a5a6b09605c.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Elec Bass",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "97b187d72219b994a6ef6a5a6b09605c",
+        "dataFormat": "",
+        "sampleCount": 11136,
+        "rate": 44100
+    },
+    {
+        "_md5": "cd0d0e7dad415b2ffa2ba7a61860eaf8.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Elec Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "cd0d0e7dad415b2ffa2ba7a61860eaf8",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "98a835713ecea2f3ef9f4f442d52ad20.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Guitar",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "98a835713ecea2f3ef9f4f442d52ad20",
+        "dataFormat": "",
+        "sampleCount": 67200,
+        "rate": 44100
+    },
+    {
+        "_md5": "42bb2ed28e7023e111b33220e1594a6f.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Piano",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "42bb2ed28e7023e111b33220e1594a6f",
+        "dataFormat": "",
+        "sampleCount": 88200,
+        "rate": 44100
+    },
+    {
+        "_md5": "cefba5de46adfe5702485e0934bb1e13.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Sax",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "cefba5de46adfe5702485e0934bb1e13",
+        "dataFormat": "adpcm",
+        "sampleCount": 8129,
+        "rate": 22050
+    },
+    {
+        "_md5": "9436fd7a0eacb4a6067e7db14236dde1.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Trombone",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "9436fd7a0eacb4a6067e7db14236dde1",
+        "dataFormat": "",
+        "sampleCount": 34358,
+        "rate": 44100
+    },
+    {
+        "_md5": "e84afda25975f14b364118591538ccf4.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Trumpet",
+        "tags": [
+            "music",
+            "instruments",
+            "notes"
+        ],
+        "assetId": "e84afda25975f14b364118591538ccf4",
+        "dataFormat": "",
+        "sampleCount": 29280,
+        "rate": 44100
+    },
+    {
+        "_md5": "d20218f92ee606277658959005538e2d.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "G Ukulele",
+        "tags": [
+            "music",
+            "instruments",
+            "notes",
+            "chords"
+        ],
+        "assetId": "d20218f92ee606277658959005538e2d",
+        "dataFormat": "",
+        "sampleCount": 36470,
+        "rate": 44100
+    },
+    {
+        "_md5": "851c9e2c38e5e71922231a8f64c37e70.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Trumpet1",
+        "tags": [
+            "notes",
+            "music",
+            "instruments"
+        ],
+        "assetId": "851c9e2c38e5e71922231a8f64c37e70",
+        "dataFormat": "",
+        "sampleCount": 103200,
+        "rate": 44100
+    },
+    {
+        "_md5": "dd73f891deca0241b800ed203408b6f3.wav",
+        "rawURL": "../static/assets/7bd7487b704797cb5ab3cb441486ea70.svg",
+        "name": "Trumpet2",
+        "tags": [
+            "notes",
+            "music",
+            "instruments"
+        ],
+        "assetId": "dd73f891deca0241b800ed203408b6f3",
+        "dataFormat": "",
+        "sampleCount": 93696,
+        "rate": 44100
+    }
+]

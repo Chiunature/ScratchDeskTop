@@ -17,7 +17,7 @@ import RecordModal from './record-modal.jsx';
 import SoundEditor from './sound-editor.jsx';
 import SoundLibrary from './sound-library.jsx';
 
-import soundLibraryContent from '../lib/libraries/sounds.json';
+import soundLibraryContent from '../lib/libraries/music-only.json';
 import {handleFileUpload, soundUpload} from '../lib/file-uploader.js';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import DragConstants from '../lib/drag-constants';

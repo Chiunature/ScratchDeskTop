@@ -573,7 +573,8 @@ class Blocks extends React.Component {
         // fresh workspace and we don't want any changes made to another sprites
         // workspace to be 'undone' here.
         this.workspace.clearUndo();
-        this.ScratchBlocks.setDefaultStartBlock(this.workspace);
+        if (!sessionStorage.getItem('setDefaultStartBlock')) this.ScratchBlocks.setDefaultStartBlock(this.workspace);
+        sessionStorage.setItem('setDefaultStartBlock', 'setDefaultStartBlock');
     }
     handleMonitorsUpdate(monitors) {
         // Update the checkboxes of the relevant monitors.
