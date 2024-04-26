@@ -115,6 +115,7 @@ class Serialport extends Common {
      */
     getBinOrHareWare(eventName) {
         this.ipcMain(eventName, (event, data) => {
+            this.clearCache();
             if (typeof data.subFileIndex === 'number') {
                 this.subFileIndex = data.subFileIndex;
             }

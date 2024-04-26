@@ -162,10 +162,10 @@ class GUI extends React.Component {
         }
     }
 
-    getFirewareVersion(firewareVersion) {
-        this.props.onSetVersion(firewareVersion);
+    getFirewareVersion(firewareVersion, ver) {
+        if(this.props.version != ver) this.props.onSetVersion(ver);
         const status = sessionStorage.getItem('isFirewareUpdate');
-        const isNew = firewareVersion == this.props.deviceObj.versionlist.ver;
+        const isNew = ver > 0 && ver == firewareVersion;
         if (isNew || status === 'updating') return;
         sessionStorage.setItem('isFirewareUpdate', 'updating');
         if (!isNew) this.checkUpdateFireware(firewareVersion);
@@ -244,8 +244,8 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice() {
-        // const deviceIdList = Object.keys(instructions.device);
-        // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
+        const deviceIdList = Object.keys(instructions.device);
+        const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         const firewareVersion = window.myAPI.getVersion();
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
@@ -259,8 +259,8 @@ class GUI extends React.Component {
                 }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
-                this.getFirewareVersion(firewareVersion);
-                // this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
+                this.getFirewareVersion(firewareVersion, result.versionlist.ver);
+                this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
             }
         });
     }
