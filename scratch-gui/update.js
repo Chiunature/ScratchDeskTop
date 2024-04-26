@@ -35,7 +35,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
     //有新版本时
     autoUpdater.on('update-available', (_info) => {
       updateDownloading = true;
-      dialog.showMessageBox({
+      /* dialog.showMessageBox({
         type: 'info',
         title: mainMsg['updateApp'],
         message: mainMsg['discoverUpdate'],
@@ -46,7 +46,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
           //开始下载更新
           autoUpdater.downloadUpdate();
         }
-      });
+      }); */
     });
     //没有新版本时
     autoUpdater.on("update-not-available", () => {
