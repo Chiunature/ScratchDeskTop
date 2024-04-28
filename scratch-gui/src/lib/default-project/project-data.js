@@ -53,13 +53,13 @@ const projectData = translateFunction => {
                 ],
                 sounds: [
                     {
-                        assetId: 'c04ebf21e5e19342fa1535e4efcdb43b',
-                        name: "A Bass",
+                        assetId: '0727959edb2ea0525feed9b0c816991c',
+                        name: "A Piano",
                         dataFormat: 'wav',
                         format: '',
                         rate: 44100,
                         sampleCount: 56320,
-                        md5ext: 'c04ebf21e5e19342fa1535e4efcdb43b.wav'
+                        md5ext: '0727959edb2ea0525feed9b0c816991c.wav'
                     }
                 ],
                 volume: 100
@@ -94,13 +94,13 @@ const projectData = translateFunction => {
                 ],
                 sounds: [
                     {
-                        assetId: 'c04ebf21e5e19342fa1535e4efcdb43b',
-                        name: "A Bass",
+                        assetId: '0727959edb2ea0525feed9b0c816991c',
+                        name: "A Piano",
                         dataFormat: 'wav',
                         format: '',
                         rate: 44100,
                         sampleCount: 56320,
-                        md5ext: 'c04ebf21e5e19342fa1535e4efcdb43b.wav'
+                        md5ext: '0727959edb2ea0525feed9b0c816991c.wav'
                     }
                 ],
                 volume: 100,
