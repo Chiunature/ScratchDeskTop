@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Püsivara on juba uusim versioon, kas soovite seda uuesti värskendada?",
     "gui.main.updateFireware": "Tuvastati, et püsivara versioon ei ole uusim. Kas soovite seda värskendada?",
     "gui.main.sensingUpdate": "Tuvastati, et välisseadmete versioon ei ole uusim ja vajab värskendamist",
+    "gui.main.sensingUpdating": "Tuvastati, et andur vajab värskendamist ja seda värskendatakse automaatselt. Pöörake tähelepanu seadme olekule",
     "gui.main.delete": "Kas soovite selle kirje kustutada?",
     "gui.main.reinstallDriver": "Kas soovite kindlasti draiveri uuesti installida?",
     "gui.main.installDriver": "Tuvastati, et teie arvutisse pole installitud vajalikku draiverit. Kas soovite selle installida?",

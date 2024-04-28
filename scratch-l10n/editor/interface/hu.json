@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "A firmware már a legújabb verzió, szeretné újra frissíteni?",
     "gui.main.updateFireware": "Azt észleltük, hogy a firmware verziója nem a legújabb. Szeretné frissíteni?",
     "gui.main.sensingUpdate": "Azt észleltük, hogy a periféria verziója nem a legújabb, ezért frissítésre szorul",
+    "gui.main.sensingUpdating": "Azt észleltük, hogy az érzékelőt frissíteni kell, és ez automatikusan frissül. Kérjük, figyeljen az eszköz állapotára",
     "gui.main.delete": "Törölni szeretné ezt a rekordot?",
     "gui.main.reinstallDriver": "Biztosan újra akarja telepíteni az illesztőprogramot?",
     "gui.main.installDriver": "A rendszer azt észlelte, hogy a számítógépen nincs telepítve a szükséges illesztőprogram. Szeretné telepíteni?",

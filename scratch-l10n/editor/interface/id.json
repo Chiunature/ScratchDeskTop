@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware sudah versi terbaru, apakah Anda ingin mengupdatenya lagi?",
     "gui.main.updateFireware": "Terdeteksi bahwa versi firmware bukan yang terbaru. Apakah Anda ingin memperbaruinya?",
     "gui.main.sensingUpdate": "Terdeteksi bahwa versi periferal bukan yang terbaru dan perlu diperbarui",
+    "gui.main.sensingUpdating": "Telah terdeteksi bahwa sensor perlu diperbarui dan diperbarui secara otomatis. Harap perhatikan status perangkat",
     "gui.main.delete": "Apakah Anda ingin menghapus catatan ini?",
     "gui.main.reinstallDriver": "Apakah Anda yakin ingin menginstal ulang driver?",
     "gui.main.installDriver": "Terdeteksi bahwa komputer Anda tidak menginstal driver yang diperlukan. Apakah Anda ingin menginstalnya?",

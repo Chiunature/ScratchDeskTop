@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware zaten en son sürüm, tekrar güncellemek ister misiniz?",
     "gui.main.updateFireware": "Firmware sürümünün en son sürüm olmadığı algılandı. Güncellemek istiyor musunuz?",
     "gui.main.sensingUpdate": "Çevresel sürümün en son sürüm olmadığı ve güncellenmesi gerektiği algılandı",
+    "gui.main.sensingUpdating": "Sensörün güncellenmesi gerektiği ve otomatik olarak güncellendiği algılandı. Lütfen cihaz durumuna dikkat edin",
     "gui.main.delete": "Bu kaydı silmek istiyor musunuz?",
     "gui.main.reinstallDriver": "Sürücüyü yeniden yüklemek istediğinizden emin misiniz?",
     "gui.main.installDriver": "Bilgisayarınızda gerekli sürücünün yüklü olmadığı algılandı. Yüklemek istiyor musunuz?",

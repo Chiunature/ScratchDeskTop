@@ -551,6 +551,7 @@
     "gui.main.reupdateFireware": "Firmwareqa qhipa kaq layañam, ¿hukmanta musuqyachiyta munankichu?",
     "gui.main.updateFireware": "Firmware kaqpa laya mana qhipa kaqchu tarisqa. ¿Munawaqchu musuqyachiyta?",
     "gui.main.sensingUpdate": "Tarikunmi periférico nisqa laya mana qhipa kaqchu, musuqchasqa kananmi",
+    "gui.main.sensingUpdating": "Qhawasqañam chay sensor musuqyachisqa kananta hinaspa kikillanmanta musuqyachisqa kachkan. Ama hina kaspa, dispositivopa kayninta qaway",
     "gui.main.delete": "¿Kay qillqasqata qulluyta munankichu?",
     "gui.main.reinstallDriver": "¿Segurochu kanki controladorta wakmanta churayta munanki?",
     "gui.main.installDriver": "Computadoraykipi mana necesario controlador churasqachu kasqan tarisqa. ¿Instalayta munankichu?",

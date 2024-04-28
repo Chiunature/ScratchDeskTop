@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "firmware አስቀድሞ የቅርብ ጊዜ ስሪት ነው፣ እንደገና ማዘመን ይፈልጋሉ?",
     "gui.main.updateFireware": "የጽኑ ትዕዛዝ ስሪት የቅርብ ጊዜ እንዳልሆነ ታወቀ። ማዘመን ትፈልጋለህ?",
     "gui.main.sensingUpdate": "የዳርቻው እትም የቅርብ ጊዜ እንዳልሆነ እና መዘመን እንዳለበት ታውቋል",
+    "gui.main.sensingUpdating": "አነፍናፊው መዘመን እንደሚያስፈልገው እና ​​በራስ-ሰር መዘመን እንዳለበት ታውቋል:: እባክዎ ለመሳሪያው ሁኔታ ትኩረት ይስጡ",
     "gui.main.delete": "ይህን መዝገብ መሰረዝ ትፈልጋለህ?",
     "gui.main.reinstallDriver": "እርግጠኛ ነዎት ነጂውን እንደገና መጫን ይፈልጋሉ?",
     "gui.main.installDriver": "የእርስዎ ኮምፒውተር አስፈላጊው ሾፌር እንዳልተጫነ ታወቀ። መጫን ይፈልጋሉ?",

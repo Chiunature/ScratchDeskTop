@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware jixwe guhertoya herî dawî ye, tu dixwazî ​​wê dîsa nûve bikî?",
     "gui.main.updateFireware": "Hat dîtin ku guhertoya firmware ne ya herî dawî ye. Ma hûn dixwazin wê nûve bikin?",
     "gui.main.sensingUpdate": "Tê dîtin ku guhertoya derdor ne ya herî dawî ye û pêdivî ye ku were nûve kirin",
+    "gui.main.sensingUpdating": "Hat dîtin ku pêdivî ye ku senzor were nûve kirin û bixweber tê nûve kirin. Ji kerema xwe bala xwe bidin rewşa cîhazê",
     "gui.main.delete": "Tu dixwazî ​​vê qeydê jê bibî?",
     "gui.main.reinstallDriver": "Tu bi rastî dixwazî ​​ajokerê ji nû ve saz bikî?",
     "gui.main.installDriver": "Hat dîtin ku ajokara pêwîst a komputera te tune ye. Ma tu dixwazî ​​wê saz bikî?",

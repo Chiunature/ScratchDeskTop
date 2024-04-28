@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Den fasta programvaran är redan den senaste versionen, vill du uppdatera den igen?",
     "gui.main.updateFireware": "Det har upptäckts att firmwareversionen inte är den senaste. Vill du uppdatera den?",
     "gui.main.sensingUpdate": "Det har upptäckts att den perifera versionen inte är den senaste och behöver uppdateras",
+    "gui.main.sensingUpdating": "Det har upptäckts att sensorn behöver uppdateras och uppdateras automatiskt. Var uppmärksam på enhetens status",
     "gui.main.delete": "Vill du radera denna post?",
     "gui.main.reinstallDriver": "Är du säker på att du vill installera om drivrutinen?",
     "gui.main.installDriver": "Det har upptäckts att din dator inte har den nödvändiga drivrutinen installerad. Vill du installera den?",

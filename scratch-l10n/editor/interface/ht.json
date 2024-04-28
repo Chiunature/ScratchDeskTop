@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware a deja dènye vèsyon an, èske ou vle mete l ajou ankò?",
     "gui.main.updateFireware": "Yo detekte ke vèsyon firmwèr la pa dènye a. Èske ou vle mete l ajou?",
     "gui.main.sensingUpdate": "Li detekte ke vèsyon periferik la pa dènye e li bezwen mete ajou",
+    "gui.main.sensingUpdating": "Li te detekte ke Capteur a bezwen mete ajou epi yo te mete ajou otomatikman. Tanpri peye atansyon sou estati aparèy la",
     "gui.main.delete": "Èske w vle efase dosye sa a?",
     "gui.main.reinstallDriver": "Èske w sèten ou vle re-enstale chofè a?",
     "gui.main.installDriver": "Li detekte ke òdinatè w lan pa gen chofè ki nesesè yo enstale. Èske ou vle enstale li?",

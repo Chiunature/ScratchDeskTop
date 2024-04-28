@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware je već najnovija verzija, želite li ga ponovno ažurirati?",
     "gui.main.updateFireware": "Otkriveno je da verzija firmvera nije najnovija. Želite li je ažurirati?",
     "gui.main.sensingUpdate": "Otkriveno je da periferna verzija nije najnovija i treba je ažurirati",
+    "gui.main.sensingUpdating": "Otkriveno je da senzor treba ažurirati i automatski se ažurira. Obratite pažnju na status uređaja",
     "gui.main.delete": "Želite li izbrisati ovaj zapis?",
     "gui.main.reinstallDriver": "Jeste li sigurni da želite ponovno instalirati upravljački program?",
     "gui.main.installDriver": "Otkriveno je da vaše računalo nema instaliran potreban upravljački program. Želite li ga instalirati?",

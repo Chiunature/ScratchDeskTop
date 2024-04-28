@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Programinė įranga jau yra naujausia versija, ar norite ją atnaujinti dar kartą?",
     "gui.main.updateFireware": "Nustatyta, kad programinės įrangos versija nėra naujausia. Ar norite ją atnaujinti?",
     "gui.main.sensingUpdate": "Aptikta, kad periferinė versija nėra naujausia ir ją reikia atnaujinti",
+    "gui.main.sensingUpdating": "Nustatyta, kad jutiklį reikia atnaujinti, ir jis atnaujinamas automatiškai. Atkreipkite dėmesį į įrenginio būseną",
     "gui.main.delete": "Ar norite ištrinti šį įrašą?",
     "gui.main.reinstallDriver": "Ar tikrai norite iš naujo įdiegti tvarkyklę?",
     "gui.main.installDriver": "Aptikta, kad jūsų kompiuteryje nėra įdiegta reikiama tvarkyklė. Ar norite ją įdiegti?",

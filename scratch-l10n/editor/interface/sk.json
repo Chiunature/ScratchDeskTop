@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware je již nejnovější verze, chcete ji znovu aktualizovat?",
     "gui.main.updateFireware": "Bylo zjištěno, že verze firmwaru není nejnovější. Chcete ji aktualizovat?",
     "gui.main.sensingUpdate": "Bylo zjištěno, že verze periferie není nejnovější a je třeba ji aktualizovat",
+    "gui.main.sensingUpdating": "Bylo zjištěno, že senzor je třeba aktualizovat a probíhá aktualizace automaticky. Věnujte prosím pozornost stavu zařízení",
     "gui.main.delete": "Chcete smazat tento záznam?",
     "gui.main.reinstallDriver": "Opravdu chcete přeinstalovat ovladač?",
     "gui.main.installDriver": "Bylo zjištěno, že váš počítač nemá nainstalovaný potřebný ovladač. Chcete jej nainstalovat?",

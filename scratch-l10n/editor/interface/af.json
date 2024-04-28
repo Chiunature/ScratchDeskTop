@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Die firmware is reeds die nuutste weergawe, wil jy dit weer opdateer?",
     "gui.main.updateFireware": "Daar is bespeur dat die firmwareweergawe nie die nuutste is nie. Wil jy dit opdateer?",
     "gui.main.sensingUpdate": "Daar word bespeur dat die perifere weergawe nie die nuutste is nie en opgedateer moet word",
+    "gui.main.sensingUpdating": "Daar is bespeur dat die sensor opgedateer moet word en word outomaties opgedateer. Let asseblief op die toestelstatus",
     "gui.main.delete": "Wil jy hierdie rekord uitvee?",
     "gui.main.reinstallDriver": "Is jy seker jy wil die drywer herinstalleer?",
     "gui.main.installDriver": "Daar word bespeur dat jou rekenaar nie die nodige drywer geïnstalleer het nie. Wil jy dit installeer?",

@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware-ul este deja cea mai recentă versiune, vrei să-l actualizezi din nou?",
     "gui.main.updateFireware": "S-a detectat că versiunea de firmware nu este cea mai recentă. Doriți să o actualizați?",
     "gui.main.sensingUpdate": "Se detectează că versiunea periferică nu este cea mai recentă și trebuie actualizată",
+    "gui.main.sensingUpdating": "S-a detectat că senzorul trebuie actualizat și este actualizat automat. Vă rugăm să acordați atenție stării dispozitivului",
     "gui.main.delete": "Doriți să ștergeți această înregistrare?",
     "gui.main.reinstallDriver": "Sunteți sigur că doriți să reinstalați driverul?",
     "gui.main.installDriver": "S-a detectat că computerul dvs. nu are driverul necesar instalat. Doriți să îl instalați?",

@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "I-firmware isivele iyinguqulo yakamuva, uyafuna ukuyibuyekeza futhi?",
     "gui.main.updateFireware": "Kutholakele ukuthi inguqulo ye-firmware akuyona eyakamuva. Uyafuna ukuyibuyekeza?",
     "gui.main.sensingUpdate": "Kutholakele ukuthi inguqulo yeperipheral akuyona eyakamuva futhi idinga ukubuyekezwa",
+    "gui.main.sensingUpdating": "Kutholakele ukuthi inzwa idinga ukubuyekezwa futhi ibuyekezwa ngokuzenzakalelayo. Sicela unake isimo sedivayisi",
     "gui.main.delete": "Ingabe uyafuna ukususa leli rekhodi?",
     "gui.main.reinstallDriver": "Uqinisekile ukuthi ufuna ukuphinda ufake umshayeli?",
     "gui.main.installDriver": "Kutholakele ukuthi ikhompuyutha yakho ayinawo umshayeli odingekayo. Uyafuna ukuyifaka?",

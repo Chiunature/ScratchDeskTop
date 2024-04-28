@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "De firmware is al de lêste ferzje, wolle jo dizze nochris bywurkje?",
     "gui.main.updateFireware": "It is ûntdutsen dat de firmwareferzje net de lêste is. Wolle jo it bywurkje?",
     "gui.main.sensingUpdate": "It wurdt ûntdutsen dat de perifeare ferzje net de lêste is en bywurke moat wurde",
+    "gui.main.sensingUpdating": "It is ûntdutsen dat de sensor bywurke wurde moat en wurdt automatysk bywurke. Let op de apparaatstatus",
     "gui.main.delete": "Wolle jo dit record wiskje?",
     "gui.main.reinstallDriver": "Binne jo wis dat jo it stjoerprogramma opnij ynstallearje wolle?",
     "gui.main.installDriver": "It wurdt ûntdutsen dat jo kompjûter de nedige stjoerprogramma net ynstallearre hat. Wolle jo it ynstallearje?",

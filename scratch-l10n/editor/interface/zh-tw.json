@@ -565,6 +565,7 @@
     "gui.main.reupdateFireware": "韌體已是最新版本, 是否要重新更新?",
     "gui.main.updateFireware": "偵測到韌體版本不是最新, 是否前去更新?",
     "gui.main.sensingUpdate": "偵測到週邊版本不是最新, 需要更新",
+    "gui.main.sensingUpdating": "檢測到感測器需要更新，正在自動更新中，請留意設備狀態",
     "gui.main.delete": "是否要刪除此記錄?",
     "gui.main.reinstallDriver": "確定要重新安裝驅動程式嗎?",
     "gui.main.installDriver": "檢查到你的電腦未安裝必要驅動，是否前去安裝?",

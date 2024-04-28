@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": " Is é an firmware an leagan is déanaí cheana féin, ar mhaith leat é a nuashonrú arís?",
     "gui.main.updateFireware": " Tá sé tugtha faoi deara nach é an leagan firmware an leagan is déanaí. An bhfuil fonn ort é a nuashonrú?",
     "gui.main.sensingUpdate": "Braitheadh ​​nach é an leagan forimeallach an leagan is déanaí agus is gá é a nuashonrú",
+    "gui.main.sensingUpdating " : "Braitheadh ​​gur gá an braiteoir a nuashonrú agus go bhfuil sé á nuashonrú go huathoibríoch. Tabhair aird ar stádas an ghléis",
     "gui.main.delete": "An bhfuil fonn ort an taifead seo a scriosadh?",
     "gui.main.reinstallDriver": " An bhfuil tú cinnte go dteastaíonn uait an tiománaí a athshuiteáil?",
     "gui.main.installDriver": " Braitheadh ​​nach bhfuil an tiománaí riachtanach suiteáilte ar do ríomhaire. Ar mhaith leat é a shuiteáil?",

@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Proshivka allaqachon eng so'nggi versiya, uni yana yangilashni xohlaysizmi?",
     "gui.main.updateFireware": "Proshivka versiyasi eng so'nggi emasligi aniqlandi. Uni yangilashni xohlaysizmi?",
     "gui.main.sensingUpdate": "Perferik versiya eng so'nggi emasligi va yangilanishi kerakligi aniqlandi",
+    "gui.main.sensingUpdating": "Sensor yangilanishi kerakligi aniqlandi va u avtomatik ravishda yangilanmoqda. Iltimos, qurilma holatiga e'tibor bering",
     "gui.main.delete": "Ushbu yozuvni o'chirib tashlamoqchimisiz?",
     "gui.main.reinstallDriver": "Haqiqatan ham drayverni qayta o'rnatmoqchimisiz?",
     "gui.main.installDriver": "Kompyuteringizda kerakli drayver o'rnatilmaganligi aniqlandi. Uni o'rnatmoqchimisiz?",

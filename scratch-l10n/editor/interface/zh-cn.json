@@ -575,6 +575,7 @@
   "gui.main.reupdateFireware": "固件已是最新版本, 是否要重新更新?",
   "gui.main.updateFireware": "检测到固件版本不是最新, 是否前去更新?",
   "gui.main.sensingUpdate": "检测到外设版本不是最新, 需要更新",
+  "gui.main.sensingUpdating": "检测到传感器需要更新，正在自动更新中，请留意设备状态",
   "gui.main.delete": "是否要删除此记录?",
   "gui.main.reinstallDriver": "确定要重新安装驱动吗?",
   "gui.main.installDriver": "检查到你的电脑未安装必要驱动，是否前去安装?",

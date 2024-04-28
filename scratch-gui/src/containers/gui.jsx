@@ -23,7 +23,7 @@ import {
     openExtensionLibrary,
     openConnectionModal,
 } from "../reducers/modals";
-
+import throttle from 'lodash.throttle';
 import FontLoaderHOC from "../lib/font-loader-hoc.jsx";
 import LocalizationHOC from "../lib/localization-hoc.jsx";
 import SBFileUploaderHOC from "../lib/sb-file-uploader-hoc.jsx";
@@ -163,7 +163,7 @@ class GUI extends React.Component {
     }
 
     getFirewareVersion(firewareVersion, ver) {
-        if(this.props.version != ver) this.props.onSetVersion(ver);
+        if (this.props.version != ver) this.props.onSetVersion(ver);
         const status = sessionStorage.getItem('isFirewareUpdate');
         const isNew = ver > 0 && ver == firewareVersion;
         if (isNew || status === 'updating') return;
@@ -239,7 +239,7 @@ class GUI extends React.Component {
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
-        setTimeout(() => sessionStorage.setItem('isFirewareUpdate', 'done'), 1000);
+        sessionStorage.setItem('isFirewareUpdate', 'done');
     }
 
     //开启监听
@@ -249,6 +249,8 @@ class GUI extends React.Component {
         const firewareVersion = window.myAPI.getVersion();
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
+        const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
+        const newCheckUpdateSensingFn = throttle(this.checkUpdateSensing.bind(this), 8000, { 'leading': true, 'trailing': false });
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -259,8 +261,8 @@ class GUI extends React.Component {
                 }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
-                this.getFirewareVersion(firewareVersion, result.versionlist.ver);
-                this.checkUpdateSensing(list, result.deviceList, result.versionlist.ver);
+                newGetFirewareVersionFn(firewareVersion, result.versionlist.ver);
+                newCheckUpdateSensingFn(list, result.deviceList, result.versionlist.ver);
             }
         });
     }
@@ -291,11 +293,9 @@ class GUI extends React.Component {
     }
 
     async updateSensing() {
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
-        if (res === 0) {
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
-        }
-        setTimeout(() => sessionStorage.setItem('isSensingUpdate', 'done'), 1000);
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
+        if (sessionStorage.getItem('isSensingUpdate') === 'updating') await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
+        sessionStorage.setItem('isSensingUpdate', 'done');
     }
 
     async checkDriver() {

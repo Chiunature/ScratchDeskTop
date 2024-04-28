@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Die Firmware ist bereits die neueste Version, möchten Sie sie erneut aktualisieren?",
     "gui.main.updateFireware": "Es wurde festgestellt, dass die Firmware-Version nicht die neueste ist. Möchten Sie sie aktualisieren?",
     "gui.main.sensingUpdate": "Es wurde festgestellt, dass die Peripherieversion nicht die neueste ist und aktualisiert werden muss",
+    "gui.main.sensingUpdating": "Es wurde erkannt, dass der Sensor aktualisiert werden muss und wird automatisch aktualisiert. Bitte achten Sie auf den Gerätestatus",
     "gui.main.delete": "Möchten Sie diesen Datensatz löschen?",
     "gui.main.reinstallDriver": "Sind Sie sicher, dass Sie den Treiber neu installieren möchten?",
     "gui.main.installDriver": "Es wurde festgestellt, dass auf Ihrem Computer nicht der erforderliche Treiber installiert ist. Möchten Sie ihn installieren?",

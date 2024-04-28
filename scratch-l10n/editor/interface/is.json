@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Vefbúnaðarinn er nú þegar nýjasta útgáfan, viltu uppfæra hann aftur?",
     "gui.main.updateFireware": "Það hefur komið í ljós að fastbúnaðarútgáfan er ekki nýjasta. Viltu uppfæra hana?",
     "gui.main.sensingUpdate": "Það er greint að jaðarútgáfan er ekki sú nýjasta og þarf að uppfæra",
+    "gui.main.sensingUpdating": "Það hefur komið í ljós að uppfæra þarf skynjarann ​​og er verið að uppfæra hann sjálfkrafa. Vinsamlegast athugaðu stöðu tækisins",
     "gui.main.delete": "Viltu eyða þessari færslu?",
     "gui.main.reinstallDriver": "Ertu viss um að þú viljir setja bílstjórinn upp aftur?",
     "gui.main.installDriver": "Það er greint að tölvan þín er ekki með nauðsynlega rekla uppsettan. Viltu setja hann upp?",

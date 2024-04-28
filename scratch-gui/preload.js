@@ -222,6 +222,27 @@ function getMediaPath() {
     return path.join(cwd(), './resources/static/blocks-media/');
 }
 
+function sleep(timeout) {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
+function throttle(fn, delay, isImmediate = true) {
+    let last = Date.now();
+    return (...args) => {
+        let now = Date.now();
+        if (isImmediate) {
+            fn.call(this, ...args);
+            isImmediate = false;
+            last = now;
+        }
+        if (now - last >= delay) {
+            fn.call(this, ...args);
+            last = now;
+        }
+    }
+}
+
+
 
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
@@ -242,5 +263,7 @@ contextBridge.exposeInMainWorld('myAPI', {
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     getDocxUrl,
     getMediaPath,
-    getVersion
+    getVersion,
+    sleep,
+    throttle
 });

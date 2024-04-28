@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "De firmware is al de nieuwste versie, wilt u deze opnieuw bijwerken?",
     "gui.main.updateFireware": "Er is gedetecteerd dat de firmwareversie niet de nieuwste is. Wilt u deze bijwerken?",
     "gui.main.sensingUpdate": "Er is gedetecteerd dat de randversie niet de nieuwste is en moet worden bijgewerkt",
+    "gui.main.sensingUpdating": "Er is gedetecteerd dat de sensor moet worden bijgewerkt en deze wordt automatisch bijgewerkt. Let op de apparaatstatus",
     "gui.main.delete": "Wilt u dit record verwijderen?",
     "gui.main.reinstallDriver": "Weet u zeker dat u het stuurprogramma opnieuw wilt installeren?",
     "gui.main.installDriver": "Er is gedetecteerd dat op uw computer niet het benodigde stuurprogramma is geïnstalleerd. Wilt u dit installeren?",

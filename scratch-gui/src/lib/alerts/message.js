@@ -32,6 +32,11 @@ const MainMessages = defineMessages({
         defaultMessage: "Detected that some firmware version is not the latest. Do you want to update it now?",
         description: "Detected that some firmware version is not the latest. Do you want to update it now?",
     },
+    "sensing_updating": {
+        id: "gui.main.sensingUpdating",
+        defaultMessage: "Detected that the sensor needs to be updated and is automatically updating. Please pay attention to the device status.",
+        description: "Detected that the sensor needs to be updated and is automatically updating. Please pay attention to the device status.",
+    },
     "delete": {
         id: "gui.main.delete",
         defaultMessage: "Do you want to delete this record?",

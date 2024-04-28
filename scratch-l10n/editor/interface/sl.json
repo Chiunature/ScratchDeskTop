@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Vdelana programska oprema je že najnovejša različica, jo želite znova posodobiti?",
     "gui.main.updateFireware": "Ugotovljeno je bilo, da različica vdelane programske opreme ni najnovejša. Ali jo želite posodobiti?",
     "gui.main.sensingUpdate": "Zaznano je, da periferna različica ni najnovejša in jo je treba posodobiti",
+    "gui.main.sensingUpdating": "Zaznano je bilo, da je treba senzor posodobiti in se samodejno posodablja. Bodite pozorni na stanje naprave",
     "gui.main.delete": "Ali želite izbrisati ta zapis?",
     "gui.main.reinstallDriver": "Ali ste prepričani, da želite znova namestiti gonilnik?",
     "gui.main.installDriver": "Zaznano je, da vaš računalnik nima nameščenega potrebnega gonilnika. Ali ga želite namestiti?",

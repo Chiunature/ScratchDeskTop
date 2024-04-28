@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Le firmware est déjà la dernière version, voulez-vous le mettre à jour à nouveau ?",
     "gui.main.updateFireware": "Il a été détecté que la version du firmware n'est pas la plus récente. Voulez-vous la mettre à jour ?",
     "gui.main.sensingUpdate": "Il est détecté que la version du périphérique n'est pas la dernière et doit être mise à jour",
+    "gui.main.sensingUpdating": "Il a été détecté que le capteur doit être mis à jour et est mis à jour automatiquement. Veuillez faire attention à l'état de l'appareil",
     "gui.main.delete": "Voulez-vous supprimer cet enregistrement ?",
     "gui.main.reinstallDriver": "Êtes-vous sûr de vouloir réinstaller le pilote ?",
     "gui.main.installDriver": "Il est détecté que le pilote nécessaire n'est pas installé sur votre ordinateur. Voulez-vous l'installer ?",

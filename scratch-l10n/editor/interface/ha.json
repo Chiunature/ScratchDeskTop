@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Fireware ya riga ya zama sabon sigar, kuna son sake sabunta shi?",
     "gui.main.updateFireware": "An gano cewa sigar firmware ba ita ce ta baya-bayan nan ba. Kuna son sabunta shi?",
     "gui.main.sensingUpdate": "An gano cewa sigar gefe ba ta baya ba ce kuma tana buƙatar sabuntawa",
+    "gui.main.sensingUpdating": "An gano cewa ana buƙatar sabunta firikwensin kuma ana sabunta shi ta atomatik. Da fatan za a kula da halin na'urar",
     "gui.main.delete": "Shin kuna son share wannan rikodin?",
     "gui.main.reinstallDriver": "Ka tabbata kana son sake shigar da direban?",
     "gui.main.installDriver": "An gano cewa kwamfutarka ba ta shigar da direban da ya dace ba. Shin kuna son saka ta?",

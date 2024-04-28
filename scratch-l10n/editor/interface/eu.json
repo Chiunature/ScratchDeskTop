@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmwarea azken bertsioa da dagoeneko, berriro eguneratu nahi duzu?",
     "gui.main.updateFireware": "Firmwarearen bertsioa azkena ez dela detektatu da. Eguneratu nahi duzu?",
     "gui.main.sensingUpdate": "Detektatu da bertsio periferikoa ez dela azkena eta eguneratu behar dela",
+    "gui.main.sensingUpdating": "Detektatu da sentsorea eguneratu behar dela eta automatikoki eguneratzen ari dela. Erreparatu gailuaren egoerari",
     "gui.main.delete": "Erregistro hau ezabatu nahi duzu?",
     "gui.main.reinstallDriver": "Ziur kontrolatzailea berriro instalatu nahi duzula?",
     "gui.main.installDriver": "Detektatu da zure ordenagailuak ez duela beharrezko kontrolatzailea instalatuta. Instalatu nahi duzu?",

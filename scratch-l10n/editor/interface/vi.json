@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Fireware đã là phiên bản mới nhất, bạn có muốn cập nhật lại không?",
     "gui.main.updateFireware": "Đã phát hiện thấy phiên bản firmware không phải là phiên bản mới nhất. Bạn có muốn cập nhật nó không?",
     "gui.main.sensingUpdate": "Đã phát hiện thấy phiên bản ngoại vi không phải là phiên bản mới nhất và cần được cập nhật",
+    "gui.main.sensingUpdating": "Đã phát hiện ra rằng cảm biến cần được cập nhật và đang được cập nhật tự động. Vui lòng chú ý đến trạng thái thiết bị",
     "gui.main.delete": "Bạn có muốn xóa bản ghi này không?",
     "gui.main.reinstallDriver": "Bạn có chắc chắn muốn cài đặt lại trình điều khiển không?",
     "gui.main.installDriver": "Phát hiện máy tính của bạn chưa cài đặt trình điều khiển cần thiết. Bạn có muốn cài đặt nó không?",

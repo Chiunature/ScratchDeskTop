@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Proqram proqramı artıq ən son versiyadır, onu yenidən yeniləmək istəyirsiniz?",
     "gui.main.updateFireware": "Firmware versiyasının ən son olmadığı aşkar edildi. Onu yeniləmək istəyirsiniz?",
     "gui.main.sensingUpdate": "Müəyyən edilib ki, periferik versiya ən son deyil və yenilənməlidir",
+    "gui.main.sensingUpdating": "Sensörün yenilənməsinə ehtiyac olduğu və avtomatik olaraq yeniləndiyi aşkar edilib. Lütfən, cihazın vəziyyətinə diqqət yetirin",
     "gui.main.delete": "Bu qeydi silmək istəyirsiniz?",
     "gui.main.reinstallDriver": "Sürücü yenidən quraşdırmaq istədiyinizə əminsinizmi?",
     "gui.main.installDriver": "Kompüterinizdə lazımi drayverin quraşdırılmadığı aşkarlandı. Onu quraşdırmaq istəyirsiniz?",

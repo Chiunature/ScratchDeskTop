@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Firmware tayari ni toleo jipya zaidi, je, ungependa kuisasisha tena?",
     "gui.main.updateFireware": "Imegunduliwa kuwa toleo la programu dhibiti sio la hivi punde. Je, ungependa kulisasisha?",
     "gui.main.sensingUpdate": "Imegunduliwa kuwa toleo la pembeni sio la hivi punde na linahitaji kusasishwa",
+    "gui.main.sensingUpdating": "Imegunduliwa kuwa kitambuzi kinahitaji kusasishwa na kinasasishwa kiotomatiki. Tafadhali zingatia hali ya kifaa",
     "gui.main.delete": "Je, unataka kufuta rekodi hii?",
     "gui.main.reinstallDriver": "Je, una uhakika unataka kusakinisha upya kiendeshi?",
     "gui.main.installDriver": "Imegunduliwa kuwa kompyuta yako haina kiendeshi muhimu kilichosakinishwa. Je, unataka kukisakinisha?",

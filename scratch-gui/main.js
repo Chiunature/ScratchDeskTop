@@ -141,7 +141,7 @@ function createWindow() {
             //更新固件提示
             _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, { message: mainMsg['update'] });
             //更新电机传感器提示
-            _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
+            _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_updating'] }, []);
             //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
         });

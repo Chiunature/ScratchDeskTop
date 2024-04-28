@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Ang firmware ay ang pinakabagong bersyon na, gusto mo ba itong i-update muli?",
     "gui.main.updateFireware": "Natukoy na ang bersyon ng firmware ay hindi ang pinakabago. Gusto mo ba itong i-update?",
     "gui.main.sensingUpdate": "Natukoy na ang peripheral na bersyon ay hindi ang pinakabago at kailangang i-update",
+    "gui.main.sensingUpdating": "Natukoy na ang sensor ay kailangang i-update at awtomatikong ina-update. Mangyaring bigyang-pansin ang katayuan ng aparato",
     "gui.main.delete": "Gusto mo bang tanggalin ang talang ito?",
     "gui.main.reinstallDriver": "Sigurado ka bang gusto mong muling i-install ang driver?",
     "gui.main.installDriver": "Natukoy na ang iyong computer ay walang kinakailangang driver na naka-install. Gusto mo bang i-install ito?",

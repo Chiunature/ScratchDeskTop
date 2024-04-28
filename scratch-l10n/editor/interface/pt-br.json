@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "O firmware já é a versão mais recente, deseja atualizá-lo novamente?",
     "gui.main.updateFireware": "Foi detectado que a versão do firmware não é a mais recente. Deseja atualizá-lo?",
     "gui.main.sensingUpdate": "Foi detectado que a versão do periférico não é a mais recente e precisa ser atualizada",
+    "gui.main.sensingUpdating": "Foi detectado que o sensor precisa ser atualizado e está sendo atualizado automaticamente. Preste atenção ao status do dispositivo",
     "gui.main.delete": "Deseja excluir este registro?",
     "gui.main.reinstallDriver": "Tem certeza que deseja reinstalar o driver?",
     "gui.main.installDriver": "Foi detectado que seu computador não possui o driver necessário instalado. Deseja instalá-lo?",

@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Oprogramowanie jest już w najnowszej wersji, czy chcesz je zaktualizować ponownie?",
     "gui.main.updateFireware": "Wykryto, że wersja oprogramowania sprzętowego nie jest najnowsza. Czy chcesz go zaktualizować?",
     "gui.main.sensingUpdate": "Wykryto, że wersja urządzenia peryferyjnego nie jest najnowsza i wymaga aktualizacji",
+    "gui.main.sensingUpdating": "Wykryto, że czujnik wymaga aktualizacji i jest on aktualizowany automatycznie. Proszę zwrócić uwagę na stan urządzenia",
     "gui.main.delete": "Czy chcesz usunąć ten rekord?",
     "gui.main.reinstallDriver": "Czy na pewno chcesz ponownie zainstalować sterownik?",
     "gui.main.installDriver": "Wykryto, że na Twoim komputerze nie ma zainstalowanego niezbędnego sterownika. Czy chcesz go zainstalować?",

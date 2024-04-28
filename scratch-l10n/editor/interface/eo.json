@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "La firmvaro jam estas la plej nova versio, ĉu vi volas ĝisdatigi ĝin denove?",
     "gui.main.updateFireware": "Oni konstatis, ke la firmware-versio ne estas la plej nova. Ĉu vi volas ĝisdatigi ĝin?",
     "gui.main.sensingUpdate": "Estas detektita, ke la periferia versio ne estas la lasta kaj devas esti ĝisdatigita",
+    "gui.main.sensingUpdating": "Oni konstatis, ke la sensilo devas esti ĝisdatigita kaj estas aŭtomate ĝisdatigita. Bonvolu atenti la staton de la aparato",
     "gui.main.delete": "Ĉu vi volas forigi ĉi tiun rekordon?",
     "gui.main.reinstallDriver": "Ĉu vi certas, ke vi volas reinstali la pelilon?",
     "gui.main.installDriver": "Estas detektita, ke via komputilo ne havas la necesan pelilon instalitan. Ĉu vi volas instali ĝin?",

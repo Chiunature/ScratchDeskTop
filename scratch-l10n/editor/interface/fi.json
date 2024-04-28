@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Laiteohjelmisto on jo uusin versio, haluatko päivittää sen uudelleen?",
     "gui.main.updateFireware": "On havaittu, että laiteohjelmistoversio ei ole uusin. Haluatko päivittää sen?",
     "gui.main.sensingUpdate": "On havaittu, että oheislaitteiden versio ei ole uusin ja se on päivitettävä",
+    "gui.main.sensingUpdating": "On havaittu, että anturi on päivitettävä ja sitä päivitetään automaattisesti. Kiinnitä huomiota laitteen tilaan",
     "gui.main.delete": "Haluatko poistaa tämän tietueen?",
     "gui.main.reinstallDriver": "Haluatko varmasti asentaa ohjaimen uudelleen?",
     "gui.main.installDriver": "On havaittu, että tietokoneellesi ei ole asennettu tarvittavaa ohjainta. Haluatko asentaa sen?",

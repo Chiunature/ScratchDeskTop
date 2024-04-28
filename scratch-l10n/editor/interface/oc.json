@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "El microprogramari ja és la darrera versió, el voleu actualitzar de nou?",
     "gui.main.updateFireware": "S'ha detectat que la versió del microprogramari no és l'última. Voleu actualitzar-la?",
     "gui.main.sensingUpdate": "S'ha detectat que la versió del perifèric no és l'última i s'ha d'actualitzar",
+    "gui.main.sensingUpdating": "S'ha detectat que el sensor s'ha d'actualitzar i s'està actualitzant automàticament. Si us plau, presteu atenció a l'estat del dispositiu",
     "gui.main.delete": "Voleu eliminar aquest registre?",
     "gui.main.reinstallDriver": "Estàs segur que vols tornar a instal·lar el controlador?",
     "gui.main.installDriver": "S'ha detectat que el vostre ordinador no té el controlador necessari instal·lat. El voleu instal·lar?",

@@ -549,6 +549,7 @@
     "gui.main.reupdateFireware": "Aparātprogrammatūra jau ir jaunākā versija, vai vēlaties to atjaunināt vēlreiz?",
     "gui.main.updateFireware": "Tika konstatēts, ka programmaparatūras versija nav jaunākā. Vai vēlaties to atjaunināt?",
     "gui.main.sensingUpdate": "Tiek konstatēts, ka perifērijas versija nav jaunākā un tā ir jāatjaunina",
+    "gui.main.sensingUpdating": "Tika konstatēts, ka sensors ir jāatjaunina, un tas tiek automātiski atjaunināts. Lūdzu, pievērsiet uzmanību ierīces statusam",
     "gui.main.delete": "Vai vēlaties dzēst šo ierakstu?",
     "gui.main.reinstallDriver": "Vai tiešām vēlaties pārinstalēt draiveri?",
     "gui.main.installDriver": "Tiek konstatēts, ka jūsu datorā nav instalēts nepieciešamais draiveris. Vai vēlaties to instalēt?",
