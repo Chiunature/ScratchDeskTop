@@ -80,10 +80,10 @@ Blockly.Blocks['motor_acceleration_menu'] = {
                     "options": [
                         [Blockly.Msg.DEFAULT, "default"],
                         [Blockly.Msg.FAST, "fast"],
-                        [Blockly.Msg.BALANCE, "balance"],
-                        [Blockly.Msg.SMOOTH, "smooth"],
+                        // [Blockly.Msg.BALANCE, "balance"],
+                        // [Blockly.Msg.SMOOTH, "smooth"],
                         [Blockly.Msg.SLOW, "slow"],
-                        [Blockly.Msg.SLOWER, "slower"],
+                        // [Blockly.Msg.SLOWER, "slower"],
                     ]
                 },
             ],

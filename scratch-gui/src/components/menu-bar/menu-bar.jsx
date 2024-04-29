@@ -1207,7 +1207,7 @@ const getProjectFilename = (curTitle, defaultTitle) => {
     if (!filenameTitle || filenameTitle.length === 0) {
         filenameTitle = defaultTitle;
     }
-    return `${filenameTitle.substring(0, 100)}.sb3`;
+    return `${filenameTitle.substring(0, 100)}.atc`;
 };
 
 const mapStateToProps = (state, ownProps) => {
