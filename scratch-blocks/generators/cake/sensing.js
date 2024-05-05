@@ -236,7 +236,7 @@ Blockly.cake['sensing_loudness'] = function (block) {
 
 Blockly.cake['sensing_set_yaw_angle'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = `sensing_setYawAngle();\n`;
+    let code = `sensing_set_yaw_angle();\n`;
     return code;
 };
 
