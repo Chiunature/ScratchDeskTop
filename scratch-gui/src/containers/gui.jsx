@@ -205,7 +205,7 @@ class GUI extends React.Component {
                         this.props.onSetIsComplete(false);
                         this.props.onSetCompleted(false);
                         this.props.onSetProgress(0);
-                        // JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
+                        JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
                         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
                         clearTimeout(time);
                         time = null;
