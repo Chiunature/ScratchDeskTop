@@ -182,7 +182,6 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
             </block>
     <block type="sensing_line_inspection_judgment"></block>
     <block type="sensing_magnetic_calibration"></block>
-    <block type="sensing_magnetism"></block>
     <block type="sensing_compass"></block>
     <block type="sensing_timer"></block>
     <block type="sensing_reset_timer"></block>
@@ -192,7 +191,6 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block id="current" type="sensing_current"/>
     <block type="sensing_dayssince2000"/>
     <block type="sensing_key_press"></block>
-    <block type="sensing_set_yaw_angle"></block>
     */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     return `
@@ -259,6 +257,8 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_isHandling"></block>
             <block type="sensing_Handling"></block>
             <block type="sensing_mainIsPress"></block>
+            <block type="sensing_set_yaw_angle"></block>
+            <block type="sensing_magnetism"></block>
         ${categorySeparator}
     </category>
     `;

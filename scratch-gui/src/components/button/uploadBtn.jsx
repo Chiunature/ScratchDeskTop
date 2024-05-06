@@ -14,7 +14,7 @@ const UploadBtn = (props) => {
             return;
         } else {
             handleCompile();
-            // sessionStorage.setItem('run-app', JSON.stringify(flag));
+            sessionStorage.setItem('run-app', JSON.stringify(flag));
         }
     }
 
@@ -22,14 +22,14 @@ const UploadBtn = (props) => {
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
                 <SelectExeBtn
-                    compile={compile}
+                    compile={() => compile(false)}
                     isRtl={isRtl}
                     exeList={exeList}
                     selectedExe={selectedExe}
                 />
                 <RunExeBtn
                     deviceStatus={deviceStatus}
-                    compile={compile}
+                    compile={() => compile(true)}
                     isComplete={isComplete}
                     progress={progress}
                     completed={completed}
