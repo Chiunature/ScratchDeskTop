@@ -47,7 +47,7 @@
     "gui.connection.scanning.noPeripheralsFound": "לא נמצאו מכשירים",
     "gui.connection.scanning.instructions": "בחרו את המכשיר שלכם מהרשימה למעלה",
     "gui.connection.search": "ריענון",
-    "gui.connection.unavailable.installscratchlink": "וודאו שיש לכם Scratch Link מותקן ופועל.",
+    "gui.connection.unavailable.installscratchlink": "וודאו שיש לכם ATC Link מותקן ופועל.",
     "gui.connection.unavailable.enablebluetooth": "וודאו שה־Bluetooth דלוק",
     "gui.connection.unavailable.tryagainbutton": "נסו שוב",
     "gui.connection.unavailable.helpbutton": "עזרה",

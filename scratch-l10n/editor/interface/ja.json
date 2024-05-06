@@ -47,7 +47,7 @@
     "gui.connection.scanning.noPeripheralsFound": "デバイスが見つかりませんでした",
     "gui.connection.scanning.instructions": "上のリストからデバイスを選んでください。",
     "gui.connection.search": "更新",
-    "gui.connection.unavailable.installscratchlink": "Scratch Linkがインストールされ、実行中であることを確認してください",
+    "gui.connection.unavailable.installscratchlink": "ATC Linkがインストールされ、実行中であることを確認してください",
     "gui.connection.unavailable.enablebluetooth": "Bluetoothが有効になっていることを確認してください",
     "gui.connection.unavailable.tryagainbutton": "もう一度試す",
     "gui.connection.unavailable.helpbutton": "ヘルプ",

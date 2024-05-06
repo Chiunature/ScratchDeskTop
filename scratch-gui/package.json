@@ -1,7 +1,7 @@
 {
     "name": "scratch-gui",
     "version": "1.3.2",
-    "description": "EST3",
+    "description": "ATC",
     "main": "main.js",
     "scripts": {
         "build": "npm run clean && webpack --colors --bail",
@@ -171,14 +171,13 @@
         }
     },
     "build": {
-        "productName": "EST3",
-        "appId": "com.EST3.eletest",
+        "productName": "ATC",
+        "appId": "com.ATC.eletest",
         "copyright": "cd©20211209",
         "directories": {
             "buildResources": "./",
             "output": "pack"
         },
-        "afterSign": "./scripts/afterSign.js",
         "afterPack": "./scripts/afterPack.js",
         "extraFiles": [
             {
@@ -227,6 +226,13 @@
             "update.js",
             "launch.html"
         ],
+        "fileAssociations": [
+            {
+              "ext": "atc",
+              "name": "ATC File",
+              "role": "Editor"
+            }
+        ],
         "nsis": {
             "oneClick": false,
             "allowElevation": true,
@@ -236,7 +242,7 @@
             "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "EST3",
+            "shortcutName": "ATC",
             "runAfterFinish": false,
             "perMachine": false,
             "deleteAppDataOnUninstall": true

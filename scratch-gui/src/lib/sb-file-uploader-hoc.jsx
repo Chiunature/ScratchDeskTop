@@ -5,7 +5,7 @@ import { defineMessages, intlShape, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import log from '../lib/log';
 import sharedMessages from './shared-messages';
-
+import { ipc } from 'est-link';
 import {
     LoadingStates,
     getIsLoadingUpload,
@@ -50,8 +50,18 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 'handleStartSelectingFileUpload',
                 'handleChange',
                 'onload',
-                'removeFileObjects'
+                'removeFileObjects',
+                'handleOpenFileFromOS'
             ]);
+        }
+        componentDidMount() {
+            // 渲染进程
+            window.myAPI.ipcRender({
+                eventName: ipc.SEND_OR_ON.LAUCHFROMATC,
+                callback: (event, filePath) => {
+                    this.handleOpenFileFromOS(filePath);
+                }
+            });
         }
         componentDidUpdate(prevProps) {
             if (this.props.isLoadingUpload && !prevProps.isLoadingUpload) {
@@ -60,6 +70,30 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         componentWillUnmount() {
             this.removeFileObjects();
+        }
+        handleOpenFileFromOS(filePath) {
+            this.removeFileObjects();
+            this.props.onLoadingStarted();
+            let loadingSuccess = false;
+            const filename = filePath.slice(filePath.lastIndexOf('\\') + 1);
+            const fileContent = window.myAPI.readFiles(filePath, '', {});
+            const arrayBuffer = fileContent.buffer.slice(fileContent.byteOffset, fileContent.byteOffset + fileContent.byteLength);
+            this.props.vm.loadProject(arrayBuffer)
+                .then(() => {
+                    if (filename) {
+                        const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
+                        this.props.onSetProjectTitle(uploadedProjectTitle);
+                    }
+                    loadingSuccess = true;
+                })
+                .catch(error => {
+                    log.warn(error);
+                    alert(this.props.intl.formatMessage(messages.loadError));
+                })
+                .then(() => {
+                    this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
+                    this.removeFileObjects();
+                });
         }
         // step 1: this is where the upload process begins
         handleStartSelectingFileUpload() {
@@ -76,7 +110,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             this.fileReader.onload = this.onload;
             // create <input> element and add it to DOM
             this.inputElement = document.createElement('input');
-            this.inputElement.accept = '.atc,.sb,.sb2,.sb3';
+            this.inputElement.accept = '.lbs,.sb,.sb2,.sb3';
             this.inputElement.style = 'display: none;';
             this.inputElement.type = 'file';
             this.inputElement.onchange = this.handleChange; // connects to step 3
@@ -139,7 +173,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             if (!fileInputFilename) return '';
             // only parse title with valid scratch project extensions
             // (.sb, .sb2, and .sb3)
-            const matches = fileInputFilename.match(/^(.*)\.((atc)|(sb[23]))?$/);
+            const matches = fileInputFilename.match(/^(.*)\.((lbs)|(sb[23]))?$/);
             if (!matches) return '';
             return matches[1].substring(0, 100); // truncate project title to max 100 chars
         }

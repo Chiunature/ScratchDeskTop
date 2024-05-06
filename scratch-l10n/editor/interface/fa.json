@@ -47,7 +47,7 @@
     "gui.connection.scanning.noPeripheralsFound": "هیچ دستگاهی پیدا نشد",
     "gui.connection.scanning.instructions": "دستگاه خود را از لیست زیر انتخاب کنید.",
     "gui.connection.search": "تازه کردن",
-    "gui.connection.unavailable.installscratchlink": "مطمئن شوید که Scratch Link نصب و همچنین اجرا شده است.",
+    "gui.connection.unavailable.installscratchlink": "مطمئن شوید که ATC Link نصب و همچنین اجرا شده است.",
     "gui.connection.unavailable.enablebluetooth": "فعال بودن بلوتوث را بررسی کنید",
     "gui.connection.unavailable.tryagainbutton": "دوباره تلاش کنید",
     "gui.connection.unavailable.helpbutton": "راهنما",

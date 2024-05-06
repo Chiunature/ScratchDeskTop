@@ -1209,7 +1209,7 @@ const getProjectFilename = (curTitle, defaultTitle) => {
     if (!filenameTitle || filenameTitle.length === 0) {
         filenameTitle = defaultTitle;
     }
-    return `${filenameTitle.substring(0, 100)}.atc`;
+    return `${filenameTitle.substring(0, 100)}.lbs`;
 };
 
 const mapStateToProps = (state, ownProps) => {
