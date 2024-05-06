@@ -51,7 +51,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
     //没有新版本时
     autoUpdater.on("update-not-available", () => {
       // 读取本地hotVersion
-      /* fs.readFile(
+      fs.readFile(
         path.join(process.resourcesPath, "./scripts/hotVersion.json"),
         "utf8",
         async (err, data) => {
@@ -65,7 +65,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
             resolve(res);
           }
         }
-      ); */
+      );
     });
 
     autoUpdater.on('download-progress', (prog) => {
