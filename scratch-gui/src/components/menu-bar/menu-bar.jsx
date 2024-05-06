@@ -231,7 +231,8 @@ class MenuBar extends React.Component {
             "scanConnection",
             "showDeviceCards",
             "handleClickHome",
-            "reUpdateDriver"
+            "reUpdateDriver",
+            "handleHelp"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -575,7 +576,7 @@ class MenuBar extends React.Component {
             <Box className={classNames(this.props.className, styles.menuBar)}>
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        <div className={classNames(styles.menuBarItem)}>
+                        {/* <div className={classNames(styles.menuBarItem)}>
                             <img
                                 alt=""
                                 className={classNames(styles.scratchLogo, {
@@ -585,7 +586,7 @@ class MenuBar extends React.Component {
                                 src={this.props.logo}
                                 onClick={this.props.onClickLogo}
                             />
-                        </div>
+                        </div> */}
                         {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
                             reUpdateDriver={this.reUpdateDriver}
                             handleHelp={this.handleHelp}

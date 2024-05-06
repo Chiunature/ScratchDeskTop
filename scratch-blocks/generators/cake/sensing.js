@@ -20,21 +20,15 @@ Blockly.cake['sensing_color_menu'] = function (block) {
 Blockly.cake['sensing_color_judgment'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
-    let newColor;
-    if (color.indexOf('(') === -1) {
-        const pre = Blockly.cake.hexToRgb(color);
-        // const target = Blockly.cake.rgbToGrb(pre);
-        const last = Blockly.cake.grbToHex(pre);
-        if (!last) {
-            return;
+    let index = '0';
+    const list = ["#ff000c", "#ffe360", "#0090f5", "#00cb54", "#914800", "#ad0000", "#000000", "#ffffff"];
+    for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        if (item == color.replace(/'/g, '')) {
+            index = i + 1 + '';
         }
-        newColor = last.replace(/\'/g, '');
-        newColor = parseInt(newColor).toString();
-    } else {
-        newColor = color;
     }
-    // TODO: Assemble cake into code variable.
-    let code = `Sensing_color_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'})`;
+    let code = `Sensing_color_judgment(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 

@@ -127,9 +127,9 @@ function createWindow() {
         _handleOnFocus();
 
         //点击logo打开官网
-        ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
+        /* ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
             shell.openExternal(url);
-        });
+        }); */
 
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
             if (!mainMsg) {

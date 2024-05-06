@@ -73,7 +73,7 @@ Blockly.FieldColourCard.fromJson = function (options) {
  * @private
  */
 Blockly.FieldColourCard.activateEyedropper_ = null;
-Blockly.FieldColourCard.colorList = ["#e700a7", "#c061f1", "#0090f5", "#77e8ff", "#00cb54", "#00a845", "#ffe360", "#fcac00", "#ff000c", "#fff", "#571cc1", "#000"];
+Blockly.FieldColourCard.colorList = ["#ff000c", "#ffe360", "#0090f5", "#00cb54", "#914800", "#ad0000", "#000000", "#ffffff"];
 Blockly.FieldColourCard.prototype.selectColor = Blockly.FieldColourCard.colorList[0];
 Blockly.FieldColourCard.prototype.selectColorTop = 0;
 
@@ -171,24 +171,24 @@ Blockly.FieldColourCard.prototype.createCardDom_ = function (dropdown) {
     let childList = [];
     for (let i = 0; i < children.length; i++) {
         const element = children[i];
-        if(element.classList.contains('lls-color-slider__option')) {
+        if (element.classList.contains('lls-color-slider__option')) {
             childList.push(element);
-        }else {
+        } else {
             continue;
         }
     }
 
 
     this.cardHandler.onmousedown = () => {
-        
+
         document.onmousemove = (event) => {
             let top = Math.floor(event.clientY - parseInt(dropdown.parentNode.style.top) - 45);
-            const height = 14;
+            const height = 21.38;
             let num = Math.ceil(top / height);
             let color;
-            if(num < 0) {
+            if (num < 0) {
                 num = 0;
-            }else if(num > childList.length - 1) {
+            } else if (num > childList.length - 1) {
                 num = childList.length - 1;
             }
             color = childList[num].style.backgroundColor;
@@ -244,7 +244,7 @@ Blockly.FieldColourCard.prototype.rgbToHex = function (rgb) {
 Blockly.FieldColourCard.prototype.createCardHandler = function () {
     let div = document.createElement('div');
     div.setAttribute('class', 'lls-color-slider__handle lls-color-slider__handle--not-pressed');
-    div.setAttribute('style', `background-color: ${this.selectColor}; top: calc(${this.selectColorTop}px - 2px); height: calc(9.09091% + 4px); width: calc(100% + 10px); left: -5px;`);
+    div.setAttribute('style', `background-color: ${this.selectColor}; top: calc(${this.selectColorTop}px - 2px); height: calc(12.09091% + 4px); width: calc(100% + 10px); left: -5px;`);
     this.cardHandler = div;
     return div;
 };

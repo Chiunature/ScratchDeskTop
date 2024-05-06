@@ -48,7 +48,7 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};/;
+const regexForMyBlock = /\/\*MyBlock\*\/\s+void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};\s+\/\*MyBlock\*\//;
 const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
 
 class Blocks extends React.Component {
