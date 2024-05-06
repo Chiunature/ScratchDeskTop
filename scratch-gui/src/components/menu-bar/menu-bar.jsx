@@ -91,7 +91,7 @@ import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState } from '../../reducers/project-title';
-import { HELP_DOCX } from "../../config/json/LB_USER.json";
+import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 
 
 
@@ -528,6 +528,7 @@ class MenuBar extends React.Component {
     }
 
     handleHelp() {
+        window.myAPI.getDocxUrl(HELP_PDF);
         window.myAPI.getDocxUrl(HELP_DOCX);
     }
 

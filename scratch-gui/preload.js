@@ -214,7 +214,7 @@ async function handlerError(error) {
 }
 
 function getDocxUrl(link) {
-    exec(path.join(cwd(), link))
+    exec(path.join(cwd(), link));
 }
 
 
