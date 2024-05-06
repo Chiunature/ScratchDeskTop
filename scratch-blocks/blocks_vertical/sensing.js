@@ -1139,12 +1139,16 @@ Blockly.Blocks['sensing_magnetism'] = {
           "name": "direction",
           "options": [
             [
-              "X",
-              "X"
+              "x",
+              "x"
             ],
             [
-              "Y",
-              "Y"
+              "y",
+              "y"
+            ],
+            [
+              "z",
+              "z"
             ],
           ]
         },

@@ -156,8 +156,9 @@ Blockly.cake['sensing_magnetic_calibration'] = function (block) {
 
 Blockly.cake['sensing_magnetism'] = function (block) {
     let direction = block.getFieldValue('direction');
+    let value = Blockly.cake.setValueList('sensing');
     // TODO: Assemble cake into code variable.
-    let code = `Sensing_magnetism(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'})`;
+    let code = `Sensing_magnetism(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'}, ${value})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
