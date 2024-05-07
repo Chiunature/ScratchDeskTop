@@ -13,7 +13,7 @@ var autoprefixer = require('autoprefixer');
 var postcssVars = require('postcss-simple-vars');
 var postcssImport = require('postcss-import');
 
-const STATIC_PATH = process.env.STATIC_PATH || '/static';
+const STATIC_PATH = path.resolve(__dirname, `./resources/static`);
 const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 const base = {
@@ -137,7 +137,7 @@ module.exports = [
                     loader: 'file-loader',
                     options: {
                         outputPath: 'static/assets/',
-                        publicPath: '../static/assets/'
+                        publicPath: `${STATIC_PATH}/assets/`
                     }
                 }
             ])
@@ -160,25 +160,25 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
-                title: 'EST 3.0 V' + pkg.version
+                title: 'NEW-AI极睿 V' + pkg.version
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],
                 template: 'src/playground/index.ejs',
                 filename: 'blocks-only.html',
-                title: 'EST 3.0 V' + pkg.version + ': Blocks Only Example'
+                title: 'NEW-AI极睿 V' + pkg.version + ': Blocks Only Example'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'compatibilitytesting'],
                 template: 'src/playground/index.ejs',
                 filename: 'compatibility-testing.html',
-                title: 'EST 3.0 V' + pkg.version + ': Compatibility Testing'
+                title: 'NEW-AI极睿 V' + pkg.version + ': Compatibility Testing'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'player'],
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
-                title: 'EST 3.0 V' + pkg.version + ': Player Example'
+                title: 'NEW-AI极睿 V' + pkg.version + ': Player Example'
             }),
             new CopyWebpackPlugin({
                 patterns: [
@@ -245,7 +245,7 @@ module.exports = [
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/assets/',
-                            publicPath: `../static/assets/`
+                            publicPath: `${STATIC_PATH}/assets/`
                         }
                     }
                 ])

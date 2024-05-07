@@ -1,7 +1,7 @@
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import list_all_devices from './steps/list-all-devices.png';
+import connect_devices from './steps/connect-devices.png';
 // Tutorial thumbnails: Avoid using any text that would need to be
 // translated in thumbnails.
 // Intro
@@ -2044,9 +2044,18 @@ export default {
             />
         ),
         tags: ['help', 'stuck', 'how', 'can', 'say'],
-        img: list_all_devices,
+        img: connect_devices,
         hidden: true,
         steps: [{
+            title: (
+                <FormattedMessage
+                    defaultMessage="Select list all devices"
+                    description="Select list all devices"
+                    id="gui.howtos.install-drivers.list_all_devices"
+                />
+            ),
+            image: 'connectDevices'
+        },{
             title: (
                 <FormattedMessage
                     defaultMessage="Select list all devices"

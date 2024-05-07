@@ -4,6 +4,6 @@
     "SRC": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER",
     "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/Core/Src/Aplication.c",
     "PROGRAMMERTASKS": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/ProgrammerTasks.c",
-    "HELP_DOCX": "./模块说明-V1.3.2.docx",
-    "HELP_PDF": "./Atc智能编程套装说明书.pdf"
+    "HELP_DOCX": "./NEW-AI极睿模块说明-V1.3.2.docx",
+    "HELP_PDF": "./NEW-AI极睿智能编程套装说明书.pdf"
 }

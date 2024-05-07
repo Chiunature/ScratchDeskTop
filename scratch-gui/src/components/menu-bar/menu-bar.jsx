@@ -528,8 +528,8 @@ class MenuBar extends React.Component {
     }
 
     handleHelp() {
-        window.myAPI.getDocxUrl(HELP_PDF);
-        window.myAPI.getDocxUrl(HELP_DOCX);
+        window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
+        window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
     }
 
     downloadProject() {
@@ -542,7 +542,7 @@ class MenuBar extends React.Component {
             fr.readAsDataURL(content);
             let list = [];
             fr.onload = (e) => {
-                const data = window.myAPI.readFiles('./cache-files.json');
+                const data = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
                 if (data) {
                     list = JSON.parse(data);
                 }
@@ -555,7 +555,7 @@ class MenuBar extends React.Component {
                 }
                 const newList = [...list, obj];
                 window.myAPI.setStoreValue('recentFile', JSON.stringify(obj));
-                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(newList));
+                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(newList), window.resourcesPath);
             }
         });
     }

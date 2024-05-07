@@ -200,6 +200,7 @@ import talesDanceMoves from './steps/talking-12-dance-moves.en.png';
 import talesAskAnswer from './steps/talking-13-ask-and-answer.en.png';
 
 //install driver
+import connectDevices from './steps/connect-devices.png';
 import listAllDevices from './steps/list-all-devices.png';
 import selectParameters1 from './steps/select-parameters1.png';
 import selectParameters2 from './steps/select-parameters2.png';
@@ -411,7 +412,8 @@ const enImages = {
     listAllDevices: listAllDevices,
     selectParameters1: selectParameters1,
     selectParameters2: selectParameters2,
-    clickInstall: clickInstall
+    clickInstall: clickInstall,
+    connectDevices: connectDevices
 };
 
 export {enImages};

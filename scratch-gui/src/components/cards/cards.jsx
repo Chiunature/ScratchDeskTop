@@ -243,7 +243,7 @@ const PreviewsStep = ({deckIds, content, onActivateDeckFactory, onShowAll}) => (
                 </div>
             ))}
         </div>
-        <div className={styles.seeAll}>
+        {/* <div className={styles.seeAll}>
             <div
                 className={styles.seeAllButton}
                 onClick={onShowAll}
@@ -254,7 +254,7 @@ const PreviewsStep = ({deckIds, content, onActivateDeckFactory, onShowAll}) => (
                     id="gui.cards.see-more"
                 />
             </div>
-        </div>
+        </div> */}
     </Fragment>
 );
 

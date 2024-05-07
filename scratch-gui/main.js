@@ -33,7 +33,7 @@ const { spawn, exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 const checkUpdate = require('./update.js');
 const createProtocol = require("./src/config/js/createProtocol.js");
-
+const watchLauchFromATC = require("./src/config/js/watchLauchFromATC.js");
 const Store = require('electron-store');
 Store.initRenderer();
 
@@ -125,11 +125,8 @@ function createWindow() {
         }
         // 防止页面失去焦点
         _handleOnFocus();
-
-        //点击logo打开官网
-        /* ipcMain.handle(ipc.SEND_OR_ON.LOGO.OPEN, (event, url) => {
-            shell.openExternal(url);
-        }); */
+        // 设置静态资源路径
+        ipcMain.handle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
 
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
             if (!mainMsg) {
@@ -141,7 +138,7 @@ function createWindow() {
             //更新固件提示
             _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, { message: mainMsg['update'] });
             //更新电机传感器提示
-            _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_updating'] }, []);
+            _ipcMainHandle(ipc.SEND_OR_ON.SENSING_UPDATE, { message: mainMsg['sensing_update'] }, [mainMsg['confirm']]);
             //是否删除记录
             _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
         });
@@ -162,6 +159,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
+            watchLauchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
         });
 
         // 关闭window时触发下列事件.

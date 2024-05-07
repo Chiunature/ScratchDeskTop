@@ -51,7 +51,7 @@ class ConnectionModal extends React.Component {
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
-        this.setState({ firewareVersion: window.myAPI.getVersion() });
+        this.setState({ firewareVersion: window.myAPI.getVersion(window.resourcesPath) });
     }
 
     componentWillUnmount() {
@@ -170,8 +170,8 @@ class ConnectionModal extends React.Component {
 
     handleHelp() {
         // window.open(this.state.extension.helpLink, "_blank");
-        window.myAPI.getDocxUrl(HELP_PDF);
-        window.myAPI.getDocxUrl(HELP_DOCX);
+        window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
+        window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
         analytics.event({
             category: "extensions",
             action: "help",

@@ -33,6 +33,7 @@ import {
     SOUNDS_TAB_INDEX
 } from '../reducers/editor-tab';
 import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
+import { ipc } from 'est-link';
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -94,11 +95,13 @@ class Blocks extends React.Component {
         this.toolboxUpdateQueue = [];
         this.timerId;
     }
-    componentDidMount() {
+    async componentDidMount() {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
-        this.props.options.media = window.myAPI.getMediaPath();
+        const res = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
+        window.resourcesPath = res;
+        this.props.options.media = window.myAPI.getMediaPath(res);
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,

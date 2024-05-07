@@ -77,7 +77,8 @@ class GUI extends React.Component {
             this.downloadProgress();
             this.downloadSource();
             this.getFirewareFiles();
-            this.watchDevice();
+            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
+            this.watchDevice(res);
             this.checkDriver();
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake();
@@ -209,7 +210,7 @@ class GUI extends React.Component {
                         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
                         clearTimeout(time);
                         time = null;
-                    }, 2000);
+                    }, 1500);
                 } else {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
@@ -243,10 +244,10 @@ class GUI extends React.Component {
     }
 
     //开启监听
-    watchDevice() {
+    watchDevice(resourcesPath) {
         const deviceIdList = Object.keys(instructions.device);
         const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
-        const firewareVersion = window.myAPI.getVersion();
+        const firewareVersion = window.myAPI.getVersion(resourcesPath);
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
         const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });

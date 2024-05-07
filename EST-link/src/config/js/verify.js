@@ -83,7 +83,8 @@ function verifyBinType(options) {
     let data, name;
     const { verifyType, selectedExe, files, filesIndex } = options;
     const { path, fs, process, isPackaged } = this;
-    const root = isPackaged ? '' : process.cwd();
+    const dir = path.resolve(__dirname);
+    const root = isPackaged ? dir.slice(0, dir.indexOf('resources') - 1) : process.cwd();
     //根据类型判断是哪种通信
     switch (verifyType) {
         case SOURCE_MUSIC:

@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { spawn, exec } = require("child_process");
 const { cwd } = require('process');
+const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
 const Store = require('electron-store');
@@ -79,9 +80,9 @@ function delEvents(eventName) {
      * @param {String} type 
      * @returns 
      */
-function readFiles(path, type = 'utf-8') {
+function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf-8' }) {
     try {
-        const data = fs.readFileSync(path, type);
+        const data = fs.readFileSync(path.join(resourcePath, link), options);
         return data;
     } catch (error) {
         handlerError(error);
@@ -94,9 +95,9 @@ function readFiles(path, type = 'utf-8') {
      * @param {String} path 
      * @returns 
      */
-function writeFiles(path, data, options = {}) {
+function writeFiles(link, data, resourcePath = cwd(), options = {}) {
     try {
-        fs.writeFileSync(path, data, options);
+        fs.writeFileSync(path.join(resourcePath, link), data, options);
         return true;
     } catch (error) {
         handlerError(error);
@@ -127,11 +128,10 @@ function deleteFiles(path) {
      * 调用编译命令
      * @returns 
      */
-function commendMake() {
+function commendMake(cpath = cwd()) {
     return new Promise((resolve, reject) => {
         let errStr = '';
-        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: DIR });
-
+        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
         progress.stderr.on('data', (err) => errStr += err.toString());
 
         progress.on('close', (code, signal) => {
@@ -166,8 +166,9 @@ function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt'))
  * @param {String} path 
  * @returns 
  */
-function getVersion(vpath = path.join(cwd(), VERSION, '/Version.txt')) {
-    const version = fs.readFileSync(vpath, 'utf-8');
+function getVersion(vpath) {
+    const p = path.join(vpath, VERSION, '/Version.txt');
+    const version = fs.readFileSync(p, 'utf-8');
     return version;
 }
 
@@ -206,22 +207,25 @@ function getCurrentTime() {
  * 错误处理
  * @param {String} error 
  */
-async function handlerError(error) {
-    const directory = './Error';
+async function handlerError(error, resourcePath = cwd()) {
     const time = getCurrentTime();
-    const filepath = `${directory}/error_${time}.txt`;
+    const filepath = `${resourcePath}/Error/error_${time}.txt`;
     await writeFileWithDirectory(directory, filepath, error);
 }
 
-function getDocxUrl(link) {
-    exec(path.join(cwd(), link));
+function getDocxUrl(static_path, link) {
+    const href = path.join(static_path, link);
+    exec(href);
 }
 
 
-function getMediaPath() {
-    return path.join(cwd(), './resources/static/blocks-media/');
+function getMediaPath(link = '') {
+    return url.format({
+        pathname: path.join(link, './resources/static/blocks-media/'),
+        protocol: "file:",
+        slashes: true,
+    });
 }
-
 
 
 contextBridge.exposeInMainWorld('myAPI', {

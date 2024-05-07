@@ -37,7 +37,8 @@ class FileSystemHoc extends Component {
 
 
     componentDidMount() {
-        const data = window.myAPI.readFiles('./cache-files.json');
+        // let data = window.myAPI.getStoreValue('file');
+        const data = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (data) {
             this.setState(() => ({
                 fileList: JSON.parse(data)
@@ -58,7 +59,8 @@ class FileSystemHoc extends Component {
     }
 
     handleSelect(index) {
-        const list = window.myAPI.readFiles('./cache-files.json');
+        // const list = JSON.parse(window.myAPI.getStoreValue('file'));
+        const list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (list) {
             list = JSON.parse(list);
             this.props.onSetProjectTitle(list[index].fileName);
@@ -87,7 +89,7 @@ class FileSystemHoc extends Component {
     }
 
     handleClickRecent() {
-        if (window.myAPI.hasStoreValue('recentFile')) {
+        if (window.myAPI.getStoreValue('recentFile')) {
             const obj = JSON.parse(window.myAPI.getStoreValue('recentFile'));
             this.handleFileReader(obj.url);
         } else {
@@ -101,7 +103,8 @@ class FileSystemHoc extends Component {
         window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE).then(res => {
             if (res === 1) {
                 this.state.fileList.splice(index, 1);
-                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
+                // window.myAPI.getStoreValue('file', JSON.stringify(this.state.fileList));
+                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList), window.resourcesPath);
                 this.setState((state) => ({
                     fileList: state.fileList
                 }));
@@ -112,7 +115,8 @@ class FileSystemHoc extends Component {
     }
 
     handleFilterClear() {
-        const list = window.myAPI.readFiles('./cache-files.json');
+        // const list = JSON.parse(window.myAPI.getStoreValue('file'));
+        const list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (list) {
             list = JSON.parse(list);
             this.setState(() => ({
@@ -138,7 +142,8 @@ class FileSystemHoc extends Component {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         this.state.fileList[index].editable = !this.state.fileList[index].editable;
-        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
+        // window.myAPI.setStoreValue('file', JSON.stringify(this.state.fileList));
+        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList), window.resourcesPath);
         this.setState({});
     }
 
@@ -153,7 +158,8 @@ class FileSystemHoc extends Component {
         e.nativeEvent.stopImmediatePropagation();
         this.state.fileList[index].fileName = e.target.value;
         this.state.fileList[index].editable = false;
-        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList));
+        // window.myAPI.setStoreValue('file', JSON.stringify(this.state.fileList));
+        window.myAPI.writeFiles('./cache-files.json', JSON.stringify(this.state.fileList), window.resourcesPath);
         this.setState({});
     }
 
