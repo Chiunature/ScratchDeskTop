@@ -390,6 +390,7 @@ Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";
 Blockly.Msg.MATRIX_COLOR = "%1 set the light's color is %2";
 Blockly.Msg.SET_MATRIX_SATURATION = "%1 set the saturation of the pixel light to %2 %%";
+Blockly.Msg.SET_COLOR_RGB_MATRIX_LAMP = "%1 set the light's color is R %2 G %3 B %4";
 Blockly.Msg.OPEN = "turn on";
 Blockly.Msg.CLOSE = "turn off";
 // Category labels

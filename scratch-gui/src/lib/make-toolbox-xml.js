@@ -193,9 +193,16 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block type="sensing_key_press"></block>
     */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
+    const name = ScratchBlocks.ScratchMsgs.translate(
+        "SENSING_ASK_TEXT",
+        "What's your name?"
+    );
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
     secondaryColour="${colors.tertiary}">
+        ${isStage
+            ? ""
+            : `
             <block type="sensing_color_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -259,6 +266,8 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_mainIsPress"></block>
             <block type="sensing_set_yaw_angle"></block>
             <block type="sensing_magnetism"></block>
+        `
+        }
         ${categorySeparator}
     </category>
     `;
@@ -489,12 +498,21 @@ const myBlocks = function (colors) {
     */
 
 const motor = function (isInitialSetup, isStage, targetId, colors) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no motor blocks"
+    );
     return `
     <category
         name="%{BKY_CATEGORY_MOTOR}"
         id="motor"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}">
+        ${isStage
+            ? `
+        <label text="${stageSelected}"></label>
+        `
+            : `
         ${blockSeparator}
         <block type="motor_starting">
             <value name="PORT">
@@ -561,6 +579,8 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
+        `
+        }
     </category>
     `;
 };
@@ -591,12 +611,21 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             */}
 
 const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no combined_motor blocks"
+    );
     return `
     <category
         name="%{BKY_CATEGORY_COMBINED_MOTOR}"
         id="combined_motor"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}">
+        ${isStage
+            ? `
+        <label text="${stageSelected}"></label>
+        `
+            : `
         ${blockSeparator}
         <block type="combined_motor_starting">
             <value name="PORT">
@@ -632,6 +661,8 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
+        `
+        }
     </category>
     `;
 };
@@ -643,14 +674,34 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
             </value>
         </block>
+        <block type="matrix_lamp_setColorRGB">
+            <value name="R">
+                <shadow type="math_0to255_number"/>
+            </value>
+            <value name="G">
+                <shadow type="math_0to255_number"/>
+            </value>
+            <value name="B">
+                <shadow type="math_0to255_number"/>
+            </value>
+        </block>
 */
 const matrix = function (isInitialSetup, isStage, targetId, colors) {
+    const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no matrix blocks"
+    );
     return `
     <category
         name="%{BKY_CATEGORY_MATRIX}"
         id="matrix"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}">
+        ${isStage
+            ? `
+        <label text="${stageSelected}"></label>
+        `
+            : `
         <block type="matrix_lamp">
             <value name="COLOR">
                 <shadow type="colour_picker"/>
@@ -682,6 +733,8 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="matrix_y"></shadow>
             </value>
         </block>   
+        `
+        }
     </category>
     `;
 };

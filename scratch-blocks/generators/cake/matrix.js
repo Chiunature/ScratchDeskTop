@@ -250,3 +250,12 @@ Blockly.cake['matrix_lamp_setSaturation'] = function (block) {
     }
 
 };
+
+Blockly.cake['matrix_lamp_setColorRGB'] = function (block) {
+    let r = Blockly.cake.valueToCode(block, "R", Blockly.cake.ORDER_ATOMIC);
+    let g = Blockly.cake.valueToCode(block, "G", Blockly.cake.ORDER_ATOMIC);
+    let b = Blockly.cake.valueToCode(block, "B", Blockly.cake.ORDER_ATOMIC);
+    // TODO: Assemble cake into code variable.
+    let code = `matrix_lamp_setColorRGB(${Blockly.cake.toStr(r) ? r : '"' + r + '"'}, ${Blockly.cake.toStr(g) ? g : '"' + g + '"'}, ${Blockly.cake.toStr(b) ? b : '"' + b + '"'});\n`;
+    return code;
+};

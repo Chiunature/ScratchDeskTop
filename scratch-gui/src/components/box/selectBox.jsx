@@ -38,7 +38,7 @@ const SelectBoxCom = (props) => {
                     handleRight(refUl);
                 }
             }
-        }, 100);
+        }, 50);
         setTimer(timer);
     }
 

@@ -149,6 +149,28 @@ Blockly.Blocks['math_whole_number'] = {
   }
 };
 
+Blockly.Blocks['math_0to255_number'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_number",
+          "name": "NUM",
+          "value": "255",
+          "min": "0",
+          "max": "255"
+        }
+      ],
+      "output": "Number",
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "colour": Blockly.Colours.textField,
+      "colourSecondary": Blockly.Colours.textField,
+      "colourTertiary": Blockly.Colours.textField
+    });
+  }
+};
+
 Blockly.Blocks['math_positive_number'] = {
   /**
    * Block for positive number value, with decimal.

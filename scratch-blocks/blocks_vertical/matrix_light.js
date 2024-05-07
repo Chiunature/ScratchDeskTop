@@ -361,3 +361,41 @@ Blockly.Blocks['matrix_color'] = {
         });
     }
 };
+
+Blockly.Blocks['matrix_lamp_setColorRGB'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.SET_COLOR_RGB_MATRIX_LAMP,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "matrix.svg",
+                    "width": 24,
+                    "height": 24,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "R"
+                },
+                {
+                    "type": "input_value",
+                    "name": "G"
+                },
+                {
+                    "type": "input_value",
+                    "name": "B"
+                },
+            ],
+            "category": Blockly.Categories.matrix,
+            "colour": "#9966FF",
+            "secondaryColour": "#774DCB",
+            "extensions": ["colours_matrix", "shape_statement"],
+        });
+    }
+};
