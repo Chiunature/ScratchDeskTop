@@ -41,7 +41,7 @@ import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
-import { showAlertWithTimeout } from "../reducers/alerts";
+import { showAlertWithTimeout, showQrcode } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
@@ -81,7 +81,7 @@ class GUI extends React.Component {
             this.watchDevice(res);
             this.checkDriver();
             this.matrixSend('FieldMatrix');
-            await window.myAPI.commendMake();
+            await window.myAPI.commendMake(res);
             window.myAPI.onUpdate((_event, info) => {
                 that.props.onSetTipsUpdate(info);
             });
@@ -513,7 +513,8 @@ const mapDispatchToProps = (dispatch) => ({
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),
     onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj)),
-    onSetDeviceStatus: (status) => dispatch(setDeviceStatus(status))
+    onSetDeviceStatus: (status) => dispatch(setDeviceStatus(status)),
+    onShowQrcode: () => dispatch(showQrcode())
 });
 
 const ConnectedGUI = injectIntl(

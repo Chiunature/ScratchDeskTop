@@ -232,7 +232,8 @@ class MenuBar extends React.Component {
             "showDeviceCards",
             "handleClickHome",
             "reUpdateDriver",
-            "handleHelp"
+            "handleHelp",
+            "handleProblem"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -532,6 +533,10 @@ class MenuBar extends React.Component {
         window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
     }
 
+    handleProblem() {
+        this.props.onShowQrcode();
+    }
+
     downloadProject() {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
@@ -591,6 +596,7 @@ class MenuBar extends React.Component {
                         {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
                             reUpdateDriver={this.reUpdateDriver}
                             handleHelp={this.handleHelp}
+                            handleProblem={this.handleProblem}
                             canChangeLanguage={this.props.canChangeLanguage}
                             canChangeTheme={this.props.canChangeTheme}
                             isRtl={this.props.isRtl}

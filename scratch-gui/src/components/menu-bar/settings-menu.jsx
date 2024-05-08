@@ -13,7 +13,6 @@ import styles from './settings-menu.css';
 
 import dropdownCaret from './dropdown-caret.svg';
 import settingsIcon from './icon--settings.svg';
-import PickerMenu from './picker-menu.jsx';
 
 const SettingsMenu = ({
     canChangeLanguage,
@@ -24,7 +23,8 @@ const SettingsMenu = ({
     settingsMenuOpen,
     reUpdateDriver,
     getMainMessage,
-    handleHelp
+    handleHelp,
+    handleProblem
 }) => (
     <div
         className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
@@ -68,6 +68,15 @@ const SettingsMenu = ({
                             defaultMessage="Help"
                             description="Button to view help content"
                             id="gui.connection.unavailable.helpbutton"
+                        />
+                    </span>
+                </MenuItem>
+                <MenuItem onClick={handleProblem}>
+                    <span className={styles.dropdownLabel}>
+                        <FormattedMessage
+                            defaultMessage="Problem feedback"
+                            description="Problem feedback"
+                            id="gui.menuBar.problemFeedback"
                         />
                     </span>
                 </MenuItem>

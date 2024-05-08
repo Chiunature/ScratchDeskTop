@@ -52,6 +52,7 @@ import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
 import FileSystemHoc from "../../containers/file-system-hoc.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
+import Qrcode from "../code-editor/qrcode.jsx";
 
 /* const messages = defineMessages({
     addExtension: {
@@ -64,6 +65,20 @@ import DeviceSensing from "../device/device-sensing.jsx";
 // Cache this value to only retrieve it once the first time.
 // Assume that it doesn't change for a session.
 let isRendererSupported = null;
+
+const codeEditorOptions = {
+    wordWrap: "off", //是否自动换行
+    readOnly: true, //是否只读
+    folding: true, // 是否折叠
+    foldingHighlight: true, // 折叠等高线
+    disableLayerHinting: true, // 等宽优化
+    emptySelectionClipboard: false, // 空选择剪切板
+    selectionClipboard: false, // 选择剪切板
+    automaticLayout: true, // 自动布局
+    minimap: {
+        enabled: true //开启小地图
+    }
+}
 
 const GUIComponent = (props) => {
     const {
@@ -138,6 +153,7 @@ const GUIComponent = (props) => {
         onSetGen,
         onActivateDeck,
         onOpenConnectionModal,
+        onShowQrcode,
         showComingSoon,
         soundsTabVisible,
         stageSizeMode,
@@ -168,6 +184,7 @@ const GUIComponent = (props) => {
         deviceStatus,
         onSetDeviceStatus,
         getMainMessage,
+        QrcodeVisible,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -192,19 +209,6 @@ const GUIComponent = (props) => {
         isRendererSupported = Renderer.isSupported();
     }
 
-    const codeEditorOptions = {
-        wordWrap: "off", //是否自动换行
-        readOnly: true, //是否只读
-        folding: true, // 是否折叠
-        foldingHighlight: true, // 折叠等高线
-        disableLayerHinting: true, // 等宽优化
-        emptySelectionClipboard: false, // 空选择剪切板
-        selectionClipboard: false, // 选择剪切板
-        automaticLayout: true, // 自动布局
-        minimap: {
-            enabled: true //开启小地图
-        }
-    }
 
     return (
         <MediaQuery minWidth={layout.fullSizeMinWidth}>
@@ -230,6 +234,7 @@ const GUIComponent = (props) => {
                         dir={isRtl ? "rtl" : "ltr"}
                         {...componentProps}
                     >
+                        {QrcodeVisible ? <Qrcode onShowQrcode={onShowQrcode} /> : null}
                         {telemetryModalVisible ? (
                             <TelemetryModal
                                 isRtl={isRtl}
@@ -333,6 +338,7 @@ const GUIComponent = (props) => {
                             onToggleLoginOpen={onToggleLoginOpen}
                             onActivateDeck={onActivateDeck}
                             getMainMessage={getMainMessage}
+                            onShowQrcode={onShowQrcode}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>
@@ -593,12 +599,10 @@ const mapStateToProps = (state) => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     theme: state.scratchGui.theme.theme,
     progress: state.scratchGui.connectionModal.progress,
-    selectedExe: state.scratchGui.mode.selectedExe
+    selectedExe: state.scratchGui.mode.selectedExe,
+    QrcodeVisible: state.scratchGui.alerts.QrcodeVisible
 });
 const mapDispatchToProps = (dispatch) => ({});
-// export default injectIntl(connect(
-//     mapStateToProps
-// )(GUIComponent));
 export default errorBoundaryHOC("GUI")(
     injectIntl(connect(mapStateToProps, mapDispatchToProps)(GUIComponent))
 );
