@@ -482,19 +482,13 @@ class MenuBar extends React.Component {
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
                 if (arg.res) {
-                    clearTimeout(this.closeTimer);
-                    this.closeTimer = null;
                     if (!this.props.peripheralName) {
                         this.setPortItem(arg.serial, type, arg.serial.friendlyName);
                         this.props.onShowConnectAlert(arg.msg);
                     }
                 } else {
+                    if (arg.msg.length > 0) this.handleDisconnect(arg.msg);
                     this.scanConnection();
-                    if (!this.closeTimer) {
-                        this.closeTimer = setTimeout(() => {
-                            if (arg.msg.length > 0) this.handleDisconnect(arg.msg);
-                        }, 2000);
-                    }
                 }
             },
         });
