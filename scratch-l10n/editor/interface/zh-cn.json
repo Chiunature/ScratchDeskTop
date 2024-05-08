@@ -83,6 +83,8 @@
   "gui.gui.backdropsTab": "背景",
   "gui.gui.costumesTab": "造型",
   "gui.gui.soundsTab": "声音",
+  "gui.help.hardware": "硬件说明书",
+  "gui.help.software": "软件说明书",
   "gui.extensionLibrary.comingSoon": "即将启用",
   "gui.extensionLibrary.requires": "系统需求",
   "gui.extensionLibrary.collaboration": "合作者",

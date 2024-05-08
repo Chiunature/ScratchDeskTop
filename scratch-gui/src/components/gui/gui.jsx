@@ -98,6 +98,7 @@ const GUIComponent = (props) => {
         deviceVisible,
         canChangeLanguage,
         canChangeTheme,
+        canChangeHelp,
         canCreateNew,
         canEditTitle,
         canManageFiles,
@@ -310,6 +311,7 @@ const GUIComponent = (props) => {
                             canChangeLanguage={canChangeLanguage}
                             blocksId={blocksId}
                             canChangeTheme={canChangeTheme}
+                            canChangeHelp={canChangeHelp}
                             canCreateCopy={canCreateCopy}
                             canCreateNew={canCreateNew}
                             canEditTitle={canEditTitle}
@@ -513,6 +515,7 @@ GUIComponent.propTypes = {
     blocksTabVisible: PropTypes.bool,
     canChangeLanguage: PropTypes.bool,
     canChangeTheme: PropTypes.bool,
+    canChangeHelp: PropTypes.bool,
     canCreateCopy: PropTypes.bool,
     canCreateNew: PropTypes.bool,
     canEditTitle: PropTypes.bool,
@@ -577,6 +580,7 @@ GUIComponent.defaultProps = {
     blocksId: 'original',
     canChangeLanguage: true,
     canChangeTheme: true,
+    canChangeHelp: true,
     canCreateNew: false,
     canEditTitle: false,
     canManageFiles: true,

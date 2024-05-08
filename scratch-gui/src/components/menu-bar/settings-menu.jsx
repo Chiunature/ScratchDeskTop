@@ -13,10 +13,12 @@ import styles from './settings-menu.css';
 
 import dropdownCaret from './dropdown-caret.svg';
 import settingsIcon from './icon--settings.svg';
+import HelpMenu from './help-menu.jsx';
 
 const SettingsMenu = ({
     canChangeLanguage,
     canChangeTheme,
+    canChangeHelp,
     isRtl,
     onRequestClose,
     onRequestOpen,
@@ -53,21 +55,13 @@ const SettingsMenu = ({
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
                 {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
+                {canChangeHelp && <HelpMenu handleHelp={handleHelp} onRequestCloseSettings={onRequestClose} />}
                 <MenuItem onClick={reUpdateDriver}>
                     <span className={styles.dropdownLabel}>
                         <FormattedMessage
                             defaultMessage="Reinstall driver"
                             description="Reinstall driver"
                             id="gui.menuBar.reinstallDriver"
-                        />
-                    </span>
-                </MenuItem>
-                <MenuItem onClick={handleHelp}>
-                    <span className={styles.dropdownLabel}>
-                        <FormattedMessage
-                            defaultMessage="Help"
-                            description="Button to view help content"
-                            id="gui.connection.unavailable.helpbutton"
                         />
                     </span>
                 </MenuItem>

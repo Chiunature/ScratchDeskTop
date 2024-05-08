@@ -73,7 +73,7 @@ import collectMetadata from "../../lib/collect-metadata";
 
 import styles from "./menu-bar.css";
 
-import helpIcon from "../../lib/assets/icon--tutorials.svg";
+// import helpIcon from "../../lib/assets/icon--tutorials.svg";
 import mystuffIcon from "./icon--mystuff.png";
 import profileIcon from "./icon--profile.png";
 import remixIcon from "./icon--remix.svg";
@@ -83,7 +83,6 @@ import unconnectedIcon from "./icon--unconnected.svg";
 import { ipc as ipc_Renderer } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
-import scratchLogo from "./scratch-logo.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
@@ -92,6 +91,7 @@ import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState } from '../../reducers/project-title';
 import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
+import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 
 
 
@@ -528,9 +528,17 @@ class MenuBar extends React.Component {
         }
     }
 
-    handleHelp() {
-        window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
-        window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
+    handleHelp(type) {
+        switch (type) {
+            case HARDWARE:
+                window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
+                break;
+            case SOFTWARE:
+                window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
+                break;
+            default:
+                break;
+        }
     }
 
     handleProblem() {
@@ -582,23 +590,13 @@ class MenuBar extends React.Component {
             <Box className={classNames(this.props.className, styles.menuBar)}>
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        {/* <div className={classNames(styles.menuBarItem)}>
-                            <img
-                                alt=""
-                                className={classNames(styles.scratchLogo, {
-                                    [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
-                                })}
-                                draggable={false}
-                                src={this.props.logo}
-                                onClick={this.props.onClickLogo}
-                            />
-                        </div> */}
-                        {(this.props.canChangeTheme || this.props.canChangeLanguage) && (<SettingsMenu
+                        {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (<SettingsMenu
                             reUpdateDriver={this.reUpdateDriver}
                             handleHelp={this.handleHelp}
                             handleProblem={this.handleProblem}
                             canChangeLanguage={this.props.canChangeLanguage}
                             canChangeTheme={this.props.canChangeTheme}
+                            canChangeHelp={this.props.canChangeHelp}
                             isRtl={this.props.isRtl}
                             onRequestClose={this.props.onRequestCloseSettings}
                             onRequestOpen={this.props.onClickSettings}
@@ -1206,7 +1204,7 @@ MenuBar.propTypes = {
 };
 
 MenuBar.defaultProps = {
-    logo: scratchLogo,
+    logo: '',
     onShare: () => { },
 };
 
