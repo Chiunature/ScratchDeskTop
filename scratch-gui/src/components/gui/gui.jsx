@@ -265,7 +265,8 @@ const GUIComponent = (props) => {
                                 exeList={exeList}
                                 selectedExe={selectedExe}
                                 onSetSelectedExe={onSetSelectedExe}
-                                onSetExelist={onSetExelist} />
+                                onSetExelist={onSetExelist}
+                                peripheralName={peripheralName} />
                         ) : null}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />

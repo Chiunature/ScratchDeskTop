@@ -149,6 +149,16 @@ const messages = defineMessages({
         "id": "gui.device.version",
         "description": "Version",
         "defaultMessage": "Version"
+    },
+    "mainControl": {
+        "id": "gui.menuBar.mainControl",
+        "description": "Main control data",
+        "defaultMessage": "Main control data"          
+    },
+    "mainName": {
+        "id": "gui.menuBar.mainName",
+        "description": "Device Name",
+        "defaultMessage": "Device Name"          
     }
 });
 

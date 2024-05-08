@@ -152,6 +152,8 @@
   "gui.menuBar.operate": "操作",
   "gui.menuBar.reinstallDriver": "重新安装驱动",
   "gui.menuBar.problemFeedback": "问题反馈",
+  "gui.menuBar.mainControl": "主控数据",
+  "gui.menuBar.mainName": "设备名称",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",
