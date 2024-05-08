@@ -172,8 +172,8 @@ class GUI extends React.Component {
         if (!isNew) this.checkUpdateFireware(firewareVersion);
     }
 
+    //下载资源监听
     downloadSource() {
-        //下载资源监听
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
             callback: (event, arg) => {
@@ -184,18 +184,13 @@ class GUI extends React.Component {
         });
     }
 
+    //下载进度监听
     downloadProgress() {
-        //下载进度监听
-        window.myAPI.ipcRender({
-            eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS,
-            callback: (event, arg) => {
-                this.props.onSetProgress(arg);
-            },
-        });
+        window.myAPI.ipcRender({ eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS, callback: (event, arg) => this.props.onSetProgress(arg) });
     }
 
+    //下载成功监听
     downloadSuccess() {
-        //下载成功监听
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
             callback: (event, arg) => {
@@ -255,7 +250,7 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
-                if (!result) return;
+                if (!result || this.props.completed) return;
                 if (this.props.deviceObj && this.props.deviceObj.estlist &&
                     result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);

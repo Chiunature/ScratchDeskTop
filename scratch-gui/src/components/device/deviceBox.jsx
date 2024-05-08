@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styles from './device.css';
 
 
@@ -77,11 +77,15 @@ const DeviceBox = ({ list, intl, messages }) => {
                         {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch.state}</span></li></ul>}
                         {el.color && Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.color).map((item, index) => {
-                                return (<li key={index}>
-                                    <span>{index === 0 ? 'RGB' : intl.formatMessage(messages['lightIntensity'])}</span>
-                                    <span>{el.color[item]}</span>
-                                    {index === 0 && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
-                                </li>)
+                                return (
+                                    <Fragment key={index}>
+                                        {(item === 'l' || item === 'rgb') && <li>
+                                            <span>{item === 'rgb' ? 'RGB' : intl.formatMessage(messages['lightIntensity'])}</span>
+                                            <span>{el.color[item]}</span>
+                                            {item === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
+                                        </li>}
+                                    </Fragment>
+                                )
                             })}
                         </ul>}
                     </div>

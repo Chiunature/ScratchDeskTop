@@ -289,7 +289,7 @@ const GUIComponent = (props) => {
                         {showFileStytem && (
                             <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />
                         )}
-                        {peripheralName && <DeviceSensing deviceObj={deviceObj} />}
+                        {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
                                 deviceStatus={deviceStatus}

@@ -5,8 +5,10 @@ import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';
 import smallMotorSensingIcon from 'scratch-blocks/media/small_motor_sensing.svg';
 import superSoundIcon from 'scratch-blocks/media/super_sound.svg';
 import touchPressIcon from 'scratch-blocks/media/touch_press.svg';
+import messages from './deviceMsg';
+import DeviceSensingItem from './device-sensing-item.jsx';
 
-const DeviceSensing = ({ deviceObj }) => {
+const DeviceSensing = ({ deviceObj, intl }) => {
 
     function getPort(index) {
         const num = parseInt(index);
@@ -53,39 +55,73 @@ const DeviceSensing = ({ deviceObj }) => {
         }
     }
 
-    function getData(item) {
+    function getType(item) {
         if (!item.deviceId) return;
         const num = parseInt(item.deviceId.slice(-1));
         switch (num) {
             case 1:
             case 5:
             case 6:
-                return item.motor.speed;
+                return item.motor;
             case 2:
-                return item.color.l;
-            case 3:
-                return item.ultrasion;
-            case 4:
-                return item.touch.state;
+                return item.color;
             default:
-                break;
+                return null;
         }
     }
 
+    function DistinguishTypes(deviceId, index) {
+        if (!deviceId) return;
+        const num = parseInt(deviceId.slice(-1));
+        switch (num) {
+            case 1:
+            case 5:
+            case 6:
+                return motorData(index);
+            case 2:
+                return colorData(index);
+            default:
+                return;
+        }
+    }
+
+    function motorData(num) {
+        switch (num) {
+            case 0:
+                return intl.formatMessage(messages['circly']);
+            case 1:
+                return intl.formatMessage(messages['angle']);
+            case 2:
+                return intl.formatMessage(messages['actualSpeed']);
+            case 3:
+                return intl.formatMessage(messages['version']);
+            default:
+                return;
+        }
+    }
+
+    function colorData(num) {
+        switch (num) {
+            case 0:
+                return intl.formatMessage(messages['lightIntensity']);
+            case 1:
+                return 'R';
+            case 2:
+                return 'G';
+            case 3:
+                return 'B';
+            case 4:
+                return intl.formatMessage(messages['version']);
+            default:
+                return;
+        }
+    }
 
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
                 {(deviceObj && deviceObj.deviceList) && deviceObj.deviceList.map((item, index) => {
-                    return (
-                        <li key={index} className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
-                            <div className={styles.deviceSensingText}>{getPort(index)}</div>
-                            <div className={styles.deviceSensingContent}>
-                                <img src={getSensing(item.deviceId)} />
-                                <label>{getData(item)}</label>
-                            </div>
-                        </li>
-                    )
+                    return (<DeviceSensingItem key={index} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
                 })}
             </ul>
         </div>
