@@ -197,9 +197,14 @@
     margin-right: 0.35rem;
 }
 
-.connected-icon {
+.connected-icon,
+.file-save-icon {
     height: 20px;
     margin-right: 0.35rem;
+}
+
+.file-save-icon:hover {
+    cursor: pointer;
 }
 
 .account-nav-menu,

@@ -159,7 +159,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            watchLauchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            if (app.isPackaged) watchLauchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
         });
 
         // 关闭window时触发下列事件.

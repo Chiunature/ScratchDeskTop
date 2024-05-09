@@ -31,8 +31,8 @@ function hasStoreValue(key) {
 
 /**
  * 异步通信
- * @param {String} sendName 
- * @param {any} sendParams 
+ * @param {String} sendName
+ * @param {any} sendParams
  * @returns {Promise}
  */
 async function ipcInvoke(sendName, sendParams) {
@@ -42,7 +42,7 @@ async function ipcInvoke(sendName, sendParams) {
 
 /**
  * 渲染进程开启事件监听
- * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0 
+ * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0
  */
 function ipcRender({ sendName, sendParams, eventName, callback }) {
     if (sendName) {
@@ -56,7 +56,7 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
 
 /**
  * 去掉渲染进程注册的事件监听
- * @param {String} eventName 
+ * @param {String} eventName
  */
 function delEvents(eventName) {
     if (!eventName) {
@@ -76,49 +76,77 @@ function delEvents(eventName) {
 
 /**
      * 读取文件内容
-     * @param {String} path 
-     * @param {String} type 
-     * @returns 
+     * @param {String} path
+     * @param {String} type
+     * @returns
      */
 function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf-8' }) {
     try {
         const data = fs.readFileSync(path.join(resourcePath, link), options);
         return data;
     } catch (error) {
-        handlerError(error);
+        handlerError(error, resourcePath);
         return false;
     }
 }
 
 /**
      * 将c语言代码写入文件
-     * @param {String} path 
-     * @returns 
+     * @param {String} path
+     * @returns
      */
 function writeFiles(link, data, resourcePath = cwd(), options = {}) {
     try {
         fs.writeFileSync(path.join(resourcePath, link), data, options);
         return true;
     } catch (error) {
-        handlerError(error);
+        handlerError(error, resourcePath);
         return false;
     }
 }
 
+function replaceFiles(oldFilePath, newFilePath, content) {
+    // 删除旧文件
+    fs.unlink(oldFilePath, (err) => {
+        if (err) {
+            console.error('Error deleting old file:', err);
+        } else {
+            console.log('Old file deleted successfully.');
+
+            // 将新文件移动到旧文件的位置
+            fs.rename(newFilePath, oldFilePath, (err) => {
+                if (err) {
+                    console.error('Error moving new file to old file location:', err);
+                } else {
+                    console.log('New file moved to old file location successfully.');
+                }
+            });
+            console.log(content)
+            // 创建新文件
+            fs.writeFile(newFilePath, content, (err) => {
+                if (err) {
+                    console.error('Error creating new file:', err);
+                } else {
+                    console.log('New file created successfully.');
+                }
+            });
+        }
+    });
+}
+
 /**
      * 删除文件
-     * @param {String} path 
-     * @returns 
+     * @param {String} path
+     * @returns
      */
-function deleteFiles(path) {
+function deleteFiles(link, resourcePath = cwd()) {
     // 检测文件是否存在
-    fs.access(path, fs.constants.F_OK, (err) => {
+    fs.access(path.join(resourcePath, link), fs.constants.F_OK, (err) => {
         if (err) {
             console.error('文件不存在');
         } else {
-            fs.unlink(path, (err) => {
-                if (err) handlerError(err);
-                // console.log('删除成功');
+            fs.unlink(path.join(resourcePath, link), (err) => {
+                if (err) handlerError(err, resourcePath);
             });
         }
     });
@@ -126,7 +154,7 @@ function deleteFiles(path) {
 
 /**
      * 调用编译命令
-     * @returns 
+     * @returns
      */
 function commendMake(cpath = cwd()) {
     return new Promise((resolve, reject) => {
@@ -147,9 +175,9 @@ function commendMake(cpath = cwd()) {
 
 /**
  * 获取版本并对比是否需要更新
- * @param {String} data 
- * @param {String} path 
- * @returns 
+ * @param {String} data
+ * @param {String} path
+ * @returns
  */
 function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
     const version = fs.readFileSync(vpath, 'utf-8');
@@ -162,9 +190,9 @@ function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt'))
 
 /**
  * 获取硬件版本
- * @param {String} data 
- * @param {String} path 
- * @returns 
+ * @param {String} data
+ * @param {String} path
+ * @returns
  */
 function getVersion(vpath) {
     const p = path.join(vpath, VERSION, '/Version.txt');
@@ -174,9 +202,9 @@ function getVersion(vpath) {
 
 /**
  * 查找文件夹并写入文件
- * @param {String} directory 
- * @param {String} filepath 
- * @param {String} data 
+ * @param {String} directory
+ * @param {String} filepath
+ * @param {String} data
  */
 async function writeFileWithDirectory(directory = cwd(), filepath, data) {
     if (fs.existsSync(directory)) {
@@ -190,7 +218,7 @@ async function writeFileWithDirectory(directory = cwd(), filepath, data) {
 
 /**
  * 获取当前时间
- * @returns 
+ * @returns
  */
 function getCurrentTime() {
     const now = new Date();
@@ -205,12 +233,14 @@ function getCurrentTime() {
 
 /**
  * 错误处理
- * @param {String} error 
+ * @param {string} error
+ * @param resourcePath
  */
-async function handlerError(error, resourcePath = cwd()) {
+async function handlerError (error, resourcePath = cwd()) {
+    if(!ArrayBuffer.isView(error) || typeof error !== 'string') return;
     const time = getCurrentTime();
-    const filepath = `${resourcePath}/Error/error_${time}.txt`;
-    await writeFileWithDirectory(directory, filepath, error);
+    const filepath = `./Error/error_${time}.txt`;
+    await writeFileWithDirectory(resourcePath, filepath, error);
 }
 
 function getDocxUrl(static_path, link) {
@@ -247,5 +277,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     getDocxUrl,
     getMediaPath,
-    getVersion
+    getVersion,
+    replaceFiles
 });

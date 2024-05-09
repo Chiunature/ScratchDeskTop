@@ -82,6 +82,7 @@ import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
 import { ipc as ipc_Renderer } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
+import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
@@ -313,7 +314,7 @@ class MenuBar extends React.Component {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
         if (modifier && event.key === "s") {
             this.props.onClickSave();
-            this.getSaveToComputerHandler(this.downloadProject.bind(this))();
+            this.getSaveToComputerHandler(this.downloadProject.bind(this, true))();
             event.preventDefault();
         }
     }
@@ -539,12 +540,13 @@ class MenuBar extends React.Component {
         this.props.onShowQrcode();
     }
 
-    downloadProject() {
+    downloadProject(onlySave) {
         this.props.saveProjectSb3().then(content => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
-            downloadBlob(this.props.projectFilename, content);
+            downloadBlob(this.props.projectFilename, content, onlySave);
+            if(onlySave) return;
             const fr = new FileReader();
             fr.readAsDataURL(content);
             let list = [];
@@ -702,7 +704,6 @@ class MenuBar extends React.Component {
                                                         description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
                                                         id="gui.menuBar.downloadToComputer"
                                                     />
-                                                    <span>  Ctrl+s </span>
                                                 </MenuItem>
                                             )}
                                         </SB3Downloader>
@@ -921,11 +922,12 @@ class MenuBar extends React.Component {
                         )}
                     >
                         <MenuBarItemTooltip enable id="title-field">
-                            <ProjectTitleInput readOnly={true}
+                            <ProjectTitleInput readOnly={false}
                                 className={classNames(
                                     styles.titleFieldGrowable
                                 )}
                             />
+                            <img className={styles.fileSaveIcon} src={fileSaveIcon} />
                         </MenuBarItemTooltip>
                     </div>
                 </div>

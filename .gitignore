@@ -1,6 +1,7 @@
 # Mac OS
 .DS_Store
 /.vscode
+/.idea
 /record
 # NPM
 /node_modules

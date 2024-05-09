@@ -175,7 +175,7 @@ const DeviceCards = props => {
         });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         onShowDelExeAlert("delExeSuccess");
-        window.myAPI.deleteFiles(`${APP}/${item.name}.bin`);
+        window.myAPI.deleteFiles(`${APP}/${item.name}.bin`, window.resourcesPath);
     }
 
     const handleScreenAuto = () => {

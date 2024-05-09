@@ -1,4 +1,12 @@
-export default (filename, blob) => {
+export default (filename, blob, onlySave) => {
+    if(onlySave) {
+        const filePath = sessionStorage.getItem('openPath');
+        blob.arrayBuffer().then(res => {
+            window.myAPI.replaceFiles(filePath, filePath, Buffer.from(res));
+        })
+        return;
+    }
+
     const downloadLink = document.createElement('a');
     document.body.appendChild(downloadLink);
 

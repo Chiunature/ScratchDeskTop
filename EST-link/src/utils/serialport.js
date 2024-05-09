@@ -71,7 +71,7 @@ class Serialport extends Common {
 
     /**
      * 断开连接
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     disconnectSerial(eventName) {
         this.ipcMain(eventName, () => {
@@ -83,8 +83,8 @@ class Serialport extends Common {
 
     /**
      * 连接串口
-     * @param {Object} serial 
-     * @param {*} event 
+     * @param {Object} serial
+     * @param {*} event
      */
     linkToSerial(serial, event) {
         this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
@@ -111,7 +111,7 @@ class Serialport extends Common {
 
     /**
      * 获取渲染进程发过来的bin文件数据准备通信
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     getBinOrHareWare(eventName) {
         this.ipcMain(eventName, (event, data) => {
@@ -144,9 +144,9 @@ class Serialport extends Common {
 
     /**
      * 上传文件
-     * @param {*} event 
-     * @param {Object} data 
-     * @returns 
+     * @param {*} event
+     * @param {Object} data
+     * @returns
      */
     upload(data, event) {
         if (!data.binData || !data.fileName) {
@@ -171,7 +171,7 @@ class Serialport extends Common {
 
     /**
      * 串口打开
-     * @param {*} event 
+     * @param {*} event
      */
     OpenPort(event) {
         this.port.open((err) => {
@@ -194,8 +194,8 @@ class Serialport extends Common {
 
     /**
      * 侦听串口关闭
-     * @param {String} eventName 
-     * @param {*} event 
+     * @param {String} eventName
+     * @param {*} event
      */
     listenPortClosed(eventName, event) {
         this.port.on(eventName, () => {
@@ -206,10 +206,10 @@ class Serialport extends Common {
 
     /**
      * 写入数据
-     * @param {Array} data 
-     * @param {String} str 
-     * @param {*} event 
-     * @returns 
+     * @param {Array} data
+     * @param {String} str
+     * @param {*} event
+     * @returns
      */
     writeData(data, str, event) {
         if (!this.port) {
@@ -228,7 +228,7 @@ class Serialport extends Common {
 
     /**
      * 检测是否超时
-     * @param {*} event 
+     * @param {*} event
      */
     checkOverTime(event) {
         this.timeOutTimer = setTimeout(() => {
@@ -263,7 +263,7 @@ class Serialport extends Common {
 
     /**
      * 监听设备信息
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     watchDevice(event) {
         if (!this.watchDeviceData) return false;
@@ -273,9 +273,9 @@ class Serialport extends Common {
 
     /**
      * 发bin数据
-     * @param {Number} index 
-     * @param {*} event 
-     * @returns 
+     * @param {Number} index
+     * @param {*} event
+     * @returns
      */
     sendBin(event) {
         if (this.chunkIndex < 0) {
@@ -290,24 +290,24 @@ class Serialport extends Common {
 
     /**
      * 读取串口数据
-     * @param {String} eventName 
-     * @param {*} event 
-     * @returns 
+     * @param {String} eventName
+     * @param {*} event
+     * @returns
      */
     handleRead(eventName, event) {
         if (!this.port) {
             return;
         }
-        const that = this;
         const text = new TextDecoder();
+        const func = this.throttle(this.watchDevice.bind(this), 100);
         this.port.on(eventName, () => {
             //获取下位机发送过来的数据
             const receiveData = this.port.read();
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //开启设备数据监控监听
-            if(receiveData) this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
-            setTimeout(() => that.watchDevice(event));
+            if (receiveData) this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
+            setTimeout(() => func(event));
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
             if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) return;
@@ -325,7 +325,7 @@ class Serialport extends Common {
 
     /**
      * 处理接收到的数据
-     * @param {*} event 
+     * @param {*} event
      */
     processReceivedData(event) {
         if (this.sign === signType.BOOT.FILENAME) {
@@ -348,7 +348,7 @@ class Serialport extends Common {
 
     /**
      * 获取主机有多少个程序或运行程序
-     * @param {*} event 
+     * @param {*} event
      */
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
@@ -371,7 +371,7 @@ class Serialport extends Common {
 
     /**
      * 删除主机上的程序
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     deleteExe(eventName) {
         this.ipcMain(eventName, (event, data) => {
@@ -383,7 +383,7 @@ class Serialport extends Common {
 
     /**
      * 重启主机
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     restartMain(eventName) {
         this.ipcMain(eventName, (event, data) => {
@@ -393,7 +393,7 @@ class Serialport extends Common {
 
     /**
      * 与主机交互
-     * @param {String} eventName 
+     * @param {String} eventName
      */
     interactive(eventName) {
         this.ipcMain(eventName, (event, obj) => {

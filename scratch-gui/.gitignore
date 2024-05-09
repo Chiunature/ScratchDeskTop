@@ -21,3 +21,5 @@ npm-*
 /translations
 /locale
 /resources
+/Logs
+/cache-files.json
