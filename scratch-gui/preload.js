@@ -121,7 +121,6 @@ function replaceFiles(oldFilePath, newFilePath, content) {
                     console.log('New file moved to old file location successfully.');
                 }
             });
-            console.log(content)
             // 创建新文件
             fs.writeFile(newFilePath, content, (err) => {
                 if (err) {

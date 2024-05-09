@@ -1,8 +1,10 @@
 export default (filename, blob, onlySave) => {
     if(onlySave) {
-        const filePath = sessionStorage.getItem('openPath');
+        const oldFilePath = sessionStorage.getItem('openPath');
+        const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + filename;
+        sessionStorage.setItem('openPath', newFilePath);
         blob.arrayBuffer().then(res => {
-            window.myAPI.replaceFiles(filePath, filePath, Buffer.from(res));
+            window.myAPI.replaceFiles(oldFilePath, newFilePath, Buffer.from(res));
         })
         return;
     }

@@ -274,6 +274,7 @@ class MenuBar extends React.Component {
         this.props.onRequestCloseFile();
     }
     handleClickSave() {
+        this.getSaveToComputerHandler(this.downloadProject.bind(this, true))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
@@ -313,8 +314,7 @@ class MenuBar extends React.Component {
     handleKeyPress(event) {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
         if (modifier && event.key === "s") {
-            this.props.onClickSave();
-            this.getSaveToComputerHandler(this.downloadProject.bind(this, true))();
+            this.handleClickSave();
             event.preventDefault();
         }
     }
@@ -643,42 +643,14 @@ class MenuBar extends React.Component {
                                         >
                                             {newProjectMessage}
                                         </MenuItem>
-                                    </MenuSection>
-                                    {(this.props.canSave ||
-                                        this.props.canCreateCopy ||
-                                        this.props.canRemix) && (
-                                            <MenuSection>
-                                                {this.props.canSave && (
-                                                    <MenuItem
-                                                        onClick={
-                                                            this.handleClickSave
-                                                        }
-                                                    >
-                                                        {saveNowMessage}
-                                                    </MenuItem>
-                                                )}
-                                                {this.props.canCreateCopy && (
-                                                    <MenuItem
-                                                        onClick={
-                                                            this
-                                                                .handleClickSaveAsCopy
-                                                        }
-                                                    >
-                                                        {createCopyMessage}
-                                                    </MenuItem>
-                                                )}
-                                                {this.props.canRemix && (
-                                                    <MenuItem
-                                                        onClick={
-                                                            this.handleClickRemix
-                                                        }
-                                                    >
-                                                        {remixMessage}
-                                                    </MenuItem>
-                                                )}
-                                            </MenuSection>
-                                        )}
-                                    <MenuSection>
+                                        <MenuItem
+                                            onClick={
+                                                this.handleClickSave
+                                            }
+                                        >
+                                            {saveNowMessage}
+                                            <span>（Ctrl+s）</span>
+                                        </MenuItem>
                                         <MenuItem
                                             onClick={
                                                 this.props
@@ -927,7 +899,7 @@ class MenuBar extends React.Component {
                                     styles.titleFieldGrowable
                                 )}
                             />
-                            <img className={styles.fileSaveIcon} src={fileSaveIcon} />
+                            <img className={styles.fileSaveIcon} src={fileSaveIcon} onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))} />
                         </MenuBarItemTooltip>
                     </div>
                 </div>
