@@ -128,7 +128,7 @@ class GUI extends React.Component {
                     return {
                         name: el.replace('.bin', ''),
                         num: el.slice(0, current),
-                        checked: index === 0 ? true : false,
+                        checked: index === 0,
                         index
                     }
                 });
@@ -246,7 +246,6 @@ class GUI extends React.Component {
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
         const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
-        const newCheckUpdateSensingFn = throttle(this.checkUpdateSensing.bind(this), 8000, { 'leading': true, 'trailing': false });
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -258,12 +257,11 @@ class GUI extends React.Component {
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 newGetFirewareVersionFn(firewareVersion, result.versionlist.ver);
-                newCheckUpdateSensingFn(list, result.deviceList, result.versionlist.ver);
             }
         });
     }
 
-    checkUpdateSensing(list, deviceList, ver) {
+    /*checkUpdateSensing(list, deviceList, ver) {
         const isUpdate = sessionStorage.getItem('isSensingUpdate');
         const { device } = instructions;
         if (deviceList.length > 0 && isUpdate == 'done' && ver == this.props.version) {
@@ -286,7 +284,7 @@ class GUI extends React.Component {
                 }
             }
         }
-    }
+    }*/
 
     async updateSensing() {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
