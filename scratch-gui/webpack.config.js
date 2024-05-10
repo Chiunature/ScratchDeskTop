@@ -13,8 +13,7 @@ var autoprefixer = require('autoprefixer');
 var postcssVars = require('postcss-simple-vars');
 var postcssImport = require('postcss-import');
 
-const { cwd } = require('process');
-const STATIC_PATH = process.env.STATIC_PATH || `${cwd()}/resources/static`;
+const STATIC_PATH = process.env.STATIC_PATH || '/static';
 const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 const base = {
@@ -138,7 +137,7 @@ module.exports = [
                     loader: 'file-loader',
                     options: {
                         outputPath: 'static/assets/',
-                        publicPath: `${STATIC_PATH}/assets/`
+                        // publicPath: `${STATIC_PATH}/assets/`
                     }
                 }
             ])

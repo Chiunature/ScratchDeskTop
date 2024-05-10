@@ -179,12 +179,6 @@
             "output": "pack"
         },
         "afterPack": "./scripts/afterPack.js",
-        "extraFiles": [
-            {
-                "from": "build/static",
-                "to": "./resources/static"
-            }
-        ],
         "extraResources": [
             {
                 "from": "./resources/gcc-arm-none-eabi",
@@ -198,7 +192,6 @@
                 "from": "build",
                 "to": "app.asar.unpacked",
                 "filter": [
-                    "!**/static/**/*",
                     "!**/scripts/**/*"
                 ]
             },

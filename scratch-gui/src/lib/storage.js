@@ -29,7 +29,7 @@ class Storage extends ScratchStorage {
         // );
         this.addWebStore(
             [this.AssetType.Sound],
-            asset => `../static/extension-assets/Ai-music/${asset.assetId}.${asset.dataFormat}`
+            asset => `static/extension-assets/Ai-music/${asset.assetId}.${asset.dataFormat}`
         );
     }
     setProjectHost(projectHost) {

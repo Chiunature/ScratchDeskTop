@@ -101,7 +101,7 @@ class Blocks extends React.Component {
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
         const res = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
         window.resourcesPath = res;
-        this.props.options.media = window.myAPI.getMediaPath(res);
+        //this.props.options.media = window.myAPI.getMediaPath(res);
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
