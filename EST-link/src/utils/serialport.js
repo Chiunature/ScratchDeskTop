@@ -17,7 +17,7 @@
  */
 const Common = require("./common.js");
 const { distinguish, verifyBinType } = require("../config/js/verify.js");
-const { SOURCE, EST_RUN } = require("../config/json/verifyTypeConfig.json");
+const { SOURCE, EST_RUN, RESET_FWLIB, SOURCE_APP } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
 const { instruct } = require("../config/js/instructions.js");
@@ -33,7 +33,6 @@ class Serialport extends Common {
         this.portIndex = 0;
         this.portList = [];
         this.isConnectedPortList = [];
-        this.receiveDataBuffer = [];
         this.chunkBuffer = [];
         this.chunkIndex = 0;
         this.sign;
@@ -96,7 +95,7 @@ class Serialport extends Common {
         //开启串口关闭监听
         this.listenPortClosed("close", event);
         //开启获取文件监听
-        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
+        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES, event);
         //开启传输错误监听
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
         //开启删除程序监听
@@ -109,13 +108,36 @@ class Serialport extends Common {
         this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
     }
 
+  /**
+   * 串口打开
+   * @param {*} event
+   */
+  OpenPort(event) {
+    this.port.open((err) => {
+      if (err) {
+        this.isConnectedPortList.push(this.portList[this.portIndex]);
+        this.portIndex++;
+        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
+        if (this.portIndex === this.portList.length) {
+          this.portIndex = 0;
+          return;
+        }
+      } else {
+        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
+        this.portIndex = 0;
+        this.portList.splice(0, this.portList.length);
+        this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
+      }
+    });
+  }
+
     /**
      * 获取渲染进程发过来的bin文件数据准备通信
      * @param {String} eventName
+     * @param event
      */
-    getBinOrHareWare(eventName) {
+    getBinOrHareWare(eventName, event) {
         this.ipcMain(eventName, (event, data) => {
-            this.clearCache();
             if (typeof data.subFileIndex === 'number') {
                 this.subFileIndex = data.subFileIndex;
             }
@@ -124,22 +146,36 @@ class Serialport extends Common {
                     delete this.files[key];
                 }
             }
-            //处理渲染进程发送过来的通信需要的数据
-            const { fileData, fileName } = verifyBinType.call(this, {
-                verifyType: data.verifyType,
-                selectedExe: data.selectedExe,
-                files: this.files,                  //文件夹对象
-                filesIndex: this.subFileIndex       //文件夹内的子文件遍历下标
-            });
-            //根据返回的子文件数据和子文件名进入上传处理
-            this.upload({
-                fileName,
-                binData: fileData,
-                verifyType: data.verifyType,
-                filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
-                filesLen: this.files.filesLen       //文件夹包含的文件数量
-            }, event);
+            if(data.verifyType === RESET_FWLIB) {
+              this.upload_sources_status = data.verifyType;
+              const { binArr } = this.checkFileName(RESET_FWLIB, 0x6F);
+              this.writeData(binArr, null, event);
+              return;
+            }
+            this.readyToUpload(data, event);
         });
+        if(this.upload_sources_status === RESET_FWLIB) {
+          this.readyToUpload.call(this, { verifyType: SOURCE_APP }, event);
+          this.upload_sources_status = null;
+        }
+    }
+
+    readyToUpload(data, event) {
+      //处理渲染进程发送过来的通信需要的数据
+      const { fileData, fileName } = verifyBinType.call(this, {
+        verifyType: data.verifyType,
+        selectedExe: data.selectedExe,
+        files: this.files,                  //文件夹对象
+        filesIndex: this.subFileIndex       //文件夹内的子文件遍历下标
+      });
+      //根据返回的子文件数据和子文件名进入上传处理
+      this.upload({
+        fileName,
+        binData: fileData,
+        verifyType: data.verifyType,
+        filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
+        filesLen: this.files.filesLen       //文件夹包含的文件数量
+      }, event);
     }
 
     /**
@@ -169,28 +205,6 @@ class Serialport extends Common {
         this.writeData(binArr, signType.BOOT.FILENAME, event);
     }
 
-    /**
-     * 串口打开
-     * @param {*} event
-     */
-    OpenPort(event) {
-        this.port.open((err) => {
-            if (err) {
-                this.isConnectedPortList.push(this.portList[this.portIndex]);
-                this.portIndex++;
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
-                if (this.portIndex === this.portList.length) {
-                    this.portIndex = 0;
-                    return;
-                }
-            } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
-                this.portIndex = 0;
-                this.portList.splice(0, this.portList.length);
-                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
-            }
-        });
-    }
 
     /**
      * 侦听串口关闭
@@ -295,9 +309,7 @@ class Serialport extends Common {
      * @returns
      */
     handleRead(eventName, event) {
-        if (!this.port) {
-            return;
-        }
+        if (!this.port) return;
         const text = new TextDecoder();
         const func = this.throttle(this.watchDevice.bind(this), 100);
         this.port.on(eventName, () => {

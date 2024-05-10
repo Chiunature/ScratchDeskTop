@@ -10,5 +10,6 @@
     "SERIALPORT": "serialport",
     "BLUETOOTH": "ble",
     "EST_STOP": "EST_STOP",
-    "EST_RUN": "run"
+    "EST_RUN": "run",
+    "RESET_FWLIB": "RESET_FWLIB"
 }

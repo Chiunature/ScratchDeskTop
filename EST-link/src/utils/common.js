@@ -17,12 +17,11 @@ const {
   SOURCE_VERSION,
   SOURCE_CONFIG,
   BOOTBIN,
-  DELETE_EXE,
-  EST_STOP
+  DELETE_EXE
 } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
-const {device} = require("../config/js/instructions.js");
+const { device } = require("../config/js/instructions.js");
 
 class Common {
 
@@ -36,6 +35,7 @@ class Common {
     this.files = {};
     this.watchDeviceList = [];
     this.deviceIdList = Object.keys(device);
+    this.upload_sources_status = null;
   }
 
   /**
@@ -240,11 +240,11 @@ class Common {
    * @param {Function} fn
    */
   handleReadError(err, event, fn) {
-    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {result: false, msg: "uploadError"});
+    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
     // const mainPath = this.process.cwd();
     const directory = './Error';
     const filepath = `${directory}/error_${new Date().toISOString().replace(':', '-').slice(0, 19)}.txt`;
-    this.fs.mkdir(directory, {recursive: true}, () => this.fs.writeFile(filepath, err + '', fn.bind(this)));
+    this.fs.mkdir(directory, { recursive: true }, () => this.fs.writeFile(filepath, err + '', fn.bind(this)));
   }
 
   /**
@@ -369,7 +369,7 @@ class Common {
       }
     }
 
-    return {...watchDeviceData};
+    return { ...watchDeviceData };
   }
 
   /**
@@ -387,7 +387,7 @@ class Common {
       for (let i = start; i < list[start + 3] + 7; i++) {
         newList.push(list[i]);
       }
-      return {data: newList, bit: newList[4]};
+      return { data: newList, bit: newList[4] };
     } else {
       return false;
     }
@@ -402,7 +402,7 @@ class Common {
    */
   verification(sign, recevieObj, event) {
     if (!recevieObj) return;
-    const {data} = recevieObj;
+    const { data } = recevieObj;
     if (!data) return;
     const text = new TextDecoder();
     switch (sign) {
@@ -524,6 +524,9 @@ class Common {
     let arr, sum;
     if (Array.isArray(data)) {
       sum = 0x5a + 0x97 + 0x98 + dataLen + bit + this.sumData(data);
+      arr = [0x5A, 0x97, 0x98, dataLen, bit, ...data, (sum & 0xff), 0xA5];
+    } else if (typeof data === 'string') {
+      sum = 0x5a + 0x97 + 0x98 + dataLen + bit;
       arr = [0x5A, 0x97, 0x98, dataLen, bit, ...data, (sum & 0xff), 0xA5];
     } else {
       sum = 0x5a + 0x97 + 0x98 + dataLen + bit + parseInt(data);

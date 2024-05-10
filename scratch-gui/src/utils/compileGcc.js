@@ -39,9 +39,9 @@ class Compile {
 
     /**
      * 根据正则去修改文件特定内容
-     * @param {RegExp | String} regex 
-     * @param {String} targetStr 
-     * @returns 
+     * @param {RegExp | String} regex
+     * @param {String} targetStr
+     * @returns
      */
     changeFileByReg(result, regex, targetStr) {
         let newRes = '', regList, isReg = false;
@@ -67,10 +67,10 @@ class Compile {
 
     /**
      * 将生成的C代码写入特定的C文件
-     * @param {String} codeStr 
-     * @param {String} taskStr 
-     * @param {String} myStr 
-     * @returns 
+     * @param {String} codeStr
+     * @param {String} taskStr
+     * @param {String} myStr
+     * @returns
      */
     async handleCode(codeStr, taskStr, myStr, handlerStr) {
         //读取Aplication.c文件
@@ -92,10 +92,10 @@ class Compile {
 
     /**
      * 运行编译器参数是传入的C语言代码
-     * @param {Array} buffer 
-     * @param {String} myBlock 
-     * @param {Object} selectedExe 
-     * @param {String} verifyType 
+     * @param {Array} buffer
+     * @param {String} myBlock
+     * @param {Object} selectedExe
+     * @param {String} verifyType
      */
     async runGcc(buffer, myBlock, selectedExe, verifyType) {
         let codeStr = '', taskStr = '', handlerStr = '';
@@ -122,32 +122,32 @@ class Compile {
 
     /**
      * 区分是什么类型的通信
-     * @param {String} verifyType 
-     * @param {Array} bufferList 
-     * @param {String} myBlock 
-     * @param {Object} selectedExe 
+     * @param {String} verifyType
+     * @param {Array} bufferList
+     * @param {String} myBlock
+     * @param {Object} selectedExe
      */
-    sendSerial(verifyType, bufferList, myBlock, selectedExe) {
+    async sendSerial(verifyType, bufferList, myBlock, selectedExe) {
         if (verifyType === verifyTypeConfig.SOURCE) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: { verifyType: verifyTypeConfig.SOURCE_APP, selectedExe },
+                sendParams: { verifyType: verifyTypeConfig.RESET_FWLIB },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
                     window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });
                 }
             });
         } else {
-            this.runGcc(bufferList, myBlock, selectedExe, verifyType);
+            await this.runGcc(bufferList, myBlock, selectedExe, verifyType);
         }
     }
 }
 
 /**
  * 对比参数是否相等
- * @param {Array | Function} val 
- * @param {Array | Function} cur 
- * @returns 
+ * @param {Array | Function} val
+ * @param {Array | Function} cur
+ * @returns
  */
 function isSame(val, cur) {
     if (val.length !== cur.length) {
@@ -163,8 +163,8 @@ function isSame(val, cur) {
 
 /**
  * 把类代理成单例模式
- * @param {object} className 
- * @returns 
+ * @param {object} className
+ * @returns
  */
 function singleton(className) {
     let ins, parmters;

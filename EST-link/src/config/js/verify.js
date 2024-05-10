@@ -30,9 +30,9 @@ const ipc_Main = require("../json/communication/ipc.json");
 
 /**
  * 区分是哪种类型操作
- * @param {Object} filesObj 
- * @param {String} type 
- * @param {Object} event 
+ * @param {Object} filesObj
+ * @param {String} type
+ * @param {Object} event
  */
 function distinguish(filesObj, type, event) {
     let obj = { ...filesObj };
@@ -76,8 +76,8 @@ function distinguish(filesObj, type, event) {
 
 /**
  * 处理是哪种类型的校验
- * @param  {Object} options 
- * @returns 
+ * @param  {Object} options
+ * @returns
  */
 function verifyBinType(options) {
     let data, name;
@@ -114,8 +114,7 @@ function verifyBinType(options) {
             break;
         case BOOTBIN:
             name = `${selectedExe.num}_APP.bin`;
-            data = fs.readFileSync(path.join(root, BIN))
-            fs.writeFileSync(path.join(root, APP, name), data);
+            data = fs.readFileSync(path.join(root, BIN));
             break;
         default:
             break;
