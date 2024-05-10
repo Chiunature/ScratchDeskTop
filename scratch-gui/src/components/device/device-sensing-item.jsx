@@ -17,7 +17,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     function selectData(el) {
         setUnit(el);
     }
-    
+
     let data = useMemo(() => {
         return unit;
     }, [unit]);
@@ -26,21 +26,22 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
         <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
-                <img src={getSensing(item.deviceId)} />
-                <div>
+                <img src={getSensing(item.deviceId)}/>
+                <div className={styles.showUnit}>
                     <label>{showData}</label>
-                    <img className={styles.dropdownCaret} src={dropdownCaret} />
+                    <img className={styles.dropdownCaret} src={dropdownCaret}/>
                 </div>
-            </div>
-            <div className={styles.deviceSensingUnit}>
-                <div>
-                    {getType(item) && Object.keys(getType(item)).map((el, i) => {
-                        return (
-                            <Fragment key={i}>
-                                {DistinguishTypes(item.deviceId, i) && <span onClick={() => selectData(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
-                            </Fragment>
-                        )
-                    })}
+                <div className={styles.deviceSensingUnit}>
+                    <div>
+                        {getType(item) && Object.keys(getType(item)).map((el, i) => {
+                            return (
+                                <Fragment key={i}>
+                                    {DistinguishTypes(item.deviceId, i) && <span
+                                        onClick={() => selectData(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
+                                </Fragment>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </li>
