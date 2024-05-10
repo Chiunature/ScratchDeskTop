@@ -29,19 +29,19 @@ class Serialport extends Common {
     constructor(...args) {
         super(...args);
         this._type = 'serialport';
-        this.port;
+        this.port = null;
         this.portIndex = 0;
         this.portList = [];
         this.isConnectedPortList = [];
         this.chunkBuffer = [];
         this.chunkIndex = 0;
-        this.sign;
-        this.timeOutTimer;
-        this.versionTimer;
-        this.verifyType;
-        this.filesObj;
-        this.receiveObj;
-        this.watchDeviceData;
+        this.sign = null;
+        this.timeOutTimer = null;
+        this.checkConnectTimer = null;
+        this.verifyType = null;
+        this.filesObj = null;
+        this.receiveObj = null;
+        this.watchDeviceData = null;
     }
 
     /**
@@ -120,7 +120,6 @@ class Serialport extends Common {
         event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
         if (this.portIndex === this.portList.length) {
           this.portIndex = 0;
-          return;
         }
       } else {
         event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
@@ -150,14 +149,21 @@ class Serialport extends Common {
               this.upload_sources_status = data.verifyType;
               const { binArr } = this.checkFileName(RESET_FWLIB, 0x6F);
               this.writeData(binArr, null, event);
+              this.checkConnected(event);
               return;
             }
             this.readyToUpload(data, event);
         });
+        this.checkConnected(event);
+    }
+
+    checkConnected(event) {
+      this.checkConnectTimer = setTimeout(() => {
         if(this.upload_sources_status === RESET_FWLIB) {
-          this.readyToUpload.call(this, { verifyType: SOURCE_APP }, event);
+          this.readyToUpload({ verifyType: SOURCE_APP }, event);
           this.upload_sources_status = null;
         }
+      }, 1000);
     }
 
     readyToUpload(data, event) {
@@ -273,6 +279,8 @@ class Serialport extends Common {
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;
+        clearTimeout(this.checkConnectTimer);
+        this.checkConnectTimer = null;
     }
 
     /**
