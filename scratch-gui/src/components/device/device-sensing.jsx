@@ -65,6 +65,10 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return item.motor;
             case 2:
                 return item.color;
+            case 3:
+                return { ultrasion: item.ultrasion };
+            case 4:
+                return item.touch;
             default:
                 return null;
         }

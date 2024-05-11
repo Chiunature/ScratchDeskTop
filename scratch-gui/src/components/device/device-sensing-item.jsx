@@ -2,25 +2,36 @@ import React, { useState, useMemo, useEffect, Fragment } from "react";
 import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
+
 const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishTypes, index }) => {
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
+    let [oldDeviceId, setOldDeviceId] = useState(null);
 
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
+        if (!oldDeviceId) setOldDeviceId(item.deviceId);
+        if (oldDeviceId !== newDeviceId) {
+            setOldDeviceId(newDeviceId);
+            setUnit(null);
+        }
         if (!unit) setUnit(Object.keys(obj)[0]);
         setShowData(obj[data]);
     });
 
-    function selectData(el) {
+    function selectUnit(el) {
         setUnit(el);
     }
 
     let data = useMemo(() => {
         return unit;
     }, [unit]);
+
+    let newDeviceId = useMemo(() => {
+        return item.deviceId;
+    }, [item.deviceId]);
 
     return (
         <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
@@ -37,7 +48,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
                             return (
                                 <Fragment key={i}>
                                     {DistinguishTypes(item.deviceId, i) && <span
-                                        onClick={() => selectData(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
+                                        onClick={() => selectUnit(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
                                 </Fragment>
                             )
                         })}
