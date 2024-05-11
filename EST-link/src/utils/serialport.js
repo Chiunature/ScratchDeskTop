@@ -241,7 +241,7 @@ class Serialport extends Common {
         this.port.write(Buffer.from(data));
         //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
         if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
-            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil((this.chunkIndex / this.chunkBuffer.length) * 100));
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
         }
         if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
     }

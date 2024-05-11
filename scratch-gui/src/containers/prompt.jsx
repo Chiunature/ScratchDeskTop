@@ -3,7 +3,8 @@ import React from 'react';
 import bindAll from 'lodash.bindall';
 import PromptComponent from '../components/prompt/prompt.jsx';
 import VM from 'scratch-vm';
-
+import ScratchBlocks from 'scratch-blocks';
+import { pinyin, convert } from "../utils/pingyin-pro.js";
 class Prompt extends React.Component {
     constructor (props) {
         super(props);
@@ -21,6 +22,7 @@ class Prompt extends React.Component {
             cloudSelected: false,
             canAddCloudVariable: (props.vm && props.vm.runtime.canAddCloudVariable()) || false
         };
+        ScratchBlocks.Names.pingyin_pro = { pinyin, convert };
     }
     handleKeyPress (event) {
         if (event.key === 'Enter') this.handleOk();
@@ -37,8 +39,8 @@ class Prompt extends React.Component {
     handleCancel () {
         this.props.onCancel();
     }
-    handleChange (e) {
-        this.setState({inputValue: e.target.value.replace(/[\u4e00-\u9fa5]/g,'')});
+    handleChange(e) {
+        this.setState({inputValue: e.target.value});
     }
     handleScopeOptionSelection (e) {
         this.setState({globalSelected: (e.target.value === 'global')});

@@ -55,7 +55,7 @@ Blockly.Names = function (reservedWords, opt_variablePrefix) {
  * map.
  */
 Blockly.Names.DEVELOPER_VARIABLE_TYPE = 'DEVELOPER_VARIABLE';
-
+Blockly.Names.pingyin_pro = null;
 /**
  * When JavaScript (or most other languages) is generated, variable 'foo' and
  * procedure 'foo' would collide.  However, Blockly has no such problems since
@@ -174,6 +174,19 @@ Blockly.Names.prototype.safeName_ = function (name) {
   if (!name) {
     name = 'unnamed';
   } else {
+    if (Blockly.Names.pingyin_pro) {
+      const { pinyin, convert } = Blockly.Names.pingyin_pro;
+      let str = /[\u4e00-\u9fa5]/.test(name);
+      if (str) {
+        str = convert(pinyin(name), { format: 'toneNone' });
+        const list = str.split(' ');
+        for (let i = 0; i < list.length; i++) {
+          list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
+        }
+        name = list.join('');
+        return '_' + name;
+      }
+    }
     // Unfortunately names in non-latin characters will look like
     // _E9_9F_B3_E4_B9_90 which is pretty meaningless.
     // https://github.com/google/blockly/issues/1654
