@@ -7,16 +7,10 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
-    let [oldDeviceId, setOldDeviceId] = useState(null);
 
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
-        if (!oldDeviceId) setOldDeviceId(item.deviceId);
-        if (oldDeviceId !== newDeviceId) {
-            setOldDeviceId(newDeviceId);
-            setUnit(null);
-        }
         if (!unit) setUnit(Object.keys(obj)[0]);
         setShowData(obj[data]);
     });
@@ -32,6 +26,12 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     let newDeviceId = useMemo(() => {
         return item.deviceId;
     }, [item.deviceId]);
+
+    let oldDeviceId = useMemo(() => {
+        console.log(newDeviceId);
+        setUnit(null);
+        return newDeviceId;
+    }, [newDeviceId]);
 
     return (
         <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
