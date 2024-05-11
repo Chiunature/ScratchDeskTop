@@ -24,7 +24,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
   clearInterval(timeInterval);
   timeInterval = null;
   if (!updateDownloading) {
-    autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdatesAndNotify();
     timeInterval = setInterval(() => {
       // 检测是否有更新包并通知
       if (!updateDownloading) autoUpdater.checkForUpdatesAndNotify();
