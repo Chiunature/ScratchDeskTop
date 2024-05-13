@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, Fragment } from "react";
+import React, {useState, useMemo, useEffect, Fragment, useCallback} from "react";
 import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
@@ -15,9 +15,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
         setShowData(obj[data]);
     });
 
-    function selectUnit(el) {
-        setUnit(el);
-    }
+    let selectUnit = useCallback((el) => setUnit(el), [unit]);
 
     let data = useMemo(() => {
         return unit;
