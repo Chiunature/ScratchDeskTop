@@ -180,7 +180,7 @@ const DeviceCards = props => {
 
     const handleScreenAuto = () => {
         const designDraftWidth = 1920;
-        const designDraftHeight = 960;
+        const designDraftHeight = 1080;
         // 根据屏幕的变化适配的比例
         const scale =
             document.documentElement.clientWidth /
