@@ -50,11 +50,12 @@
 }
 
 .main-menu-inp {
+    width: 226px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    flex-grow: 1;
+    /*flex-grow: 1;*/
 }
 
 .inactive {
@@ -108,7 +109,7 @@
 }
 
 .menu-bar-item.growable {
-    max-width: $menu-bar-item-max-width;
+    /*max-width: $menu-bar-item-max-width;*/
     flex: 1;
 }
 

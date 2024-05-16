@@ -326,6 +326,9 @@ class MenuBar extends React.Component {
         if (modifier && event.key === "s") {
             this.handleClickSave();
             event.preventDefault();
+        }else if(modifier && event.key === "alt" && event.key === "s") {
+            this.getSaveToComputerHandler(this.downloadProject.bind(this))();
+            event.preventDefault();
         }
     }
 
@@ -702,6 +705,7 @@ class MenuBar extends React.Component {
                                                         description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
                                                         id="gui.menuBar.downloadToComputer"
                                                     />
+                                                    <span>（Ctrl+Alt+s）</span>
                                                 </MenuItem>
                                             )}
                                         </SB3Downloader>
@@ -912,7 +916,7 @@ class MenuBar extends React.Component {
                         )}
                     </div>
                 </div>
-                <div className={classNames(styles.mainMenuInp)}>
+                <Box className={classNames(styles.mainMenuInp)}>
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -929,8 +933,8 @@ class MenuBar extends React.Component {
                                  onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))}/>
                         </MenuBarItemTooltip>
                     </div>
-                </div>
-                <div className={classNames(styles.mainMenuTwo)}>
+                </Box>
+                <Box className={classNames(styles.mainMenuTwo)}>
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -969,7 +973,7 @@ class MenuBar extends React.Component {
                             id="gui.menuBar.Generator"
                         />
                     </div>
-                </div>
+                </Box>
                 {/* show the proper UI in the account menu, given whether the user is
                 logged in, and whether a session is available to log in with */}
                 <div
