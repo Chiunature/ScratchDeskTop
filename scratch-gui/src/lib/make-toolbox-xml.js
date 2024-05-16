@@ -23,7 +23,7 @@ const xmlEscape = function (unsafe) {
 };
 
 
-{/* 
+{/*
     <block type="sound_cleareffects"/>
     <block type="sound_changeeffectby">
                 <value name="VALUE">
@@ -46,7 +46,7 @@ const xmlEscape = function (unsafe) {
                 </shadow>
             </value>
         </block>
-            ${blockSeparator} 
+            ${blockSeparator}
             <block type="sound_setPlaySpeed">
             <value name="SPEED">
                 <shadow type="math_number">
@@ -102,7 +102,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
         <block type="event_tilts" />
         <block type="event_keypress" />
         ${blockSeparator}
-        
+
         ${blockSeparator}
         <block type="event_whengreaterthan">
             <value name="VALUE">
@@ -116,7 +116,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
                     <value name="BROADCAST_INPUT">
                       <shadow type="event_broadcast_menu"></shadow>
                     </value>
-                </block>    
+                </block>
         ${blockSeparator}
                 <block type="event_whenbroadcastreceived">
                     <value name="BROADCAST_INPUT">
@@ -253,7 +253,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
-            </block> 
+            </block>
             <block type="sensing_gyroscope_acceleration"></block>
             <block type="sensing_gyroscope_attitude"></block>
             <block type="sensing_gyroscope_angle"></block>
@@ -488,7 +488,7 @@ const myBlocks = function (colors) {
     `;
 };
 
-/* 
+/*
     <block type="motor_specifiedangle">
             <value name="ANGLE">
                 <shadow type="math_angle"></shadow>
@@ -564,8 +564,14 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="motor_acceleration">
-            <value name="MENU">
-                <shadow type="motor_acceleration_menu"></shadow>
+            <value name="P">
+                <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+            </value>
+            <value name="I">
+                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+            </value>
+            <value name="D">
+                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
         <block type="motor_setStill">
@@ -668,7 +674,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
 };
 
 
-/* 
+/*
     <block type="matrix_lamp_setSaturation">
             <value name="saturation">
                 <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
@@ -724,7 +730,7 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
             <value name="COLOR">
                 <shadow type="colour_picker"/>
             </value>
-        </block>  
+        </block>
         <block type="matrix_lamp_single">
             <value name="x">
                 <shadow type="matrix_x"></shadow>
@@ -732,7 +738,7 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
             <value name="y">
                 <shadow type="matrix_y"></shadow>
             </value>
-        </block>   
+        </block>
         `
         }
     </category>

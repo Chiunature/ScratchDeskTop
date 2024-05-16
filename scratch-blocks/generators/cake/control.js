@@ -81,7 +81,7 @@ Blockly.cake['control_forever'] = function (block) {
   if (until) {
     argument0 = '!' + argument0;
   }
-  return 'while (' + argument0 + ') {\n' + branch + 'vTaskDelay(50);\n}\n';
+  return 'while (' + argument0 + ') {\n' + branch + '\n}\n';
 };
 
 Blockly.cake['control_break'] = function (block) {
@@ -118,10 +118,10 @@ Blockly.cake['control_wait_until'] = function (block) {
   var branch = Blockly.cake.statementToCode(block, 'SUBSTACK');
   branch = Blockly.cake.addLoopTrap(branch, block.id);
 
-  /* var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){vTaskDelay(50);} {\n';
+  /* var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){} {\n';
   code += branch;
   code += Blockly.cake.INDENT + "}\n"; */
-  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){vTaskDelay(50);};\n';
+  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){};\n';
   return code;
 };
 
@@ -134,7 +134,7 @@ Blockly.cake['control_repeat_until'] = function (block) {
 
   var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0) {\n';
   code += branch;
-  code += Blockly.cake.INDENT + "vTaskDelay(50);\n}\n";
+  code += Blockly.cake.INDENT + "\n}\n";
   return code;
 };
 
@@ -165,7 +165,7 @@ Blockly.cake['control_doWhile'] = function (block) {
   if (until) {
     argument0 = '!' + argument0;
   }
-  return 'do {\n' + branch + 'vTaskDelay(50);\n} while (strcmp(' + `${Blockly.cake.toStr(argument0) ? argument0 : '"' + argument0 + '"'}` + ', "TRUE") == 0);\n';
+  return 'do {\n' + branch + '\n} while (strcmp(' + `${Blockly.cake.toStr(argument0) ? argument0 : '"' + argument0 + '"'}` + ', "TRUE") == 0);\n';
 };
 
 Blockly.cake['control_for'] = function (block) {

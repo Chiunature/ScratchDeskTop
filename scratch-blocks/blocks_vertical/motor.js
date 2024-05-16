@@ -105,18 +105,40 @@ Blockly.Blocks['motor_acceleration'] = {
         this.jsonInit({
             "message0": Blockly.Msg.MOTOR_ACCELERATION,
             "args0": [
-                {
-                    "type": "field_image",
-                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
-                    "width": 20,
-                    "height": 20,
-                    "alt": "*",
-                    "flipRtl": false
-                },
-                {
-                    "type": "input_value",
-                    "name": "MENU",
-                },
+              {
+                "type": "field_image",
+                "src": Blockly.mainWorkspace.options.pathToMedia + "motor.svg",
+                "width": 20,
+                "height": 20,
+                "alt": "*",
+                "flipRtl": false
+              },
+              {
+                "type": "field_dropdown",
+                "name": "MOTOR_TYPE",
+                "options": [
+                  [
+                    Blockly.Msg.BIG_MOTOR,
+                    "big_motor"
+                  ],
+                  [
+                    Blockly.Msg.SMALL_MOTOR,
+                    "middle_motor"
+                  ]
+                ]
+              },
+              {
+                "type": "input_value",
+                "name": "P",
+              },
+              {
+                "type": "input_value",
+                "name": "I",
+              },
+              {
+                "type": "input_value",
+                "name": "D",
+              },
             ],
             "category": Blockly.Categories.motor,
             "extensions": ["colours_motion", "shape_statement"],
@@ -573,14 +595,14 @@ Blockly.Blocks['motor_setStill'] = {
                     "type": "field_dropdown",
                     "name": "MOTOR_TYPE",
                     "options": [
-                        [
-                            Blockly.Msg.BIG_MOTOR,
-                            "big_motor_hold_pid"
-                        ],
-                        [
-                            Blockly.Msg.SMALL_MOTOR,
-                            "small_motor_hold_pid"
-                        ]
+                      [
+                        Blockly.Msg.BIG_MOTOR,
+                        "big_motor"
+                      ],
+                      [
+                        Blockly.Msg.SMALL_MOTOR,
+                        "middle_motor"
+                      ]
                     ]
                 },
                 {
