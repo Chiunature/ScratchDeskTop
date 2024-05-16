@@ -91,6 +91,7 @@
         "redux": "3.7.2",
         "redux-throttle": "0.1.1",
         "regenerator-runtime": "^0.14.0",
+        "save-svg-as-png": "^1.4.17",
         "scratch-audio": "0.1.0-prerelease.20200528195344",
         "scratch-blocks": "file:../scratch-blocks",
         "scratch-l10n": "file:../scratch-l10n",
@@ -221,9 +222,9 @@
         ],
         "fileAssociations": [
             {
-              "ext": "lbs",
-              "name": "LBS File",
-              "role": "Editor"
+                "ext": "lbs",
+                "name": "LBS File",
+                "role": "Editor"
             }
         ],
         "nsis": {

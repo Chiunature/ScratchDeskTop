@@ -1,12 +1,7 @@
 import classNames from "classnames";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import {
-    defineMessages,
-    FormattedMessage,
-    injectIntl,
-    intlShape,
-} from "react-intl";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import {defineMessages, FormattedMessage, injectIntl, intlShape,} from "react-intl";
 import PropTypes from "prop-types";
 import bindAll from "lodash.bindall";
 import bowser from "bowser";
@@ -18,13 +13,13 @@ import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import CommunityButton from "./community-button.jsx";
 import ShareButton from "./share-button.jsx";
-import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
+import {ComingSoonTooltip} from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 // import LanguageSelector from "../../containers/language-selector.jsx";
 import SaveStatus from "./save-status.jsx";
 import ProjectWatcher from "../../containers/project-watcher.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
-import { MenuItem, MenuSection } from "../menu/menu.jsx";
+import {MenuItem, MenuSection} from "../menu/menu.jsx";
 import ProjectTitleInput from "./project-title-input.jsx";
 // import AuthorInfo from "./author-info.jsx";
 import AccountNav from "../../containers/account-nav.jsx";
@@ -33,44 +28,52 @@ import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
-import { getSerialList, setPort, setIsConnectedSerial, setConnectionModalPeripheralName, clearConnectionModalPeripheralName, setCompleted, setProgress } from "../../reducers/connection-modal";
-import { openTipsLibrary, openConnectionModal } from "../../reducers/modals";
-import { setGen, setPlayer } from "../../reducers/mode";
+import {
+    clearConnectionModalPeripheralName,
+    getSerialList,
+    setCompleted,
+    setConnectionModalPeripheralName,
+    setIsConnectedSerial,
+    setPort,
+    setProgress
+} from "../../reducers/connection-modal";
+import {openConnectionModal, openTipsLibrary} from "../../reducers/modals";
+import {setGen, setPlayer} from "../../reducers/mode";
 import {
     autoUpdateProject,
-    getIsUpdating,
     getIsShowingProject,
+    getIsUpdating,
     manualUpdateProject,
-    requestNewProject,
     remixProject,
+    requestNewProject,
     saveProjectAsCopy,
 } from "../../reducers/project-state";
 import {
-    openAboutMenu,
-    closeAboutMenu,
     aboutMenuOpen,
-    openAccountMenu,
-    closeAccountMenu,
     accountMenuOpen,
-    openFileMenu,
-    closeFileMenu,
-    fileMenuOpen,
-    openEditMenu,
+    closeAboutMenu,
+    closeAccountMenu,
     closeEditMenu,
-    editMenuOpen,
-    openLanguageMenu,
+    closeFileMenu,
     closeLanguageMenu,
-    languageMenuOpen,
-    openLoginMenu,
     closeLoginMenu,
+    closeSettingsMenu,
+    editMenuOpen,
+    fileMenuOpen,
+    languageMenuOpen,
     loginMenuOpen,
-    settingsMenuOpen,
+    openAboutMenu,
+    openAccountMenu,
+    openEditMenu,
+    openFileMenu,
+    openLanguageMenu,
+    openLoginMenu,
     openSettingsMenu,
-    closeSettingsMenu
+    settingsMenuOpen
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
-
+import {svgAsDataUri} from "save-svg-as-png";
 import styles from "./menu-bar.css";
 
 // import helpIcon from "../../lib/assets/icon--tutorials.svg";
@@ -80,22 +83,19 @@ import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
-import { ipc as ipc_Renderer } from 'est-link';
+import {ipc as ipc_Renderer} from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
-import { showAlertWithTimeout } from "../../reducers/alerts";
+import {showAlertWithTimeout} from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
-import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
-import { showFileStytem } from "../../reducers/file-stytem.js";
-import { projectTitleInitialState } from '../../reducers/project-title';
-import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
-import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
-
-
-
+import {setDeviceCards, viewDeviceCards} from "../../reducers/cards.js";
+import {showFileStytem} from "../../reducers/file-stytem.js";
+import {projectTitleInitialState} from '../../reducers/project-title';
+import {HELP_DOCX, HELP_PDF} from "../../config/json/LB_USER.json";
+import {HARDWARE, SOFTWARE} from "../../lib/helps/index.js";
 
 
 const ariaMessages = defineMessages({
@@ -149,12 +149,12 @@ const homeMessage = (
 
 
 const MenuBarItemTooltip = ({
-    children,
-    className,
-    enable,
-    id,
-    place = "bottom",
-}) => {
+                                children,
+                                className,
+                                enable,
+                                id,
+                                place = "bottom",
+                            }) => {
     if (enable) {
         return <React.Fragment>{children}</React.Fragment>;
     }
@@ -178,7 +178,7 @@ MenuBarItemTooltip.propTypes = {
     place: PropTypes.oneOf(["top", "bottom", "left", "right"]),
 };
 
-const MenuItemTooltip = ({ id, isRtl, children, className }) => (
+const MenuItemTooltip = ({id, isRtl, children, className}) => (
     <ComingSoonTooltip
         className={classNames(styles.comingSoon, className)}
         isRtl={isRtl}
@@ -239,17 +239,20 @@ class MenuBar extends React.Component {
         this.timer = null;
         this.closeTimer = null;
     }
+
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
         this.scanConnection();
         // this.handleBleDisConnect();
     }
+
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress);
     }
 
     handleClickHome() {
-        this.props.onShowFileSystem(true);
+        this.props.onRequestCloseFile();
+        this.props.onShowFileSystem();
     }
 
     handleClickNew() {
@@ -269,19 +272,23 @@ class MenuBar extends React.Component {
         }
         this.props.onRequestCloseFile();
     }
+
     handleClickRemix() {
         this.props.onClickRemix();
         this.props.onRequestCloseFile();
     }
+
     handleClickSave() {
         this.getSaveToComputerHandler(this.downloadProject.bind(this, true))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
+
     handleClickSaveAsCopy() {
         this.props.onClickSaveAsCopy();
         this.props.onRequestCloseFile();
     }
+
     handleClickSeeCommunity(waitForUpdate) {
         if (this.props.shouldSaveBeforeTransition()) {
             this.props.autoUpdateProject(); // save before transitioning to project page
@@ -290,6 +297,7 @@ class MenuBar extends React.Component {
             waitForUpdate(false); // immediately transition to project page
         }
     }
+
     handleClickShare(waitForUpdate) {
         if (!this.props.isShared) {
             if (this.props.canShare) {
@@ -305,12 +313,14 @@ class MenuBar extends React.Component {
             }
         }
     }
+
     handleRestoreOption(restoreFun) {
         return () => {
             restoreFun();
             this.props.onRequestCloseEdit();
         };
     }
+
     handleKeyPress(event) {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
         if (modifier && event.key === "s") {
@@ -318,6 +328,7 @@ class MenuBar extends React.Component {
             event.preventDefault();
         }
     }
+
     getSaveToComputerHandler(downloadProjectCallback) {
         return () => {
             this.props.onRequestCloseFile();
@@ -332,11 +343,13 @@ class MenuBar extends React.Component {
             }
         };
     }
+
     handleLanguageMouseUp(e) {
         if (!this.props.languageMenuOpen) {
             this.props.onClickLanguage(e);
         }
     }
+
     restoreOptionMessage(deletedItem) {
         switch (deletedItem) {
             case "Sprite":
@@ -374,6 +387,7 @@ class MenuBar extends React.Component {
             }
         }
     }
+
     buildAboutMenu(onClickAbout) {
         if (!onClickAbout) {
             // hide the button
@@ -381,7 +395,7 @@ class MenuBar extends React.Component {
         }
         if (typeof onClickAbout === "function") {
             // make a button which calls a function
-            return <AboutButton onClick={onClickAbout} />;
+            return <AboutButton onClick={onClickAbout}/>;
         }
         // assume it's an array of objects
         // each item must have a 'title' FormattedMessage and a 'handleClick' function
@@ -393,7 +407,7 @@ class MenuBar extends React.Component {
                 })}
                 onMouseUp={this.props.onRequestOpenAbout}
             >
-                <img className={styles.aboutIcon} src={aboutIcon} />
+                <img className={styles.aboutIcon} src={aboutIcon}/>
                 <MenuBarMenu
                     className={classNames(styles.menuBarMenu)}
                     open={this.props.aboutMenuOpen}
@@ -432,7 +446,7 @@ class MenuBar extends React.Component {
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            const {result, type} = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
             if (result) {
                 clearInterval(this.timer);
                 this.timer = null;
@@ -503,8 +517,8 @@ class MenuBar extends React.Component {
         this.props.onSetProgress(0);
         if (msg.length > 0) this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
-        this.props.onSetDeviceCards({ deviceVisible: false });
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        this.props.onSetDeviceCards({deviceVisible: false});
+        window.myAPI.ipcRender({sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED});
     }
 
     showDeviceCards() {
@@ -540,33 +554,46 @@ class MenuBar extends React.Component {
         this.props.onShowQrcode();
     }
 
+    async screenPrintWorkspace() {
+        return await svgAsDataUri(this.props.workspace.svgGroup_, {backgroundColor: '#ffffff'});
+    }
+
     downloadProject(onlySave) {
-        this.props.saveProjectSb3().then(content => {
+        this.props.saveProjectSb3().then(async content => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
+            const res = await content.arrayBuffer();
+            const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
+                file: Buffer.from(res),
+                filename: this.props.projectFilename
+            });
             downloadBlob(this.props.projectFilename, content, onlySave);
-            if(onlySave) return;
-            const fr = new FileReader();
-            fr.readAsDataURL(content);
-            let list = [];
-            fr.onload = (e) => {
-                const data = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
-                if (data) {
-                    list = JSON.parse(data);
-                }
-                const obj = {
-                    fileName: this.props.projectFilename.slice(0, -4) + '_' + (list.length + 1),
-                    url: e.target.result,
-                    size: Math.ceil(content.size / 1024) + 'KB',
-                    alterTime: window.myAPI.getCurrentTime(),
-                    editable: false
-                }
-                const newList = [...list, obj];
-                window.myAPI.setStoreValue('recentFile', JSON.stringify(obj));
-                window.myAPI.writeFiles('./cache-files.json', JSON.stringify(newList), window.resourcesPath);
-            }
+            if (onlySave || !filePath) return;
+            this.setCacheForSave(filePath);
         });
+    }
+
+    async setCacheForSave(filePath) {
+        const imgUrl = await this.screenPrintWorkspace();
+        let list = [];
+        const data = window.myAPI.getStoreValue('files')
+        if (data) {
+            list = data;
+        }
+        let time = window.myAPI.getCurrentTime();
+        let timeList = time.split('_');
+        timeList[1] = timeList[1].replaceAll('-', ':');
+        const obj = {
+            fileName: this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf('.')),
+            filePath: filePath,
+            alterTime: timeList.join(' '),
+            editable: false,
+            checked: false,
+            pic_url: imgUrl
+        }
+        const newList = [obj, ...list];
+        window.myAPI.setStoreValue('files', newList);
     }
 
     render() {
@@ -586,19 +613,20 @@ class MenuBar extends React.Component {
             <Box className={classNames(this.props.className, styles.menuBar)}>
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (<SettingsMenu
-                            reUpdateDriver={this.reUpdateDriver}
-                            handleHelp={this.handleHelp}
-                            handleProblem={this.handleProblem}
-                            canChangeLanguage={this.props.canChangeLanguage}
-                            canChangeTheme={this.props.canChangeTheme}
-                            canChangeHelp={this.props.canChangeHelp}
-                            isRtl={this.props.isRtl}
-                            onRequestClose={this.props.onRequestCloseSettings}
-                            onRequestOpen={this.props.onClickSettings}
-                            settingsMenuOpen={this.props.settingsMenuOpen}
-                            getMainMessage={this.props.getMainMessage}
-                        />)}
+                        {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (
+                            <SettingsMenu
+                                reUpdateDriver={this.reUpdateDriver}
+                                handleHelp={this.handleHelp}
+                                handleProblem={this.handleProblem}
+                                canChangeLanguage={this.props.canChangeLanguage}
+                                canChangeTheme={this.props.canChangeTheme}
+                                canChangeHelp={this.props.canChangeHelp}
+                                isRtl={this.props.isRtl}
+                                onRequestClose={this.props.onRequestCloseSettings}
+                                onRequestOpen={this.props.onClickSettings}
+                                settingsMenuOpen={this.props.settingsMenuOpen}
+                                getMainMessage={this.props.getMainMessage}
+                            />)}
                         {this.props.canManageFiles && (
                             <div
                                 className={classNames(
@@ -606,12 +634,12 @@ class MenuBar extends React.Component {
                                     styles.hoverable,
                                     {
                                         [styles.active]:
-                                            this.props.fileMenuOpen,
+                                        this.props.fileMenuOpen,
                                     }
                                 )}
                                 onMouseUp={this.props.onClickFile}
                             >
-                                <img src={fileIcon} />
+                                <img src={fileIcon}/>
                                 <span className={styles.collapsibleLabel}>
                                     <FormattedMessage
                                         defaultMessage="File"
@@ -619,7 +647,7 @@ class MenuBar extends React.Component {
                                         id="gui.menuBar.file"
                                     />
                                 </span>
-                                <img src={dropdownCaret} />
+                                <img src={dropdownCaret}/>
                                 <MenuBarMenu
                                     className={classNames(styles.menuBarMenu)}
                                     open={this.props.fileMenuOpen}
@@ -667,9 +695,7 @@ class MenuBar extends React.Component {
                                             ) => (
                                                 <MenuItem
                                                     className={className}
-                                                    onClick={this.getSaveToComputerHandler(
-                                                        this.downloadProject.bind(this)
-                                                    )}
+                                                    onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this))}
                                                 >
                                                     <FormattedMessage
                                                         defaultMessage="Save to your computer"
@@ -710,7 +736,7 @@ class MenuBar extends React.Component {
                                 <DeletionRestorer>
                                     {(
                                         handleRestore,
-                                        { restorable, deletedItem }
+                                        {restorable, deletedItem}
                                     ) => (
                                         <MenuItem
                                             className={classNames({
@@ -728,7 +754,7 @@ class MenuBar extends React.Component {
                                 </DeletionRestorer>
                                 <MenuSection>
                                     <TurboMode>
-                                        {(toggleTurboMode, { turboMode }) => (
+                                        {(toggleTurboMode, {turboMode}) => (
                                             <MenuItem onClick={toggleTurboMode}>
                                                 {turboMode ? (
                                                     <FormattedMessage
@@ -764,7 +790,7 @@ class MenuBar extends React.Component {
                         <img className={styles.helpIcon} src={helpIcon} />
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div> */}
-                    <Divider className={classNames(styles.divider)} />
+                    <Divider className={classNames(styles.divider)}/>
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -834,14 +860,14 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                        /* eslint-enable react/jsx-no-bind */
+                                            /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
                             )
                         ) : this.props.showComingSoon ? (
                             <MenuBarItemTooltip id="share-button">
-                                <ShareButton className={styles.menuBarButton} />
+                                <ShareButton className={styles.menuBarButton}/>
                             </MenuBarItemTooltip>
                         ) : (
                             []
@@ -870,7 +896,7 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                        /* eslint-enable react/jsx-no-bind */
+                                            /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
@@ -895,11 +921,12 @@ class MenuBar extends React.Component {
                     >
                         <MenuBarItemTooltip enable id="title-field">
                             <ProjectTitleInput readOnly={false}
-                                className={classNames(
-                                    styles.titleFieldGrowable
-                                )}
+                                               className={classNames(
+                                                   styles.titleFieldGrowable
+                                               )}
                             />
-                            <img className={styles.fileSaveIcon} src={fileSaveIcon} onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))} />
+                            <img className={styles.fileSaveIcon} src={fileSaveIcon}
+                                 onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))}/>
                         </MenuBarItemTooltip>
                     </div>
                 </div>
@@ -915,8 +942,8 @@ class MenuBar extends React.Component {
                         )}
                         onClick={() => this.showDeviceCards()}
                     >
-                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
-                            <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
+                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon}/> :
+                            <img className={styles.unconnectedIcon} src={unconnectedIcon}/>}
                         <FormattedMessage
                             defaultMessage="Device"
                             description="View device information"
@@ -935,7 +962,7 @@ class MenuBar extends React.Component {
                         )}
                         onClick={() => this.props.onSetGen(this.props.isGen)}
                     >
-                        <img className={styles.unconnectedIcon} src={genIcon} />
+                        <img className={styles.unconnectedIcon} src={genIcon}/>
                         <FormattedMessage
                             defaultMessage="Generator"
                             description="Text for menubar Generator button"
@@ -949,7 +976,7 @@ class MenuBar extends React.Component {
                     className={classNames(styles.accountInfoGroup, styles.hide)}
                 >
                     <div className={styles.menuBarItem}>
-                        {this.props.canSave && <SaveStatus />}
+                        {this.props.canSave && <SaveStatus/>}
                     </div>
                     {this.props.sessionExists ? (
                         this.props.username ? (
@@ -975,7 +1002,7 @@ class MenuBar extends React.Component {
                                         styles.hoverable,
                                         {
                                             [styles.active]:
-                                                this.props.accountMenuOpen,
+                                            this.props.accountMenuOpen,
                                         }
                                     )}
                                     isOpen={this.props.accountMenuOpen}
@@ -1169,11 +1196,13 @@ MenuBar.propTypes = {
     userOwnsProject: PropTypes.bool,
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
+    onShowFileSystem: PropTypes.func
 };
 
 MenuBar.defaultProps = {
     logo: '',
-    onShare: () => { },
+    onShare: () => {
+    },
 };
 
 const getProjectFilename = (curTitle, defaultTitle) => {
@@ -1215,7 +1244,8 @@ const mapStateToProps = (state, ownProps) => {
         deviceName: state.scratchGui.device.deviceName,
         serialList: state.scratchGui.connectionModal.serialList,
         saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
-        projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
+        projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
+        workspace: state.scratchGui.workspaceMetrics.workspace,
     };
 };
 
@@ -1257,7 +1287,7 @@ const mapDispatchToProps = (dispatch) => ({
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
-    onShowFileSystem: (n) => dispatch(showFileStytem(n)),
+    onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProgress: (progress) => dispatch(setProgress(progress))
 });
 

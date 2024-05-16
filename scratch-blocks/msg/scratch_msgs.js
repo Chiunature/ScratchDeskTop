@@ -6826,6 +6826,7 @@ Blockly.ScratchMsgs.locales["en"] = {
     "COMBINED_MOTOR_ANGLE": "%1 starts moving %2 degrees",
     "COMBINED_MOTOR_STOPPING": "%1 Set the running motor to stop %2",
     "COMBINED_MOTOR_STARTING": "%1 sets the combined motor to %2",
+    "COMBINED_MOTOR_STARTWITHPOWER": "%1 at a speed of %2 and %3 %% to move",
     "MATRIX_LAMP": '%1 light %2 the color is %3',
     "STOP_MATRIX_LAMP": "%1 turn off pixel lights",
     "SET_MATRIX_LAMP": "%1 set the brightness of the pixel light to %2 %%",

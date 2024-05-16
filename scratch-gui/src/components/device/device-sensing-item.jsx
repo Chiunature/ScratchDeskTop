@@ -26,7 +26,6 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     }, [item.deviceId]);
 
     let oldDeviceId = useMemo(() => {
-        console.log(newDeviceId);
         setUnit(null);
         return newDeviceId;
     }, [newDeviceId]);

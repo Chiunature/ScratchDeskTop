@@ -75,5 +75,8 @@
     "DRIVER": {
         "INSTALL": "install",
         "REUPDATE": "reupdate"
+    },
+    "FILE":  {
+      "SAVE": "save-file"
     }
 }

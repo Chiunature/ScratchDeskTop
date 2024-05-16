@@ -1,11 +1,11 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const {contextBridge, ipcRenderer} = require('electron');
 const fs = require("fs");
 const path = require("path");
-const { spawn, exec } = require("child_process");
-const { cwd } = require('process');
+const {spawn, exec} = require("child_process");
+const {cwd} = require('process');
 const url = require("url");
-const { VERSION } = require("./src/config/json/LB_FWLIB.json");
-const { DIR } = require("./src/config/json/LB_USER.json");
+const {VERSION} = require("./src/config/json/LB_FWLIB.json");
+const {DIR} = require("./src/config/json/LB_USER.json");
 const Store = require('electron-store');
 const store = new Store();
 
@@ -16,8 +16,7 @@ function setStoreValue(key, value) {
 }
 
 function getStoreValue(key) {
-    const value = store.get(key);
-    return value;
+    return store.get(key);
 }
 
 function removeStoreValue(key) {
@@ -36,15 +35,14 @@ function hasStoreValue(key) {
  * @returns {Promise}
  */
 async function ipcInvoke(sendName, sendParams) {
-    const result = await ipcRenderer.invoke(sendName, sendParams);
-    return result
+    return await ipcRenderer.invoke(sendName, sendParams)
 }
 
 /**
  * 渲染进程开启事件监听
  * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0
  */
-function ipcRender({ sendName, sendParams, eventName, callback }) {
+function ipcRender({sendName, sendParams, eventName, callback}) {
     if (sendName) {
         ipcRenderer.send(sendName, sendParams);
     }
@@ -75,15 +73,15 @@ function delEvents(eventName) {
 }
 
 /**
-     * 读取文件内容
-     * @param {String} path
-     * @param {String} type
-     * @returns
-     */
-function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf-8' }) {
+ * 读取文件内容
+ * @returns
+ * @param link
+ * @param resourcePath
+ * @param options
+ */
+function readFiles(link, resourcePath = cwd(), options = {encoding: 'utf-8'}) {
     try {
-        const data = fs.readFileSync(path.join(resourcePath, link), options);
-        return data;
+        return fs.readFileSync(path.join(resourcePath, link), options);
     } catch (error) {
         handlerError(error, resourcePath);
         return false;
@@ -91,10 +89,13 @@ function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf-8' }) 
 }
 
 /**
-     * 将c语言代码写入文件
-     * @param {String} path
-     * @returns
-     */
+ * 将c语言代码写入文件
+ * @returns
+ * @param link
+ * @param data
+ * @param resourcePath
+ * @param options
+ */
 function writeFiles(link, data, resourcePath = cwd(), options = {}) {
     try {
         fs.writeFileSync(path.join(resourcePath, link), data, options);
@@ -134,31 +135,25 @@ function replaceFiles(oldFilePath, newFilePath, content) {
 }
 
 /**
-     * 删除文件
-     * @param {String} path
-     * @returns
-     */
+ * 删除文件
+ * @returns
+ * @param link
+ * @param resourcePath
+ */
 function deleteFiles(link, resourcePath = cwd()) {
-    // 检测文件是否存在
-    fs.access(path.join(resourcePath, link), fs.constants.F_OK, (err) => {
-        if (err) {
-            console.error('文件不存在');
-        } else {
-            fs.unlink(path.join(resourcePath, link), (err) => {
-                if (err) handlerError(err, resourcePath);
-            });
-        }
+    fs.unlink(path.join(resourcePath, link), (err) => {
+        if (err) handlerError(err, resourcePath);
     });
 }
 
 /**
-     * 调用编译命令
-     * @returns
-     */
+ * 调用编译命令
+ * @returns
+ */
 function commendMake(cpath = cwd()) {
     return new Promise((resolve, reject) => {
         let errStr = '';
-        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
+        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], {cwd: path.join(cpath, DIR)});
         progress.stderr.on('data', (err) => errStr += err.toString());
 
         progress.on('close', (code, signal) => {
@@ -172,26 +167,11 @@ function commendMake(cpath = cwd()) {
     });
 }
 
-/**
- * 获取版本并对比是否需要更新
- * @param {String} data
- * @param {String} path
- * @returns
- */
-function compareVersion(data, vpath = path.join(cwd(), VERSION, '/Version.txt')) {
-    const version = fs.readFileSync(vpath, 'utf-8');
-    if (version && !isNaN(version) && data == version) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 /**
  * 获取硬件版本
- * @param {String} data
- * @param {String} path
  * @returns
+ * @param vpath
  */
 function getVersion(vpath) {
     const p = path.join(vpath, VERSION, '/Version.txt');
@@ -209,7 +189,7 @@ async function writeFileWithDirectory(directory = cwd(), filepath, data) {
     if (fs.existsSync(directory)) {
         fs.writeFileSync(filepath, data);
     } else {
-        fs.mkdir(directory, { recursive: true }, async () => {
+        fs.mkdir(directory, {recursive: true}, async () => {
             fs.writeFileSync(filepath, data);
         });
     }
@@ -232,11 +212,11 @@ function getCurrentTime() {
 
 /**
  * 错误处理
- * @param {string} error
+ * @param {NodeJS.ErrnoException} error
  * @param resourcePath
  */
-async function handlerError (error, resourcePath = cwd()) {
-    if(!ArrayBuffer.isView(error) || typeof error !== 'string') return;
+async function handlerError(error, resourcePath = cwd()) {
+    if (!ArrayBuffer.isView(error) || typeof error !== 'string') return;
     const time = getCurrentTime();
     const filepath = `./Error/error_${time}.txt`;
     await writeFileWithDirectory(resourcePath, filepath, error);
@@ -256,6 +236,15 @@ function getMediaPath(link = '') {
     });
 }
 
+function changeFileName(oldPath, newPath) {
+    fs.rename(oldPath, newPath, (err) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log('文件名已被修改');
+        }
+    });
+}
 
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
@@ -264,9 +253,7 @@ contextBridge.exposeInMainWorld('myAPI', {
     ipcInvoke,
     delEvents,
     ipcRender,
-    compareVersion,
     commendMake,
-    writeFileWithDirectory,
     handlerError,
     getCurrentTime,
     setStoreValue,
@@ -277,5 +264,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     getDocxUrl,
     getMediaPath,
     getVersion,
-    replaceFiles
+    replaceFiles,
+    changeFileName
 });

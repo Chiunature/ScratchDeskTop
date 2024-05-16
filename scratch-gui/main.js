@@ -29,7 +29,7 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { cwd } = require('process');
-const { spawn, exec } = require('child_process');
+const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 const checkUpdate = require('./update.js');
 const createProtocol = require("./src/config/js/createProtocol.js");
@@ -87,7 +87,27 @@ function showLoading() {
         loadingWindow.show();
         resolve();
     });
-};
+}
+
+function saveFileToLocal() {
+    ipcMain.handle(ipc.FILE.SAVE,async (event, obj) => {
+        // 选择文件保存路径
+        const result = await dialog.showSaveDialog({
+            title: 'Save File',
+            defaultPath: path.join(app.getPath('documents'), obj.filename),
+            filters: [{ name: 'LBS Files', extensions: ['lbs','sb3','sb2','sb1'] }]
+        });
+        if (!result.canceled) {
+            const filePath = result.filePath;
+            // 写入文件到指定路径
+            fs.writeFileSync(filePath, obj.file);
+            console.info('File saved to:', filePath);
+            return filePath;
+        }else {
+            return false;
+        }
+    });
+}
 
 function createWindow() {
     // 获取主显示器的宽高信息
@@ -125,9 +145,10 @@ function createWindow() {
         }
         // 防止页面失去焦点
         _handleOnFocus();
+        // 保存文件到本地
+        saveFileToLocal();
         // 设置静态资源路径
         ipcMain.handle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
-
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
             if (!mainMsg) {
                 mainMsg = { ...msg };
@@ -146,11 +167,9 @@ function createWindow() {
             if (flag === ipc.DRIVER.INSTALL) return;
             //是否需要重装驱动
             if (flag === ipc.DRIVER.REUPDATE) {
-                const res = await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
-                return res;
+                return await _checkInstallDriver({message: mainMsg['reinstallDriver']});
             }
-            const res = await _checkInstallDriver({ message: mainMsg['installDriver'] });
-            return res;
+            return await _checkInstallDriver({message: mainMsg['installDriver']});
         });
 
         mainWindow.once("ready-to-show", () => {

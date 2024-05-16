@@ -10,17 +10,16 @@ const reducer = function (state, action) {
     switch (action.type) {
         case SET_FILESTYTEM:
             return Object.assign({}, state, {
-                showFileStytem: action.showFileStytem,
+                showFileStytem: !state.showFileStytem,
             });
         default:
             return state;
     }
 }
 
-const showFileStytem = function (showFileStytem) {
+const showFileStytem = function () {
     return {
-        type: SET_FILESTYTEM,
-        showFileStytem: showFileStytem,
+        type: SET_FILESTYTEM
     };
 };
 

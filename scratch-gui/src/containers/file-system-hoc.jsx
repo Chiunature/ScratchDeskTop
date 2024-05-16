@@ -37,7 +37,7 @@ class FileSystemHoc extends Component {
 
 
     componentDidMount() {
-        // let data = window.myAPI.getStoreValue('file');
+        // let data = window.myAPI.getStoreValue('files');
         const data = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (data) {
             this.setState(() => ({
@@ -60,7 +60,7 @@ class FileSystemHoc extends Component {
 
     handleSelect(index) {
         // const list = JSON.parse(window.myAPI.getStoreValue('file'));
-        const list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
+        let list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (list) {
             list = JSON.parse(list);
             this.props.onSetProjectTitle(list[index].fileName);
@@ -116,7 +116,7 @@ class FileSystemHoc extends Component {
 
     handleFilterClear() {
         // const list = JSON.parse(window.myAPI.getStoreValue('file'));
-        const list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
+        let list = window.myAPI.readFiles('./cache-files.json', window.resourcesPath);
         if (list) {
             list = JSON.parse(list);
             this.setState(() => ({

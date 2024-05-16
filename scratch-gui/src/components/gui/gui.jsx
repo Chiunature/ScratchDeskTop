@@ -53,14 +53,20 @@ import UploadBtn from "../button/uploadBtn.jsx";
 import FileSystemHoc from "../../containers/file-system-hoc.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
 import Qrcode from "../code-editor/qrcode.jsx";
+import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 
-/* const messages = defineMessages({
-    addExtension: {
-        id: "gui.gui.addExtension",
-        description: "Button to add an extension in the target pane",
-        defaultMessage: "Add Extension",
-    },
-}); */
+const messages = defineMessages({
+    projectManagement: {
+        id: "gui.menuBar.home",
+        description: "Project Management",
+        defaultMessage: "Project Management",
+    }
+    // addExtension: {
+    //     id: "gui.gui.addExtension",
+    //     description: "Button to add an extension in the target pane",
+    //     defaultMessage: "Add Extension",
+    // },
+});
 
 // Cache this value to only retrieve it once the first time.
 // Assume that it doesn't change for a session.
@@ -286,9 +292,7 @@ const GUIComponent = (props) => {
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
                         ) : null}
-                        {showFileStytem && (
-                            <FileSystemHoc vm={vm} intl={intl} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />
-                        )}
+                        {showFileStytem && (<ProjectManagementHoc vm={vm} intl={intl} name={messages.projectManagement} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />)}
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn

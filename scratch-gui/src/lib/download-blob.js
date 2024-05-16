@@ -9,6 +9,7 @@ export default (filename, blob, onlySave) => {
         })
         return;
     }
+    return;
 
     const downloadLink = document.createElement('a');
     document.body.appendChild(downloadLink);
