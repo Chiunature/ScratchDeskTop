@@ -115,13 +115,13 @@ function replaceFiles(oldFilePath, newFilePath, content) {
             console.log('Old file deleted successfully.');
 
             // 将新文件移动到旧文件的位置
-            fs.rename(newFilePath, oldFilePath, (err) => {
+            /*fs.rename(newFilePath, oldFilePath, (err) => {
                 if (err) {
                     console.error('Error moving new file to old file location:', err);
                 } else {
                     console.log('New file moved to old file location successfully.');
                 }
-            });
+            });*/
             // 创建新文件
             fs.writeFile(newFilePath, content, (err) => {
                 if (err) {

@@ -566,14 +566,17 @@ class MenuBar extends React.Component {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
+            downloadBlob(this.props.projectFilename, content, onlySave);
+            if (onlySave) {
+                this.props.onShowCompletedAlert("saveNowSuccess");
+                return;
+            }
             const res = await content.arrayBuffer();
             const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
                 file: Buffer.from(res),
                 filename: this.props.projectFilename
             });
-            downloadBlob(this.props.projectFilename, content, onlySave);
-            if (onlySave || !filePath) return;
-            this.setCacheForSave(filePath);
+            if(filePath) await this.setCacheForSave(filePath);
         });
     }
 

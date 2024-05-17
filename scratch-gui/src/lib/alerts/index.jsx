@@ -207,7 +207,14 @@ const alerts = [
     {
         alertId: "saveSuccess",
         alertType: AlertTypes.INLINE,
-        clearList: ["saveSuccess", "saving", "savingError"],
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
         content: (
             <FormattedMessage
                 defaultMessage="Project saved."
@@ -525,6 +532,27 @@ const alerts = [
         ),
         level: AlertLevels.WARN,
         maxDisplaySecs: 3,
+    },
+    {
+        alertId: "saveNowSuccess",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Save success"
+                description="Save success"
+                id="gui.alerts.saveSuccess"
+            />
+        ),
+        level: AlertLevels.SUCCESS,
+        maxDisplaySecs: 1,
     },
 ];
 
