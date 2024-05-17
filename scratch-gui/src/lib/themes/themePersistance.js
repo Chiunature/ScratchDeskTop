@@ -3,7 +3,7 @@
 import { DEFAULT_THEME, HIGH_CONTRAST_THEME } from '.';
 
 const PREFERS_HIGH_CONTRAST_QUERY = '(prefers-contrast: more)';
-const COOKIE_KEY = 'scratchtheme';
+const COOKIE_KEY = 'New-Ai_Theme';
 
 // Dark mode isn't enabled yet
 const isValidTheme = theme => [DEFAULT_THEME, HIGH_CONTRAST_THEME].includes(theme);

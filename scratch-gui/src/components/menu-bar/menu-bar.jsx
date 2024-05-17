@@ -558,7 +558,7 @@ class MenuBar extends React.Component {
     }
 
     async screenPrintWorkspace() {
-        return await svgAsDataUri(this.props.workspace.svgGroup_, {backgroundColor: '#ffffff'});
+        return await svgAsDataUri(this.props.workspace.svgBlockCanvas_, {backgroundColor: '#ffffff'});
     }
 
     downloadProject(onlySave) {
