@@ -40,6 +40,36 @@ const messages = defineMessages({
         defaultMessage: "Operate",
         description: "Operate",
         id: "gui.menuBar.operate"
+    },
+    deleteMessage: {
+        defaultMessage: "Delete",
+        description: "Delete",
+        id: "gui.soundEditor.delete"
+    },
+    copyMessage: {
+        defaultMessage: "Copy",
+        description: "Copy",
+        id: "gui.soundEditor.copy"
+    },
+    renameMessage: {
+        defaultMessage: "Rename",
+        description: "Rename",
+        id: "gui.menuBar.rename"
+    },
+    selectAllMessage: {
+        defaultMessage: "Select All",
+        description: "Select All",
+        id: "gui.menuBar.selectAll"
+    },
+    notSelectAllMessage: {
+        defaultMessage: "Deselect All",
+        description: "Deselect All",
+        id: "gui.menuBar.notSelectAll"
+    },
+    saveAsMessage: {
+        defaultMessage: "Save as",
+        description: "Save as",
+        id: "gui.menuBar.SaveAs"
     }
 });
 

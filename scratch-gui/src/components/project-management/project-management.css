@@ -52,11 +52,15 @@
 }
 
 .header-list li{
+    max-width: 77px;
     padding: 0 10px;
     font-size: 14px;
     box-sizing: border-box;
     cursor: pointer;
     user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .header-list li:hover {
@@ -196,7 +200,7 @@
     position: absolute;
     /*top: -90px;*/
     /*left: 30px;*/
-    width: 70px;
+    max-width: 100px;
     height: fit-content;
     background: #FFFFFF;
     font-size: 12px;
@@ -223,6 +227,9 @@
     display: inline-block;
     border-right: 0;
     padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     user-select: none;
 }
 

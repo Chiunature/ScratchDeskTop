@@ -29,7 +29,7 @@ const ProjectHeader = (props) => {
 
     return (
         <Box className={styles.projectHeader} justifyContent="space-between" alignItems="center">
-            <div className={styles.projectTitle}>最近项目</div>
+            <div className={styles.projectTitle}>{intl.formatMessage(messages.titleMessage)}</div>
             <Filter
                 className={classNames(styles.filterBarItem, styles.filter)}
                 inputRef={inputRef}
@@ -40,11 +40,11 @@ const ProjectHeader = (props) => {
                 onClear={handleFilterClear}
             />
             <ul className={classNames(styles.headerList, checkedList.length > 0 ? '' : styles.listDisable)}>
-                <li onClick={selectAll}>{isSelectAll ? '取消全选' : '全部选择'}</li>
-                <li onClick={handleDeleteAll}>删除</li>
-                <li onClick={handleCopyAll}>复制</li>
+                <li onClick={selectAll}>{isSelectAll ? intl.formatMessage(messages.notSelectAllMessage) : intl.formatMessage(messages.selectAllMessage)}</li>
+                <li onClick={handleDeleteAll}>{intl.formatMessage(messages.deleteMessage)}</li>
+                <li onClick={handleCopyAll}>{intl.formatMessage(messages.copyMessage)}</li>
                 <li className={classNames(checkedList.length === 1 ? styles.allowed : styles.disabled)}
-                    onClick={handleRenameOne}>重命名
+                    onClick={handleRenameOne}>{intl.formatMessage(messages.renameMessage)}
                 </li>
             </ul>
         </Box>
