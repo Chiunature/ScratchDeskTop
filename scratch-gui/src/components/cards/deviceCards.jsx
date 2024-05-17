@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import Draggable from 'react-draggable';
-import { ipc as ipc_Renderer } from 'est-link';
+import {ipc as ipc_Renderer} from 'est-link';
 import styles from './card.css';
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
@@ -12,7 +12,8 @@ import closeIcon from './icon--close.svg';
 import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
-import { APP } from '../../config/json/LB_FWLIB.json'
+import {APP} from '../../config/json/LB_FWLIB.json'
+import Box from "../box/box.jsx";
 
 const tabClassNames = {
     tabs: styles.tabs,
@@ -98,6 +99,7 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
     </div>
 );
 
+let top = -30;
 const DeviceCards = props => {
     const {
         isRtl,
@@ -120,40 +122,41 @@ const DeviceCards = props => {
         }
     })
 
-    const onCloseCards = () => onSetDeviceCards({ ...deviceCards, deviceVisible: false });
-    const onShrinkExpandCards = () => onSetDeviceCards({ ...deviceCards, expanded: !expanded });
-    const onDrag = (e_, data) => onSetDeviceCards({ ...deviceCards, x: data.x, y: data.y });
-    const onStartDrag = () => onSetDeviceCards({ ...deviceCards, dragging: true });
-    const onEndDrag = () => onSetDeviceCards({ ...deviceCards, dragging: false });
+    const onCloseCards = useCallback(() => onSetDeviceCards({ ...deviceCards, deviceVisible: false }), [deviceCards]);
+    const onShrinkExpandCards = useCallback(() => onSetDeviceCards({ ...deviceCards, expanded: !expanded }), [deviceCards]);
+    const onStartDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: true }), [deviceCards]);
+    const onEndDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: false }), [deviceCards]);
+    const onDrag = useCallback((e_, data) => onSetDeviceCards({...deviceCards, x: data.x, y: data.y}), [deviceCards]);
     // Tutorial cards need to calculate their own dragging bounds
     // to allow for dragging the cards off the left, right and bottom
     // edges of the workspace.
-    const cardHorizontalDragOffset = 300; // ~80% of card width
+    const cardHorizontalDragOffset = 400; // ~80% of card width
     const cardVerticalDragOffset = expanded ? 257 : 0; // ~80% of card height, if expanded
     const menuBarHeight = 48; // TODO: get pre-calculated from elsewhere?
     const wideCardWidth = 500;
 
     if (x === 0 && y === 0) {
         // initialize positions
-        x = isRtl ? (-100 - wideCardWidth - cardHorizontalDragOffset) : -20;
+        x = isRtl ? (-190 - wideCardWidth - cardHorizontalDragOffset) : 292;
         x += cardHorizontalDragOffset;
         // The tallest cards are about 320px high, and the default position is pinned
         // to near the bottom of the blocks palette to allow room to work above.
         // const tallCardHeight = 320;
         // const bottomMargin = 60; // To avoid overlapping the backpack region
-        // y = window.innerHeight - tallCardHeight * 2.5 - bottomMargin - menuBarHeight;
+        // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight;
     }
 
-    const [index, setIndex] = useState(0);
+    let [index, setIndex] = useState(0);
 
-    const handleSelect = (i) => {
+    const select = (i) => {
         setIndex(i);
-        if (completed) {
-            return;
-        } else {
+        if (!completed) {
             if (i === 1) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         }
     }
+
+    const handleSelect = useCallback((i) => select(i), [index]);
+
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
             item.index = i;
@@ -178,7 +181,7 @@ const DeviceCards = props => {
         window.myAPI.deleteFiles(`${APP}/${item.name}.bin`, window.resourcesPath);
     }
 
-    const handleScreenAuto = () => {
+    const handleScreenAuto = useCallback(() => {
         const designDraftWidth = 1920;
         const designDraftHeight = 1080;
         // 根据屏幕的变化适配的比例
@@ -189,14 +192,35 @@ const DeviceCards = props => {
                 ? document.documentElement.clientWidth / designDraftWidth
                 : document.documentElement.clientHeight / designDraftHeight;
         const newScale = `scale(${scale})`;
+        top = Math.ceil(Math.ceil(-30 * (1 / scale)) * (1 / scale) * 1.4);
         // 缩放比例
         if (screenRef.current.style.transform.indexOf('scale') === -1) {
             screenRef.current.style.transform += newScale;
         } else {
             screenRef.current.style.transform = screenRef.current.style.transform.replace(/scale\([\s*\S*]*\)/, newScale);
         }
+    }, [screenRef]);
+
+    const handleScale = () => {
+        if(!screenRef || !screenRef.current) return;
+        const box = screenRef.current;
+        const originalWidth = box.offsetWidth;
+        const originalHeight = box.offsetHeight;
+
+        // 计算缩放比例
+        const scaleX = box.offsetWidth / originalWidth;
+        const scaleY = box.offsetHeight / originalHeight;
+
+        // 计算拖动范围
+        return {
+            left: -20,
+            top: top,
+            right: originalWidth * scaleX,
+            bottom: originalHeight * scaleY
+        }
     }
 
+    const changeBounds = useCallback(() => handleScale(), [screenRef]);
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
@@ -210,30 +234,32 @@ const DeviceCards = props => {
                 left: `${-cardHorizontalDragOffset}px`
             }}
         >
-            <Draggable
-                bounds="parent"
-                cancel=".input-wrapper"
-                position={{ x: x, y: y }}
-                onDrag={onDrag}
-                onStart={onStartDrag}
-                onStop={onEndDrag}
-            >
-                <div className={styles.cardContainer} ref={screenRef}>
-                    <div className={styles.card}>
-                        <DeviecCardHeader
-                            index={index}
-                            expanded={expanded}
-                            onCloseCards={onCloseCards}
-                            onShrinkExpandCards={onShrinkExpandCards}
-                            handleSelect={handleSelect}
-                        />
-                        <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
-                            {index === 0 && <Device {...props} />}
-                            {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
+            <Box className={styles.cardBox}>
+                <Draggable
+                    bounds={changeBounds()}
+                    cancel=".input-wrapper"
+                    position={{ x: x, y: y }}
+                    onDrag={onDrag}
+                    onStart={onStartDrag}
+                    onStop={onEndDrag}
+                >
+                    <div className={styles.cardContainer} ref={screenRef}>
+                        <div className={styles.card}>
+                            <DeviecCardHeader
+                                index={index}
+                                expanded={expanded}
+                                onCloseCards={onCloseCards}
+                                onShrinkExpandCards={onShrinkExpandCards}
+                                handleSelect={handleSelect}
+                            />
+                            <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
+                                {index === 0 && <Device {...props} />}
+                                {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Draggable>
+                </Draggable>
+            </Box>
         </div>
     );
 };
