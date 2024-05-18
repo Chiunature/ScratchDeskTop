@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect, Fragment, useCallback} from "react";
+import React, { useState, useMemo, useEffect, Fragment, useCallback } from "react";
 import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
@@ -11,7 +11,13 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
-        if (!unit) setUnit(Object.keys(obj)[0]);
+        if (!unit) {
+            if (item.deviceId === 'a1' || item.deviceId === 'a5' || item.deviceId === 'a6') {
+                setUnit(Object.keys(obj)[2]);
+            } else {
+                setUnit(Object.keys(obj)[0]);
+            }
+        }
         setShowData(obj[data]);
     });
 
@@ -34,10 +40,10 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
         <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
-                <img src={getSensing(item.deviceId)}/>
+                <img src={getSensing(item.deviceId)} />
                 <div className={styles.showUnit}>
                     <label>{showData}</label>
-                    <img className={styles.dropdownCaret} src={dropdownCaret}/>
+                    <img className={styles.dropdownCaret} src={dropdownCaret} />
                 </div>
                 <div className={styles.deviceSensingUnit}>
                     <div>
