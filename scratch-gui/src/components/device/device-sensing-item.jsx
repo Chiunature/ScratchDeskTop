@@ -3,7 +3,7 @@ import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
 
-const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishTypes, index }) => {
+const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes, index, changeUnitList }) => {
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
@@ -11,30 +11,36 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
-        if (!unit) {
+        if (!unitItem) {
+            const arr = localStorage.getItem('sensing-unit-list');
+            let unitList;
+            if (arr) unitList = JSON.parse(arr);
+            const unitListItem = unitList[index];
             if (item.deviceId === 'a1' || item.deviceId === 'a5' || item.deviceId === 'a6') {
-                setUnit(Object.keys(obj)[2]);
+                setUnit(unitListItem['unit'] ? unitListItem['unit'] : Object.keys(obj)[2]);
             } else {
-                setUnit(Object.keys(obj)[0]);
+                setUnit(unitListItem['unit'] ? unitListItem['unit'] : Object.keys(obj)[0]);
             }
         }
-        setShowData(obj[data]);
+        setShowData(obj[unitItem]);
     });
 
     let selectUnit = useCallback((el) => setUnit(el), [unit]);
 
-    let data = useMemo(() => {
+    let data = useMemo(() => showData, [showData]);
+
+    let unitItem = useMemo(() => {
+        if (unit) {
+            changeUnitList(unit, index);
+        }
         return unit;
     }, [unit]);
 
     let newDeviceId = useMemo(() => {
+        setUnit(null);
         return item.deviceId;
     }, [item.deviceId]);
 
-    let oldDeviceId = useMemo(() => {
-        setUnit(null);
-        return newDeviceId;
-    }, [newDeviceId]);
 
     return (
         <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
@@ -42,7 +48,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} />
                 <div className={styles.showUnit}>
-                    <label>{showData}</label>
+                    <label>{data}</label>
                     <img className={styles.dropdownCaret} src={dropdownCaret} />
                 </div>
                 <div className={styles.deviceSensingUnit}>

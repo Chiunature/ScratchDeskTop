@@ -85,6 +85,7 @@ class GUI extends React.Component {
             window.myAPI.onUpdate((_event, info) => {
                 that.props.onSetTipsUpdate(info);
             });
+            this.initSensingList();
         }
     }
     componentDidUpdate(prevProps) {
@@ -327,6 +328,22 @@ class GUI extends React.Component {
 
     handleRunApp(status) {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
+    }
+
+    initSensingList() {
+        let unitList = localStorage.getItem('sensing-unit-list');
+        if (!unitList) {
+            let list = [];
+            for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
+                const item = this.props.deviceObj.deviceList[i];
+                list.push({
+                    port: item.port,
+                    deviceId: item.deviceId,
+                    unit: null
+                });
+            }
+            localStorage.setItem('sensing-unit-list', JSON.stringify(list));
+        }
     }
 
 
