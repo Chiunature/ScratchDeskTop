@@ -6,7 +6,7 @@
 const locales = {
     'ab': {name: 'Аҧсшәа'},
     'af': {name: 'Afrikaans'},
-    'ar': {name: 'العربية'},
+    // 'ar': {name: 'العربية'},
     'am': {name: 'አማርኛ'},
     'an': {name: 'Aragonés'},
     'ast': {name: 'Asturianu'},
@@ -27,7 +27,7 @@ const locales = {
     'es-419': {name: 'Español Latinoamericano'},
     'eo': {name: 'Esperanto'},
     'eu': {name: 'Euskara'},
-    'fa': {name: 'فارسی'},
+    // 'fa': {name: 'فارسی'},
     'fil': {name: 'Filipino'},
     'fr': {name: 'Français'},
     'fy': {name: 'Frysk'},
@@ -37,7 +37,7 @@ const locales = {
     'ko': {name: '한국어'},
     'ha': {name: 'Hausa'},
     'hy': {name: 'Հայերեն'},
-    'he': {name: 'עִבְרִית'},
+    // 'he': {name: 'עִבְרִית'},
     'hr': {name: 'Hrvatski'},
     'xh': {name: 'isiXhosa'},
     'zu': {name: 'isiZulu'},
@@ -49,7 +49,7 @@ const locales = {
     'sw': {name: 'Kiswahili'},
     'ht': {name: 'Kreyòl ayisyen'},
     'ku': {name: 'Kurdî'},
-    'ckb': {name: 'کوردیی ناوەندی'},
+    // 'ckb': {name: 'کوردیی ناوەندی'},
     'lv': {name: 'Latviešu'},
     'lt': {name: 'Lietuvių'},
     'hu': {name: 'Magyar'},
@@ -82,7 +82,7 @@ const locales = {
     'tr': {name: 'Türkçe'},
     'uk': {name: 'Українська'},
     'zh-cn': {name: '简体中文'},
-    'zh-tw': {name: '繁體中文'}
+    // 'zh-tw': {name: '繁體中文'}
 };
 
 const customLocales = {

@@ -23,13 +23,14 @@ Blockly.cake['motor_acceleration_menu'] = function (block) {
 };
 
 Blockly.cake['motor_acceleration'] = function (block) {
-  let motor_type = block.getFieldValue('MOTOR_TYPE');
-  let p = Blockly.cake.valueToCode(block, "P", Blockly.cake.ORDER_NONE);
-  let i = Blockly.cake.valueToCode(block, "I", Blockly.cake.ORDER_NONE);
-  let d = Blockly.cake.valueToCode(block, "D", Blockly.cake.ORDER_NONE);
-  // TODO: Assemble cake into code variable.
-  let code = `motor_user_speed_pid("${motor_type}", ${Blockly.cake.toStr(p) ? p : '"' + p + '"'}, ${Blockly.cake.toStr(i) ? i : '"' + i + '"'}, ${Blockly.cake.toStr(d) ? d : '"' + d + '"'});\n`;
-  return code;
+    let motor_type = block.getFieldValue('MOTOR_TYPE');
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let p = Blockly.cake.valueToCode(block, "P", Blockly.cake.ORDER_NONE);
+    let i = Blockly.cake.valueToCode(block, "I", Blockly.cake.ORDER_NONE);
+    let d = Blockly.cake.valueToCode(block, "D", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    let code = `motor_user_speed_pid("${motor_type}", ${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(p) ? p : '"' + p + '"'}, ${Blockly.cake.toStr(i) ? i : '"' + i + '"'}, ${Blockly.cake.toStr(d) ? d : '"' + d + '"'});\n`;
+    return code;
 };
 
 Blockly.cake['motor_starting'] = function (block) {
@@ -122,10 +123,11 @@ Blockly.cake['motor_startWithPower'] = function (block) {
 
 Blockly.cake['motor_setStill'] = function (block) {
     let motor_type = block.getFieldValue('MOTOR_TYPE');
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     let p = Blockly.cake.valueToCode(block, "P", Blockly.cake.ORDER_NONE);
     let i = Blockly.cake.valueToCode(block, "I", Blockly.cake.ORDER_NONE);
     let d = Blockly.cake.valueToCode(block, "D", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
-    let code = `motor_user_hold_pid("${motor_type}", ${Blockly.cake.toStr(p) ? p : '"' + p + '"'}, ${Blockly.cake.toStr(i) ? i : '"' + i + '"'}, ${Blockly.cake.toStr(d) ? d : '"' + d + '"'});\n`;
+    let code = `motor_user_hold_pid("${motor_type}", ${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(p) ? p : '"' + p + '"'}, ${Blockly.cake.toStr(i) ? i : '"' + i + '"'}, ${Blockly.cake.toStr(d) ? d : '"' + d + '"'});\n`;
     return code;
 };

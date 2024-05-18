@@ -564,6 +564,9 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="motor_acceleration">
+            <value name="PORT">
+                <shadow type="motor_box"></shadow>
+            </value>
             <value name="P">
                 <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
             </value>
@@ -575,6 +578,9 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="motor_setStill">
+            <value name="PORT">
+                <shadow type="motor_box"></shadow>
+            </value>
             <value name="P">
                 <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
             </value>
