@@ -13,19 +13,19 @@ const DeviceSensing = ({ deviceObj, intl }) => {
     let [sensinglist, setSensingList] = useState(null);
 
     useEffect(() => {
-        const arr = localStorage.getItem('sensing-unit-list');
+        const arr = window.myAPI.getStoreValue('sensing-unit-list');
         if (!unitList && arr) setSensingList(JSON.parse(arr));
     })
 
     let unitList = useMemo(() => sensinglist, [sensinglist]);
 
     function changeUnitList(unit, index) {
-        let unitList = localStorage.getItem('sensing-unit-list');
-        if (unitList) {
-            let list = JSON.parse(unitList);
-            if(list[index]['unit'] === unit) return;
-            list[index]['unit'] = unit;
-            localStorage.setItem('sensing-unit-list', JSON.stringify([...list]));
+        let list = window.myAPI.getStoreValue('sensing-unit-list');
+        if (list) {
+            let newlist = JSON.parse(list);
+            if(newlist[index]['unit'] === unit) return;
+            newlist[index]['unit'] = unit;
+            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify([...newlist]));
         }
     }
 
@@ -144,7 +144,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         <div className={styles.deviceSensingBox}>
             <ul>
                 {(deviceObj && deviceObj.deviceList) && deviceObj.deviceList.map((item, index) => {
-                    return (<DeviceSensingItem key={index} changeUnitList={changeUnitList} unitList={unitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
+                    return (<DeviceSensingItem key={index} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
                 })}
             </ul>
         </div>

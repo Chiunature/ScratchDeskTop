@@ -331,7 +331,7 @@ class GUI extends React.Component {
     }
 
     initSensingList() {
-        let unitList = localStorage.getItem('sensing-unit-list');
+        let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         if (!unitList) {
             let list = [];
             for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
@@ -342,7 +342,7 @@ class GUI extends React.Component {
                     unit: null
                 });
             }
-            localStorage.setItem('sensing-unit-list', JSON.stringify(list));
+            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(list));
         }
     }
 

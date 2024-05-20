@@ -12,14 +12,14 @@ const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes
         const obj = getType(item);
         if (!obj) return;
         if (!unitItem) {
-            const arr = localStorage.getItem('sensing-unit-list');
-            let unitList;
+            const arr = window.myAPI.getStoreValue('sensing-unit-list');
+            let unitList, unitListItem;
             if (arr) unitList = JSON.parse(arr);
-            const unitListItem = unitList[index];
+            if(unitList) unitListItem = unitList[index];
             if (item.deviceId === 'a1' || item.deviceId === 'a5' || item.deviceId === 'a6') {
-                setUnit(unitListItem['unit'] ? unitListItem['unit'] : Object.keys(obj)[2]);
+                setUnit(unitListItem ? unitListItem['unit'] : Object.keys(obj)[2]);
             } else {
-                setUnit(unitListItem['unit'] ? unitListItem['unit'] : Object.keys(obj)[0]);
+                setUnit(unitListItem ? unitListItem['unit'] : Object.keys(obj)[0]);
             }
         }
         setShowData(obj[unitItem]);
