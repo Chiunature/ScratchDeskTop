@@ -29,21 +29,6 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    /* function getMotorDirection(direction) {
-        const num = parseInt(direction);
-        if (isNaN(num)) return;
-        switch (num) {
-            case 1:
-                return intl.formatMessage(messages['foreward']);
-            case 2:
-                return intl.formatMessage(messages['reversal']);
-            case 3:
-                return intl.formatMessage(messages['brake']);
-            default:
-                return intl.formatMessage(messages['stop']);
-        }
-    } */
-
     function motorData(num) {
         switch (num) {
             case 0:

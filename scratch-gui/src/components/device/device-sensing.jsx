@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import styles from './device.css';
 import colorSensingIcon from 'scratch-blocks/media/color_sensing.svg';
 import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';
@@ -10,22 +10,13 @@ import DeviceSensingItem from './device-sensing-item.jsx';
 
 const DeviceSensing = ({ deviceObj, intl }) => {
 
-    let [sensinglist, setSensingList] = useState(null);
-
-    useEffect(() => {
-        const arr = window.myAPI.getStoreValue('sensing-unit-list');
-        if (!unitList && arr) setSensingList(JSON.parse(arr));
-    })
-
-    let unitList = useMemo(() => sensinglist, [sensinglist]);
-
     function changeUnitList(unit, index) {
         let list = window.myAPI.getStoreValue('sensing-unit-list');
         if (list) {
-            let newlist = JSON.parse(list);
-            if(newlist.length === 0 || newlist[index]?.unit === unit) return;
-            newlist[index]['unit'] = unit;
-            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify([...newlist]));
+            let newList = JSON.parse(list);
+            if(newList.length === 0 || newList[index]?.unit === unit) return;
+            newList[index]['unit'] = unit;
+            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify([...newList]));
         }
     }
 
