@@ -119,6 +119,8 @@ function createWindow() {
             x: 0,
             y: 0,
             show: false,
+            minWidth: 950,
+            minHeight: 720,
             webPreferences: options,
         });
         const sp = new Serialport({ serialport, ...pack });
@@ -242,12 +244,6 @@ function createWindow() {
         if (response === 0) {
             return false;
         } else {
-            /* const zadigPath = path.join(__dirname, 'resources', 'zadig.exe');
-            spawn(zadigPath, [], {
-                detached: true,
-                stdio: 'ignore',
-                shell: true
-            }); */
             exec(`cd ./resources && zadig.exe`);
             return true;
         }
