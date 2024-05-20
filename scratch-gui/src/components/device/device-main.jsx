@@ -17,11 +17,11 @@ const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
                         <span>{intl.formatMessage(messages['mainName'])}</span>
                         <span>{peripheralName.slice(0, peripheralName.indexOf('('))}</span>
                     </li>}
-                    {versionlist && versionlist.ver && <li>
+                    {versionlist?.ver && <li>
                         <span>{intl.formatMessage(messages['version'])}</span>
                         <span>{versionlist.ver}</span>
                     </li>}
-                    {adclist && adclist.bat && <li>
+                    {adclist?.bat && <li>
                         <span>{intl.formatMessage(messages['electricity'])}</span>
                         <span>{adclist.bat >= 100 ? '100' : adclist.bat}%</span>
                     </li>}
@@ -36,7 +36,7 @@ const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
                             <span>{gyrolist[item]}</span>
                         </li>)
                     })}
-                    {adclist && adclist.sound && <li>
+                    {adclist?.sound && <li>
                         <span>{intl.formatMessage(messages['soundIntensity'])}</span>
                         <span>{adclist.sound}</span>
                     </li>}

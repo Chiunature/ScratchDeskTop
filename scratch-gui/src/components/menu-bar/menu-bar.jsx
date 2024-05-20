@@ -454,8 +454,6 @@ class MenuBar extends React.Component {
                 clearInterval(this.timer);
                 this.timer = null;
                 this.handleConnected(result, type);
-            } else {
-                return;
             }
         }
     }

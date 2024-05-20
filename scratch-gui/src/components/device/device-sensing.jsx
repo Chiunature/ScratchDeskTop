@@ -23,7 +23,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         let list = window.myAPI.getStoreValue('sensing-unit-list');
         if (list) {
             let newlist = JSON.parse(list);
-            if(newlist[index]['unit'] === unit) return;
+            if(newlist.length === 0 || newlist[index]?.unit === unit) return;
             newlist[index]['unit'] = unit;
             window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify([...newlist]));
         }
@@ -143,7 +143,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
-                {(deviceObj && deviceObj.deviceList) && deviceObj.deviceList.map((item, index) => {
+                {(deviceObj?.deviceList) && deviceObj.deviceList.map((item, index) => {
                     return (<DeviceSensingItem key={index} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
                 })}
             </ul>

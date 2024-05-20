@@ -30,7 +30,8 @@ module.exports = {
                     plugins: [
                         '@babel/plugin-proposal-object-rest-spread',
                         '@babel/plugin-syntax-dynamic-import',
-                        '@babel/plugin-transform-async-to-generator'
+                        '@babel/plugin-transform-async-to-generator',
+                        '@babel/plugin-proposal-optional-chaining',
                     ]
                 }
             }

@@ -14,26 +14,23 @@ import ExtensionLibrary from './extension-library.jsx';
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
-import { BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES } from '../lib/layout-constants';
+import {BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
-import { DEFAULT_THEME, getColorsForTheme, themeMap } from '../lib/themes';
-import { injectExtensionBlockTheme, injectExtensionCategoryTheme } from '../lib/themes/blockHelpers';
-import { connect } from 'react-redux';
-import { updateToolbox } from '../reducers/toolbox';
-import { activateColorPicker } from '../reducers/color-picker';
-import { closeExtensionLibrary, openSoundRecorder, openConnectionModal } from '../reducers/modals';
-import { activateCustomProcedures, deactivateCustomProcedures } from '../reducers/custom-procedures';
-import { setConnectionModalExtensionId } from '../reducers/connection-modal';
-import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
+import {DEFAULT_THEME, getColorsForTheme, themeMap} from '../lib/themes';
+import {injectExtensionBlockTheme, injectExtensionCategoryTheme} from '../lib/themes/blockHelpers';
+import {connect} from 'react-redux';
+import {updateToolbox} from '../reducers/toolbox';
+import {activateColorPicker} from '../reducers/color-picker';
+import {closeExtensionLibrary, openConnectionModal, openSoundRecorder} from '../reducers/modals';
+import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
+import {setConnectionModalExtensionId} from '../reducers/connection-modal';
+import {setWorkspace, updateMetrics} from '../reducers/workspace-metrics';
 
-import {
-    activateTab,
-    SOUNDS_TAB_INDEX
-} from '../reducers/editor-tab';
-import { getCode, setCompileList, setBufferList, setMatchMyBlock } from '../reducers/mode';
-import { ipc } from 'est-link';
+import {activateTab, SOUNDS_TAB_INDEX} from '../reducers/editor-tab';
+import {getCode, setBufferList, setCompileList, setMatchMyBlock} from '../reducers/mode';
+import {ipc} from 'est-link';
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -93,14 +90,12 @@ class Blocks extends React.Component {
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
-        this.timerId;
     }
     async componentDidMount() {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
-        const res = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
-        window.resourcesPath = res;
+        window.resourcesPath = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
         //this.props.options.media = window.myAPI.getMediaPath(res);
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
@@ -229,13 +224,13 @@ class Blocks extends React.Component {
             }
         }
         function _isSameCategory(element) {
-            return (element.category_ && element.category_.indexOf(category_) !== -1) ||
-                (!element.category_ && element.parentBlock_ && element.parentBlock_.category_ && element.parentBlock_.category_.indexOf(category_) !== -1);
+            return element?.category_?.indexOf(category_) !== -1 ||
+                (!element.category_ && element?.parentBlock_?.category_?.indexOf(category_) !== -1);
         }
 
         function _isSameType(element) {
-            return (element.category_ && element.type.indexOf(typeId) !== -1) ||
-                (!element.category_ && element.parentBlock_ && element.parentBlock_.type.indexOf(typeId) !== -1);
+            return (element.category_ && element?.type?.indexOf(typeId) !== -1) ||
+                (!element.category_ && element?.parentBlock_?.type?.indexOf(typeId) !== -1);
         }
     }
 
@@ -265,9 +260,9 @@ class Blocks extends React.Component {
         let newArr = [];
         for (let i = 0; i < arr.length; i++) {
 
-            if (arr[i] == '' || arr[i].replace(/[\t\r\f\n\s]*/g, '') == '}') continue;
+            if (arr[i] === '' || arr[i].replace(/[\t\r\f\n\s]*/g, '') === '}') continue;
 
-            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') == '}vTaskDelay(50);}')) {
+            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') === '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') === '}}')) {
                 arr[i] += arr[i + 1];
             }
 

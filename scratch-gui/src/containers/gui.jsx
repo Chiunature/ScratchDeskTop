@@ -85,7 +85,6 @@ class GUI extends React.Component {
             window.myAPI.onUpdate((_event, info) => {
                 that.props.onSetTipsUpdate(info);
             });
-            this.initSensingList();
         }
     }
     componentDidUpdate(prevProps) {
@@ -241,12 +240,13 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice(resourcesPath) {
-        const deviceIdList = Object.keys(instructions.device);
-        const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
+        // const deviceIdList = Object.keys(instructions.device);
+        // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         const firewareVersion = window.myAPI.getVersion(resourcesPath);
         sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
         const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
+        let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -258,6 +258,7 @@ class GUI extends React.Component {
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 newGetFirewareVersionFn(firewareVersion, result.versionlist.ver);
+                this.initSensingList(unitList);
             }
         });
     }
@@ -330,9 +331,8 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
-    initSensingList() {
-        let unitList = window.myAPI.getStoreValue('sensing-unit-list');
-        if (!unitList) {
+    initSensingList(unitList) {
+        if (!unitList || unitList === "[]") {
             let list = [];
             for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
                 const item = this.props.deviceObj.deviceList[i];

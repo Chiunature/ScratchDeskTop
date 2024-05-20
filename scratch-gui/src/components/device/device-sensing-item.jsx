@@ -17,9 +17,9 @@ const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes
             if (arr) unitList = JSON.parse(arr);
             if(unitList) unitListItem = unitList[index];
             if (item.deviceId === 'a1' || item.deviceId === 'a5' || item.deviceId === 'a6') {
-                setUnit(unitListItem ? unitListItem['unit'] : Object.keys(obj)[2]);
+                setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[2]);
             } else {
-                setUnit(unitListItem ? unitListItem['unit'] : Object.keys(obj)[0]);
+                setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[0]);
             }
         }
         setShowData(obj[unitItem]);
@@ -43,7 +43,7 @@ const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes
 
 
     return (
-        <li className={item.deviceId && item.deviceId !== '0' ? '' : styles.hide}>
+        <li className={item?.deviceId !== '0' ? '' : styles.hide}>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} />
