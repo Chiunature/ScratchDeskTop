@@ -28,24 +28,6 @@ goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 
-/* Blockly.Blocks['sensing_card'] = {
-  init: function () {
-      this.jsonInit({
-          "type": "sensing_card",
-          "message0": "%1",
-          "args0": [
-              {
-                  "type": "input_value",
-                  "name": "COLOR"
-              },
-          ],
-          "category": Blockly.Categories.sensing,
-          "colour": "#9966FF",
-          "secondaryColour": "#774DCB",
-          "extensions": ["colours_pen", "colours_sensing", "output_boolean"],
-      });
-  }
-}; */
 
 Blockly.Blocks['sensing_touchingobject'] = {
   /**
@@ -1509,6 +1491,47 @@ Blockly.Blocks['sensing_mainIsPress'] = {
             [Blockly.Msg.UNPRESS, "unpress"],
           ]
         },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_color_range'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_color_range",
+      "message0": Blockly.Msg.SENSING_COLOR_RANGE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "input_value",
+          "name": "RMin"
+        },
+        {
+          "type": "input_value",
+          "name": "RMax"
+        },
+        {
+          "type": "input_value",
+          "name": "GMin"
+        },
+        {
+          "type": "input_value",
+          "name": "GMax"
+        },
+        {
+          "type": "input_value",
+          "name": "BMin"
+        },
+        {
+          "type": "input_value",
+          "name": "BMax"
+        }
       ],
       "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]

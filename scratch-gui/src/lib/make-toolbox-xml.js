@@ -191,6 +191,29 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block id="current" type="sensing_current"/>
     <block type="sensing_dayssince2000"/>
     <block type="sensing_key_press"></block>
+    <block type="sensing_color_range">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="RMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="RMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+                 <value name="GMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="GMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+                <value name="BMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                 <value name="BMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+            </block>
     */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     const name = ScratchBlocks.ScratchMsgs.translate(
@@ -568,13 +591,13 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_box"></shadow>
             </value>
             <value name="P">
-                <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
             <value name="I">
-                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
             <value name="D">
-                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
         <block type="motor_setStill">
@@ -582,13 +605,13 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="motor_box"></shadow>
             </value>
             <value name="P">
-                <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
             <value name="I">
-                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
             <value name="D">
-                <shadow type="math_positive_number"><field name="NUM">0.1</field></shadow>
+                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
         `

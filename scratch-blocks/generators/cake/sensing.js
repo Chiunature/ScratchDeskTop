@@ -260,3 +260,24 @@ Blockly.cake['sensing_mainIsPress'] = function (block) {
     let code = `Sensing_key_judment("${keys}", "${button}")`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
+
+Blockly.cake['sensing_color_range'] = function (block) {
+  let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+  let rmin = Blockly.cake.valueToCode(block, "RMin", Blockly.cake.ORDER_NONE);
+  let gmin = Blockly.cake.valueToCode(block, "GMin", Blockly.cake.ORDER_NONE);
+  let bmin = Blockly.cake.valueToCode(block, "BMin", Blockly.cake.ORDER_NONE);
+  let rmax = Blockly.cake.valueToCode(block, "RMax", Blockly.cake.ORDER_NONE);
+  let gmax = Blockly.cake.valueToCode(block, "GMax", Blockly.cake.ORDER_NONE);
+  let bmax = Blockly.cake.valueToCode(block, "BMax", Blockly.cake.ORDER_NONE);
+  // TODO: Assemble cake into code variable.
+  let code = 'sensing_color_range(' +
+    `${Blockly.cake.toStr(port) ? port : '"' + port + '"'}` + ', ' +
+    `${Blockly.cake.toStr(rmin) ? rmin : '"' + rmin + '"'}` + ', ' +
+    `${Blockly.cake.toStr(rmax) ? rmax : '"' + rmax + '"'}` + ', ' +
+    `${Blockly.cake.toStr(gmin) ? gmin : '"' + gmin + '"'}` + ', ' +
+    `${Blockly.cake.toStr(gmax) ? gmax : '"' + gmax + '"'}` + ', ' +
+    `${Blockly.cake.toStr(bmin) ? bmin : '"' + bmin + '"'}` + ', ' +
+    `${Blockly.cake.toStr(bmax) ? bmax : '"' + bmax + '"'}`
+    + ')';
+  return [code, Blockly.cake.ORDER_ATOMIC];
+};
