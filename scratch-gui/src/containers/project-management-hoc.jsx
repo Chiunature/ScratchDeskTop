@@ -45,13 +45,11 @@ class ProjectManagementHoc extends React.PureComponent {
 
     componentDidMount() {
         let data = window.myAPI.getStoreValue('files');
-        if (data) {
-            this.setState({fileList: data});
-        }
+        data && this.setState({fileList: data});
     }
 
     changeFilesList(editable) {
-        if(!editable) this.handleDisEditable();
+        !editable && this.handleDisEditable();
         window.myAPI.setStoreValue('files', this.state.fileList);
         this.setState((state) => ({
             fileList: [...state.fileList],
@@ -61,17 +59,19 @@ class ProjectManagementHoc extends React.PureComponent {
 
     preventDefaultEvents(e) {
         if (e) {
-            e.persist && typeof e.persist === 'function' && e.persist();
-            e.stopPropagation && typeof e.stopPropagation === 'function' && e.stopPropagation();
-            e.nativeEvent && e.nativeEvent.stopImmediatePropagation && typeof e.nativeEvent.stopImmediatePropagation === 'function' && e.nativeEvent.stopImmediatePropagation();
+            e?.persist();
+            e?.stopPropagation();
+            e?.nativeEvent?.stopImmediatePropagation();
         }
     }
 
     async handleFileReader(url) {
         sessionStorage.setItem('openPath', url);
         const res = await window.myAPI.readFiles(url, '', {});
-        const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
-        this.props.vm.loadProject(arrayBuffer).then(() => this.props.onShowFileSystem());
+        if (res) {
+            const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
+            this.props.vm.loadProject(arrayBuffer).then(() => this.props.onShowFileSystem());
+        }
     }
 
     confirmReadyToReplaceProject(message) {
@@ -87,11 +87,7 @@ class ProjectManagementHoc extends React.PureComponent {
             this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
         );
         this.props.onShowFileSystem();
-        if (readyToReplaceProject) {
-            this.props.onClickNew(
-                this.props.canSave && this.props.canCreateNew
-            );
-        }
+        readyToReplaceProject && this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
     }
 
     handleFilterClear() {
@@ -116,11 +112,15 @@ class ProjectManagementHoc extends React.PureComponent {
 
     handleBlur(index, e) {
         this.preventDefaultEvents(e);
-        const oldPath = this.state.fileList[index].filePath;
-        const newPath = this.state.fileList[index].filePath.replace(this.state.fileList[index].fileName, e.target.value);
-        this.state.fileList[index].fileName = e.target.value;
+        const newName = e.target.value;
+        const oldName = this.state.fileList[index].fileName;
+        if(newName !== oldName) {
+            this.state.fileList[index].fileName = newName;
+            const oldPath = this.state.fileList[index].filePath;
+            const newPath = this.state.fileList[index].filePath.replace(this.state.fileList[index].fileName, e.target.value);
+            window.myAPI.changeFileName(oldPath, newPath);
+        }
         this.state.fileList[index].editable = false;
-        window.myAPI.changeFileName(oldPath, newPath);
         this.changeFilesList();
     }
 
@@ -144,8 +144,8 @@ class ProjectManagementHoc extends React.PureComponent {
     async handleDeleteRecord(index, e) {
         this.preventDefaultEvents(e);
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE);
-        if (res === 1 && this.state.fileList[index].filePath) {
-            window.myAPI.deleteFiles(this.state.fileList[index].filePath, '');
+        if (res === 1) {
+            this.state.fileList[index].filePath && window.myAPI.deleteFiles(this.state.fileList[index].filePath, '');
             this.state.fileList.splice(index, 1);
             this.changeFilesList();
         }
@@ -213,7 +213,7 @@ class ProjectManagementHoc extends React.PureComponent {
         if (res === 0) return;
         for (let i = 0; i < this.state.checkedList.length; i++) {
             const item = this.state.checkedList[i];
-            window.myAPI.deleteFiles(item.filePath, '');
+            item.filePath ? window.myAPI.deleteFiles(item.filePath, '') : item.checked = false;
         }
         this.state.fileList = this.state.fileList.filter(el => !el.checked);
         this.state.checkedList = this.state.fileList.filter(el => el.checked);
@@ -231,9 +231,7 @@ class ProjectManagementHoc extends React.PureComponent {
     handleRenameOne(e) {
         for (let i = 0; i < this.state.fileList.length; i++) {
             const item = this.state.fileList[i];
-            if (item.checked) {
-                this.handleEditRecord(i, e);
-            }
+            item.checked && this.handleEditRecord(i, e);
         }
     }
 

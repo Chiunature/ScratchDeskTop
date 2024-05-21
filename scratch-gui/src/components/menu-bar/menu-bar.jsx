@@ -93,7 +93,7 @@ import {showAlertWithTimeout} from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
 import {setDeviceCards, viewDeviceCards} from "../../reducers/cards.js";
 import {showFileStytem} from "../../reducers/file-stytem.js";
-import {projectTitleInitialState} from '../../reducers/project-title';
+import {projectTitleInitialState, setProjectTitle} from '../../reducers/project-title';
 import {HELP_DOCX, HELP_PDF} from "../../config/json/LB_USER.json";
 import {HARDWARE, SOFTWARE} from "../../lib/helps/index.js";
 
@@ -574,7 +574,12 @@ class MenuBar extends React.Component {
                 file: Buffer.from(res),
                 filename: this.props.projectFilename
             });
-            if(filePath) await this.setCacheForSave(filePath);
+            if(filePath) {
+                const newName = filePath.slice(filePath.lastIndexOf('\\') + 1);
+                const resultName = newName.slice(0, newName.lastIndexOf('.'));
+                this.props.onSetProjectTitle(resultName);
+                await this.setCacheForSave(filePath);
+            }
         });
     }
 
@@ -597,7 +602,12 @@ class MenuBar extends React.Component {
             pic_url: imgUrl
         }
         const newList = [obj, ...list];
-        window.myAPI.setStoreValue('files', newList);
+        let que = {};
+        const result = newList.reduce((pre, cur) => {
+                que[cur.filePath] ? null : que[cur.filePath] = pre.push(cur);
+                return pre;
+        }, []);
+        window.myAPI.setStoreValue('files', result);
     }
 
     render() {
@@ -1293,7 +1303,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
-    onSetProgress: (progress) => dispatch(setProgress(progress))
+    onSetProgress: (progress) => dispatch(setProgress(progress)),
+    onSetProjectTitle: (name) => dispatch(setProjectTitle(name))
 });
 
 export default compose(

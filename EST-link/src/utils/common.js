@@ -105,9 +105,7 @@ class Common {
     }
     const eventList = this.electron.ipcMain.eventNames();
     eventList.forEach(el => {
-      if (listener === el) {
-        this.electron.ipcMain.removeAllListeners([el]);
-      }
+        listener === el && this.electron.ipcMain.removeAllListeners([el]);
     });
   }
 
@@ -137,7 +135,7 @@ class Common {
    */
   checkBinData(item, currentIndex, lastIndex) {
     const len = item.length;
-    const bits = currentIndex == lastIndex ? 0xbb : 0xaa;
+    const bits = currentIndex === lastIndex ? 0xbb : 0xaa;
     let sum = 0x5a + 0x97 + 0x98 + len + bits;
     item.forEach(el => sum += el);
     return {
@@ -153,9 +151,7 @@ class Common {
    */
   sendToSerial(eventName, fn) {
     this.ipcMain(eventName, (event, data) => {
-      if (typeof fn === 'function') {
-        fn.call(this, event, data);
-      }
+        typeof fn === 'function' && fn.call(this, event, data);
     });
   }
 
@@ -236,6 +232,7 @@ class Common {
 
   /**
    * 对接收数据的错误处理
+   * @param err
    * @param {*} event
    * @param {Function} fn
    */
@@ -253,8 +250,7 @@ class Common {
    * @returns
    */
   readmidr(folderPath) {
-    const files = this.fs.readdirSync(folderPath);
-    return files;
+    return this.fs.readdirSync(folderPath);
   }
 
   /**
@@ -265,8 +261,7 @@ class Common {
    */
   readFiles(path, type) {
     try {
-      const data = this.fs.readFileSync(path, type);
-      return data;
+      return this.fs.readFileSync(path, type);
     } catch (error) {
       return false;
     }
@@ -275,7 +270,7 @@ class Common {
   /**
    * 写入文件
    * @param {String} path
-   * @param {String} type
+   * @param data
    * @returns
    */
   writeFiles(path, data) {
@@ -396,7 +391,7 @@ class Common {
   /**
    * 校验数据
    * @param {String | Null} sign
-   * @param {Array} data
+   * @param recevieObj
    * @param {*} event
    * @returns
    */
@@ -415,8 +410,7 @@ class Common {
       case signType.BOOT.FILENAME:    //文件名
       case signType.BOOT.BIN:         //文件数据
         const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
-        const result = _intercept(listBin, data);
-        return result;
+        return _intercept(listBin, data);
       default:
         return false;
     }

@@ -53,9 +53,7 @@ class Serialport extends Common {
             const newArr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") !== -1));
             for (let i = 0; i < newArr.length; i++) {
                 const item = newArr[i];
-                if (!this.isConnectedPortList.includes(item.pnpId)) {
-                    this.portList.push(item);
-                }
+              !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
             }
             return { result: this.portList[this.portIndex] ? this.portList[this.portIndex] : null, type: this._type };
         });
@@ -428,10 +426,8 @@ class Serialport extends Common {
     }
 
     matrixSend(event, obj) {
-        if (obj.type === 'change') {
-            // 先清屏
-            this.writeData(instruct.matrix.clear, null, event);
-        }
+        // 先清屏
+        obj.type === 'change' && this.writeData(instruct.matrix.clear, null, event);
         const list = this.matrixChange(obj);
         this.writeData(list, null, event);
     }
