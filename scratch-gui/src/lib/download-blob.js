@@ -7,11 +7,10 @@ export default (filename, blob, onlySave) => {
         blob.arrayBuffer().then(res => {
             window.myAPI.replaceFiles(oldFilePath, newFilePath, Buffer.from(res));
         })
-        return;
     }
-    return;
 
-    const downloadLink = document.createElement('a');
+
+    /*const downloadLink = document.createElement('a');
     document.body.appendChild(downloadLink);
 
     // Use special ms version if available to get it working on Edge.
@@ -40,6 +39,6 @@ export default (filename, blob, onlySave) => {
             popup = null;
         };
         reader.readAsDataURL(blob);
-    }
+    }*/
 
 };
