@@ -101,8 +101,8 @@ $drop-highlight: hsla(215, 100%, 77%, 1);
 
 /* lighter than motion-primary */
 body {
-        --motion-primary: #7986b8;
-        --modal-overlay: hsla(227.62, 29.73%, 59.8%, .7);
+        --motion-primary: #4c97ff;
+        --modal-overlay: hsla(215, 100%, 65%, .7);
 }
 
 $project-color: #9d9d9d;

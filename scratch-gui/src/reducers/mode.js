@@ -10,10 +10,10 @@ const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 
-const exeList = window.myAPI.getStoreValue('exeList');
-const selItem = window.myAPI.getStoreValue('selItem');
-(exeList && exeList.length < 20) && window.myAPI.removeStoreValue('exeList');
-!selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true, index: 0 }));
+// const exeList = window.myAPI.getStoreValue('exeList');
+// const selItem = window.myAPI.getStoreValue('selItem');
+// (exeList && exeList.length < 20) && window.myAPI.removeStoreValue('exeList');
+// !selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true, index: 0 }));
 
 /**
  * 生成默认程序列表
@@ -41,8 +41,8 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
-    exeList: exeList && exeList.length > 0 ? JSON.parse(exeList) : [],
-    selectedExe: JSON.parse(window.myAPI.getStoreValue('selItem'))
+    exeList: [],
+    selectedExe: window?.myAPI?.getStoreValue('selItem') ? JSON.parse(window.myAPI.getStoreValue('selItem')) : { name: '0_APP', num: 0, checked: true, index: 0 }
 }
 
 const reducer = function (state, action) {
