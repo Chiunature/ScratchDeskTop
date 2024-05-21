@@ -2,7 +2,7 @@
 @import "../../css/units.css";
 
 .modal-content {
-    width: 880px;
+    width: 800px;
     margin: 0;
     position: absolute;
     top: 50%;

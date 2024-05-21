@@ -33,19 +33,29 @@ class ProjectManagementHoc extends React.PureComponent {
             'handleSelectOne',
             'handleDisEditable',
             'changeFilesList',
-            'preventDefaultEvents'
+            'preventDefaultEvents',
+            'handleScreenAuto'
         ]);
         this.inp = createRef();
         this.state = {
             fileList: [],
             filterQuery: '',
-            checkedList: []
+            checkedList: [],
+            content: {
+                transform: 'translate(-50%, -50%) scale(1)',
+            }
         };
     }
 
     componentDidMount() {
         let data = window.myAPI.getStoreValue('files');
         data && this.setState({fileList: data});
+
+        window.addEventListener('resize', this.handleScreenAuto);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleScreenAuto);
     }
 
     changeFilesList(editable) {
@@ -235,6 +245,20 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
+    handleScreenAuto() {
+        const designDraftWidth = 1920;
+        const designDraftHeight = 1080;
+        const scale =
+            document.documentElement.clientWidth /
+            document.documentElement.clientHeight <
+            designDraftWidth / designDraftHeight
+                ? document.documentElement.clientWidth / designDraftWidth
+                : document.documentElement.clientHeight / designDraftHeight;
+        this.setState((state) => ({
+            content : {transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`)}
+        }));
+    }
+
     render() {
         return (
             <Modal
@@ -243,6 +267,7 @@ class ProjectManagementHoc extends React.PureComponent {
                 headerClassName={styles.header}
                 id="projectManagement"
                 onRequestClose={this.props.onRequestClose}
+                style={{content: this.state.content}}
             >
                 <Box className={styles.body}>
                     <ProjectManagement

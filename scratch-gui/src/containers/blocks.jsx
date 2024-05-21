@@ -31,6 +31,7 @@ import {setWorkspace, updateMetrics} from '../reducers/workspace-metrics';
 import {activateTab, SOUNDS_TAB_INDEX} from '../reducers/editor-tab';
 import {getCode, setBufferList, setCompileList, setMatchMyBlock} from '../reducers/mode';
 import {ipc} from 'est-link';
+import {convert, pinyin} from "../utils/pingyin-pro";
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -90,6 +91,7 @@ class Blocks extends React.Component {
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
+        this.ScratchBlocks.Names.pingyin_pro = { pinyin, convert };
     }
     async componentDidMount() {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
@@ -113,7 +115,7 @@ class Blocks extends React.Component {
             this.ScratchBlocks.Procedures.createProcedureDefCallback_(this.workspace);
         };
 
-        toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback(''));
+        toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback('variable'));
         toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
         toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
 

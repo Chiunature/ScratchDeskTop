@@ -22,6 +22,7 @@ const ModalComponent = (props) => (
         contentLabel={props.contentLabel}
         overlayClassName={styles.modalOverlay}
         onRequestClose={props.onRequestClose}
+        style={props.style}
     >
         <Box dir={props.isRtl ? "rtl" : "ltr"} direction="column" grow={1}>
             <div className={classNames(styles.header, props.headerClassName)}>

@@ -20,7 +20,7 @@
  */
 
 /**
- * @fileoverview Helper functions for generating C++ for blocks. Modified from the standard Blockly cake generator. 
+ * @fileoverview Helper functions for generating C++ for blocks. Modified from the standard Blockly cake generator.
  * @author fraser@google.com (Neil Fraser), dininno@mit.edu (Ethan DiNinno)
  */
 'use strict';
@@ -77,7 +77,7 @@ Blockly.cake.ORDER_ADDITIVE = 6;
 Blockly.cake.ORDER_SUBTRACTION = 6;    // -
 Blockly.cake.ORDER_BITWISE_SHIFT = 7;  // << >>
 Blockly.cake.ORDER_RELATIONAL = 8;     // < <= > >=
-Blockly.cake.ORDER_EQUALITY = 9;       // == != 
+Blockly.cake.ORDER_EQUALITY = 9;       // == !=
 Blockly.cake.ORDER_BITWISE_AND = 10;   // &
 Blockly.cake.ORDER_BITWISE_XOR = 11;   // ^
 Blockly.cake.ORDER_BITWISE_OR = 12;    // |
@@ -221,7 +221,7 @@ Blockly.cake.finish = function (code) {
   delete Blockly.cake.customFunctionsArgName_;
   delete Blockly.cake.times_;
   delete Blockly.cake.functionNames_;
-  
+
   return result;
 };
 
@@ -315,13 +315,13 @@ Blockly.cake.scrub_ = function (block, code) {
 
 Blockly.cake.stringToHex = function (matrix) {
   // 将字符串按照每9个字符分割成数组
-  var matrixArr = matrix.match(/.{1,7}/g);
+  const matrixArr = matrix.match(/.{1,7}/g);
   // 定义存储16进制数的数组
-  var hexArr = [];
+  const hexArr = [];
   // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
   matrixArr.map(element => {
-    var decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
-    var hexNum = '0x' + decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+    const decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
+    const hexNum = '0x' + decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
     hexArr.push(hexNum);
   });
 
@@ -333,20 +333,19 @@ Blockly.cake.charToHexArray = function (char) {
   let hexArray = [];
   let res = char.toUpperCase();
   for (let item in Blockly.cake.LED) {
-    if (res == item) {
+    if (res === item) {
       hexArray = Blockly.cake.LED[item];
       break;
     }
   }
-  let newArr = hexArray.map(el => ('0x' + el.toString(16)));
-  return newArr;
+  return hexArray.map(el => ('0x' + el.toString(16)));
 }
 
 Blockly.cake.isVal = function (val) {
   let newArg;
-  if (val.indexOf('int') == -1 && typeof val !== 'string') {
+  if (val.indexOf('int') === -1 && typeof val !== 'string') {
     newArg = val;
-  } else if (val.indexOf('int') == -1 && typeof val === 'string') {
+  } else if (val.indexOf('int') === -1 && typeof val === 'string') {
     newArg = val;
   } else {
     newArg = val.split('int ')[1];
@@ -371,22 +370,14 @@ Blockly.cake.toStr = function (val) {
   }
   const regex = /[()!\[\]_]/g;
   const matches = val.match(regex);
-  if (matches && matches.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return matches && matches.length > 0;
 }
 
 Blockly.cake.checkVar = function (varName) {
   let list = [];
   for (let i = 0; i < varName.length; i++) {
     const item = varName[i];
-    if (item >= 'A' && item <= 'Z') {
-      list.push('_', item.toLowerCase());
-    } else {
-      list.push(item);
-    }
+    list.push(item);
   }
   if (list.includes('_')) {
     varName = list.join('');
@@ -402,12 +393,12 @@ Blockly.cake.hexToRgb = function (hex) {
     return;
   }
   // 去除 # 号
-  hex = hex.replace(/\#/, "").replace(/\'/g, '');
+  hex = hex.replace(/#/, "").replace(/'/g, '');
 
   // 将hex字符串拆分为R、G、B分量
-  var r = parseInt(hex.substring(0, 2), 16);
-  var g = parseInt(hex.substring(2, 4), 16);
-  var b = parseInt(hex.substring(4, 6), 16);
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
   if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
   }
@@ -421,11 +412,11 @@ Blockly.cake.rgbToGrb = function (rgb) {
     return;
   }
   // 提取R、G、B分量
-  var values = rgb.match(/\d+/g);
+  const values = rgb.match(/\d+/g);
 
-  var r = parseInt(values[0]);
-  var g = parseInt(values[1]);
-  var b = parseInt(values[2]);
+  const r = parseInt(values[0]);
+  const g = parseInt(values[1]);
+  const b = parseInt(values[2]);
 
   if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
@@ -440,19 +431,19 @@ Blockly.cake.grbToHex = function (grb) {
     return;
   }
   // 提取R、G、B分量
-  var values = grb.match(/\d+/g);
+  const values = grb.match(/\d+/g);
 
-  var g = parseInt(values[0]);
-  var r = parseInt(values[1]);
-  var b = parseInt(values[2]);
+  const g = parseInt(values[0]);
+  const r = parseInt(values[1]);
+  const b = parseInt(values[2]);
 
   if (isNaN(r) || isNaN(g) || isNaN(b)) {
     return;
   }
   // 将每个分量转换为2位十六进制数
-  var hexR = r.toString(16).padStart(2, "0");
-  var hexG = g.toString(16).padStart(2, "0");
-  var hexB = b.toString(16).padStart(2, "0");
+  const hexR = r.toString(16).padStart(2, "0");
+  const hexG = g.toString(16).padStart(2, "0");
+  const hexB = b.toString(16).padStart(2, "0");
 
   // 返回hex格式
   return "0x" + hexR + hexG + hexB;
