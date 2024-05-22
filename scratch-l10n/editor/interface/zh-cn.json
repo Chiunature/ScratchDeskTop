@@ -295,6 +295,7 @@
   "gui.defaultProject.meow": "喵",
   "gui.defaultProject.variable": "我的变量",
   "gui.howtos.install-drivers": "安装驱动",
+  "gui.howtos.install-drivers.connect_devices": "请先连接已开机的设备",
   "gui.howtos.install-drivers.list_all_devices": "选择搜索所有设备",
   "gui.howtos.install-drivers.select_parameters": "选择参数",
   "gui.howtos.install-drivers.click_install": "点击安装驱动",

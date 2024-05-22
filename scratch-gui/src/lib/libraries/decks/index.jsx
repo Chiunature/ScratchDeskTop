@@ -371,7 +371,7 @@ export default {
         ],
         urlId: 'imagine'
     },
-    
+
     'Make-Music': {
         name: (
             <FormattedMessage
@@ -1231,7 +1231,7 @@ export default {
         ],
         urlId: 'code-cartoon'
     },
-    
+
     'cartoon-network': {
         name: (
             <FormattedMessage
@@ -2049,9 +2049,9 @@ export default {
         steps: [{
             title: (
                 <FormattedMessage
-                    defaultMessage="Select list all devices"
-                    description="Select list all devices"
-                    id="gui.howtos.install-drivers.list_all_devices"
+                    defaultMessage="Please connect the powered on device first"
+                    description="Please connect the powered on device first"
+                    id="gui.howtos.install-drivers.connect_devices"
                 />
             ),
             image: 'connectDevices'
