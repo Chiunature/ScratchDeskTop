@@ -79,13 +79,13 @@ function delEvents(eventName) {
  * @param resourcePath
  * @param options
  */
-function readFiles(link, resourcePath = cwd(), options = {encoding: 'utf-8'}) {
-    try {
-        return fs.readFileSync(path.join(resourcePath, link), options);
-    } catch (error) {
-        handlerError(error, resourcePath);
-        return false;
-    }
+function readFiles(link, resourcePath = cwd(), options = {encoding: 'utf8'}) {
+    return new Promise((resolve) => {
+        fs.readFile(path.join(resourcePath, link), options.encoding, (err, data) => {
+            if (err) handlerError(err, resourcePath);
+            resolve(err ? false: data);
+        })
+    })
 }
 
 /**
@@ -97,20 +97,19 @@ function readFiles(link, resourcePath = cwd(), options = {encoding: 'utf-8'}) {
  * @param options
  */
 function writeFiles(link, data, resourcePath = cwd(), options = {}) {
-    try {
-        fs.writeFileSync(path.join(resourcePath, link), data, options);
-        return true;
-    } catch (error) {
-        handlerError(error, resourcePath);
-        return false;
-    }
+    return new Promise((resolve) => {
+        fs.writeFile(path.join(resourcePath, link), data, options, (err) => {
+            if (err) handlerError(err, resourcePath);
+            resolve(!err)
+        })
+    })
 }
 
 function replaceFiles(oldFilePath, newFilePath, content) {
     // 删除旧文件
     fs.unlink(oldFilePath, (err) => {
         if (err) {
-            console.error('Error deleting old file:', err);
+            if (err) handlerError(err);
         } else {
             console.log('Old file deleted successfully.');
 
@@ -141,9 +140,12 @@ function replaceFiles(oldFilePath, newFilePath, content) {
  * @param resourcePath
  */
 function deleteFiles(link, resourcePath = cwd()) {
-    fs.unlink(path.join(resourcePath, link), (err) => {
-        if (err) handlerError(err, resourcePath);
-    });
+    return new Promise((resolve) => {
+        fs.unlink(path.join(resourcePath, link), (err) => {
+            if (err) handlerError(err, resourcePath);
+            resolve(!err);
+        });
+    })
 }
 
 /**
@@ -175,8 +177,7 @@ function commendMake(cpath = cwd()) {
  */
 function getVersion(vpath) {
     const p = path.join(vpath, VERSION, '/Version.txt');
-    const version = fs.readFileSync(p, 'utf-8');
-    return version;
+    return fs.readFileSync(p, 'utf-8');
 }
 
 /**
@@ -246,6 +247,14 @@ function changeFileName(oldPath, newPath) {
     });
 }
 
+function FileIsExists(filePath) {
+    return new Promise((resolve) => {
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            resolve(!err)
+        });
+    })
+}
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -265,5 +274,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     getMediaPath,
     getVersion,
     replaceFiles,
-    changeFileName
+    changeFileName,
+    FileIsExists
 });

@@ -48,9 +48,7 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     componentDidMount() {
-        let data = window.myAPI.getStoreValue('files');
-        data && this.setState({fileList: data});
-
+        this.initFileList();
         window.addEventListener('resize', this.handleScreenAuto);
     }
 
@@ -58,12 +56,23 @@ class ProjectManagementHoc extends React.PureComponent {
         window.removeEventListener('resize', this.handleScreenAuto);
     }
 
+    async initFileList() {
+        let data = window.myAPI.getStoreValue('files');
+        let newList = [];
+        if(data && data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
+                if(isExists) newList.push(data[i]);
+            }
+        }
+        data && this.setState({fileList: newList});
+    }
+
     changeFilesList(editable) {
         !editable && this.handleDisEditable();
         window.myAPI.setStoreValue('files', this.state.fileList);
         this.setState((state) => ({
-            fileList: [...state.fileList],
-            checkedList: [...state.checkedList],
+            checkedList: state.fileList.filter(el => el.checked),
         }));
     }
 
@@ -120,17 +129,17 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
-    handleBlur(index, e) {
+    handleBlur(item, e) {
         this.preventDefaultEvents(e);
         const newName = e.target.value;
-        const oldName = this.state.fileList[index].fileName;
+        const oldName = item.fileName;
         if(newName !== oldName) {
-            this.state.fileList[index].fileName = newName;
-            const oldPath = this.state.fileList[index].filePath;
-            const newPath = this.state.fileList[index].filePath.replace(this.state.fileList[index].fileName, e.target.value);
+            const oldPath = item.filePath;
+            const newPath = oldPath.replace(oldName, newName);
             window.myAPI.changeFileName(oldPath, newPath);
+            item.fileName = newName;
+            item.filePath = newPath;
         }
-        this.state.fileList[index].editable = false;
         this.changeFilesList();
     }
 
@@ -143,19 +152,18 @@ class ProjectManagementHoc extends React.PureComponent {
         this.handleFileReader(item.filePath);
     }
 
-    handleSelectOne(index, e) {
+    handleSelectOne(item, e) {
         this.preventDefaultEvents(e);
-        this.state.fileList[index].checked = !this.state.fileList[index].checked;
-        this.state.checkedList = this.state.fileList.filter(el => el.checked);
+        item.checked = !item.checked;
         this.changeFilesList();
     }
 
 
-    async handleDeleteRecord(index, e) {
+    async handleDeleteRecord(item, index, e) {
         this.preventDefaultEvents(e);
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE);
         if (res === 1) {
-            this.state.fileList[index].filePath && window.myAPI.deleteFiles(this.state.fileList[index].filePath, '');
+            item.filePath && await window.myAPI.deleteFiles(item.filePath, '');
             this.state.fileList.splice(index, 1);
             this.changeFilesList();
         }
@@ -187,34 +195,35 @@ class ProjectManagementHoc extends React.PureComponent {
         this.state.fileList.unshift(obj);
 
         const res = await window.myAPI.readFiles(oldPath, '', {});
-        window.myAPI.writeFiles(newPath, res, '');
+        await window.myAPI.writeFiles(newPath, res, '');
         if (e) this.changeFilesList();
     }
 
     async handleSaveOthers(item, index, e) {
         this.preventDefaultEvents(e);
         const res = await window.myAPI.readFiles(item.filePath, '', {});
-        window.myAPI.deleteFiles(item.filePath, '');
-        this.state.fileList[index].filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
+        const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
             file: res,
             filename: item.fileName
         });
-        this.changeFilesList();
+        if(filePath) {
+            await window.myAPI.deleteFiles(item.filePath, '');
+            this.state.fileList[index].filePath  = filePath;
+            this.changeFilesList();
+        }
     }
 
     handleDisEditable() {
         for (let i = 0; i < this.state.fileList.length; i++) {
             const item = this.state.fileList[i];
-            item.editable = false;
+            if(item.editable) item.editable = false;
         }
     }
 
     handleSelectAll(check) {
         for (let i = 0; i < this.state.fileList.length; i++) {
-            const item = this.state.fileList[i];
-            item.checked = check;
+            this.state.fileList[i].checked = check;
         }
-        this.state.checkedList = this.state.fileList.filter(el => el.checked);
         this.changeFilesList();
     }
 
@@ -223,17 +232,15 @@ class ProjectManagementHoc extends React.PureComponent {
         if (res === 0) return;
         for (let i = 0; i < this.state.checkedList.length; i++) {
             const item = this.state.checkedList[i];
-            item.filePath ? window.myAPI.deleteFiles(item.filePath, '') : item.checked = false;
+            item.filePath ? await window.myAPI.deleteFiles(item.filePath, '') : item.checked = false;
         }
-        this.state.fileList = this.state.fileList.filter(el => !el.checked);
-        this.state.checkedList = this.state.fileList.filter(el => el.checked);
+        this.state.fileList = this.state.fileList.filter(el => !el.checked)
         this.changeFilesList();
     }
 
-     handleCopyAll() {
+     async handleCopyAll() {
         for (let i = 0; i < this.state.checkedList.length; i++) {
-            const item = this.state.checkedList[i];
-            this.handleCopyRecord(item);
+            await this.handleCopyRecord(this.state.checkedList[i]);
         }
         this.handleSelectAll(false);
     }

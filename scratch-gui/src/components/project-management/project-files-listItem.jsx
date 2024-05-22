@@ -26,14 +26,14 @@ const ProjectFilesListItem = (props) => {
                 className={classNames(styles.projectNewFile, item.checked && checkedList.length > 0 ? styles.available : '')}>
                 <img src={item.pic_url ? item.pic_url : emptyIcon} alt=''/>
                 <Input className={styles.selected} type="radio" checked={item.checked} readOnly
-                       onClick={(e) => handleSelectOne(index, e)}/>
+                       onClick={(e) => handleSelectOne(item, e)}/>
                 <img className={styles.projectMore} src={moreIcon} alt="" onClick={(e) => showOperator(item, index, e)}/>
             </div>
             <span className={styles.name}>
                                   {item.editable ? <Input className={styles.fileInpSpan}
                                                           type="text"
                                                           defaultValue={item.fileName}
-                                                          onBlur={(e) => handleBlur(index, e)}
+                                                          onBlur={(e) => handleBlur(item, e)}
                                                           onClick={handleFocus}
                                   /> : <>{item.fileName}</>}
                             </span>

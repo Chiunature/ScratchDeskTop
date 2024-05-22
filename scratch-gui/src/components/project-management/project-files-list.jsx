@@ -69,7 +69,7 @@ const ProjectFilesList = (props) => {
             </ul>
             <Portal>
                 <ul className={styles.operator} ref={refOperator}>
-                    <li onClick={(e) => handleDeleteRecord(obj.index, e)}>{intl.formatMessage(messages.deleteMessage)}</li>
+                    <li onClick={(e) => handleDeleteRecord(obj.item, obj.index, e)}>{intl.formatMessage(messages.deleteMessage)}</li>
                     <li onClick={(e) => handleCopyRecord(obj.item, e)}>{intl.formatMessage(messages.copyMessage)}</li>
                     <li onClick={(e) => handleEditRecord(obj.index, e)}>{intl.formatMessage(messages.renameMessage)}</li>
                     <li onClick={(e) => handleSaveOthers(obj.item, obj.index, e)}>{intl.formatMessage(messages.saveAsMessage)}</li>

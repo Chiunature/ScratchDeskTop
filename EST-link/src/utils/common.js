@@ -530,10 +530,14 @@ class Common {
   }
 
   checkIsDeviceData(data, reg) {
-    const result = data.match(reg);
-    if (result && result[0].length > 0) {
-      return JSON.parse(result[0]);
-    } else {
+    try {
+      const result = data.match(reg);
+      if (result && result[0].length > 0) {
+        return JSON.parse(result[0]);
+      } else {
+        return null;
+      }
+    } catch (error) {
       return null;
     }
   }
