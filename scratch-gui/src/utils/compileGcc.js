@@ -74,7 +74,7 @@ class Compile {
      */
     async handleCode(codeStr, taskStr, myStr, handlerStr) {
         //读取Aplication.c文件
-        const result = window.myAPI.readFiles(APLICATION, window.resourcesPath);
+        const result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
         //自制积木块放入前面
         const myCode = headMain(myStr);
         const newMy = await this.changeFileByReg(result, reg_main, myCode);
@@ -86,7 +86,7 @@ class Compile {
         const taskIntoStr = Task_Info(taskStr);
         const newTaskInto = await this.changeFileByReg(newTaskHandler, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
-        const writeAppRes = window.myAPI.writeFiles(APLICATION, newTaskInto, window.resourcesPath);
+        const writeAppRes = await window.myAPI.writeFiles(APLICATION, newTaskInto, window.resourcesPath);
         return writeAppRes;
     }
 

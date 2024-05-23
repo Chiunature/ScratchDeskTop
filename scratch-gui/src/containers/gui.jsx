@@ -310,13 +310,14 @@ class GUI extends React.Component {
         } else if (this.props.workspace) {
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
+            const selItem = window.myAPI.getStoreValue('selItem');
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
                 if (this.props.deviceObj && this.props.deviceObj.estlist && this.props.deviceObj.estlist.est === verifyTypeConfig.EST_RUN) {
                     this.handleRunApp(verifyTypeConfig.EST_RUN);
                 }
-                const selectedExe = JSON.parse(window.myAPI.getStoreValue('selItem'));
+                const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
                 const that = this;
                 setTimeout(() => {
                     new Compile().sendSerial(verifyTypeConfig.BOOTBIN, that.props.bufferList, that.props.matchMyBlock, selectedExe);
