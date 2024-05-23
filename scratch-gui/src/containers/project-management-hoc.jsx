@@ -70,10 +70,10 @@ class ProjectManagementHoc extends React.PureComponent {
 
     changeFilesList(editable) {
         !editable && this.handleDisEditable();
-        window.myAPI.setStoreValue('files', this.state.fileList);
-        this.setState((state) => ({
-            checkedList: state.fileList.filter(el => el.checked),
-        }));
+        setTimeout(() => window.myAPI.setStoreValue('files', this.state.fileList));
+        this.setState({
+            checkedList: this.state.fileList.filter(el => el.checked)
+        });
     }
 
     preventDefaultEvents(e) {
@@ -177,12 +177,7 @@ class ProjectManagementHoc extends React.PureComponent {
 
     async handleCopyRecord(item, e) {
         this.preventDefaultEvents(e);
-        let count = 1;
-        for (let i = 0; i < this.state.fileList.length; i++) {
-            if (this.state.fileList[i].fileName.indexOf(item.fileName + ' ') !== -1) {
-                count++;
-            }
-        }
+        const count = this.state.fileList.filter(el => el.fileName.indexOf(item.fileName + ' ') !== -1).length + 1;
         const newFileName = item.fileName + ' ' + count;
         const oldPath = item.filePath;
         const newPath = item.filePath.replace(item.fileName, newFileName);
@@ -190,9 +185,7 @@ class ProjectManagementHoc extends React.PureComponent {
         let time = window.myAPI.getCurrentTime();
         let timeList = time.split('_');
         timeList[1] = timeList[1].replaceAll('-', ':');
-
-        const obj = {...item, fileName: newFileName, filePath: newPath, alterTime: timeList.join(' ')};
-        this.state.fileList.unshift(obj);
+        this.state.fileList.unshift({...item, fileName: newFileName, filePath: newPath, alterTime: timeList.join(' ')});
 
         const res = await window.myAPI.readFiles(oldPath, '', {});
         await window.myAPI.writeFiles(newPath, res, '');

@@ -23,7 +23,7 @@ const ProjectHeader = (props) => {
 
     let isSelectAll = useMemo(() => {
         return checkedList.length > 0 && checkedList.length === filesList.length;
-    }, [checkedList, filesList])
+    }, [checkedList])
 
     let selectAll = useCallback(() => handleSelectAll(!isSelectAll), [isSelectAll]);
 
