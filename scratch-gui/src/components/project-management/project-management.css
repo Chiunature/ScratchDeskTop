@@ -152,6 +152,7 @@
     box-shadow: inset 0 0 0 1px #e9e9e9;
     transition: box-shadow .3s ease-in-out;
     position: relative;
+    overflow: hidden;
 }
 
 .project-files-list > li > .project-new-file:hover {
@@ -171,7 +172,7 @@
 
 .project-new-file img {
     width: 100%;
-    height: 100%;
+    height: 120px;
 }
 
 .project-new-file .selected {

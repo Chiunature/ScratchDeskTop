@@ -28,6 +28,7 @@ const { app, BrowserWindow, dialog, Menu, shell, ipcMain, screen } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const {Worker} = require("worker_threads");
 const { cwd } = require('process');
 const { exec } = require('child_process');
 const { Serialport, ipc } = require('est-link');
@@ -109,6 +110,31 @@ function saveFileToLocal() {
     });
 }
 
+function handleWorker() {
+    // 创建一个 Worker 线程来处理数据存储操作
+    const dataWorker = new Worker('./worker.js');
+    ipcMain.handle(ipc.WORKER, async (event, data) => {
+        if(!data) return;
+        const {type} = data;
+        switch (type) {
+            case 'set':
+                dataWorker.postMessage({...data});
+                return;
+            case 'get':
+                dataWorker.postMessage({...data});
+                return await _onmessage();
+            default:
+                return;
+        }
+    })
+    function _onmessage() {
+        return new Promise((resolve) => {
+            // 监听 Worker 线程的消息
+            dataWorker.on('message', (message) => resolve(message));
+        })
+    }
+}
+
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -145,6 +171,7 @@ function createWindow() {
             // 打开开发者工具
             mainWindow.webContents.openDevTools({ mode: 'detach' });
         }
+        handleWorker();
         // 防止页面失去焦点
         _handleOnFocus();
         // 保存文件到本地

@@ -1,4 +1,5 @@
 {
+    "WORKER": "WORKER",
     "SEND_OR_ON": {
         "LAUCHFROMATC": "launchFromATC",
         "SET_STATIC_PATH": "set_static_path",

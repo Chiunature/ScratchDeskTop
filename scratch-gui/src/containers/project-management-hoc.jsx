@@ -56,24 +56,24 @@ class ProjectManagementHoc extends React.PureComponent {
         window.removeEventListener('resize', this.handleScreenAuto);
     }
 
-    async initFileList() {
-        let data = window.myAPI.getStoreValue('files');
-        let newList = [];
-        if(data && data.length > 0) {
-            for (let i = 0; i < data.length; i++) {
-                const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
-                if(isExists) newList.push(data[i]);
-            }
-        }
-        data && this.setState({fileList: newList});
+     async initFileList() {
+         let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
+         let newList = [];
+         if(data && data.length > 0) {
+             for (let i = 0; i < data.length; i++) {
+                 const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
+                 if(isExists) newList.push(data[i]);
+             }
+         }
+         data && this.setState({fileList: newList});
     }
 
-    changeFilesList(editable) {
+    async changeFilesList(editable) {
         !editable && this.handleDisEditable();
-        setTimeout(() => window.myAPI.setStoreValue('files', this.state.fileList));
         this.setState({
             checkedList: this.state.fileList.filter(el => el.checked)
         });
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type:'set', key:'files', value: [...this.state.fileList]});
     }
 
     preventDefaultEvents(e) {
@@ -109,8 +109,8 @@ class ProjectManagementHoc extends React.PureComponent {
         readyToReplaceProject && this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
     }
 
-    handleFilterClear() {
-        let list = window.myAPI.getStoreValue('files');
+    async handleFilterClear() {
+        let list = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
         if (list) {
             this.setState(() => ({
                 filterQuery: '',

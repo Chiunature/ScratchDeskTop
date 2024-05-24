@@ -586,9 +586,9 @@ class MenuBar extends React.Component {
     async setCacheForSave(filePath) {
         const imgUrl = await this.screenPrintWorkspace();
         let list = [];
-        const data = window.myAPI.getStoreValue('files')
+        const data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
         if (data) {
-            list = data;
+            list = [...data];
         }
         let time = window.myAPI.getCurrentTime();
         let timeList = time.split('_');
@@ -604,10 +604,10 @@ class MenuBar extends React.Component {
         const newList = [obj, ...list];
         let que = {};
         const result = newList.reduce((pre, cur) => {
-                que[cur.filePath] ? null : que[cur.filePath] = pre.push(cur);
-                return pre;
+            que[cur.filePath] ? null : que[cur.filePath] = pre.push(cur);
+            return pre;
         }, []);
-        window.myAPI.setStoreValue('files', result);
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'set', key:'files', value: result});
     }
 
     render() {

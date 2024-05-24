@@ -219,7 +219,8 @@
             "main.js",
             "preload.js",
             "update.js",
-            "launch.html"
+            "launch.html",
+            "worker.js"
         ],
         "fileAssociations": [
             {

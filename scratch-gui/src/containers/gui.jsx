@@ -52,16 +52,6 @@ import getMainMsg from "../lib/alerts/message.js";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        /* this.state = {
-            deviceObj: {
-                deviceList: [],
-                gyroList: new Array(3).fill(0),
-                flashList: new Array(2).fill(0),
-                adcList: 0,
-                voice: 0,
-                deviceStatus: verifyTypeConfig.EST_STOP
-            }
-        } */
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
     }
 
@@ -391,8 +381,6 @@ class GUI extends React.Component {
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
                     compile={new Compile()}
-                    deviceObj={this.props.deviceObj}
-                    deviceStatus={this.props.deviceStatus}
                 >
                     {children}
                 </GUIComponent>
