@@ -23,9 +23,9 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { headMain, Task_Info, Task_Stack, Task_Info_Item, Task_Handler } from "../config/js/ProgrammerTasks.js";
-import { APLICATION } from "../config/json/LB_USER.json";
-import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
+import {headMain, Task_Handler, Task_Info, Task_Info_Item, Task_Stack} from "../config/js/ProgrammerTasks.js";
+import {APLICATION} from "../config/json/LB_USER.json";
+import {ipc as ipc_Renderer, verifyTypeConfig} from "est-link"
 
 
 const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
@@ -86,8 +86,7 @@ class Compile {
         const taskIntoStr = Task_Info(taskStr);
         const newTaskInto = await this.changeFileByReg(newTaskHandler, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
-        const writeAppRes = await window.myAPI.writeFiles(APLICATION, newTaskInto, window.resourcesPath);
-        return writeAppRes;
+        return await window.myAPI.writeFiles(APLICATION, newTaskInto, window.resourcesPath);
     }
 
     /**
