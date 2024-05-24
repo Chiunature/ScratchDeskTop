@@ -216,6 +216,7 @@
         "files": [
             "node_modules/**/*",
             "src/config/**/*",
+            "src/utils/**/*",
             "main.js",
             "preload.js",
             "update.js",
