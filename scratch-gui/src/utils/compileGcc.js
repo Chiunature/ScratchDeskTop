@@ -39,6 +39,7 @@ class Compile {
 
     /**
      * 根据正则去修改文件特定内容
+     * @param result
      * @param {RegExp | String} regex
      * @param {String} targetStr
      * @returns
@@ -70,6 +71,7 @@ class Compile {
      * @param {String} codeStr
      * @param {String} taskStr
      * @param {String} myStr
+     * @param handlerStr
      * @returns
      */
     async handleCode(codeStr, taskStr, myStr, handlerStr) {

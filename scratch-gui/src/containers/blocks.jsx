@@ -48,6 +48,7 @@ const DroppableBlocks = DropAreaHOC([
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 const regexForMyBlock = /\/\*MyBlock\*\/\s+void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};\s+\/\*MyBlock\*\//;
+const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
 const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
 
 class Blocks extends React.Component {
@@ -179,8 +180,6 @@ class Blocks extends React.Component {
                     this.disableCombinedMotor(element, disableBlocks);
                 }
             }
-        } else {
-            return;
         }
     }
 
@@ -250,7 +249,7 @@ class Blocks extends React.Component {
         }
         this.props.setMatchMyBlock(matchMyBlock);
         if (match) {
-            const arr = match[1].split("\/\* Start \*\/");
+            const arr = match[1].match(regexForThread);
             const newArr = arr.filter(item => /[^ \n]/.test(item));
             this.props.setCompileList(newArr);
             this.parserTask(this.workspace, newArr);
@@ -258,13 +257,13 @@ class Blocks extends React.Component {
     }
 
     //处理经上层正则筛选后的C代码
-    handleBlockList(arr) {
+    /*handleBlockList(arr) {
         let newArr = [];
         for (let i = 0; i < arr.length; i++) {
 
-            if (arr[i] === '' || arr[i].replace(/[\t\r\f\n\s]*/g, '') === '}') continue;
+            if (arr[i] === '' || arr[i].replace(/[\t\r\f\n\s]*!/g, '') === '}') continue;
 
-            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') === '}' || arr[i + 1].replace(/[\t\r\f\n\s]*/g, '') === '}}')) {
+            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*!/g, '') === '}' || arr[i + 1].replace(/[\t\r\f\n\s]*!/g, '') === '}}')) {
                 arr[i] += arr[i + 1];
             }
 
@@ -272,16 +271,14 @@ class Blocks extends React.Component {
 
         }
         return newArr;
-    }
+    }*/
 
     //解析任务
     parserTask(workspace, arr) {
         let list = workspace.getTopBlocks();
-        const newArr = this.handleBlockList(arr);
         let i = 0, j = 0, que = [], newList = [];
-
         while (i < list.length) {
-            que.push(newArr[i]);
+            que.push(arr[i]);
 
             if (list[i].startHat_) {
                 if (i > 0) j++;
