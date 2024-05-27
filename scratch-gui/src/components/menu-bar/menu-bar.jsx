@@ -323,10 +323,10 @@ class MenuBar extends React.Component {
 
     handleKeyPress(event) {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
-        if (modifier && event.key === "s") {
+        if (modifier && event.key === "s" && !event.shiftKey) {
             this.handleClickSave();
             event.preventDefault();
-        }else if(modifier && event.key === "alt" && event.key === "s") {
+        } else if (modifier && event.shiftKey && event.key === "S") {
             this.getSaveToComputerHandler(this.downloadProject.bind(this))();
             event.preventDefault();
         }
