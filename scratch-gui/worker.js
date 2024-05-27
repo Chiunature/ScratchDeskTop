@@ -1,20 +1,32 @@
 const { parentPort } = require('worker_threads');
-const StoreUtil = require("./src/utils/StoreUtil");
-const store = new StoreUtil({});
+// const path = require("path");
 
-parentPort.on('message',  function(data) {
+
+// function dynamicallyRequire(moduleName) {
+//     let modulePath = getNodeModulesPath(moduleName);
+//     return require(modulePath);
+// }
+// function getNodeModulesPath(moduleName) {
+//     return workerData.env ? moduleName : path.join(process.cwd(), 'resources/app.asar.unpacked', moduleName);
+// }
+
+// const StoreUtil = dynamicallyRequire("./src/utils/StoreUtil.js");
+// const store = new StoreUtil({});
+
+parentPort.on('message', function (data) {
     if (typeof data === 'object') {
-        handleStore(store, data);
+        handleStore(data);
     }
 });
 
-function handleStore(store, {type, key, value = null}) {
+function handleStore(data) {
+    const { type } = data;
     switch (type) {
         case 'set':
-            store.set(key, value);
+            parentPort.postMessage({...data});
             break;
         case 'get':
-            parentPort.postMessage(store.get(key));
+            parentPort.postMessage({...data});
             break;
         default:
             break;

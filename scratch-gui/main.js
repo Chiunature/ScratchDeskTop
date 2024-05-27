@@ -24,7 +24,7 @@
  */
 const serialport = require('serialport');
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, shell, ipcMain, screen } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
@@ -59,7 +59,8 @@ const options = {
     plugins: true,
     webSecurity: false,
     preload: path.join(__dirname, "preload.js"),
-    requestedExecutionLevel: 'requireAdministrator'
+    requestedExecutionLevel: 'requireAdministrator',
+    nodeIntegrationInWorker: true
 }
 
 const pack = {
@@ -91,37 +92,41 @@ function showLoading() {
 }
 
 function saveFileToLocal() {
-    ipcMain.handle(ipc.FILE.SAVE,async (event, obj) => {
+    ipcMain.handle(ipc.FILE.SAVE, async (event, obj) => {
         // 选择文件保存路径
         const result = await dialog.showSaveDialog({
             title: 'Save File',
             defaultPath: path.join(app.getPath('documents'), obj.filename),
-            filters: [{ name: 'LBS Files', extensions: ['lbs','sb3','sb2','sb1'] }]
+            filters: [{ name: 'LBS Files', extensions: ['lbs', 'sb3', 'sb2', 'sb1'] }]
         });
         if (!result.canceled) {
             const filePath = result.filePath;
             // 写入文件到指定路径
             fs.writeFileSync(filePath, obj.file);
-            console.info('File saved to:', filePath);
             return filePath;
-        }else {
+        } else {
             return false;
         }
     });
 }
 
 function handleWorker() {
-    // 创建一个 Worker 线程来处理数据存储操作
-    const dataWorker = new Worker('./worker.js');
+    const StoreUtil = require('./src/utils/StoreUtil.js');
+    const myStore = new StoreUtil({});
+    const worker_js_path = !app.isPackaged ? path.join(__dirname, 'worker.js') : path.join(process.resourcesPath, 'app.asar.unpacked/worker.js');
+    const worker = new Worker(worker_js_path, {
+        workerData: {
+            env: !app.isPackaged
+        }
+    })
     ipcMain.handle(ipc.WORKER, async (event, data) => {
-        if(!data) return;
-        const {type} = data;
-        switch (type) {
+        if (!data) return;
+        switch (data.type) {
             case 'set':
-                dataWorker.postMessage({...data});
+                worker.postMessage({ ...data });
                 return;
             case 'get':
-                dataWorker.postMessage({...data});
+                worker.postMessage({ ...data });
                 return await _onmessage();
             default:
                 return;
@@ -129,8 +134,21 @@ function handleWorker() {
     })
     function _onmessage() {
         return new Promise((resolve) => {
-            // 监听 Worker 线程的消息
-            dataWorker.on('message', (message) => resolve(message));
+            let result = null;
+            worker.on('message', (data) => {
+                const { type, key } = data;
+                switch (type) {
+                    case 'set':
+                        myStore.set(key, data.value);
+                        break;
+                    case 'get':
+                        result = myStore.get(key);
+                        break;
+                    default:
+                        break;
+                }
+                resolve(result);
+            });
         })
     }
 }
@@ -196,9 +214,9 @@ function createWindow() {
             if (flag === ipc.DRIVER.INSTALL) return;
             //是否需要重装驱动
             if (flag === ipc.DRIVER.REUPDATE) {
-                return await _checkInstallDriver({message: mainMsg['reinstallDriver']});
+                return await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
             }
-            return await _checkInstallDriver({message: mainMsg['installDriver']});
+            return await _checkInstallDriver({ message: mainMsg['installDriver'] });
         });
 
         mainWindow.once("ready-to-show", () => {
