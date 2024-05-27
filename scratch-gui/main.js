@@ -30,7 +30,7 @@ const url = require("url");
 const fs = require("fs");
 const {Worker} = require("worker_threads");
 const { cwd } = require('process');
-const { exec } = require('child_process');
+const { exec, fork  } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 const checkUpdate = require('./update.js');
 const createProtocol = require("./src/config/js/createProtocol.js");
@@ -110,7 +110,24 @@ function saveFileToLocal() {
     });
 }
 
-function handleWorker() {
+function handleChildProcess() {
+    const childProcess = fork(path.join(__dirname, './src/utils/storeChildProcess.js'));
+    ipcMain.handle(ipc.WORKER, async (event, data) => {
+        if (!data) return;
+        childProcess.send({ ...data });
+        return await _onmessage();
+    })
+    function _onmessage() {
+        return new Promise((resolve) => {
+            childProcess.on('message', (msg) => {
+                if(msg.type === 'get') resolve(msg.value);
+                resolve();
+            });
+        })
+    }
+}
+
+/* function handleWorker() {
     const StoreUtil = require('./src/utils/StoreUtil.js');
     const myStore = new StoreUtil({});
     const worker_js_path = !app.isPackaged ? path.join(__dirname, 'worker.js') : path.join(process.resourcesPath, 'app.asar.unpacked/worker.js');
@@ -151,7 +168,7 @@ function handleWorker() {
             });
         })
     }
-}
+} */
 
 function createWindow() {
     // 获取主显示器的宽高信息
@@ -189,7 +206,8 @@ function createWindow() {
             // 打开开发者工具
             mainWindow.webContents.openDevTools({ mode: 'detach' });
         }
-        handleWorker();
+        // 开启子线程操作文件缓存
+        handleChildProcess();
         // 防止页面失去焦点
         _handleOnFocus();
         // 保存文件到本地
