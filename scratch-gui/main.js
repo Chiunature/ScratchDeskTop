@@ -28,7 +28,6 @@ const { app, BrowserWindow, dialog, Menu, ipcMain, screen } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const {Worker} = require("worker_threads");
 const { cwd } = require('process');
 const { exec, fork  } = require('child_process');
 const { Serialport, ipc } = require('est-link');
@@ -127,48 +126,6 @@ function handleChildProcess() {
     }
 }
 
-/* function handleWorker() {
-    const StoreUtil = require('./src/utils/StoreUtil.js');
-    const myStore = new StoreUtil({});
-    const worker_js_path = !app.isPackaged ? path.join(__dirname, 'worker.js') : path.join(process.resourcesPath, 'app.asar.unpacked/worker.js');
-    const worker = new Worker(worker_js_path, {
-        workerData: {
-            env: !app.isPackaged
-        }
-    })
-    ipcMain.handle(ipc.WORKER, async (event, data) => {
-        if (!data) return;
-        switch (data.type) {
-            case 'set':
-                worker.postMessage({ ...data });
-                return;
-            case 'get':
-                worker.postMessage({ ...data });
-                return await _onmessage();
-            default:
-                return;
-        }
-    })
-    function _onmessage() {
-        return new Promise((resolve) => {
-            let result = null;
-            worker.on('message', (data) => {
-                const { type, key } = data;
-                switch (type) {
-                    case 'set':
-                        myStore.set(key, data.value);
-                        break;
-                    case 'get':
-                        result = myStore.get(key);
-                        break;
-                    default:
-                        break;
-                }
-                resolve(result);
-            });
-        })
-    }
-} */
 
 function createWindow() {
     // 获取主显示器的宽高信息

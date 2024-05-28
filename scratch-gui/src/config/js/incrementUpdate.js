@@ -153,7 +153,7 @@ function extractZip(targetPath, oldPath) {
         let zip = new AdmZip(targetPath);
         zip.extractAllTo(oldPath, true);
         //删除目标文件夹以及文件夹下的所有文件
-        // deleteOld(oldPath + ".old");
+        deleteOld(oldPath + ".old");
         fs.unlink(targetPath, (err) => console.info(err));
         resolve(true);
     });

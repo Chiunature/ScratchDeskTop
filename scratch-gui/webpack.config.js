@@ -190,6 +190,10 @@ module.exports = [
                     {
                         from: 'scripts',
                         to: 'scripts'
+                    },
+                    {
+                        from: 'worker.js',
+                        to: 'worker.js'
                     }
                 ]
             }),
