@@ -323,10 +323,11 @@ class MenuBar extends React.Component {
 
     handleKeyPress(event) {
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
-        if (modifier && event.key === "s" && !event.shiftKey) {
+        const key_s = event.key === "s" || event.key === "S";
+        if (modifier && !event.shiftKey && key_s) {
             this.handleClickSave();
             event.preventDefault();
-        } else if (modifier && event.shiftKey && event.key === "S") {
+        } else if (modifier && event.shiftKey && key_s) {
             this.getSaveToComputerHandler(this.downloadProject.bind(this))();
             event.preventDefault();
         }
@@ -567,6 +568,8 @@ class MenuBar extends React.Component {
             downloadBlob(this.props.projectFilename, content, onlySave);
             if (onlySave) {
                 this.props.onShowCompletedAlert("saveNowSuccess");
+                const filePath = sessionStorage.getItem('openPath');
+                filePath && await this.setCacheForSave(filePath);
                 return;
             }
             const res = await content.arrayBuffer();
