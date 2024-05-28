@@ -5,7 +5,7 @@ import Box from "../box/box.jsx";
 import messages from "./messages";
 import ProjectFilesListItem from "./project-files-listItem.jsx";
 import ReactDOM from "react-dom";
-
+import Spinner from "../spinner/spinner.jsx";
 
 const Portal = ({ children }) =>
     typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
@@ -13,6 +13,7 @@ const Portal = ({ children }) =>
 const ProjectFilesList = (props) => {
     const {
         intl,
+        loading,
         filesList,
         handleClickNew,
         handleDeleteRecord,
@@ -33,6 +34,7 @@ const ProjectFilesList = (props) => {
         }
     }, []);
 
+    let isload = useMemo(() => loading, [loading]);
     let obj = useMemo(() => selectItem, [selectItem]);
     let setObj = useCallback((item, index) => setSelectItem({item, index}), [obj]);
     let showOperator = useCallback((item, index, e) => clickMore(item, index, e), [refOperator]);
@@ -56,6 +58,7 @@ const ProjectFilesList = (props) => {
 
     return (
         <Box className={styles.projectFiles}>
+            {isload && <div className={styles.listMask}><Spinner className={styles.listSpinner} level="success"/></div>}
             <ul className={styles.projectFilesList}>
                 <li onClick={handleClickNew}>
                     <div className={styles.projectNewFile}>

@@ -43,7 +43,8 @@ class ProjectManagementHoc extends React.PureComponent {
             checkedList: [],
             content: {
                 transform: 'translate(-50%, -50%) scale(1)',
-            }
+            },
+            loading: true
         };
     }
 
@@ -57,7 +58,7 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
      async initFileList() {
-         let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
+        let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
          let newList = [];
          if(data && data.length > 0) {
              for (let i = 0; i < data.length; i++) {
@@ -65,7 +66,7 @@ class ProjectManagementHoc extends React.PureComponent {
                  if(isExists) newList.push(data[i]);
              }
          }
-         data && this.setState({fileList: newList});
+        data && this.setState({fileList: newList, loading: false});
     }
 
     async changeFilesList(editable) {
@@ -274,6 +275,7 @@ class ProjectManagementHoc extends React.PureComponent {
                         {...this.props}
                         inputRef={this.inp}
                         intl={this.props.intl}
+                        loading={this.state.loading}
                         filesList={this.state.fileList}
                         filterQuery={this.state.filterQuery}
                         checkedList={this.state.checkedList}

@@ -50,10 +50,15 @@ class Serialport extends Common {
     getList() {
         this.ipcHandle(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event, arg) => {
             const result = await this.serialport.SerialPort.list();
-            const newArr = result.filter(el => (el.friendlyName && el.friendlyName.search("LBS Serial") !== -1));
+            const newArr = result.reduce((pre, cur) => {
+              if(cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
+                pre.push(cur);
+              }
+              return pre;
+            }, []);
             for (let i = 0; i < newArr.length; i++) {
                 const item = newArr[i];
-              !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
+                !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
             }
             return { result: this.portList[this.portIndex] ? this.portList[this.portIndex] : null, type: this._type };
         });
