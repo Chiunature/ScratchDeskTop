@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {defineMessages, FormattedMessage, injectIntl, intlShape,} from "react-intl";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { defineMessages, FormattedMessage, injectIntl, intlShape, } from "react-intl";
 import PropTypes from "prop-types";
 import bindAll from "lodash.bindall";
 import bowser from "bowser";
@@ -13,13 +13,13 @@ import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import CommunityButton from "./community-button.jsx";
 import ShareButton from "./share-button.jsx";
-import {ComingSoonTooltip} from "../coming-soon/coming-soon.jsx";
+import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 // import LanguageSelector from "../../containers/language-selector.jsx";
 import SaveStatus from "./save-status.jsx";
 import ProjectWatcher from "../../containers/project-watcher.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
-import {MenuItem, MenuSection} from "../menu/menu.jsx";
+import { MenuItem, MenuSection } from "../menu/menu.jsx";
 import ProjectTitleInput from "./project-title-input.jsx";
 // import AuthorInfo from "./author-info.jsx";
 import AccountNav from "../../containers/account-nav.jsx";
@@ -37,8 +37,8 @@ import {
     setPort,
     setProgress
 } from "../../reducers/connection-modal";
-import {openConnectionModal, openTipsLibrary} from "../../reducers/modals";
-import {setGen, setPlayer} from "../../reducers/mode";
+import { openConnectionModal, openTipsLibrary } from "../../reducers/modals";
+import { setGen, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
     getIsShowingProject,
@@ -73,7 +73,7 @@ import {
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
-import {svgAsDataUri} from "save-svg-as-png";
+import { svgAsDataUri } from "save-svg-as-png";
 import styles from "./menu-bar.css";
 
 // import helpIcon from "../../lib/assets/icon--tutorials.svg";
@@ -83,19 +83,19 @@ import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
-import {ipc as ipc_Renderer} from 'est-link';
+import { ipc as ipc_Renderer } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
 import fileIcon from './icon--file.svg';
 import sharedMessages from "../../lib/shared-messages";
-import {showAlertWithTimeout} from "../../reducers/alerts";
+import { showAlertWithTimeout } from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
-import {setDeviceCards, viewDeviceCards} from "../../reducers/cards.js";
-import {showFileStytem} from "../../reducers/file-stytem.js";
-import {projectTitleInitialState, setProjectTitle} from '../../reducers/project-title';
-import {HELP_DOCX, HELP_PDF} from "../../config/json/LB_USER.json";
-import {HARDWARE, SOFTWARE} from "../../lib/helps/index.js";
+import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
+import { showFileStytem } from "../../reducers/file-stytem.js";
+import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
+import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
+import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 
 
 const ariaMessages = defineMessages({
@@ -149,12 +149,12 @@ const homeMessage = (
 
 
 const MenuBarItemTooltip = ({
-                                children,
-                                className,
-                                enable,
-                                id,
-                                place = "bottom",
-                            }) => {
+    children,
+    className,
+    enable,
+    id,
+    place = "bottom",
+}) => {
     if (enable) {
         return <React.Fragment>{children}</React.Fragment>;
     }
@@ -178,7 +178,7 @@ MenuBarItemTooltip.propTypes = {
     place: PropTypes.oneOf(["top", "bottom", "left", "right"]),
 };
 
-const MenuItemTooltip = ({id, isRtl, children, className}) => (
+const MenuItemTooltip = ({ id, isRtl, children, className }) => (
     <ComingSoonTooltip
         className={classNames(styles.comingSoon, className)}
         isRtl={isRtl}
@@ -398,7 +398,7 @@ class MenuBar extends React.Component {
         }
         if (typeof onClickAbout === "function") {
             // make a button which calls a function
-            return <AboutButton onClick={onClickAbout}/>;
+            return <AboutButton onClick={onClickAbout} />;
         }
         // assume it's an array of objects
         // each item must have a 'title' FormattedMessage and a 'handleClick' function
@@ -410,7 +410,7 @@ class MenuBar extends React.Component {
                 })}
                 onMouseUp={this.props.onRequestOpenAbout}
             >
-                <img className={styles.aboutIcon} src={aboutIcon}/>
+                <img className={styles.aboutIcon} src={aboutIcon} />
                 <MenuBarMenu
                     className={classNames(styles.menuBarMenu)}
                     open={this.props.aboutMenuOpen}
@@ -449,7 +449,7 @@ class MenuBar extends React.Component {
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const {result, type} = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
             if (result) {
                 clearInterval(this.timer);
                 this.timer = null;
@@ -518,8 +518,8 @@ class MenuBar extends React.Component {
         this.props.onSetProgress(0);
         if (msg.length > 0) this.props.onShowDisonnectAlert(msg);
         this.props.onSetCompleted(false);
-        this.props.onSetDeviceCards({deviceVisible: false});
-        window.myAPI.ipcRender({sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED});
+        this.props.onSetDeviceCards({ deviceVisible: false });
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
     }
 
     showDeviceCards() {
@@ -556,7 +556,7 @@ class MenuBar extends React.Component {
     }
 
     async screenPrintWorkspace() {
-        return await svgAsDataUri(this.props.workspace.svgBlockCanvas_, {backgroundColor: '#ffffff'});
+        return await svgAsDataUri(this.props.workspace.svgBlockCanvas_, { backgroundColor: '#ffffff' });
     }
 
     downloadProject(onlySave) {
@@ -648,12 +648,12 @@ class MenuBar extends React.Component {
                                     styles.hoverable,
                                     {
                                         [styles.active]:
-                                        this.props.fileMenuOpen,
+                                            this.props.fileMenuOpen,
                                     }
                                 )}
                                 onMouseUp={this.props.onClickFile}
                             >
-                                <img src={fileIcon}/>
+                                <img src={fileIcon} />
                                 <span className={styles.collapsibleLabel}>
                                     <FormattedMessage
                                         defaultMessage="File"
@@ -661,7 +661,7 @@ class MenuBar extends React.Component {
                                         id="gui.menuBar.file"
                                     />
                                 </span>
-                                <img src={dropdownCaret}/>
+                                <img src={dropdownCaret} />
                                 <MenuBarMenu
                                     className={classNames(styles.menuBarMenu)}
                                     open={this.props.fileMenuOpen}
@@ -716,7 +716,7 @@ class MenuBar extends React.Component {
                                                         description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
                                                         id="gui.menuBar.downloadToComputer"
                                                     />
-                                                    <span>（Ctrl+Alt+s）</span>
+                                                    <span>（Ctrl+Shift+s）</span>
                                                 </MenuItem>
                                             )}
                                         </SB3Downloader>
@@ -751,7 +751,7 @@ class MenuBar extends React.Component {
                                 <DeletionRestorer>
                                     {(
                                         handleRestore,
-                                        {restorable, deletedItem}
+                                        { restorable, deletedItem }
                                     ) => (
                                         <MenuItem
                                             className={classNames({
@@ -769,7 +769,7 @@ class MenuBar extends React.Component {
                                 </DeletionRestorer>
                                 <MenuSection>
                                     <TurboMode>
-                                        {(toggleTurboMode, {turboMode}) => (
+                                        {(toggleTurboMode, { turboMode }) => (
                                             <MenuItem onClick={toggleTurboMode}>
                                                 {turboMode ? (
                                                     <FormattedMessage
@@ -805,7 +805,7 @@ class MenuBar extends React.Component {
                         <img className={styles.helpIcon} src={helpIcon} />
                         <FormattedMessage {...ariaMessages.tutorials} />
                     </div> */}
-                    <Divider className={classNames(styles.divider)}/>
+                    <Divider className={classNames(styles.divider)} />
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -875,14 +875,14 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                            /* eslint-enable react/jsx-no-bind */
+                                        /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
                             )
                         ) : this.props.showComingSoon ? (
                             <MenuBarItemTooltip id="share-button">
-                                <ShareButton className={styles.menuBarButton}/>
+                                <ShareButton className={styles.menuBarButton} />
                             </MenuBarItemTooltip>
                         ) : (
                             []
@@ -911,7 +911,7 @@ class MenuBar extends React.Component {
                                                     waitForUpdate
                                                 );
                                             }}
-                                            /* eslint-enable react/jsx-no-bind */
+                                        /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
@@ -936,12 +936,12 @@ class MenuBar extends React.Component {
                     >
                         <MenuBarItemTooltip enable id="title-field">
                             <ProjectTitleInput readOnly={false}
-                                               className={classNames(
-                                                   styles.titleFieldGrowable
-                                               )}
+                                className={classNames(
+                                    styles.titleFieldGrowable
+                                )}
                             />
                             <img className={styles.fileSaveIcon} src={fileSaveIcon}
-                                 onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))}/>
+                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))} />
                         </MenuBarItemTooltip>
                     </div>
                 </Box>
@@ -957,8 +957,8 @@ class MenuBar extends React.Component {
                         )}
                         onClick={() => this.showDeviceCards()}
                     >
-                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon}/> :
-                            <img className={styles.unconnectedIcon} src={unconnectedIcon}/>}
+                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
+                            <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
                         <FormattedMessage
                             defaultMessage="Device"
                             description="View device information"
@@ -977,7 +977,7 @@ class MenuBar extends React.Component {
                         )}
                         onClick={() => this.props.onSetGen(this.props.isGen)}
                     >
-                        <img className={styles.unconnectedIcon} src={genIcon}/>
+                        <img className={styles.unconnectedIcon} src={genIcon} />
                         <FormattedMessage
                             defaultMessage="Generator"
                             description="Text for menubar Generator button"
@@ -991,7 +991,7 @@ class MenuBar extends React.Component {
                     className={classNames(styles.accountInfoGroup, styles.hide)}
                 >
                     <div className={styles.menuBarItem}>
-                        {this.props.canSave && <SaveStatus/>}
+                        {this.props.canSave && <SaveStatus />}
                     </div>
                     {this.props.sessionExists ? (
                         this.props.username ? (
@@ -1017,7 +1017,7 @@ class MenuBar extends React.Component {
                                         styles.hoverable,
                                         {
                                             [styles.active]:
-                                            this.props.accountMenuOpen,
+                                                this.props.accountMenuOpen,
                                         }
                                     )}
                                     isOpen={this.props.accountMenuOpen}
