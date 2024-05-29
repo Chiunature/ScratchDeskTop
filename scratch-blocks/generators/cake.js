@@ -141,6 +141,7 @@ Blockly.cake.LED = {
  * Initialize the database of variable names.
  */
 Blockly.cake.init = function (workspace) {
+  Blockly.cake.soundslist = new Array();
   // Create a dictionary of definitions to be printed before the code.
   Blockly.cake.definitions_ = Object.create(null);
   Blockly.cake.customFunctionsArgName_ = Object.create(null);

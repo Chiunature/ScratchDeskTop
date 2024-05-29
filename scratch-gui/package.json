@@ -215,6 +215,10 @@
             {
                 "from": "worker.js",
                 "to": "app.asar.unpacked/worker.js"
+            },
+            {
+                "from": "./resources/sounds",
+                "to": "./sounds"
             }
         ],
         "files": [

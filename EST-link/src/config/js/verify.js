@@ -22,8 +22,8 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN } = require("../json/verifyTypeConfig.json");
-const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG } = require("../json/LB_FWLIB.json");
+const { SOURCE_MUSIC, SOURCE_APP, SOURCE_BOOT, SOURCE_VERSION, SOURCE_CONFIG, BOOTBIN, SOURCE_SOUNDS } = require("../json/verifyTypeConfig.json");
+const { MUSIC, BOOT, BIN, APP, VERSION, CONFIG, SOUNDS } = require("../json/LB_FWLIB.json");
 const ipc_Main = require("../json/communication/ipc.json");
 
 
@@ -52,6 +52,9 @@ function distinguish(filesObj, type, event) {
         case SOURCE_VERSION:
             _processedForSouceFile(obj, SOURCE_MUSIC, event);
             break;
+        case SOURCE_SOUNDS:
+            _processedForSouceFile(obj, BOOTBIN, event);
+            break;
         case BOOTBIN:
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
             break;
@@ -62,9 +65,10 @@ function distinguish(filesObj, type, event) {
     function _processedForSouceFile(obj, next, event) {
         obj.filesIndex++;
         if (next) {
-            const isLastFile = obj.filesIndex > obj.filesLen - 1;
+            const isLastFile = obj.filesIndex > obj.filesLen - 1;           //根据子文件下标判断是否发送到最后一个文件
             const fileVerifyType = isLastFile ? next : obj.fileVerifyType;
             const subFileIndex = isLastFile ? 0 : obj.filesIndex;
+            //告诉渲染进程是否是最后一个文件，如果是重置文件对象，和子文件遍历下标，表示该文件夹已经传完
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.NEXTFILE, { subFileIndex, fileVerifyType, clearFilesObj: isLastFile });
         } else {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
@@ -112,6 +116,11 @@ function verifyBinType(options) {
             data = config.fileData;
             name = config.fileName;
             break;
+        case SOURCE_SOUNDS:
+            const sound = _readdirForSource(path.join(root, SOUNDS), files, filesIndex, { ...options });
+            data = sound.fileData;
+            name = sound.fileName;
+            break;
         case BOOTBIN:
             name = `${selectedExe.num}_APP.bin`;
             data = fs.readFileSync(path.join(root, BIN));
@@ -120,17 +129,16 @@ function verifyBinType(options) {
             break;
     }
     //读取资源文件夹，获取文件夹中的文件列表和文件数量，并根据filesIndex子文件下标获取对应子文件的数据
-    function _readdirForSource(path, files, filesIndex) {
+    function _readdirForSource(path, files, filesIndex, options) {
         let fileData, fileName;
         if (Object.keys(files).length === 0) {
-            files.filesList = fs.readdirSync(path);
+            files.filesList = options && options.verifyType === SOURCE_SOUNDS ? options.soundslist : fs.readdirSync(path);
             files.filesLen = files.filesList.length;
         }
         if (files.filesList.length > 0) {
             fileData = fs.readFileSync(`${path}/${files.filesList[filesIndex]}`);
             fileName = files.filesList[filesIndex];
         }
-
         return {
             fileData,
             fileName

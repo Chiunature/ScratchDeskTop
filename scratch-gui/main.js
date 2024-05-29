@@ -29,7 +29,7 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { cwd } = require('process');
-const { exec, fork  } = require('child_process');
+const { exec, fork } = require('child_process');
 const { Serialport, ipc } = require('est-link');
 const checkUpdate = require('./update.js');
 const createProtocol = require("./src/config/js/createProtocol.js");
@@ -137,8 +137,8 @@ function createWindow() {
             x: 0,
             y: 0,
             show: false,
-            minWidth: 950,
-            minHeight: 720,
+            minWidth: 1020,
+            minHeight: 750,
             webPreferences: options,
         });
         const sp = new Serialport({ serialport, ...pack });

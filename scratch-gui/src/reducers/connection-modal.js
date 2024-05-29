@@ -9,7 +9,7 @@ const CHANGE_SERIAL_LIST = "scratch-gui/connection-modal/changeSerialList";
 const SET_PORT = "scratch-gui/connection-modal/setPort";
 const SET_COMPLETED = "scratch-gui/connection-modal/completed";
 const SET_SOURCE = "scratch-gui/connection-modal/sourceCompleted";
-const SET_SOUNDARR = "scratch-gui/connection-modal/soundArr";
+const SET_SOUNDSLIST = "scratch-gui/connection-modal/soundslist";
 const SET_ISCONNECTEDSERIAL = "scratch-gui/connection-modal/isConnectedSerial";
 const SET_VERSION = "scratch-gui/connection-modal/version";
 const SET_PREGRESS = "scratch-gui/connection-modal/progress";
@@ -24,17 +24,7 @@ const initialState = {
     isConnectedSerial: false,
     version: window?.myAPI?.getStoreValue('version'),
     progress: 0,
-    soundArr: [{
-        assetId: "83c36d806dc92327b9e7049a565c6bff",
-        data: null,
-        dataFormat: "wav",
-        format: "",
-        md5: "83c36d806dc92327b9e7049a565c6bff.wav",
-        name: "喵",
-        rate: 48000,
-        sampleCount: 40681,
-        soundId: ""
-    }],
+    soundslist: [],
     sourceCompleted: false
 };
 
@@ -80,15 +70,9 @@ const reducer = function (state, action) {
             return Object.assign({}, state, {
                 sourceCompleted: action.sourceCompleted,
             });
-        case SET_SOUNDARR:
-            state.soundArr.push(action.sound);
-            let obj = {};
-            let newArr = state.soundArr.reduce((prev, curr) => {
-                obj[curr.assetId] ? '' : obj[curr.assetId] = true && prev.push(curr);
-                return prev;
-            }, []);
+        case SET_SOUNDSLIST:
             return Object.assign({}, state, {
-                soundArr: newArr,
+                soundslist: action.soundslist,
             });
         case SET_ISCONNECTEDSERIAL:
             return Object.assign({}, state, {
@@ -189,10 +173,10 @@ const setSourceCompleted = function (sourceCompleted) {
     };
 };
 
-const setSoundArr = function (sound) {
+const setSoundsList = function (soundslist) {
     return {
-        type: SET_SOUNDARR,
-        sound: sound,
+        type: SET_SOUNDSLIST,
+        soundslist: soundslist,
     };
 };
 
@@ -222,7 +206,7 @@ export {
     ChangeSerialList,
     setPort,
     setCompleted,
-    setSoundArr,
+    setSoundsList,
     setIsConnectedSerial,
     setVersion,
     setProgress,

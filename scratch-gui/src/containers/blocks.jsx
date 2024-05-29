@@ -14,24 +14,24 @@ import ExtensionLibrary from './extension-library.jsx';
 import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
-import {BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
+import { BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES } from '../lib/layout-constants';
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
-import {DEFAULT_THEME, getColorsForTheme, themeMap} from '../lib/themes';
-import {injectExtensionBlockTheme, injectExtensionCategoryTheme} from '../lib/themes/blockHelpers';
-import {connect} from 'react-redux';
-import {updateToolbox} from '../reducers/toolbox';
-import {activateColorPicker} from '../reducers/color-picker';
-import {closeExtensionLibrary, openConnectionModal, openSoundRecorder} from '../reducers/modals';
-import {activateCustomProcedures, deactivateCustomProcedures} from '../reducers/custom-procedures';
-import {setConnectionModalExtensionId} from '../reducers/connection-modal';
-import {setWorkspace, updateMetrics} from '../reducers/workspace-metrics';
+import { DEFAULT_THEME, getColorsForTheme, themeMap } from '../lib/themes';
+import { injectExtensionBlockTheme, injectExtensionCategoryTheme } from '../lib/themes/blockHelpers';
+import { connect } from 'react-redux';
+import { updateToolbox } from '../reducers/toolbox';
+import { activateColorPicker } from '../reducers/color-picker';
+import { closeExtensionLibrary, openConnectionModal, openSoundRecorder } from '../reducers/modals';
+import { activateCustomProcedures, deactivateCustomProcedures } from '../reducers/custom-procedures';
+import { setConnectionModalExtensionId } from '../reducers/connection-modal';
+import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
 
-import {activateTab, SOUNDS_TAB_INDEX} from '../reducers/editor-tab';
-import {getCode, setBufferList, setCompileList, setMatchMyBlock} from '../reducers/mode';
-import {ipc} from 'est-link';
-import {convert, pinyin} from "../utils/pingyin-pro";
+import { activateTab, SOUNDS_TAB_INDEX } from '../reducers/editor-tab';
+import { getCode, setBufferList, setCompileList, setMatchMyBlock } from '../reducers/mode';
+import { ipc } from 'est-link';
+import { convert, pinyin } from "../utils/pingyin-pro";
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -155,6 +155,7 @@ class Blocks extends React.Component {
             this.props.getCode(code);
             this.checkStartHat(this.workspace, this.props.code);
             this.getCombinedMotor(newList);
+            // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
         } else {
             return false;
         }
@@ -730,7 +731,7 @@ class Blocks extends React.Component {
             setMatchMyBlock,
             setWorkspace,
             completed,
-            soundArr,
+            onSetSoundsList,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -827,8 +828,8 @@ Blocks.propTypes = {
         targets: PropTypes.objectOf(PropTypes.object)
     }),
     completed: PropTypes.bool,
-    soundArr: PropTypes.array,
-    compile: PropTypes.object
+    compile: PropTypes.object,
+    onSetSoundsList: PropTypes.func
 };
 
 Blocks.defaultOptions = {
@@ -878,7 +879,6 @@ const mapStateToProps = state => ({
     customProceduresVisible: state.scratchGui.customProcedures.active,
     workspaceMetrics: state.scratchGui.workspaceMetrics,
     completed: state.scratchGui.connectionModal.completed,
-    soundArr: state.scratchGui.connectionModal.soundArr,
     code: state.scratchGui.mode.code
 });
 
@@ -909,7 +909,8 @@ const mapDispatchToProps = dispatch => ({
     setCompileList: compileList => dispatch(setCompileList(compileList)),
     setWorkspace: workspace => dispatch(setWorkspace(workspace)),
     setBufferList: bufferList => dispatch(setBufferList(bufferList)),
-    setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock))
+    setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock)),
+    onSetSoundsList: (sound) => dispatch(setSoundsList(sound))
 });
 
 export default errorBoundaryHOC('Blocks')(

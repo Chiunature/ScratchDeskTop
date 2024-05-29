@@ -259,7 +259,6 @@ const mapStateToProps = (state) => ({
     peripheralName: state.scratchGui.connectionModal.peripheralName,
     isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
     version: state.scratchGui.connectionModal.version,
-    soundArr: state.scratchGui.connectionModal.soundArr,
     sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
 });
 

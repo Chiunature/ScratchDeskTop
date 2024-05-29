@@ -52,6 +52,7 @@ import getMainMsg from "../lib/alerts/message.js";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
+        this.compile = new Compile();
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
     }
 
@@ -159,7 +160,7 @@ class GUI extends React.Component {
         const isNew = ver > 0 && ver == firewareVersion;
         if (isNew || status === 'updating') return;
         sessionStorage.setItem('isFirewareUpdate', 'updating');
-        if (!isNew) this.checkUpdateFireware(firewareVersion);
+        this.checkUpdateFireware(firewareVersion);
     }
 
     //下载资源监听
@@ -169,7 +170,11 @@ class GUI extends React.Component {
             callback: (event, arg) => {
                 this.props.onSetSourceCompleted(false);
                 this.props.onShowCompletedAlert(arg.msg);
-                setTimeout(() => window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART }), 1000);
+                let t = setTimeout(() => {
+                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
+                    clearTimeout(t);
+                    t = null;
+                }, 1000);
             },
         });
     }
@@ -221,7 +226,7 @@ class GUI extends React.Component {
     async checkUpdateFireware(firewareVersion) {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
-        new Compile().sendSerial(verifyTypeConfig.SOURCE);
+        this.compile.sendSerial(verifyTypeConfig.SOURCE);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
@@ -304,13 +309,15 @@ class GUI extends React.Component {
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
-                if (this.props.deviceObj && this.props.deviceObj.estlist && this.props.deviceObj.estlist.est === verifyTypeConfig.EST_RUN) {
+                if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
                     this.handleRunApp(verifyTypeConfig.EST_RUN);
                 }
                 const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-                const that = this;
-                setTimeout(() => {
-                    new Compile().sendSerial(verifyTypeConfig.BOOTBIN, that.props.bufferList, that.props.matchMyBlock, selectedExe);
+                const verifyType = this.props?.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
+                let t = setTimeout(() => {
+                    this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
+                    clearTimeout(t);
+                    t = null;
                 }, 2000);
                 this.props.onSetCompleted(true);
                 this.props.onShowCompletedAlert("uploading");
@@ -380,7 +387,7 @@ class GUI extends React.Component {
                     handleCompile={this.handleCompile}
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
-                    compile={new Compile()}
+                    compile={this.compile}
                 >
                     {children}
                 </GUIComponent>
@@ -478,6 +485,7 @@ const mapStateToProps = (state) => {
         version: state.scratchGui.connectionModal.version,
         updateObj: state.scratchGui.tips.updateObj,
         deviceStatus: state.scratchGui.device.deviceStatus,
+        soundslist: state.scratchGui.connectionModal.soundslist,
     };
 };
 

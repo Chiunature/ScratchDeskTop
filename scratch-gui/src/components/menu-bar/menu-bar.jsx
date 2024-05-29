@@ -610,7 +610,7 @@ class MenuBar extends React.Component {
             que[cur.filePath] ? null : que[cur.filePath] = pre.push(cur);
             return pre;
         }, []);
-        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'set', key:'files', value: result});
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: result });
     }
 
     render() {
@@ -817,25 +817,25 @@ class MenuBar extends React.Component {
                         onMouseUp={this.handleConnectionMouseUp}
                     >
                         {this.props.peripheralName ? (
-                            <React.Fragment>
+                            <>
                                 <img
                                     className={styles.connectedIcon}
                                     src={connectedIcon}
                                 />
-                                {this.props.peripheralName}
-                            </React.Fragment>
+                                <span className={styles.collapsibleLabel}>{this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('('))}</span>
+                            </>
                         ) : (
-                            <React.Fragment>
+                            <>
                                 <img
                                     className={styles.unconnectedIcon}
                                     src={unconnectedIcon}
                                 />
-                                <FormattedMessage
+                                <span className={styles.collapsibleLabel}><FormattedMessage
                                     defaultMessage="Unconnected"
                                     description="Text for menubar unconnected button"
                                     id="gui.menuBar.noConnection"
-                                />
-                            </React.Fragment>
+                                /></span>
+                            </>
                         )}
                     </div>
                     {/* <Divider className={classNames(styles.divider)} /> */}
@@ -962,11 +962,11 @@ class MenuBar extends React.Component {
                     >
                         {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
                             <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
-                        <FormattedMessage
+                        <span className={styles.collapsibleLabel}><FormattedMessage
                             defaultMessage="Device"
                             description="View device information"
                             id="gui.menuBar.Device"
-                        />
+                        /></span>
                     </div>
                     <div
                         id="menuBarGen"
@@ -981,11 +981,11 @@ class MenuBar extends React.Component {
                         onClick={() => this.props.onSetGen(this.props.isGen)}
                     >
                         <img className={styles.unconnectedIcon} src={genIcon} />
-                        <FormattedMessage
+                        <span className={styles.collapsibleLabel}><FormattedMessage
                             defaultMessage="Generator"
                             description="Text for menubar Generator button"
                             id="gui.menuBar.Generator"
-                        />
+                        /></span>
                     </div>
                 </Box>
                 {/* show the proper UI in the account menu, given whether the user is

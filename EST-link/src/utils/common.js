@@ -559,7 +559,7 @@ class Common {
   }
 
   checkSerialName(item) {
-    const nameList = ['LBS Serial', 'EST_V3'];
+    const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual'];
     let res = false;
     for (let i = 0; i < nameList.length; i++) {
       if(item.indexOf(nameList[i]) !== -1) {

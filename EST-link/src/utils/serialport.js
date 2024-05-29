@@ -42,6 +42,7 @@ class Serialport extends Common {
         this.filesObj = null;
         this.receiveObj = null;
         this.watchDeviceData = null;
+        this.selectedExe = null;
     }
 
     /**
@@ -51,10 +52,10 @@ class Serialport extends Common {
         this.ipcHandle(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event, arg) => {
             const result = await this.serialport.SerialPort.list();
             const newArr = result.reduce((pre, cur) => {
-              if(cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
-                pre.push(cur);
-              }
-              return pre;
+                if (cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
+                    pre.push(cur);
+                }
+                return pre;
             }, []);
             for (let i = 0; i < newArr.length; i++) {
                 const item = newArr[i];
@@ -111,27 +112,27 @@ class Serialport extends Common {
         this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
     }
 
-  /**
-   * 串口打开
-   * @param {*} event
-   */
-  OpenPort(event) {
-    this.port.open((err) => {
-      if (err) {
-        this.isConnectedPortList.push(this.portList[this.portIndex]);
-        this.portIndex++;
-        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
-        if (this.portIndex === this.portList.length) {
-          this.portIndex = 0;
-        }
-      } else {
-        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
-        this.portIndex = 0;
-        this.portList.splice(0, this.portList.length);
-        this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
-      }
-    });
-  }
+    /**
+     * 串口打开
+     * @param {*} event
+     */
+    OpenPort(event) {
+        this.port.open((err) => {
+            if (err) {
+                this.isConnectedPortList.push(this.portList[this.portIndex]);
+                this.portIndex++;
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
+                if (this.portIndex === this.portList.length) {
+                    this.portIndex = 0;
+                }
+            } else {
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
+                this.portIndex = 0;
+                this.portList.splice(0, this.portList.length);
+                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
+            }
+        });
+    }
 
     /**
      * 获取渲染进程发过来的bin文件数据准备通信
@@ -140,6 +141,8 @@ class Serialport extends Common {
      */
     getBinOrHareWare(eventName, event) {
         this.ipcMain(eventName, (event, data) => {
+            if (data.selectedExe) this.selectedExe = data.selectedExe;
+
             if (typeof data.subFileIndex === 'number') {
                 this.subFileIndex = data.subFileIndex;
             }
@@ -148,43 +151,45 @@ class Serialport extends Common {
                     delete this.files[key];
                 }
             }
-            if(data.verifyType === RESET_FWLIB) {
-              this.upload_sources_status = data.verifyType;
-              const { binArr } = this.checkFileName(RESET_FWLIB, 0x6F);
-              this.writeData(binArr, null, event);
-              this.checkConnected(event);
-              return;
+            //本身是哭脸的时候，发重置不会断开，正常发送文件
+            if (data.verifyType === RESET_FWLIB) {
+                this.upload_sources_status = data.verifyType;
+                const { binArr } = this.checkFileName(RESET_FWLIB, 0x6F);
+                this.writeData(binArr, null, event);
+                this.checkConnected(event);
+                return;
             }
             this.readyToUpload(data, event);
         });
+        //本身不是哭脸的时候，发重置会断开，连上后发送文件
         this.checkConnected(event);
     }
 
     checkConnected(event) {
-      this.checkConnectTimer = setTimeout(() => {
-        if(this.upload_sources_status === RESET_FWLIB) {
-          this.readyToUpload({ verifyType: SOURCE_APP }, event);
-          this.upload_sources_status = null;
-        }
-      }, 1000);
+        this.checkConnectTimer = setTimeout(() => {
+            if (this.upload_sources_status === RESET_FWLIB) {
+                this.readyToUpload({ verifyType: SOURCE_APP }, event);
+                this.upload_sources_status = null;
+            }
+        }, 1000);
     }
 
     readyToUpload(data, event) {
-      //处理渲染进程发送过来的通信需要的数据
-      const { fileData, fileName } = verifyBinType.call(this, {
-        verifyType: data.verifyType,
-        selectedExe: data.selectedExe,
-        files: this.files,                  //文件夹对象
-        filesIndex: this.subFileIndex       //文件夹内的子文件遍历下标
-      });
-      //根据返回的子文件数据和子文件名进入上传处理
-      this.upload({
-        fileName,
-        binData: fileData,
-        verifyType: data.verifyType,
-        filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
-        filesLen: this.files.filesLen       //文件夹包含的文件数量
-      }, event);
+        //处理渲染进程发送过来的通信需要的数据
+        const { fileData, fileName } = verifyBinType.call(this, {
+            ...data,
+            files: this.files,                  //文件夹对象
+            filesIndex: this.subFileIndex,       //文件夹内的子文件遍历下标,
+            selectedExe: this.selectedExe
+        });
+        //根据返回的子文件数据和子文件名进入上传处理
+        this.upload({
+            fileName,
+            binData: fileData,
+            verifyType: data.verifyType,
+            filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
+            filesLen: this.files.filesLen       //文件夹包含的文件数量
+        }, event);
     }
 
     /**

@@ -131,20 +131,22 @@ function updateAtOnce(oldPath, targetPath, obsIncrementUpdate, mainMsg) {
 }
 
 //删除目标文件夹以及文件夹下的所有文件
-function deleteOld(url) {
-    let files = [];
-    if (fs.existsSync(url)) {
-        files = fs.readdirSync(url);
-        files.forEach((file, index) => {
-            let curPath = path.join(url, file);
-            if (fs.statSync(curPath).isDirectory()) {
-                deleteOld(curPath);
+function deleteOld(dir) {
+    return new Promise(function (resolve, reject) {
+        fs.stat(dir, function (err, stat) {
+            if (stat.isDirectory()) {
+                fs.readdir(dir, function (err, files) {
+                    files = files.map(file => path.join(dir, file));
+                    files = files.map(file => deleteOld(file));
+                    Promise.all(files).then(function () {
+                        fs.rmdir(dir, resolve);
+                    })
+                })
             } else {
-                fs.unlinkSync(curPath);
+                fs.unlink(dir, resolve)
             }
-        });
-        fs.rmdirSync(url);
-    }
+        })
+    })
 }
 
 function extractZip(targetPath, oldPath) {
@@ -153,7 +155,7 @@ function extractZip(targetPath, oldPath) {
         let zip = new AdmZip(targetPath);
         zip.extractAllTo(oldPath, true);
         //删除目标文件夹以及文件夹下的所有文件
-        deleteOld(oldPath + ".old");
+        deleteOld(oldPath + ".old").catch(err => console.info(err));
         fs.unlink(targetPath, (err) => console.info(err));
         resolve(true);
     });

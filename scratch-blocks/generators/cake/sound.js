@@ -12,11 +12,21 @@ Blockly.cake['sound_sounds_menu'] = function (block) {
 
 Blockly.cake['sound_playuntildone'] = function (block) {
     let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
+    if (!sound) return '';
+    const soundItem = `${sound}.wav`;
+    if (!Blockly.cake.soundslist.includes(soundItem)) {
+        Blockly.cake.soundslist.push(soundItem);
+    }
     return `sound_playuntildone("${sound}.wav");\n`;
 }
 
 Blockly.cake['sound_play'] = function (block) {
     let sound = Blockly.cake.valueToCode(block, "SOUND_MENU", Blockly.cake.ORDER_ATOMIC);
+    if (!sound) return '';
+    const soundItem = `${sound}.wav`;
+    if (!Blockly.cake.soundslist.includes(soundItem)) {
+        Blockly.cake.soundslist.push(soundItem);
+    }
     return `sound_play("${sound}.wav");\n`;
 }
 

@@ -97,8 +97,9 @@ class Compile {
      * @param {String} myBlock
      * @param {Object} selectedExe
      * @param {String} verifyType
+     * @param {Array} soundslist
      */
-    async runGcc(buffer, myBlock, selectedExe, verifyType) {
+    async runGcc(buffer, myBlock, selectedExe, verifyType, soundslist) {
         let codeStr = '', taskStr = '', handlerStr = '';
         buffer.map((el, index) => {
             if (el) {
@@ -112,7 +113,7 @@ class Compile {
         //编译
         if (appRes) {
             window.myAPI.commendMake(window.resourcesPath).then(() => {
-                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, soundslist } });
             }).catch(err => {
                 window.myAPI.handlerError(err, window.resourcesPath);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
@@ -127,8 +128,9 @@ class Compile {
      * @param {Array} bufferList
      * @param {String} myBlock
      * @param {Object} selectedExe
+     * @param {Array} soundslist
      */
-    async sendSerial(verifyType, bufferList, myBlock, selectedExe) {
+    async sendSerial(verifyType, bufferList, myBlock, selectedExe, soundslist) {
         if (verifyType === verifyTypeConfig.SOURCE) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
@@ -139,7 +141,7 @@ class Compile {
                 }
             });
         } else {
-            await this.runGcc(bufferList, myBlock, selectedExe, verifyType);
+            await this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
         }
     }
 }

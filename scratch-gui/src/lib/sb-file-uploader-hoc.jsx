@@ -72,12 +72,12 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         componentWillUnmount() {
             this.removeFileObjects();
         }
-        handleOpenFileFromOS(filePath) {
+        async handleOpenFileFromOS(filePath) {
             this.removeFileObjects();
             this.props.onLoadingStarted();
             let loadingSuccess = false;
             const filename = filePath.slice(filePath.lastIndexOf('\\') + 1);
-            const fileContent = window.myAPI.readFiles(filePath, '', {});
+            const fileContent = await window.myAPI.readFiles(filePath, '', {});
             const arrayBuffer = fileContent.buffer.slice(fileContent.byteOffset, fileContent.byteOffset + fileContent.byteLength);
             this.props.vm.loadProject(arrayBuffer)
                 .then(() => {
