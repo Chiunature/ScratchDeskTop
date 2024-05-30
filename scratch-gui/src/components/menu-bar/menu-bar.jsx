@@ -279,7 +279,7 @@ class MenuBar extends React.Component {
     }
 
     handleClickSave() {
-        this.getSaveToComputerHandler(this.downloadProject.bind(this, true))();
+        this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
