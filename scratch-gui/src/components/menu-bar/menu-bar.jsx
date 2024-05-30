@@ -567,8 +567,8 @@ class MenuBar extends React.Component {
             }
             downloadBlob(this.props.projectFilename, content, onlySave);
             if (onlySave) {
-                this.props.onShowCompletedAlert("saveNowSuccess");
                 const filePath = sessionStorage.getItem('openPath');
+                filePath && this.props.onShowCompletedAlert("saveNowSuccess");
                 filePath && await this.setCacheForSave(filePath);
                 return;
             }
@@ -577,7 +577,8 @@ class MenuBar extends React.Component {
                 file: Buffer.from(res),
                 filename: this.props.projectFilename
             });
-            if(filePath) {
+            if (filePath) {
+                sessionStorage.setItem('openPath', filePath);
                 const newName = filePath.slice(filePath.lastIndexOf('\\') + 1);
                 const resultName = newName.slice(0, newName.lastIndexOf('.'));
                 this.props.onSetProjectTitle(resultName);

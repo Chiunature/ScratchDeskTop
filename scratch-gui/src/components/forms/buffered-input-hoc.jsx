@@ -31,6 +31,11 @@ export default function (Input) {
             const validatesNumeric = isNumeric ? !isNaN(this.state.value) : true;
             if (this.state.value !== null && validatesNumeric) {
                 this.props.onSubmit(isNumeric ? Number(this.state.value) : this.state.value);
+                const oldFilePath = sessionStorage.getItem('openPath');
+                if(!oldFilePath) return;
+                const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + this.state.value;
+                window.myAPI.changeFileName(oldFilePath, newFilePath);
+                sessionStorage.setItem('openPath', newFilePath);
             }
             this.setState({value: null});
         }
