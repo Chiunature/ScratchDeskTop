@@ -1,12 +1,12 @@
-const {contextBridge, ipcRenderer} = require('electron');
+const { contextBridge, ipcRenderer } = require("electron");
 const fs = require("fs");
 const path = require("path");
-const {spawn, exec} = require("child_process");
-const {cwd} = require('process');
+const { spawn, exec } = require("child_process");
+const { cwd } = require("process");
 const url = require("url");
-const {VERSION} = require("./src/config/json/LB_FWLIB.json");
-const {DIR} = require("./src/config/json/LB_USER.json");
-const Store = require('electron-store');
+const { VERSION } = require("./src/config/json/LB_FWLIB.json");
+const { DIR } = require("./src/config/json/LB_USER.json");
+const Store = require("electron-store");
 const store = new Store();
 
 
@@ -42,7 +42,7 @@ async function ipcInvoke(sendName, sendParams) {
  * 渲染进程开启事件监听
  * @param {sendName:String, sendParams:Object, eventName:String, callback:Function } param0
  */
-function ipcRender({sendName, sendParams, eventName, callback}) {
+function ipcRender({ sendName, sendParams, eventName, callback }) {
     if (sendName) {
         ipcRenderer.send(sendName, sendParams);
     }
@@ -79,11 +79,11 @@ function delEvents(eventName) {
  * @param resourcePath
  * @param options
  */
-function readFiles(link, resourcePath = cwd(), options = {encoding: 'utf8'}) {
+function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
     return new Promise((resolve) => {
         fs.readFile(path.join(resourcePath, link), options.encoding, (err, data) => {
             if (err) handlerError(err, resourcePath);
-            resolve(err ? false: data);
+            resolve(err ? false : data);
         })
     })
 }
@@ -155,7 +155,7 @@ function deleteFiles(link, resourcePath = cwd()) {
 function commendMake(cpath = cwd()) {
     return new Promise((resolve, reject) => {
         let errStr = '';
-        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], {cwd: path.join(cpath, DIR)});
+        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
         progress.stderr.on('data', (err) => errStr += err.toString());
 
         progress.on('close', (code, signal) => {
@@ -191,7 +191,7 @@ async function writeFileWithDirectory(directory = cwd(), filepath, data) {
     if (fs.existsSync(directory)) {
         fs.writeFileSync(filepath, data);
     } else {
-        fs.mkdir(directory, {recursive: true}, async () => {
+        fs.mkdir(directory, { recursive: true }, async () => {
             fs.writeFileSync(filepath, data);
         });
     }

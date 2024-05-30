@@ -34,7 +34,8 @@ class ProjectManagementHoc extends React.PureComponent {
             'handleDisEditable',
             'changeFilesList',
             'preventDefaultEvents',
-            'handleScreenAuto'
+            'handleScreenAuto',
+            'handleOpen'
         ]);
         this.inp = createRef();
         this.state = {
@@ -207,6 +208,11 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
+    async handleOpen(item, e) {
+        this.preventDefaultEvents(e);
+        item.filePath && await window.myAPI.ipcInvoke('openFileLocation', item.filePath);
+    }
+
     handleDisEditable() {
         for (let i = 0; i < this.state.fileList.length; i++) {
             const item = this.state.fileList[i];
@@ -295,6 +301,7 @@ class ProjectManagementHoc extends React.PureComponent {
                         handleCopyAll={this.handleCopyAll}
                         handleRenameOne={this.handleRenameOne}
                         handleSelectOne={this.handleSelectOne}
+                        handleOpen={this.handleOpen}
                         preventDefaultEvents={this.preventDefaultEvents}
                     />
                 </Box>

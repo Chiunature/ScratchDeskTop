@@ -24,7 +24,7 @@
  */
 const serialport = require('serialport');
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
@@ -169,6 +169,7 @@ function createWindow() {
         _handleOnFocus();
         // 保存文件到本地
         saveFileToLocal();
+        _openFileLocation();
         // 设置静态资源路径
         ipcMain.handle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
         ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
@@ -216,7 +217,7 @@ function createWindow() {
             if (response === 1) {
                 mainWindow = null;
                 const eventList = ipcMain.eventNames();
-                eventList.map(item => {
+                eventList.forEach(item => {
                     _delEvents(item);
                 });
                 if (updateFunc && typeof updateFunc === 'function') {
@@ -274,6 +275,13 @@ function createWindow() {
             mainWindow.blur();
             mainWindow.focus();
         });
+    }
+
+    function _openFileLocation() {
+        ipcMain.handle('openFileLocation', (event, path) => {
+            shell.showItemInFolder(path);
+            return;
+        })
     }
 
     //退出客户端去掉事件监听

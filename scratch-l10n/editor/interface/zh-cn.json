@@ -158,6 +158,7 @@
   "gui.menuBar.selectAll": "全部选择",
   "gui.menuBar.notSelectAll": "取消全选",
   "gui.menuBar.SaveAs": "另存为...",
+  "gui.menuBar.open": "打开文件位置",
   "gui.modal.help": "帮助",
   "gui.modal.back": "返回",
   "gui.monitor.listMonitor.empty": "(空)",

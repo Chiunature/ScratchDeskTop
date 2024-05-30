@@ -70,6 +70,11 @@ const messages = defineMessages({
         defaultMessage: "Save as",
         description: "Save as",
         id: "gui.menuBar.SaveAs"
+    },
+    openMessage: {
+        defaultMessage: "Open file location",
+        description: "Open file location",
+        id: "gui.menuBar.open"
     }
 });
 

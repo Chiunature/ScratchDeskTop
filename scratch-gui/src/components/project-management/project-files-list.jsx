@@ -20,6 +20,7 @@ const ProjectFilesList = (props) => {
         handleEditRecord,
         handleCopyRecord,
         handleSaveOthers,
+        handleOpen,
         preventDefaultEvents,
     } = props;
 
@@ -76,6 +77,7 @@ const ProjectFilesList = (props) => {
                     <li onClick={(e) => handleCopyRecord(obj.item, e)}>{intl.formatMessage(messages.copyMessage)}</li>
                     <li onClick={(e) => handleEditRecord(obj.index, e)}>{intl.formatMessage(messages.renameMessage)}</li>
                     <li onClick={(e) => handleSaveOthers(obj.item, obj.index, e)}>{intl.formatMessage(messages.saveAsMessage)}</li>
+                    <li onClick={(e) => handleOpen(obj.item, e)}>{intl.formatMessage(messages.openMessage)}</li>
                 </ul>
             </Portal>
         </Box>
