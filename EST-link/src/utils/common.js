@@ -17,7 +17,8 @@ const {
   SOURCE_VERSION,
   SOURCE_CONFIG,
   BOOTBIN,
-  DELETE_EXE
+    DELETE_EXE,
+    SOURCE_SOUNDS
 } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
@@ -303,6 +304,8 @@ class Common {
         return 0xdc;
       case DELETE_EXE:
         return 0xe8;
+            case SOURCE_SOUNDS:
+                return 0xec;
       default:
         break;
     }
@@ -562,7 +565,7 @@ class Common {
     const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual'];
     let res = false;
     for (let i = 0; i < nameList.length; i++) {
-      if(item.indexOf(nameList[i]) !== -1) {
+            if (item.indexOf(nameList[i]) !== -1) {
         res = true;
         break;
       }

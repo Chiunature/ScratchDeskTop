@@ -131,17 +131,17 @@ class Compile {
      * @param {Array} soundslist
      */
     async sendSerial(verifyType, bufferList, myBlock, selectedExe, soundslist) {
-        if (verifyType === verifyTypeConfig.SOURCE) {
+        if (verifyType === verifyTypeConfig.RESET_FWLIB) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: { verifyType: verifyTypeConfig.RESET_FWLIB },
+                sendParams: { verifyType },
                 eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
                 callback: (event, data) => {
-                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { subFileIndex: data.subFileIndex, verifyType: data.fileVerifyType, clearFilesObj: data.clearFilesObj } });
+                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { ...data, verifyType: data.fileVerifyType } });
                 }
             });
         } else {
-            await this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
+            this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
         }
     }
 }

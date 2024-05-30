@@ -194,7 +194,7 @@ class ConnectionModal extends React.Component {
             }
         }
         window.myAPI.setStoreValue('version', this.state.firewareVersion);
-        this.props.compile.sendSerial(verifyTypeConfig.SOURCE);
+        this.props.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
         this.props.onSetSourceCompleted(true);
         this.props.onSetVersion(this.state.firewareVersion);
     }
