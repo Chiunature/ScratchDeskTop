@@ -945,7 +945,7 @@ class MenuBar extends React.Component {
                                 )}
                             />
                             <img className={styles.fileSaveIcon} src={fileSaveIcon}
-                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, true))} />
+                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))} />
                         </MenuBarItemTooltip>
                     </div>
                 </Box>
