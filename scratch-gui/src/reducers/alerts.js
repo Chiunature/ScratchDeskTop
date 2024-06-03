@@ -7,6 +7,7 @@ const CLOSE_ALERT = 'scratch-gui/alerts/CLOSE_ALERT';
 const CLOSE_ALERTS_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERTS_WITH_ID';
 const CLOSE_ALERT_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERT_WITH_ID';
 const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
+const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
 /**
  * Initial state of alerts reducer
  *
@@ -21,10 +22,32 @@ const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
  *  * message (optional): string
  *  * showReconnect (optional): bool
  */
+
+function getUpinMsg() {
+    const res = window.myAPI.readFilesAsync('./resources/README.md');
+    return res ? res : '';
+}
+
+function needUpin() {
+    const obj = window.myAPI.readFilesAsync('./resources/scripts/hotVersion.json');
+    const upin = localStorage.getItem('upin');
+    const isNull = isType("Null");
+    const isUndefined = isType("Undefined");
+    return (upin === obj?.version) ||  (!isNull(upin) && !isUndefined(upin));
+}
+
+function isType(type) {
+    return function (obj) {
+        return {}.toString.call(obj) == `[object ${type}]`;
+    }
+}
+
 const initialState = {
     visible: true,
     alertsList: [],
-    QrcodeVisible: false
+    QrcodeVisible: false,
+    upinVisible: needUpin(),
+    upinMsg: getUpinMsg()
 };
 
 const filterPopupAlerts = alertsList => (
@@ -123,6 +146,10 @@ const reducer = function (state, action) {
             return Object.assign({}, state, {
                 QrcodeVisible: !state.QrcodeVisible
             });
+        case SHOW_UPIN:
+            return Object.assign({}, state, {
+                upinVisible: true
+            });
         default:
             return state;
     }
@@ -220,6 +247,16 @@ const showQrcode = function () {
     };
 };
 
+const showUpin = function () {
+    fetch('scripts/hotVersion.json')
+            .then(res => {
+                return res.json();
+            }).then(data => localStorage.setItem('upin', data.version));
+    return {
+        type: SHOW_UPIN
+    };
+};
+
 export {
     reducer as default,
     initialState as alertsInitialState,
@@ -230,5 +267,6 @@ export {
     showAlertWithTimeout,
     showExtensionAlert,
     showStandardAlert,
-    showQrcode
+    showQrcode,
+    showUpin
 };

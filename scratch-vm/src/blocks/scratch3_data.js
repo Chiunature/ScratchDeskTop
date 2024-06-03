@@ -16,6 +16,7 @@ class Scratch3DataBlocks {
     getPrimitives () {
         return {
             data_variable: this.getVariable,
+            data_definevar: this.defineVariable,
             data_setvariableto: this.setVariableTo,
             data_changevariableby: this.changeVariableBy,
             data_hidevariable: this.hideVariable,
@@ -38,7 +39,17 @@ class Scratch3DataBlocks {
     getVariable (args, util) {
         const variable = util.target.lookupOrCreateVariable(
             args.VARIABLE.id, args.VARIABLE.name);
-        return variable.value;
+        return variable.value ? variable.value : 0;
+    }
+
+    defineVariable (args, util) {
+        const variable = util.target.lookupOrCreateVariable(
+            args.VARIABLE.id, args.VARIABLE.name);
+        variable.value = args.VALUE;
+
+        if (variable.isCloud) {
+            util.ioQuery('cloud', 'requestUpdateVariable', [variable.name, args.VALUE]);
+        }
     }
 
     setVariableTo (args, util) {

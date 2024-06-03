@@ -421,11 +421,11 @@ class Blocks extends React.Component {
             .getWorkspace();
         this.flyoutWorkspace.addChangeListener(this.props.vm.flyoutBlockListener);
         this.flyoutWorkspace.addChangeListener(this.props.vm.monitorBlockListener);
-        this.props.vm.addListener('SCRIPT_GLOW_ON', this.onScriptGlowOn);
+        /* this.props.vm.addListener('SCRIPT_GLOW_ON', this.onScriptGlowOn);
         this.props.vm.addListener('SCRIPT_GLOW_OFF', this.onScriptGlowOff);
         this.props.vm.addListener('BLOCK_GLOW_ON', this.onBlockGlowOn);
         this.props.vm.addListener('BLOCK_GLOW_OFF', this.onBlockGlowOff);
-        this.props.vm.addListener('VISUAL_REPORT', this.onVisualReport);
+        this.props.vm.addListener('VISUAL_REPORT', this.onVisualReport); */
         this.props.vm.addListener('workspaceUpdate', this.onWorkspaceUpdate);
         this.props.vm.addListener('targetsUpdate', this.onTargetsUpdate);
         this.props.vm.addListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
@@ -435,11 +435,11 @@ class Blocks extends React.Component {
         this.props.vm.addListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
     }
     detachVM() {
-        this.props.vm.removeListener('SCRIPT_GLOW_ON', this.onScriptGlowOn);
+        /* this.props.vm.removeListener('SCRIPT_GLOW_ON', this.onScriptGlowOn);
         this.props.vm.removeListener('SCRIPT_GLOW_OFF', this.onScriptGlowOff);
         this.props.vm.removeListener('BLOCK_GLOW_ON', this.onBlockGlowOn);
         this.props.vm.removeListener('BLOCK_GLOW_OFF', this.onBlockGlowOff);
-        this.props.vm.removeListener('VISUAL_REPORT', this.onVisualReport);
+        this.props.vm.removeListener('VISUAL_REPORT', this.onVisualReport); */
         this.props.vm.removeListener('workspaceUpdate', this.onWorkspaceUpdate);
         this.props.vm.removeListener('targetsUpdate', this.onTargetsUpdate);
         this.props.vm.removeListener('MONITORS_UPDATE', this.handleMonitorsUpdate);

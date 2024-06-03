@@ -219,6 +219,10 @@
             {
                 "from": "./resources/sounds",
                 "to": "./sounds"
+            },
+            {
+                "from": "README.md",
+                "to": "README.md"
             }
         ],
         "files": [
