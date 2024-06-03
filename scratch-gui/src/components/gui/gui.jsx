@@ -50,10 +50,11 @@ import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
 import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
-import FileSystemHoc from "../../containers/file-system-hoc.jsx";
+// import FileSystemHoc from "../../containers/file-system-hoc.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
 import Qrcode from "../code-editor/qrcode.jsx";
 import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
+import UpdateInformation from "../alerts/update-information.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -192,6 +193,9 @@ const GUIComponent = (props) => {
         onSetDeviceStatus,
         getMainMessage,
         QrcodeVisible,
+        upinVisible,
+        upinMsg,
+        onShowUpin,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -241,7 +245,8 @@ const GUIComponent = (props) => {
                         dir={isRtl ? "rtl" : "ltr"}
                         {...componentProps}
                     >
-                        {QrcodeVisible ? <Qrcode onShowQrcode={onShowQrcode} /> : null}
+                        {!upinVisible && <UpdateInformation onRequestClose={onShowUpin} upinMsg={upinMsg} />}
+                        {QrcodeVisible && <Qrcode onShowQrcode={onShowQrcode} />}
                         {telemetryModalVisible ? (
                             <TelemetryModal
                                 isRtl={isRtl}

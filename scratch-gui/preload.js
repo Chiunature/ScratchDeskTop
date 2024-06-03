@@ -88,6 +88,16 @@ function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
     })
 }
 
+function readFilesAsync(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
+  try {
+    const res = fs.readFileSync(path.join(resourcePath, link), options);
+    return res;
+  } catch (error) {
+    handlerError(error, resourcePath);
+    return;
+  }
+}
+
 /**
  * 将c语言代码写入文件
  * @returns
@@ -276,5 +286,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     getVersion,
     replaceFiles,
     changeFileName,
-    FileIsExists
+    FileIsExists,
+    readFilesAsync
 });

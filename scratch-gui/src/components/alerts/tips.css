@@ -23,3 +23,15 @@
     background: rgb(195, 253, 183);
     color: rgb(52, 169, 58);
 }
+
+.tips-modal {
+    overflow-y: hidden !important;
+}
+
+.tips-txt {
+    display: inline-block;
+    width: 100%;
+    height: 95%;
+    border: 1px solid #e6e6e6;
+    outline: none;
+}

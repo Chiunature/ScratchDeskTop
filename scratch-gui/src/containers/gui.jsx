@@ -41,7 +41,7 @@ import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
-import { showAlertWithTimeout, showQrcode } from "../reducers/alerts";
+import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
@@ -61,7 +61,6 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
         const userAgent = navigator.userAgent.toLowerCase();
-        const that = this;
         if (userAgent.indexOf("electron/") > -1) {
             this.getMainMessage();
             this.downloadSuccess();
@@ -73,9 +72,7 @@ class GUI extends React.Component {
             this.checkDriver();
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake(res);
-            window.myAPI.onUpdate((_event, info) => {
-                that.props.onSetTipsUpdate(info);
-            });
+            window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
         }
     }
     componentDidUpdate(prevProps) {
@@ -238,7 +235,7 @@ class GUI extends React.Component {
         // const deviceIdList = Object.keys(instructions.device);
         // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         const firewareVersion = window.myAPI.getVersion(resourcesPath);
-        sessionStorage.setItem('isSensingUpdate', 'done');
+        // sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirewareUpdate', 'done');
         const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
@@ -246,8 +243,7 @@ class GUI extends React.Component {
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
                 if (!result || this.props.completed) return;
-                if (this.props.deviceObj && this.props.deviceObj.estlist &&
-                    result && result.estlist && this.props.deviceObj.estlist.est === result.estlist.est) {
+                if (this.props?.deviceObj?.estlist?.est === result?.estlist?.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
                 this.props.onSetDeviceObj(result);
@@ -283,11 +279,11 @@ class GUI extends React.Component {
         }
     }*/
 
-    async updateSensing() {
+    /* async updateSensing() {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
         if (sessionStorage.getItem('isSensingUpdate') === 'updating') await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
         sessionStorage.setItem('isSensingUpdate', 'done');
-    }
+    } */
 
     async checkDriver() {
         const driver = window.myAPI.getStoreValue('driver');
@@ -486,6 +482,8 @@ const mapStateToProps = (state) => {
         updateObj: state.scratchGui.tips.updateObj,
         deviceStatus: state.scratchGui.device.deviceStatus,
         soundslist: state.scratchGui.connectionModal.soundslist,
+        upinVisible: state.scratchGui.alerts.upinVisible,
+        upinMsg: state.scratchGui.alerts.upinMsg,
     };
 };
 
@@ -520,7 +518,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),
     onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj)),
     onSetDeviceStatus: (status) => dispatch(setDeviceStatus(status)),
-    onShowQrcode: () => dispatch(showQrcode())
+    onShowQrcode: () => dispatch(showQrcode()),
+    onShowUpin: () => dispatch(showUpin())
 });
 
 const ConnectedGUI = injectIntl(
