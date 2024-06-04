@@ -196,6 +196,7 @@ const GUIComponent = (props) => {
         upinVisible,
         upinMsg,
         onShowUpin,
+        dragging,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {

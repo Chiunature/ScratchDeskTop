@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useMemo } from 'react';
 import styles from './device.css';
 
 
 const DeviceBox = ({ list, intl, messages }) => {
+
+    let newList = useMemo(() => list, [list]);
 
     function getPort(index) {
         const num = parseInt(index);
@@ -44,16 +46,19 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
+    const newGetPort = useCallback((index) => getPort(index), []);
+    const newMotorData = useCallback((num) => motorData(num), []);
+
     return (
         <>
-            {list.map((el, index) => {
+            {newList.map((el, index) => {
                 return (
                     <div className={styles.midBox} key={index}>
-                        <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
+                        <p>{intl.formatMessage(messages['port'])}: {newGetPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
-                                return (motorData(index) && <li key={index}>
-                                    <span>{motorData(index)}</span>
+                                return (newMotorData(index) && <li key={index}>
+                                    <span>{newMotorData(index)}</span>
                                     <span>{el.motor[item]}</span>
                                 </li>)
                             })}

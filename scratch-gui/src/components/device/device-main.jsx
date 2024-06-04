@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './device.css';
 import { FormattedMessage } from 'react-intl';
 
 const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
-    const { gyrolist, adclist, versionlist } = deviceObj;
+
+    const gyrolist = useMemo(() => deviceObj.gyrolist, [deviceObj.gyrolist]);
+    const adclist = useMemo(() => deviceObj.adclist, [deviceObj.adclist]);
+    const versionlist = useMemo(() => deviceObj.versionlist, [deviceObj.versionlist]);
+
     return (
         <>
             <div className={styles.midBox}>
