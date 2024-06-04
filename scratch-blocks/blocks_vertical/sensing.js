@@ -1498,6 +1498,35 @@ Blockly.Blocks['sensing_mainIsPress'] = {
   }
 };
 
+/* Blockly.Blocks['sensing_HSVColor'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_HSVColor",
+      "message0": Blockly.Msg.SENSING_HSVCOLOR,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "input_value",
+          "name": "COLOR"
+        },
+        {
+          "type": "input_value",
+          "name": "Min"
+        },
+        {
+          "type": "input_value",
+          "name": "Max"
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+}; */
+
 Blockly.Blocks['sensing_color_range'] = {
   init: function () {
     this.jsonInit({

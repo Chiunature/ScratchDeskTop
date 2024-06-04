@@ -466,3 +466,10 @@ Blockly.cake.setValueList = function (type = 'value') {
   }
   return `${name}`;
 }
+
+
+Blockly.cake.isType = function (type) {
+  return function (obj) {
+    return {}.toString.call(obj) == `[object ${type}]`
+  }
+}

@@ -286,7 +286,7 @@ Blockly.cake['procedures_call'] = function (block) {
     funcName = funcName.replace(/%s/g, 'S');
     funcName = funcName.replace(/%b/g, 'B');
     funcName = Blockly.cake.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
-    const list = funcName.split("_").slice(1);
+    // const list = funcName.split("_").slice(1);
 
     var argCode = [];
     for (var x = 0; x < block.inputList.length; x++) {
@@ -303,12 +303,15 @@ Blockly.cake['procedures_call'] = function (block) {
         }
     }
     if (argCode.length > 0) {
-        list.forEach((item, index) => {
-            argCode[index] = `${Blockly.cake.toStr(argCode[index]) ? argCode[index] : '"' + argCode[index] + '"'}`;
+        const isUndefined = Blockly.cake.isType("undefined");
+        for (let i = 0; i < argCode.length; i++) {
+            if (!isUndefined(argCode[i])) {
+                argCode[i] = `${Blockly.cake.toStr(argCode[i]) ? argCode[i] : '"' + argCode[i] + '"'}`;
+            }
             /* if (item.toUpperCase() == 'B') {
-                argCode[index] = `strcmp(${argCode[index]}, "TRUE") == 0`;
+                argCode[i] = `strcmp(${argCode[i]}, "TRUE") == 0`;
             } */
-        });
+        }
         return `${funcName}(${argCode.join(',')});\n`;
     } else {
         return `${funcName}();\n`;

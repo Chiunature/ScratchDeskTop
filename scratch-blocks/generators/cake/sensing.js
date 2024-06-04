@@ -261,6 +261,17 @@ Blockly.cake['sensing_mainIsPress'] = function (block) {
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
+/* Blockly.cake['sensing_HSVColor'] = function (block) {
+    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
+    color = color.replace(/'/g, '');
+    const min = Blockly.cake.valueToCode(block, "Min", Blockly.cake.ORDER_NONE);
+    const max = Blockly.cake.valueToCode(block, "Max", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    const code = `sensing_HSVColor(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(color) ? color : '"' + color + '"'}, ${Blockly.cake.toStr(min) ? min : '"' + min + '"'}, ${Blockly.cake.toStr(max) ? max : '"' + max + '"'});\n`;
+    return code;
+}; */
+
 Blockly.cake['sensing_color_range'] = function (block) {
   let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
   let rmin = Blockly.cake.valueToCode(block, "RMin", Blockly.cake.ORDER_NONE);
@@ -270,7 +281,7 @@ Blockly.cake['sensing_color_range'] = function (block) {
   let gmax = Blockly.cake.valueToCode(block, "GMax", Blockly.cake.ORDER_NONE);
   let bmax = Blockly.cake.valueToCode(block, "BMax", Blockly.cake.ORDER_NONE);
   // TODO: Assemble cake into code variable.
-  let code = 'sensing_color_range(' +
+    let code = 'Sensing_HSVColor(' +
     `${Blockly.cake.toStr(port) ? port : '"' + port + '"'}` + ', ' +
     `${Blockly.cake.toStr(rmin) ? rmin : '"' + rmin + '"'}` + ', ' +
     `${Blockly.cake.toStr(rmax) ? rmax : '"' + rmax + '"'}` + ', ' +

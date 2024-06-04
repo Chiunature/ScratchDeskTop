@@ -175,11 +175,6 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     `;
 };
 {/*
-   <block type="sensing_card">
-                <value name="COLOR">
-                    <shadow type="colour_card"/>
-                </value>
-            </block>
     <block type="sensing_line_inspection_judgment"></block>
     <block type="sensing_magnetic_calibration"></block>
     <block type="sensing_compass"></block>
@@ -191,26 +186,17 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     <block id="current" type="sensing_current"/>
     <block type="sensing_dayssince2000"/>
     <block type="sensing_key_press"></block>
-    <block type="sensing_color_range">
+            <block type="sensing_HSVColor">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
-                <value name="RMin">
+                <value name="COLOR">
+                    <shadow type="colour_card" />
+                </value>
+                <value name="Min">
                     <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
                 </value>
-                <value name="RMax">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-                 <value name="GMin">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                <value name="GMax">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-                <value name="BMin">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                 <value name="BMax">
+                 <value name="Max">
                     <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
                 </value>
             </block>
@@ -244,6 +230,30 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
+            <block type="sensing_color_range">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="RMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="RMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+                 <value name="GMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="GMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+                <value name="BMin">
+                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
+                </value>
+                 <value name="BMax">
+                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
             <block type="sensing_reflected_light_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -257,6 +267,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
+            ${blockSeparator}
             <block type="sensing_ultrasonic_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -270,8 +281,8 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${blockSeparator}
             <block type="sensing_sound_intensity"></block>
+            ${blockSeparator}
             <block type="sensing_key_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />

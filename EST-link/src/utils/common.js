@@ -562,7 +562,7 @@ class Common {
   }
 
   checkSerialName(item) {
-    const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual'];
+        const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual', 'USB 串行设备'];
     let res = false;
     for (let i = 0; i < nameList.length; i++) {
             if (item.indexOf(nameList[i]) !== -1) {

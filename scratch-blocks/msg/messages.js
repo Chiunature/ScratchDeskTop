@@ -366,6 +366,7 @@ Blockly.Msg.SENSING_ISHANDLING = 'Is the %1 button of the handle %2?';
 Blockly.Msg.SENSING_HANDLING = 'Controller %1 rocker %2 axis';
 Blockly.Msg.SENSING_MAINISPRESS = 'Is the %1 button of the host %2';
 Blockly.Msg.SENSING_COLOR_RANGE = 'Is the color range of port %1 within R %2 ~ %3 G %4 ~ %5 B %6 ~ %7';
+Blockly.Msg.SENSING_HSVCOLOR = 'Is the %2 range of port %1 within %3 ~ %4';
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
 Blockly.Msg.SOUND_PLAYUNTILDONE = 'play sound %1 until done';

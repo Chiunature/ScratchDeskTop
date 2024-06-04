@@ -166,14 +166,17 @@ function commendMake(cpath = cwd()) {
     return new Promise((resolve, reject) => {
         let errStr = '';
         const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
-        progress.stderr.on('data', (err) => errStr += err.toString());
+        progress.stderr.on('data', (err) => {
+            errStr += err.toString();
+            handlerError(errStr, cpath);
+        });
 
         progress.on('close', (code, signal) => {
             console.log(new Date());
             if (code === 0) {
                 resolve(true);
             } else {
-                handlerError(errStr);
+                handlerError(errStr, cpath);
                 reject(errStr);
             }
         });
