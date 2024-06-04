@@ -163,6 +163,7 @@ Blockly.Msg.MOVESTEP_COMBINED_MOTOR = "%1 at a speed of %2 and %3 %% to move";
 Blockly.Msg.MOVEPOWER_COMBINED_MOTOR = "Starting at 2% %% power for% 3% 4 movement";
 Blockly.Msg.STOPPING_COMBINED_MOTOR = "%1 When setting the running motor to stop %2";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER = "%1 at a speed of %2 and %3 %% to move";
+Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ = "%1 Combination motor executed at %2 %3 %4 %5";
 // Motor blocks
 Blockly.Msg.BACK = 'back';
 Blockly.Msg.ADVANCE = 'advance';

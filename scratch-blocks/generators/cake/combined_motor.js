@@ -137,3 +137,13 @@ Blockly.cake['combined_motor_startWithPower'] = function (block) {
     const code = `combined_motor_startWithPower(${Blockly.cake.toStr(one) ? one : '"' + one + '"'}, ${Blockly.cake.toStr(two) ? two : '"' + two + '"'});\n`;
     return code;
 };
+
+Blockly.cake['combined_motor_startWithPowerObj'] = function (block) {
+    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    const one = Blockly.cake.valueToCode(block, "POWER_ONE", Blockly.cake.ORDER_NONE);
+    const two = Blockly.cake.valueToCode(block, "POWER_TWO", Blockly.cake.ORDER_NONE);
+    const count = Blockly.cake.valueToCode(block, "COUNT", Blockly.cake.ORDER_NONE);
+    const unit = block.getFieldValue('unit');
+    const code = `motor_combined_movepowerObj(${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}, ${Blockly.cake.toStr(one) ? one : '"' + one + '"'}, ${Blockly.cake.toStr(two) ? two : '"' + two + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
+    return code;
+};
