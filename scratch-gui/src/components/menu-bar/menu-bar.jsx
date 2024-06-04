@@ -16,14 +16,14 @@ import ShareButton from "./share-button.jsx";
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 // import LanguageSelector from "../../containers/language-selector.jsx";
-import SaveStatus from "./save-status.jsx";
+// import SaveStatus from "./save-status.jsx";
 import ProjectWatcher from "../../containers/project-watcher.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
 import { MenuItem, MenuSection } from "../menu/menu.jsx";
 import ProjectTitleInput from "./project-title-input.jsx";
 // import AuthorInfo from "./author-info.jsx";
-import AccountNav from "../../containers/account-nav.jsx";
-import LoginDropdown from "./login-dropdown.jsx";
+// import AccountNav from "../../containers/account-nav.jsx";
+// import LoginDropdown from "./login-dropdown.jsx";
 import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import DeletionRestorer from "../../containers/deletion-restorer.jsx";
 import TurboMode from "../../containers/turbo-mode.jsx";
@@ -73,16 +73,17 @@ import {
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
-import { svgAsDataUri } from "save-svg-as-png";
+import { svgAsDataUri, saveSvgAsPng } from "save-svg-as-png";
 import styles from "./menu-bar.css";
 
 // import helpIcon from "../../lib/assets/icon--tutorials.svg";
-import mystuffIcon from "./icon--mystuff.png";
-import profileIcon from "./icon--profile.png";
+// import mystuffIcon from "./icon--mystuff.png";
+// import profileIcon from "./icon--profile.png";
 import remixIcon from "./icon--remix.svg";
 import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
+import photoIcon from "./icon--photo.svg";
 import { ipc as ipc_Renderer } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import fileSaveIcon from "./icon--file-save.svg";
@@ -98,7 +99,7 @@ import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 
 
-const ariaMessages = defineMessages({
+/* const ariaMessages = defineMessages({
     language: {
         id: "gui.menuBar.LanguageSelector",
         defaultMessage: "language selector",
@@ -109,7 +110,7 @@ const ariaMessages = defineMessages({
         defaultMessage: "Tutorials",
         description: "accessibility text for the tutorials button",
     },
-});
+}); */
 
 const saveNowMessage = (
     <FormattedMessage
@@ -118,13 +119,13 @@ const saveNowMessage = (
         id="gui.menuBar.saveNow"
     />
 );
-const createCopyMessage = (
+/* const createCopyMessage = (
     <FormattedMessage
         defaultMessage="Save as a copy"
         description="Menu bar item for saving as a copy"
         id="gui.menuBar.saveAsCopy"
     />
-);
+); */
 const remixMessage = (
     <FormattedMessage
         defaultMessage="Remix"
@@ -234,7 +235,8 @@ class MenuBar extends React.Component {
             "handleClickHome",
             "reUpdateDriver",
             "handleHelp",
-            "handleProblem"
+            "handleProblem",
+            "saveSvg"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -555,7 +557,12 @@ class MenuBar extends React.Component {
     handleProblem() {
         this.props.onShowQrcode();
     }
-
+    saveSvg() {
+        const dom = this.props.workspace.svgBlockCanvas_;
+        const name = this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf("."));
+        saveSvgAsPng(dom, name, { backgroundColor: '#ffffff' });
+    }
+    
     async screenPrintWorkspace() {
         return await svgAsDataUri(this.props.workspace.svgBlockCanvas_, { backgroundColor: '#ffffff' });
     }
@@ -813,7 +820,8 @@ class MenuBar extends React.Component {
                     <div
                         className={classNames(
                             styles.menuBarItem,
-                            styles.hoverable
+                            styles.hoverable,
+                            styles.generator
                         )}
                         onMouseUp={this.handleConnectionMouseUp}
                     >
@@ -959,7 +967,21 @@ class MenuBar extends React.Component {
                                 [styles.active]: "",
                             }
                         )}
-                        onClick={() => this.showDeviceCards()}
+                        onClick={this.saveSvg}
+                    >
+                            <img className={styles.screenShotLogo} src={photoIcon} />
+                    </div>
+                    <Divider className={classNames(styles.divider)} />
+                    <div
+                        className={classNames(
+                            styles.menuBarItem,
+                            styles.hoverable,
+                            styles.generator,
+                            {
+                                [styles.active]: "",
+                            }
+                        )}
+                        onClick={this.showDeviceCards}
                     >
                         {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
                             <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
@@ -991,7 +1013,7 @@ class MenuBar extends React.Component {
                 </Box>
                 {/* show the proper UI in the account menu, given whether the user is
                 logged in, and whether a session is available to log in with */}
-                <div
+                {/* <div
                     className={classNames(styles.accountInfoGroup, styles.hide)}
                 >
                     <div className={styles.menuBarItem}>
@@ -1128,9 +1150,9 @@ class MenuBar extends React.Component {
                             )}
                         </React.Fragment>
                     )}
-                </div>
+                </div> */}
 
-                {aboutButton}
+                {/* {aboutButton} */}
             </Box>
         );
     }

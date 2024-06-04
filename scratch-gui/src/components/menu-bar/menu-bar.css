@@ -50,12 +50,12 @@
 }
 
 .main-menu-inp {
-    width: 226px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     flex-wrap: nowrap;
     align-items: center;
-    /*flex-grow: 1;*/
+    flex-grow: 1;
 }
 
 .inactive {
@@ -109,7 +109,7 @@
 }
 
 .menu-bar-item.growable {
-    /*max-width: $menu-bar-item-max-width;*/
+    max-width: $menu-bar-item-max-width;
     flex: 1;
 }
 
@@ -270,11 +270,8 @@
 }
 
 .generator {
-    margin: 0 30px;
-}
-
-.theme {
-    margin: 0 30px;
+    margin: 0 .25rem;
+    padding: 0 0.75rem;
 }
 
 .collapsible-label {
@@ -295,4 +292,9 @@
     .help-icon {
         margin-right: 0;
     }
+}
+
+.screen-shot-logo {
+    height: 1.8rem;
+    vertical-align: middle;
 }
