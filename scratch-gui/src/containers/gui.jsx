@@ -242,7 +242,7 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
-                if (!result || this.props.completed) return;
+                if (!result || this.props.completed || this.props.dragging) return;
                 if (this.props?.deviceObj?.estlist?.est === result?.estlist?.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
@@ -484,6 +484,7 @@ const mapStateToProps = (state) => {
         soundslist: state.scratchGui.connectionModal.soundslist,
         upinVisible: state.scratchGui.alerts.upinVisible,
         upinMsg: state.scratchGui.alerts.upinMsg,
+        dragging: state.scratchGui.cards.deviceCards.dragging,
     };
 };
 
