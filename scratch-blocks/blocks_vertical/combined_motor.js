@@ -700,10 +700,6 @@ Blockly.Blocks['combined_motor_startWithPowerObj'] = {
                     },
                     {
                         "type": "input_value",
-                        "name": "PORT",
-                    },
-                    {
-                        "type": "input_value",
                         "name": "POWER_ONE",
                     },
                     {
