@@ -1,31 +1,50 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import classNames from 'classnames';
 import styles from './button.css';
 import ButtonComponent from "./button.jsx";
 import Cirle from "./cirle.jsx";
 import yesIcon from "./icon--yes.svg";
 import startIcon from "./icon--start.svg";
-
+import { ipc as ipc_Renderer } from "est-link";
 
 
 const RunExeBtn = (props) => {
-    const { completed, compile, isComplete, progress, deviceStatus } = props;
+    const { completed, compile, deviceStatus, onSetCompleted, handleRunApp } = props;
     let refObj = useRef();
+    let [progress, setProgress] = useState(0);
     let [flag, setFlag] = useState(false);
 
     useEffect(() => {
         document.addEventListener('mouseup', handleClick);
-
+        handleProgress();
         return () => {
             document.removeEventListener('mouseup', handleClick);
         }
     }, [flag]);
+
+    let newProgress = useMemo(() => {
+        if (progress > 99) {
+            let timer = setTimeout(() => {
+                setProgress(0);
+                onSetCompleted(false);
+                JSON.parse(sessionStorage.getItem('run-app')) && handleRunApp();
+                // window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
+                clearTimeout(timer);
+                timer = null;
+            }, 1000);
+        }
+        return progress;
+    }, [progress]);
 
     const handleClick = (e) => {
         if (flag && !refObj.current.contains(e.target)) {
             setFlag(false);
         }
     }
+
+    const handleProgress = useCallback(() => {
+        window.myAPI.ipcRender({ eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS, callback: (event, arg) => setProgress(arg) });
+    }, [completed])
 
     const toggle = () => {
         setFlag(!flag);
@@ -35,9 +54,9 @@ const RunExeBtn = (props) => {
         <div className={styles.selectExeBtnCon} >
             <div className={classNames(styles.selectExeBox, "exe-box")} ref={refObj}>
                 <div className={styles.selectExeRound}>
-                    <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, isComplete ? styles.isCompleteHide : '')}>
-                        <div onClick={toggle} style={{ 'opacity': isComplete ? '0' : '1' }}>
-                            {completed ? <p className={classNames(styles.uploadP)}>{progress}%</p> : 
+                    <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, newProgress > 99 ? styles.isCompleteHide : '')}>
+                        <div onClick={toggle} style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
+                            {completed ? <p className={classNames(styles.uploadP)}>{newProgress}%</p> : 
                                 <ButtonComponent
                                     onClick={() => compile(true)}
                                     className={classNames(styles.uploadBtn)}
@@ -45,7 +64,7 @@ const RunExeBtn = (props) => {
                                 />}
                         </div>
                         <Cirle completed={completed} deviceStatus={deviceStatus} />
-                        <img className={isComplete ? '' : styles.yesBtnSpin} src={yesIcon} />
+                        <img className={newProgress > 99 ? '' : styles.yesBtnSpin} src={yesIcon} />
                     </div>
                 </div>
             </div>

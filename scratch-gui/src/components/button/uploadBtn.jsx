@@ -8,7 +8,7 @@ import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
 
 const UploadBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile, isComplete, progress, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus } = props;
+    const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted } = props;
     const compile = (flag) => {
         if (completed) {
             return;
@@ -30,11 +30,11 @@ const UploadBtn = (props) => {
                 <RunExeBtn
                     deviceStatus={deviceStatus}
                     compile={() => compile(true)}
-                    isComplete={isComplete}
-                    progress={progress}
                     completed={completed}
                     onSetSelectedExe={onSetSelectedExe}
                     onSetExelist={onSetExelist}
+                    onSetCompleted={onSetCompleted}
+                    handleRunApp={handleRunApp}
                 />
                 <ButtonComponent
                     onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}

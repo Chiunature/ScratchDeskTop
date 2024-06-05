@@ -152,7 +152,6 @@ const GUIComponent = (props) => {
         onTelemetryModalCancel,
         onTelemetryModalOptIn,
         onTelemetryModalOptOut,
-        onSetIsComplete,
         onSetSourceCompleted,
         onSetExelist,
         onSetSelectedExe,
@@ -175,13 +174,11 @@ const GUIComponent = (props) => {
         theme,
         completed,
         sourceCompleted,
-        isComplete,
         handleCompile,
         handleSelectExe,
         handleInpChange,
         deviceObj,
         compile,
-        progress,
         exeList,
         selectedExe,
         showFileStytem,
@@ -197,6 +194,7 @@ const GUIComponent = (props) => {
         upinMsg,
         onShowUpin,
         dragging,
+        onSetCompleted,
         ...componentProps
     } = omit(props, "dispatch");
     if (children) {
@@ -302,9 +300,8 @@ const GUIComponent = (props) => {
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
+                                onSetCompleted={onSetCompleted}
                                 deviceStatus={deviceStatus}
-                                isComplete={isComplete}
-                                progress={progress}
                                 completed={completed}
                                 handleCompile={handleCompile}
                                 isRtl={isRtl}
@@ -580,7 +577,6 @@ GUIComponent.propTypes = {
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
-    progress: PropTypes.number,
     selectedExe: PropTypes.object,
     onOpenConnectionModal: PropTypes.func
 };
@@ -613,7 +609,6 @@ const mapStateToProps = (state) => ({
     blocksId: state.scratchGui.timeTravel.year.toString(),
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     theme: state.scratchGui.theme.theme,
-    progress: state.scratchGui.connectionModal.progress,
     selectedExe: state.scratchGui.mode.selectedExe,
     QrcodeVisible: state.scratchGui.alerts.QrcodeVisible
 });

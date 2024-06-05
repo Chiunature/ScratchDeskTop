@@ -35,12 +35,12 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import { ipc as ipc_Renderer, verifyTypeConfig, instructions } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setIsComplete, setExelist, setSelectedExe } from "../reducers/mode.js";
+import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../utils/compileGcc.js";
-import { setCompleted, setProgress, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
+import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
 import { activateDeck } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
@@ -64,7 +64,6 @@ class GUI extends React.Component {
         if (userAgent.indexOf("electron/") > -1) {
             this.getMainMessage();
             this.downloadSuccess();
-            this.downloadProgress();
             this.downloadSource();
             this.getFirewareFiles();
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
@@ -176,10 +175,6 @@ class GUI extends React.Component {
         });
     }
 
-    //下载进度监听
-    downloadProgress() {
-        window.myAPI.ipcRender({ eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS, callback: (event, arg) => this.props.onSetProgress(arg) });
-    }
 
     //下载成功监听
     downloadSuccess() {
@@ -187,18 +182,7 @@ class GUI extends React.Component {
             eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
             callback: (event, arg) => {
                 this.props.onShowCompletedAlert(arg.msg);
-                if (arg.result) {
-                    this.props.onSetIsComplete(true);
-                    let time = setTimeout(() => {
-                        this.props.onSetIsComplete(false);
-                        this.props.onSetCompleted(false);
-                        this.props.onSetProgress(0);
-                        JSON.parse(sessionStorage.getItem('run-app')) && this.handleRunApp();
-                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
-                        clearTimeout(time);
-                        time = null;
-                    }, 1500);
-                } else {
+                if (!arg.result) {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
                 }
@@ -359,8 +343,6 @@ class GUI extends React.Component {
             onStorageInit,
             onUpdateProjectId,
             onVmInit,
-            onSetCompleted,
-            onSetProgress,
             onShowCompletedAlert,
             projectHost,
             projectId,
@@ -469,7 +451,6 @@ const mapStateToProps = (state) => {
         isGen: state.scratchGui.mode.isGen,
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         completed: state.scratchGui.connectionModal.completed,
-        isComplete: state.scratchGui.mode.isComplete,
         compileList: state.scratchGui.mode.compileList,
         workspace: state.scratchGui.workspaceMetrics.workspace,
         bufferList: state.scratchGui.mode.bufferList,
@@ -507,8 +488,6 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetIsComplete: (isComplete) => dispatch(setIsComplete(isComplete)),
-    onSetProgress: (progress) => dispatch(setProgress(progress)),
     onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
