@@ -68,7 +68,6 @@ class GUI extends React.Component {
             this.getFirewareFiles();
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
             this.watchDevice(res);
-            this.checkDriver();
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake(res);
             window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
@@ -269,14 +268,14 @@ class GUI extends React.Component {
         sessionStorage.setItem('isSensingUpdate', 'done');
     } */
 
-    async checkDriver() {
+    /* async checkDriver() {
         const driver = window.myAPI.getStoreValue('driver');
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
         if (res) {
             this.props.onActivateDeck("install-drivers");
             window.myAPI.setStoreValue('driver', ipc_Renderer.DRIVER.INSTALL);
         }
-    }
+    } */
 
 
     handleCompile() {
