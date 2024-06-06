@@ -206,7 +206,7 @@ class GUI extends React.Component {
     async checkUpdateFireware(firewareVersion) {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
-        this.compile.sendSerial(verifyTypeConfig.SOURCE);
+        this.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
