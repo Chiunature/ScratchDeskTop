@@ -136,7 +136,7 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
+        // this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
         // If locale changes while not visible it will get handled in didUpdate
@@ -415,7 +415,11 @@ class Blocks extends React.Component {
     }
 
     attachVM() {
-        this.workspace.addChangeListener(this.props.vm.blockListener);
+        // this.workspace.addChangeListener(this.props.vm.blockListener);
+        this.workspace.addChangeListener((event) => {
+            this.workspaceToCode(event.type);
+            this.props.vm.blockListener(event);
+        });
         this.flyoutWorkspace = this.workspace
             .getFlyout()
             .getWorkspace();

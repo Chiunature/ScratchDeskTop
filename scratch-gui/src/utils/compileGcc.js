@@ -101,7 +101,7 @@ class Compile {
      */
     async runGcc(buffer, myBlock, selectedExe, verifyType, soundslist) {
         let codeStr = '', taskStr = '', handlerStr = '';
-        buffer.map((el, index) => {
+        buffer.forEach((el, index) => {
             if (el) {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
