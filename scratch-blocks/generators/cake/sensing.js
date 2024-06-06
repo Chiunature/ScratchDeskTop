@@ -282,7 +282,7 @@ Blockly.cake['sensing_color_range'] = function (block) {
   let bmax = Blockly.cake.valueToCode(block, "BMax", Blockly.cake.ORDER_NONE);
   // TODO: Assemble cake into code variable.
     let code = 'Sensing_HSVColor(' +
-    `${Blockly.cake.toStr(port) ? port : '"' + port + '"'}` + ', ' +
+    `${Blockly.cake.toStr(port) ? port : '"' + port + '1"'}` + ', ' +
     `${Blockly.cake.toStr(rmin) ? rmin : '"' + rmin + '"'}` + ', ' +
     `${Blockly.cake.toStr(rmax) ? rmax : '"' + rmax + '"'}` + ', ' +
     `${Blockly.cake.toStr(gmin) ? gmin : '"' + gmin + '"'}` + ', ' +

@@ -30,7 +30,7 @@ function getUpinMsg() {
 
 function needUpin() {
     const obj = window.myAPI.readFilesAsync('./resources/scripts/hotVersion.json');
-    const upin = localStorage.getItem('upin');
+    const upin = window.myAPI.getStoreValue('upin');
     const isNull = isType("Null");
     const isUndefined = isType("Undefined");
     return (upin === obj?.version) ||  (!isNull(upin) && !isUndefined(upin));
@@ -251,7 +251,7 @@ const showUpin = function () {
     fetch('scripts/hotVersion.json')
             .then(res => {
                 return res.json();
-            }).then(data => localStorage.setItem('upin', data.version));
+            }).then(data => window.myAPI.setStoreValue('upin', data.version));
     return {
         type: SHOW_UPIN
     };

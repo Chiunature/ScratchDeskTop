@@ -112,9 +112,13 @@ function saveFileToLocal() {
 function handleChildProcess() {
     const childProcess = fork(path.join(__dirname, './src/utils/storeChildProcess.js'));
     ipcMain.handle(ipc.WORKER, async (event, data) => {
-        if (!data) return;
-        childProcess.send({ ...data });
-        return await _onmessage();
+        try {
+            if (!data) return;
+            childProcess.send({ ...data });
+            return await _onmessage();
+        } catch (error) {
+            console.info(error);
+        }
     })
     function _onmessage() {
         return new Promise((resolve) => {
@@ -310,3 +314,18 @@ app.on("activate", function () {
         createWindow();
     }
 });
+
+//限制只能开启一个应用
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+} else {
+ app.on('second-instance', (event, commandLine, workingDirectory) => {
+   // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
+   if (mainWindow) {
+       if (mainWindow.isMinimized()) mainWindow.restore();
+       mainWindow.focus();
+       mainWindow.show();
+   }
+ })
+}

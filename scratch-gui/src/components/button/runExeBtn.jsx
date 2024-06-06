@@ -12,15 +12,15 @@ const RunExeBtn = (props) => {
     const { completed, compile, deviceStatus, onSetCompleted, handleRunApp } = props;
     let refObj = useRef();
     let [progress, setProgress] = useState(0);
-    let [flag, setFlag] = useState(false);
+    let [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        document.addEventListener('mouseup', handleClick);
-        handleProgress();
+        getProgress();
         return () => {
-            document.removeEventListener('mouseup', handleClick);
+            window.myAPI.delEvents(ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS);
+            setIsMounted(false);
         }
-    }, [flag]);
+    }, [isMounted]);
 
     let newProgress = useMemo(() => {
         if (progress > 99) {
@@ -36,18 +36,14 @@ const RunExeBtn = (props) => {
         return progress;
     }, [progress]);
 
-    const handleClick = (e) => {
-        if (flag && !refObj.current.contains(e.target)) {
-            setFlag(false);
-        }
+    function getProgress() {
+        window.myAPI.ipcRender({ eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS, callback: (event, arg) => setProgress(arg) });
     }
 
-    const handleProgress = useCallback(() => {
-        window.myAPI.ipcRender({ eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.PROGRESS, callback: (event, arg) => setProgress(arg) });
-    }, [completed])
 
     const toggle = () => {
-        setFlag(!flag);
+        // setIsMounted(true);
+        compile(true);
     }
 
     return (
@@ -55,10 +51,10 @@ const RunExeBtn = (props) => {
             <div className={classNames(styles.selectExeBox, "exe-box")} ref={refObj}>
                 <div className={styles.selectExeRound}>
                     <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, newProgress > 99 ? styles.isCompleteHide : '')}>
-                        <div onClick={toggle} style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
+                        <div style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
                             {completed ? <p className={classNames(styles.uploadP)}>{newProgress}%</p> : 
                                 <ButtonComponent
-                                    onClick={() => compile(true)}
+                                    onClick={toggle}
                                     className={classNames(styles.uploadBtn)}
                                     iconSrc={startIcon}
                                 />}
