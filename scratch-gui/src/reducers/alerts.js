@@ -24,23 +24,33 @@ const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
  */
 
 function getUpinMsg() {
-    const res = window.myAPI.readFilesAsync('./resources/README.md');
-    return res ? res : '';
+    try {
+        const res = window.myAPI.readFilesAsync('./resources/README.md');
+        return res ? res : '';
+    } catch (error) {
+        return '';
+    }
 }
 
 function needUpin() {
+    try {
     const obj = window.myAPI.readFilesAsync('./resources/scripts/hotVersion.json');
     const upin = window.myAPI.getStoreValue('upin');
-    const isNull = isType("Null");
-    const isUndefined = isType("Undefined");
-    return (upin === obj?.version) ||  (!isNull(upin) && !isUndefined(upin));
+        const newObj = JSON.parse(obj);
+        // const isNull = isType("Null");
+        // const isUndefined = isType("Undefined");
+        return upin !== newObj?.version;
+    } catch (error) {
+        console.info(error);   
+        return false;
+    }
 }
 
-function isType(type) {
+/* function isType(type) {
     return function (obj) {
         return {}.toString.call(obj) == `[object ${type}]`;
     }
-}
+} */
 
 const initialState = {
     visible: true,
@@ -148,7 +158,7 @@ const reducer = function (state, action) {
             });
         case SHOW_UPIN:
             return Object.assign({}, state, {
-                upinVisible: true
+                upinVisible: false
             });
         default:
             return state;
