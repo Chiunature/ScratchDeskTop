@@ -12,7 +12,6 @@ import closeIcon from './icon--close.svg';
 import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
-import {APP} from '../../config/json/LB_FWLIB.json'
 import Box from "../box/box.jsx";
 
 const tabClassNames = {
@@ -113,6 +112,7 @@ const DeviceCards = props => {
     } = props;
     let { x, y, expanded } = deviceCards;
     let screenRef = useRef(null);
+    let [index, setIndex] = useState(0);
 
     useEffect(() => {
         handleScreenAuto();
@@ -126,7 +126,7 @@ const DeviceCards = props => {
     const onShrinkExpandCards = useCallback(() => onSetDeviceCards({ ...deviceCards, expanded: !expanded }), [deviceCards]);
     const onStartDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: true }), [deviceCards]);
     const onEndDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: false }), [deviceCards]);
-    const onDrag = useCallback((e_, data) => onSetDeviceCards({...deviceCards, x: data.x, y: data.y}), [deviceCards]);
+    const onDrag = useCallback((e_, data) => onSetDeviceCards({ ...deviceCards, x: data.x, y: data.y }), [deviceCards]);
     // Tutorial cards need to calculate their own dragging bounds
     // to allow for dragging the cards off the left, right and bottom
     // edges of the workspace.
@@ -146,7 +146,6 @@ const DeviceCards = props => {
         // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight;
     }
 
-    let [index, setIndex] = useState(0);
 
     const select = (i) => {
         setIndex(i);
@@ -178,7 +177,6 @@ const DeviceCards = props => {
         });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         onShowDelExeAlert("delExeSuccess");
-        window.myAPI.deleteFiles(`${APP}/${item.name}.bin`, window.resourcesPath);
     }
 
     const handleScreenAuto = useCallback(() => {
@@ -202,7 +200,7 @@ const DeviceCards = props => {
     }, [screenRef]);
 
     const handleScale = () => {
-        if(!screenRef || !screenRef.current) return;
+        if (!screenRef || !screenRef.current || index > 0) return;
         const box = screenRef.current;
         const originalWidth = box.offsetWidth;
         const originalHeight = box.offsetHeight;
@@ -220,7 +218,7 @@ const DeviceCards = props => {
         }
     }
 
-    const changeBounds = useCallback(() => handleScale(), [screenRef]);
+    const changeBounds = useMemo(() => handleScale(), [screenRef]);
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
@@ -236,7 +234,7 @@ const DeviceCards = props => {
         >
             <Box className={styles.cardBox}>
                 <Draggable
-                    bounds={changeBounds()}
+                    bounds={changeBounds}
                     cancel=".input-wrapper"
                     position={{ x: x, y: y }}
                     onDrag={onDrag}
