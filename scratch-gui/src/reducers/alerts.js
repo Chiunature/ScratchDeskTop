@@ -23,7 +23,7 @@ const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
  *  * showReconnect (optional): bool
  */
 
-function getUpinMsg() {
+/* function getUpinMsg() {
     try {
         const res = window.myAPI.readFilesAsync('./resources/README.md');
         return res ? res : '';
@@ -44,7 +44,7 @@ function needUpin() {
         console.info(error);   
         return false;
     }
-}
+} */
 
 /* function isType(type) {
     return function (obj) {
@@ -56,8 +56,8 @@ const initialState = {
     visible: true,
     alertsList: [],
     QrcodeVisible: false,
-    upinVisible: needUpin(),
-    upinMsg: getUpinMsg()
+    upinVisible: false,
+    upinMsg: ''
 };
 
 const filterPopupAlerts = alertsList => (

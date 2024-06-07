@@ -244,7 +244,7 @@ const GUIComponent = (props) => {
                         dir={isRtl ? "rtl" : "ltr"}
                         {...componentProps}
                     >
-                        {upinVisible && <UpdateInformation onRequestClose={onShowUpin} upinMsg={upinMsg} />}
+                        {/* {upinVisible && <UpdateInformation onRequestClose={onShowUpin} upinMsg={upinMsg} />} */}
                         {QrcodeVisible && <Qrcode onShowQrcode={onShowQrcode} />}
                         {telemetryModalVisible ? (
                             <TelemetryModal
