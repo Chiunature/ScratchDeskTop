@@ -142,6 +142,7 @@
   "gui.menuBar.Device": "设备信息",
   "gui.menuBar.Theme": "主题",
   "gui.menuBar.settings": "设置",
+  "gui.menuBar.data-view": "数据查看",
   "gui.menuBar.select-exe": "程序选择",
   "gui.menuBar.port-data": "端口数据",
   "gui.menuBar.home": "文件管理",

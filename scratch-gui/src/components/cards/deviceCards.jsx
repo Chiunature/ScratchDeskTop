@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Draggable from 'react-draggable';
-import {ipc as ipc_Renderer} from 'est-link';
+import { ipc as ipc_Renderer } from 'est-link';
 import styles from './card.css';
 import shrinkIcon from './icon--shrink.svg';
 import expandIcon from './icon--expand.svg';
@@ -13,6 +13,7 @@ import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
 import Box from "../box/box.jsx";
+import DataViewCom from '../device/data-view.jsx';
 
 const tabClassNames = {
     tabs: styles.tabs,
@@ -54,6 +55,13 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
                         defaultMessage="Program Selection"
                         description="Program selection"
                         id="gui.menuBar.select-exe"
+                    /></div>
+                </li>
+                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 2 ? styles.isSelected : '')} onClick={() => handleSelect(2)}>
+                    <div><FormattedMessage
+                        defaultMessage="Data View"
+                        description="Data View"
+                        id="gui.menuBar.data-view"
                     /></div>
                 </li>
             </ul>
@@ -253,6 +261,7 @@ const DeviceCards = props => {
                             <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
                                 {index === 0 && <Device {...props} />}
                                 {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
+                                {index === 2 && <DataViewCom {...props} />}
                             </div>
                         </div>
                     </div>

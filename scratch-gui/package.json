@@ -44,6 +44,8 @@
         "copy-webpack-plugin": "6.4.1",
         "core-js": "2.5.7",
         "css-loader": "^1.0.0",
+        "echarts": "^5.5.0",
+        "echarts-for-react": "^3.0.2",
         "electron-log": "^5.1.2",
         "electron-store": "^8.2.0",
         "electron-updater": "^6.1.4",
@@ -192,17 +194,7 @@
             },
             {
                 "from": "build",
-                "to": "app.asar.unpacked",
-                "filter": [
-                    "!**/scripts/**/*"
-                ]
-            },
-            {
-                "from": "build",
-                "to": "./",
-                "filter": [
-                    "**/hotVersion.json"
-                ]
+                "to": "app.asar.unpacked"
             },
             {
                 "from": "NEW-AI极睿智能编程套装说明书.pdf",
