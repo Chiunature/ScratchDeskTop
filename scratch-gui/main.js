@@ -24,7 +24,7 @@
  */
 const serialport = require('serialport');
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
@@ -110,11 +110,14 @@ function saveFileToLocal() {
 }
 
 function handleChildProcess() {
-    const childProcess = fork(path.join(__dirname, './src/utils/storeChildProcess.js'));
+    const childProcessPath = path.join(__dirname, './src/utils/storeChildProcess.js');
+    const { port1, port2 } = new MessageChannelMain();
+    const child = utilityProcess.fork(childProcessPath);
+    child.postMessage('', [port1]);
     ipcMain.handle(ipc.WORKER, async (event, data) => {
         try {
             if (!data) return;
-            childProcess.send({ ...data });
+            port2.postMessage({ ...data });
             return await _onmessage();
         } catch (error) {
             console.info(error);
@@ -122,12 +125,14 @@ function handleChildProcess() {
     })
     function _onmessage() {
         return new Promise((resolve) => {
-            childProcess.on('message', (msg) => {
-                if(msg.type === 'get') resolve(msg.value);
+            port2.once('message', (msg) => {
+                const { data } = msg;
+                if(data.type === 'get') resolve(data.value);
                 resolve();
             });
         })
     }
+    port2.start();
 }
 
 
@@ -320,12 +325,12 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
     app.quit();
 } else {
- app.on('second-instance', (event, commandLine, workingDirectory) => {
-   // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
-   if (mainWindow) {
-       if (mainWindow.isMinimized()) mainWindow.restore();
-       mainWindow.focus();
-       mainWindow.show();
-   }
- })
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+        // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore();
+            mainWindow.focus();
+            mainWindow.show();
+        }
+    })
 }

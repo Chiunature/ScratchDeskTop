@@ -529,6 +529,7 @@ class MenuBar extends React.Component {
         this.props.onSetCompleted(false);
         this.props.onSetDeviceCards({ deviceVisible: false });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        sessionStorage.setItem('isFirewareUpdate', 'done');
     }
 
     showDeviceCards() {
