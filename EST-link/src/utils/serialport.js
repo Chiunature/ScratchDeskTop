@@ -129,6 +129,7 @@ class Serialport extends Common {
                 event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
                 this.portIndex = 0;
                 this.portList.splice(0, this.portList.length);
+                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
             }
         });
     }
