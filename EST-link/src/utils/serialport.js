@@ -119,7 +119,7 @@ class Serialport extends Common {
     OpenPort(event) {
         this.port.open((err) => {
             if (err) {
-                this.isConnectedPortList.push(this.portList[this.portIndex]);
+                this.isConnectedPortList.push(this.portList[this.portIndex].pnpId);
                 this.portIndex++;
                 event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
                 if (this.portIndex === this.portList.length) {
@@ -129,7 +129,6 @@ class Serialport extends Common {
                 event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
                 this.portIndex = 0;
                 this.portList.splice(0, this.portList.length);
-                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
             }
         });
     }
@@ -281,7 +280,6 @@ class Serialport extends Common {
         }
         this.deleteObj(this.files, this.filesObj);
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
-        this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
         this.verifyType = null;
         this.chunkIndex = 0;
         this.sign = null;

@@ -511,7 +511,7 @@ class MenuBar extends React.Component {
                     this.scanConnection();
                     if (!this.closeTimer) {
                         this.closeTimer = setTimeout(() => {
-                            if (arg.msg.length > 0) this.handleDisconnect(arg.msg);
+                            arg.msg.length > 0 && this.handleDisconnect(arg.msg);
                         }, 2000);
                     }
                 }
