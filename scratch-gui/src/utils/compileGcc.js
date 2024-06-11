@@ -23,9 +23,9 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import {headMain, Task_Handler, Task_Info, Task_Info_Item, Task_Stack} from "../config/js/ProgrammerTasks.js";
-import {APLICATION} from "../config/json/LB_USER.json";
-import {ipc as ipc_Renderer, verifyTypeConfig} from "est-link"
+import { headMain, Task_Handler, Task_Info, Task_Info_Item, Task_Stack } from "../config/js/ProgrammerTasks.js";
+import { APLICATION } from "../config/json/LB_USER.json";
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
 
 const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
@@ -131,17 +131,22 @@ class Compile {
      * @param {Array} soundslist
      */
     async sendSerial(verifyType, bufferList, myBlock, selectedExe, soundslist) {
-        if (verifyType === verifyTypeConfig.RESET_FWLIB) {
-            window.myAPI.ipcRender({
-                sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: { verifyType },
-                eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
-                callback: (event, data) => {
-                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { ...data, verifyType: data.fileVerifyType } });
-                }
-            });
-        } else {
-            this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
+        switch (verifyType) {
+            case verifyTypeConfig.RESET_FWLIB:
+                window.myAPI.ipcRender({
+                    sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
+                    sendParams: { verifyType },
+                    eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
+                    callback: (event, data) => {
+                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { ...data, verifyType: data.fileVerifyType } });
+                    }
+                });
+                break;
+            case verifyTypeConfig.BOOTBIN:
+                this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
+                break;
+            default:
+                break;
         }
     }
 }

@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { spawn, exec } = require("child_process");
 const { cwd } = require("process");
 const url = require("url");
@@ -163,20 +164,20 @@ function deleteFiles(link, resourcePath = cwd()) {
  * @returns
  */
 function commendMake(cpath = cwd()) {
+  const cpuCount = os.cpus();
     return new Promise((resolve, reject) => {
         let errStr = '';
-        const progress = spawn('make', [`-j99`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
+        const progress = spawn('make', [`-j${cpuCount && cpuCount.length > 0 ? cpuCount.length : 4}`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
         progress.stderr.on('data', (err) => {
             errStr += err.toString();
-            handlerError(errStr, cpath);
+            handlerError(errStr);
         });
 
         progress.on('close', (code, signal) => {
-            console.log(new Date());
             if (code === 0) {
                 resolve(true);
             } else {
-                handlerError(errStr, cpath);
+                handlerError(errStr);
                 reject(errStr);
             }
         });
