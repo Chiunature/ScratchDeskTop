@@ -534,7 +534,9 @@ class Common {
 
   checkIsDeviceData(data, reg) {
     try {
-      const result = data.match(reg);
+      const text = new TextDecoder();
+      const newData = text.decode(data);
+      const result = newData.match(reg);
       if (result && result[0].length > 0) {
         return JSON.parse(result[0]);
       } else {

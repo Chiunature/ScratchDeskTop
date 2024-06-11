@@ -326,7 +326,6 @@ class Serialport extends Common {
      */
     handleRead(eventName, event) {
         if (!this.port) return;
-        const text = new TextDecoder();
         const func = this.throttle(this.watchDevice.bind(this), 100);
         this.port.on(eventName, () => {
             //获取下位机发送过来的数据
@@ -334,8 +333,12 @@ class Serialport extends Common {
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //开启设备数据监控监听
-            if (receiveData) this.watchDeviceData = this.checkIsDeviceData(text.decode(receiveData), reg);
-            setTimeout(() => func(event));
+            if (receiveData) this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
+            let t = setTimeout(() => {
+                func(event);
+                clearTimeout(t);
+                t = null;
+            });
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
             if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) return;
