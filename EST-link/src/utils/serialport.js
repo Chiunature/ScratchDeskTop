@@ -99,7 +99,7 @@ class Serialport extends Common {
         //开启串口关闭监听
         this.listenPortClosed("close", event);
         //开启获取文件监听
-        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES, event);
+        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
         //开启传输错误监听
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
         //开启删除程序监听
@@ -139,7 +139,7 @@ class Serialport extends Common {
      * @param {String} eventName
      * @param event
      */
-    getBinOrHareWare(eventName, event) {
+    getBinOrHareWare(eventName) {
         this.ipcMain(eventName, (event, data) => {
             if (data.selectedExe) this.selectedExe = data.selectedExe;
 
@@ -161,17 +161,15 @@ class Serialport extends Common {
             }
             this.readyToUpload(data, event);
         });
-        //本身不是哭脸的时候，发重置会断开，连上后发送文件
-        this.checkConnected(event);
     }
 
     checkConnected(event) {
-        this.checkConnectTimer = setTimeout(() => {
-            if (this.upload_sources_status === RESET_FWLIB) {
+        if (this.upload_sources_status === RESET_FWLIB) {
+            this.checkConnectTimer = setTimeout(() => {
                 this.readyToUpload({ verifyType: SOURCE_APP }, event);
                 this.upload_sources_status = null;
-            }
-        }, 1000);
+            }, 1000);
+        }
     }
 
     readyToUpload(data, event) {
@@ -352,6 +350,8 @@ class Serialport extends Common {
                 this.clearCache();
             }
         });
+        //本身不是哭脸的时候，发重置会断开，连上后发送文件
+        this.checkConnected(event);
     }
 
     /**
