@@ -49,6 +49,7 @@
   "gui.connection.scanning.noPeripheralsFound": "没有发现任何设备",
   "gui.connection.scanning.instructions": "选择上面列出的设备。",
   "gui.connection.search": "刷新",
+  "gui.connection.bluetooth": "蓝牙",
   "gui.connection.unavailable.installscratchlink": "确保 Link已安装并正在运行",
   "gui.connection.unavailable.enablebluetooth": "请检查蓝牙已经开启",
   "gui.connection.unavailable.tryagainbutton": "重试",

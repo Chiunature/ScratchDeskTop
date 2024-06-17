@@ -194,7 +194,7 @@ module.exports = [
                     {
                         from: 'worker.js',
                         to: 'worker.js'
-                    }
+                    },
                 ]
             }),
             new CopyWebpackPlugin({
@@ -231,7 +231,7 @@ module.exports = [
         defaultsDeep({}, base, {
             target: 'web',
             entry: {
-                'scratch-gui': './src/index.js'
+                'new-ai': './src/index.js'
             },
             output: {
                 libraryTarget: 'umd',
