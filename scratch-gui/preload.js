@@ -170,7 +170,6 @@ function commendMake(cpath = cwd()) {
         const progress = spawn('make', [`-j${cpuCount && cpuCount.length > 0 ? cpuCount.length : 4}`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
         progress.stderr.on('data', (err) => {
             errStr += err.toString();
-            handlerError(errStr);
         });
 
         progress.on('close', (code, signal) => {
@@ -191,8 +190,13 @@ function commendMake(cpath = cwd()) {
  * @param vpath
  */
 function getVersion(vpath) {
-    const p = path.join(vpath, VERSION, '/Version.txt');
-    return fs.readFileSync(p, 'utf-8');
+    try {
+        const p = path.join(vpath, VERSION, '/Version.txt');
+        return fs.readFileSync(p, 'utf-8');
+    } catch (error) {
+        handlerError(errStr, vpath);
+        return false;
+    }
 }
 
 /**

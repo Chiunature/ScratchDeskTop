@@ -65,7 +65,7 @@ class GUI extends React.Component {
             this.getMainMessage();
             this.downloadSuccess();
             this.downloadSource();
-            this.getFirewareFiles();
+            this.getFirmwareFiles();
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
             this.watchDevice(res);
 
@@ -104,7 +104,7 @@ class GUI extends React.Component {
         this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', this.props.deviceObj.deviceList);
     }
 
-    getFirewareFiles() {
+    getFirmwareFiles() {
         //获取主机文件监听
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.EXE.FILES,
@@ -150,13 +150,13 @@ class GUI extends React.Component {
         }
     }
 
-    getFirewareVersion(firewareVersion, ver) {
+    getFirmwareVersion(firmwareVersion, ver) {
         if (this.props.version != ver) this.props.onSetVersion(ver);
         const status = sessionStorage.getItem('isFirmwareUpdate');
-        const isNew = ver > 0 && ver == firewareVersion;
+        const isNew = ver > 0 && ver == firmwareVersion;
         if (isNew || status === 'updating') return;
         sessionStorage.setItem('isFirmwareUpdate', 'updating');
-        this.checkUpdateFireware(firewareVersion);
+        this.checkUpdateFirmware(firmwareVersion);
     }
 
     //下载资源监听
@@ -204,13 +204,13 @@ class GUI extends React.Component {
         proxyVal.portList = [...newList];
     }
 
-    async checkUpdateFireware(firewareVersion) {
+    async checkUpdateFirmware(firmwareVersion) {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
         if (res === 0) return;
         this.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
-        window.myAPI.setStoreValue('version', firewareVersion);
+        window.myAPI.setStoreValue('version', firmwareVersion);
         sessionStorage.setItem('isFirmwareUpdate', 'done');
     }
 
@@ -218,10 +218,10 @@ class GUI extends React.Component {
     watchDevice(resourcesPath) {
         // const deviceIdList = Object.keys(instructions.device);
         // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
-        const firewareVersion = window.myAPI.getVersion(resourcesPath);
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath);
         // sessionStorage.setItem('isSensingUpdate', 'done');
         sessionStorage.setItem('isFirmwareUpdate', 'done');
-        const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
+        const newGetFirmwareVersionFn = throttle(this.getFirmwareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -232,7 +232,7 @@ class GUI extends React.Component {
                 }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
-                newGetFirewareVersionFn(firewareVersion, result.versionlist.ver);
+                newGetFirmwareVersionFn(firmwareVersion, result.versionlist.ver);
                 this.initSensingList(unitList);
             }
         });
@@ -280,6 +280,11 @@ class GUI extends React.Component {
 
 
     handleCompile() {
+        const firmwareVersion = window.myAPI.getVersion(window.resourcesPath);
+        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== firmwareVersion) {
+            this.checkUpdateFirmware(firmwareVersion);
+            return;
+        }
         if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
         } else if (this.props.workspace) {
