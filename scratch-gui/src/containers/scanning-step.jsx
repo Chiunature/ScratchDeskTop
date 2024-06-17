@@ -67,7 +67,7 @@ class ScanningStep extends React.Component {
                 title={this.props.extensionId}
                 onConnected={this.props.onConnected}
                 onConnecting={this.props.onConnecting}
-                onRefresh={this.props.handleBleScan}
+                onRefresh={this.handleRefresh}
             />
         );
     }
