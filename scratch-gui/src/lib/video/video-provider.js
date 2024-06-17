@@ -277,7 +277,9 @@ class VideoProvider {
             };
             workspace.canvas.width = dimensions[0];
             workspace.canvas.height = dimensions[1];
-            workspace.context = workspace.canvas.getContext('2d');
+            workspace.context = workspace.canvas.getContext('2d', {
+                willReadFrequently: true
+            });
             this._workspace.push(workspace);
         }
         return workspace;

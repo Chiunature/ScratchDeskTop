@@ -44,7 +44,9 @@ goog.provide('Blockly.scratchBlocksUtils');
 Blockly.scratchBlocksUtils.measureText = function(fontSize, fontFamily,
     fontWeight, text) {
   var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
+  var context = canvas.getContext('2d', {
+    willReadFrequently: true
+  });
   context.font = fontWeight + ' ' + fontSize + ' ' + fontFamily;
   return context.measureText(text).width;
 };

@@ -2,7 +2,9 @@ const jpegThumbnail = dataUrl => new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', {
+            willReadFrequently: true
+        });
 
         const maxDimension = 96; // 3x the maximum displayed size of 32px
 

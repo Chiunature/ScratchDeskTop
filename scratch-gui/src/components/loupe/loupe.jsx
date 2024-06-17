@@ -22,7 +22,9 @@ class LoupeComponent extends React.Component {
         const boxLineWidth = 1 / zoomScale;
         const colorRingWidth = 15 / zoomScale;
 
-        const ctx = this.canvas.getContext('2d');
+        const ctx = this.canvas.getContext('2d', {
+            willReadFrequently: true
+        });
         const {color, data, width, height} = this.props.colorInfo;
         this.canvas.width = zoomScale * width;
         this.canvas.height = zoomScale * height;
@@ -31,7 +33,9 @@ class LoupeComponent extends React.Component {
         const tmpCanvas = document.createElement('canvas');
         tmpCanvas.width = width;
         tmpCanvas.height = height;
-        const tmpCtx = tmpCanvas.getContext('2d');
+        const tmpCtx = tmpCanvas.getContext('2d', {
+            willReadFrequently: true
+        });
         const imageData = tmpCtx.createImageData(width, height);
         imageData.data.set(data);
         tmpCtx.putImageData(imageData, 0, 0);
