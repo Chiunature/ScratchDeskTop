@@ -57,13 +57,13 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded, index, 
                         id="gui.menuBar.select-exe"
                     /></div>
                 </li>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 2 ? styles.isSelected : '')} onClick={() => handleSelect(2)}>
+                {/* <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 2 ? styles.isSelected : '')} onClick={() => handleSelect(2)}>
                     <div><FormattedMessage
                         defaultMessage="Data View"
                         description="Data View"
                         id="gui.menuBar.data-view"
                     /></div>
-                </li>
+                </li> */}
             </ul>
         </div>
         <div className={styles.headerButtonsRight}>
@@ -261,7 +261,7 @@ const DeviceCards = props => {
                             <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
                                 {index === 0 && <Device {...props} />}
                                 {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
-                                {index === 2 && <DataViewCom {...props} />}
+                                {/* {index === 2 && <DataViewCom {...props} />} */}
                             </div>
                         </div>
                     </div>

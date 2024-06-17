@@ -28,10 +28,10 @@ const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const noble = require("@abandonware/noble");
+// const noble = require("@abandonware/noble");
 const { cwd } = require("process");
 const { exec } = require("child_process");
-const { Serialport, ipc, Bluetooth } = require("est-link");
+const { Serialport, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 const createProtocol = require("./src/config/js/createProtocol.js");
 const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
@@ -138,13 +138,13 @@ function handleChildProcess() {
     port2.start();
 }
 
-function openBle() {
+/* function openBle() {
     const ble = new Bluetooth({ noble, ...pack });
     ble.linkBle();
     ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
         ble.scanning(open).discover(event);
     });
-}
+} */
 
 function openSerialPort() {
     const sp = new Serialport({ serialport, ...pack });
@@ -165,7 +165,7 @@ function handleMenuAndDevtool(mainWindow) {
             slashes: true,
         }));
     } else {
-        mainWindow.loadURL("http://127.0.0.1:8602/");
+        mainWindow.loadURL("http://127.0.0.1:8601/");
         const devtools = new BrowserWindow();
         // 解决 Windows 无法正常打开开发者工具的问题
         mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
