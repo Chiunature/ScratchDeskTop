@@ -21,9 +21,10 @@ const initialOption = {
 const DataViewCom = ({ deviceObj }) => {
   const [options, setOptions] = useState(initialOption);
 
-  const gyrolist = useMemo(() => deviceObj.gyrolist, [deviceObj.gyrolist]);
+  const gyrolist = useMemo(() => deviceObj?.gyrolist, [deviceObj?.gyrolist]);
 
   const getOption = useMemo(() => {
+    if (!gyrolist) return null;
     const xAxisData = Object.keys(gyrolist);
     const seriesData = Object.values(gyrolist);
     
@@ -43,11 +44,13 @@ const DataViewCom = ({ deviceObj }) => {
   }, [gyrolist]);
 
   return (
-    <ReactEcharts
-    option={getOption}
-    lazyUpdate={true}
-    style={{ width: '600px', height: '400px' }}
-    />
+    <>
+      {gyrolist && <ReactEcharts
+        option={getOption}
+        lazyUpdate={true}
+        style={{ width: '600px', height: '400px' }}
+      />}
+    </>
   );
 };
 

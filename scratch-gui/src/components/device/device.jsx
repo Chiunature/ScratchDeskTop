@@ -5,9 +5,9 @@ import messages from './deviceMsg.js';
 import DeviceMain from './device-main.jsx';
 
 const Device = (props) => {
-    const { deviceList } = props.deviceObj;
-    const newRightList = useMemo(() => deviceList ? deviceList.slice(4) : [], [deviceList]);
-    const newLeftList = useMemo(() => deviceList ? deviceList.slice(0, 4) : [], [deviceList]);
+
+    const newRightList = useMemo(() => props.deviceObj?.deviceList ? props.deviceObj.deviceList.slice(4) : [], [props.deviceObj?.deviceList]);
+    const newLeftList = useMemo(() => props.deviceObj?.deviceList ? props.deviceObj.deviceList.slice(0, 4) : [], [props.deviceObj?.deviceList]);
 
     return (<div className={styles.box}>
         <div className={styles.container}>

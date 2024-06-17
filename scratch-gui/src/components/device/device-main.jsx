@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 
 const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
 
-    const gyrolist = useMemo(() => deviceObj.gyrolist, [deviceObj.gyrolist]);
-    const adclist = useMemo(() => deviceObj.adclist, [deviceObj.adclist]);
-    const versionlist = useMemo(() => deviceObj.versionlist, [deviceObj.versionlist]);
+    const gyrolist = useMemo(() => deviceObj?.gyrolist, [deviceObj?.gyrolist]);
+    const adclist = useMemo(() => deviceObj?.adclist, [deviceObj?.adclist]);
+    const versionlist = useMemo(() => deviceObj?.versionlist, [deviceObj?.versionlist]);
 
     return (
         <>

@@ -128,7 +128,7 @@ const DeviceCards = props => {
         return () => {
             window.onresize = null;
         }
-    })
+    }, [screenRef])
 
     const onCloseCards = useCallback(() => onSetDeviceCards({ ...deviceCards, deviceVisible: false }), [deviceCards]);
     const onShrinkExpandCards = useCallback(() => onSetDeviceCards({ ...deviceCards, expanded: !expanded }), [deviceCards]);
