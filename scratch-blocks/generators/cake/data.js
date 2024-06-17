@@ -194,7 +194,7 @@ Blockly.cake['data_itemoflist'] = function (block) {
     if (!Blockly.cake.definitions_['defineList_' + varName]) {
         Blockly.cake.definitions_['defineList_' + varName] = str;
     }
-    return [`LB_ListDeletIndex(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'})`, Blockly.cake.ORDER_ATOMIC];
+    return [`LB_ListGetIndexData(${varName}, ${Blockly.cake.toStr(index) ? index : '"' + index + '"'})`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['data_itemnumoflist'] = function (block) {
