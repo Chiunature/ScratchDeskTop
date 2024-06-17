@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import bindAll from "lodash.bindall";
+import throttle from "lodash.throttle";
 import ConnectionModalComponent, {
     PHASES,
 } from "../components/connection-modal/connection-modal.jsx";
@@ -23,7 +24,7 @@ import {
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 
-class ConnectionModal extends React.Component {
+class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
         bindAll(this, [
@@ -34,7 +35,12 @@ class ConnectionModal extends React.Component {
             "handleDisconnect",
             "handleError",
             "handleHelp",
-            "handleUpdate"
+            "handleUpdate",
+            "handleBleConnect",
+            "scanBle",
+            "noScanBle",
+            "handleSelectPort",
+            "handleBleScan"
         ]);
         this.state = {
             extension: extensionData.find(
@@ -45,9 +51,11 @@ class ConnectionModal extends React.Component {
                 ? PHASES.connected
                 : PHASES.scanning,
         };
+        this.bleTimer = null;
     }
 
     componentDidMount() {
+        // this.scanBle();
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
@@ -67,15 +75,65 @@ class ConnectionModal extends React.Component {
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
+        // !this.props.peripheralName && this.noScanBle();
     }
 
     componentDidUpdate(preProps) {
-        /*  if(preProps.isConnectedSerial !== this.props.isConnectedSerial) {
-            this.handleConnected();
-        } */
         if (preProps.sourceCompleted !== this.props.sourceCompleted) {
             document.body.removeAttribute("style");
         }
+    }
+
+    scanBle() {
+        !this.props.peripheralName && this.handleBleConnect();
+        this.bleTimer = !this.bleTimer && setInterval(() => {
+            !this.props.peripheralName && this.handleBleScan();
+        }, 5000);
+    }
+
+    noScanBle() {
+        clearInterval(this.bleTimer);
+        this.bleTimer = null;
+        this.handleBleScan(false);
+    }
+
+    handleBleScan(open = true) {
+        if (this.props.peripheralName) return;
+        window.myAPI.ipcRender({sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open});
+    }
+
+    handleBleConnect() {
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.SEND_OR_ON.BLE.GETBlELIST,
+            callback: (e, result) => {
+                if(!result) return;
+                const bleList = JSON.parse(result);
+                console.log(bleList);
+                this.props.onGetSerialList([...bleList]);
+            }
+        });
+    }
+
+    async handleSelectPort(port, index) {
+        if(port.checked || this.props.completed) {
+            return;
+        }
+        this.props.onChangeSerialList(port);
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
+            sendParams: {newPort: port, index},
+            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
+            callback: (e, res) => {
+                const {bleType, msg, success} = res;
+                this.props.onShowConnectAlert(msg);
+                if (success) {
+                    this.props.onSetCompleted(false);
+                    this.props.onSetDeviceType(bleType);
+                    this.props.onSetPort(port);
+                    this.props.onSetConnectionModalPeripheralName(port?.advertisement?.localName);
+                }
+            }
+        });
     }
 
     handleScanning() {
@@ -168,7 +226,7 @@ class ConnectionModal extends React.Component {
         });
     }
 
-    handleHelp() {
+    async handleHelp() {
         // window.open(this.state.extension.helpLink, "_blank");
         window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
         window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
@@ -179,14 +237,12 @@ class ConnectionModal extends React.Component {
         });
     }
 
-    /* handleSelectport(port, index) {
-        this.props.onSetPort(port);
-        this.props.onChangeSerialList([...this.props.serialList], index);
-        this.props.onSetCompleted(false);
-        this.handleConnected();
-    } */
 
     async handleUpdate() {
+        if (!this.props.peripheralName) {
+            this.props.onShowConnectAlert("selectADeviceFirst");
+            return;
+        }
         if (this.props.version == this.state.firewareVersion) {
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.REUPDATE);
             if (res === 0) {
@@ -236,10 +292,14 @@ class ConnectionModal extends React.Component {
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}
                 onScanning={this.handleScanning}
-                // onSelectport={this.handleSelectport}
+                onSelectport={this.handleSelectPort}
                 onUpdate={this.handleUpdate}
                 sourceCompleted={this.props.sourceCompleted}
                 firewareVersion={this.state.firewareVersion}
+                deviceType={this.props.deviceType}
+                scanBle={this.handleBleScan}
+                noScanBle={this.noScanBle}
+                intl={this.props.intl}
             />
         );
     }
@@ -250,6 +310,15 @@ ConnectionModal.propTypes = {
     onCancel: PropTypes.func.isRequired,
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
+    deviceType: PropTypes.string,
+    onChangeSerialList: PropTypes.func,
+    onSetPort: PropTypes.func,
+    onClearConnectionModalPeripheralName: PropTypes.func,
+    onGetSerialList: PropTypes.func,
+    onShowConnectAlert: PropTypes.func,
+    onShowDisonnectAlert: PropTypes.func,
+    onSetDeviceType: PropTypes.func,
+    onSetVersion: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -260,14 +329,12 @@ const mapStateToProps = (state) => ({
     isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
     version: state.scratchGui.connectionModal.version,
     sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
+    deviceType: state.scratchGui.device.deviceType
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onCancel: () => {
-        dispatch(closeConnectionModal());
-    },
-    onChangeSerialList: (serialList, index) =>
-        dispatch(ChangeSerialList(serialList, index)),
+    onCancel: () => dispatch(closeConnectionModal()),
+    onChangeSerialList: (port) => dispatch(ChangeSerialList(port)),
     onSetPort: (port) => dispatch(setPort(port)),
     onSetConnectionModalPeripheralName: (peripheralName) =>
         dispatch(setConnectionModalPeripheralName(peripheralName)),

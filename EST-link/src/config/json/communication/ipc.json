@@ -1,5 +1,6 @@
 {
     "WORKER": "WORKER",
+    "LINK": "LINK",
     "SEND_OR_ON": {
         "LAUCHFROMATC": "launchFromATC",
         "SET_STATIC_PATH": "set_static_path",
@@ -30,8 +31,10 @@
             "DELETE": "delRecord"
         },
         "BLE": {
+            "GETBlELIST": "getBleList",
             "CONNECTION": "ble-connection",
-            "DISCONNECTED": "ble-disconnected"
+            "DISCONNECTED": "ble-disconnected",
+            "SCANNING": "ble-scanning"
         },
         "VERSION": {
             "GETVERSION": "getVersion",
@@ -69,6 +72,7 @@
         },
         "VERSION": "return_version",
         "BLE": {
+            "GETBlELIST": "getBleList",
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"
         }

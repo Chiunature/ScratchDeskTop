@@ -68,6 +68,7 @@ class GUI extends React.Component {
             this.getFirewareFiles();
             const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
             this.watchDevice(res);
+
             this.matrixSend('FieldMatrix');
             await window.myAPI.commendMake(res);
             window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
@@ -151,10 +152,10 @@ class GUI extends React.Component {
 
     getFirewareVersion(firewareVersion, ver) {
         if (this.props.version != ver) this.props.onSetVersion(ver);
-        const status = sessionStorage.getItem('isFirewareUpdate');
+        const status = sessionStorage.getItem('isFirmwareUpdate');
         const isNew = ver > 0 && ver == firewareVersion;
         if (isNew || status === 'updating') return;
-        sessionStorage.setItem('isFirewareUpdate', 'updating');
+        sessionStorage.setItem('isFirmwareUpdate', 'updating');
         this.checkUpdateFireware(firewareVersion);
     }
 
@@ -210,7 +211,7 @@ class GUI extends React.Component {
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firewareVersion);
-        sessionStorage.setItem('isFirewareUpdate', 'done');
+        sessionStorage.setItem('isFirmwareUpdate', 'done');
     }
 
     //开启监听
@@ -219,7 +220,7 @@ class GUI extends React.Component {
         // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
         const firewareVersion = window.myAPI.getVersion(resourcesPath);
         // sessionStorage.setItem('isSensingUpdate', 'done');
-        sessionStorage.setItem('isFirewareUpdate', 'done');
+        sessionStorage.setItem('isFirmwareUpdate', 'done');
         const newGetFirewareVersionFn = throttle(this.getFirewareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({

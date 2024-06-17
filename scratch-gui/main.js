@@ -22,22 +22,24 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const serialport = require('serialport');
+const serialport = require("serialport");
 const electron = require("electron");
 const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const { cwd } = require('process');
-const { exec, fork } = require('child_process');
-const { Serialport, ipc } = require('est-link');
-const checkUpdate = require('./update.js');
+const noble = require("@abandonware/noble");
+const { cwd } = require("process");
+const { exec } = require("child_process");
+const { Serialport, ipc, Bluetooth } = require("est-link");
+const checkUpdate = require("./update.js");
 const createProtocol = require("./src/config/js/createProtocol.js");
-const watchLauchFromATC = require("./src/config/js/watchLauchFromATC.js");
-const Store = require('electron-store');
+const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
+
+const Store = require("electron-store");
 Store.initRenderer();
 
-const logger = require('electron-log');
+const logger = require("electron-log");
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
 let date = new Date();
@@ -58,7 +60,7 @@ const options = {
     plugins: true,
     webSecurity: false,
     preload: path.join(__dirname, "preload.js"),
-    requestedExecutionLevel: 'requireAdministrator',
+    requestedExecutionLevel: "requireAdministrator",
     nodeIntegrationInWorker: true
 }
 
@@ -113,7 +115,7 @@ function handleChildProcess() {
     const childProcessPath = path.join(__dirname, './src/utils/storeChildProcess.js');
     const { port1, port2 } = new MessageChannelMain();
     const child = utilityProcess.fork(childProcessPath);
-    child.postMessage('', [port1]);
+    child.postMessage(null, [port1]);
     ipcMain.handle(ipc.WORKER, async (event, data) => {
         try {
             if (!data) return;
@@ -125,14 +127,51 @@ function handleChildProcess() {
     })
     function _onmessage() {
         return new Promise((resolve) => {
+            port2.removeAllListeners('message');
             port2.once('message', (msg) => {
                 const { data } = msg;
-                if(data.type === 'get') resolve(data.value);
+                if (data.type === 'get') resolve(data.value);
                 resolve();
             });
         })
     }
     port2.start();
+}
+
+function openBle() {
+    const ble = new Bluetooth({ noble, ...pack });
+    ble.linkBle();
+    ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
+        ble.scanning(open).discover(event);
+    });
+}
+
+function openSerialPort() {
+    const sp = new Serialport({ serialport, ...pack });
+    //获取串口列表
+    sp.getList();
+    //连接串口
+    sp.connectSerial();
+}
+
+function handleMenuAndDevtool(mainWindow) {
+    //关闭默认菜单
+    if (app.isPackaged) {
+        Menu.setApplicationMenu(null);
+        createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
+        mainWindow.loadURL(url.format({
+            pathname: path.join(process.resourcesPath, "app.asar.unpacked/index.html"),
+            protocol: "file:",
+            slashes: true,
+        }));
+    } else {
+        mainWindow.loadURL("http://127.0.0.1:8602/");
+        const devtools = new BrowserWindow();
+        // 解决 Windows 无法正常打开开发者工具的问题
+        mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+        // 打开开发者工具
+        mainWindow.webContents.openDevTools({ mode: 'detach' });
+    }
 }
 
 
@@ -150,28 +189,9 @@ function createWindow() {
             minHeight: 750,
             webPreferences: options,
         });
-        const sp = new Serialport({ serialport, ...pack });
-        //获取串口列表
-        sp.getList();
-        //连接串口
-        sp.connectSerial();
-        //关闭默认菜单
-        if (app.isPackaged) {
-            Menu.setApplicationMenu(null);
-            createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
-            mainWindow.loadURL(url.format({
-                pathname: path.join(process.resourcesPath, "app.asar.unpacked/index.html"),
-                protocol: "file:",
-                slashes: true,
-            }));
-        } else {
-            mainWindow.loadURL("http://127.0.0.1:8601/");
-            const devtools = new BrowserWindow();
-            // 解决 Windows 无法正常打开开发者工具的问题
-            mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
-            // 打开开发者工具
-            mainWindow.webContents.openDevTools({ mode: 'detach' });
-        }
+        handleMenuAndDevtool(mainWindow);
+        openSerialPort();
+        // openBle();
         // 开启子线程操作文件缓存
         handleChildProcess();
         // 防止页面失去焦点
@@ -208,7 +228,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            if (app.isPackaged) watchLauchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            if (app.isPackaged) watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
         });
 
         // 关闭window时触发下列事件.

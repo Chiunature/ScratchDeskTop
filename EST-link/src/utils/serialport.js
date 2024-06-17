@@ -126,7 +126,7 @@ class Serialport extends Common {
                     this.portIndex = 0;
                 }
             } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex] });
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex], type: this._type });
                 this.portIndex = 0;
                 this.portList.splice(0, this.portList.length);
                 this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
@@ -137,12 +137,12 @@ class Serialport extends Common {
     /**
      * 获取渲染进程发过来的bin文件数据准备通信
      * @param {String} eventName
-     * @param event
      */
     getBinOrHareWare(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            if (data.selectedExe) this.selectedExe = data.selectedExe;
-
+            if (data.selectedExe) {
+              this.selectedExe = data.selectedExe;
+            }
             if (typeof data.subFileIndex === 'number') {
                 this.subFileIndex = data.subFileIndex;
             }
@@ -246,7 +246,7 @@ class Serialport extends Common {
         //写入数据
         this.port.write(Buffer.from(data));
         //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-        if (this.verifyType && this.verifyType.indexOf(SOURCE) == -1) {
+        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
         }
         if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
@@ -290,17 +290,16 @@ class Serialport extends Common {
 
     /**
      * 监听设备信息
-     * @param {String} eventName
+     * @param event
      */
     watchDevice(event) {
-        if (!this.watchDeviceData) return false;
+        if (!this.watchDeviceData) return;
         const result = this.distinguishDevice(this.watchDeviceData);
         event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
     }
 
     /**
      * 发bin数据
-     * @param {Number} index
      * @param {*} event
      * @returns
      */
@@ -330,12 +329,13 @@ class Serialport extends Common {
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //开启设备数据监控监听
-            if (receiveData) this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
-            let t = setTimeout(() => {
+            this.watchDeviceData = receiveData && this.checkIsDeviceData(receiveData, reg);
+            let t = this.watchDeviceData && setTimeout(() => {
                 func(event);
                 clearTimeout(t);
                 t = null;
             });
+
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
             if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) return;
@@ -378,7 +378,7 @@ class Serialport extends Common {
 
     /**
      * 获取主机有多少个程序或运行程序
-     * @param {*} event
+     * @param eventName
      */
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
@@ -444,10 +444,6 @@ class Serialport extends Common {
         this.writeData(list, null, event);
     }
 
-    motorSend(event, obj) {
-        const list = this.motorChange(obj);
-        this.writeData(list, null, event);
-    }
 }
 
 

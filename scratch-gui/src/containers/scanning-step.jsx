@@ -52,7 +52,6 @@ class ScanningStep extends React.Component {
     }
     handleRefresh() {
         this.props.vm.scanForPeripheral(this.props.extensionId);
-        window.myAPI.ipcRender({sendName: "getConnectList"});
         this.setState({
             scanning: true,
             peripheralList: [],
@@ -68,7 +67,7 @@ class ScanningStep extends React.Component {
                 title={this.props.extensionId}
                 onConnected={this.props.onConnected}
                 onConnecting={this.props.onConnecting}
-                onRefresh={this.handleRefresh}
+                onRefresh={this.props.handleBleScan}
             />
         );
     }

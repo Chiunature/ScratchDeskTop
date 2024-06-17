@@ -55,12 +55,22 @@ const reducer = function (state, action) {
             state.serialList = [...action.serialList];
             return Object.assign({}, state);
         case CHANGE_SERIAL_LIST:
+            const newList = state.serialList.map(el => {
+                if (el.id === action.port.id) {
+                    el.checked = true;
+                    el.state = 'connected';
+                } else {
+                    el.checked = false;
+                    el.state = 'disconnected';
+                }
+                return el;
+            });
             return Object.assign({}, state, {
-                serialList: action.serialList,
+                serialList: newList
             });
         case SET_PORT:
             return Object.assign({}, state, {
-                port: action.port,
+                port: {...action.port},
             });
         case SET_COMPLETED:
             return Object.assign({}, state, {
@@ -124,17 +134,10 @@ const getSerialList = function (serialList) {
     };
 };
 
-const ChangeSerialList = function (serialList, index) {
-    serialList.map((el, num) => {
-        if (num === index) {
-            el.checked = !el.checked;
-        } else {
-            el.checked = false;
-        }
-    });
+const ChangeSerialList = function (port) {
     return {
         type: CHANGE_SERIAL_LIST,
-        serialList: serialList,
+        port
     };
 };
 

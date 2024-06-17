@@ -3,16 +3,16 @@
  * @param {*}
  * @return {*}
  */
-const watchLauchFromATC = (win, sendName) => {
+const watchLaunchFromATC = (win, sendName) => {
     const argv = process.argv;
     if (process.platform !== "darwin") {
         // argv[argv.length - 1] 为 lbs 文件路径
         const filePath = argv[argv.length - 1];
         if (/^(.*)\.((lbs)|(sb[23]))?$/.test(filePath)) {
-            console.info("[app] watchLauchFromATC open lbs File", filePath);
+            console.info("[app] watchLaunchFromATC open lbs File", filePath);
             win.webContents.send(sendName, filePath);
         }
     }
 }
 
-module.exports = watchLauchFromATC;
+module.exports = watchLaunchFromATC;

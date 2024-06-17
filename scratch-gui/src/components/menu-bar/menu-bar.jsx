@@ -33,7 +33,6 @@ import {
     getSerialList,
     setCompleted,
     setConnectionModalPeripheralName,
-    setIsConnectedSerial,
     setPort,
     setProgress
 } from "../../reducers/connection-modal";
@@ -84,7 +83,7 @@ import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
 import photoIcon from "./icon--photo.svg";
-import { ipc as ipc_Renderer } from 'est-link';
+import { ipc as ipc_Renderer, verifyTypeConfig } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
@@ -97,6 +96,7 @@ import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
 import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
+import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
 
 
 /* const ariaMessages = defineMessages({
@@ -228,7 +228,7 @@ class MenuBar extends React.Component {
             "restoreOptionMessage",
             "handleConnectionMouseUp",
             "handleConnection",
-            "handleConnected",
+            "handleConnectedSerialPort",
             "handleDisconnect",
             "scanConnection",
             "showDeviceCards",
@@ -245,7 +245,7 @@ class MenuBar extends React.Component {
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
         this.scanConnection();
-        // this.handleBleDisConnect();
+        this.disconnectListen();
     }
 
     componentWillUnmount() {
@@ -413,7 +413,7 @@ class MenuBar extends React.Component {
                 })}
                 onMouseUp={this.props.onRequestOpenAbout}
             >
-                <img className={styles.aboutIcon} src={aboutIcon} />
+                <img className={styles.aboutIcon} src={aboutIcon} alt="" />
                 <MenuBarMenu
                     className={classNames(styles.menuBarMenu)}
                     open={this.props.aboutMenuOpen}
@@ -444,7 +444,12 @@ class MenuBar extends React.Component {
     }
 
     scanConnection() {
-        this.timer = setInterval(() => {
+        this.timer = !this.timer && setInterval(() => {
+            if (this.props.deviceType && this.props.deviceType !== verifyTypeConfig.SERIALPORT) {
+                clearInterval(this.timer);
+                this.timer = null;
+                return;
+            }
             this.handleConnection();
         }, 1500);
     }
@@ -452,39 +457,18 @@ class MenuBar extends React.Component {
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const { result, type } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
+            const { result } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
             if (result) {
                 clearInterval(this.timer);
                 this.timer = null;
-                this.handleConnected(result, type);
+                this.handleConnectedSerialPort(result);
             }
         }
     }
 
-    /* async handleBleConnect(hasSerial) {
-        ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
-            sendParams: !hasSerial,
-            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
-            callback: (e, result) => {
-                if (!result) return;
-                const res = JSON.parse(result);
-                const { ble, bleType, msg } = res;
-                this.setPortItem([ble], bleType, ble.advertisement.localName);
-                this.props.onShowConnectAlert(msg);
-            }
-        });
-    } */
-
-    /* async handleBleDisConnect() {
-        await ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);
-        this.scanConnection();
-    } */
-
-    setPortItem(port, type, name) {
-        this.props.onSetPort(port);
-        this.props.onGetSerialList([port]);
-        this.props.onSetIsConnectedSerial(true);
+    setPortItem(list, type, name) {
+        this.props.onSetPort(list[0]);
+        this.props.onGetSerialList([...list]);
         this.props.onSetDeviceType(type);
         this.props.onSetConnectionModalPeripheralName(name);
     }
@@ -493,43 +477,56 @@ class MenuBar extends React.Component {
         this.props.onOpenConnectionModal();
     }
 
-    handleConnected(port, type) {
+    handleConnectedSerialPort(port) {
         if (!port) return;
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED, sendParams: port });
+    }
+
+    handleDisconnect(msg) {
+        if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+            this.props.onGetSerialList([]);
+        } else {
+            this.props.serialList.forEach(el => {
+                if (this.props?.port?.id === el.id) {
+                    el.checked = false;
+                }
+            });
+        }
+        this.props.onClearConnectionModalPeripheralName();
+        this.props.onSetProgress(0);
+        this.props.onSetCompleted(false);
+        this.props.onSetDeviceType(null);
+        this.props.onSetDeviceCards({ deviceVisible: false });
+        this.props.onSetDeviceObj(null);
+        msg.length > 0 && this.props.onShowDisonnectAlert(msg);
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        sessionStorage.setItem(' isFirmwareUpdate', 'done');
+    }
+
+    disconnectListen() {
         window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
-            sendParams: port,
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, arg) => {
                 if (arg.res) {
                     clearTimeout(this.closeTimer);
                     this.closeTimer = null;
                     if (!this.props.peripheralName) {
-                        this.setPortItem(arg.serial, type, arg.serial.friendlyName);
+                        this.props.onSetDeviceType(arg.type);
+                        this.setPortItem([arg.serial], arg.type, arg.serial.friendlyName);
                         this.props.onShowConnectAlert(arg.msg);
                     }
                 } else {
                     this.scanConnection();
-                    if (!this.closeTimer) {
-                        this.closeTimer = setTimeout(() => {
+                    if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+                        this.closeTimer = !this.closeTimer && setTimeout(() => {
                             arg.msg.length > 0 && this.handleDisconnect(arg.msg);
                         }, 2000);
+                    } else {
+                        this.handleDisconnect(arg.msg);
                     }
                 }
             },
         });
-    }
-
-    handleDisconnect(msg) {
-        this.props.onClearConnectionModalPeripheralName();
-        this.props.onGetSerialList([]);
-        this.props.onSetPort(null);
-        this.props.onSetIsConnectedSerial(false);
-        this.props.onSetProgress(0);
-        if (msg.length > 0) this.props.onShowDisonnectAlert(msg);
-        this.props.onSetCompleted(false);
-        this.props.onSetDeviceCards({ deviceVisible: false });
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-        sessionStorage.setItem('isFirewareUpdate', 'done');
     }
 
     showDeviceCards() {
@@ -604,7 +601,7 @@ class MenuBar extends React.Component {
     async setCacheForSave(filePath) {
         const imgUrl = await this.screenPrintWorkspace();
         let list = [];
-        const data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
+        const data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
         if (data) {
             list = [...data];
         }
@@ -640,11 +637,11 @@ class MenuBar extends React.Component {
             </Button>
         );
         // Show the About button only if we have a handler for it (like in the desktop app)
-        const aboutButton = this.buildAboutMenu(this.props.onClickAbout);
+        // const aboutButton = this.buildAboutMenu(this.props.onClickAbout);
         return (
             <Box className={classNames(this.props.className, styles.menuBar)}>
-                <div className={styles.mainMenu}>
-                    <div className={styles.fileGroup}>
+                <Box className={styles.mainMenu}>
+                    <Box className={styles.fileGroup}>
                         {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (
                             <SettingsMenu
                                 reUpdateDriver={this.reUpdateDriver}
@@ -671,7 +668,7 @@ class MenuBar extends React.Component {
                                 )}
                                 onMouseUp={this.props.onClickFile}
                             >
-                                <img src={fileIcon} />
+                                <img src={fileIcon} alt="" />
                                 <span className={styles.collapsibleLabel}>
                                     <FormattedMessage
                                         defaultMessage="File"
@@ -679,7 +676,7 @@ class MenuBar extends React.Component {
                                         id="gui.menuBar.file"
                                     />
                                 </span>
-                                <img src={dropdownCaret} />
+                                <img src={dropdownCaret} alt="" />
                                 <MenuBarMenu
                                     className={classNames(styles.menuBarMenu)}
                                     open={this.props.fileMenuOpen}
@@ -808,7 +805,7 @@ class MenuBar extends React.Component {
                                 </MenuSection>
                             </MenuBarMenu>
                         </div>
-                    </div>
+                    </Box>
                     {/* <Divider className={classNames(styles.divider)} />
                     <div
                         aria-label={this.props.intl.formatMessage(
@@ -837,7 +834,7 @@ class MenuBar extends React.Component {
                                 <img
                                     className={styles.connectedIcon}
                                     src={connectedIcon}
-                                />
+                                    alt="" />
                                 <span className={styles.collapsibleLabel}>{this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('('))}</span>
                             </>
                         ) : (
@@ -845,7 +842,7 @@ class MenuBar extends React.Component {
                                 <img
                                     className={styles.unconnectedIcon}
                                     src={unconnectedIcon}
-                                />
+                                    alt="" />
                                 <span className={styles.collapsibleLabel}><FormattedMessage
                                     defaultMessage="Unconnected"
                                     description="Text for menubar unconnected button"
@@ -945,7 +942,7 @@ class MenuBar extends React.Component {
                             []
                         )}
                     </div>
-                </div>
+                </Box>
                 <Box className={classNames(styles.mainMenuInp)}>
                     <div
                         className={classNames(
@@ -960,7 +957,7 @@ class MenuBar extends React.Component {
                                 )}
                             />
                             <img className={styles.fileSaveIcon} src={fileSaveIcon}
-                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))} />
+                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))} alt="" />
                         </MenuBarItemTooltip>
                     </div>
                 </Box>
@@ -974,9 +971,27 @@ class MenuBar extends React.Component {
                                 [styles.active]: "",
                             }
                         )}
+                        onMouseUp={this.handleConnectionMouseUp}
+                    >
+                        <img className={styles.screenShotLogo} src={blueToothIcon} alt="" />
+                        <span className={styles.collapsibleLabel}><FormattedMessage
+                            defaultMessage="Bluetooth"
+                            description="Bluetooth"
+                            id="gui.connection.bluetooth"
+                        /></span>
+                    </div>
+                    <div
+                        className={classNames(
+                            styles.menuBarItem,
+                            styles.hoverable,
+                            styles.generator,
+                            {
+                                [styles.active]: "",
+                            }
+                        )}
                         onClick={this.saveSvg}
                     >
-                            <img className={styles.screenShotLogo} src={photoIcon} />
+                        <img className={styles.screenShotLogo} src={photoIcon} alt="" />
                     </div>
                     <Divider className={classNames(styles.divider)} />
                     <div
@@ -990,8 +1005,9 @@ class MenuBar extends React.Component {
                         )}
                         onClick={this.showDeviceCards}
                     >
-                        {this.props.peripheralName ? <img className={styles.connectedIcon} src={connectedIcon} /> :
-                            <img className={styles.unconnectedIcon} src={unconnectedIcon} />}
+                        {this.props.peripheralName ?
+                            <img className={styles.connectedIcon} src={connectedIcon} alt="" /> :
+                            <img className={styles.unconnectedIcon} src={unconnectedIcon} alt="" />}
                         <span className={styles.collapsibleLabel}><FormattedMessage
                             defaultMessage="Device"
                             description="View device information"
@@ -1010,7 +1026,7 @@ class MenuBar extends React.Component {
                         )}
                         onClick={() => this.props.onSetGen(this.props.isGen)}
                     >
-                        <img className={styles.unconnectedIcon} src={genIcon} />
+                        <img className={styles.unconnectedIcon} src={genIcon} alt="" />
                         <span className={styles.collapsibleLabel}><FormattedMessage
                             defaultMessage="Generator"
                             description="Text for menubar Generator button"
@@ -1290,10 +1306,12 @@ const mapStateToProps = (state, ownProps) => {
         peripheralName: state.scratchGui.connectionModal.peripheralName,
         deviceId: state.scratchGui.device.deviceId,
         deviceName: state.scratchGui.device.deviceName,
+        deviceType: state.scratchGui.device.deviceType,
         serialList: state.scratchGui.connectionModal.serialList,
         saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
         projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
         workspace: state.scratchGui.workspaceMetrics.workspace,
+        port: state.scratchGui.connectionModal.port
     };
 };
 
@@ -1324,7 +1342,6 @@ const mapDispatchToProps = (dispatch) => ({
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onSetPort: (port) => dispatch(setPort(port)),
-    onSetIsConnectedSerial: (isConnectedSerial) => dispatch(setIsConnectedSerial(isConnectedSerial)),
     onSetConnectionModalPeripheralName: (peripheralName) =>
         dispatch(setConnectionModalPeripheralName(peripheralName)),
     onShowConnectAlert: (item) => showAlertWithTimeout(dispatch, item),

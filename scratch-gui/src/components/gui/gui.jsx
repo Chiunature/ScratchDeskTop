@@ -282,7 +282,7 @@ const GUIComponent = (props) => {
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
+                            <ConnectionModal onSetCompleted={onSetCompleted} completed={completed} intl={intl} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
@@ -349,6 +349,7 @@ const GUIComponent = (props) => {
                             onActivateDeck={onActivateDeck}
                             getMainMessage={getMainMessage}
                             onShowQrcode={onShowQrcode}
+                            onSetDeviceObj={onSetDeviceObj}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>

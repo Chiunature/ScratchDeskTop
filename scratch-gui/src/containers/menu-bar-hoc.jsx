@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import React from 'react';
-import { verifyTypeConfig } from "est-link";
+// import { verifyTypeConfig } from "est-link";
 import { setDeviceType } from "../reducers/device.js";
 
 const MenuBarHOC = function (WrappedComponent) {
@@ -36,7 +36,7 @@ const MenuBarHOC = function (WrappedComponent) {
                 confirmReadyToReplaceProject={this.confirmReadyToReplaceProject}
                 shouldSaveBeforeTransition={this.shouldSaveBeforeTransition}
                 {...props}
-                onSetDeviceType={() => this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT)}
+                onSetDeviceType={this.props.onSetDeviceType}
             />);
         }
     }
@@ -45,7 +45,8 @@ const MenuBarHOC = function (WrappedComponent) {
         canCreateNew: PropTypes.bool,
         canSave: PropTypes.bool,
         confirmWithMessage: PropTypes.func,
-        projectChanged: PropTypes.bool
+        projectChanged: PropTypes.bool,
+        onSetDeviceType: PropTypes.func,
     };
     MenuBarContainer.defaultProps = {
         // default to using standard js confirm

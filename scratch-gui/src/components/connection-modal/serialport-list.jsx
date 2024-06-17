@@ -1,93 +1,89 @@
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import React from "react";
-
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import Box from "../box/box.jsx";
 import Dots from "./dots.jsx";
-// import helpIcon from "./icons/help.svg";
-// import backIcon from "./icons/back.svg";
-// import bluetoothIcon from "./icons/bluetooth.svg";
-// import scratchLinkIcon from "./icons/scratchlink.svg";
-
 import styles from "./connection-modal.css";
+import Input from "../forms/input.jsx";
+import { verifyTypeConfig } from "est-link";
+import Filter from "../filter/filter.jsx";
 
-const SerialportList = (props) => (
+const filterPlaceholder = {
+    id: 'gui.library.filterPlaceholder',
+    defaultMessage: 'Search',
+    description: 'Placeholder text for library search field'
+}
+
+const SerialportList = (props) => {
+
+    let inputRef = useRef();
+    let [filterQuery, setFilterQuery] = useState('');
+
+    let portList = useMemo(() => {
+        return props.serialList.filter(el => el?.advertisement?.localName.indexOf(filterQuery) !== -1);
+    }, [props.serialList, filterQuery]);
+    let deviceType = useMemo(() => props.deviceType, [props.deviceType]);
+    let select = useCallback((port, index) => props.onSelectport(port, index), [props.onSelectport]);
+
+   
+    function handleFilterChange() {
+        const value = inputRef.current.value;
+        if (value.length === 0) {
+            handleFilterClear();
+        } else {
+            setFilterQuery(value);
+        }
+    }
+
+    function handleFilterClear() {
+        setFilterQuery('');
+    }
+
+    return (
     <Box className={styles.body}>
+            {deviceType !== verifyTypeConfig.SERIALPORT && <Box className={styles.headArea}>
+                <Filter
+                    className={classNames(styles.filterBarItem, styles.filter)}
+                    inputRef={inputRef}
+                    filterQuery={filterQuery}
+                    inputClassName={styles.filterInput}
+                    placeholderText={props.intl.formatMessage(filterPlaceholder)}
+                    onChange={handleFilterChange}
+                    onClear={handleFilterClear}/>
+            </Box>}
         <Box className={styles.activityArea}>
-            <div className={styles.scratchLinkHelp}>
-                {props.serialList.length > 0 &&
-                    props.serialList.map((port, index) => {
+                <Box className={styles.linkHelp} style={{justifyContent: portList.length === 1 && deviceType === verifyTypeConfig.SERIALPORT && "center"}}>
+                    {portList.length > 0 &&
+                        portList.map((port, index) => {
                         return (
                             <div
-                                className={styles.scratchLinkHelpStep}
+                                    className={styles.linkHelpStep}
                                 key={index}
-                            //onClick={() => props.onSelectport(port, index)}
+                                    onClick={() => select(port, index)}
                             >
-                                {/* <div className={styles.helpStepNumber}>
+                                    {deviceType !== verifyTypeConfig.SERIALPORT && <>
+                                        <div className={styles.helpStepNumber}>
                                     {index + 1}
                                 </div>
-                                <input
+                                        <Input
                                     type="radio"
                                     name="value"
                                     checked={port.checked}
                                     readOnly
-                                /> */}
+                                        />
+                                    </>}
                                 <div className={styles.helpStepText}>
-                                    {port.friendlyName || (port.advertisement && port.advertisement.localName)}
+                                        {port.friendlyName || port?.advertisement?.localName}
                                 </div>
                             </div>
                         );
                     })}
-            </div>
+                </Box>
         </Box>
         <Box className={styles.bottomArea}>
-            <Dots success className={styles.bottomAreaItem} total={3} />
-            <Box
-                className={classNames(styles.bottomAreaItem, styles.buttonRow)}
-            >
-                {/* <button
-                    className={classNames(
-                        styles.blueButton,
-                        styles.connectionButton
-                    )}
-                    onClick={props.onConnected}
-                    disabled={
-                        props.port &&
-                        props.port.friendlyName !== props.peripheralName
-                            ? false
-                            : true
-                    }
-                >
-                    {props.peripheralName &&
-                    props.port.friendlyName === props.peripheralName ? (
-                        <FormattedMessage
-                            defaultMessage="Connected"
-                            description="Message indicating that a device was connected"
-                            id="gui.connection.connected"
-                        />
-                    ) : (
-                        <FormattedMessage
-                            defaultMessage="Connect"
-                            description="Button to start connecting to a specific device"
-                            id="gui.connection.connect"
-                        />
-                    )}
-                </button>
-                <button
-                    className={classNames(
-                        styles.redButton,
-                        styles.connectionButton
-                    )}
-                    onClick={props.onDisconnect}
-                    disabled={props.peripheralName ? false : true}
-                >
-                    <FormattedMessage
-                        defaultMessage="Disconnect"
-                        description="Button to disconnect the device"
-                        id="gui.connection.disconnect"
-                    />
-                </button> */}
+            <Dots success className={styles.bottomAreaItem} total={3}/>
+            <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
                 <button
                     className={classNames(
                         styles.redButton,
@@ -121,7 +117,8 @@ const SerialportList = (props) => (
             </Box>
         </Box>
     </Box>
-);
+    )
+};
 
 SerialportList.propTypes = {
     onHelp: PropTypes.func,
