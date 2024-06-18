@@ -47,7 +47,7 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /\/\*MyBlock\*\/\s+void\s+\w+\s*\([\s\S]*?\)\s*\{[\s\S]*?\};\s+\/\*MyBlock\*\//;
+const regexForMyBlock = /\/\*MyBlock Write\*\/\s+[\s\S]*?\s+\/\*MyBlock End\*\//g;
 const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
 const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
 
@@ -244,11 +244,11 @@ class Blocks extends React.Component {
         const match = code.match(regex);
         let matchMyBlock = code.match(regexForMyBlock);
         const variable = code.match(regVariable);
-        const matchMyBlockRes = matchMyBlock ? matchMyBlock : '\n';
+        const matchMyBlockRes = matchMyBlock ? matchMyBlock.join('\n\n') : '\n';
         if (variable) {
             matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlockRes;
         }
-        this.props.setMatchMyBlock(matchMyBlock);
+        this.props.setMatchMyBlock(matchMyBlockRes);
         if (match) {
             const arr = match[1].match(regexForThread);
             const newArr = arr.filter(item => /[^ \n]/.test(item));

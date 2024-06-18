@@ -184,7 +184,8 @@ Blockly.Names.prototype.safeName_ = function (name) {
           list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
         }
         name = list.join('');
-        return name + '_';
+        const newName = _convertToValidCVariable(name);
+        return newName + '_';
       }
     }
     // Unfortunately names in non-latin characters will look like
@@ -197,6 +198,10 @@ Blockly.Names.prototype.safeName_ = function (name) {
     }
   }
   return name;
+  function _convertToValidCVariable(str) {
+    // 使用正则表达式替换非法字符
+    return str.replace(/[^\w]|^(?=\d)/g, '').replace(/\s+/g, '');
+  }
 };
 
 /**

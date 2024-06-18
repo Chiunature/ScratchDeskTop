@@ -6,19 +6,31 @@ import ButtonComponent from "./button.jsx";
 import SelectExeBtn from "./selectExeBtn.jsx";
 import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
+import { defineMessages } from 'react-intl';
+
+const messages = defineMessages({
+    "openUpload": {
+        "id": "gui.main.openUpload",
+        "description": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily",
+        "defaultMessage": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily"
+    },
+})
+
+const SoftWareVersion = '1.4.0';
 
 const UploadBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted } = props;
+    const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
 
     let [openUpload, setOpenUpload] = useState(true);
+    // let [text, setText] = useState('');
 
     useEffect(() => {
         checkIsOpenUpload();
-    }, [openUpload]);
+    }, []);
 
     const compile = (flag) => {
         if (!openUpload) {
-            alert('禁止下载');
+            alert(intl.formatMessage(messages['openUpload']));
             return;
         }
         if (completed) {
@@ -33,7 +45,11 @@ const UploadBtn = (props) => {
         try {
             const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json");
             const obj = await res.json();
-            setOpenUpload(obj['openUpload']);
+            if (Array.isArray(obj['version']) && obj['version'].includes(SoftWareVersion)) {
+                setOpenUpload(obj['openUpload']);
+            } else {
+                setOpenUpload(true);
+            }
         } catch (error) {
             setOpenUpload(true);
         }

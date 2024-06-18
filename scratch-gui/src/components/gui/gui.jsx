@@ -300,6 +300,7 @@ const GUIComponent = (props) => {
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
+                                intl={intl}
                                 onSetCompleted={onSetCompleted}
                                 deviceStatus={deviceStatus}
                                 completed={completed}

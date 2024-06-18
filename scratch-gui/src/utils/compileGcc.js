@@ -23,14 +23,14 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { headMain, Task_Handler, Task_Info, Task_Info_Item, Task_Stack } from "../config/js/ProgrammerTasks.js";
+import { Task_Handler, Task_Info, Task_Info_Item, Task_Stack } from "../config/js/ProgrammerTasks.js";
 import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
 
 const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
 const reg_Task_Info = /MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;\s{1}/;
-const reg_main = /\#if\s+ExternalPrograment\s+\=\=\s+\d+[\s\S]*?\/\*MyBlock End\*\/\s{1}/;
+const reg_main = /\s{1}\/\*MyBlock Write\*\/\s+[\s\S]*?\s+\/\*MyBlock End\*\//g;
 const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;/g;
 
 class Compile {
@@ -78,8 +78,7 @@ class Compile {
         //读取Aplication.c文件
         const result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
         //自制积木块放入前面
-        const myCode = headMain(myStr);
-        const newMy = await this.changeFileByReg(result, reg_main, myCode);
+        const newMy = await this.changeFileByReg(result, reg_main, '\n' + myStr);
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
         //替换TaskHandle_t部分

@@ -281,7 +281,7 @@ class GUI extends React.Component {
 
     handleCompile() {
         const firmwareVersion = window.myAPI.getVersion(window.resourcesPath);
-        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== firmwareVersion) {
+        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
             return;
         }
@@ -318,16 +318,16 @@ class GUI extends React.Component {
         if (arr1.length !== arr2.length) {
             return false;
         }
-    
+
         for (let i = 0; i < arr1.length; i++) {
-            const val1 = arr1[i]; 
+            const val1 = arr1[i];
             const val2 = arr2[i];
-    
-            if(val1.deviceId !== val2.deviceId || val1.port !== val2.port) {
+
+            if (val1.deviceId !== val2.deviceId || val1.port !== val2.port) {
                 return false;
             }
         }
-    
+
         return true;
     }
 

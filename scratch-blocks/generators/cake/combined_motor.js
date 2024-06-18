@@ -146,3 +146,11 @@ Blockly.cake['combined_motor_startWithPowerObj'] = function (block) {
     const code = `motor_combined_movepowerObj(${Blockly.cake.toStr(one) ? one : '"' + one + '"'}, ${Blockly.cake.toStr(two) ? two : '"' + two + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
     return code;
 };
+
+Blockly.cake['combined_motor_moveByYawAngle'] = function (block) {
+    const count = Blockly.cake.valueToCode(block, "COUNT", Blockly.cake.ORDER_NONE);
+    const unit = block.getFieldValue('unit');
+    const direction = block.getFieldValue('direction');
+    const code = `motor_combined_straight(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
+    return code;
+};

@@ -320,10 +320,10 @@ Blockly.cake['procedures_call'] = function (block) {
 
 Blockly.cake['procedures_definition'] = function (block) {
     var func = Blockly.cake.statementToCode(block, 'custom_block');
-    var code = "/*MyBlock*/\n" + func.trim() + ' {\n';
+    var code = "\n/*MyBlock Write*/\n" + func.trim() + ' {\n';
     var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
     if (!nextBlock) {
-        code += "};\n/*MyBlock*/\n\n";
+        code += "};\n/*MyBlock End*/\n";
     } else {
         var variablesName = [];
         for (var x in Blockly.cake.variables_) {
@@ -332,7 +332,7 @@ Blockly.cake['procedures_definition'] = function (block) {
         if (variablesName.length !== 0) {
             code += Blockly.cake.INDENT + "global " + variablesName.join(', ');
         }
-        code = Blockly.cake.INDENT + '\n' + Blockly.cake.scrub_(block, code) + "};\n/*MyBlock*/\n\n";
+        code = Blockly.cake.INDENT + '\n' + Blockly.cake.scrub_(block, code) + "};\n/*MyBlock End*/\n";
     }
     Blockly.cake.customFunctions_[func] = code;
     return null;

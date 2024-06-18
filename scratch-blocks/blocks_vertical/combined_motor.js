@@ -733,4 +733,66 @@ Blockly.Blocks['combined_motor_startWithPowerObj'] = {
                 "extensions": ["colours_combined_motor", "shape_statement"],
             });
         }
+};
+    
+Blockly.Blocks['combined_motor_moveByYawAngle'] = {
+    /**
+         * Block to move steps.
+         * @this Blockly.Block
+         */
+        init: function () {
+            this.jsonInit({
+                "message0": Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE,
+                "args0": [
+                    {
+                        "type": "field_image",
+                        "src": Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+                        "width": 20,
+                        "height": 20,
+                        "alt": "*",
+                        "flipRtl": false
+                    },
+                    {
+                        "type": "field_dropdown",
+                        "name": "direction",
+                        "options": [
+                            [
+                                {
+                                    "src": Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
+                                    "width": 25,
+                                    "height": 25,
+                                    "alt": Blockly.Msg.ADVANCE
+                                },
+                                "Advance"
+                            ],
+                            [
+                                {
+                                    "src": Blockly.mainWorkspace.options.pathToMedia + "back.svg",
+                                    "width": 25,
+                                    "height": 25,
+                                    "alt": Blockly.Msg.BACK
+                                },
+                                "Retreat"
+                            ],
+                        ]
+                    },
+                    {
+                        "type": "input_value",
+                        "name": "COUNT",
+                    },
+                    {
+                        "type": "field_dropdown",
+                        "name": "unit",
+                        "options": [
+                            [
+                                Blockly.Msg.SECONDS,
+                                "seconds"
+                            ]
+                        ]
+                    }
+                ],
+                "category": Blockly.Categories.combined_motor,
+                "extensions": ["colours_combined_motor", "shape_statement"],
+            });
+        }
     };

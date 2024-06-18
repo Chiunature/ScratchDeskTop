@@ -176,7 +176,7 @@ function commendMake(cpath = cwd()) {
             if (code === 0) {
                 resolve(true);
             } else {
-                handlerError(errStr);
+                handlerError(errStr, cpath);
                 reject(errStr);
             }
         });
