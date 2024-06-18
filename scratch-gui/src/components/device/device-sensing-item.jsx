@@ -3,7 +3,7 @@ import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
 
-const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes, index, changeUnitList }) => {
+const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishTypes, index, changeUnitList }) => {
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
@@ -11,18 +11,7 @@ const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
-        if (!unitItem) {
-            const arr = window.myAPI.getStoreValue('sensing-unit-list');
-            let unitList, unitListItem;
-            if (arr) unitList = JSON.parse(arr);
-            if(unitList) unitListItem = unitList[index];
-            if (item.deviceId === 'a1' || item.deviceId === 'a5' || item.deviceId === 'a6') {
-                setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[2]);
-            } else {
-                setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[0]);
-            }
-        }
-        setShowData(obj[unitItem]);
+        initUnit(obj);
     });
 
     let selectUnit = useCallback((el) => setUnit(el), [unit]);
@@ -41,6 +30,33 @@ const DeviceSensingItem = ({item, getPort, getSensing, getType, DistinguishTypes
         return item.deviceId;
     }, [item.deviceId]);
 
+    function initUnit(obj) {
+        if (!unitItem) {
+            const arr = window.myAPI.getStoreValue('sensing-unit-list');
+            let unitList, unitListItem;
+            if (arr) {
+                unitList = JSON.parse(arr);
+            }
+            if (unitList) {
+                unitListItem = unitList[index];
+            }
+            if (!item.deviceId) {
+                return;
+            }
+            const num = parseInt(item.deviceId.slice(-1));
+            switch (num) {
+                case 1:
+                case 5:
+                case 6:
+                    setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[2]);
+                    break;
+                default:
+                    setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[0]);
+                    break;
+            }
+        }
+        setShowData(obj[unitItem]);
+    }
 
     return (
         <li className={item?.deviceId !== '0' ? '' : styles.hide}>
