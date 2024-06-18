@@ -367,6 +367,11 @@ ul {
     text-align: center;
     cursor: pointer;
     display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 3px;
+    box-sizing: border-box;
 }
 
 .device-sensing-content:hover .device-sensing-unit {

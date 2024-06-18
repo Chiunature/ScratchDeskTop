@@ -314,8 +314,25 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
+    deepEqual(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+    
+        for (let i = 0; i < arr1.length; i++) {
+            const val1 = arr1[i]; 
+            const val2 = arr2[i];
+    
+            if(val1.deviceId !== val2.deviceId || val1.port !== val2.port) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
+
     initSensingList(unitList) {
-        if (!unitList || unitList === "[]") {
+        if (!unitList || unitList === "[]" || !this.deepEqual(JSON.parse(unitList), this.props.deviceObj.deviceList)) {
             let list = [];
             for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
                 const item = this.props.deviceObj.deviceList[i];

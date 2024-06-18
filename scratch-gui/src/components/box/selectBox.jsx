@@ -26,7 +26,7 @@ const SelectBoxCom = (props) => {
         return () => {
             document.removeEventListener('wheel', handleWheel);
         }
-    });
+    }, []);
 
     function handleWheel(e) {
         clearTimeout(timer);
