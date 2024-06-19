@@ -78,7 +78,7 @@ class Compile {
         //读取Aplication.c文件
         const result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
         //自制积木块放入前面
-        const newMy = await this.changeFileByReg(result, reg_main, '\n' + myStr);
+        const newMy = myStr ? await this.changeFileByReg(result, reg_main, '\n' + myStr) : result;
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
         //替换TaskHandle_t部分

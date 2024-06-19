@@ -261,7 +261,7 @@ class Blocks extends React.Component {
         const match = code.match(regex);
         let matchMyBlock = code.match(regexForMyBlock);
         const variable = code.match(regVariable);
-        const matchMyBlockRes = matchMyBlock ? matchMyBlock.join('\n\n') : '\n';
+        const matchMyBlockRes = matchMyBlock ? matchMyBlock.join('\n\n') : null;
         if (variable) {
             matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlockRes;
         }

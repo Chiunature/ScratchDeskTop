@@ -22,7 +22,7 @@ const UploadBtn = (props) => {
     const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
 
     let [openUpload, setOpenUpload] = useState(true);
-    // let [text, setText] = useState('');
+    let [text, setText] = useState('');
 
     useEffect(() => {
         checkIsOpenUpload();
@@ -30,7 +30,8 @@ const UploadBtn = (props) => {
 
     const compile = (flag) => {
         if (!openUpload) {
-            alert(intl.formatMessage(messages['openUpload']));
+            // alert(intl.formatMessage(messages['openUpload']));
+            alert(text);
             return;
         }
         if (completed) {
@@ -43,10 +44,11 @@ const UploadBtn = (props) => {
 
     const checkIsOpenUpload = async () => {
         try {
-            const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json");
+            const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", {cache: "no-cache"});
             const obj = await res.json();
             if (Array.isArray(obj['version']) && obj['version'].includes(SoftWareVersion)) {
                 setOpenUpload(obj['openUpload']);
+                setText(obj['text']);
             } else {
                 setOpenUpload(true);
             }

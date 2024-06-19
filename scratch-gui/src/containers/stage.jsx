@@ -322,7 +322,9 @@ class Stage extends React.Component {
         this.dragCanvas.style.width = `${boundsWidth}px`;
         this.dragCanvas.style.height = `${boundsHeight}px`;
 
-        this.dragCanvas.getContext('2d').putImageData(imageData, 0, 0);
+        this.dragCanvas.getContext('2d', {
+            willReadFrequently: true
+        }).putImageData(imageData, 0, 0);
         // Position so that pick location is at (0, 0) so that  positionDragCanvas()
         // can use translation to move to mouse position smoothly.
         this.dragCanvas.style.left = `${boundsX - x}px`;

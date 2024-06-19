@@ -114,20 +114,6 @@ Blockly.Blocks['motor_acceleration'] = {
                     "flipRtl": false
                 },
                 {
-                    "type": "field_dropdown",
-                    "name": "MOTOR_TYPE",
-                    "options": [
-                        [
-                            Blockly.Msg.BIG_MOTOR,
-                            "big_motor"
-                        ],
-                        [
-                            Blockly.Msg.SMALL_MOTOR,
-                            "middle_motor"
-                        ]
-                    ]
-                },
-                {
                     "type": "input_value",
                     "name": "PORT",
                 },
@@ -594,20 +580,6 @@ Blockly.Blocks['motor_setStill'] = {
                     "height": 20,
                     "alt": "*",
                     "flipRtl": false
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "MOTOR_TYPE",
-                    "options": [
-                        [
-                            Blockly.Msg.BIG_MOTOR,
-                            "big_motor"
-                        ],
-                        [
-                            Blockly.Msg.SMALL_MOTOR,
-                            "middle_motor"
-                        ]
-                    ]
                 },
                 {
                     "type": "input_value",

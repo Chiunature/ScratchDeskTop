@@ -50,7 +50,7 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 console.info = logger.info || logger.warn;
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
-
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 const options = {
     sandbox: false,
