@@ -148,6 +148,9 @@ Blockly.cake['combined_motor_startWithPowerObj'] = function (block) {
 };
 
 Blockly.cake['combined_motor_moveByYawAngle'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('combined_motor_moveByYawAngle')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('combined_motor_moveByYawAngle');
+    }
     const count = Blockly.cake.valueToCode(block, "COUNT", Blockly.cake.ORDER_NONE);
     const unit = block.getFieldValue('unit');
     const direction = block.getFieldValue('direction');

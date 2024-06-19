@@ -126,6 +126,9 @@ Blockly.cake['sensing_key_press'] = function (block) {
 };
 
 Blockly.cake['sensing_gyroscope_acceleration'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('sensing_gyroscope_acceleration')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('sensing_gyroscope_acceleration');
+    }
     let directiion = block.getFieldValue('directiion');
     // TODO: Assemble cake into code variable.
     let value = Blockly.cake.setValueList('sensing');
@@ -134,6 +137,9 @@ Blockly.cake['sensing_gyroscope_acceleration'] = function (block) {
 };
 
 Blockly.cake['sensing_gyroscope_attitude'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('sensing_gyroscope_attitude')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('sensing_gyroscope_attitude');
+    }
     let attitude = block.getFieldValue('attitude');
     // TODO: Assemble cake into code variable.
     let code = `sensing_gyroscope_attitude(${Blockly.cake.toStr(attitude) ? attitude : '"' + attitude + '"'})`;
@@ -141,6 +147,9 @@ Blockly.cake['sensing_gyroscope_attitude'] = function (block) {
 };
 
 Blockly.cake['sensing_gyroscope_angle'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('sensing_gyroscope_angle')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('sensing_gyroscope_angle');
+    }
     let port = block.getFieldValue('PORT');
     // TODO: Assemble cake into code variable.
     let value = Blockly.cake.setValueList('sensing');
@@ -230,6 +239,9 @@ Blockly.cake['sensing_loudness'] = function (block) {
 };
 
 Blockly.cake['sensing_set_yaw_angle'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('sensing_set_yaw_angle')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('sensing_set_yaw_angle');
+    }
     // TODO: Assemble cake into code variable.
     let code = `sensing_set_yaw_angle();\n`;
     return code;

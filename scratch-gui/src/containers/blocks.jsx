@@ -1,6 +1,7 @@
 import bindAll from 'lodash.bindall';
 import debounce from 'lodash.debounce';
 import defaultsDeep from 'lodash.defaultsdeep';
+import throttle from 'lodash.throttle'
 import makeToolboxXML from '../lib/make-toolbox-xml';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,11 +28,11 @@ import { closeExtensionLibrary, openConnectionModal, openSoundRecorder } from '.
 import { activateCustomProcedures, deactivateCustomProcedures } from '../reducers/custom-procedures';
 import { setConnectionModalExtensionId } from '../reducers/connection-modal';
 import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
-
 import { activateTab, SOUNDS_TAB_INDEX } from '../reducers/editor-tab';
 import { getCode, setBufferList, setCompileList, setMatchMyBlock } from '../reducers/mode';
 import { ipc } from 'est-link';
 import { convert, pinyin } from "../utils/pingyin-pro";
+import { APLICATION } from "../config/json/LB_USER.json";
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -50,6 +51,7 @@ const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 const regexForMyBlock = /\/\*MyBlock Write\*\/\s+[\s\S]*?\s+\/\*MyBlock End\*\//g;
 const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
 const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
+const regOpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -81,7 +83,8 @@ class Blocks extends React.Component {
             'onWorkspaceMetricsChange',
             'setBlocks',
             'setLocale',
-            'workspaceToCode'
+            'workspaceToCode',
+            'checkIsOpenGyroscope'
         ]);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.statusButtonCallback = this.handleConnectionModalStart;
@@ -136,7 +139,6 @@ class Blocks extends React.Component {
         // @todo change this when blockly supports UI events
         addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
         addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        // this.workspace.addChangeListener((event) => this.workspaceToCode(event.type));
         this.attachVM();
         // Only update blocks/vm locale when visible to avoid sizing issues
         // If locale changes while not visible it will get handled in didUpdate
@@ -145,13 +147,28 @@ class Blocks extends React.Component {
         }
     }
 
-    workspaceToCode(type) {
+    async checkIsOpenGyroscope() {
+        let result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
+        const res = this.ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0;
+        const newStr = `#define OPEN_GYROSCOPE_CALIBRATION ${res}`;
+        const str = result.match(regOpenGyroscope);
+        if (str && str[0] === newStr) {
+            return;
+        }
+        result = result.replace(regOpenGyroscope, newStr);
+        await window.myAPI.writeFiles(APLICATION, result, window.resourcesPath);
+    }
+
+    workspaceToCode(type, func) {
         const generatorName = 'cake';
         const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
         this.props.setWorkspace(this.workspace);
         const list = this.workspace.getTopBlocks();
         let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {
+            if (func && typeof func === 'function') {
+                func();
+            }
             this.props.getCode(code);
             this.checkStartHat(this.workspace, this.props.code);
             this.getCombinedMotor(newList);
@@ -416,8 +433,9 @@ class Blocks extends React.Component {
 
     attachVM() {
         // this.workspace.addChangeListener(this.props.vm.blockListener);
+        const newFunc = throttle(this.checkIsOpenGyroscope, 2000, {leading:false, trailing:true});
         this.workspace.addChangeListener((event) => {
-            this.workspaceToCode(event.type);
+            this.workspaceToCode(event.type, newFunc);
             this.props.vm.blockListener(event);
         });
         this.flyoutWorkspace = this.workspace

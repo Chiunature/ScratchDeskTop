@@ -81,7 +81,7 @@ Blockly.cake['control_forever'] = function (block) {
   if (until) {
     argument0 = '!' + argument0;
   }
-  return 'while (' + argument0 + ') {\n' + branch + '\n}\n';
+  return 'while (' + argument0 + ') {\n' + branch + '\nvTaskDelay(1);\n}\n';
 };
 
 Blockly.cake['control_break'] = function (block) {

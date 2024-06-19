@@ -185,6 +185,7 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
     ${blockSeparator}
     <block id="current" type="sensing_current"/>
     <block type="sensing_dayssince2000"/>
+    <block type="sensing_magnetism"></block>
     <block type="sensing_key_press"></block>
             <block type="sensing_HSVColor">
                 <value name="PORT">
@@ -296,7 +297,6 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_Handling"></block>
             <block type="sensing_mainIsPress"></block>
             <block type="sensing_set_yaw_angle"></block>
-            <block type="sensing_magnetism"></block>
         }
         ${categorySeparator}
     </category>

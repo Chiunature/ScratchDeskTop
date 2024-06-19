@@ -87,7 +87,7 @@ Blockly.cake.ORDER_CONDITIONAL = 15;   // ?:
 Blockly.cake.ORDER_ASSIGNMENT = 15;    // = += -= *= /= %= <<= >>= ...
 Blockly.cake.ORDER_COMMA = 17;         // ,
 Blockly.cake.ORDER_NONE = 99;          // (...)
-
+Blockly.cake.OPEN_GYROSCOPE_CALIBRATION = null;
 /**
  * Arbitrary code to inject into locations that risk causing infinite loops.
  * Any instances of '%1' will be replaced by the block ID that failed.
@@ -150,6 +150,7 @@ Blockly.cake.init = function (workspace) {
   // to actual function names (to avoid collisions with user functions).
   Blockly.cake.functionNames_ = Object.create(null);
   Blockly.cake.customFunctions_ = Object.create(null);
+  Blockly.cake.OPEN_GYROSCOPE_CALIBRATION = new Set();
   if (Blockly.Variables) {
     if (!Blockly.cake.variableDB_) {
       Blockly.cake.variableDB_ =
