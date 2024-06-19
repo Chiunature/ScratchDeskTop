@@ -53,6 +53,7 @@ let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
 
 const options = {
+    sandbox: false,
     nativeWindowOpen: true,
     nodeIntegration: true,
     contextIsolation: true,
