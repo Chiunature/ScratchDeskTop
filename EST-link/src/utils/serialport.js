@@ -238,18 +238,22 @@ class Serialport extends Common {
      * @returns
      */
     writeData(data, str, event) {
-        if (!this.port) {
+        if (!this.port || !data) {
             return;
         }
-        //修改标识符，根据标识符判断要发送的是文件还是文件名
-        this.sign = str;
-        //写入数据
-        this.port.write(Buffer.from(data));
-        //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
+        try {
+          //修改标识符，根据标识符判断要发送的是文件还是文件名
+          this.sign = str;
+          //写入数据
+          this.port.write(Buffer.from(data));
+          //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
+          if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
+          }
+          if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
+        }catch (e) {
+          event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
         }
-        if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
     }
 
     /**
@@ -345,7 +349,7 @@ class Serialport extends Common {
                 //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                 this.processReceivedData(event);
             } else {
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: 'Data validation error' });
                 this.clearCache();
             }
         });

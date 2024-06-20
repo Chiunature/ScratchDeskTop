@@ -238,7 +238,7 @@ class Blocks extends React.Component {
                     children[j].setAttribute('style', opacity);
                 }
                 el.svgPath_.setAttribute('style', opacity);
-                el.setEditable(!isOpacity);
+                // el.setEditable(!isOpacity);
                 el.setDisabled(isOpacity);
             }
         }

@@ -186,6 +186,9 @@ class GUI extends React.Component {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
                 }
+                if (arg.errMsg) {
+                    window.myAPI.handlerError(arg.errMsg, window.resourcesPath);
+                }
             }
         });
     }
