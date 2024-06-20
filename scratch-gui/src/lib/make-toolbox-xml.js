@@ -644,7 +644,18 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_angle"></shadow>
             </value>
         </block>
-            */}
+        <block type="combined_motor_spinByYawAngle">
+            <value name="POWER_ONE">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="POWER_TWO">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+*/}
 
 const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
     /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
