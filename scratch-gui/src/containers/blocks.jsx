@@ -48,9 +48,9 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /\/\*MyBlock Write\*\/\s+[\s\S]*?\s+\/\*MyBlock End\*\//g;
+const regexForMyBlock = /\s{1}void\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\}\;\s{1}/g;
 const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
-const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\])|(?:ListNode\s+\*\w+\s*=\s*NULL)/g;
+const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\];)|(?:ListNode\s+\*\w+\s*=\s*NULL;)/g;
 const regOpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 
 class Blocks extends React.Component {
@@ -159,7 +159,7 @@ class Blocks extends React.Component {
         await window.myAPI.writeFiles(APLICATION, result, window.resourcesPath);
     }
 
-    workspaceToCode(type, func) {
+    async workspaceToCode(type, func) {
         const generatorName = 'cake';
         const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
         this.props.setWorkspace(this.workspace);
@@ -167,7 +167,7 @@ class Blocks extends React.Component {
         let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {
             if (func && typeof func === 'function') {
-                func();
+                await func();
             }
             this.props.getCode(code);
             this.checkStartHat(this.workspace, this.props.code);
@@ -261,9 +261,13 @@ class Blocks extends React.Component {
         const match = code.match(regex);
         let matchMyBlock = code.match(regexForMyBlock);
         const variable = code.match(regVariable);
-        const matchMyBlockRes = matchMyBlock ? matchMyBlock.join('\n\n') : null;
+        let matchMyBlockRes = matchMyBlock ? matchMyBlock : '';
         if (variable) {
-            matchMyBlock = variable.join(';\n') + ';' + '\n' + matchMyBlockRes;
+            if (matchMyBlockRes.length > 0) {
+                matchMyBlockRes[0] = variable.join('\n') + matchMyBlockRes[0];
+            } else {
+                matchMyBlockRes = variable.join('\n');
+            }
         }
         this.props.setMatchMyBlock(matchMyBlockRes);
         if (match) {
@@ -433,7 +437,7 @@ class Blocks extends React.Component {
 
     attachVM() {
         // this.workspace.addChangeListener(this.props.vm.blockListener);
-        const newFunc = throttle(this.checkIsOpenGyroscope, 2000, {leading:false, trailing:true});
+        const newFunc = throttle(this.checkIsOpenGyroscope, 1000, {leading:false, trailing:true});
         this.workspace.addChangeListener((event) => {
             this.workspaceToCode(event.type, newFunc);
             this.props.vm.blockListener(event);

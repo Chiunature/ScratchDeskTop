@@ -27,7 +27,7 @@
 } */
 
 function Task_Stack(item, index) {
-    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};\n\n`;
+    return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};\n`;
 }
 
 function Task_Info_Item(index) {
@@ -35,21 +35,22 @@ function Task_Info_Item(index) {
 }
 
 function Task_Info(taskStr) {
-    return `MallocTask_Info User_Task[] = {${taskStr}\n};\n`;
+    return `\nMallocTask_Info User_Task[] = {${taskStr}\n};\n`;
 }
 
 function Task_Handler(index) {
     return `\nTaskHandle_t UserHandle${index};\n`;
 }
 
-function headMain(myStr) {
-    return `#if ExternalPrograment == 1\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/\n`;
+function Task_MyBlock(myStr, index) {
+    const num = index ? index : 0;
+    return `\n/*MyBlock Write${myStr ? num : 0}*/\n${myStr ? myStr : ''}\n/*MyBlock End${myStr ? num : 0}*/\n`;
 }
 
 
 
 export {
-    headMain,
+    Task_MyBlock,
     Task_Info,
     Task_Stack,
     Task_Handler,

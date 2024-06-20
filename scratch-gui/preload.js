@@ -236,10 +236,10 @@ function getCurrentTime() {
  * @param resourcePath
  */
 async function handlerError(error, resourcePath = cwd()) {
-    if (!ArrayBuffer.isView(error) || typeof error !== 'string') return;
+    if (!ArrayBuffer.isView(error) && typeof error !== 'string') return;
     const time = getCurrentTime();
     const filepath = `./Error/error_${time}.txt`;
-    await writeFileWithDirectory(resourcePath, filepath, error);
+    await writeFileWithDirectory(resourcePath + '/Error', filepath, error);
 }
 
 function getDocxUrl(static_path, link) {

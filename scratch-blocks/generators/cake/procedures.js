@@ -302,6 +302,7 @@ Blockly.cake['procedures_call'] = function (block) {
             }
         }
     }
+    const newFuncName = 'MyBlock_' + funcName;
     if (argCode.length > 0) {
         const isUndefined = Blockly.cake.isType("undefined");
         for (let i = 0; i < argCode.length; i++) {
@@ -312,18 +313,25 @@ Blockly.cake['procedures_call'] = function (block) {
                 argCode[i] = `strcmp(${argCode[i]}, "TRUE") == 0`;
             } */
         }
-        return `${funcName}(${argCode.join(',')});\n`;
+        return `${newFuncName}(${argCode.join(',')});\n`;
     } else {
-        return `${funcName}();\n`;
+        return `${newFuncName}();\n`;
     }
 }
 
 Blockly.cake['procedures_definition'] = function (block) {
     var func = Blockly.cake.statementToCode(block, 'custom_block');
-    var code = "\n/*MyBlock Write*/\n" + func.trim() + ' {\n';
+    if (!func) {
+        return;
+    }
+    const funcName = func.trim();
+    const list = funcName.split('void ');
+    list[1] = 'MyBlock_' + list[1];
+    const newFuncName = list.join('void ');
+    var code = "\n" + newFuncName + ' {\n';
     var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
     if (!nextBlock) {
-        code += "};\n/*MyBlock End*/\n";
+        code += "};\n";
     } else {
         var variablesName = [];
         for (var x in Blockly.cake.variables_) {
@@ -332,7 +340,7 @@ Blockly.cake['procedures_definition'] = function (block) {
         if (variablesName.length !== 0) {
             code += Blockly.cake.INDENT + "global " + variablesName.join(', ');
         }
-        code = Blockly.cake.INDENT + '\n' + Blockly.cake.scrub_(block, code) + "};\n/*MyBlock End*/\n";
+        code = Blockly.cake.INDENT + '\n' + Blockly.cake.scrub_(block, code) + "};\n";
     }
     Blockly.cake.customFunctions_[func] = code;
     return null;
