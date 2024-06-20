@@ -70,7 +70,7 @@
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-color: $ui-black-transparent var(--motion-primary);
+    /* scrollbar-color: $ui-black-transparent var(--motion-primary); */
     border-radius: 8px;
 }
 
@@ -85,7 +85,7 @@
 /* Fallback styling for webkit browsers that don't support scrollbar-color */
 
 .submenu>.menu::-webkit-scrollbar {
-    width: 12px;
+    width: 6px !important;
 }
 
 .submenu>.menu::-webkit-scrollbar-track {
@@ -94,6 +94,6 @@
 
 .submenu>.menu::-webkit-scrollbar-thumb {
     background-color: $ui-black-transparent;
-    border-radius: 12px;
-    border: 3px solid var(--motion-primary);
+    border-radius: 3px;
+    /* border: 3px solid var(--motion-primary); */
 }
