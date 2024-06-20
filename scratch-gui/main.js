@@ -24,7 +24,7 @@
  */
 const serialport = require("serialport");
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, crashReporter } = electron;
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
@@ -36,9 +36,6 @@ const checkUpdate = require("./update.js");
 const createProtocol = require("./src/config/js/createProtocol.js");
 const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
 
-const Store = require("electron-store");
-Store.initRenderer();
-
 const logger = require("electron-log");
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
@@ -49,8 +46,22 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 //全局的console.info写进日志文件
 console.info = logger.info || logger.warn;
 
-let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+const Store = require("electron-store");
+Store.initRenderer();
+
+let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc, crashDumpsDir = '';
+
+crashDumpsDir = app.getPath('crashDumps');
+console.info('Crash file path=>', crashDumpsDir);
+// 开启crash捕获
+crashReporter.start({
+    productName: 'NEW-AI',
+    companyName: 'Dr.luck',
+    submitURL: 'https://zsff.drluck.club/ATC/crash-reports',
+    uploadToServer: false,
+    ignoreSystemCrashHandler: false, // 不忽略系统自带的奔溃处理
+});
 
 const options = {
     sandbox: false,
@@ -324,6 +335,12 @@ function createWindow() {
 app.on("ready", async () => {
     await showLoading();
     await createWindow();
+});
+
+// GPU进程崩溃
+app.on('gpu-process-crashed', function(){
+    console.info('GPU进程崩溃，程序退出');
+    app.exit(0);
 });
 
 // 所有窗口关闭时退出应用.
