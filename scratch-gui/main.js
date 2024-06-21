@@ -53,7 +53,7 @@ Store.initRenderer();
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc, crashDumpsDir = '';
 
 crashDumpsDir = app.getPath('crashDumps');
-console.info('Crash file path=>', crashDumpsDir);
+console.info('Crash file path=>', crashDumpsDir + '/reports');
 // 开启crash捕获
 crashReporter.start({
     productName: 'NEW-AI',

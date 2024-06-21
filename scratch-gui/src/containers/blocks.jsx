@@ -436,7 +436,6 @@ class Blocks extends React.Component {
     }
 
     attachVM() {
-        // this.workspace.addChangeListener(this.props.vm.blockListener);
         const newFunc = throttle(this.checkIsOpenGyroscope, 1000, {leading:false, trailing:true});
         this.workspace.addChangeListener((event) => {
             this.workspaceToCode(event.type, newFunc);
@@ -453,12 +452,12 @@ class Blocks extends React.Component {
         this.props.vm.addListener('BLOCK_GLOW_OFF', this.onBlockGlowOff);
         this.props.vm.addListener('VISUAL_REPORT', this.onVisualReport); */
         this.props.vm.addListener('workspaceUpdate', this.onWorkspaceUpdate);
-        this.props.vm.addListener('targetsUpdate', this.onTargetsUpdate);
-        this.props.vm.addListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
-        this.props.vm.addListener('EXTENSION_ADDED', this.handleExtensionAdded);
-        this.props.vm.addListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
-        this.props.vm.addListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
-        this.props.vm.addListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
+        // this.props.vm.addListener('targetsUpdate', this.onTargetsUpdate);
+        // this.props.vm.addListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
+        // this.props.vm.addListener('EXTENSION_ADDED', this.handleExtensionAdded);
+        // this.props.vm.addListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
+        // this.props.vm.addListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
+        // this.props.vm.addListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
     }
     detachVM() {
         /* this.props.vm.removeListener('SCRIPT_GLOW_ON', this.onScriptGlowOn);
@@ -467,12 +466,12 @@ class Blocks extends React.Component {
         this.props.vm.removeListener('BLOCK_GLOW_OFF', this.onBlockGlowOff);
         this.props.vm.removeListener('VISUAL_REPORT', this.onVisualReport); */
         this.props.vm.removeListener('workspaceUpdate', this.onWorkspaceUpdate);
-        this.props.vm.removeListener('targetsUpdate', this.onTargetsUpdate);
-        this.props.vm.removeListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
-        this.props.vm.removeListener('EXTENSION_ADDED', this.handleExtensionAdded);
-        this.props.vm.removeListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
-        this.props.vm.removeListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
-        this.props.vm.removeListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
+        // this.props.vm.removeListener('targetsUpdate', this.onTargetsUpdate);
+        // this.props.vm.removeListener('MONITORS_UPDATE', this.handleMonitorsUpdate);
+        // this.props.vm.removeListener('EXTENSION_ADDED', this.handleExtensionAdded);
+        // this.props.vm.removeListener('BLOCKSINFO_UPDATE', this.handleBlocksInfoUpdate);
+        // this.props.vm.removeListener('PERIPHERAL_CONNECTED', this.handleStatusButtonUpdate);
+        // this.props.vm.removeListener('PERIPHERAL_DISCONNECTED', this.handleStatusButtonUpdate);
     }
 
     updateToolboxBlockValue(id, value) {

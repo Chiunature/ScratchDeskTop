@@ -739,7 +739,7 @@ class MenuBar extends React.Component {
                                 </MenuBarMenu>
                             </div>
                         )}
-                        <div
+                        {/* <div
                             className={classNames(
                                 styles.menuBarItem,
                                 styles.hoverable,
@@ -804,7 +804,7 @@ class MenuBar extends React.Component {
                                     </TurboMode>
                                 </MenuSection>
                             </MenuBarMenu>
-                        </div>
+                        </div> */}
                     </Box>
                     {/* <Divider className={classNames(styles.divider)} />
                     <div
