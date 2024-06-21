@@ -370,7 +370,7 @@ Blockly.cake.toStr = function (val) {
       return false;
     }
   }
-  const regex = /[()!\[\]_]/g;
+  const regex = /[()\[\]_]/g;
   const matches = val.match(regex);
   return matches && matches.length > 0;
 }
