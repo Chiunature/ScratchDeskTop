@@ -89,20 +89,38 @@ async function updater(win) {
     console.info(updateFunc);
 }
 
-function showLoading() {
+function showLoading(cb) {
+    loadingWindow = new BrowserWindow({
+        show: false,
+        frame: false,
+        width: 840,
+        height: 540,
+        resizable: false,
+        transparent: true,
+        partition: 'persist:showLoading',
+    });
+
+    loadingWindow.once("show", cb);
+    loadingWindow.loadFile(path.join(process.resourcesPath, "launch.html"));
+    loadingWindow.show();
+};
+
+
+/* function showLoading() {
     return new Promise((resolve, reject) => {
         loadingWindow = new BrowserWindow({
             width: 840,
             height: 540,
             frame: false,
             transparent: true,
+            partition: 'persist:showLoading',
             webPreferences: options,
         });
         loadingWindow.loadFile(path.join(__dirname, "launch.html"));
         loadingWindow.show();
         resolve();
     });
-}
+} */
 
 function saveFileToLocal() {
     ipcMain.handle(ipc.FILE.SAVE, async (event, obj) => {
@@ -190,7 +208,6 @@ function handleMenuAndDevtool(mainWindow) {
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    return new Promise((resolve, reject) => {
         mainWindow = new BrowserWindow({
             width: width,
             height: height,
@@ -199,6 +216,7 @@ function createWindow() {
             show: false,
             minWidth: 1020,
             minHeight: 750,
+            partition: 'persist:window-id',
             webPreferences: options,
         });
         handleMenuAndDevtool(mainWindow);
@@ -275,8 +293,6 @@ function createWindow() {
                 }
                 app.exit();
             }
-        });
-        resolve();
     });
 
     function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
@@ -333,13 +349,12 @@ function createWindow() {
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on("ready", async () => {
-    await showLoading();
-    await createWindow();
+    showLoading(createWindow);
 });
 
 // GPU进程崩溃
 app.on('gpu-process-crashed', function(){
-    console.info('GPU进程崩溃，程序退出');
+    console.info('GPU进程崩溃,程序退出');
     app.exit(0);
 });
 

@@ -195,6 +195,14 @@ module.exports = [
                         from: 'worker.js',
                         to: 'worker.js'
                     },
+                    {
+                        from: 'launch.html',
+                        to: 'launch.html'
+                    },
+                    {
+                        from: 'README.md',
+                        to: 'README.md'
+                    }
                 ]
             }),
             new CopyWebpackPlugin({
