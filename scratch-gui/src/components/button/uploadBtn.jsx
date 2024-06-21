@@ -16,7 +16,7 @@ const messages = defineMessages({
     },
 })
 
-const SoftWareVersion = '1.4.0';
+const SoftWareVersion = '1.4.1';
 
 const UploadBtn = (props) => {
     const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
@@ -36,10 +36,9 @@ const UploadBtn = (props) => {
         }
         if (completed) {
             return;
-        } else {
-            handleCompile();
-            sessionStorage.setItem('run-app', JSON.stringify(flag));
-        }
+        } 
+        handleCompile();
+        sessionStorage.setItem('run-app', JSON.stringify(flag));
     }
 
     const checkIsOpenUpload = async () => {

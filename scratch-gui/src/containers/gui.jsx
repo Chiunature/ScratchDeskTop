@@ -48,12 +48,14 @@ import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
+import debounce from "lodash.debounce";
 
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        this.compile = new Compile();
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
+        this.compile = new Compile();
+        this.handleUploadClick = debounce(this.handleCompile, 1000);
     }
 
     async componentDidMount() {
@@ -297,6 +299,8 @@ class GUI extends React.Component {
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
             } else {
+                this.props.onSetCompleted(true);
+                this.props.onShowCompletedAlert("uploading");
                 if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
                     this.handleRunApp(verifyTypeConfig.EST_RUN);
                 }
@@ -307,8 +311,6 @@ class GUI extends React.Component {
                     clearTimeout(t);
                     t = null;
                 }, 2000);
-                this.props.onSetCompleted(true);
-                this.props.onShowCompletedAlert("uploading");
             }
         }
     }
@@ -387,7 +389,7 @@ class GUI extends React.Component {
                     extensionLibraryContent={extensionLibraryContent}
                     loading={fetchingProject || isLoading || loadingStateVisible}
                     {...componentProps}
-                    handleCompile={this.handleCompile}
+                    handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
                     compile={this.compile}

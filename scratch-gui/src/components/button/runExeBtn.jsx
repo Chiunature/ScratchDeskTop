@@ -42,7 +42,10 @@ const RunExeBtn = (props) => {
 
 
     const toggle = () => {
-        // setIsMounted(true);
+        if (newProgress > 0) {
+            return;
+        }
+        setProgress(0);
         compile(true);
     }
 
