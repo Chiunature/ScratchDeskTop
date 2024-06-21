@@ -45,7 +45,7 @@ class Compile {
      * @returns
      */
     changeFileByReg(result, regex, targetStr) {
-        let newRes = '', regList, targetList, isReg = false;
+        let newRes = result, regList, targetList, isReg = false;
         return new Promise((resolve, reject) => {
             try {
                 if (typeof regex === 'string') {
@@ -65,9 +65,9 @@ class Compile {
                             const item = regList[i];
                             const target = targetList[i];
                             if (item && target) {
-                                newRes = result.replace(item, target);
+                                newRes = newRes.replace(item, target);
                             } else if (item && !target) {
-                                newRes = result.replace(item, '');
+                                newRes = newRes.replace(item, '');
                             }
                         }
                     } else if (regList.length < targetList.length) {

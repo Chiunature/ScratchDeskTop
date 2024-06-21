@@ -121,7 +121,7 @@ Blockly.cake['control_wait_until'] = function (block) {
   /* var code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){} {\n';
   code += branch;
   code += Blockly.cake.INDENT + "}\n"; */
-  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){};\n';
+  let code = 'while (strcmp(' + `${Blockly.cake.toStr(argument) ? argument : '"' + argument + '"'}` + ', "TRUE") != 0){}\n';
   return code;
 };
 
