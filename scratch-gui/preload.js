@@ -167,7 +167,7 @@ function commendMake(cpath = cwd()) {
   const cpuCount = os.cpus();
     return new Promise((resolve, reject) => {
         let errStr = '';
-        const progress = spawn('make', [`-j${cpuCount && cpuCount.length > 0 ? cpuCount.length : 4}`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
+        const progress = spawn('lbs_make', [`-j${cpuCount && cpuCount.length > 0 ? cpuCount.length : 4}`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
         progress.stderr.on('data', (err) => {
             errStr += err.toString();
         });
