@@ -101,26 +101,11 @@ function showLoading(cb) {
     });
 
     loadingWindow.once("show", cb);
-    loadingWindow.loadFile(path.join(process.resourcesPath, "launch.html"));
+    loadingWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/launch.html"));
     loadingWindow.show();
 };
 
 
-/* function showLoading() {
-    return new Promise((resolve, reject) => {
-        loadingWindow = new BrowserWindow({
-            width: 840,
-            height: 540,
-            frame: false,
-            transparent: true,
-            partition: 'persist:showLoading',
-            webPreferences: options,
-        });
-        loadingWindow.loadFile(path.join(__dirname, "launch.html"));
-        loadingWindow.show();
-        resolve();
-    });
-} */
 
 function saveFileToLocal() {
     ipcMain.handle(ipc.FILE.SAVE, async (event, obj) => {
@@ -258,7 +243,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            if (app.isPackaged) watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            app.isPackaged && watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
         });
 
         // 关闭window时触发下列事件.
@@ -288,7 +273,7 @@ function createWindow() {
                         detail: mainMsg['waiting'],
                     }).catch();
                     const res = await updateFunc();
-                    if (res) app.exit();
+                    res && app.exit();
                     return;
                 }
                 app.exit();
