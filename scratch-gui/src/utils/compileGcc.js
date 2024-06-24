@@ -137,8 +137,8 @@ class Compile {
             window.myAPI.commendMake(window.resourcesPath).then(() => {
                 if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, soundslist } });
             }).catch(err => {
-                window.myAPI.handlerError(err, window.resourcesPath);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
+                window.myAPI.handlerError(err, window.resourcesPath);
             });
         }
     }

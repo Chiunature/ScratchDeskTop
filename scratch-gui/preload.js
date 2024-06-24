@@ -172,11 +172,16 @@ function commendMake(cpath = cwd()) {
             errStr += err.toString();
         });
 
+        progress.on('error', (err) => {
+            if (err) {
+                reject(err.message);
+            }
+        })
+
         progress.on('close', (code, signal) => {
             if (code === 0) {
                 resolve(true);
             } else {
-                handlerError(errStr, cpath);
                 reject(errStr);
             }
         });
@@ -205,14 +210,28 @@ function getVersion(vpath) {
  * @param {String} filepath
  * @param {String} data
  */
-async function writeFileWithDirectory(directory = cwd(), filepath, data) {
+function writeFileWithDirectory(directory = cwd(), filepath, data) {
+  return new Promise((resolve, reject) => {
+    try {
     if (fs.existsSync(directory)) {
-        fs.writeFileSync(filepath, data);
+        _writeErr(filepath, data);
     } else {
-        fs.mkdir(directory, { recursive: true }, async () => {
-            fs.writeFileSync(filepath, data);
+        fs.mkdir(directory, { recursive: true }, () => {
+          _writeErr(filepath, data);
         });
     }
+      resolve();
+    } catch (error) {
+      _writeErr(filepath, data);
+      reject();
+    }
+    
+    function _writeErr(filepath, data) {
+      fs.writeFile(filepath, data, (err) => {
+        if (err) throw err;
+      })
+    }
+  })
 }
 
 /**

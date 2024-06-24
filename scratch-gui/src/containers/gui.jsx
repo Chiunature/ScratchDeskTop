@@ -55,7 +55,7 @@ class GUI extends React.Component {
         super(props);
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
         this.compile = new Compile();
-        this.handleUploadClick = debounce(this.handleCompile, 1000);
+        this.handleUploadClick = debounce(this.handleCompile, 100);
     }
 
     async componentDidMount() {
