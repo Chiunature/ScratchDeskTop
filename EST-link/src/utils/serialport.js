@@ -110,6 +110,17 @@ class Serialport extends Common {
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
         //与主机交互
         this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
+        //传感器更新
+        this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
+    }
+
+    updateSensing(eventName) {
+        this.ipcMain(eventName, (event, dataList) => {
+            let sum = 0x5a + 0x97 + 0x98 + 0x08 + 0x32;
+            dataList.forEach(el => sum += el);
+            const list = [0x5A, 0x97, 0x98, 0x08, 0x32, ...dataList, (sum & 0xff), 0xA5];
+            this.writeData(list, null, event);
+        });
     }
 
     /**
@@ -141,7 +152,7 @@ class Serialport extends Common {
     getBinOrHareWare(eventName) {
         this.ipcMain(eventName, (event, data) => {
             if (data.selectedExe) {
-              this.selectedExe = data.selectedExe;
+                this.selectedExe = data.selectedExe;
             }
             if (typeof data.subFileIndex === 'number') {
                 this.subFileIndex = data.subFileIndex;
@@ -242,17 +253,17 @@ class Serialport extends Common {
             return;
         }
         try {
-          //修改标识符，根据标识符判断要发送的是文件还是文件名
-          this.sign = str;
-          //写入数据
-          this.port.write(Buffer.from(data));
-          //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-          if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
-            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
-          }
-          if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
-        }catch (e) {
-          event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
+            //修改标识符，根据标识符判断要发送的是文件还是文件名
+            this.sign = str;
+            //写入数据
+            this.port.write(Buffer.from(data));
+            //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
+            if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
+            }
+            if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
+        } catch (e) {
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
         }
     }
 

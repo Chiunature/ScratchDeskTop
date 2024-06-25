@@ -274,7 +274,9 @@ class ProjectManagementHoc extends React.PureComponent {
                 headerClassName={styles.header}
                 id="projectManagement"
                 onRequestClose={this.props.onRequestClose}
-                style={{content: this.state.content}}
+                style={{ content: this.state.content }}
+                intl={this.props.intl}
+                onHelp={()=>{}}
             >
                 <Box className={styles.body}>
                     <ProjectManagement

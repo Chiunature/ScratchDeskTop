@@ -30,8 +30,8 @@ const ConnectionModalComponent = (props) => (
         headerClassName={styles.header}
         headerImage={props.connectionSmallIconURL}
         id="connectionModal"
-        onHelp={props.onHelp}
         onRequestClose={props.onCancel}
+        intl={props.intl}
     >
         <Box className={styles.body}>
             {props.serialList.length > 0 && <SerialportList {...props} />}

@@ -35,7 +35,7 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig, instructions } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
@@ -50,6 +50,8 @@ import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
+
+const FIRMWARE_VERSION = '200';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -153,10 +155,14 @@ class GUI extends React.Component {
     }
 
     getFirmwareVersion(firmwareVersion, ver) {
-        if (this.props.version != ver) this.props.onSetVersion(ver);
+        if (this.props.version != ver) {
+            this.props.onSetVersion(ver);
+        }
         const status = sessionStorage.getItem('isFirmwareUpdate');
         const isNew = ver > 0 && ver == firmwareVersion;
-        if (isNew || status === 'updating') return;
+        if (isNew || status === 'updating') {
+            return;
+        }
         sessionStorage.setItem('isFirmwareUpdate', 'updating');
         this.checkUpdateFirmware(firmwareVersion);
     }
@@ -211,7 +217,9 @@ class GUI extends React.Component {
 
     async checkUpdateFirmware(firmwareVersion) {
         const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
-        if (res === 0) return;
+        if (res === 0) {
+            return;
+        }
         this.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
@@ -221,12 +229,10 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice(resourcesPath) {
-        // const deviceIdList = Object.keys(instructions.device);
-        // const list = [deviceIdList[1], deviceIdList[2], deviceIdList[5], deviceIdList[6]];
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath);
-        // sessionStorage.setItem('isSensingUpdate', 'done');
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath)  || FIRMWARE_VERSION;
         sessionStorage.setItem('isFirmwareUpdate', 'done');
         const newGetFirmwareVersionFn = throttle(this.getFirmwareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
+        const newCheckUpdateSensing = throttle(this.checkUpdateSensing.bind(this), 7000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -238,41 +244,43 @@ class GUI extends React.Component {
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 newGetFirmwareVersionFn(firmwareVersion, result.versionlist.ver);
+                newCheckUpdateSensing(result.deviceList, firmwareVersion);
                 this.initSensingList(unitList);
             }
         });
     }
 
-    /*checkUpdateSensing(list, deviceList, ver) {
-        const isUpdate = sessionStorage.getItem('isSensingUpdate');
+    checkUpdateSensing(deviceList, ver) {
+        const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
         const { device } = instructions;
-        if (deviceList.length > 0 && isUpdate == 'done' && ver == this.props.version) {
+        if (deviceList.length > 0 && ver === this.props.version) {
             for (let i = 0; i < deviceList.length; i++) {
                 const item = deviceList[i];
+                const index = parseInt(item['port']);
                 const deviceItem = device[item.deviceId];
-                const portItem = item[deviceItem];
-                if (deviceItem && portItem) {
-                    const not_run = 'Not_Run' in portItem;
-                    const isNew = !not_run && portItem['version'] && portItem['version'] > 0 && portItem['version'] != ver;
-                    if (list.includes(item.deviceId) && (not_run || isNew)) {
-                        sessionStorage.setItem('isSensingUpdate', 'updating');
-                        this.updateSensing();
-                        break;
-                    } else {
-                        continue;
-                    }
-                } else {
-                    continue;
+                if (parseInt(item.deviceId) !== 0 && item[deviceItem]['version'] !== item[deviceItem]['Software']) {
+                    dataList[index] = _type(deviceItem);
                 }
             }
+            const isDiff = dataList.find(item => item !== 0xff);
+            if (isDiff) {
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+            }
         }
-    }*/
+        function _type(deviceItem) {
+            switch (deviceItem) {
+                case 'big_motor':
+                    return 0xA1;
+                case 'small_motor':
+                    return 0xA6;
+                case 'color':
+                    return 0xA2;
+                default:
+                    return 0xff;
+            }
+        }
+    }
 
-    /* async updateSensing() {
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'SENSING_UPDATE' } });
-        if (sessionStorage.getItem('isSensingUpdate') === 'updating') await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SENSING_UPDATE);
-        sessionStorage.setItem('isSensingUpdate', 'done');
-    } */
 
     /* async checkDriver() {
         const driver = window.myAPI.getStoreValue('driver');
@@ -285,7 +293,7 @@ class GUI extends React.Component {
 
 
     handleCompile() {
-        const firmwareVersion = window.myAPI.getVersion(window.resourcesPath);
+        const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
         if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
             return;

@@ -12,6 +12,7 @@ import backIcon from "../../lib/assets/icon--back.svg";
 import helpIcon from "../../lib/assets/icon--help.svg";
 
 import styles from "./modal.css";
+import CascaderCom from "../connection-modal/CascaderCom.jsx";
 
 const ModalComponent = (props) => (
     <ReactModal
@@ -45,7 +46,7 @@ const ModalComponent = (props) => (
                             />
                         </Button>
                     </div>
-                ) : null}
+                ) : <CascaderCom {...props} />}
                 <div
                     className={classNames(
                         styles.headerItem,
