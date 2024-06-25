@@ -32,6 +32,7 @@ const ConnectionModalComponent = (props) => (
         id="connectionModal"
         onRequestClose={props.onCancel}
         intl={props.intl}
+        peripheralName={props.peripheralName}
     >
         <Box className={styles.body}>
             {props.serialList.length > 0 && <SerialportList {...props} />}

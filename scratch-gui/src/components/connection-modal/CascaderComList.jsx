@@ -56,7 +56,7 @@ function CascaderComList({ options, setFilterQuery, cascaderRef, valList, setVal
                         {list.map((el, index) => {
                             return (
                                 <li className={styles.cascaderNode} key={getId()} onClick={() => handleCheck(el, index, num)}>
-                                    <Input className={classNames(styles.fileInpSpan, el.checked && styles.active)}
+                                    <Input className={classNames(styles.inpSpan, el.checked && styles.active)}
                                         type="radio"
                                         readOnly
                                         checked={el.checked}

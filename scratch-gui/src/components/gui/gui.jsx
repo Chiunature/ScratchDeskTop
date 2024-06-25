@@ -282,7 +282,7 @@ const GUIComponent = (props) => {
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal intl={intl} onSetCompleted={onSetCompleted} completed={completed} intl={intl} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
+                            <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} intl={intl} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary

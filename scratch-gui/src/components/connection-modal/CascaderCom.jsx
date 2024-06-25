@@ -4,18 +4,18 @@ import classNames from "classnames";
 import styles from './cascader.css';
 import Box from '../box/box.jsx';
 import CascaderComList from './CascaderComList.jsx';
-import { options } from './Cascader.js';
+import { initOptions } from './Cascader.js';
 import { ipc as ipc_Render } from 'est-link';
+import message from '../device/deviceMsg';
 
-
-const Protal = ({ children }) => typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
+const Portal = ({ children }) => typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
 
 
 
 const filterPlaceholder = {
-  id: 'gui.library.filterPlaceholder',
-  defaultMessage: 'Search',
-  description: 'Placeholder text for library search field'
+  id: 'gui.device.updatePlaceHolder',
+  defaultMessage: 'Please select a port and device',
+  description: 'Please select a port and device'
 }
 
 const CascaderCom = (props) => {
@@ -35,13 +35,13 @@ const CascaderCom = (props) => {
 
   function clickCascader(e) {
     if (e) {
-      if (!cascaderRef.current.contains(e.target) && e.target.className.indexOf(styles.fileInpSpan) === -1) {
+      if (!cascaderRef.current.contains(e.target) && e.target.className.indexOf(styles.inpSpan) === -1) {
         cascaderRef.current.style.display = 'none';
         return;
       }
       const { x, y } = inpRef.current.getBoundingClientRect();
       cascaderRef.current.style.left = `${x}px`;
-      cascaderRef.current.style.top = `${y + 25}px`;
+      cascaderRef.current.style.top = `${y + inpRef.current.offsetHeight}px`;
       cascaderRef.current.style.display = 'block';
     } else {
       cascaderRef.current.style.display = 'none';
@@ -63,16 +63,19 @@ const CascaderCom = (props) => {
 
   function updateSensing(e) {
     preventDefaultEvents(e);
+    if (valList.length < 2 || !props.peripheralName) {
+        return;
+    }
     const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
     const index = getIndex(valList[0]);
     switch (valList[1]) {
-      case '大电机':
+      case props.intl.formatMessage(message.big_motor):
         dataList[index] = 0xA1;
         break;
-      case '小电机':
+      case props.intl.formatMessage(message.small_motor):
         dataList[index] = 0xA6;
         break;
-      case '颜色识别器':
+      case props.intl.formatMessage(message.color):
         dataList[index] = 0xA2;
         break;
       default:
@@ -82,20 +85,24 @@ const CascaderCom = (props) => {
   }
 
   return (
-    <Box className={styles.cascaderBox}>
-      <input className={classNames(styles.fileInpSpan)}
-        type="text"
-        ref={inpRef}
-        readOnly
-        value={filterQuery}
-        placeholdertext={props.intl.formatMessage(filterPlaceholder)}
-        onMouseUp={clickCascader}
-      />
-      <button className={styles.btn} ref={btnRef} onClick={updateSensing}>强制外设更新</button>
-      <Protal>
-        <CascaderComList cascaderRef={cascaderRef} options={options} setFilterQuery={setFilterQuery} valList={valList} setValList={setValList} />
-      </Protal>
-    </Box>
+      <>
+          {
+              props.peripheralName && <Box className={styles.cascaderBox}>
+                  <input className={classNames(styles.inpSpan)}
+                         type="text"
+                         ref={inpRef}
+                         readOnly
+                         value={filterQuery}
+                         placeholder={props.intl.formatMessage(filterPlaceholder)}
+                         onMouseUp={clickCascader}
+                  />
+                  <button className={styles.btn} ref={btnRef} onClick={updateSensing}>强制外设更新</button>
+                  <Portal>
+                      <CascaderComList cascaderRef={cascaderRef} options={initOptions(props.intl)} setFilterQuery={setFilterQuery} valList={valList} setValList={setValList} />
+                  </Portal>
+              </Box>
+          }
+      </>
   );
 };
 

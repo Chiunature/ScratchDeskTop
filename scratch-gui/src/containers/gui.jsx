@@ -51,7 +51,7 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
 
-const FIRMWARE_VERSION = '200';
+const FIRMWARE_VERSION = '201';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -155,9 +155,6 @@ class GUI extends React.Component {
     }
 
     getFirmwareVersion(firmwareVersion, ver) {
-        if (this.props.version != ver) {
-            this.props.onSetVersion(ver);
-        }
         const status = sessionStorage.getItem('isFirmwareUpdate');
         const isNew = ver > 0 && ver == firmwareVersion;
         if (isNew || status === 'updating') {
@@ -229,22 +226,27 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice(resourcesPath) {
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath)  || FIRMWARE_VERSION;
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
         sessionStorage.setItem('isFirmwareUpdate', 'done');
         const newGetFirmwareVersionFn = throttle(this.getFirmwareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
-        const newCheckUpdateSensing = throttle(this.checkUpdateSensing.bind(this), 7000, { 'leading': true, 'trailing': false });
+        // const newCheckUpdateSensing = throttle(this.checkUpdateSensing.bind(this), 7000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
-                if (!result || this.props.completed || this.props.dragging) return;
+                if (!result || this.props.completed || this.props.dragging) {
+                    return;
+                }
                 if (this.props?.deviceObj?.estlist?.est === result?.estlist?.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
+                }
+                if (firmwareVersion !== result.versionlist.ver + '') {
+                    this.props.onSetVersion(firmwareVersion);
                 }
                 this.props.onSetDeviceObj(result);
                 this.blocksMotorCheck();
                 newGetFirmwareVersionFn(firmwareVersion, result.versionlist.ver);
-                newCheckUpdateSensing(result.deviceList, firmwareVersion);
+                // newCheckUpdateSensing(result.deviceList, firmwareVersion);
                 this.initSensingList(unitList);
             }
         });
@@ -294,32 +296,34 @@ class GUI extends React.Component {
 
     handleCompile() {
         const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
-        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
+        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== parseInt(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
             return;
         }
         if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
-        } else if (this.props.workspace) {
+            return;
+        }
+        if (this.props.workspace) {
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
-            const selItem = window.myAPI.getStoreValue('selItem');
             if (!hasStart) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
-            } else {
-                this.props.onSetCompleted(true);
-                this.props.onShowCompletedAlert("uploading");
-                if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
-                    this.handleRunApp(verifyTypeConfig.EST_RUN);
-                }
-                const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-                const verifyType = this.props?.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
-                let t = setTimeout(() => {
-                    this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
-                    clearTimeout(t);
-                    t = null;
-                }, 2000);
+                return;
             }
+
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+            this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN && this.handleRunApp(verifyTypeConfig.EST_RUN);
+
+            const selItem = window.myAPI.getStoreValue('selItem');
+            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+            const verifyType = this.props?.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
+            let t = setTimeout(() => {
+                this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
+                clearTimeout(t);
+                t = null;
+            }, 2000);
         }
     }
 
