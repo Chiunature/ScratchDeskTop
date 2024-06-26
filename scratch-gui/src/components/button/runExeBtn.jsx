@@ -9,7 +9,7 @@ import { ipc as ipc_Renderer } from "est-link";
 
 
 const RunExeBtn = (props) => {
-    const { completed, compile, deviceStatus, onSetCompleted, handleRunApp } = props;
+    const { completed, compile, deviceStatus, onSetCompleted } = props;
     let refObj = useRef();
     let [progress, setProgress] = useState(0);
     let [isMounted, setIsMounted] = useState(false);
@@ -27,7 +27,6 @@ const RunExeBtn = (props) => {
             let timer = setTimeout(() => {
                 setProgress(0);
                 onSetCompleted(false);
-                JSON.parse(sessionStorage.getItem('run-app')) && handleRunApp();
                 // window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
                 clearTimeout(timer);
                 timer = null;

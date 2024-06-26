@@ -229,7 +229,6 @@ class GUI extends React.Component {
         const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
         sessionStorage.setItem('isFirmwareUpdate', 'done');
         const newGetFirmwareVersionFn = throttle(this.getFirmwareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
-        // const newCheckUpdateSensing = throttle(this.checkUpdateSensing.bind(this), 7000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -244,10 +243,11 @@ class GUI extends React.Component {
                     this.props.onSetVersion(firmwareVersion);
                 }
                 this.props.onSetDeviceObj(result);
-                this.blocksMotorCheck();
+
                 newGetFirmwareVersionFn(firmwareVersion, result.versionlist.ver);
-                // newCheckUpdateSensing(result.deviceList, firmwareVersion);
+                this.blocksMotorCheck();
                 this.initSensingList(unitList);
+                this.handleRunApp();
             }
         });
     }
@@ -294,7 +294,7 @@ class GUI extends React.Component {
     } */
 
 
-    handleCompile() {
+    handleCompile(isRun) {
         const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
         if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== parseInt(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
@@ -321,6 +321,7 @@ class GUI extends React.Component {
             const verifyType = this.props?.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
             let t = setTimeout(() => {
                 this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
+                sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
                 clearTimeout(t);
                 t = null;
             }, 2000);
@@ -328,7 +329,10 @@ class GUI extends React.Component {
     }
 
     handleRunApp(status) {
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
+        if (sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP) {
+            sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
+        }
     }
 
     deepEqual(arr1, arr2) {

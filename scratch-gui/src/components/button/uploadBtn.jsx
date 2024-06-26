@@ -28,22 +28,20 @@ const UploadBtn = (props) => {
         checkIsOpenUpload();
     }, []);
 
-    const compile = (flag) => {
+    const compile = (isRun) => {
         if (!openUpload) {
-            // alert(intl.formatMessage(messages['openUpload']));
             alert(text);
             return;
         }
         if (completed) {
             return;
-        } 
-        handleCompile();
-        sessionStorage.setItem('run-app', JSON.stringify(flag));
+        }
+        handleCompile(isRun);
     }
 
     const checkIsOpenUpload = async () => {
         try {
-            const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", {cache: "no-cache"});
+            const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", { cache: "no-cache" });
             const obj = await res.json();
             if (Array.isArray(obj['version']) && obj['version'].includes(SoftWareVersion)) {
                 setOpenUpload(obj['openUpload']);
@@ -60,14 +58,14 @@ const UploadBtn = (props) => {
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
                 <SelectExeBtn
-                    compile={() => compile(false)}
+                    compile={compile}
                     isRtl={isRtl}
                     exeList={exeList}
                     selectedExe={selectedExe}
                 />
                 <RunExeBtn
                     deviceStatus={deviceStatus}
-                    compile={() => compile(true)}
+                    compile={compile}
                     completed={completed}
                     onSetSelectedExe={onSetSelectedExe}
                     onSetExelist={onSetExelist}

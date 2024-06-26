@@ -12,5 +12,7 @@
     "EST_STOP": "EST_STOP",
     "EST_RUN": "run",
     "RESET_FWLIB": "RESET_FWLIB",
-    "SOURCE_SOUNDS": "SOURCE_SOUNDS"
+    "SOURCE_SOUNDS": "SOURCE_SOUNDS",
+    "RUN_APP": "RUN_APP",
+    "NO_RUN_APP": "NO_RUN_APP"
 }
