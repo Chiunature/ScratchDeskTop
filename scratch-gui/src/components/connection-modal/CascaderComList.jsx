@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import styles from './cascader.css';
 import Input from '../forms/input.jsx';
@@ -10,54 +10,97 @@ function getId() {
     return Math.random().toString(36).slice(-8);
 }
 
-function CascaderComList({ options, setFilterQuery, cascaderRef, valList, setValList }) {
-    let [list, setList] = useState([options]);
+function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList, intl }) {
+    let [list, setList] = useState([]);
+    let [subIndex, setSubIndex] = useState(null);
 
-    let menuList = useMemo(() => {
-        return list;
-    }, [list])
+    useEffect(() => {
+        const options = initOptions(intl);
+        setList([options]);
+    }, [])
 
-    function onlyCheck(curIndex, num) {
-        if (!list[num]) {
+    let menuList = useMemo(() => list, [list]);
+
+    function onlyCheck(childIndex, fatherIndex) {
+        if (!list[fatherIndex]) {
             return;
         }
-        for (let i = 0; i < list.length; i++) {
-            for (let j = 0; j < list[i].length; j++) {
-                if (num === i && curIndex === j) {
-                    list[i][j]['checked'] = true;
-                    continue;
+        const newList = [...list];
+        const arr = newList[fatherIndex];
+        if (fatherIndex === 0) {
+            for (let i = 0; i < arr.length; i++) {
+                const child = arr[i];
+                if (childIndex === i) {
+                    child['checked'] = !child['checked'];
+                    if (!child['checked']) {
+                        for (const item of child['children']) {
+                            item.checked = false;
+                        }
+                    }
                 }
-                list[i][j]['checked'] = false;
             }
+            setSubIndex(childIndex);
+        } else {
+            for (let i = 0; i < arr.length; i++) {
+                const child = arr[i];
+                if (childIndex === i) {
+                    child['checked'] = !child['checked'];
+                } else {
+                    child['checked'] = false;
+                }
+            }
+            newList[0][subIndex].children = [...arr];
         }
+        setList(newList);
     }
 
-    function handleCheck(el, curIndex, num) {
-        onlyCheck(curIndex, num);
-        const newIndex = num + 1;
+    function changeVal() {
         const newList = [...list];
-        const newValList = [...valList];
+        const result = [];
+        for (const item of newList[0]) {
+            const arr = [];
+            if (item['checked']) {
+                arr.push(item.value);
+                if (!item['children']) {
+                    continue;
+                }
+                for (const subItem of item['children']) {
+                    if (subItem['checked']) {
+                        arr.push(subItem.value);
+                    }
+                }
+            }
+            if (arr.length > 0) { 
+                result.push([arr.join('/')]);
+            }
+        }
+        setValList([...result]);
+        setFilterQuery(result.join(', '));
+    }
+
+    function handleClick(el, childIndex, fatherIndex) {
+        onlyCheck(childIndex, fatherIndex);
+        changeVal();
+
+        const newList = [...list];
+        const newIndex = fatherIndex + 1;
         newList.splice(newIndex, 1);
-        newValList.splice(num, 1);
-        newValList[num] = el.value;
         if (el.children) {
             newList[newIndex] = [...el.children];
         }
         setList(newList);
-        setValList(newValList);
-        setFilterQuery(newValList.join('/'));
     }
 
-    function generateChildList(list, num) {
+    function generateChildList(list, fatherIndex) {
         return (
-            <div className={styles.cascaderMenu} key={num}>
+            <div className={styles.cascaderMenu} key={fatherIndex}>
                 <div className={styles.cascaderMenuWrap}>
                     <ul className={styles.cascaderMenuWrapList}>
                         {list.map((el, index) => {
                             return (
-                                <li className={styles.cascaderNode} key={getId()} onClick={() => handleCheck(el, index, num)}>
+                                <li className={styles.cascaderNode} key={getId()} onClick={() => handleClick(el, index, fatherIndex)}>
                                     <Input className={classNames(styles.inpSpan, el.checked && styles.active)}
-                                        type="radio"
+                                        type={fatherIndex < 1 ? "checkbox" : "radio"}
                                         readOnly
                                         checked={el.checked}
                                     />

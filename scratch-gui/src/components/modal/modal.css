@@ -123,7 +123,7 @@ $sides: 20rem;
 }
 
 .header-item-close {
-    flex-basis: 10rem;
+    flex-basis: $sides;
     justify-content: flex-end;
     z-index: 1;
 }

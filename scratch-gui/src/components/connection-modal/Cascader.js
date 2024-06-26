@@ -1,26 +1,6 @@
 import message from '../device/deviceMsg.js';
 
 
-const children = [
-        {
-            value: '大电机',
-            label: '大电机',
-            checked: false,
-            msg: message.big_motor
-        },
-        {
-            value: '中电机',
-            label: '中电机',
-            checked: false,
-            msg: message.small_motor
-        },
-        {
-            value: '颜色识别器',
-            label: '颜色识别器',
-            checked: false,
-            msg: message.color
-        },
-]
 
 const options = [
     {
@@ -69,13 +49,31 @@ export function initOptions(intl) {
     if (!intl) {
         return;
     }
-    for (const item of children) {
-        item['value'] = intl.formatMessage(item.msg);
-        item['label'] = intl.formatMessage(item.msg);
-    }
+
     for (const el of options) {
+        const children = [
+            {
+                value: intl.formatMessage(message.big_motor),
+                label: intl.formatMessage(message.big_motor),
+                checked: false,
+                father: el.label
+            },
+            {
+                value: intl.formatMessage(message.small_motor),
+                label: intl.formatMessage(message.small_motor),
+                checked: false,
+                father: el.label
+            },
+            {
+                value: intl.formatMessage(message.color),
+                label: intl.formatMessage(message.color),
+                checked: false,
+                father: el.label
+            },
+        ]
         el['children'] = children;
     }
-    return [...options];
+
+    return options;
 }
 

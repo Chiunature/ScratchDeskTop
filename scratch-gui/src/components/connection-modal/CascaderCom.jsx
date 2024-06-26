@@ -35,7 +35,10 @@ const CascaderCom = (props) => {
 
   function clickCascader(e) {
     if (e) {
-      if (!cascaderRef.current.contains(e.target) && e.target.className.indexOf(styles.inpSpan) === -1) {
+      if (!cascaderRef?.current) {
+        return;
+      }
+      if (!cascaderRef?.current?.contains(e.target) && e?.target?.className?.indexOf(styles.inpSpan) === -1) {
         cascaderRef.current.style.display = 'none';
         return;
       }
@@ -63,46 +66,51 @@ const CascaderCom = (props) => {
 
   function updateSensing(e) {
     preventDefaultEvents(e);
-    if (valList.length < 2 || !props.peripheralName) {
-        return;
+    if (valList.length === 0 || !props.peripheralName) {
+      return;
     }
     const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-    const index = getIndex(valList[0]);
-    switch (valList[1]) {
-      case props.intl.formatMessage(message.big_motor):
-        dataList[index] = 0xA1;
-        break;
-      case props.intl.formatMessage(message.small_motor):
-        dataList[index] = 0xA6;
-        break;
-      case props.intl.formatMessage(message.color):
-        dataList[index] = 0xA2;
-        break;
-      default:
-        break;
+    for (const item of valList) {
+      const newItem = item[0].split('/');
+      const index = getIndex(newItem[0]);
+      switch (newItem[1]) {
+        case props.intl.formatMessage(message.big_motor):
+          dataList[index] = 0xA1;
+          break;
+        case props.intl.formatMessage(message.small_motor):
+          dataList[index] = 0xA6;
+          break;
+        case props.intl.formatMessage(message.color):
+          dataList[index] = 0xA2;
+          break;
+        default:
+          break;
+      }
     }
     window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
   }
 
   return (
-      <>
-          {
-              props.peripheralName && <Box className={styles.cascaderBox}>
-                  <input className={classNames(styles.inpSpan)}
-                         type="text"
-                         ref={inpRef}
-                         readOnly
-                         value={filterQuery}
-                         placeholder={props.intl.formatMessage(filterPlaceholder)}
-                         onMouseUp={clickCascader}
-                  />
-                  <button className={styles.btn} ref={btnRef} onClick={updateSensing}>强制外设更新</button>
-                  <Portal>
-                      <CascaderComList cascaderRef={cascaderRef} options={initOptions(props.intl)} setFilterQuery={setFilterQuery} valList={valList} setValList={setValList} />
-                  </Portal>
-              </Box>
-          }
-      </>
+    <>
+      {
+        props.peripheralName && <Box className={styles.cascaderBox}>
+          <label className={classNames(filterQuery.length > 0 ? styles.tooltip : '')} title={filterQuery}>
+            <input className={styles.inpSpan}
+              type="text"
+              ref={inpRef}
+              readOnly
+              value={filterQuery}
+              placeholder={props.intl.formatMessage(filterPlaceholder)}
+              onMouseUp={clickCascader}
+            />
+          </label>
+          <button className={styles.btn} ref={btnRef} onClick={updateSensing}>强制外设更新</button>
+          <Portal>
+            <CascaderComList intl={props.intl} cascaderRef={cascaderRef} initOptions={initOptions} setFilterQuery={setFilterQuery} valList={valList} setValList={setValList} />
+          </Portal>
+        </Box>
+      }
+    </>
   );
 };
 

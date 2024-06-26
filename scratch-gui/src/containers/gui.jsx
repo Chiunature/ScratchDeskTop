@@ -57,7 +57,7 @@ class GUI extends React.Component {
         super(props);
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
         this.compile = new Compile();
-        this.handleUploadClick = debounce(this.handleCompile, 100);
+        this.handleUploadClick = debounce(this.handleCompile, 500, { leading: false, trailing: true });
     }
 
     async componentDidMount() {
@@ -190,6 +190,7 @@ class GUI extends React.Component {
                 if (!arg.result) {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
+                    sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
                 }
                 if (arg.errMsg) {
                     window.myAPI.handlerError(arg.errMsg, window.resourcesPath);
@@ -228,7 +229,6 @@ class GUI extends React.Component {
     watchDevice(resourcesPath) {
         const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
         sessionStorage.setItem('isFirmwareUpdate', 'done');
-        const newGetFirmwareVersionFn = throttle(this.getFirmwareVersion.bind(this), 5000, { 'leading': true, 'trailing': false });
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -244,7 +244,6 @@ class GUI extends React.Component {
                 }
                 this.props.onSetDeviceObj(result);
 
-                newGetFirmwareVersionFn(firmwareVersion, result.versionlist.ver);
                 this.blocksMotorCheck();
                 this.initSensingList(unitList);
                 this.handleRunApp();
@@ -252,23 +251,30 @@ class GUI extends React.Component {
         });
     }
 
-    checkUpdateSensing(deviceList, ver) {
-        const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-        const { device } = instructions;
-        if (deviceList.length > 0 && ver === this.props.version) {
-            for (let i = 0; i < deviceList.length; i++) {
-                const item = deviceList[i];
-                const index = parseInt(item['port']);
-                const deviceItem = device[item.deviceId];
-                if (parseInt(item.deviceId) !== 0 && item[deviceItem]['version'] !== item[deviceItem]['Software']) {
-                    dataList[index] = _type(deviceItem);
+    checkUpdateSensing() {
+        return new Promise((resolve) => {
+            const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
+            const { device } = instructions;
+            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
+            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.versionlist?.ver == firmwareVersion) {
+                for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
+                    const item = this.props?.deviceObj?.deviceList[i];
+                    const index = parseInt(item['port']);
+                    const deviceItem = device[item.deviceId];
+                    if (parseInt(item.deviceId) !== 0 && item[deviceItem]['version'] !== item[deviceItem]['Software']) {
+                        dataList[index] = _type(deviceItem);
+                    }
+                }
+                const isDiff = dataList.find(item => item !== 0xff);
+                if (isDiff) {
+                    const supdate = confirm('传感器或电机版本不是最新, 请先更新到最新再下载程序!');
+                    supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+                    resolve(false);
                 }
             }
-            const isDiff = dataList.find(item => item !== 0xff);
-            if (isDiff) {
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
-            }
-        }
+            resolve(true);
+        })
+
         function _type(deviceItem) {
             switch (deviceItem) {
                 case 'big_motor':
@@ -294,10 +300,14 @@ class GUI extends React.Component {
     } */
 
 
-    handleCompile(isRun) {
+    async handleCompile(isRun) {
         const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
         if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== parseInt(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
+            return;
+        }
+        const isTrue = await this.checkUpdateSensing();
+        if (!isTrue) {
             return;
         }
         if (this.props.compileList.length === 0 || !this.props.workspace) {
