@@ -58,6 +58,7 @@ class GUI extends React.Component {
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
         this.compile = new Compile();
         this.handleUploadClick = debounce(this.handleCompile, 500, { leading: false, trailing: true });
+        this.mainMsg =  getMainMsg(props.intl);
     }
 
     async componentDidMount() {
@@ -96,8 +97,7 @@ class GUI extends React.Component {
     }
 
     getMainMessage() {
-        const mainMsg = getMainMsg(this.props.intl);
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.GETMAINMSG, sendParams: mainMsg });
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.GETMAINMSG, sendParams: this.mainMsg });
     }
 
     blocksMotorCheck() {
@@ -213,9 +213,9 @@ class GUI extends React.Component {
         proxyVal.portList = [...newList];
     }
 
-    async checkUpdateFirmware(firmwareVersion) {
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.UPDATE);
-        if (res === 0) {
+    checkUpdateFirmware(firmwareVersion) {
+        const res = confirm(this.mainMsg.update);
+        if (!res) {
             return;
         }
         this.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
@@ -267,7 +267,7 @@ class GUI extends React.Component {
                 }
                 const isDiff = dataList.find(item => item !== 0xff);
                 if (isDiff) {
-                    const supdate = confirm('传感器或电机版本不是最新, 请先更新到最新再下载程序!');
+                    const supdate = confirm(this.mainMsg.sensing_update);
                     supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
                     resolve(false);
                 }

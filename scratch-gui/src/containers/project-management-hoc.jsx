@@ -11,6 +11,7 @@ import {ipc as ipc_Renderer} from "est-link";
 import {requestNewProject} from "../reducers/project-state";
 import {setProjectTitle} from "../reducers/project-title";
 import PropTypes from "prop-types";
+import getMainMsg from "../lib/alerts/message.js";
 
 class ProjectManagementHoc extends React.PureComponent {
     constructor(props) {
@@ -47,6 +48,7 @@ class ProjectManagementHoc extends React.PureComponent {
             },
             loading: true
         };
+        this.mainMsg = getMainMsg(props.intl);
     }
 
     componentDidMount() {
@@ -163,8 +165,8 @@ class ProjectManagementHoc extends React.PureComponent {
 
     async handleDeleteRecord(item, index, e) {
         this.preventDefaultEvents(e);
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE);
-        if (res === 1) {
+        const res = confirm(this.mainMsg.delete);
+        if (res) {
             item.filePath && await window.myAPI.deleteFiles(item.filePath, '');
             this.state.fileList.splice(index, 1);
             this.changeFilesList();
@@ -228,8 +230,8 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     async handleDeleteAll() {
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.FILE.DELETE);
-        if (res === 0) return;
+        const res = confirm(this.mainMsg.delete);
+        if (!res) return;
         for (let i = 0; i < this.state.checkedList.length; i++) {
             const item = this.state.checkedList[i];
             item.filePath ? await window.myAPI.deleteFiles(item.filePath, '') : item.checked = false;

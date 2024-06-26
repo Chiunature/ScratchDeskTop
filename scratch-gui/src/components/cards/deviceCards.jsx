@@ -13,7 +13,7 @@ import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
 import Box from "../box/box.jsx";
-import DataViewCom from '../device/data-view.jsx';
+// import DataViewCom from '../device/data-view.jsx';
 
 const tabClassNames = {
     tabs: styles.tabs,

@@ -23,6 +23,7 @@ import {
 } from "../reducers/connection-modal";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
+import getMainMsg from "../lib/alerts/message.js";
 
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
@@ -52,6 +53,7 @@ class ConnectionModal extends React.PureComponent {
                 : PHASES.scanning,
         };
         this.bleTimer = null;
+        this.mainMsg = getMainMsg(props.intl);
     }
 
     componentDidMount() {
@@ -244,8 +246,8 @@ class ConnectionModal extends React.PureComponent {
             return;
         }
         if (this.props.version == this.state.firewareVersion) {
-            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.VERSION.REUPDATE);
-            if (res === 0) {
+            const res = confirm(this.mainMsg.reupdate);
+            if (!res) {
                 return;
             }
         }

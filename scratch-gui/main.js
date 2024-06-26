@@ -221,12 +221,6 @@ function createWindow() {
                 mainMsg = { ...msg };
                 updater(mainWindow, mainMsg);
             }
-            //点击重新更新固件提示
-            _ipcMainHandle(ipc.SEND_OR_ON.VERSION.REUPDATE, { message: mainMsg['reupdate'] });
-            //更新固件提示
-            _ipcMainHandle(ipc.SEND_OR_ON.VERSION.UPDATE, { message: mainMsg['update'] });
-            //是否删除记录
-            _ipcMainHandle(ipc.SEND_OR_ON.FILE.DELETE, { message: mainMsg['delete'] });
         });
 
         // 检测电脑是否安装了驱动
@@ -280,7 +274,7 @@ function createWindow() {
             }
     });
 
-    function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
+    /* function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
         ipcMain.removeHandler(instruct);
         ipcMain.handle(instruct, async () => {
             const { response } = await dialog.showMessageBox({
@@ -293,7 +287,7 @@ function createWindow() {
             });
             return response;
         });
-    }
+    } */
 
     async function _checkInstallDriver({ title = ' ', message }) {
         const { response } = await dialog.showMessageBox({
