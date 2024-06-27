@@ -246,7 +246,9 @@ class GUI extends React.Component {
 
                 this.blocksMotorCheck();
                 this.initSensingList(unitList);
-                this.handleRunApp();
+                if (sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP) {
+                    this.handleRunApp();
+                }
             }
         });
     }
@@ -339,10 +341,8 @@ class GUI extends React.Component {
     }
 
     handleRunApp(status) {
-        if (sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP) {
-            sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
-        }
+        sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
     deepEqual(arr1, arr2) {

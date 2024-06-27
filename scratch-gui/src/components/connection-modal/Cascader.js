@@ -45,7 +45,17 @@ const options = [
     },
 ];
 
-export function initOptions(intl) {
+function deepClone(obj) {
+    return new Promise(resolve => {
+        const { port1, port2 } = new MessageChannel();
+        port1.onmessage = (e) => {
+            resolve(e.data);
+        }
+        port2.postMessage(obj);
+    })
+}
+
+export async function initOptions(intl) {
     if (!intl) {
         return;
     }
@@ -73,7 +83,7 @@ export function initOptions(intl) {
         ]
         el['children'] = children;
     }
-
-    return options;
+    const newOptions = await deepClone(options);
+    return newOptions;
 }
 

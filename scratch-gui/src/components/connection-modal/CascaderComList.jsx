@@ -15,11 +15,34 @@ function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList,
     let [subIndex, setSubIndex] = useState(null);
 
     useEffect(() => {
-        const options = initOptions(intl);
-        setList([options]);
+        clearCheckAndInit();
     }, [])
 
     let menuList = useMemo(() => list, [list]);
+
+    async function clearCheckAndInit() {
+        const options = await initOptions(intl);
+        const newList = [options];
+        if (!Array.isArray(newList)) {
+            return;
+        }
+        if (typeof newList[Symbol.iterator] !== 'function') {
+            return;
+        }
+        for (const item of newList) {
+            if (item.checked) {
+                item.checked = false;
+            }
+            if (item.children && typeof item.children[Symbol.iterator] === 'function') {
+                for (const el of item.children) {
+                    if (el.checked) {
+                        el.checked = false;
+                    }
+                }
+            }
+        }
+        setList(newList);
+    }
 
     function onlyCheck(childIndex, fatherIndex) {
         if (!list[fatherIndex]) {
@@ -49,7 +72,9 @@ function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList,
                     child['checked'] = false;
                 }
             }
-            newList[0][subIndex].children = [...arr];
+            if (newList[0][subIndex].label === arr[0].father) {
+                newList[0][subIndex].children = [...arr];
+            }
         }
         setList(newList);
     }
