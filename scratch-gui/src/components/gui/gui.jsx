@@ -54,7 +54,8 @@ import UploadBtn from "../button/uploadBtn.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
 import Qrcode from "../code-editor/qrcode.jsx";
 import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
-import UpdateInformation from "../alerts/update-information.jsx";
+// import UpdateInformation from "../alerts/update-information.jsx";
+import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -118,6 +119,7 @@ const GUIComponent = (props) => {
         connectionModalVisible,
         costumeLibraryVisible,
         costumesTabVisible,
+        cascarderPanelVisible,
         peripheralName,
         enableCommunity,
         intl,
@@ -282,8 +284,9 @@ const GUIComponent = (props) => {
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} intl={intl} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
+                            <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
+                        {cascarderPanelVisible && <CascaderPanelModal peripheralName={peripheralName} intl={intl} completed={completed} vm={vm} />}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
                                 vm={vm}

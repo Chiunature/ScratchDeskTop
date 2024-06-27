@@ -189,6 +189,12 @@ function handleMenuAndDevtool(mainWindow) {
     }
 }
 
+function getRenderVersion() {
+    ipcMain.handle('app-version', () => {
+        return app.getVersion();
+    })
+}
+
 
 function createWindow() {
     // 获取主显示器的宽高信息
@@ -205,6 +211,7 @@ function createWindow() {
             webPreferences: options,
         });
         handleMenuAndDevtool(mainWindow);
+        getRenderVersion();
         openSerialPort();
         // openBle();
         // 开启子线程操作文件缓存

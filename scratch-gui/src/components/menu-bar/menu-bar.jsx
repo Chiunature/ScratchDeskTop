@@ -36,7 +36,7 @@ import {
     setPort,
     setProgress
 } from "../../reducers/connection-modal";
-import { openConnectionModal, openTipsLibrary } from "../../reducers/modals";
+import { openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
@@ -872,7 +872,7 @@ class MenuBar extends React.Component {
                             username={this.props.authorUsername}
                         />
                     ) : null)} */}
-                    <div
+                    {/* <div
                         className={classNames(styles.menuBarItem, styles.hide)}
                     >
                         {this.props.canShare ? (
@@ -885,13 +885,11 @@ class MenuBar extends React.Component {
                                         <ShareButton
                                             className={styles.menuBarButton}
                                             isShared={this.props.isShared}
-                                            /* eslint-disable react/jsx-no-bind */
                                             onClick={() => {
                                                 this.handleClickShare(
                                                     waitForUpdate
                                                 );
                                             }}
-                                        /* eslint-enable react/jsx-no-bind */
                                         />
                                     )}
                                 </ProjectWatcher>
@@ -904,7 +902,7 @@ class MenuBar extends React.Component {
                             []
                         )}
                         {this.props.canRemix ? remixButton : []}
-                    </div>
+                    </div> */}
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -994,6 +992,23 @@ class MenuBar extends React.Component {
                         <img className={styles.screenShotLogo} src={photoIcon} alt="" />
                     </div>
                     <Divider className={classNames(styles.divider)} />
+                    <div
+                        className={classNames(
+                            styles.menuBarItem,
+                            styles.hoverable,
+                            styles.generator,
+                            {
+                                [styles.active]: "",
+                            }
+                        )}
+                        onMouseUp={() => this.props.onOpenCascaderPanelModal()}
+                    >
+                        <FormattedMessage
+                                defaultMessage="Force updates"
+                                description="Force updates"
+                                id="gui.device.updateSensing"
+                            />
+                    </div>
                     <div
                         className={classNames(
                             styles.menuBarItem,
@@ -1354,7 +1369,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProgress: (progress) => dispatch(setProgress(progress)),
-    onSetProjectTitle: (name) => dispatch(setProjectTitle(name))
+    onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
+    onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal())
 });
 
 export default compose(

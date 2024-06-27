@@ -519,6 +519,7 @@ const mapStateToProps = (state) => {
         upinVisible: state.scratchGui.alerts.upinVisible,
         upinMsg: state.scratchGui.alerts.upinMsg,
         dragging: state.scratchGui.cards.deviceCards.dragging,
+        cascarderPanelVisible: state.scratchGui.modals.cascarderPanel,
     };
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from "react-dom";
+import { FormattedMessage } from "react-intl";
 import classNames from "classnames";
 import styles from './cascader.css';
 import Box from '../box/box.jsx';
@@ -104,7 +105,13 @@ const CascaderCom = (props) => {
               onMouseUp={clickCascader}
             />
           </label>
-          <button className={styles.btn} ref={btnRef} onClick={updateSensing}>强制外设更新</button>
+          <button className={styles.btn} ref={btnRef} onClick={updateSensing}>
+            <FormattedMessage
+              defaultMessage="Force updates"
+              description="Force updates"
+              id="gui.device.updateSensing"
+            />
+          </button>
           <Portal>
             <CascaderComList intl={props.intl} cascaderRef={cascaderRef} initOptions={initOptions} setFilterQuery={setFilterQuery} valList={valList} setValList={setValList} />
           </Portal>

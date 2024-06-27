@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import bindAll from "lodash.bindall";
-import throttle from "lodash.throttle";
+// import throttle from "lodash.throttle";
 import ConnectionModalComponent, {
     PHASES,
 } from "../components/connection-modal/connection-modal.jsx";

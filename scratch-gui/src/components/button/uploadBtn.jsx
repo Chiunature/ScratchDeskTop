@@ -43,7 +43,8 @@ const UploadBtn = (props) => {
         try {
             const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", { cache: "no-cache" });
             const obj = await res.json();
-            if (Array.isArray(obj['version']) && obj['version'].includes(SoftWareVersion)) {
+            const sversion = await window.myAPI.onGetVersion() || SoftWareVersion;
+            if (Array.isArray(obj['version']) && obj['version'].includes(sversion)) {
                 setOpenUpload(obj['openUpload']);
                 setText(obj['text']);
             } else {

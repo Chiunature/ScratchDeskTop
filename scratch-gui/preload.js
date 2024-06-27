@@ -307,12 +307,13 @@ contextBridge.exposeInMainWorld('myAPI', {
     getStoreValue,
     removeStoreValue,
     hasStoreValue,
-    onUpdate: (callback) => ipcRenderer.on('update', callback),
     getDocxUrl,
     getMediaPath,
     getVersion,
     replaceFiles,
     changeFileName,
     FileIsExists,
-    readFilesAsync
+    readFilesAsync,
+    onUpdate: (callback) => ipcRenderer.on('update', callback),
+    onGetVersion: async () => await ipcInvoke('app-version'),
 });
