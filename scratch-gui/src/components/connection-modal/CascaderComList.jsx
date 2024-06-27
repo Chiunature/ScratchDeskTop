@@ -70,7 +70,7 @@ function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList,
                     }
                 }
             }
-            if (arr.length > 0) { 
+            if (arr.length > 0) {
                 result.push([arr.join('/')]);
             }
         }
@@ -78,17 +78,21 @@ function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList,
         setFilterQuery(result.join(', '));
     }
 
-    function handleClick(el, childIndex, fatherIndex) {
-        onlyCheck(childIndex, fatherIndex);
-        changeVal();
-
+    function handleClick(el, fatherIndex) {
         const newList = [...list];
         const newIndex = fatherIndex + 1;
         newList.splice(newIndex, 1);
         if (el.children) {
             newList[newIndex] = [...el.children];
+        } else {
+            return;
         }
         setList(newList);
+    }
+
+    function handleCheck(childIndex, fatherIndex) {
+        onlyCheck(childIndex, fatherIndex);
+        changeVal();
     }
 
     function generateChildList(list, fatherIndex) {
@@ -98,13 +102,15 @@ function CascaderComList({ initOptions, setFilterQuery, cascaderRef, setValList,
                     <ul className={styles.cascaderMenuWrapList}>
                         {list.map((el, index) => {
                             return (
-                                <li className={styles.cascaderNode} key={getId()} onClick={() => handleClick(el, index, fatherIndex)}>
-                                    <Input className={classNames(styles.inpSpan, el.checked && styles.active)}
-                                        type={fatherIndex < 1 ? "checkbox" : "radio"}
-                                        readOnly
-                                        checked={el.checked}
-                                    />
-                                    <span>{el.label}</span>
+                                <li className={styles.cascaderNode} key={getId()} >
+                                    <span onClick={() => handleCheck(index, fatherIndex)}>
+                                        <Input className={classNames(styles.inpSpan, el.checked && styles.active)}
+                                            type={fatherIndex < 1 ? "checkbox" : "radio"}
+                                            readOnly
+                                            checked={el.checked}
+                                        />
+                                    </span>
+                                    <span onClick={() => handleClick(el, fatherIndex)}>{el.father ? el.father + '~' + el.label : el.label}</span>
                                 </li>
                             )
                         })}
