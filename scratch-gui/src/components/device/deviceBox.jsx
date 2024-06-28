@@ -46,8 +46,22 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    const newGetPort = useCallback((index) => getPort(index), []);
-    const newMotorData = useCallback((num) => motorData(num), []);
+    function colorData(type) {
+        switch (type) {
+            case 'l':
+                return intl.formatMessage(messages['lightIntensity']);
+            case 'rgb':
+                return 'RGB';
+            case 'version':
+                return intl.formatMessage(messages['version']);
+            default:
+                return '';
+        }
+    }
+
+    const newGetPort = useCallback((index) => getPort(index), [list]);
+    const newMotorData = useCallback((num) => motorData(num), [list]);
+    const newColorData = useCallback((type) => colorData(type), [list]);
 
     return (
         <>
@@ -69,8 +83,8 @@ const DeviceBox = ({ list, intl, messages }) => {
                             {Object.keys(el.color).map((item, index) => {
                                 return (
                                     <Fragment key={index}>
-                                        {(item === 'l' || item === 'rgb') && <li>
-                                            <span>{item === 'rgb' ? 'RGB' : intl.formatMessage(messages['lightIntensity'])}</span>
+                                        {(item === 'l' || item === 'rgb' || item === 'version') && <li>
+                                            <span>{newColorData(item)}</span>
                                             <span>{el.color[item]}</span>
                                             {item === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
                                         </li>}

@@ -124,7 +124,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return 'G';
             case 3:
                 return 'B';
-            case 4:
+            case 5:
                 return intl.formatMessage(messages['version']);
             default:
                 return;
