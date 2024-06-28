@@ -1071,16 +1071,16 @@ Blockly.Blocks['sensing_gyroscope_angle'] = {
           "name": "PORT",
           "options": [
             [
+              Blockly.Msg.YAW,
+              "Yaw"
+            ],
+            [
               Blockly.Msg.FLOATING,
               "Pitch"
             ],
             [
               Blockly.Msg.ROLL,
               "Roll"
-            ],
-            [
-              Blockly.Msg.YAW,
-              "Yaw"
             ]
           ]
         },
