@@ -14,5 +14,7 @@
     "RESET_FWLIB": "RESET_FWLIB",
     "SOURCE_SOUNDS": "SOURCE_SOUNDS",
     "RUN_APP": "RUN_APP",
-    "NO_RUN_APP": "NO_RUN_APP"
+    "NO_RUN_APP": "NO_RUN_APP",
+    "DOING": "DOING",
+    "DONE": "DONE"
 }

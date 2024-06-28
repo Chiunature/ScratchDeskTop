@@ -156,4 +156,13 @@ Blockly.cake['combined_motor_moveByYawAngle'] = function (block) {
     const direction = block.getFieldValue('direction');
     const code = `motor_combined_straight(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'});\n`;
     return code;
+}; 
+
+Blockly.cake['combined_motor_spinByYawAngle'] = function (block) {
+    if (!Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.has('combined_motor_spinByYawAngle')) { 
+        Blockly.cake.OPEN_GYROSCOPE_CALIBRATION.add('combined_motor_spinByYawAngle');
+    }
+    const angle = Blockly.cake.valueToCode(block, "ANGLE", Blockly.cake.ORDER_NONE);
+    const code = `motor_combined_Angle(${Blockly.cake.toStr(angle) ? angle : '"' + angle + '"'});\n`;
+    return code;
 };

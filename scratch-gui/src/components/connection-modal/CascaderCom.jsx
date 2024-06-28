@@ -6,7 +6,7 @@ import styles from './cascader.css';
 import Box from '../box/box.jsx';
 import CascaderComList from './CascaderComList.jsx';
 import { initOptions } from './Cascader.js';
-import { ipc as ipc_Render } from 'est-link';
+import { ipc as ipc_Render, verifyTypeConfig } from 'est-link';
 import message from '../device/deviceMsg';
 
 const Portal = ({ children }) => typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
@@ -67,7 +67,7 @@ const CascaderCom = (props) => {
 
   function updateSensing(e) {
     preventDefaultEvents(e);
-    if (valList.length === 0 || !props.peripheralName) {
+    if (valList.length === 0 || !props.peripheralName || props.completed || sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING) {
       return;
     }
     const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
@@ -89,6 +89,7 @@ const CascaderCom = (props) => {
       }
     }
     window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+    sessionStorage.setItem('update-sensing', verifyTypeConfig.DOING);
   }
 
   return (

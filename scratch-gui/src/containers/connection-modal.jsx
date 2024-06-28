@@ -331,7 +331,8 @@ const mapStateToProps = (state) => ({
     isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
     version: state.scratchGui.connectionModal.version,
     sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
-    deviceType: state.scratchGui.device.deviceType
+    deviceType: state.scratchGui.device.deviceType,
+    completed: state.scratchGui.connectionModal.completed,
 });
 
 const mapDispatchToProps = (dispatch) => ({

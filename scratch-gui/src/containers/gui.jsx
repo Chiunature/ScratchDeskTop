@@ -244,6 +244,9 @@ class GUI extends React.Component {
                 if (sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP) {
                     this.handleRunApp();
                 }
+                if (sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING) {
+                    sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
+                }
             }
         });
     }

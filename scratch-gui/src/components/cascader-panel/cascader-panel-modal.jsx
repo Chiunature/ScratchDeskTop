@@ -6,7 +6,7 @@ import Modal from "../../containers/modal.jsx";
 import styles from "./cascader-panel.css";
 import Input from '../forms/input.jsx';
 import message from '../device/deviceMsg';
-import { ipc as ipc_Render } from 'est-link';
+import { ipc as ipc_Render, verifyTypeConfig } from 'est-link';
 
 function CascaderPanelModalCom(props) {
 
@@ -90,7 +90,7 @@ function CascaderPanelModalCom(props) {
     }
 
     function update() {
-        if (valList.length === 0 || !props.peripheralName || props.completed) {
+        if (valList.length === 0 || !props.peripheralName || props.completed || sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING) {
             return;
         }
         const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
@@ -112,6 +112,7 @@ function CascaderPanelModalCom(props) {
             }
         }
         window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+        sessionStorage.setItem('update-sensing', verifyTypeConfig.DOING);
     }
 
     return (

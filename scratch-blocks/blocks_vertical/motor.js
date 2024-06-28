@@ -603,3 +603,31 @@ Blockly.Blocks['motor_setStill'] = {
         });
     }
 };
+
+Blockly.Blocks['motor_reset_operating_degree'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_RESET_OPERATING_DEGREE,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT",
+                },
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "shape_statement"],
+        });
+    }
+};

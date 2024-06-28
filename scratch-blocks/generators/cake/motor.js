@@ -129,3 +129,10 @@ Blockly.cake['motor_setStill'] = function (block) {
     let code = `motor_user_hold_pid(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(p) ? p : '"' + p + '"'}, ${Blockly.cake.toStr(i) ? i : '"' + i + '"'}, ${Blockly.cake.toStr(d) ? d : '"' + d + '"'});\n`;
     return code;
 };
+
+Blockly.cake['MOTOR_RESET_OPERATING_DEGREE'] = function (block) {
+    let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    let code = `motor_reser_angle(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
+    return code;
+};

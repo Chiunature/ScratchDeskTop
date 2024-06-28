@@ -616,6 +616,11 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                 <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
+         <block type="motor_reset_operating_degree">
+            <value name="PORT">
+                <shadow type="motor_box"></shadow>
+            </value>
+        </block>
         }
     </category>
     `;
@@ -640,17 +645,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         <block type="combined_motor_angle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_spinByYawAngle">
-            <value name="POWER_ONE">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="POWER_TWO">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
             <value name="ANGLE">
                 <shadow type="math_angle"></shadow>
             </value>
@@ -717,6 +711,11 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
         <block type="combined_motor_moveByYawAngle">
             <value name="COUNT">
                 <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+        </block>
+        <block type="combined_motor_spinByYawAngle">
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
             </value>
         </block>
     </category>
