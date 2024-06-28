@@ -58,7 +58,7 @@ class GUI extends React.Component {
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
         this.compile = new Compile();
         this.handleUploadClick = debounce(this.handleCompile, 500, { leading: false, trailing: true });
-        this.mainMsg =  getMainMsg(props.intl);
+        this.mainMsg = getMainMsg(props.intl);
     }
 
     async componentDidMount() {
@@ -154,7 +154,7 @@ class GUI extends React.Component {
         }
     }
 
-    getFirmwareVersion(firmwareVersion, ver) {
+    /* getFirmwareVersion(firmwareVersion, ver) {
         const status = sessionStorage.getItem('isFirmwareUpdate');
         const isNew = ver > 0 && ver == firmwareVersion;
         if (isNew || status === 'updating') {
@@ -162,20 +162,17 @@ class GUI extends React.Component {
         }
         sessionStorage.setItem('isFirmwareUpdate', 'updating');
         this.checkUpdateFirmware(firmwareVersion);
-    }
+    } */
 
     //下载资源监听
     downloadSource() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.CONPLETED,
-            callback: (event, arg) => {
+            callback: async (event, arg) => {
                 this.props.onSetSourceCompleted(false);
                 this.props.onShowCompletedAlert(arg.msg);
-                let t = setTimeout(() => {
-                    window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
-                    clearTimeout(t);
-                    t = null;
-                }, 1000);
+                await window.myAPI.sleep(1000);
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
             },
         });
     }
@@ -222,13 +219,11 @@ class GUI extends React.Component {
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firmwareVersion);
-        sessionStorage.setItem('isFirmwareUpdate', 'done');
     }
 
     //开启监听
     watchDevice(resourcesPath) {
         const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
-        sessionStorage.setItem('isFirmwareUpdate', 'done');
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -240,7 +235,7 @@ class GUI extends React.Component {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
                 if (firmwareVersion !== result.versionlist.ver + '') {
-                    this.props.onSetVersion(firmwareVersion);
+                    this.props.onSetVersion(result.versionlist.ver + '');
                 }
                 this.props.onSetDeviceObj(result);
 
@@ -258,7 +253,7 @@ class GUI extends React.Component {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
             const { device } = instructions;
             const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
-            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.versionlist?.ver == firmwareVersion) {
+            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.versionlist?.ver === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
                     const index = parseInt(item['port']);
@@ -304,39 +299,44 @@ class GUI extends React.Component {
 
     async handleCompile(isRun) {
         const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
-        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== parseInt(firmwareVersion)) {
+        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
             this.checkUpdateFirmware(firmwareVersion);
             return;
         }
+
         const isTrue = await this.checkUpdateSensing();
         if (!isTrue) {
             return;
         }
+
         if (this.props.compileList.length === 0 || !this.props.workspace) {
             this.props.onShowCompletedAlert("workspaceEmpty");
             return;
         }
-        if (this.props.workspace) {
-            const list = this.props.workspace.getTopBlocks();
-            const hasStart = list.some(el => el.startHat_);
-            if (!hasStart) {
-                this.props.onShowCompletedAlert("workspaceEmpty");
-                return;
-            }
 
-            this.props.onSetCompleted(true);
-            this.props.onShowCompletedAlert("uploading");
-            this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN && this.handleRunApp(verifyTypeConfig.EST_RUN);
+        const list = this.props.workspace.getTopBlocks();
+        const hasStart = list.some(el => el.startHat_);
+        if (!hasStart) {
+            this.props.onShowCompletedAlert("workspaceEmpty");
+            return;
+        }
 
-            const selItem = window.myAPI.getStoreValue('selItem');
-            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-            const verifyType = this.props?.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
-            let t = setTimeout(() => {
-                this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
-                sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
-                clearTimeout(t);
-                t = null;
-            }, 2000);
+        this.props.onSetCompleted(true);
+        this.props.onShowCompletedAlert("uploading");
+
+        if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
+            this.handleRunApp(verifyTypeConfig.EST_RUN);
+        }
+
+        const selItem = window.myAPI.getStoreValue('selItem');
+        const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+        const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
+        try {
+            await window.myAPI.sleep(2000);
+            this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
+            sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
+        } catch (error) {
+            window.myAPI.handlerError(error, window.resourcesPath);
         }
     }
 

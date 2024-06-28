@@ -293,6 +293,18 @@ function FileIsExists(filePath) {
     })
 }
 
+async function sleep(time) {
+    
+    await sleepFunc(time).next().value;
+
+    function *sleepFunc(timer) {
+        yield new Promise(resolve => setTimeout(resolve, timer));
+    }
+}
+
+
+
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -316,4 +328,5 @@ contextBridge.exposeInMainWorld('myAPI', {
     readFilesAsync,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     onGetVersion: async () => await ipcInvoke('app-version'),
+    sleep
 });

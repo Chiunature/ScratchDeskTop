@@ -165,7 +165,7 @@ class Compile {
                 });
                 break;
             case verifyTypeConfig.BOOTBIN:
-                this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
+                await this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
                 break;
             default:
                 break;

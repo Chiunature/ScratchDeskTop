@@ -39,10 +39,12 @@ class ErrorBoundary extends React.Component {
         }
 
         // report every error in the console
-        log.error([
+        const err = [
             `Unhandled Error with action='${this.props.action}': ${error.stack}`,
             `Component stack: ${errorInfo.componentStack}`
-        ].join('\n'));
+        ].join('\n');
+        log.error(err);
+        window.myAPI.handlerError(err, window.resourcesPath);
     }
 
     handleBack () {

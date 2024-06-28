@@ -100,7 +100,7 @@ const SerialportList = (props) => {
                             id="gui.playbackStep.loadingMsg"
                         />
                         ) : <>
-                        {props.version == props.firewareVersion ? (<FormattedMessage
+                        {props.version === props.firewareVersion ? (<FormattedMessage
                             defaultMessage="The latest version"
                             description="The firmware is already the latest version"
                             id="gui.connection.isNewFirmware"

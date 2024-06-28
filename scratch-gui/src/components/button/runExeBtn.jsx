@@ -24,13 +24,10 @@ const RunExeBtn = (props) => {
 
     let newProgress = useMemo(() => {
         if (progress > 99) {
-            let timer = setTimeout(() => {
+            window.myAPI.sleep(1000).then(() => {
                 setProgress(0);
                 onSetCompleted(false);
-                // window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
-                clearTimeout(timer);
-                timer = null;
-            }, 1000);
+            });
         }
         return progress;
     }, [progress]);

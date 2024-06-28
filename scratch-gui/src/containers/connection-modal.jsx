@@ -245,7 +245,7 @@ class ConnectionModal extends React.PureComponent {
             this.props.onShowConnectAlert("selectADeviceFirst");
             return;
         }
-        if (this.props.version == this.state.firewareVersion) {
+        if (this.props.version === this.state.firewareVersion) {
             const res = confirm(this.mainMsg.reupdate);
             if (!res) {
                 return;
