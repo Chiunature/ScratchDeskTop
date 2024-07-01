@@ -261,7 +261,7 @@ class GUI extends React.Component {
                     const item = this.props?.deviceObj?.deviceList[i];
                     const index = parseInt(item['port']);
                     const deviceItem = device[item.deviceId];
-                    if (parseInt(item.deviceId) !== 0 && item[deviceItem]['version'] !== item[deviceItem]['Software']) {
+                    if (parseInt(item.deviceId) !== 0 && item[deviceItem]?.version !== item[deviceItem]?.Software) {
                         dataList[index] = _type(deviceItem);
                     }
                 }
