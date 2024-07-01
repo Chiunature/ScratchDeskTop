@@ -286,7 +286,7 @@ const GUIComponent = (props) => {
                         {connectionModalVisible ? (
                             <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
-                        {cascarderPanelVisible && <CascaderPanelModal peripheralName={peripheralName} intl={intl} completed={completed} vm={vm} />}
+                        {cascarderPanelVisible && <CascaderPanelModal peripheralName={peripheralName} intl={intl} completed={completed} vm={vm} deviceObj={deviceObj} />}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
                                 vm={vm}

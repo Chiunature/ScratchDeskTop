@@ -79,7 +79,11 @@ function CascaderPanelModalCom(props) {
         setValList([...result]);
     }
 
-    function handleCheck(childIndex, fatherIndex) {
+    function handleCheck(item, childIndex, fatherIndex) {
+        const hasDevice = checkPorts(item);
+        if (!hasDevice) {
+            return;
+        }
         onlyCheck(childIndex, fatherIndex);
         changeVal();
     }
@@ -87,6 +91,16 @@ function CascaderPanelModalCom(props) {
     function getIndex(data) {
         const portList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
         return portList.indexOf(data);
+    }
+
+    function checkPorts(el) {
+        const index = getIndex(el.father);
+        const devices = ['a1', 'a5', 'a6', 'a2'];
+        const hasDevice = props?.deviceObj?.deviceList[index]?.deviceId && devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
+        if (!hasDevice) {
+            alert('该端口没有连接对应设备!');
+        }
+        return hasDevice;
     }
 
     function update() {
@@ -183,7 +197,7 @@ function CascaderPanelModalCom(props) {
                                                             type="radio"
                                                             readOnly
                                                             checked={item.checked}
-                                                            onClick={() => handleCheck(childIndex, fatherIndex)}
+                                                            onClick={() => handleCheck(item, childIndex, fatherIndex)}
                                                         />
                                                     </li>
                                                 )
