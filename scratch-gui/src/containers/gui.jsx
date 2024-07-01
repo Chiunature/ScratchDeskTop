@@ -301,40 +301,40 @@ class GUI extends React.Component {
 
 
     async handleCompile(isRun) {
-        const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
-        if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
-            this.checkUpdateFirmware(firmwareVersion);
-            return;
-        }
-
-        const isTrue = await this.checkUpdateSensing();
-        if (!isTrue) {
-            return;
-        }
-
-        if (this.props.compileList.length === 0 || !this.props.workspace) {
-            this.props.onShowCompletedAlert("workspaceEmpty");
-            return;
-        }
-
-        const list = this.props.workspace.getTopBlocks();
-        const hasStart = list.some(el => el.startHat_);
-        if (!hasStart) {
-            this.props.onShowCompletedAlert("workspaceEmpty");
-            return;
-        }
-
-        this.props.onSetCompleted(true);
-        this.props.onShowCompletedAlert("uploading");
-
-        if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
-            this.handleRunApp(verifyTypeConfig.EST_RUN);
-        }
-
-        const selItem = window.myAPI.getStoreValue('selItem');
-        const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-        const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
         try {
+            const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
+            if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
+                this.checkUpdateFirmware(firmwareVersion);
+                return;
+            }
+
+            const isTrue = await this.checkUpdateSensing();
+            if (!isTrue) {
+                return;
+            }
+
+            if (this.props.compileList.length === 0 || !this.props.workspace) {
+                this.props.onShowCompletedAlert("workspaceEmpty");
+                return;
+            }
+
+            const list = this.props.workspace.getTopBlocks();
+            const hasStart = list.some(el => el.startHat_);
+            if (!hasStart) {
+                this.props.onShowCompletedAlert("workspaceEmpty");
+                return;
+            }
+
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+
+            if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
+                this.handleRunApp(verifyTypeConfig.EST_RUN);
+            }
+
+            const selItem = window.myAPI.getStoreValue('selItem');
+            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+            const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
             await window.myAPI.sleep(2000);
             this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
