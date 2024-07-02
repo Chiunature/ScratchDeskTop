@@ -71,10 +71,9 @@ class GUI extends React.Component {
             this.downloadSuccess();
             this.downloadSource();
             this.getFirmwareFiles();
-            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
-            this.watchDevice(res);
-
+            this.watchDevice();
             this.matrixSend('FieldMatrix');
+            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
             await window.myAPI.commendMake(res);
             window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
         }
@@ -222,8 +221,7 @@ class GUI extends React.Component {
     }
 
     //开启监听
-    watchDevice(resourcesPath) {
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
+    watchDevice() {
         let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
@@ -234,7 +232,7 @@ class GUI extends React.Component {
                 if (this.props?.deviceObj?.estlist?.est === result?.estlist?.est) {
                     this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
                 }
-                if (firmwareVersion !== result.versionlist.ver + '') {
+                if (this.props.version !== result.versionlist.ver + '') {
                     this.props.onSetVersion(result.versionlist.ver + '');
                 }
                 this.props.onSetDeviceObj(result);

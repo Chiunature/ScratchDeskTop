@@ -25,6 +25,8 @@ import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
+
+const FIRMWARE_VERSION = '203';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -61,7 +63,8 @@ class ConnectionModal extends React.PureComponent {
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
-        this.setState({ firewareVersion: window.myAPI.getVersion(window.resourcesPath) });
+        const fv = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
+        this.setState({ firewareVersion: fv });
     }
 
     componentWillUnmount() {
