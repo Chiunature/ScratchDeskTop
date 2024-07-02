@@ -51,7 +51,7 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
 
-const FIRMWARE_VERSION = '201';
+const FIRMWARE_VERSION = '203';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
