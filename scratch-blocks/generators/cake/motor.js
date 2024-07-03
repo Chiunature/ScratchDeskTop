@@ -130,7 +130,7 @@ Blockly.cake['motor_setStill'] = function (block) {
     return code;
 };
 
-Blockly.cake['MOTOR_RESET_OPERATING_DEGREE'] = function (block) {
+Blockly.cake['motor_reset_operating_degree'] = function (block) {
     let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     // TODO: Assemble cake into code variable.
     let code = `motor_reser_angle(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
