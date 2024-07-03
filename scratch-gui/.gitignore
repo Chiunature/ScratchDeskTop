@@ -16,10 +16,13 @@ npm-*
 /build
 /dist
 /.opt-in
-
+pnpm-lock.yaml
 # Generated translation files
 /translations
 /locale
 /resources
 /Logs
-
+/cache-files.json
+/.venv
+/myvenv
+*.spec
