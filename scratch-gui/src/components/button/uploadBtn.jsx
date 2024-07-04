@@ -16,7 +16,7 @@ const messages = defineMessages({
     },
 })
 
-const SoftWareVersion = '1.4.7';
+const SoftWareVersion = '1.4.9';
 
 const UploadBtn = (props) => {
     const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;

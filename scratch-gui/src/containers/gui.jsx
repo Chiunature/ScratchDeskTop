@@ -51,13 +51,13 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
 
-const FIRMWARE_VERSION = '203';
+const FIRMWARE_VERSION = '204';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
         bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
         this.compile = new Compile();
-        this.handleUploadClick = debounce(this.handleCompile, 500, { leading: false, trailing: true });
+        this.handleUploadClick = debounce(this.handleCompile, 300, { leading: false, trailing: true });
         this.mainMsg = getMainMsg(props.intl);
     }
 
