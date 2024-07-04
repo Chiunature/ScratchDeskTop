@@ -80,9 +80,11 @@ function CascaderPanelModalCom(props) {
     }
 
     function handleCheck(item, childIndex, fatherIndex) {
-        const hasDevice = checkPorts(item);
-        if (!hasDevice) {
-            return;
+        if (!item.checked) {
+            const hasDevice = checkPorts(item);
+            if (!hasDevice) {
+                return;
+            }
         }
         onlyCheck(childIndex, fatherIndex);
         changeVal();
