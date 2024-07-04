@@ -2,7 +2,7 @@ import ScratchBlocks from "scratch-blocks";
 import { defaultColors } from './themes';
 const categorySeparator = '<sep gap="36"/>';
 
-const blockSeparator = '<sep gap="36"/>'; // At default scale, about 28px
+const blockSeparator = '<sep gap="24"/>'; // At default scale, about 28px
 
 
 const xmlEscape = function (unsafe) {
@@ -22,6 +22,301 @@ const xmlEscape = function (unsafe) {
     });
 };
 
+/*
+    <block type="motor_specifiedangle">
+            <value name="ANGLE">
+                <shadow type="math_angle"></shadow>
+            </value>
+        </block>
+        <block type="motor_relative_position"></block>
+    */
+
+const motor = function (isInitialSetup, isStage, targetId, colors) {
+    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no motor blocks"
+    ); */
+    return `
+            <category
+                name="%{BKY_CATEGORY_MOTOR}"
+                id="motor"
+                colour="${colors.primary}"
+                secondaryColour="${colors.tertiary}">
+                ${blockSeparator}
+                <block type="motor_starting">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_stop">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_speed">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="SPEED">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_specifiedunit">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="COUNT">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_specified_manner">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_startWithPower">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="POWER">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_acceleration">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="P">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                    <value name="I">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                    <value name="D">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_setStill">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="P">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                    <value name="I">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                    <value name="D">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                 <block type="motor_reset_operating_degree">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+                <block type="motor_rate">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_position">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+            </category>
+            `;
+};
+
+{/* <block type="combined_motor_move">
+                    <value name="left">
+                        <shadow type="math_-100to100_number"></shadow>
+                    </value>
+                    <value name="right">
+                        <shadow type="math_-100to100_number"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_turn">
+                    <value name="PORT1">
+                        <shadow type="combined_motorOne_menu"></shadow>
+                    </value>
+                    <value name="PORT2">
+                        <shadow type="combined_motorTwo_menu"></shadow>
+                    </value>
+                    <value name="ANGLE">
+                        <shadow type="math_angle"></shadow>
+                    </value>
+                </block>
+                <block type="combined_motor_angle">
+                    <value name="ANGLE">
+                        <shadow type="math_angle"></shadow>
+                    </value>
+                </block>
+        */}
+const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
+    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no combined_motor blocks"
+    ); */
+    return `
+            <category
+                name="%{BKY_CATEGORY_COMBINED_MOTOR}"
+                id="combined_motor"
+                colour="${colors.primary}"
+                secondaryColour="${colors.tertiary}">
+                ${blockSeparator}
+                <block type="combined_motor_starting">
+                    <value name="PORT">
+                        <shadow type="combined_motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_direction"></block>
+                ${blockSeparator}
+                <block type="combined_motor_speed">
+                    <value name="SPEED">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_line">
+                    <value name="distance">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_stop"></block>
+                ${blockSeparator}
+                <block type="combined_motor_movestep">
+                    <value name="left">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="right">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_stopping"></block>
+                ${blockSeparator}
+                <block type="combined_motor_startWithPower">
+                    <value name="POWER_ONE">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="POWER_TWO">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_startWithPowerObj">
+                    <value name="POWER_ONE">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="POWER_TWO">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="COUNT">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_moveByYawAngle">
+                    <value name="COUNT">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_spinByYawAngle">
+                    <value name="ANGLE">
+                        <shadow type="math_angle"></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+            </category>
+            `;
+};
+
+/*
+    <block type="matrix_lamp_setSaturation">
+            <value name="saturation">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        <block type="matrix_lamp_setColorRGB">
+            <value name="R">
+                <shadow type="math_0to255_number"/>
+            </value>
+            <value name="G">
+                <shadow type="math_0to255_number"/>
+            </value>
+            <value name="B">
+                <shadow type="math_0to255_number"/>
+            </value>
+        </block>
+*/
+const matrix = function (isInitialSetup, isStage, targetId, colors) {
+    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
+        "MOTOR_STAGE_SELECTED",
+        "Stage selected: no matrix blocks"
+    ); */
+    return `
+            <category
+                name="%{BKY_CATEGORY_MATRIX}"
+                id="matrix"
+                colour="${colors.primary}"
+                secondaryColour="${colors.tertiary}">
+                ${blockSeparator}
+                <block type="matrix_lamp">
+                    <value name="COLOR">
+                        <shadow type="colour_picker"/>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="matrix_lamp_stop"></block>
+                ${blockSeparator}
+                <block type="matrix_lamp_set">
+                    <value name="brightness">
+                        <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="matrix_lamp_text">
+                    <value name="matrix_text">
+                        <shadow type="text">
+                            <field name="TEXT">ABCD</field>
+                        </shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="matrix_color">
+                    <value name="COLOR">
+                        <shadow type="colour_picker"/>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="matrix_lamp_single">
+                    <value name="x">
+                        <shadow type="matrix_x"></shadow>
+                    </value>
+                    <value name="y">
+                        <shadow type="matrix_y"></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+            </category>
+            `;
+};
 
 {/*
     <block type="sound_cleareffects"/>
@@ -74,11 +369,13 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
                 <shadow type="sound_sounds_menu"></shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block id="${targetId}_sound_play" type="sound_play">
             <value name="SOUND_MENU">
                 <shadow type="sound_sounds_menu"></shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block type="sound_stopallsounds"/>
         ${blockSeparator}
         <block type="sound_setvolumeto">
@@ -134,7 +431,6 @@ const events = function (isInitialSetup, isStage, targetId, colors) {
     return `
             <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
             secondaryColour="${colors.tertiary}">
-                ${blockSeparator}
                 <block type="event_whenflagclicked"/>
                 ${categorySeparator}
             </category>
@@ -153,6 +449,12 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
             </value>
         </block>
         ${blockSeparator}
+        <block id="wait_until" type="control_wait_until"/>
+        ${blockSeparator}
+        <block type="control_stop"/>
+        ${blockSeparator}
+        <block type="control_break"/>
+        ${categorySeparator}
         <block type="control_repeat">
             <value name="TIMES">
                 <shadow type="math_whole_number">
@@ -160,16 +462,14 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
                 </shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block id="forever" type="control_forever"/>
         ${blockSeparator}
         <block type="control_if"/>
+        ${blockSeparator}
         <block type="control_if_else"/>
-        <block id="wait_until" type="control_wait_until"/>
-        <block id="repeat_until" type="control_repeat_until"/>
         ${blockSeparator}
-        <block type="control_stop"/>
-        ${blockSeparator}
-        <block type="control_break"/>
+         <block id="repeat_until" type="control_repeat_until"/>
         ${categorySeparator}
     </category>
     `;
@@ -209,7 +509,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
     );
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
+        secondaryColour="${colors.tertiary}">
             <block type="sensing_color_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -218,16 +518,7 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="colour_card" />
                 </value>
             </block>
-            <block type="sensing_color_detection">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            <block type="sensing_color_detectionRGB">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
+            ${blockSeparator}
             <block type="sensing_color_range">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -252,6 +543,18 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                 </value>
             </block>
             ${blockSeparator}
+            <block type="sensing_color_detection">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_color_detectionRGB">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${categorySeparator}
             <block type="sensing_reflected_light_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -260,12 +563,13 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="math_number"><field name="NUM">50</field></shadow>
                 </value>
             </block>
+            ${blockSeparator}
             <block type="sensing_reflected_light_detection">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${blockSeparator}
+            ${categorySeparator}
             <block type="sensing_ultrasonic_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -274,32 +578,40 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="math_number"><field name="NUM">10</field></shadow>
                 </value>
             </block>
+            ${blockSeparator}
             <block type="sensing_ultrasonic_detection">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            <block type="sensing_sound_intensity"></block>
             ${blockSeparator}
+            <block type="sensing_sound_intensity"></block>
+            ${categorySeparator}
+            <block type="sensing_gyroscope_attitude"></block>
+            ${blockSeparator}
+            <block type="sensing_gyroscope_acceleration"></block>
+            ${categorySeparator}
             <block type="sensing_key_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            <block type="sensing_gyroscope_acceleration"></block>
-            <block type="sensing_gyroscope_attitude"></block>
-            <block type="sensing_gyroscope_angle"></block>
             ${blockSeparator}
-            <block type="sensing_timer"></block>
-            <block type="sensing_reset_timer"></block>
+            <block type="sensing_mainIsPress"></block>
             ${blockSeparator}
             <block type="sensing_isHandling"></block>
+            ${blockSeparator}
             <block type="sensing_Handling"></block>
-            <block type="sensing_mainIsPress"></block>
+            ${categorySeparator}
+            <block type="sensing_gyroscope_angle"></block>
+            ${blockSeparator}
             <block type="sensing_set_yaw_angle"></block>
-        }
-        ${categorySeparator}
-    </category>
+            ${categorySeparator}
+            <block type="sensing_timer"></block>
+            ${blockSeparator}
+            <block type="sensing_reset_timer"></block>
+            ${categorySeparator}
+        </category>
     `;
 };
 
@@ -322,6 +634,7 @@ const operators = function (isInitialSetup, colors) {
                 </shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block type="operator_subtract">
             <value name="NUM1">
                 <shadow type="math_number">
@@ -334,6 +647,7 @@ const operators = function (isInitialSetup, colors) {
                 </shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block type="operator_multiply">
             <value name="NUM1">
                 <shadow type="math_number">
@@ -346,6 +660,7 @@ const operators = function (isInitialSetup, colors) {
                 </shadow>
             </value>
         </block>
+        ${blockSeparator}
         <block type="operator_divide">
             <value name="NUM1">
                 <shadow type="math_number">
@@ -353,6 +668,127 @@ const operators = function (isInitialSetup, colors) {
                 </shadow>
             </value>
             <value name="NUM2">
+                <shadow type="math_number">
+                    <field name="NUM"/>
+                </shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="operator_gt">
+            <value name="OPERAND1">
+                <shadow type="text">
+                    <field name="TEXT"/>
+                </shadow>
+            </value>
+            <value name="OPERAND2">
+                <shadow type="text">
+                    <field name="TEXT">50</field>
+                </shadow>
+            </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_lt">
+            <value name="OPERAND1">
+                <shadow type="text">
+                    <field name="TEXT"/>
+                </shadow>
+            </value>
+            <value name="OPERAND2">
+                <shadow type="text">
+                    <field name="TEXT">50</field>
+                </shadow>
+            </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_equals">
+            <value name="OPERAND1">
+                <shadow type="text">
+                    <field name="TEXT"/>
+                </shadow>
+            </value>
+            <value name="OPERAND2">
+                <shadow type="text">
+                    <field name="TEXT">50</field>
+                </shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="operator_and"/>
+        ${blockSeparator}
+        <block type="operator_or"/>
+        ${blockSeparator}
+        <block type="operator_not"/>
+        ${categorySeparator}
+        <block type="operator_contains" id="operator_contains">
+              <value name="STRING1">
+                <shadow type="text">
+                  <field name="TEXT">${apple}</field>
+                </shadow>
+              </value>
+              <value name="STRING2">
+                <shadow type="text">
+                  <field name="TEXT">${letter}</field>
+                </shadow>
+              </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_join">
+                <value name="STRING1">
+                    <shadow type="text">
+                        <field name="TEXT">${apple} </field>
+                    </shadow>
+                </value>
+                <value name="STRING2">
+                    <shadow type="text">
+                        <field name="TEXT">${banana}</field>
+                    </shadow>
+                </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_letter_of">
+                <value name="LETTER">
+                    <shadow type="math_whole_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+                <value name="STRING">
+                    <shadow type="text">
+                        <field name="TEXT">${apple}</field>
+                    </shadow>
+                </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_length">
+                <value name="STRING">
+                    <shadow type="text">
+                        <field name="TEXT">${apple}</field>
+                    </shadow>
+                </value>
+        </block>
+        ${categorySeparator}
+        <block type="operator_mod">
+            <value name="NUM1">
+                <shadow type="math_number">
+                    <field name="NUM"/>
+                </shadow>
+            </value>
+            <value name="NUM2">
+                <shadow type="math_number">
+                    <field name="NUM"/>
+                </shadow>
+            </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_round">
+            <value name="NUM">
+                <shadow type="math_number">
+                    <field name="NUM"/>
+                </shadow>
+            </value>
+        </block>
+        ${blockSeparator}
+        <block type="operator_mathop">
+            <value name="NUM">
                 <shadow type="math_number">
                     <field name="NUM"/>
                 </shadow>
@@ -368,124 +804,6 @@ const operators = function (isInitialSetup, colors) {
             <value name="TO">
                 <shadow type="math_number">
                     <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="operator_gt">
-            <value name="OPERAND1">
-                <shadow type="text">
-                    <field name="TEXT"/>
-                </shadow>
-            </value>
-            <value name="OPERAND2">
-                <shadow type="text">
-                    <field name="TEXT">50</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="operator_lt">
-            <value name="OPERAND1">
-                <shadow type="text">
-                    <field name="TEXT"/>
-                </shadow>
-            </value>
-            <value name="OPERAND2">
-                <shadow type="text">
-                    <field name="TEXT">50</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="operator_equals">
-            <value name="OPERAND1">
-                <shadow type="text">
-                    <field name="TEXT"/>
-                </shadow>
-            </value>
-            <value name="OPERAND2">
-                <shadow type="text">
-                    <field name="TEXT">50</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="operator_and"/>
-        <block type="operator_or"/>
-        <block type="operator_not"/>
-        ${blockSeparator}
-        ${isInitialSetup
-            ? ""
-            : `
-            <block type="operator_join">
-                <value name="STRING1">
-                    <shadow type="text">
-                        <field name="TEXT">${apple} </field>
-                    </shadow>
-                </value>
-                <value name="STRING2">
-                    <shadow type="text">
-                        <field name="TEXT">${banana}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="operator_letter_of">
-                <value name="LETTER">
-                    <shadow type="math_whole_number">
-                        <field name="NUM">1</field>
-                    </shadow>
-                </value>
-                <value name="STRING">
-                    <shadow type="text">
-                        <field name="TEXT">${apple}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="operator_length">
-                <value name="STRING">
-                    <shadow type="text">
-                        <field name="TEXT">${apple}</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="operator_contains" id="operator_contains">
-              <value name="STRING1">
-                <shadow type="text">
-                  <field name="TEXT">${apple}</field>
-                </shadow>
-              </value>
-              <value name="STRING2">
-                <shadow type="text">
-                  <field name="TEXT">${letter}</field>
-                </shadow>
-              </value>
-            </block>
-        `
-        }
-        ${blockSeparator}
-        <block type="operator_mod">
-            <value name="NUM1">
-                <shadow type="math_number">
-                    <field name="NUM"/>
-                </shadow>
-            </value>
-            <value name="NUM2">
-                <shadow type="math_number">
-                    <field name="NUM"/>
-                </shadow>
-            </value>
-        </block>
-        <block type="operator_round">
-            <value name="NUM">
-                <shadow type="math_number">
-                    <field name="NUM"/>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="operator_mathop">
-            <value name="NUM">
-                <shadow type="math_number">
-                    <field name="NUM"/>
                 </shadow>
             </value>
         </block>
@@ -518,275 +836,6 @@ const myBlocks = function (colors) {
     `;
 };
 
-/*
-    <block type="motor_specifiedangle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="motor_relative_position"></block>
-    */
-
-const motor = function (isInitialSetup, isStage, targetId, colors) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no motor blocks"
-    ); */
-    return `
-    <category
-        name="%{BKY_CATEGORY_MOTOR}"
-        id="motor"
-        colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
-        ${blockSeparator}
-        <block type="motor_starting">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        <block type="motor_stop">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        <block type="motor_speed">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="SPEED">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="motor_specifiedunit">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="COUNT">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-        </block>
-        <block type="motor_specified_manner">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        <block type="motor_rate">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        <block type="motor_position">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        <block type="motor_startWithPower">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="POWER">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="motor_acceleration">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="P">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-            <value name="I">
-                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-            </value>
-            <value name="D">
-                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-            </value>
-        </block>
-        <block type="motor_setStill">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-            <value name="P">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-            <value name="I">
-                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-            </value>
-            <value name="D">
-                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-            </value>
-        </block>
-         <block type="motor_reset_operating_degree">
-            <value name="PORT">
-                <shadow type="motor_box"></shadow>
-            </value>
-        </block>
-        }
-    </category>
-    `;
-};
-{/* <block type="combined_motor_move">
-            <value name="left">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-            <value name="right">
-                <shadow type="math_-100to100_number"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_turn">
-            <value name="PORT1">
-                <shadow type="combined_motorOne_menu"></shadow>
-            </value>
-            <value name="PORT2">
-                <shadow type="combined_motorTwo_menu"></shadow>
-            </value>
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_angle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-*/}
-
-const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no combined_motor blocks"
-    ); */
-    return `
-    <category
-        name="%{BKY_CATEGORY_COMBINED_MOTOR}"
-        id="combined_motor"
-        colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
-        ${blockSeparator}
-        <block type="combined_motor_starting">
-            <value name="PORT">
-                <shadow type="combined_motor_box"></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_direction"></block>
-        <block type="combined_motor_speed">
-            <value name="SPEED">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_line">
-            <value name="distance">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_stop"></block>
-        <block type="combined_motor_movestep">
-            <value name="left">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="right">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_stopping"></block>
-        <block type="combined_motor_startWithPower">
-            <value name="POWER_ONE">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="POWER_TWO">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_startWithPowerObj">
-            <value name="POWER_ONE">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="POWER_TWO">
-                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="COUNT">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_moveByYawAngle">
-            <value name="COUNT">
-                <shadow type="math_number"><field name="NUM">1</field></shadow>
-            </value>
-        </block>
-        <block type="combined_motor_spinByYawAngle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-    </category>
-    `;
-};
-
-
-/*
-    <block type="matrix_lamp_setSaturation">
-            <value name="saturation">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="matrix_lamp_setColorRGB">
-            <value name="R">
-                <shadow type="math_0to255_number"/>
-            </value>
-            <value name="G">
-                <shadow type="math_0to255_number"/>
-            </value>
-            <value name="B">
-                <shadow type="math_0to255_number"/>
-            </value>
-        </block>
-*/
-const matrix = function (isInitialSetup, isStage, targetId, colors) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no matrix blocks"
-    ); */
-    return `
-    <category
-        name="%{BKY_CATEGORY_MATRIX}"
-        id="matrix"
-        colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
-        ${blockSeparator}
-        <block type="matrix_lamp">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>
-        <block type="matrix_lamp_stop"></block>
-        <block type="matrix_lamp_set">
-            <value name="brightness">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="matrix_lamp_text">
-            <value name="matrix_text">
-                <shadow type="text">
-                    <field name="TEXT">ABCD</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="matrix_color">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>
-        <block type="matrix_lamp_single">
-            <value name="x">
-                <shadow type="matrix_x"></shadow>
-            </value>
-            <value name="y">
-                <shadow type="matrix_y"></shadow>
-            </value>
-        </block>
-    </category>
-    `;
-};
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -836,6 +885,13 @@ const makeToolboxXML = function (
         }
         // return `undefined`
     };
+    const motorXML =
+        moveCategory("motor") || motor(isInitialSetup, isStage, targetId, colors.motor);
+    const combined_motorXML =
+        moveCategory("combined_motor") ||
+        combined_motor(isInitialSetup, isStage, targetId, colors.combined_motor);
+    const matrixXML =
+        moveCategory("matrix") || matrix(isInitialSetup, isStage, targetId, colors.matrix);
     const soundXML =
         moveCategory("sound") ||
         sound(isInitialSetup, isStage, targetId, soundName, colors.sounds);
@@ -853,13 +909,6 @@ const makeToolboxXML = function (
     const myBlocksXML =
         moveCategory("procedures") ||
         myBlocks(colors.more);
-    const motorXML =
-        moveCategory("motor") || motor(isInitialSetup, isStage, targetId, colors.motor);
-    const combined_motorXML =
-        moveCategory("combined_motor") ||
-        combined_motor(isInitialSetup, isStage, targetId, colors.combined_motor);
-    const matrixXML =
-        moveCategory("matrix") || matrix(isInitialSetup, isStage, targetId, colors.matrix);
     const everything = [
         xmlOpen,
         motorXML,

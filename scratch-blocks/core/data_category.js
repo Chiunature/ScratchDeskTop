@@ -73,8 +73,8 @@ Blockly.DataCategory = function (workspace) {
     xmlList[xmlList.length - 1].setAttribute('gap', 24);
     var firstVariable = variableModelList[0];
     Blockly.DataCategory.defineList(xmlList, firstVariable);
-    Blockly.DataCategory.addAddToList(xmlList, firstVariable);
     Blockly.DataCategory.addSep(xmlList);
+    Blockly.DataCategory.addAddToList(xmlList, firstVariable);
     Blockly.DataCategory.addDeleteOfList(xmlList, firstVariable);
     Blockly.DataCategory.addDeleteAllOfList(xmlList, firstVariable);
     Blockly.DataCategory.addInsertAtList(xmlList, firstVariable);
