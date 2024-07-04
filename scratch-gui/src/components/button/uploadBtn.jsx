@@ -16,7 +16,6 @@ const messages = defineMessages({
     },
 })
 
-const SoftWareVersion = '1.4.9';
 
 const UploadBtn = (props) => {
     const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
@@ -43,7 +42,7 @@ const UploadBtn = (props) => {
         try {
             const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", { cache: "no-cache" });
             const obj = await res.json();
-            const sversion = await window.myAPI.onGetVersion() || SoftWareVersion;
+            const sversion = await window.myAPI.onGetVersion();
             if (Array.isArray(obj['version']) && obj['version'].includes(sversion)) {
                 setOpenUpload(obj['openUpload']);
                 setText(obj['text']);

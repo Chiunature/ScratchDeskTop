@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
@@ -329,5 +329,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     readFilesAsync,
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     onGetVersion: async () => await ipcInvoke('app-version'),
-    sleep
+    sleep,
+    openExternal: (url) => shell.openExternal(url)
 });

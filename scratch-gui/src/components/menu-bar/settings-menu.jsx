@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
+import { FormattedMessage, defineMessages } from 'react-intl';
 import LanguageMenu from './language-menu.jsx';
 import MenuBarMenu from './menu-bar-menu.jsx';
 import ThemeMenu from './theme-menu.jsx';
@@ -15,6 +14,20 @@ import dropdownCaret from './dropdown-caret.svg';
 import settingsIcon from './icon--settings.svg';
 import HelpMenu from './help-menu.jsx';
 
+const ariaMessages = defineMessages({
+    foundUpdate: {
+        id: "gui.main.foundUpdate",
+        defaultMessage: "Discovered a new version, do you want to go and download it?",
+        description: "Discovered a new version, do you want to go and download it?",
+    },
+    isNew: {
+        id: "gui.main.isNew",
+        defaultMessage: "It is currently the latest version!",
+        description: "It is currently the latest version!",
+    },
+});
+
+
 const SettingsMenu = ({
     canChangeLanguage,
     canChangeTheme,
@@ -26,8 +39,32 @@ const SettingsMenu = ({
     reUpdateDriver,
     getMainMessage,
     handleHelp,
-    handleProblem
-}) => (
+    handleProblem,
+    intl
+}) => {
+
+    async function handleCheckUpdate() {
+        const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json");
+        const result = await res.json();
+        const newVersion = _reType(result.newVersion);
+        let currentVersion = await window.myAPI.onGetVersion();
+        currentVersion = _reType(currentVersion);
+        if (newVersion <= currentVersion) {
+            alert(intl.formatMessage(ariaMessages.isNew));
+        } else {
+            const flag = confirm(intl.formatMessage(ariaMessages.foundUpdate));
+            if (flag) {
+                window.myAPI.openExternal(result.download);
+            }
+        }
+
+        function _reType(ver) {
+            const str = ver.split('.').join('');
+            return parseInt(str);
+        }
+    }
+
+    return (
     <div
         className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
             [menuBarStyles.active]: settingsMenuOpen
@@ -74,10 +111,20 @@ const SettingsMenu = ({
                         />
                     </span>
                 </MenuItem>
+                <MenuItem onClick={handleCheckUpdate}>
+                    <span className={styles.dropdownLabel}>
+                        <FormattedMessage
+                            defaultMessage="Check for updates..."
+                            description="Check for updates..."
+                            id="gui.main.checkUpdate"
+                        />
+                    </span>
+                </MenuItem>
             </MenuSection>
         </MenuBarMenu>
     </div>
-);
+    )
+};
 
 SettingsMenu.propTypes = {
     canChangeLanguage: PropTypes.bool,
@@ -88,4 +135,4 @@ SettingsMenu.propTypes = {
     settingsMenuOpen: PropTypes.bool
 };
 
-export default SettingsMenu;
+export default React.memo(SettingsMenu);

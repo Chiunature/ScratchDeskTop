@@ -95,8 +95,8 @@ class GUI extends React.Component {
         window.myAPI.delEvents();
     }
 
-    getMainMessage() {
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.GETMAINMSG, sendParams: this.mainMsg });
+    async getMainMessage() {
+        await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.GETMAINMSG, { msg: this.mainMsg, autoUpdate: false });
     }
 
     blocksMotorCheck() {

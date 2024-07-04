@@ -354,6 +354,7 @@ const GUIComponent = (props) => {
                             getMainMessage={getMainMessage}
                             onShowQrcode={onShowQrcode}
                             onSetDeviceObj={onSetDeviceObj}
+                            intl={intl}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>

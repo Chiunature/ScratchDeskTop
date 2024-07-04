@@ -84,9 +84,17 @@ const pack = {
     isPackaged: app.isPackaged
 }
 
-async function updater(win) {
+function ipcHandle(eventName, callback) {
+    ipcMain.removeHandler(eventName);
+    ipcMain.handle(eventName, (event, arg) => callback(event, arg));
+}
+
+async function updater(win, autoUpdate) {
+    if (!autoUpdate) {
+        return null;
+    }
     updateFunc = await checkUpdate(win, isUpdate, mainMsg, updateFunc);
-    console.info(updateFunc);
+    return updateFunc;
 }
 
 function showLoading(cb) {
@@ -108,7 +116,7 @@ function showLoading(cb) {
 
 
 function saveFileToLocal() {
-    ipcMain.handle(ipc.FILE.SAVE, async (event, obj) => {
+    ipcHandle(ipc.FILE.SAVE, async (event, obj) => {
         // 选择文件保存路径
         const result = await dialog.showSaveDialog({
             title: 'Save File',
@@ -131,7 +139,7 @@ function handleChildProcess() {
     const { port1, port2 } = new MessageChannelMain();
     const child = utilityProcess.fork(childProcessPath);
     child.postMessage(null, [port1]);
-    ipcMain.handle(ipc.WORKER, async (event, data) => {
+    ipcHandle(ipc.WORKER, async (event, data) => {
         try {
             if (!data) return;
             port2.postMessage({ ...data });
@@ -191,8 +199,10 @@ function handleMenuAndDevtool(mainWindow) {
 }
 
 function getRenderVersion() {
-    ipcMain.handle('app-version', () => {
-        return app.getVersion();
+    ipcHandle('app-version', () => {
+        const ver = app.getVersion();
+        const SoftWareVersion = ver || '1.4.9';
+        return SoftWareVersion;
     })
 }
 
@@ -223,16 +233,16 @@ function createWindow() {
         saveFileToLocal();
         _openFileLocation();
         // 设置静态资源路径
-        ipcMain.handle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
-        ipcMain.on(ipc.SEND_OR_ON.GETMAINMSG, (event, msg) => {
-            if (!mainMsg) {
-                mainMsg = { ...msg };
-                updater(mainWindow, mainMsg);
+        ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
+        ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
+            if (!mainMsg && args.msg) {
+                mainMsg = { ...args.msg };
             }
+            return updater(mainWindow, args.autoUpdate);
         });
 
         // 检测电脑是否安装了驱动
-        ipcMain.handle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
+        ipcHandle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
             if (flag === ipc.DRIVER.INSTALL) return;
             //是否需要重装驱动
             if (flag === ipc.DRIVER.REUPDATE) {
@@ -284,7 +294,7 @@ function createWindow() {
 
     /* function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
         ipcMain.removeHandler(instruct);
-        ipcMain.handle(instruct, async () => {
+        ipcHandle(instruct, async () => {
             const { response } = await dialog.showMessageBox({
                 type: obj.type ? obj.type : 'info',
                 title: obj.title ? obj.title : ' ',
@@ -322,7 +332,7 @@ function createWindow() {
     }
 
     function _openFileLocation() {
-        ipcMain.handle('openFileLocation', (event, path) => {
+        ipcHandle('openFileLocation', (event, path) => {
             shell.showItemInFolder(path);
             return;
         })

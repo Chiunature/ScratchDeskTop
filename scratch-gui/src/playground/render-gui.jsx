@@ -6,7 +6,7 @@ import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
 import HashParserHOC from '../lib/hash-parser-hoc.jsx';
 import log from '../lib/log.js';
-import {ipc as ipc_Renderer} from 'est-link';
+// import {ipc as ipc_Renderer} from 'est-link';
 
 const onClickLogo = () => {
     window.location = '#';

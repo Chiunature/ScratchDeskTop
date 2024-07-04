@@ -602,5 +602,8 @@
   "gui.main.waiting": "请耐心等待",
   "gui.main.restartUpdate": "请重启完成更新",
   "gui.main.discoverUpdate": "发现新版本，是否更新？",
-  "gui.main.openUpload": "检测到该固件版本不是最新的, 已经进入维护中, 暂时不能下载"
+  "gui.main.openUpload": "检测到该固件版本不是最新的, 已经进入维护中, 暂时不能下载",
+  "gui.main.checkUpdate": "检查更新...",
+  "gui.main.foundUpdate": "发现新版本，是否前往下载?",
+  "gui.main.isNew": "目前已是最新版本!"
 }

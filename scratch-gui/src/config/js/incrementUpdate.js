@@ -99,6 +99,8 @@ async function incrementUpdate(currentIncrementUpdate, obsIncrementUpdate, mainM
                         console.info(err)
                         downloadApplying = false;
                     }
+                } else {
+                    resolve(null);
                 }
             }
         });
