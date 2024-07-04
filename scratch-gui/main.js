@@ -135,7 +135,8 @@ function handleChildProcess() {
         try {
             if (!data) return;
             port2.postMessage({ ...data });
-            return await _onmessage();
+            const result = await _onmessage();
+            return result;
         } catch (error) {
             console.info(error);
         }

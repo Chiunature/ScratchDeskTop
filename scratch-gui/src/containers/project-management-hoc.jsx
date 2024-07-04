@@ -1,15 +1,15 @@
-import React, {createRef} from "react";
+import React, { createRef } from "react";
 import ProjectManagement from "../components/project-management/project-management.jsx";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import bindAll from "lodash.bindall";
 import styles from "../components/project-management/project-management.css";
 import Box from "../components/box/box.jsx";
 import Modal from "./modal.jsx";
-import {showFileStytem} from "../reducers/file-stytem";
+import { showFileStytem } from "../reducers/file-stytem";
 import sharedMessages from "../lib/shared-messages";
-import {ipc as ipc_Renderer} from "est-link";
-import {requestNewProject} from "../reducers/project-state";
-import {setProjectTitle} from "../reducers/project-title";
+import { ipc as ipc_Renderer } from "est-link";
+import { requestNewProject } from "../reducers/project-state";
+import { setProjectTitle } from "../reducers/project-title";
 import PropTypes from "prop-types";
 import getMainMsg from "../lib/alerts/message.js";
 
@@ -60,16 +60,19 @@ class ProjectManagementHoc extends React.PureComponent {
         window.removeEventListener('resize', this.handleScreenAuto);
     }
 
-     async initFileList() {
+    async initFileList() {
         let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
-         let newList = [];
-         if(data && data.length > 0) {
-             for (let i = 0; i < data.length; i++) {
-                 const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
-                 if(isExists) newList.push(data[i]);
-             }
-         }
-        data && this.setState({fileList: newList, loading: false});
+        let newList = [];
+        if (data && data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
+                if (isExists) {
+                    newList.push(data[i]);
+                }
+            }
+        }
+        this.setState({ fileList: newList, loading: false });
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: [...newList] });
     }
 
     async changeFilesList(editable) {
@@ -77,7 +80,7 @@ class ProjectManagementHoc extends React.PureComponent {
         this.setState({
             checkedList: this.state.fileList.filter(el => el.checked)
         });
-        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type:'set', key:'files', value: [...this.state.fileList]});
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: [...this.state.fileList] });
     }
 
     preventDefaultEvents(e) {
@@ -114,7 +117,7 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     async handleFilterClear() {
-        let list = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER,{type: 'get', key:'files'});
+        let list = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
         if (list) {
             this.setState(() => ({
                 filterQuery: '',
@@ -129,7 +132,7 @@ class ProjectManagementHoc extends React.PureComponent {
             this.handleFilterClear();
         } else {
             this.state.fileList = this.state.fileList.filter(el => el.fileName.match(value));
-            this.setState(() => ({filterQuery: value}));
+            this.setState(() => ({ filterQuery: value }));
         }
     }
 
@@ -137,7 +140,7 @@ class ProjectManagementHoc extends React.PureComponent {
         this.preventDefaultEvents(e);
         const newName = e.target.value;
         const oldName = item.fileName;
-        if(newName !== oldName) {
+        if (newName !== oldName) {
             const oldPath = item.filePath;
             const newPath = oldPath.replace(oldName, newName);
             window.myAPI.changeFileName(oldPath, newPath);
@@ -189,7 +192,7 @@ class ProjectManagementHoc extends React.PureComponent {
         let time = window.myAPI.getCurrentTime();
         let timeList = time.split('_');
         timeList[1] = timeList[1].replaceAll('-', ':');
-        this.state.fileList.unshift({...item, fileName: newFileName, filePath: newPath, alterTime: timeList.join(' ')});
+        this.state.fileList.unshift({ ...item, fileName: newFileName, filePath: newPath, alterTime: timeList.join(' ') });
 
         const res = await window.myAPI.readFiles(oldPath, '', {});
         await window.myAPI.writeFiles(newPath, res, '');
@@ -203,9 +206,9 @@ class ProjectManagementHoc extends React.PureComponent {
             file: res,
             filename: item.fileName
         });
-        if(filePath) {
+        if (filePath) {
             await window.myAPI.deleteFiles(item.filePath, '');
-            this.state.fileList[index].filePath  = filePath;
+            this.state.fileList[index].filePath = filePath;
             this.changeFilesList();
         }
     }
@@ -218,7 +221,7 @@ class ProjectManagementHoc extends React.PureComponent {
     handleDisEditable() {
         for (let i = 0; i < this.state.fileList.length; i++) {
             const item = this.state.fileList[i];
-            if(item.editable) item.editable = false;
+            if (item.editable) item.editable = false;
         }
     }
 
@@ -240,7 +243,7 @@ class ProjectManagementHoc extends React.PureComponent {
         this.changeFilesList();
     }
 
-     async handleCopyAll() {
+    async handleCopyAll() {
         for (let i = 0; i < this.state.checkedList.length; i++) {
             await this.handleCopyRecord(this.state.checkedList[i]);
         }
@@ -259,12 +262,12 @@ class ProjectManagementHoc extends React.PureComponent {
         const designDraftHeight = 1080;
         const scale =
             document.documentElement.clientWidth /
-            document.documentElement.clientHeight <
-            designDraftWidth / designDraftHeight
+                document.documentElement.clientHeight <
+                designDraftWidth / designDraftHeight
                 ? document.documentElement.clientWidth / designDraftWidth
                 : document.documentElement.clientHeight / designDraftHeight;
         this.setState((state) => ({
-            content : {transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`)}
+            content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
         }));
     }
 
@@ -278,7 +281,7 @@ class ProjectManagementHoc extends React.PureComponent {
                 onRequestClose={this.props.onRequestClose}
                 style={{ content: this.state.content }}
                 intl={this.props.intl}
-                onHelp={()=>{}}
+                onHelp={() => { }}
             >
                 <Box className={styles.body}>
                     <ProjectManagement
