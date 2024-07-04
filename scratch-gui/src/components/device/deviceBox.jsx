@@ -55,7 +55,7 @@ const DeviceBox = ({ list, intl, messages }) => {
             case 'version':
                 return intl.formatMessage(messages['version']);
             default:
-                return '';
+                return 'Error';
         }
     }
 
@@ -72,7 +72,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
                             {Object.keys(el.motor).map((item, index) => {
                                 return (newMotorData(index) && <li key={index}>
-                                    <span>{newMotorData(index)}</span>
+                                    <span>{item === 'Not_Run' ? 'Error' : newMotorData(index)}</span>
                                     <span>{el.motor[item]}</span>
                                 </li>)
                             })}
@@ -83,7 +83,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                             {Object.keys(el.color).map((item, index) => {
                                 return (
                                     <Fragment key={index}>
-                                        {(item === 'l' || item === 'rgb' || item === 'version') && <li>
+                                        {(item === 'l' || item === 'rgb' || item === 'version' || item === 'Not_Run') && <li>
                                             <span>{newColorData(item)}</span>
                                             <span>{el.color[item]}</span>
                                             {item === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}

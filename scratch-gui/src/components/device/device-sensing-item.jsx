@@ -71,10 +71,11 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
                     <div>
                         {getType(item) && Object.keys(getType(item)).map((el, i) => {
                             return (
-                                <Fragment key={i}>
+                                el === 'Not_Run' ? (<span key={i}>Error</span>) :
+                                (<Fragment key={i}>
                                     {DistinguishTypes(item.deviceId, i) && <span
                                         onClick={() => selectUnit(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
-                                </Fragment>
+                                </Fragment>)
                             )
                         })}
                     </div>
