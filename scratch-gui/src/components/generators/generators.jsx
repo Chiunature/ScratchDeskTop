@@ -19,12 +19,13 @@ const GenComponent = ({
     let [containerWidth, setContainerWidth] = useState(0);
 
     useEffect(() => {
-        document.addEventListener('mouseup', handleClick);
-
-        return () => {
+        if (containerWidth === 0) {
             document.removeEventListener('mouseup', handleClick);
         }
-    }, [isGen]);
+        if(containerWidth > 0 && !isDrag) {
+            document.addEventListener('mouseup', handleClick);
+        }
+    }, [containerWidth, isDrag]);
 
     let newIsGen = useMemo(() => {
         if (!isDrag) {
@@ -37,39 +38,40 @@ const GenComponent = ({
         return isGen;
     }, [isGen]);
 
-    const handleClick = (e) => {
-        if (isGen && !isDrag && !genRef.current.contains(e.target)) {
+    function handleClick(e) {
+        if (!isDrag && !genRef.current.contains(e.target)) {
             const menuBarGen = document.getElementById("menuBarGen");
             if (menuBarGen.contains(e.target)) {
                 return;
             }
-            onSetGen(isGen);
+            onSetGen(false);
         }
     }
 
     function handleDragStart() {
         setIsDrag(true);
-        onSetGen(false);
+        if (!isGen) {
+            onSetGen(true);
+        }
         document.onmouseup = handleDragEnd;
         document.onmousemove = (e) => {
             const width = Math.min(Math.max(window.innerWidth - e.pageX, 0), window.innerWidth / 2);
-            if (width === 0) {
-                onSetGen(true);
-            }
             setContainerWidth(width);
         }
     }
 
 
     function handleDragEnd(e) {
-        const width = window.innerWidth - e.pageX;
-        if (width < 450) {
+        if (window.innerWidth - e.pageX < 450) {
+            onSetGen(false);
             setContainerWidth(0);
+        }
+        if (window.innerWidth - e.pageX >= window.innerWidth / 2) {
             onSetGen(true);
         }
+        setIsDrag(false);
         document.onmouseup = null;
         document.onmousemove = null;
-        setIsDrag(false);
     }
 
     return (

@@ -339,7 +339,7 @@ const mapDispatchToProps = dispatch => ({
     },
     onCloseImporting: () => dispatch(closeAlertWithId('importingAsset')),
     onShowImporting: () => dispatch(showStandardAlert('importingAsset')),
-    onSetGen: () => dispatch(setGen(true)),
+    onSetGen: () => dispatch(setGen(false)),
 });
 
 export default errorBoundaryHOC('Sound Tab')(

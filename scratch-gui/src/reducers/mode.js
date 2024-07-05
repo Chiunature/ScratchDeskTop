@@ -109,7 +109,7 @@ const setPlayer = function (isPlayerOnly) {
 const setGen = function (isGen) {
     return {
         type: SET_GEN,
-        isGen: !isGen
+        isGen: isGen
     };
 };
 const getCode = function (code) {

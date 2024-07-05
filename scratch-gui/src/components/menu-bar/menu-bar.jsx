@@ -1040,7 +1040,7 @@ class MenuBar extends React.Component {
                                 [styles.active]: "",
                             }
                         )}
-                        onClick={() => this.props.onSetGen(this.props.isGen)}
+                        onClick={() => this.props.onSetGen(!this.props.isGen)}
                     >
                         <img className={styles.unconnectedIcon} src={genIcon} alt="" />
                         <span className={styles.collapsibleLabel}><FormattedMessage
