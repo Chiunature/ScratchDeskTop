@@ -4,7 +4,7 @@ import bindAll from 'lodash.bindall';
 import CodeEditorComponent from '../components/code-editor/code-editor.jsx';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class CodeEditor extends React.Component {
+class CodeEditor extends React.PureComponent {
     constructor (props) {
         super(props);
         bindAll(this, [

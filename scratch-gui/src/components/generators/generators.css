@@ -7,21 +7,25 @@
 
 .gen-txt {
     display: inline-block;
-    width: 450px;
+    width: 0;
     height: 95%;
     border: 1px solid #e6e6e6;
     outline: none;
-    border-radius: 8px;
     position: fixed;
     top: 48px;
     right: 0;
     z-index: 35;
-    transition: all .5s ease;
-    transform: translateX(450px);
+    transition: width .3s ease;
+    transform-origin: right;
+    background-color: white;
 }
 
 .gen-slate {
-    transform: translateX(0);
+    width: 450px;
+}
+
+.gen-wid {
+    transition: none;
 }
 
 [dir="rtl"] .gen-txt {
@@ -35,10 +39,18 @@
     top: 48px;
     left: 0;
     z-index: 30;
-    transition: all .5s ease;
+    transition: all 0.3s ease;
     transform: translateX(-450px);
 }
 
 [dir="rtl"] .gen-slate {
     transform: translateX(0);
+}
+
+.show-img {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-100%, -70%) rotate(180deg);
+    cursor: grabbing;
 }

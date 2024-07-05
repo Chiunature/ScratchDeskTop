@@ -75,6 +75,9 @@ const messages = defineMessages({
 let isRendererSupported = null;
 
 const codeEditorOptions = {
+    roundedSelection: false,
+    renderSideBySide: true,
+    scrollBeyondLastLine: false,
     wordWrap: "off", //是否自动换行
     readOnly: true, //是否只读
     folding: true, // 是否折叠
@@ -84,8 +87,13 @@ const codeEditorOptions = {
     selectionClipboard: false, // 选择剪切板
     automaticLayout: true, // 自动布局
     minimap: {
-        enabled: true //开启小地图
-    }
+        enabled: false //开启小地图
+    },
+    scrollbar: {
+        // 滚动条
+        horizontalScrollbarSize: 0,
+        verticalScrollbarSize: 0,
+    },
 }
 
 const GUIComponent = (props) => {
