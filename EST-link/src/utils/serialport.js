@@ -301,6 +301,7 @@ class Serialport extends Common {
         this.sign = null;
         clearTimeout(this.checkConnectTimer);
         this.checkConnectTimer = null;
+        this.receiveObj = null;
     }
 
     /**

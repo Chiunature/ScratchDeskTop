@@ -83,6 +83,12 @@ const pack = {
     process: global.process,
     isPackaged: app.isPackaged
 }
+// 使用快速启动模式
+app.commandLine.appendSwitch('enable-features', 'HardwareAccelerationModeDefault');
+app.commandLine.appendSwitch('gpu-memory-buffer-compositor-resources');
+app.commandLine.appendSwitch('disable-features', 'OutOfProcessPdf'); // 必须禁用PDF预览以启用快速启动
+app.disableHardwareAcceleration(); // 快速启动模式下可能需要禁用硬件加速
+
 
 function ipcHandle(eventName, callback) {
     ipcMain.removeHandler(eventName);
@@ -112,8 +118,6 @@ function showLoading(cb) {
     loadingWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/launch.html"));
     loadingWindow.show();
 };
-
-
 
 function saveFileToLocal() {
     ipcHandle(ipc.FILE.SAVE, async (event, obj) => {
@@ -206,7 +210,6 @@ function getRenderVersion() {
     })
 }
 
-
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -220,7 +223,14 @@ function createWindow() {
             minHeight: 750,
             partition: 'persist:window-id',
             webPreferences: options,
+            maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
         });
+
+        mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
+            details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为1小时
+            callback({ requestHeaders: details.requestHeaders });
+        });
+    
         handleMenuAndDevtool(mainWindow);
         getRenderVersion();
         openSerialPort();
@@ -256,6 +266,8 @@ function createWindow() {
             loadingWindow.close();
             mainWindow.show();
             app.isPackaged && watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            // 启用硬件加速
+            app.commandLine.appendSwitch('--enable-gpu-rasterization');
         });
 
         // 关闭window时触发下列事件.

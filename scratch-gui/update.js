@@ -78,7 +78,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
 
 
     autoUpdater.on('update-downloaded', (event) => {
-      console.info(event)
+      // console.info(event)
       updateDownloading = false;
       dialog.showMessageBox({
         type: "info",
@@ -105,7 +105,7 @@ const checkUpdate = (mainWin, isUpdate, mainMsg) => {
     });
 
     autoUpdater.on('error', (message) => {
-      console.info(message)
+      // console.info(message)
       reject(message);
     });
   })
