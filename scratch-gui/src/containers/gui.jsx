@@ -229,22 +229,28 @@ class GUI extends React.Component {
                 if (!result || this.props.completed || this.props.dragging) {
                     return;
                 }
-                if (this.props?.deviceObj?.estlist?.est === result?.estlist?.est) {
-                    this.props.onSetDeviceStatus(this.props.deviceObj.estlist.est);
+                const { deviceObj, version, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
+                const { estlist, versionlist } = result;
+                if (deviceObj?.estlist?.est === estlist?.est) {
+                    onSetDeviceStatus(estlist.est);
                 }
-                if (this.props.version !== result.versionlist.ver + '') {
-                    this.props.onSetVersion(result.versionlist.ver + '');
+                if (version !== versionlist.ver) {
+                    onSetVersion(versionlist.ver);
                 }
-                this.props.onSetDeviceObj(result);
-
-                this.blocksMotorCheck();
-                this.initSensingList(unitList);
-                if (sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP) {
-                    this.handleRunApp();
-                }
-                if (sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING) {
-                    sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
-                }
+                onSetDeviceObj(result);
+                
+                requestIdleCallback(() => {
+                    this.blocksMotorCheck();
+                    this.initSensingList(unitList);
+                    const runApp = sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP;
+                    const updateSensing = sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING;
+                    if (runApp) {
+                        this.handleRunApp();
+                    }
+                    if (updateSensing) {
+                        sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
+                    }
+                }, { timeout: 500 });
             }
         });
     }

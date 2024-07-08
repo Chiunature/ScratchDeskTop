@@ -89,7 +89,9 @@
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = view.canvas.width;
     tempCanvas.height = view.canvas.height;
-    const ctx = tempCanvas.getContext('2d');
+    const ctx = tempCanvas.getContext('2d', {
+        willReadFrequently: true
+    });
 
     const loop = function () {
         const timeoutId = setTimeout(loop, INTERVAL);

@@ -60,12 +60,12 @@ class SoundTab extends React.Component {
     componentDidMount() {
         this.props.onSetGen();
     }
-    componentWillReceiveProps (nextProps) {
+    componentDidUpdate(prevProps) {
         const {
             editingTarget,
             sprites,
             stage
-        } = nextProps;
+        } = this.props;
 
         const target = editingTarget && sprites[editingTarget] ? sprites[editingTarget] : stage;
         if (!target || !target.sounds) {
@@ -73,7 +73,7 @@ class SoundTab extends React.Component {
         }
 
         // If switching editing targets, reset the sound index
-        if (this.props.editingTarget !== editingTarget) {
+        if (prevProps.editingTarget !== editingTarget) {
             this.setState({selectedSoundIndex: 0});
         } else if (this.state.selectedSoundIndex > target.sounds.length - 1) {
             this.setState({selectedSoundIndex: Math.max(target.sounds.length - 1, 0)});

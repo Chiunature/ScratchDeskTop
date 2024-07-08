@@ -18,10 +18,12 @@ class SliderMonitor extends React.Component {
             value: props.value
         };
     }
-    componentWillReceiveProps (nextProps) {
+    static getDerivedStateFromProps (nextProps) {
         if (this.state.value !== nextProps.value) {
-            this.setState({value: nextProps.value});
+            this.setState({ value: nextProps.value });
+            return { ...nextProps };
         }
+        return null;
     }
     handleSliderUpdate (e) {
         this.setState({value: Number(e.target.value)});

@@ -4,7 +4,7 @@ import SelectBoxCom from '../components/box/selectBox.jsx';
 import { setExelist, setSelectedExe } from '../reducers/mode.js';
 import bindAll from 'lodash.bindall';
 
-class SelectBox extends React.Component {
+class SelectBox extends React.PureComponent {
 
     constructor(props) {
         super(props);

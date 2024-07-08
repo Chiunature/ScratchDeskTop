@@ -888,7 +888,9 @@ class VirtualMachine extends EventEmitter {
         const canvas = document.createElement('canvas');
         canvas.width = bitmapWidth;
         canvas.height = bitmapHeight;
-        const context = canvas.getContext('2d');
+        const context = canvas.getContext('2d', {
+            willReadFrequently: true
+        });
         context.putImageData(bitmap, 0, 0);
 
         // Divide by resolution because the renderer's definition of the rotation center

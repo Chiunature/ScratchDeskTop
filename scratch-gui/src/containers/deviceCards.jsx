@@ -9,9 +9,8 @@ import {
 import CardsComponent from '../components/cards/deviceCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
-// import { ipc as ipc_Renderer } from "est-link";
 
-class DeviceCards extends React.Component {
+class DeviceCards extends React.PureComponent {
     constructor(props) {
         super(props);
     }

@@ -171,7 +171,9 @@ class VideoMotionView {
          * 2D context to draw to debug canvas.
          * @type {CanvasRendering2DContext}
          */
-        this.context = canvas.getContext('2d');
+        this.context = canvas.getContext('2d', {
+            willReadFrequently: true
+        });
 
         /**
          * Visualization output mode.
