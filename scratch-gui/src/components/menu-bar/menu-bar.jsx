@@ -88,6 +88,7 @@ import connectedIcon from "./icon--connected.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
 import fileIcon from './icon--file.svg';
+import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
 import { showAlertWithTimeout } from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
@@ -1004,6 +1005,7 @@ class MenuBar extends React.Component {
                         )}
                         onMouseUp={() => this.props.onOpenCascaderPanelModal()}
                     >
+                        <img className={styles.unconnectedIcon} src={foucsUpdateIcon} alt="" />
                         <FormattedMessage
                                 defaultMessage="Force updates"
                                 description="Force updates"

@@ -76,7 +76,7 @@ function CascaderPanelModalCom(props) {
                 result.push([arr.join('/')]);
             }
         }
-        setValList([...result]);
+        setValList(result);
     }
 
     function handleCheck(item, childIndex, fatherIndex) {
@@ -141,7 +141,6 @@ function CascaderPanelModalCom(props) {
             onRequestClose={props.onCancel}
             intl={props.intl}
             peripheralName={props.peripheralName}
-            onHelp={() => { }}
         >
             <Box className={styles.body}>
                 <Box className={styles.headArea}>
@@ -214,7 +213,7 @@ function CascaderPanelModalCom(props) {
                 <Box className={styles.bottomArea}>
                     <Box className={styles.alert}>注意: *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。</Box>
                     <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
-                        <button className={classNames(styles.redButton, styles.connectionButton)} onClick={update}>
+                        <button className={classNames(styles.redButton, styles.connectionButton)} onClick={update} disabled={valList.length === 0}>
                             <FormattedMessage
                                 defaultMessage="Force updates"
                                 description="Force updates"

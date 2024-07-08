@@ -213,6 +213,12 @@
     color: #fff;
 }
 
+.connection-button:disabled {
+    background: $motion-transparent;
+    cursor: not-allowed;
+}
+
+
 .alert {
     width: 100%;
     padding: 8px 16px;
