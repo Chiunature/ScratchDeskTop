@@ -101,7 +101,6 @@ class Blocks extends React.Component {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
-        window.resourcesPath = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
         //this.props.options.media = window.myAPI.getMediaPath(res);
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
@@ -109,42 +108,45 @@ class Blocks extends React.Component {
             { rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme) }
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
-        // Register buttons under new callback keys for creating variables,
-        // lists, and procedures from extensions.
-        const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
+        requestIdleCallback(async () => {
+            window.resourcesPath = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
+            // Register buttons under new callback keys for creating variables,
+            // lists, and procedures from extensions.
+            const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
 
-        const varListButtonCallback = type =>
-            (() => this.ScratchBlocks.Variables.createVariable(this.workspace, null, type));
-        const procButtonCallback = () => {
-            this.ScratchBlocks.Procedures.createProcedureDefCallback_(this.workspace);
-        };
+            const varListButtonCallback = type =>
+                (() => this.ScratchBlocks.Variables.createVariable(this.workspace, null, type));
+            const procButtonCallback = () => {
+                this.ScratchBlocks.Procedures.createProcedureDefCallback_(this.workspace);
+            };
 
-        toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback('variable'));
-        toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
-        toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
+            toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback('variable'));
+            toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
+            toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
 
-        // Store the xml of the toolbox that is actually rendered.
-        // This is used in componentDidUpdate instead of prevProps, because
-        // the xml can change while e.g. on the costumes tab.
-        this._renderedToolboxXML = this.props.toolboxXML;
+            // Store the xml of the toolbox that is actually rendered.
+            // This is used in componentDidUpdate instead of prevProps, because
+            // the xml can change while e.g. on the costumes tab.
+            this._renderedToolboxXML = this.props.toolboxXML;
 
-        // we actually never want the workspace to enable "refresh toolbox" - this basically re-renders the
-        // entire toolbox every time we reset the workspace.  We call updateToolbox as a part of
-        // componentDidUpdate so the toolbox will still correctly be updated
-        this.setToolboxRefreshEnabled = this.workspace.setToolboxRefreshEnabled.bind(this.workspace);
-        this.workspace.setToolboxRefreshEnabled = () => {
-            this.setToolboxRefreshEnabled(false);
-        };
+            // we actually never want the workspace to enable "refresh toolbox" - this basically re-renders the
+            // entire toolbox every time we reset the workspace.  We call updateToolbox as a part of
+            // componentDidUpdate so the toolbox will still correctly be updated
+            this.setToolboxRefreshEnabled = this.workspace.setToolboxRefreshEnabled.bind(this.workspace);
+            this.workspace.setToolboxRefreshEnabled = () => {
+                this.setToolboxRefreshEnabled(false);
+            };
 
-        // @todo change this when blockly supports UI events
-        addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
-        addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
-        this.attachVM();
-        // Only update blocks/vm locale when visible to avoid sizing issues
-        // If locale changes while not visible it will get handled in didUpdate
-        if (this.props.isVisible) {
-            this.setLocale();
-        }
+            // @todo change this when blockly supports UI events
+            addFunctionListener(this.workspace, 'translate', this.onWorkspaceMetricsChange);
+            addFunctionListener(this.workspace, 'zoom', this.onWorkspaceMetricsChange);
+            this.attachVM();
+            // Only update blocks/vm locale when visible to avoid sizing issues
+            // If locale changes while not visible it will get handled in didUpdate
+            if (this.props.isVisible) {
+                this.setLocale();
+            }
+        }, { timeout: 500 })
     }
 
     async checkIsOpenGyroscope() {
@@ -382,10 +384,11 @@ class Blocks extends React.Component {
         clearTimeout(this.toolboxUpdateTimeout);
     }
     requestToolboxUpdate() {
-        clearTimeout(this.toolboxUpdateTimeout);
+        requestIdleCallback(this.updateToolbox.bind(this), {timeout:500});
+        /* clearTimeout(this.toolboxUpdateTimeout);
         this.toolboxUpdateTimeout = setTimeout(() => {
             this.updateToolbox();
-        }, 0);
+        }, 0); */
     }
     setLocale() {
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
@@ -436,7 +439,7 @@ class Blocks extends React.Component {
     }
 
     attachVM() {
-        const newFunc = throttle(this.checkIsOpenGyroscope, 1000, {leading:false, trailing:true});
+        const newFunc = throttle(this.checkIsOpenGyroscope, 1000, { leading: false, trailing: true });
         this.workspace.addChangeListener((event) => {
             this.workspaceToCode(event.type, newFunc);
             this.props.vm.blockListener(event);

@@ -225,13 +225,21 @@ function createWindow() {
             webPreferences: options,
             maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
         });
-
         mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
             details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为1小时
             callback({ requestHeaders: details.requestHeaders });
         });
-    
         handleMenuAndDevtool(mainWindow);
+        mainWindow.once("ready-to-show", () => {
+            loadingWindow.hide();
+            loadingWindow.close();
+            mainWindow.show();
+            app.isPackaged && watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            // 启用硬件加速
+            app.commandLine.appendSwitch('--enable-gpu-rasterization');
+        });
+    
+    
         getRenderVersion();
         openSerialPort();
         // openBle();
@@ -250,7 +258,6 @@ function createWindow() {
             }
             return updater(mainWindow, args.autoUpdate);
         });
-
         // 检测电脑是否安装了驱动
         ipcHandle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
             if (flag === ipc.DRIVER.INSTALL) return;
@@ -261,14 +268,6 @@ function createWindow() {
             return await _checkInstallDriver({ message: mainMsg['installDriver'] });
         });
 
-        mainWindow.once("ready-to-show", () => {
-            loadingWindow.hide();
-            loadingWindow.close();
-            mainWindow.show();
-            app.isPackaged && watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
-            // 启用硬件加速
-            app.commandLine.appendSwitch('--enable-gpu-rasterization');
-        });
 
         // 关闭window时触发下列事件.
         mainWindow.on("close", async (e) => {

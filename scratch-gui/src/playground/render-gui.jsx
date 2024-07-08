@@ -32,8 +32,11 @@ const getModalStorage = () => {
     let modal = window.myAPI.getStoreValue('modalColor');
     return modal ? modal : 'hsla(215, 100%, 65%, .7)';
 }
-document.body.style.setProperty('--motion-primary', getThemeStorage());
-document.body.style.setProperty('--modal-overlay', getModalStorage());
+
+requestIdleCallback(() => {
+    document.body.style.setProperty('--motion-primary', getThemeStorage());
+    document.body.style.setProperty('--modal-overlay', getModalStorage());
+}, {timeout:500})
 /*
  * Render the GUI playground. This is a separate function because importing anything
  * that instantiates the VM causes unsupported browsers to crash

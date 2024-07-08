@@ -245,8 +245,10 @@ class MenuBar extends React.Component {
 
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress);
-        this.scanConnection();
-        this.disconnectListen();
+        requestIdleCallback(() => {
+            this.scanConnection();
+            this.disconnectListen();
+        }, {timeout: 500});
     }
 
     componentWillUnmount() {

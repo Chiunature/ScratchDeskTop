@@ -51,7 +51,7 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
 
-const FIRMWARE_VERSION = '204';
+const FIRMWARE_VERSION = '205';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -67,15 +67,16 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         const userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
-            this.getMainMessage();
-            this.downloadSuccess();
-            this.downloadSource();
-            this.getFirmwareFiles();
-            this.watchDevice();
-            this.matrixSend('FieldMatrix');
-            const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH);
-            await window.myAPI.commendMake(res);
-            window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
+            requestIdleCallback(() => {
+                this.getMainMessage();
+                this.downloadSuccess();
+                this.downloadSource();
+                this.getFirmwareFiles();
+                this.watchDevice();
+                this.matrixSend('FieldMatrix');
+                // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
+                // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
+            }, {timeout: 1000})
         }
     }
     componentDidUpdate(prevProps) {

@@ -7,6 +7,8 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+// gzip插件
+const CompressionPlugin = require("compression-webpack-plugin");
 
 // PostCss
 var autoprefixer = require('autoprefixer');
@@ -157,6 +159,13 @@ module.exports = [
                 'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"',
                 'process.env.DEBUG': Boolean(process.env.DEBUG),
                 'process.env.GA_ID': '"' + (process.env.GA_ID || 'UA-000000-01') + '"'
+            }),
+            new CompressionPlugin({
+                filename: '[path][base].gz',
+                algorithm: 'gzip', // 算法       
+                test: new RegExp('\\.(js|css)$'), // 压缩 js 与 css
+                threshold: 10240, // 只处理比这个值大的资源。按字节计算
+                minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
