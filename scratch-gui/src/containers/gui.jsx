@@ -61,7 +61,7 @@ class GUI extends React.Component {
         this.mainMsg = getMainMsg(props.intl);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
@@ -74,7 +74,7 @@ class GUI extends React.Component {
                 this.getFirmwareFiles();
                 this.watchDevice();
                 this.matrixSend('FieldMatrix');
-                window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
+                // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
             }, {timeout: 500})
         }
