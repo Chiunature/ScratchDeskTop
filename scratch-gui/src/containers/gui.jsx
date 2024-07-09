@@ -307,8 +307,8 @@ class GUI extends React.Component {
 
 
     async handleCompile(isRun) {
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
-            const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
             const firmwareVersion = window.myAPI.getVersion(spath) || FIRMWARE_VERSION;
             if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
@@ -346,7 +346,6 @@ class GUI extends React.Component {
             this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
-            const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
             window.myAPI.handlerError(error, spath);
         }
     }

@@ -232,10 +232,11 @@ class ConnectionModal extends React.PureComponent {
         });
     }
 
-    async handleHelp() {
+    handleHelp() {
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         // window.open(this.state.extension.helpLink, "_blank");
-        window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
-        window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
+        window.myAPI.getDocxUrl(spath, HELP_PDF);
+        window.myAPI.getDocxUrl(spath, HELP_DOCX);
         analytics.event({
             category: "extensions",
             action: "help",
