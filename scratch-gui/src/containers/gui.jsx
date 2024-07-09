@@ -74,9 +74,9 @@ class GUI extends React.Component {
                 this.getFirmwareFiles();
                 this.watchDevice();
                 this.matrixSend('FieldMatrix');
-                // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
+                window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
-            }, {timeout: 1000})
+            }, {timeout: 500})
         }
     }
     componentDidUpdate(prevProps) {
@@ -190,7 +190,8 @@ class GUI extends React.Component {
                     sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
                 }
                 if (arg.errMsg) {
-                    window.myAPI.handlerError(arg.errMsg, window.resourcesPath);
+                    const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+                    window.myAPI.handlerError(arg.errMsg, spath);
                 }
             }
         });
@@ -307,7 +308,8 @@ class GUI extends React.Component {
 
     async handleCompile(isRun) {
         try {
-            const firmwareVersion = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
+            const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+            const firmwareVersion = window.myAPI.getVersion(spath) || FIRMWARE_VERSION;
             if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
                 return;
@@ -344,7 +346,8 @@ class GUI extends React.Component {
             this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
-            window.myAPI.handlerError(error, window.resourcesPath);
+            const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+            window.myAPI.handlerError(error, spath);
         }
     }
 

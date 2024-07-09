@@ -549,12 +549,13 @@ class MenuBar extends React.Component {
     }
 
     handleHelp(type) {
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         switch (type) {
             case HARDWARE:
-                window.myAPI.getDocxUrl(window.resourcesPath, HELP_PDF);
+                window.myAPI.getDocxUrl(spath, HELP_PDF);
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(window.resourcesPath, HELP_DOCX);
+                window.myAPI.getDocxUrl(spath, HELP_DOCX);
                 break;
             default:
                 break;

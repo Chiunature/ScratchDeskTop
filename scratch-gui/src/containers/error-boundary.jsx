@@ -44,7 +44,8 @@ class ErrorBoundary extends React.Component {
             `Component stack: ${errorInfo.componentStack}`
         ].join('\n');
         log.error(err);
-        window.myAPI.handlerError(err, window.resourcesPath);
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        window.myAPI.handlerError(err, spath);
     }
 
     handleBack () {

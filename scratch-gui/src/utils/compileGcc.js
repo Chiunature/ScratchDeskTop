@@ -85,15 +85,16 @@ class Compile {
 
     /**
      * 将生成的C代码写入特定的C文件
+     * @param {String} spath
      * @param {String} codeStr
      * @param {String} taskStr
      * @param {String} myStr
      * @param handlerStr
      * @returns
      */
-    async handleCode(codeStr, taskStr, myStr, handlerStr) {
+    async handleCode(spath, codeStr, taskStr, myStr, handlerStr) {
         //读取Aplication.c文件
-        const result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
+        const result = await window.myAPI.readFiles(APLICATION, spath);
         //自制积木块放入前面
         const newMy = await this.changeFileByReg(result, reg_main, myStr);
         //替换void USER_Aplication部分
@@ -104,7 +105,7 @@ class Compile {
         const taskIntoStr = Task_Info(taskStr);
         const newTaskInto = await this.changeFileByReg(newTaskHandler, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
-        return await window.myAPI.writeFiles(APLICATION, newTaskInto, window.resourcesPath);
+        return await window.myAPI.writeFiles(APLICATION, newTaskInto, spath);
     }
 
     /**
@@ -117,6 +118,7 @@ class Compile {
      */
     async runGcc(buffer, myBlock, selectedExe, verifyType, soundslist) {
         let codeStr = '', taskStr = '', handlerStr = '', myBlockStr = '';
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         buffer.forEach((el, index) => {
             if (el) {
                 codeStr += Task_Stack(el, index);
@@ -131,14 +133,14 @@ class Compile {
         } else {
             myBlockStr = Task_MyBlock(myBlock);
         }
-        const appRes = await this.handleCode(codeStr, taskStr, myBlockStr, handlerStr);
+        const appRes = await this.handleCode(spath, codeStr, taskStr, myBlockStr, handlerStr);
         //编译
         if (appRes) {
-            window.myAPI.commendMake(window.resourcesPath).then(() => {
+            window.myAPI.commendMake(spath).then(() => {
                 if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, soundslist } });
             }).catch(err => {
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
-                window.myAPI.handlerError(err, window.resourcesPath);
+                window.myAPI.handlerError(err, spath);
             });
         }
     }

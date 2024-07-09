@@ -49,7 +49,7 @@ class ConnectionModal extends React.PureComponent {
             extension: extensionData.find(
                 (ext) => ext.extensionId === props.extensionId
             ),
-            firewareVersion: null,
+            firewareVersion: parseInt(FIRMWARE_VERSION),
             phase: props.vm.getPeripheralIsConnected(props.extensionId)
                 ? PHASES.connected
                 : PHASES.scanning,
@@ -63,8 +63,9 @@ class ConnectionModal extends React.PureComponent {
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
-        const fv = window.myAPI.getVersion(window.resourcesPath) || FIRMWARE_VERSION;
-        this.setState({ firewareVersion: fv });
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const fv = window.myAPI.getVersion(spath) || FIRMWARE_VERSION;
+        this.setState({ firewareVersion: parseInt(fv) });
     }
 
     componentWillUnmount() {

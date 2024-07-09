@@ -101,15 +101,18 @@ class Blocks extends React.Component {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
-        //this.props.options.media = window.myAPI.getMediaPath(res);
+
+        const static_path = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
+        window.resourcesPath = static_path;
+        sessionStorage.setItem("static_path", static_path);
+
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
             this.props.options,
             { rtl: this.props.isRtl, toolbox: this.props.toolboxXML, colours: getColorsForTheme(this.props.theme) }
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
-        requestIdleCallback(async () => {
-            window.resourcesPath = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
+        requestIdleCallback(() => {
             // Register buttons under new callback keys for creating variables,
             // lists, and procedures from extensions.
             const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
