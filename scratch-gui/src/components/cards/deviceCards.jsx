@@ -121,6 +121,7 @@ const DeviceCards = props => {
     let { x, y, expanded } = deviceCards;
     let screenRef = useRef(null);
     let [index, setIndex] = useState(0);
+    let [scale, setScale] = useState(`scale(1)`);
 
     useEffect(() => {
         handleScreenAuto();
@@ -155,14 +156,13 @@ const DeviceCards = props => {
     }
 
 
-    const select = (i) => {
+    const handleSelect = (i) => {
         setIndex(i);
         if (!completed) {
             if (i === 1) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         }
     }
 
-    const handleSelect = useCallback((i) => select(i), [index]);
 
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
@@ -187,7 +187,7 @@ const DeviceCards = props => {
         onShowDelExeAlert("delExeSuccess");
     }
 
-    const handleScreenAuto = useCallback(() => {
+    const handleScreenAuto = () => {
         const designDraftWidth = 1920;
         const designDraftHeight = 1080;
         // 根据屏幕的变化适配的比例
@@ -205,7 +205,8 @@ const DeviceCards = props => {
         } else {
             screenRef.current.style.transform = screenRef.current.style.transform.replace(/scale\([\s*\S*]*\)/, newScale);
         }
-    }, [screenRef]);
+        setScale(newScale);
+    }
 
     const handleScale = () => {
         if (!screenRef || !screenRef.current || index > 0) return;
@@ -226,7 +227,7 @@ const DeviceCards = props => {
         }
     }
 
-    const changeBounds = useMemo(() => handleScale(), [screenRef]);
+    const changeBounds = useMemo(() => handleScale(), [scale]);
 
     return (
         // Custom overlay to act as the bounding parent for the draggable, using values from above
@@ -249,22 +250,24 @@ const DeviceCards = props => {
                     onStart={onStartDrag}
                     onStop={onEndDrag}
                 >
-                    <div className={styles.cardContainer} ref={screenRef}>
-                        <div className={styles.card}>
-                            <DeviecCardHeader
-                                index={index}
-                                expanded={expanded}
-                                onCloseCards={onCloseCards}
-                                onShrinkExpandCards={onShrinkExpandCards}
-                                handleSelect={handleSelect}
-                            />
-                            <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
-                                {index === 0 && <Device {...props} />}
-                                {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
-                                {/* {index === 2 && <DataViewCom {...props} />} */}
+                    <Box>
+                        <div className={styles.cardContainer} ref={screenRef}>
+                            <div className={styles.card}>
+                                <DeviecCardHeader
+                                    index={index}
+                                    expanded={expanded}
+                                    onCloseCards={onCloseCards}
+                                    onShrinkExpandCards={onShrinkExpandCards}
+                                    handleSelect={handleSelect}
+                                />
+                                <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
+                                    {index === 0 && <Device {...props} />}
+                                    {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
+                                    {/* {index === 2 && <DataViewCom {...props} />} */}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Box>
                 </Draggable>
             </Box>
         </div>
