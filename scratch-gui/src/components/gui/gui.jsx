@@ -91,8 +91,8 @@ const codeEditorOptions = {
     },
     scrollbar: {
         // 滚动条
-        horizontalScrollbarSize: 0,
-        verticalScrollbarSize: 0,
+        horizontalScrollbarSize: 6,
+        verticalScrollbarSize: 6,
     },
 }
 
@@ -439,7 +439,7 @@ const GUIComponent = (props) => {
                                                     grow={1}
                                                     isVisible={blocksTabVisible}
                                                     options={{
-                                                        media: `${basePath}static/${themeMap[theme].blocksMediaFolder}/`
+                                                        media: `${basePath}static/${themeMap[theme]?.blocksMediaFolder}/`
                                                     }}
                                                     stageSize={stageSize}
                                                     theme={theme}

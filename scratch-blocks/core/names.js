@@ -181,7 +181,9 @@ Blockly.Names.prototype.safeName_ = function (name) {
         str = convert(pinyin(name), { format: 'toneNone' });
         const list = str.split(' ');
         for (let i = 0; i < list.length; i++) {
-          list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
+          if (list[i] && list[i][0]) {
+            list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
+          }
         }
         name = list.join('');
         const newName = _convertToValidCVariable(name);
