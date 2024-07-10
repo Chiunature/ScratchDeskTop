@@ -53,7 +53,7 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
                     initPlayer,
                     initTelemetryModal
                 } = guiRedux;
-                const {ScratchPaintReducer} = require('scratch-paint');
+                // const {ScratchPaintReducer} = require('scratch-paint');
 
                 let initializedGui = guiInitialState;
                 if (props.isFullScreen || props.isPlayerOnly) {
@@ -69,7 +69,7 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
                 reducers = {
                     locales: localesReducer,
                     scratchGui: guiReducer,
-                    scratchPaint: ScratchPaintReducer
+                    // scratchPaint: ScratchPaintReducer
                 };
                 initialState = {
                     locales: initializedLocales,

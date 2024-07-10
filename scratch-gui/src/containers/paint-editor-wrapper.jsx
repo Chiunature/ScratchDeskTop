@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import bindAll from 'lodash.bindall';
 import VM from 'scratch-vm';
-import PaintEditor from 'scratch-paint';
+// import PaintEditor from 'scratch-paint';
 import {inlineSvgFonts} from 'scratch-svg-renderer';
 
 import {connect} from 'react-redux';
 
-class PaintEditorWrapper extends React.Component {
+class PaintEditorWrapper extends React.PureComponent {
     constructor (props) {
         super(props);
         bindAll(this, [
@@ -48,13 +48,14 @@ class PaintEditorWrapper extends React.Component {
         } = this.props;
 
         return (
-            <PaintEditor
-                {...componentProps}
-                image={vm.getCostume(selectedCostumeIndex)}
-                onUpdateImage={this.handleUpdateImage}
-                onUpdateName={this.handleUpdateName}
-                fontInlineFn={inlineSvgFonts}
-            />
+            // <PaintEditor
+            //     {...componentProps}
+            //     image={vm.getCostume(selectedCostumeIndex)}
+            //     onUpdateImage={this.handleUpdateImage}
+            //     onUpdateName={this.handleUpdateName}
+            //     fontInlineFn={inlineSvgFonts}
+            // />
+            <></>
         );
     }
 }
