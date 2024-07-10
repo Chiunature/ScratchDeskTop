@@ -53,6 +53,7 @@ class ProjectManagementHoc extends React.PureComponent {
 
     componentDidMount() {
         this.initFileList();
+        this.handleScreenAuto();
         window.addEventListener('resize', this.handleScreenAuto);
     }
 
