@@ -47,8 +47,8 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 console.info = logger.info || logger.warn;
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-const Store = require("electron-store");
-Store.initRenderer();
+// const Store = require("electron-store");
+// Store.initRenderer();
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc, crashDumpsDir = '';
 
@@ -103,7 +103,7 @@ async function updater(win, autoUpdate) {
     return updateFunc;
 }
 
-function showLoading(cb) {
+function showLoading(mainWin) {
     loadingWindow = new BrowserWindow({
         show: false,
         frame: false,
@@ -112,9 +112,10 @@ function showLoading(cb) {
         resizable: false,
         transparent: true,
         partition: 'persist:showLoading',
+        maxMemory: 512 * 1024 * 1024
     });
 
-    loadingWindow.once("show", cb);
+    loadingWindow.once("show", mainWin);
     loadingWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/launch.html"));
     loadingWindow.show();
 };
@@ -202,14 +203,6 @@ function handleMenuAndDevtool(mainWindow) {
     }
 }
 
-function getRenderVersion() {
-    ipcHandle('app-version', () => {
-        const ver = app.getVersion();
-        const SoftWareVersion = ver || '1.5.0';
-        return SoftWareVersion;
-    })
-}
-
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -225,33 +218,38 @@ function createWindow() {
             webPreferences: options,
             maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
         });
+
+    handleMenuAndDevtool(mainWindow);
+
         mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
-            details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为1小时
+        details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
             callback({ requestHeaders: details.requestHeaders });
         });
-        handleMenuAndDevtool(mainWindow);
+
         mainWindow.once("ready-to-show", () => {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            app.isPackaged && watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+        if (app.isPackaged) {
+            watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
             // 启用硬件加速
             app.commandLine.appendSwitch('--enable-gpu-rasterization');
+        }
         });
-    
     
         getRenderVersion();
         openSerialPort();
-        // openBle();
         // 开启子线程操作文件缓存
         handleChildProcess();
         // 防止页面失去焦点
         _handleOnFocus();
         // 保存文件到本地
         saveFileToLocal();
+    // 打开文件位置
         _openFileLocation();
+
         // 设置静态资源路径
-        ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : cwd());
+    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
         ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
             if (!mainMsg && args.msg) {
                 mainMsg = { ...args.msg };
@@ -353,6 +351,14 @@ function createWindow() {
     function _delEvents(eventName) {
         ipcMain.removeAllListeners([eventName]);
     }
+
+    function getRenderVersion() {
+        ipcHandle('app-version', () => {
+            const ver = app.getVersion();
+            const SoftWareVersion = ver || '1.5.0';
+            return SoftWareVersion;
+        })
+    }
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
@@ -361,7 +367,7 @@ app.on("ready", () => {
 });
 
 // GPU进程崩溃
-app.on('gpu-process-crashed', function(){
+app.on('gpu-process-crashed', function () {
     console.info('GPU进程崩溃,程序退出');
     app.exit(0);
 });

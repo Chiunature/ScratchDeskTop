@@ -153,7 +153,11 @@ class Blocks extends React.Component {
     }
 
     async checkIsOpenGyroscope() {
-        let result = await window.myAPI.readFiles(APLICATION, window.resourcesPath);
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        let result = await window.myAPI.readFiles(APLICATION, spath);
+        if (!result) {
+            return;
+        }
         const res = this.ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0;
         const newStr = `#define OPEN_GYROSCOPE_CALIBRATION ${res}`;
         const str = result.match(regOpenGyroscope);
@@ -161,7 +165,7 @@ class Blocks extends React.Component {
             return;
         }
         result = result.replace(regOpenGyroscope, newStr);
-        await window.myAPI.writeFiles(APLICATION, result, window.resourcesPath);
+        await window.myAPI.writeFiles(APLICATION, result, spath);
     }
 
     async workspaceToCode(type, func) {

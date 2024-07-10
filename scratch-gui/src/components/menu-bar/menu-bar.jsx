@@ -12,7 +12,7 @@ import SettingsMenu from './settings-menu.jsx';
 import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import CommunityButton from "./community-button.jsx";
-import ShareButton from "./share-button.jsx";
+// import ShareButton from "./share-button.jsx";
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 // import LanguageSelector from "../../containers/language-selector.jsx";
@@ -25,8 +25,8 @@ import ProjectTitleInput from "./project-title-input.jsx";
 // import AccountNav from "../../containers/account-nav.jsx";
 // import LoginDropdown from "./login-dropdown.jsx";
 import SB3Downloader from "../../containers/sb3-downloader.jsx";
-import DeletionRestorer from "../../containers/deletion-restorer.jsx";
-import TurboMode from "../../containers/turbo-mode.jsx";
+// import DeletionRestorer from "../../containers/deletion-restorer.jsx";
+// import TurboMode from "../../containers/turbo-mode.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
 import {
     clearConnectionModalPeripheralName,
@@ -97,7 +97,7 @@ import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
 import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
-import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
+// import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
 
 
 /* const ariaMessages = defineMessages({

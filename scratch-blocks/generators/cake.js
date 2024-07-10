@@ -386,6 +386,9 @@ Blockly.cake.checkVar = function (varName) {
   } else {
     varName = varName + '_';
   }
+  if (!Blockly.cake.definitions_['defineVariable_' + varName]) {
+    Blockly.cake.definitions_['defineVariable_' + varName] = `__attribute__((section(".USER_RAM_D2"))) char ${varName}[16];`;
+  }
   return varName;
 }
 

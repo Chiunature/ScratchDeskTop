@@ -27,9 +27,6 @@ Blockly.cake['data_variable'] = function (block) {
     var varName = Blockly.cake.variableDB_.getName(block.getFieldValue('VARIABLE'),
         Blockly.Variables.NAME_TYPE);
     let newName = Blockly.cake.checkVar(varName);
-    if (!Blockly.cake.definitions_['defineVariable_' + varName]) {
-      Blockly.cake.definitions_['defineVariable_' + varName] = `char ${newName}[16];`;
-    }
     return [newName, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -40,9 +37,6 @@ Blockly.cake['data_definevariable'] = function (block) {
         return '';
     }
     let newName = Blockly.cake.checkVar(varName);
-    if (!Blockly.cake.definitions_['defineVariable_' + varName]) {
-        Blockly.cake.definitions_['defineVariable_' + varName] = `char ${newName}[16];`;
-    }
     return ``;
 };
 
@@ -59,9 +53,6 @@ Blockly.cake['data_setvariableto'] = function (block) {
          arg0 = parseFloat(arg0.slice(1, -1)).toString();
      } */
     let newName = Blockly.cake.checkVar(varName);
-    if (!Blockly.cake.definitions_['defineVariable_' + varName]) {
-        Blockly.cake.definitions_['defineVariable_' + varName] = `char ${newName}[16];`;
-    }
     return `SettingVariables(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 
@@ -74,9 +65,6 @@ Blockly.cake['data_changevariableby'] = function (block) {
         return '';
     }
     let newName = Blockly.cake.checkVar(varName);
-    if (!Blockly.cake.definitions_['defineVariable_' + varName]) {
-        Blockly.cake.definitions_['defineVariable_' + varName] = `char ${newName}[16];`;
-    }
     return `SettingVariablesAdd(${newName}, ${Blockly.cake.toStr(arg0) ? arg0 : '"' + arg0 + '"'});\n`;
 };
 

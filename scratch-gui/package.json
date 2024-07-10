@@ -216,10 +216,6 @@
                 "to": "../"
             },
             {
-                "from": "myvenv",
-                "to": "../myvenv"
-            },
-            {
                 "from": "README.md",
                 "to": "README.md"
             },
