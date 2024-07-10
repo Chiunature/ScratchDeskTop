@@ -28,7 +28,6 @@ const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-// const noble = require("@abandonware/noble");
 const { cwd } = require("process");
 const { exec } = require("child_process");
 const { Serialport, ipc } = require("est-link");
@@ -47,8 +46,6 @@ logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 console.info = logger.info || logger.warn;
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-// const Store = require("electron-store");
-// Store.initRenderer();
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc, crashDumpsDir = '';
 
@@ -167,13 +164,6 @@ function handleChildProcess() {
     port2.start();
 }
 
-/* function openBle() {
-    const ble = new Bluetooth({ noble, ...pack });
-    ble.linkBle();
-    ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
-        ble.scanning(open).discover(event);
-    });
-} */
 
 function openSerialPort() {
     const sp = new Serialport({ serialport, ...pack });
@@ -222,7 +212,7 @@ function createWindow() {
     handleMenuAndDevtool(mainWindow);
 
         mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
-        details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
+            details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
             callback({ requestHeaders: details.requestHeaders });
         });
 
@@ -230,11 +220,11 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-        if (app.isPackaged) {
-            watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
-            // 启用硬件加速
-            app.commandLine.appendSwitch('--enable-gpu-rasterization');
-        }
+            if (app.isPackaged) {
+                watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+                // 启用硬件加速
+                app.commandLine.appendSwitch('--enable-gpu-rasterization');
+            }
         });
     
         getRenderVersion();
@@ -245,11 +235,11 @@ function createWindow() {
         _handleOnFocus();
         // 保存文件到本地
         saveFileToLocal();
-    // 打开文件位置
+        // 打开文件位置
         _openFileLocation();
 
         // 设置静态资源路径
-    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
+        ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
         ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
             if (!mainMsg && args.msg) {
                 mainMsg = { ...args.msg };
@@ -266,7 +256,6 @@ function createWindow() {
             return await _checkInstallDriver({ message: mainMsg['installDriver'] });
         });
 
-
         // 关闭window时触发下列事件.
         mainWindow.on("close", async (e) => {
             e.preventDefault();
@@ -280,11 +269,6 @@ function createWindow() {
                 cancelId: 0,
             });
             if (response === 1) {
-                mainWindow = null;
-                const eventList = ipcMain.eventNames();
-                eventList.forEach(item => {
-                    _delEvents(item);
-                });
                 if (updateFunc && typeof updateFunc === 'function') {
                     dialog.showMessageBox({
                         type: "info",
@@ -297,24 +281,11 @@ function createWindow() {
                     res && app.exit();
                     return;
                 }
+                mainWindow = null;
+                _delEvents();
                 app.exit();
             }
     });
-
-    /* function _ipcMainHandle(instruct, obj, buttons = [mainMsg['cancel'], mainMsg['confirm']]) {
-        ipcMain.removeHandler(instruct);
-        ipcHandle(instruct, async () => {
-            const { response } = await dialog.showMessageBox({
-                type: obj.type ? obj.type : 'info',
-                title: obj.title ? obj.title : ' ',
-                message: obj.message,
-                buttons,
-                defaultId: 0,
-                cancelId: 0,
-            });
-            return response;
-        });
-    } */
 
     async function _checkInstallDriver({ title = ' ', message }) {
         const { response } = await dialog.showMessageBox({
@@ -348,8 +319,11 @@ function createWindow() {
     }
 
     //退出客户端去掉事件监听
-    function _delEvents(eventName) {
-        ipcMain.removeAllListeners([eventName]);
+    function _delEvents() {
+        const eventList = ipcMain.eventNames();
+        eventList.forEach(item => {
+            ipcMain.removeAllListeners([item]);
+        });
     }
 
     function getRenderVersion() {
@@ -387,17 +361,3 @@ app.on("activate", function () {
     }
 });
 
-//限制只能开启一个应用
-const gotTheLock = app.requestSingleInstanceLock();
-if (!gotTheLock) {
-    app.quit();
-} else {
-    app.on('second-instance', (event, commandLine, workingDirectory) => {
-        // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
-        if (mainWindow) {
-            if (mainWindow.isMinimized()) mainWindow.restore();
-            mainWindow.focus();
-            mainWindow.show();
-        }
-    })
-}
