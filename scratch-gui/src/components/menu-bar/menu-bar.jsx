@@ -82,7 +82,7 @@ import { projectTitleInitialState, setProjectTitle } from '../../reducers/projec
 import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
-import setProgramList from "../../lib/setProgramList.js";
+// import setProgramList from "../../lib/setProgramList.js";
 
 const saveNowMessage = (
     <FormattedMessage
@@ -561,7 +561,7 @@ class MenuBar extends React.Component {
                 const newName = filePath.slice(filePath.lastIndexOf('\\') + 1);
                 const resultName = newName.slice(0, newName.lastIndexOf('.'));
                 this.props.onSetProjectTitle(resultName);
-                await setProgramList(resultName, filePath, null, content);
+                // await setProgramList(resultName, filePath, null, content);
                 await this.setCacheForSave(filePath);
             }
         });

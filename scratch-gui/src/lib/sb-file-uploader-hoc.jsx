@@ -21,7 +21,7 @@ import {
 import {
     closeFileMenu
 } from '../reducers/menus';
-import setProgramList from './setProgramList';
+// import setProgramList from './setProgramList';
 
 const messages = defineMessages({
     loadError: {
@@ -184,7 +184,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             try {
                 if (this.fileReader) {
                     this.props.onLoadingStarted();
-                    const currentContent = await this.props.vm.saveProjectSb3();
+                    // const currentContent = await this.props.vm.saveProjectSb3();
                     const filename = this.fileToUpload && this.fileToUpload.name;
                     let loadingSuccess = false;
                     this.props.vm.loadProject(this.fileReader.result)
@@ -202,7 +202,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                         .then(async () => {
                             this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
                             sessionStorage.setItem('openPath', this.fileToUpload.path);
-                            await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result, currentContent);
+                            // await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result, currentContent);
                             // go back to step 7: whether project loading succeeded
                             // or failed, reset file objects
                             this.removeFileObjects();

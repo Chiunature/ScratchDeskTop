@@ -13,7 +13,7 @@ import {
     onLoadedProject,
     projectError
 } from '../reducers/project-state';
-import setProgramList from './setProgramList';
+// import setProgramList from './setProgramList';
 
 /*
  * Higher Order Component to manage events emitted by the VM
@@ -64,7 +64,7 @@ const vmManagerHOC = function (WrappedComponent) {
                 sessionStorage.setItem('programlist-curIndex', 0);
                 await window.myAPI.setForage('programlist', [obj]);
             } else {
-                await setProgramList('NEW-AI', null, this.props.projectData);
+                // await setProgramList('NEW-AI', null, this.props.projectData);
                 sessionStorage.removeItem('openPath');
             }
         }
@@ -87,7 +87,7 @@ const vmManagerHOC = function (WrappedComponent) {
                         // the renderer can be async.
                         setTimeout(() => this.props.vm.renderer.draw());
                     }
-                    this.initProgramList();
+                    // this.initProgramList();
                 })
                 .catch(e => {
                     this.props.onError(e);

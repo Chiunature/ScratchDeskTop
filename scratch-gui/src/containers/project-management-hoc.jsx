@@ -12,7 +12,7 @@ import { onLoadedProject, requestNewProject, getIsLoadingUpload, getIsShowingWit
 import { setProjectTitle } from "../reducers/project-title";
 import PropTypes from "prop-types";
 import getMainMsg from "../lib/alerts/message.js";
-import setProgramList from "../lib/setProgramList.js";
+// import setProgramList from "../lib/setProgramList.js";
 import { closeLoadingProject, openLoadingProject } from "../reducers/modals.js";
 
 class ProjectManagementHoc extends React.PureComponent {
@@ -97,7 +97,7 @@ class ProjectManagementHoc extends React.PureComponent {
     async handleFileReader(url, name) {
         try {
             this.props.onLoadingStarted();
-            const currentContent = await this.props.vm.saveProjectSb3();
+            // const currentContent = await this.props.vm.saveProjectSb3();
             let loadingSuccess = false;
             const res = await window.myAPI.readFiles(url, '', {});
             if (res) {
@@ -114,7 +114,7 @@ class ProjectManagementHoc extends React.PureComponent {
                     .then(async () => {
                         this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
                         sessionStorage.setItem('openPath', url);
-                        await setProgramList(name, url, arrayBuffer, currentContent);
+                        // await setProgramList(name, url, arrayBuffer, currentContent);
                     });
             }
         } catch (error) {
