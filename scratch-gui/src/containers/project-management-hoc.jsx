@@ -102,10 +102,7 @@ class ProjectManagementHoc extends React.PureComponent {
             const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
             this.props.vm.loadProject(arrayBuffer)
                 .then(() => {
-                    if (url && name) {
-                        sessionStorage.setItem('openPath', url);
-                        this.props.onSetProjectTitle(name);
-                    }
+                    this.props.onSetProjectTitle(name);
                     loadingSuccess = true;
                 })
                 .catch(error => {
@@ -114,6 +111,7 @@ class ProjectManagementHoc extends React.PureComponent {
                 })
                 .then(async () => {
                     this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                    sessionStorage.setItem('openPath', url);
                     await setProgramList(name, url, arrayBuffer);
                 });
         }
@@ -177,8 +175,12 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     handleSelect(item) {
-        this.props.requestProjectUpload(this.props.loadingState);
-        this.handleFileReader(item.filePath, item.fileName);
+        if (item.filePath && item.fileName) {
+            this.props.requestProjectUpload(this.props.loadingState);
+            this.handleFileReader(item.filePath, item.fileName);
+        } else {
+            this.props.cancelFileUpload(this.props.loadingState);
+        }
     }
 
     handleSelectOne(item, e) {
@@ -373,6 +375,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         dispatch(showFileStytem());
     },
     requestProjectUpload: loadingState => dispatch(requestProjectUpload(loadingState)),
+    cancelFileUpload: loadingState => dispatch(onLoadedProject(loadingState, false, false)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ProjectManagementHoc);

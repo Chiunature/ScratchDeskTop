@@ -133,7 +133,6 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             const thisFileInput = e.target;
             if (thisFileInput.files) { // Don't attempt to load if no file was selected
                 this.fileToUpload = thisFileInput.files[0];
-                sessionStorage.setItem('openPath', this.fileToUpload.path);
                 // If user owns the project, or user has changed the project,
                 // we must confirm with the user that they really intend to
                 // replace it. (If they don't own the project and haven't
@@ -200,6 +199,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     })
                     .then(async () => {
                         this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                        sessionStorage.setItem('openPath', this.fileToUpload.path);
                         await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result);
                         // go back to step 7: whether project loading succeeded
                         // or failed, reset file objects
