@@ -8,10 +8,12 @@ import Modal from "./modal.jsx";
 import { showFileStytem } from "../reducers/file-stytem";
 import sharedMessages from "../lib/shared-messages";
 import { ipc as ipc_Renderer } from "est-link";
-import { requestNewProject } from "../reducers/project-state";
+import { onLoadedProject, requestNewProject, getIsLoadingUpload, getIsShowingWithoutId, requestProjectUpload } from "../reducers/project-state";
 import { setProjectTitle } from "../reducers/project-title";
 import PropTypes from "prop-types";
 import getMainMsg from "../lib/alerts/message.js";
+import setProgramList from "../lib/setProgramList.js";
+import { closeLoadingProject, openLoadingProject } from "../reducers/modals.js";
 
 class ProjectManagementHoc extends React.PureComponent {
     constructor(props) {
@@ -92,12 +94,28 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
-    async handleFileReader(url) {
-        sessionStorage.setItem('openPath', url);
+    async handleFileReader(url, name) {
+        this.props.onLoadingStarted();
+        let loadingSuccess = false;
         const res = await window.myAPI.readFiles(url, '', {});
         if (res) {
             const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
-            this.props.vm.loadProject(arrayBuffer).then(() => this.props.onShowFileSystem());
+            this.props.vm.loadProject(arrayBuffer)
+                .then(() => {
+                    if (url && name) {
+                        sessionStorage.setItem('openPath', url);
+                        this.props.onSetProjectTitle(name);
+                    }
+                    loadingSuccess = true;
+                })
+                .catch(error => {
+                    log.warn(error);
+                    alert(this.props.intl.formatMessage(sharedMessages.loadError));
+                })
+                .then(async () => {
+                    this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                    await setProgramList(name, url, arrayBuffer);
+                });
         }
     }
 
@@ -114,7 +132,10 @@ class ProjectManagementHoc extends React.PureComponent {
             this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
         );
         this.props.onShowFileSystem();
-        readyToReplaceProject && this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
+        if (readyToReplaceProject) {
+            this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
+            sessionStorage.removeItem('setDefaultStartBlock');
+        }
     }
 
     async handleFilterClear() {
@@ -156,8 +177,8 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     handleSelect(item) {
-        this.props.onSetProjectTitle(item.fileName);
-        this.handleFileReader(item.filePath);
+        this.props.requestProjectUpload(this.props.loadingState);
+        this.handleFileReader(item.filePath, item.fileName);
     }
 
     handleSelectOne(item, e) {
@@ -325,16 +346,33 @@ ProjectManagementHoc.propTypes = {
     onSetProjectTitle: PropTypes.func,
 }
 
+const mapStateToProps = (state) => {
+    const loadingState = state.scratchGui.projectState.loadingState;
+    return {
+        isLoadingUpload: getIsLoadingUpload(loadingState),
+        isShowingWithoutId: getIsShowingWithoutId(loadingState),
+        loadingState: loadingState,
+        projectChanged: state.scratchGui.projectChanged,
+        vm: state.scratchGui.vm
+    };
+};
 
-const mapStateToProps = (state) => ({
-    projectChanged: state.scratchGui.projectChanged
-})
+const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
+    {}, stateProps, dispatchProps, ownProps
+);
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
     onRequestClose: () => dispatch(showFileStytem()),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onClickNew: (needSave) => dispatch(requestNewProject(needSave)),
-    onSetProjectTitle: (name) => dispatch(setProjectTitle(name))
+    onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
+    onLoadingStarted: () => dispatch(openLoadingProject()),
+    onLoadingFinished: (loadingState, success) => {
+        dispatch(onLoadedProject(loadingState, ownProps.canSave, success));
+        dispatch(closeLoadingProject());
+        dispatch(showFileStytem());
+    },
+    requestProjectUpload: loadingState => dispatch(requestProjectUpload(loadingState)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectManagementHoc);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ProjectManagementHoc);

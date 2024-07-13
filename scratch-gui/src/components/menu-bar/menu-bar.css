@@ -192,16 +192,15 @@
 .help-icon {
     margin-right: 0.35rem;
 }
-
+.file-save-icon,
+.connected-icon,
 .unconnected-icon {
     width: 20px;
     margin-right: 0.35rem;
 }
 
-.connected-icon,
 .file-save-icon {
-    height: 20px;
-    margin-right: 0.35rem;
+    width: 30px;
 }
 
 .file-save-icon:hover {

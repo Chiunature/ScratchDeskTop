@@ -1,3 +1,5 @@
+@import "../../css/colors.css";
+
 .gen {
     width: 100%;
     height: 100%;
@@ -53,4 +55,95 @@
     left: 0;
     transform: translate(-100%, -70%) rotate(180deg);
     cursor: grabbing;
+}
+
+.program-dropdown {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center top;
+    z-index: 2010;
+    /* margin: 5px 0; */
+    font-size: 14px;
+    border-top: 1px solid hsla(216, 100%, 42%, 0.77);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1); */
+}
+
+.operator {
+    width: 150px;
+    max-height: calc(100vh - 10rem);
+    background: var(--motion-primary);
+    font-size: 12px;
+    /* box-shadow: 0 0 5px 3px #d7d6d6; */
+    color: #fff;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    overflow-y: auto;
+}
+.operator::-webkit-scrollbar {
+    width: 0.4rem;
+}
+.operator::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: hsla(0, 0%, 0%, 0.15);
+}
+.operator li {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    user-select: none;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.operator li span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.operator li:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.operator li:hover {
+    cursor: pointer;
+    background-color: $ui-black-transparent;
+}
+
+.check {
+    margin: 0 .25rem 0 0;
+    visibility: hidden;
+}
+
+[dir="rtl"] .check {
+    margin: 0 0 0 .25rem;
+}
+
+.selected {
+    visibility: visible;
+}
+
+.close-icon {
+    width: 15px;
+    height: 15px;
+    user-select: none;
+    transform-origin: 50%;
+    transform: rotate(45deg);
 }

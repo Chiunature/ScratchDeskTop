@@ -307,7 +307,7 @@ const GUIComponent = (props) => {
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
                         ) : null}
-                        {showFileStytem && (<ProjectManagementHoc vm={vm} intl={intl} name={messages.projectManagement} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />)}
+                        {showFileStytem && (<ProjectManagementHoc vm={vm} intl={intl} name={messages.projectManagement} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />)}
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn

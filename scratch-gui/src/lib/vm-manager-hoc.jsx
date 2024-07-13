@@ -13,6 +13,7 @@ import {
     onLoadedProject,
     projectError
 } from '../reducers/project-state';
+import setProgramList from './setProgramList';
 
 /*
  * Higher Order Component to manage events emitted by the VM
@@ -51,7 +52,24 @@ const vmManagerHOC = function (WrappedComponent) {
                 this.props.vm.start();
             }
         }
-        loadProject () {
+
+        async initProgramList() {
+            const list = sessionStorage.getItem('programlist-curIndex');
+            if (!list) {
+                const obj = {
+                    name: this.props.projectTitle,
+                    path: sessionStorage.getItem('openPath'),
+                    content: this.props.projectData
+                }
+                sessionStorage.setItem('programlist-curIndex', 0);
+                await window.myAPI.setForage('programlist', [obj]);
+            } else {
+                await setProgramList('NEW-AI', null, this.props.projectData);
+                sessionStorage.removeItem('openPath');
+            }
+        }
+    
+        loadProject() {
             return this.props.vm.loadProject(this.props.projectData)
                 .then(() => {
                     this.props.onLoadedProject(this.props.loadingState, this.props.canSave);
@@ -69,6 +87,7 @@ const vmManagerHOC = function (WrappedComponent) {
                         // the renderer can be async.
                         setTimeout(() => this.props.vm.renderer.draw());
                     }
+                    this.initProgramList();
                 })
                 .catch(e => {
                     this.props.onError(e);
@@ -86,7 +105,7 @@ const vmManagerHOC = function (WrappedComponent) {
                 onLoadedProject: onLoadedProjectProp,
                 onSetProjectUnchanged,
                 projectData,
-                /* eslint-enable no-unused-vars */
+                projectTitle,
                 isLoadingWithId: isLoadingWithIdProp,
                 vm,
                 ...componentProps
@@ -117,7 +136,8 @@ const vmManagerHOC = function (WrappedComponent) {
         projectData: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
         projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         username: PropTypes.string,
-        vm: PropTypes.instanceOf(VM).isRequired
+        vm: PropTypes.instanceOf(VM).isRequired,
+        projectTitle: PropTypes.string,
     };
 
     const mapStateToProps = state => {
@@ -131,7 +151,8 @@ const vmManagerHOC = function (WrappedComponent) {
             projectId: state.scratchGui.projectState.projectId,
             loadingState: loadingState,
             isPlayerOnly: state.scratchGui.mode.isPlayerOnly,
-            isStarted: state.scratchGui.vmStatus.started
+            isStarted: state.scratchGui.vmStatus.started,
+            projectTitle: state.scratchGui.projectTitle,
         };
     };
 

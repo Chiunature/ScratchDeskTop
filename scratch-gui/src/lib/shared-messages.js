@@ -30,5 +30,10 @@ export default defineMessages({
         id: 'gui.sharedMessages.loadFromComputerTitle',
         defaultMessage: 'Load from your computer',
         description: 'Title for uploading a project from your computer'
+    },
+    loadError: {
+        id: 'gui.projectLoader.loadError',
+        defaultMessage: 'The project file that was selected failed to load.',
+        description: 'An error that displays when a local project file fails to load.'
     }
 });

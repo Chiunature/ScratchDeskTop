@@ -14,8 +14,7 @@ import Button from "../button/button.jsx";
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
-import { MenuItem, MenuSection } from "../menu/menu.jsx";
-import ProjectTitleInput from "./project-title-input.jsx";
+import { MenuItem } from "../menu/menu.jsx";
 import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
 import {
@@ -71,7 +70,6 @@ import unconnectedIcon from "./icon--unconnected.svg";
 import photoIcon from "./icon--photo.svg";
 import { ipc as ipc_Renderer, verifyTypeConfig } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
-import fileSaveIcon from "./icon--file-save.svg";
 import genIcon from "./icon--generator.svg";
 import fileIcon from './icon--file.svg';
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
@@ -83,8 +81,7 @@ import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
 import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
-
-
+import ProjectMenu from "./project-menu.jsx";
 
 const saveNowMessage = (
     <FormattedMessage
@@ -203,7 +200,8 @@ class MenuBar extends React.Component {
             "reUpdateDriver",
             "handleHelp",
             "handleProblem",
-            "saveSvg"
+            "saveSvg",
+            "downloadProject"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -237,11 +235,9 @@ class MenuBar extends React.Component {
         );
         this.props.onRequestCloseFile();
         if (readyToReplaceProject) {
-            this.props.onClickNew(
-                this.props.canSave && this.props.canCreateNew
-            );
+            this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
+            sessionStorage.removeItem('setDefaultStartBlock');
         }
-        this.props.onRequestCloseFile();
     }
 
     handleClickRemix() {
@@ -250,7 +246,7 @@ class MenuBar extends React.Component {
     }
 
     handleClickSave() {
-        this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))();
+        this.getSaveToComputerHandler(() => this.downloadProject(sessionStorage.getItem('openPath')))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
@@ -299,7 +295,7 @@ class MenuBar extends React.Component {
             this.handleClickSave();
             event.preventDefault();
         } else if (modifier && event.shiftKey && key_s) {
-            this.getSaveToComputerHandler(this.downloadProject.bind(this))();
+            this.getSaveToComputerHandler(this.downloadProject)();
             event.preventDefault();
         }
     }
@@ -647,15 +643,12 @@ class MenuBar extends React.Component {
                                         this.props.onRequestCloseFile
                                     }
                                 >
-                                    <MenuSection>
                                         <MenuItem
                                             isRtl={this.props.isRtl}
                                             onClick={this.handleClickHome}
                                         >
                                             {homeMessage}
                                         </MenuItem>
-                                    </MenuSection>
-                                    <MenuSection>
                                         <MenuItem
                                             isRtl={this.props.isRtl}
                                             onClick={this.handleClickNew}
@@ -686,7 +679,7 @@ class MenuBar extends React.Component {
                                             ) => (
                                                 <MenuItem
                                                     className={className}
-                                                    onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this))}
+                                                onClick={this.getSaveToComputerHandler(this.downloadProject)}
                                                 >
                                                     <FormattedMessage
                                                         defaultMessage="Save to your computer"
@@ -697,7 +690,6 @@ class MenuBar extends React.Component {
                                                 </MenuItem>
                                             )}
                                         </SB3Downloader>
-                                    </MenuSection>
                                 </MenuBarMenu>
                             </div>
                         )}
@@ -723,22 +715,15 @@ class MenuBar extends React.Component {
                     </div>
                 </Box>
                 <Box className={classNames(styles.mainMenuInp)}>
-                    <div
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.growable
-                        )}
-                    >
-                        <MenuBarItemTooltip enable id="title-field">
-                            <ProjectTitleInput readOnly={false}
-                                className={classNames(
-                                    styles.titleFieldGrowable
-                                )}
-                            />
-                            <img className={styles.fileSaveIcon} src={fileSaveIcon}
-                                onClick={this.getSaveToComputerHandler(this.downloadProject.bind(this, sessionStorage.getItem('openPath') === 'undefined'))} alt="" />
-                        </MenuBarItemTooltip>
-                    </div>
+                    <ProjectMenu
+                        vm={this.props.vm}
+                        intl={this.props.intl}
+                        MenuBarItemTooltip={MenuBarItemTooltip}
+                        getSaveToComputerHandler={this.getSaveToComputerHandler}
+                        downloadProject={this.downloadProject}
+                        projectTitle={this.props.projectTitle}
+                        onSetProjectTitle={this.props.onSetProjectTitle}
+                    />
                 </Box>
                 <Box className={classNames(styles.mainMenuTwo)}>
                     <div

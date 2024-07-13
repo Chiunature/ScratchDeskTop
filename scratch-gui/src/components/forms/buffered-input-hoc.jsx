@@ -32,7 +32,7 @@ export default function (Input) {
             if (this.state.value !== null && validatesNumeric) {
                 this.props.onSubmit(isNumeric ? Number(this.state.value) : this.state.value);
                 const oldFilePath = sessionStorage.getItem('openPath');
-                if(!oldFilePath) return;
+                if(!oldFilePath || !this.state.value) return;
                 const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + this.state.value;
                 window.myAPI.changeFileName(oldFilePath, newFilePath);
                 sessionStorage.setItem('openPath', newFilePath);

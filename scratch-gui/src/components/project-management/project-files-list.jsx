@@ -4,11 +4,9 @@ import addIcon from "./icon--add.svg";
 import Box from "../box/box.jsx";
 import messages from "./messages";
 import ProjectFilesListItem from "./project-files-listItem.jsx";
-import ReactDOM from "react-dom";
 import Spinner from "../spinner/spinner.jsx";
+import Portal from '../alerts/portal.jsx';
 
-const Portal = ({ children }) =>
-    typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
 
 const ProjectFilesList = (props) => {
     const {

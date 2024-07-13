@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import React from 'react';
-// import { verifyTypeConfig } from "est-link";
 import { setDeviceType } from "../reducers/device.js";
 
 const MenuBarHOC = function (WrappedComponent) {

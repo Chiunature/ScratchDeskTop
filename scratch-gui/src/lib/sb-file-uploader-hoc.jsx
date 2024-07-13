@@ -21,6 +21,7 @@ import {
 import {
     closeFileMenu
 } from '../reducers/menus';
+import setProgramList from './setProgramList';
 
 const messages = defineMessages({
     loadError: {
@@ -164,7 +165,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 // cues step 6 using the reader's onload callback
                 this.fileReader.readAsArrayBuffer(this.fileToUpload);
             } else {
-                this.props.cancelFileUpload(this.props.loadingState);
+                // this.props.cancelFileUpload(this.props.loadingState);
                 // skip ahead to step 7
                 this.removeFileObjects();
             }
@@ -197,8 +198,9 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                         log.warn(error);
                         alert(this.props.intl.formatMessage(messages.loadError)); // eslint-disable-line no-alert
                     })
-                    .then(() => {
+                    .then(async () => {
                         this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                        await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result);
                         // go back to step 7: whether project loading succeeded
                         // or failed, reset file objects
                         this.removeFileObjects();

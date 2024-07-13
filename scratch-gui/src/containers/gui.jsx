@@ -92,8 +92,9 @@ class GUI extends React.Component {
             this.props.onProjectLoaded();
         }
     }
-    componentWillUnmount() {
+    async componentWillUnmount() {
         window.myAPI.delEvents();
+        await window.myAPI.removeForage("programlist");
     }
 
     async getMainMessage() {

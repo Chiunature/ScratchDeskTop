@@ -7,6 +7,10 @@ const { cwd } = require("process");
 const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
+
+const UseLocalForage = require("./src/utils/useLocalForage");
+const store_lf = new UseLocalForage();
+
 const Store = require("electron-store");
 const store = new Store();
 
@@ -26,6 +30,18 @@ function removeStoreValue(key) {
 
 function hasStoreValue(key) {
     return store.has(key);
+}
+
+async function setForage(key, value) {
+    await store_lf.setForage(key, value);
+}
+
+async function getForage(key) {
+    return await store_lf.getForage(key);
+}
+
+async function removeForage(key) {
+    await store_lf.removeForage(key);
 }
 
 
@@ -90,13 +106,13 @@ function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
 }
 
 function readFilesAsync(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
-  try {
-    const res = fs.readFileSync(path.join(resourcePath, link), options);
-    return res;
-  } catch (error) {
-    handlerError(error, resourcePath);
-    return;
-  }
+    try {
+        const res = fs.readFileSync(path.join(resourcePath, link), options);
+        return res;
+    } catch (error) {
+        handlerError(error, resourcePath);
+        return;
+    }
 }
 
 /**
@@ -212,27 +228,27 @@ function getVersion(vpath, verTxt = '/Version.txt') {
  * @param {String} data
  */
 function writeFileWithDirectory(directory = cwd(), filepath, data) {
-  return new Promise((resolve, reject) => {
-    try {
-    if (fs.existsSync(directory)) {
-        _writeErr(filepath, data);
-    } else {
-        fs.mkdir(directory, { recursive: true }, () => {
-          _writeErr(filepath, data);
-        });
-    }
-      resolve();
-    } catch (error) {
-      _writeErr(filepath, data);
-      reject();
-    }
-    
-    function _writeErr(filepath, data) {
-      fs.writeFile(filepath, data, (err) => {
-        if (err) throw err;
-      })
-    }
-  })
+    return new Promise((resolve, reject) => {
+        try {
+            if (fs.existsSync(directory)) {
+                _writeErr(filepath, data);
+            } else {
+                fs.mkdir(directory, { recursive: true }, () => {
+                    _writeErr(filepath, data);
+                });
+            }
+            resolve();
+        } catch (error) {
+            _writeErr(filepath, data);
+            reject();
+        }
+
+        function _writeErr(filepath, data) {
+            fs.writeFile(filepath, data, (err) => {
+                if (err) throw err;
+            })
+        }
+    })
 }
 
 /**
@@ -295,10 +311,10 @@ function FileIsExists(filePath) {
 }
 
 async function sleep(time) {
-    
+
     await sleepFunc(time).next().value;
 
-    function *sleepFunc(timer) {
+    function* sleepFunc(timer) {
         yield new Promise(resolve => setTimeout(resolve, timer));
     }
 }
@@ -330,5 +346,8 @@ contextBridge.exposeInMainWorld('myAPI', {
     onUpdate: (callback) => ipcRenderer.on('update', callback),
     onGetVersion: async () => await ipcInvoke('app-version'),
     sleep,
-    openExternal: (url) => shell.openExternal(url)
+    openExternal: (url) => shell.openExternal(url),
+    setForage,
+    getForage,
+    removeForage
 });

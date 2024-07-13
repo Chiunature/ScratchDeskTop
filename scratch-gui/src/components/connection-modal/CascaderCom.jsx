@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReactDOM from "react-dom";
 import { FormattedMessage } from "react-intl";
 import classNames from "classnames";
 import styles from './cascader.css';
@@ -8,8 +7,8 @@ import CascaderComList from './CascaderComList.jsx';
 import { initOptions } from './Cascader.js';
 import { ipc as ipc_Render, verifyTypeConfig } from 'est-link';
 import message from '../device/deviceMsg';
+import Portal from '../alerts/portal.jsx';
 
-const Portal = ({ children }) => typeof document === 'object' ? ReactDOM.createPortal(children, document.body) : null;
 
 
 

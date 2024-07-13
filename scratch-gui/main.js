@@ -34,6 +34,8 @@ const { Serialport, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 const createProtocol = require("./src/config/js/createProtocol.js");
 const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
+const Store = require("electron-store");
+Store.initRenderer();
 
 const logger = require("electron-log");
 logger.transports.file.maxSize = 1002430;
