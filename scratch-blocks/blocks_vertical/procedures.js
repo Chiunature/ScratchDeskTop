@@ -640,7 +640,7 @@ Blockly.ScratchBlocks.ProcedureUtils.addLabelExternal = function() {
 Blockly.ScratchBlocks.ProcedureUtils.addBooleanExternal = function() {
   Blockly.WidgetDiv.hide(true);
   this.procCode_ = this.procCode_ + ' %b';
-  this.displayNames_.push('boolean');
+  this.displayNames_.push('boolean' + this.displayNames_.length);
   this.argumentIds_.push(Blockly.utils.genUid());
   this.argumentDefaults_.push('false');
   this.updateDisplay_();
@@ -655,7 +655,7 @@ Blockly.ScratchBlocks.ProcedureUtils.addBooleanExternal = function() {
 Blockly.ScratchBlocks.ProcedureUtils.addNumberExternal = function() {
   Blockly.WidgetDiv.hide(true);
   this.procCode_ = this.procCode_ + ' %n';
-  this.displayNames_.push('number');
+  this.displayNames_.push('number' + this.displayNames_.length);
   this.argumentIds_.push(Blockly.utils.genUid());
   this.argumentDefaults_.push('');
   this.updateDisplay_();
@@ -670,7 +670,7 @@ Blockly.ScratchBlocks.ProcedureUtils.addNumberExternal = function() {
 Blockly.ScratchBlocks.ProcedureUtils.addStringExternal = function() {
   Blockly.WidgetDiv.hide(true);
   this.procCode_ = this.procCode_ + ' %s';
-  this.displayNames_.push('text');
+  this.displayNames_.push('text' + this.displayNames_.length);
   this.argumentIds_.push(Blockly.utils.genUid());
   this.argumentDefaults_.push('');
   this.updateDisplay_();
