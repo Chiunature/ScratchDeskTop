@@ -164,7 +164,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 // cues step 6 using the reader's onload callback
                 this.fileReader.readAsArrayBuffer(this.fileToUpload);
             } else {
-                // this.props.cancelFileUpload(this.props.loadingState);
+                this.props.cancelFileUpload(this.props.loadingState);
                 // skip ahead to step 7
                 this.removeFileObjects();
             }
