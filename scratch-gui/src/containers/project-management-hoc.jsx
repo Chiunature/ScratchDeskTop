@@ -95,25 +95,30 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     async handleFileReader(url, name) {
-        this.props.onLoadingStarted();
-        let loadingSuccess = false;
-        const res = await window.myAPI.readFiles(url, '', {});
-        if (res) {
-            const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
-            this.props.vm.loadProject(arrayBuffer)
-                .then(() => {
-                    this.props.onSetProjectTitle(name);
-                    loadingSuccess = true;
-                })
-                .catch(error => {
-                    log.warn(error);
-                    alert(this.props.intl.formatMessage(sharedMessages.loadError));
-                })
-                .then(async () => {
-                    this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
-                    sessionStorage.setItem('openPath', url);
-                    await setProgramList(name, url, arrayBuffer);
-                });
+        try {
+            this.props.onLoadingStarted();
+            const currentContent = await this.props.vm.saveProjectSb3();
+            let loadingSuccess = false;
+            const res = await window.myAPI.readFiles(url, '', {});
+            if (res) {
+                const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
+                this.props.vm.loadProject(arrayBuffer)
+                    .then(() => {
+                        this.props.onSetProjectTitle(name);
+                        loadingSuccess = true;
+                    })
+                    .catch(error => {
+                        log.warn(error);
+                        alert(this.props.intl.formatMessage(sharedMessages.loadError));
+                    })
+                    .then(async () => {
+                        this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                        sessionStorage.setItem('openPath', url);
+                        await setProgramList(name, url, arrayBuffer, currentContent);
+                    });
+            }
+        } catch (error) {
+            alert(this.props.intl.formatMessage(sharedMessages.loadError));
         }
     }
 
