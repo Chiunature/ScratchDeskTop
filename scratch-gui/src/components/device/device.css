@@ -45,7 +45,7 @@
 
 .middle {
     min-width: 18.7rem;
-    max-height: 53rem;
+    max-height: 50rem;
     justify-content: flex-start;
     /* flex-grow: 1; */
 }

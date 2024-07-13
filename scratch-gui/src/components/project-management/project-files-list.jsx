@@ -63,7 +63,7 @@ const ProjectFilesList = (props) => {
                     <div className={styles.projectNewFile}>
                         <img src={addIcon} alt=''/>
                     </div>
-                    <span>{intl.formatMessage(messages.newProjectMessage)}</span>
+                    <div>{intl.formatMessage(messages.newProjectMessage)}</div>
                 </li>
                 {filesList.length > 0 && filesList.map((item, index) => {
                     return (<ProjectFilesListItem showOperator={showOperator} refOperator={refOperator} key={item.filePath} index={index} item={item} {...props}/>)

@@ -9,6 +9,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     user-select: none;
+    text-rendering: optimizeLegibility;
 }
 
 .header {
@@ -22,6 +23,7 @@
 .label {
     font-weight: 500;
     margin: 0 0 0.75rem;
+    text-rendering: optimizeLegibility;
 }
 
 .lobby-project-list-item__preview.add-project-preview svg, .lobby-project-list-item__preview.open-project-preview svg {
@@ -31,6 +33,7 @@
 .project-content {
     width: 100%;
     color: $project-color;
+    text-rendering: optimizeLegibility;
 }
 
 
@@ -39,6 +42,7 @@
     height: 100%;
     display: flex;
     padding: 10px;
+    text-rendering: optimizeLegibility;
 }
 
 .project-title{
@@ -134,7 +138,6 @@
     cursor: pointer;
     user-select: none;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
 /*.project-files-list > li:first-child {
@@ -152,7 +155,7 @@
     box-shadow: inset 0 0 0 1px #e9e9e9;
     transition: box-shadow .3s ease-in-out;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .project-files-list > li > .project-new-file:hover {
@@ -165,9 +168,9 @@
     padding: 0 10px;
     box-sizing: border-box;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+    overflow: hidden;
 }
 
 .project-new-file img {

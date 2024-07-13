@@ -310,7 +310,6 @@ class ProjectManagementHoc extends React.PureComponent {
                 onRequestClose={this.props.onRequestClose}
                 style={{ content: this.state.content }}
                 intl={this.props.intl}
-                onHelp={() => { }}
             >
                 <Box className={styles.body}>
                     <ProjectManagement

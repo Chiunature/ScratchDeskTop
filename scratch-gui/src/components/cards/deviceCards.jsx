@@ -121,7 +121,7 @@ const DeviceCards = props => {
     let { x, y, expanded } = deviceCards;
     let screenRef = useRef(null);
     let [index, setIndex] = useState(0);
-    let [scale, setScale] = useState(`scale(1)`);
+    let [scale, setScale] = useState(`scale(0.9)`);
 
     useEffect(() => {
         handleScreenAuto();

@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import classNames from "classnames";
 import styles from "./menu-bar.css";
 import Box from '../box/box.jsx';
-import ProgramList from '../generators/program-list.jsx';
+// import ProgramList from '../generators/program-list.jsx';
 import ProjectTitleInput from './project-title-input.jsx';
-import dropdownCaret from "./dropdown-caret.svg";
+// import dropdownCaret from "./dropdown-caret.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 
 function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComputerHandler, downloadProject, onSetProjectTitle }) {
@@ -57,7 +57,7 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
                         onClick={getSaveToComputerHandler(() => downloadProject(sessionStorage.getItem('openPath')))} alt="" />
                 </MenuBarItemTooltip>
             </Box>
-            <ProgramList projectTitle={projectTitle} vm={vm} programRef={programRef} display={display} onSetProjectTitle={onSetProjectTitle} intl={intl} setDisplay={setDisplay} />
+            {/* <ProgramList projectTitle={projectTitle} vm={vm} programRef={programRef} display={display} onSetProjectTitle={onSetProjectTitle} intl={intl} setDisplay={setDisplay} /> */}
         </>
     )
 }
