@@ -1659,6 +1659,24 @@ Blockly.Css.CONTENT = [
     'border-top-right-radius: 4px;',
     'border-bottom-right-radius: 4px;',
     'right: -18px;',
-'}',
+  '}',
+
+  '.lls-rotation-wheel {',
+    'position: relative;',
+    'margin: 0 4px;',
+    'overflow: hidden;',
+  '}',
+
+  '.lls-rotation-wheel__motor-position {',
+    'pointer-events: none;',
+    'position: absolute;',
+    'top: -2px;',
+    'right: 0;',
+    'bottom: 0;',
+    'left: 0;',
+    'display: flex;',
+    'justify-content: center;',
+    'align-items: center;',
+  '}',
 ];
 

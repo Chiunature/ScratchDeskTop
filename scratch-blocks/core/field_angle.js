@@ -108,7 +108,7 @@ Blockly.FieldAngle.OFFSET = 90;
  * Maximum allowed angle before wrapping.
  * Usually either 360 (for 0 to 359.9) or 180 (for -179.9 to 180).
  */
-Blockly.FieldAngle.WRAP = 360;
+Blockly.FieldAngle.WRAP = 180;
 
 /**
  * Radius of drag handle
@@ -142,7 +142,8 @@ Blockly.FieldAngle.CENTER_RADIUS = 2;
  * Path to the arrow svg icon.
  */
 Blockly.FieldAngle.ARROW_SVG_PATH = 'icons/arrow.svg';
-
+Blockly.FieldAngle.wheel_svg = 'wheel.svg';
+Blockly.FieldAngle.prototype.main_div = null;
 /**
  * Clean up this FieldAngle, as well as the inherited FieldTextInput.
  * @return {!Function} Closure to call on destruction of the WidgetDiv.
@@ -165,17 +166,20 @@ Blockly.FieldAngle.prototype.dispose_ = function() {
   };
 };
 
-/**
- * Show the inline free-text editor on top of the text.
- * @private
- */
-Blockly.FieldAngle.prototype.showEditor_ = function() {
-  // Mobile browsers have issues with in-line textareas (focus & keyboards).
-  Blockly.FieldAngle.superClass_.showEditor_.call(this, this.useTouchInteraction_);
-  // If there is an existing drop-down someone else owns, hide it immediately and clear it.
-  Blockly.DropDownDiv.hideWithoutAnimation();
-  Blockly.DropDownDiv.clearContent();
-  var div = Blockly.DropDownDiv.getContentDiv();
+Blockly.FieldAngle.prototype.createWheelSVg = function() {
+  const div = document.createElement('div');
+  div.setAttribute('class', 'lls-rotation-wheel');
+  this.main_div = document.createElement('div');
+  this.main_div.setAttribute('class', 'lls-rotation-wheel__motor-position');
+  div.appendChild(this.main_div);
+  const wheel_svg = Blockly.mainWorkspace.options.pathToMedia + Blockly.FieldAngle.wheel_svg;
+  const img = document.createElement('img');
+  img.src = wheel_svg;
+  this.main_div.appendChild(img);
+  return div;
+}
+
+Blockly.FieldAngle.prototype.createSvg = function (div) {
   // Build the SVG DOM.
   var svg = Blockly.utils.createSvgElement('svg', {
     'xmlns': 'http://www.w3.org/2000/svg',
@@ -188,11 +192,11 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
   Blockly.utils.createSvgElement('circle', {
     'cx': Blockly.FieldAngle.HALF, 'cy': Blockly.FieldAngle.HALF,
     'r': Blockly.FieldAngle.RADIUS,
-    'stroke': this.sourceBlock_.parentBlock_.getColourTertiary(),
-    'fill': this.sourceBlock_.parentBlock_.getColourSecondary(),
+    // 'stroke': this.sourceBlock_.parentBlock_.getColourTertiary(),
+    // 'fill': this.sourceBlock_.parentBlock_.getColourSecondary(),
     'class': 'blocklyAngleCircle'
   }, svg);
-  var getSectorPath = function(x, y, outerDiameter, a1, a2) {
+  /* var getSectorPath = function(x, y, outerDiameter, a1, a2) {
     var degtorad = Math.PI / 180;
     var cr = outerDiameter / 2;
     var cx1 = Math.cos(degtorad * a2) * cr + x;
@@ -206,7 +210,7 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
     'd': getSectorPath(Blockly.FieldAngle.HALF, Blockly.FieldAngle.HALF,
         Blockly.FieldAngle.RADIUS * 2, 90, 90 - this.max_),
     'class': 'blocklyAngleDisableCircle'
-  }, svg);
+  }, svg); */
   this.gauge_ = Blockly.utils.createSvgElement('path',
       {'class': 'blocklyAngleGauge'}, svg);
   // The moving line, x2 and y2 are set in updateGraph_
@@ -271,8 +275,24 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
   Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
   this.mouseDownWrapper_ =
-      Blockly.bindEvent_(this.handle_, 'mousedown', this, this.onMouseDown);
-
+    Blockly.bindEvent_(this.handle_, 'mousedown', this, this.onMouseDown);
+  return svg;
+}
+/**
+ * Show the inline free-text editor on top of the text.
+ * @private
+ */
+Blockly.FieldAngle.prototype.showEditor_ = function() {
+  // Mobile browsers have issues with in-line textareas (focus & keyboards).
+  Blockly.FieldAngle.superClass_.showEditor_.call(this, this.useTouchInteraction_);
+  // If there is an existing drop-down someone else owns, hide it immediately and clear it.
+  Blockly.DropDownDiv.hideWithoutAnimation();
+  Blockly.DropDownDiv.clearContent();
+  var div = Blockly.DropDownDiv.getContentDiv();
+  const panel = this.createWheelSVg();
+  const svg = this.createSvg(panel);
+  panel.appendChild(svg);
+  div.appendChild(panel);
   this.updateGraph_();
 };
 /**
@@ -389,6 +409,7 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
   this.line_.setAttribute('x2', x2);
   this.line_.setAttribute('y2', y2);
   this.handle_.setAttribute('transform', 'translate(' + x2 + ',' + y2 + ')');
+  this.main_div.setAttribute('style', 'transform:rotate(' + (Number(this.getText())) + 'deg)');
 };
 
 /**
