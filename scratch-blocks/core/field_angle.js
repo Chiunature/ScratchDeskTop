@@ -36,6 +36,7 @@ goog.require('goog.userAgent');
  * Class for an editable angle field.
  * @param {(string|number)=} opt_value The initial content of the field. The
  *     value should cast to a number, and if it does not, '0' will be used.
+ * @param {(string|number)=} opt_max Maximum value.
  * @param {Function=} opt_validator An optional function that is called
  *     to validate any constraints on what the user entered.  Takes the new
  *     text as an argument and returns the accepted text or null to abort
@@ -43,11 +44,12 @@ goog.require('goog.userAgent');
  * @extends {Blockly.FieldTextInput}
  * @constructor
  */
-Blockly.FieldAngle = function(opt_value, opt_validator) {
+Blockly.FieldAngle = function(opt_value, opt_max, opt_validator) {
+  this.max_ = opt_max;
   // Add degree symbol: '360°' (LTR) or '°360' (RTL)
   this.symbol_ = Blockly.utils.createSvgElement('tspan', {}, null);
   this.symbol_.appendChild(document.createTextNode('\u00B0'));
-  
+
   var numRestrictor = new RegExp("[\\d]|[\\.]|[-]|[eE]");
 
   opt_value = (opt_value && !isNaN(opt_value)) ? String(opt_value) : '0';
@@ -65,7 +67,7 @@ goog.inherits(Blockly.FieldAngle, Blockly.FieldTextInput);
  * @nocollapse
  */
 Blockly.FieldAngle.fromJson = function(options) {
-  return new Blockly.FieldAngle(options['angle']);
+  return new Blockly.FieldAngle(options['angle'], options['max']);
 };
 
 /**
@@ -106,7 +108,7 @@ Blockly.FieldAngle.OFFSET = 90;
  * Maximum allowed angle before wrapping.
  * Usually either 360 (for 0 to 359.9) or 180 (for -179.9 to 180).
  */
-Blockly.FieldAngle.WRAP = 180;
+Blockly.FieldAngle.WRAP = 360;
 
 /**
  * Radius of drag handle
@@ -186,7 +188,24 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
   Blockly.utils.createSvgElement('circle', {
     'cx': Blockly.FieldAngle.HALF, 'cy': Blockly.FieldAngle.HALF,
     'r': Blockly.FieldAngle.RADIUS,
+    'stroke': this.sourceBlock_.parentBlock_.getColourTertiary(),
+    'fill': this.sourceBlock_.parentBlock_.getColourSecondary(),
     'class': 'blocklyAngleCircle'
+  }, svg);
+  var getSectorPath = function(x, y, outerDiameter, a1, a2) {
+    var degtorad = Math.PI / 180;
+    var cr = outerDiameter / 2;
+    var cx1 = Math.cos(degtorad * a2) * cr + x;
+    var cy1 = -Math.sin(degtorad * a2) * cr + y;
+    var cx2 = Math.cos(degtorad * a1) * cr + x;
+    var cy2 = -Math.sin(degtorad * a1) * cr + y;
+    return 'M' + x + ' ' + y + ' ' + cx1 + ' ' + cy1 + ' A' + cr + ' ' + cr + ' 0 0 1 ' + cx2 + ' ' + cy2 + 'Z';
+  };
+  // Draw the disabled sectors.
+  Blockly.utils.createSvgElement('path', {
+    'd': getSectorPath(Blockly.FieldAngle.HALF, Blockly.FieldAngle.HALF,
+        Blockly.FieldAngle.RADIUS * 2, 90, 90 - this.max_),
+    'class': 'blocklyAngleDisableCircle'
   }, svg);
   this.gauge_ = Blockly.utils.createSvgElement('path',
       {'class': 'blocklyAngleGauge'}, svg);
@@ -305,11 +324,9 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
         Blockly.FieldAngle.ROUND;
   }
   angle = this.callValidator(angle);
-
-  const val = this.compareAngle(angle);
-  Blockly.FieldTextInput.htmlInput_.value = val;
+  Blockly.FieldTextInput.htmlInput_.value = angle;
   this.setValue(angle);
-  // this.validate_();
+  this.validate_();
   this.resizeEditor_();
 };
 
@@ -318,7 +335,6 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
  * @param {?string} text New text.
  */
 Blockly.FieldAngle.prototype.setText = function(text) {
-  text = this.reverseVal(text);
   Blockly.FieldAngle.superClass_.setText.call(this, text);
   if (!this.textElement_) {
     // Not rendered yet.
@@ -337,16 +353,7 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
   if (!this.gauge_) {
     return;
   }
-
-  let angleDegrees;
-  const gt = this.getText();
-  if(gt.search("R:") != -1 || gt.search("L:") != -1)  {
-    const list = gt.split(":");
-    angleDegrees = Number(list[1]) % 360 + Blockly.FieldAngle.OFFSET;
-  }else {
-    angleDegrees = Number(gt) % 360 + Blockly.FieldAngle.OFFSET;
-  }
-  // var angleDegrees = Number(this.getText()) % 360 + Blockly.FieldAngle.OFFSET;
+  var angleDegrees = Number(this.getText()) % 360 + Blockly.FieldAngle.OFFSET;
   var angleRadians = goog.math.toRadians(angleDegrees);
   var path = ['M ', Blockly.FieldAngle.HALF, ',', Blockly.FieldAngle.HALF];
   var x2 = Blockly.FieldAngle.HALF;
@@ -393,9 +400,7 @@ Blockly.FieldAngle.prototype.classValidator = function(text) {
   if (text === null) {
     return null;
   }
-  // var n = parseFloat(text || 0);
-  let n = this.reverseVal(text);
-
+  var n = parseFloat(text || 0);
   if (isNaN(n)) {
     return null;
   }
@@ -406,34 +411,10 @@ Blockly.FieldAngle.prototype.classValidator = function(text) {
   if (n > Blockly.FieldAngle.WRAP) {
     n -= 360;
   }
-
-  const val = this.compareAngle(n);
-
-  return String(val);
+  if (n > this.max_) {
+    n = this.max_;
+  }
+  return String(n);
 };
-
-Blockly.FieldAngle.prototype.reverseVal = function (oldVal) {
-  let newVal;
-  if(typeof oldVal == 'string' && (oldVal.search("R:") != -1 || oldVal.search("L:") != -1))  {
-    let list = oldVal.split(":");
-    newVal = list[1];
-  }else {
-    newVal = parseFloat(oldVal || 0);
-  }
-  return newVal;
-}
-
-
-Blockly.FieldAngle.prototype.compareAngle = function (angle) {
-  let val;
-  if(angle > 0) {
-    val = 'R:' + angle;
-  }else if(angle < 0){
-    val = 'L:' + angle;
-  }else {
-    val = angle;
-  }
-  return val;
-}
 
 Blockly.Field.register('field_angle', Blockly.FieldAngle);
