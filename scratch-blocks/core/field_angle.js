@@ -25,7 +25,7 @@
 'use strict';
 
 goog.provide('Blockly.FieldAngle');
-
+goog.require('Blockly.Msg');
 goog.require('Blockly.DropDownDiv');
 goog.require('Blockly.FieldTextInput');
 goog.require('goog.math');
@@ -144,6 +144,7 @@ Blockly.FieldAngle.CENTER_RADIUS = 2;
 Blockly.FieldAngle.ARROW_SVG_PATH = 'icons/arrow.svg';
 Blockly.FieldAngle.wheel_svg = 'wheel.svg';
 Blockly.FieldAngle.prototype.main_div = null;
+Blockly.FieldAngle.prototype.val_div = null;
 /**
  * Clean up this FieldAngle, as well as the inherited FieldTextInput.
  * @return {!Function} Closure to call on destruction of the WidgetDiv.
@@ -179,6 +180,39 @@ Blockly.FieldAngle.prototype.createWheelSVg = function() {
   return div;
 }
 
+Blockly.FieldAngle.prototype.createWheelBottomDiv = function() {
+  const div = document.createElement('div');
+  div.setAttribute('class', 'lls-rotation-wheel__bottom');
+  this.val_div = document.createElement('div');
+  this.val_div.setAttribute('class', 'lls-rotation-wheel__bottom__value');
+  const cut_btn = document.createElement('button');
+  cut_btn.setAttribute('class', 'lls-rotation-wheel__bottom__btn');
+  cut_btn.innerHTML = '-';
+  const add_btn = document.createElement('button');
+  add_btn.setAttribute('class', 'lls-rotation-wheel__bottom__btn');
+  add_btn.innerHTML = '+';
+
+  cut_btn.onclick = () => {
+    const cut_text = this.callValidator(Number(this.getText()) - 1);
+    Blockly.FieldTextInput.htmlInput_.value = cut_text;
+    this.setValue(cut_text);
+    this.validate_();
+    this.resizeEditor_();
+  }
+  add_btn.onclick = () => {
+    const add_text = this.callValidator(Number(this.getText()) + 1);
+    Blockly.FieldTextInput.htmlInput_.value = add_text;
+    this.setValue(add_text);
+    this.validate_();
+    this.resizeEditor_();
+  }
+
+  div.appendChild(cut_btn);
+  div.appendChild(this.val_div);
+  div.appendChild(add_btn);
+  return div;
+}
+
 Blockly.FieldAngle.prototype.createSvg = function (div) {
   // Build the SVG DOM.
   var svg = Blockly.utils.createSvgElement('svg', {
@@ -192,25 +226,8 @@ Blockly.FieldAngle.prototype.createSvg = function (div) {
   Blockly.utils.createSvgElement('circle', {
     'cx': Blockly.FieldAngle.HALF, 'cy': Blockly.FieldAngle.HALF,
     'r': Blockly.FieldAngle.RADIUS,
-    // 'stroke': this.sourceBlock_.parentBlock_.getColourTertiary(),
-    // 'fill': this.sourceBlock_.parentBlock_.getColourSecondary(),
     'class': 'blocklyAngleCircle'
   }, svg);
-  /* var getSectorPath = function(x, y, outerDiameter, a1, a2) {
-    var degtorad = Math.PI / 180;
-    var cr = outerDiameter / 2;
-    var cx1 = Math.cos(degtorad * a2) * cr + x;
-    var cy1 = -Math.sin(degtorad * a2) * cr + y;
-    var cx2 = Math.cos(degtorad * a1) * cr + x;
-    var cy2 = -Math.sin(degtorad * a1) * cr + y;
-    return 'M' + x + ' ' + y + ' ' + cx1 + ' ' + cy1 + ' A' + cr + ' ' + cr + ' 0 0 1 ' + cx2 + ' ' + cy2 + 'Z';
-  };
-  // Draw the disabled sectors.
-  Blockly.utils.createSvgElement('path', {
-    'd': getSectorPath(Blockly.FieldAngle.HALF, Blockly.FieldAngle.HALF,
-        Blockly.FieldAngle.RADIUS * 2, 90, 90 - this.max_),
-    'class': 'blocklyAngleDisableCircle'
-  }, svg); */
   this.gauge_ = Blockly.utils.createSvgElement('path',
       {'class': 'blocklyAngleGauge'}, svg);
   // The moving line, x2 and y2 are set in updateGraph_
@@ -292,7 +309,9 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
   const panel = this.createWheelSVg();
   const svg = this.createSvg(panel);
   panel.appendChild(svg);
+  const bottom_div = this.createWheelBottomDiv()
   div.appendChild(panel);
+  div.appendChild(bottom_div);
   this.updateGraph_();
 };
 /**
@@ -410,7 +429,18 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
   this.line_.setAttribute('y2', y2);
   this.handle_.setAttribute('transform', 'translate(' + x2 + ',' + y2 + ')');
   this.main_div.setAttribute('style', 'transform:rotate(' + (Number(this.getText())) + 'deg)');
+  this.val_div.innerHTML = this.parseBottomVal(Number(this.getText()));
 };
+
+Blockly.FieldAngle.prototype.parseBottomVal = function(value) {
+  if (value === 0) {
+    return Blockly.Msg.ADVANCE + ': ' + value; 
+  } else if (value < 0) {
+    return Blockly.Msg.TURNLEFT + ': ' + value; 
+  } else if (value > 0) {
+    return Blockly.Msg.TURNRIGHT + ': ' + value;
+  }
+}
 
 /**
  * Ensure that only an angle may be entered.
