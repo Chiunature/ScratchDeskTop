@@ -1,5 +1,5 @@
 const SET_FILESTYTEM = 'scratch-gui/file-stytem/SET_FILESTYTEM';
-
+const CLOSE_FILESTYTEM = 'scratch-gui/file-stytem/CLOSE_FILESTYTEM';
 
 const initialState = {
     showFileStytem: false
@@ -10,7 +10,11 @@ const reducer = function (state, action) {
     switch (action.type) {
         case SET_FILESTYTEM:
             return Object.assign({}, state, {
-                showFileStytem: !state.showFileStytem,
+                showFileStytem: true,
+            });
+        case CLOSE_FILESTYTEM:
+            return Object.assign({}, state, {
+                showFileStytem: false,
             });
         default:
             return state;
@@ -23,8 +27,15 @@ const showFileStytem = function () {
     };
 };
 
+const closeFileStytem = function () {
+    return {
+        type: CLOSE_FILESTYTEM
+    };
+};
+
 export {
     reducer as default,
     showFileStytem,
+    closeFileStytem,
     initialState as fileStytemInitialState
 }

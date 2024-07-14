@@ -5,7 +5,7 @@ import bindAll from "lodash.bindall";
 import styles from "../components/project-management/project-management.css";
 import Box from "../components/box/box.jsx";
 import Modal from "./modal.jsx";
-import { showFileStytem } from "../reducers/file-stytem";
+import { closeFileStytem, showFileStytem } from "../reducers/file-stytem";
 import sharedMessages from "../lib/shared-messages";
 import { ipc as ipc_Renderer } from "est-link";
 import { onLoadedProject, requestNewProject, getIsLoadingUpload, getIsShowingWithoutId, requestProjectUpload } from "../reducers/project-state";
@@ -134,7 +134,7 @@ class ProjectManagementHoc extends React.PureComponent {
         const readyToReplaceProject = this.confirmReadyToReplaceProject(
             this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
         );
-        this.props.onShowFileSystem();
+        this.props.onRequestClose();
         if (readyToReplaceProject) {
             this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
             sessionStorage.removeItem('setDefaultStartBlock');
@@ -180,6 +180,7 @@ class ProjectManagementHoc extends React.PureComponent {
     }
 
     handleSelect(item) {
+        this.props.onRequestClose();
         if (item.filePath && item.fileName) {
             this.props.requestProjectUpload(this.props.loadingState);
             this.handleFileReader(item.filePath, item.fileName);
@@ -368,7 +369,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
 );
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onRequestClose: () => dispatch(showFileStytem()),
+    onRequestClose: () => dispatch(closeFileStytem()),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onClickNew: (needSave) => dispatch(requestNewProject(needSave)),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
@@ -376,7 +377,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     onLoadingFinished: (loadingState, success) => {
         dispatch(onLoadedProject(loadingState, ownProps.canSave, success));
         dispatch(closeLoadingProject());
-        dispatch(showFileStytem());
     },
     requestProjectUpload: loadingState => dispatch(requestProjectUpload(loadingState)),
     cancelFileUpload: loadingState => dispatch(onLoadedProject(loadingState, false, false)),
