@@ -112,7 +112,7 @@ class ProjectManagementHoc extends React.PureComponent {
                         alert(this.props.intl.formatMessage(sharedMessages.loadError));
                     })
                     .then(async () => {
-                        this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                        this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
                         sessionStorage.setItem('openPath', url);
                         // await setProgramList(name, url, arrayBuffer, currentContent);
                     });
