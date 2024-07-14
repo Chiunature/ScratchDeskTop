@@ -34,6 +34,8 @@ const { Serialport, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 const createProtocol = require("./src/config/js/createProtocol.js");
 const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
+const getRandomString = require("./src/utils/getRandomString.js");
+
 const Store = require("electron-store");
 Store.initRenderer();
 
@@ -206,7 +208,7 @@ function createWindow() {
             show: false,
             minWidth: 1020,
             minHeight: 750,
-            partition: 'persist:window-id',
+            partition: 'persist:window-id' + getRandomString(),
             webPreferences: options,
             maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
         });
