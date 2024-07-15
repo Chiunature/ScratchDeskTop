@@ -76,6 +76,28 @@ Blockly.Blocks['math_-100to100_number'] = {
   }
 };
 
+Blockly.Blocks['math_-50to50_number'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_slider",
+          "name": "NUM",
+          "value": "0",
+          "min": "-50",
+          "max": "50"
+        }
+      ],
+      "output": "Number",
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "colour": Blockly.Colours.textField,
+      "colourSecondary": Blockly.Colours.textField,
+      "colourTertiary": Blockly.Colours.textField
+    });
+  }
+};
+
 Blockly.Blocks['math_number'] = {
   /**
    * Block for generic numeric value.
