@@ -15,9 +15,9 @@ const messages = defineMessages({
     }
 });
 
-export default function ProgramList({ vm, intl, programRef, display, onSetProjectTitle, setDisplay, projectTitle }) {
+export default function ProgramList({ vm, intl, programRef, display, onSetProjectTitle, setDisplay, projectTitle, saveProjectSb3 }) {
 
-    let [programlist, setProgramList] = useState([]);
+    let [list, setList] = useState([]);
     let [curIndex, setCurIndex] = useState(0);
     let [flag, setFlag] = useState(false);
 
@@ -38,19 +38,18 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
     }, [projectTitle])
 
     async function changeProgramList() {
-        const list = await window.myAPI.getForage('programlist');
         if (!list[curIndex] || (list[curIndex] && list[curIndex].name === projectTitle)) {
             return;
         }
         list[curIndex].name = projectTitle;
-        setProgramList([...list]);
-        await window.myAPI.setForage('programlist', [...list]);
+        setList([...list]);
+        await window.myAPI.setStoreValue('programlist', [...list]);
     }
 
 
     async function init() {
-        const list = await window.myAPI.getForage('programlist');
-        setProgramList([...list]);
+        const list = await window.myAPI.getStoreValue('programlist');
+        setList([...list]);
     }
 
     async function _loadString(el, index, result, display = 'none') {
@@ -76,7 +75,6 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
     }
 
     function load(el, index, content, display) {
-        setFlag(true);
         if (typeof content === 'string') {
             _loadString(el, index, content, display);
         } else {
@@ -84,30 +82,40 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
         }
     }
 
-    function select(el, index) {
+    async function saveOldProgram() {
+        const currentContent = await saveProjectSb3();
+        const oldIndex = sessionStorage.getItem('programlist-curIndex');
+        list[oldIndex].content = currentContent;
+        setList([...list]);
+        await window.myAPI.setStoreValue('programlist', [...list]);
+    }
+
+    async function select(el, index) {
         if (curIndex === index || !el.content) {
             return;
         }
+        setFlag(true);
+        await saveOldProgram();
         load(el, index, el.content);
     }
 
     async function deleteOne(index) {
-        let list = await window.myAPI.getForage('programlist');
         if (list.length === 1) {
             return;
         }
+        setFlag(true);
 
         const newList = list.toSpliced(index, 1);
-        await window.myAPI.setForage('programlist', [...newList]);
-        setProgramList([...newList]);
+        setList([...newList]);
+        await window.myAPI.setStoreValue('programlist', [...newList]);
 
-        const current = index - 1;
         if (curIndex === index) {
+            const current = index - 1;
             load(list[current], current, list[current].content, 'block');
-        } else {
-            sessionStorage.setItem('programlist-curIndex', curIndex - 1);
-            setCurIndex(curIndex - 1);
-            return;
+        } else if (curIndex > index) {
+            const newIndex = curIndex - 1;
+            sessionStorage.setItem('programlist-curIndex', newIndex);
+            setCurIndex(newIndex);
         }
     }
 
@@ -116,7 +124,7 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
             <div className={styles.programDropdown} ref={programRef} style={{ display }}>
                 <ul className={styles.operator}>
                     {
-                        programlist.map((el, index) => {
+                        list.map((el, index) => {
                             return (
                                 <li key={index}>
                                     <img
@@ -126,7 +134,7 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
                                         src={check}
                                         alt=''
                                     />
-                                    <span onClick={() => select(el, index)}>{el.name}</span>
+                                    <span onClick={() => select(el, index)}>{el.name + (el.path ? `(${el.path})` : '')}</span>
                                     <img
                                         className={classNames(styles.closeIcon)}
                                         src={closeIcon}

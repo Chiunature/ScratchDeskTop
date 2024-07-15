@@ -14,6 +14,7 @@ import {
     projectError
 } from '../reducers/project-state';
 // import setProgramList from './setProgramList';
+import { setProjectTitle } from '../reducers/project-title';
 
 /*
  * Higher Order Component to manage events emitted by the VM
@@ -53,7 +54,7 @@ const vmManagerHOC = function (WrappedComponent) {
             }
         }
 
-        async initProgramList() {
+        async initProgramList(currentContent) {
             const list = sessionStorage.getItem('programlist-curIndex');
             if (!list) {
                 const obj = {
@@ -64,12 +65,13 @@ const vmManagerHOC = function (WrappedComponent) {
                 sessionStorage.setItem('programlist-curIndex', 0);
                 await window.myAPI.setForage('programlist', [obj]);
             } else {
-                // await setProgramList('NEW-AI', null, this.props.projectData);
+                //await setProgramList('NEW-AI', null, this.props.projectData, currentContent, this.props.onSetProjectTitle);
                 sessionStorage.removeItem('openPath');
             }
         }
     
-        loadProject() {
+        async loadProject() {
+            //const currentContent = await this.props.vm.saveProjectSb3();
             return this.props.vm.loadProject(this.props.projectData)
                 .then(() => {
                     this.props.onLoadedProject(this.props.loadingState, this.props.canSave);
@@ -87,7 +89,7 @@ const vmManagerHOC = function (WrappedComponent) {
                         // the renderer can be async.
                         setTimeout(() => this.props.vm.renderer.draw());
                     }
-                    // this.initProgramList();
+                    // this.initProgramList(currentContent);
                 })
                 .catch(e => {
                     this.props.onError(e);
@@ -107,6 +109,7 @@ const vmManagerHOC = function (WrappedComponent) {
                 projectData,
                 projectTitle,
                 isLoadingWithId: isLoadingWithIdProp,
+                onSetProjectTitle,
                 vm,
                 ...componentProps
             } = this.props;
@@ -160,7 +163,8 @@ const vmManagerHOC = function (WrappedComponent) {
         onError: error => dispatch(projectError(error)),
         onLoadedProject: (loadingState, canSave) =>
             dispatch(onLoadedProject(loadingState, canSave, true)),
-        onSetProjectUnchanged: () => dispatch(setProjectUnchanged())
+        onSetProjectUnchanged: () => dispatch(setProjectUnchanged()),
+        onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
     });
 
     // Allow incoming props to override redux-provided props. Used to mock in tests.

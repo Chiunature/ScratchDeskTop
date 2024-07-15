@@ -73,7 +73,7 @@
 }
 
 .operator {
-    width: 150px;
+    min-width: 150px;
     max-height: calc(100vh - 10rem);
     background: var(--motion-primary);
     font-size: 12px;
@@ -111,9 +111,9 @@
 
 .operator li span {
     flex: 1;
-    overflow: hidden;
+    /* overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: nowrap; */
 }
 
 

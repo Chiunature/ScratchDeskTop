@@ -247,7 +247,9 @@ class MenuBar extends React.Component {
     }
 
     handleClickSave() {
-        this.getSaveToComputerHandler(() => this.downloadProject(sessionStorage.getItem('openPath')))();
+        const openPath = sessionStorage.getItem('openPath');
+        const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
+        this.getSaveToComputerHandler(() => this.downloadProject(onlySave))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
@@ -544,13 +546,18 @@ class MenuBar extends React.Component {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
+
+            // 有保存过
             downloadBlob(this.props.projectFilename, content, onlySave);
             if (onlySave) {
                 const filePath = sessionStorage.getItem('openPath');
                 filePath && this.props.onShowCompletedAlert("saveNowSuccess");
                 filePath && await this.setCacheForSave(filePath);
+                //await setProgramList(this.props.projectFilename, filePath, null, content);
                 return;
             }
+
+            // 没有保存过
             const res = await content.arrayBuffer();
             const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
                 file: Buffer.from(res),

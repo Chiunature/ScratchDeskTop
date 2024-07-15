@@ -7,7 +7,7 @@ import ProjectTitleInput from './project-title-input.jsx';
 // import dropdownCaret from "./dropdown-caret.svg";
 import fileSaveIcon from "./icon--file-save.svg";
 
-function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComputerHandler, downloadProject, onSetProjectTitle }) {
+function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComputerHandler, downloadProject, onSetProjectTitle, saveProjectSb3 }) {
 
     let programRef = useRef();
     let imgRef = useRef();
@@ -40,6 +40,12 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
         }
     }
 
+    function saveFile() {
+        const openPath = sessionStorage.getItem('openPath');
+        const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
+        getSaveToComputerHandler(() => downloadProject(onlySave))
+    }
+
 
     return (
         <>
@@ -54,10 +60,19 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
                         alt="" ref={imgRef} onMouseOver={clickProgram} /> */}
                     <ProjectTitleInput readOnly={false} className={classNames(styles.titleFieldGrowable)} />
                     <img className={classNames(styles.menuBarItem, styles.hoverable, styles.fileSaveIcon)} src={fileSaveIcon}
-                        onClick={getSaveToComputerHandler(() => downloadProject(sessionStorage.getItem('openPath')))} alt="" />
+                        onClick={saveFile} alt="" />
                 </MenuBarItemTooltip>
             </Box>
-            {/* <ProgramList projectTitle={projectTitle} vm={vm} programRef={programRef} display={display} onSetProjectTitle={onSetProjectTitle} intl={intl} setDisplay={setDisplay} /> */}
+            {/* <ProgramList
+                projectTitle={projectTitle}
+                vm={vm}
+                programRef={programRef}
+                display={display}
+                onSetProjectTitle={onSetProjectTitle}
+                intl={intl}
+                setDisplay={setDisplay}
+                saveProjectSb3={saveProjectSb3}
+            /> */}
         </>
     )
 }
