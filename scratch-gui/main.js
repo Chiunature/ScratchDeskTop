@@ -333,7 +333,7 @@ function createWindow() {
     function getRenderVersion() {
         ipcHandle('app-version', () => {
             const ver = app.getVersion();
-            const SoftWareVersion = ver || '1.5.2';
+            const SoftWareVersion = ver || '1.5.3';
             return SoftWareVersion;
         })
     }

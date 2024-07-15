@@ -51,7 +51,7 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
 
-const FIRMWARE_VERSION = '205';
+const FIRMWARE_VERSION = '206';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -76,7 +76,7 @@ class GUI extends React.Component {
                 this.matrixSend('FieldMatrix');
                 // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
-            }, {timeout: 500})
+            }, { timeout: 500 })
         }
     }
     componentDidUpdate(prevProps) {
@@ -241,7 +241,7 @@ class GUI extends React.Component {
                     onSetVersion(versionlist.ver);
                 }
                 onSetDeviceObj(result);
-                
+
                 requestIdleCallback(() => {
                     this.blocksMotorCheck();
                     this.initSensingList(unitList);

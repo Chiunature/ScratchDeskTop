@@ -26,7 +26,7 @@ import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '205';
+const FIRMWARE_VERSION = '206';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -105,14 +105,14 @@ class ConnectionModal extends React.PureComponent {
 
     handleBleScan(open = true) {
         if (this.props.peripheralName) return;
-        window.myAPI.ipcRender({sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open});
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
     }
 
     handleBleConnect() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.SEND_OR_ON.BLE.GETBlELIST,
             callback: (e, result) => {
-                if(!result) return;
+                if (!result) return;
                 const bleList = JSON.parse(result);
                 console.log(bleList);
                 this.props.onGetSerialList([...bleList]);
@@ -121,16 +121,16 @@ class ConnectionModal extends React.PureComponent {
     }
 
     async handleSelectPort(port, index) {
-        if(port.checked || this.props.completed) {
+        if (port.checked || this.props.completed) {
             return;
         }
         this.props.onChangeSerialList(port);
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
-            sendParams: {newPort: port, index},
+            sendParams: { newPort: port, index },
             eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
             callback: (e, res) => {
-                const {bleType, msg, success} = res;
+                const { bleType, msg, success } = res;
                 this.props.onShowConnectAlert(msg);
                 if (success) {
                     this.props.onSetCompleted(false);
