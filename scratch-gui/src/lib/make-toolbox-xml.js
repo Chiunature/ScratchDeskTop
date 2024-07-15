@@ -245,7 +245,7 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 ${blockSeparator}
                 <block type="combined_motor_spinByYawAngle">
                     <value name="ANGLE">
-                        <shadow type="math_angle"><field name="NUM">90</field></shadow>
+                        <shadow type="math_number"><field name="NUM">90</field></shadow>
                     </value>
                 </block>
                 ${categorySeparator}
