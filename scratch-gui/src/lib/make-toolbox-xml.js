@@ -236,10 +236,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                     <value name="KP">
-                        <shadow type="math_-50to50_number"><field name="NUM">1</field></shadow>
+                        <shadow type="math_-50to50_number"></shadow>
                     </value>
                     <value name="KI">
-                        <shadow type="math_-50to50_number"><field name="NUM">1</field></shadow>
+                        <shadow type="math_-50to50_number"></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
