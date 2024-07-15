@@ -447,9 +447,8 @@ class Blocks extends React.Component {
 
     attachVM() {
         const newFunc = throttle(this.checkIsOpenGyroscope, 300, { leading: false, trailing: true });
-        const newWorkspaceToCode = throttle(this.workspaceToCode, 300, { leading: false, trailing: true });
         this.workspace.addChangeListener((event) => {
-            newWorkspaceToCode(event.type, newFunc);
+            this.workspaceToCode(event.type, newFunc);
             this.props.vm.blockListener(event);
         });
         this.flyoutWorkspace = this.workspace
