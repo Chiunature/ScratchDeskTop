@@ -548,8 +548,8 @@ class MenuBar extends React.Component {
             }
 
             // 有保存过
-            downloadBlob(this.props.projectFilename, content, onlySave);
             if (onlySave) {
+                downloadBlob(this.props.projectFilename, content, onlySave);
                 const filePath = sessionStorage.getItem('openPath');
                 filePath && this.props.onShowCompletedAlert("saveNowSuccess");
                 filePath && await this.setCacheForSave(filePath);

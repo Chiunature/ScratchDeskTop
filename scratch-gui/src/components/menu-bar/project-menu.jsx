@@ -43,7 +43,7 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
     function saveFile() {
         const openPath = sessionStorage.getItem('openPath');
         const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
-        getSaveToComputerHandler(() => downloadProject(onlySave))
+        getSaveToComputerHandler(() => downloadProject(onlySave))();
     }
 
 
