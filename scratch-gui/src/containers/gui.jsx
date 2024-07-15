@@ -23,7 +23,7 @@ import {
     openExtensionLibrary,
     openConnectionModal,
 } from "../reducers/modals";
-import throttle from 'lodash.throttle';
+import { APLICATION } from "../config/json/LB_USER.json";
 import FontLoaderHOC from "../lib/font-loader-hoc.jsx";
 import LocalizationHOC from "../lib/localization-hoc.jsx";
 import SBFileUploaderHOC from "../lib/sb-file-uploader-hoc.jsx";
@@ -50,7 +50,7 @@ import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
-
+const regOpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 const FIRMWARE_VERSION = '206';
 class GUI extends React.Component {
     constructor(props) {
@@ -306,6 +306,22 @@ class GUI extends React.Component {
         }
     } */
 
+    async checkIsOpenGyroscope() {
+        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        let result = await window.myAPI.readFiles(APLICATION, spath);
+        if (!result) {
+            return;
+        }
+        const res = ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0;
+        const newStr = `#define OPEN_GYROSCOPE_CALIBRATION ${res}`;
+        const str = result.match(regOpenGyroscope);
+        if (str && str[0] === newStr) {
+            return;
+        }
+        result = result.replace(regOpenGyroscope, newStr);
+        await window.myAPI.writeFiles(APLICATION, result, spath);
+    }
+
 
     async handleCompile(isRun) {
         const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
@@ -325,6 +341,8 @@ class GUI extends React.Component {
                 this.props.onShowCompletedAlert("workspaceEmpty");
                 return;
             }
+
+            await this.checkIsOpenGyroscope();
 
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
