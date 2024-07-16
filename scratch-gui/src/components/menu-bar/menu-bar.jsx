@@ -530,15 +530,38 @@ class MenuBar extends React.Component {
     handleProblem() {
         this.props.onShowQrcode();
     }
-
     saveSvg() {
-        const dom = this.props.workspace.svgBlockCanvas_;
-        const name = this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf("."));
-        saveSvgAsPng(dom, name, { backgroundColor: '#ffffff' });
+        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        if (blocks.getBBox().height === 0) {
+            this.props.onShowCompletedAlert("workspaceEmpty");
+        } else {
+            const transform = blocks.getAttribute('transform');
+            const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
+            const name = this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf("."));
+            saveSvgAsPng(blocks, `${name}.png`, {
+                left: blocks.getBBox().x * scale,
+                top: blocks.getBBox().y * scale,
+                height: blocks.getBBox().height * scale,
+                width: blocks.getBBox().width * scale,
+                scale: 2 / scale,
+                encoderOptions: 1
+            });
+        }
     }
     
     async screenPrintWorkspace() {
-        return await svgAsDataUri(this.props.workspace.svgBlockCanvas_, { backgroundColor: '#ffffff' });
+        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        const transform = blocks.getAttribute('transform');
+        const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
+        return await svgAsDataUri(blocks, {
+            backgroundColor: '#ffffff',
+            left: blocks.getBBox().x * scale,
+            top: blocks.getBBox().y * scale,
+            height: blocks.getBBox().height * scale,
+            width: blocks.getBBox().width * scale,
+            scale: 2 / scale,
+            encoderOptions: 1
+        });
     }
 
     downloadProject(onlySave) {
