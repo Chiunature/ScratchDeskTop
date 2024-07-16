@@ -361,7 +361,8 @@ class Serialport extends Common {
                 //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                 this.processReceivedData(event);
             } else {
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: 'Data validation error' });
+                const errMsg = `The data with index ${this.chunkIndex} did not pass the verification`;
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg });
                 this.clearCache();
             }
         });

@@ -73,7 +73,7 @@ function distinguish(filesObj, type, event) {
         } else {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
         }
-        console.log(`${obj.fileName}已经下载完成`);
+        console.info(`${obj.fileName} OK!`);
     }
 }
 

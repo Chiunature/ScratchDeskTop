@@ -54,7 +54,7 @@ const vmManagerHOC = function (WrappedComponent) {
             }
         }
 
-        async initProgramList(currentContent) {
+        /*async initProgramList(currentContent) {
             const list = sessionStorage.getItem('programlist-curIndex');
             if (!list) {
                 const obj = {
@@ -68,8 +68,8 @@ const vmManagerHOC = function (WrappedComponent) {
                 //await setProgramList('NEW-AI', null, this.props.projectData, currentContent, this.props.onSetProjectTitle);
                 sessionStorage.removeItem('openPath');
             }
-        }
-    
+        }*/
+
         async loadProject() {
             //const currentContent = await this.props.vm.saveProjectSb3();
             return this.props.vm.loadProject(this.props.projectData)

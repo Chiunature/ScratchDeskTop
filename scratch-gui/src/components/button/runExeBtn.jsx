@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import classNames from 'classnames';
 import styles from './button.css';
 import ButtonComponent from "./button.jsx";
@@ -13,6 +13,7 @@ const RunExeBtn = (props) => {
     let refObj = useRef();
     let [progress, setProgress] = useState(0);
     let [isMounted, setIsMounted] = useState(false);
+    let [isUpload, setIsUpload] = useState(false);
 
     useEffect(() => {
         getProgress();
@@ -37,8 +38,9 @@ const RunExeBtn = (props) => {
     }
 
 
-    const toggle = () => {
-        if (newProgress > 0) {
+    function toggle() {
+        setIsUpload(!isUpload);
+        if(completed || isUpload) {
             return;
         }
         setProgress(0);
@@ -51,7 +53,7 @@ const RunExeBtn = (props) => {
                 <div className={styles.selectExeRound}>
                     <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, newProgress > 99 ? styles.isCompleteHide : '')}>
                         <div style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
-                            {completed ? <p className={classNames(styles.uploadP)}>{newProgress}%</p> : 
+                            {completed ? <p className={classNames(styles.uploadP)}>{newProgress}%</p> :
                                 <ButtonComponent
                                     onClick={toggle}
                                     className={classNames(styles.uploadBtn)}

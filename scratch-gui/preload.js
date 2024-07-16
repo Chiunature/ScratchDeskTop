@@ -8,8 +8,8 @@ const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
 
-const UseLocalForage = require("./src/utils/useLocalForage");
-const store_lf = new UseLocalForage();
+/*const UseLocalForage = require("./src/utils/useLocalForage");
+const store_lf = new UseLocalForage();*/
 
 const Store = require("electron-store");
 const store = new Store();
@@ -32,7 +32,7 @@ function hasStoreValue(key) {
     return store.has(key);
 }
 
-async function setForage(key, value) {
+/*async function setForage(key, value) {
     await store_lf.setForage(key, value);
 }
 
@@ -42,7 +42,7 @@ async function getForage(key) {
 
 async function removeForage(key) {
     await store_lf.removeForage(key);
-}
+}*/
 
 
 /**
@@ -225,7 +225,7 @@ function getVersion(vpath, verTxt = '/Version.txt') {
  * 查找文件夹并写入文件
  * @param {String} directory
  * @param {String} filepath
- * @param {String} data
+ * @param {NodeJS.ErrnoException & ArrayBufferView} data
  */
 function writeFileWithDirectory(directory = cwd(), filepath, data) {
     return new Promise((resolve, reject) => {
@@ -347,7 +347,4 @@ contextBridge.exposeInMainWorld('myAPI', {
     onGetVersion: async () => await ipcInvoke('app-version'),
     sleep,
     openExternal: (url) => shell.openExternal(url),
-    setForage,
-    getForage,
-    removeForage
 });

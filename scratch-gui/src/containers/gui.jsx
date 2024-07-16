@@ -94,7 +94,7 @@ class GUI extends React.Component {
     }
     async componentWillUnmount() {
         window.myAPI.delEvents();
-        await window.myAPI.removeForage("programlist");
+        // await window.myAPI.removeForage("programlist");
     }
 
     async getMainMessage() {
