@@ -186,7 +186,7 @@ Blockly.Toolbox.prototype.init = function() {
   var triggerIcon = goog.dom.createDom(goog.dom.TagName.IMG, 'blocklyToolboxTriggerIcon');
 
   triggerIcon.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'hide.svg');
-  triggerIcon.style.right = '-388px';
+  triggerIcon.style.right = '-391px';
   trigger.appendChild(triggerIcon);
   this.HtmlDiv.parentNode.insertBefore(trigger, this.HtmlDiv);
 
@@ -205,7 +205,7 @@ Blockly.Toolbox.prototype.unfoldTrigger = function() {
  * 修改 this.triggerIcon_ 的图标和位置
  */
 Blockly.Toolbox.prototype.foldTrigger = function() {
-  this.triggerIcon_.style.right = '-388px';
+  this.triggerIcon_.style.right = '-391px';
   this.triggerIcon_.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'hide.svg');
 };
 
@@ -621,7 +621,7 @@ Blockly.Toolbox.prototype.setSelectedItem = function(item, opt_shouldScroll) {
     }
   }
 
-  
+
   if (this.isHideFlyout_) {
     this.flyout_.hide();
     this.workspace_.resize();
