@@ -217,7 +217,7 @@ class GUI extends React.Component {
         if (!res) {
             return;
         }
-        this.compile.sendSerial(verifyTypeConfig.RESET_FWLIB);
+        this.compile.sendSerial({verifyType: verifyTypeConfig.RESET_FWLIB});
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firmwareVersion);
@@ -306,27 +306,12 @@ class GUI extends React.Component {
         }
     } */
 
-    async checkIsOpenGyroscope() {
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-        let result = await window.myAPI.readFiles(APLICATION, spath);
-        if (!result) {
-            return;
-        }
-        const res = ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0;
-        const newStr = `#define OPEN_GYROSCOPE_CALIBRATION ${res}`;
-        const str = result.match(regOpenGyroscope);
-        if (str && str[0] === newStr) {
-            return;
-        }
-        result = result.replace(regOpenGyroscope, newStr);
-        await window.myAPI.writeFiles(APLICATION, result, spath);
-    }
 
 
     async handleCompile(isRun) {
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
-            const firmwareVersion = window.myAPI.getVersion(spath) || FIRMWARE_VERSION;
+            const firmwareVersion = window.myAPI.getVersion(static_path) || FIRMWARE_VERSION;
             if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
                 return;
@@ -337,16 +322,10 @@ class GUI extends React.Component {
                 return;
             }
 
-            if (this.props.compileList.length === 0 || !this.props.workspace) {
-                this.props.onShowCompletedAlert("workspaceEmpty");
-                return;
-            }
-
-            await this.checkIsOpenGyroscope();
-
+            const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
-            if (!hasStart) {
+            if (!hasStart || blocks.getBBox().height === 0 || this.props.compileList.length === 0) {
                 this.props.onShowCompletedAlert("workspaceEmpty");
                 return;
             }
@@ -358,11 +337,20 @@ class GUI extends React.Component {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
             }
 
+            await window.myAPI.sleep(2000);
+
             const selItem = window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
             const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
-            await window.myAPI.sleep(2000);
-            this.compile.sendSerial(verifyType, this.props.bufferList, this.props.matchMyBlock, selectedExe, this.props.soundslist);
+            this.compile.sendSerial({
+                verifyType,
+                bufferList: this.props.bufferList,
+                matchMyBlock: this.props.matchMyBlock,
+                selectedExe,
+                soundsList: this.props.soundslist,
+                open_gyroscope_calibration: ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0
+            });
+
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
             window.myAPI.handlerError(error, spath);

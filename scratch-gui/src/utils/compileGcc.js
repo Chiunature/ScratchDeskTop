@@ -23,7 +23,14 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-import { Task_Handler, Task_Info, Task_Info_Item, Task_Stack, Task_MyBlock } from "../config/js/ProgrammerTasks.js";
+import {
+    Task_Handler,
+    Task_Info,
+    Task_Info_Item,
+    Task_Stack,
+    Task_MyBlock,
+    Task_Open_Gyroscope_Calibration
+} from "../config/js/ProgrammerTasks.js";
 import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
@@ -32,6 +39,7 @@ const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\
 const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;\s{1}/;
 const reg_main = /\s{1}\/\*MyBlock Write\d+\*\/[\s\S]*?\/\*MyBlock End\d+\*\/\s{1}/g;
 const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
+const reg_OpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 
 class Compile {
 
@@ -90,13 +98,16 @@ class Compile {
      * @param {String} taskStr
      * @param {String} myStr
      * @param handlerStr
+     * @param gyroscopeStr
      * @returns
      */
-    async handleCode(spath, codeStr, taskStr, myStr, handlerStr) {
+    async handleCode(spath, codeStr, taskStr, myStr, handlerStr, gyroscopeStr) {
         //读取Aplication.c文件
         const result = await window.myAPI.readFiles(APLICATION, spath);
+        // 检测并修改偏航角宏变量
+        const newResult = await this.changeFileByReg(result, reg_OpenGyroscope, gyroscopeStr);
         //自制积木块放入前面
-        const newMy = await this.changeFileByReg(result, reg_main, myStr);
+        const newMy = await this.changeFileByReg(newResult, reg_main, myStr);
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
         //替换TaskHandle_t部分
@@ -110,22 +121,25 @@ class Compile {
 
     /**
      * 运行编译器参数是传入的C语言代码
-     * @param {Array} buffer
-     * @param {String} myBlock
-     * @param {Object} selectedExe
-     * @param {String} verifyType
-     * @param {Array} soundslist
+     * @param options
      */
-    async runGcc(buffer, myBlock, selectedExe, verifyType, soundslist) {
-        let codeStr = '', taskStr = '', handlerStr = '', myBlockStr = '';
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-        buffer.forEach((el, index) => {
+    async runGcc(options) {
+        const {bufferList, myBlock, selectedExe, verifyType, open_gyroscope_calibration}=options;
+
+        let codeStr = '',
+            taskStr = '',
+            handlerStr = '',
+            myBlockStr = '',
+            gyroscopeStr = Task_Open_Gyroscope_Calibration(open_gyroscope_calibration);
+
+        bufferList.forEach((el, index) => {
             if (el) {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
                 handlerStr += Task_Handler(index);
             }
-        });
+        })
+
         if (Array.isArray(myBlock)) {
             myBlock.forEach((el, index) => {
                 myBlockStr += Task_MyBlock(el, index);
@@ -133,14 +147,17 @@ class Compile {
         } else {
             myBlockStr = Task_MyBlock(myBlock);
         }
-        const appRes = await this.handleCode(spath, codeStr, taskStr, myBlockStr, handlerStr);
+
+        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, handlerStr, gyroscopeStr);
+
         //编译
         if (appRes) {
-            window.myAPI.commendMake(spath).then(() => {
-                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, soundslist } });
+            window.myAPI.commendMake(static_path).then(() => {
+                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
             }).catch(err => {
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
-                window.myAPI.handlerError(err, spath);
+                window.myAPI.handlerError(err, static_path);
             });
         }
     }
@@ -148,13 +165,10 @@ class Compile {
 
     /**
      * 区分是什么类型的通信
-     * @param {String} verifyType
-     * @param {Array} bufferList
-     * @param {String} myBlock
-     * @param {Object} selectedExe
-     * @param {Array} soundslist
+     * @param options
      */
-    async sendSerial(verifyType, bufferList, myBlock, selectedExe, soundslist) {
+    async sendSerial(options) {
+        const {verifyType} = options;
         switch (verifyType) {
             case verifyTypeConfig.RESET_FWLIB:
                 window.myAPI.ipcRender({
@@ -167,7 +181,7 @@ class Compile {
                 });
                 break;
             case verifyTypeConfig.BOOTBIN:
-                await this.runGcc(bufferList, myBlock, selectedExe, verifyType, soundslist);
+                await this.runGcc(options);
                 break;
             default:
                 break;

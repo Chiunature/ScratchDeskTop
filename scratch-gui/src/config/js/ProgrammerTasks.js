@@ -22,9 +22,6 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-/* function User_Aplication(index) {
-    return `\nvoid User_Aplication${index}(void *parameter);`;
-} */
 
 function Task_Stack(item, index) {
     return `\nvoid USER_Aplication${index}(void* parameter)\n{\n/*USER APLICATION Write*/\n${item ? item.replaceAll('undefined', '') : item}\n/*USER APLICATION END*/\nvTaskExit("1");\n};\n`;
@@ -47,6 +44,9 @@ function Task_MyBlock(myStr, index) {
     return `\n/*MyBlock Write${myStr ? num : 0}*/\n${myStr ? myStr : ''}\n/*MyBlock End${myStr ? num : 0}*/\n`;
 }
 
+function Task_Open_Gyroscope_Calibration(flag) {
+    return `#define OPEN_GYROSCOPE_CALIBRATION ${flag}`;
+}
 
 
 export {
@@ -54,5 +54,6 @@ export {
     Task_Info,
     Task_Stack,
     Task_Handler,
-    Task_Info_Item
+    Task_Info_Item,
+    Task_Open_Gyroscope_Calibration
 }
