@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const { spawn, exec } = require("child_process");
+const { spawn } = require("child_process");
 const { cwd } = require("process");
 const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
@@ -280,7 +280,7 @@ async function handlerError(error, resourcePath = cwd()) {
 
 function getDocxUrl(static_path, link) {
     const href = path.join(static_path, link);
-    exec(href);
+    shell.openPath(href);
 }
 
 

@@ -230,7 +230,7 @@ function createWindow() {
                 app.commandLine.appendSwitch('--enable-gpu-rasterization');
             }
         });
-    
+
         getRenderVersion();
         openSerialPort();
         // 开启子线程操作文件缓存
@@ -318,7 +318,7 @@ function createWindow() {
     function _openFileLocation() {
         ipcHandle('openFileLocation', (event, path) => {
             shell.showItemInFolder(path);
-            return;
+            return false;
         })
     }
 
@@ -333,8 +333,7 @@ function createWindow() {
     function getRenderVersion() {
         ipcHandle('app-version', () => {
             const ver = app.getVersion();
-            const SoftWareVersion = ver || '1.5.4';
-            return SoftWareVersion;
+            return ver || '1.5.4';
         })
     }
 }
