@@ -15,7 +15,7 @@ export default async (filename, path, content, currentContent, onSetProjectTitle
                     }
                     break;
                 }
-                if (item.path === path) {
+                if (path && item.path === path) {
                 shouldAddProgram = false;
                 break;
                 } 
