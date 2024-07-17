@@ -344,9 +344,9 @@ class GUI extends React.Component {
             const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
             this.compile.sendSerial({
                 verifyType,
-                bufferList: this.props.bufferList,
-                matchMyBlock: this.props.matchMyBlock,
                 selectedExe,
+                bufferList: this.props.bufferList,
+                myBlockList: this.props.matchMyBlock,
                 soundsList: this.props.soundslist,
                 open_gyroscope_calibration: ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0
             });

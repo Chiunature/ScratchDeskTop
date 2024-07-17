@@ -124,7 +124,7 @@ class Compile {
      * @param options
      */
     async runGcc(options) {
-        const {bufferList, myBlock, selectedExe, verifyType, open_gyroscope_calibration}=options;
+        const {bufferList, myBlockList, selectedExe, verifyType, open_gyroscope_calibration}=options;
 
         let codeStr = '',
             taskStr = '',
@@ -140,12 +140,12 @@ class Compile {
             }
         })
 
-        if (Array.isArray(myBlock)) {
-            myBlock.forEach((el, index) => {
+        if (Array.isArray(myBlockList)) {
+            myBlockList.forEach((el, index) => {
                 myBlockStr += Task_MyBlock(el, index);
             })
         } else {
-            myBlockStr = Task_MyBlock(myBlock);
+            myBlockStr = Task_MyBlock(myBlockList);
         }
 
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
