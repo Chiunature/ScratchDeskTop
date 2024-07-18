@@ -12,6 +12,11 @@ const messages = defineMessages({
         id: 'gui.projectLoader.loadError',
         defaultMessage: 'The project file that was selected failed to load.',
         description: 'An error that displays when a local project file fails to load.'
+    },
+    noSave: {
+        id:"gui.main.noSave",
+        description: "Not saved",
+        defaultMessage: "Not saved"
     }
 });
 
@@ -134,7 +139,7 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
                                         src={check}
                                         alt=''
                                     />
-                                    <span onClick={() => select(el, index)}>{el.name + (el.path ? `(${el.path})` : '')}</span>
+                                    <span onClick={() => select(el, index)}>{el.name + ` (${el.path ? el.path : intl.formatMessage(messages.noSave)}) `}</span>
                                     <img
                                         className={classNames(styles.closeIcon)}
                                         src={closeIcon}

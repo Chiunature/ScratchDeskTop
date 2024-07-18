@@ -91,13 +91,6 @@ const saveNowMessage = (
         id="gui.menuBar.saveNow"
     />
 );
-const remixMessage = (
-    <FormattedMessage
-        defaultMessage="Remix"
-        description="Menu bar item for remixing"
-        id="gui.menuBar.remix"
-    />
-);
 const newProjectMessage = (
     <FormattedMessage
         defaultMessage="New"
@@ -755,6 +748,7 @@ class MenuBar extends React.Component {
                         downloadProject={this.downloadProject}
                         projectTitle={this.props.projectTitle}
                         onSetProjectTitle={this.props.onSetProjectTitle}
+                        saveProjectSb3={this.props.saveProjectSb3}
                     />
                 </Box>
                 <Box className={classNames(styles.mainMenuTwo)}>

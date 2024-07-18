@@ -57,7 +57,7 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
             >
                 <MenuBarItemTooltip enable id="title-field">
                     {/* <img className={classNames(styles.menuBarItem, styles.hoverable, styles.generator, styles.profileIcon)} src={dropdownCaret}
-                        alt="" ref={imgRef} onMouseOver={clickProgram} /> */}
+                        alt="" ref={imgRef} onClick={clickProgram} /> */}
                     <ProjectTitleInput readOnly={false} className={classNames(styles.titleFieldGrowable)} />
                     <img className={classNames(styles.menuBarItem, styles.hoverable, styles.fileSaveIcon)} src={fileSaveIcon}
                         onClick={saveFile} alt="" />

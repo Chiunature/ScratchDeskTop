@@ -605,5 +605,6 @@
   "gui.main.openUpload": "检测到该固件版本不是最新的, 已经进入维护中, 暂时不能下载",
   "gui.main.checkUpdate": "检查更新...",
   "gui.main.foundUpdate": "发现新版本，是否前往下载?",
-  "gui.main.isNew": "目前已是最新版本!"
+  "gui.main.isNew": "目前已是最新版本!",
+  "gui.main.noSave": "未保存"
 }

@@ -28,7 +28,8 @@ export default async (filename, path, content, currentContent, onSetProjectTitle
         if (currentIndex && programlist[currentIndex]) {
             programlist[currentIndex] = {
                 ...programlist[currentIndex],
-                content: currentContent
+                content: currentContent,
+                path: path && !content ? path : programlist[currentIndex].path
             }
         }
     }
