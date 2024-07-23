@@ -50,8 +50,7 @@ import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
-const regOpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
-const FIRMWARE_VERSION = '206';
+const FIRMWARE_VERSION = '207';
 class GUI extends React.Component {
     constructor(props) {
         super(props);

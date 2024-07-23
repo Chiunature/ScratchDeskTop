@@ -26,7 +26,7 @@ import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '206';
+const FIRMWARE_VERSION = '207';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -257,7 +257,7 @@ class ConnectionModal extends React.PureComponent {
             }
         }
         window.myAPI.setStoreValue('version', this.state.firewareVersion);
-        this.props.compile.sendSerial({verifyType: verifyTypeConfig.RESET_FWLIB});
+        this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
         this.props.onSetVersion(this.state.firewareVersion);
     }

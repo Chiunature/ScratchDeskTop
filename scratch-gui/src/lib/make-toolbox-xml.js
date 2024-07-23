@@ -29,6 +29,36 @@ const xmlEscape = function (unsafe) {
             </value>
         </block>
         <block type="motor_relative_position"></block>
+        <block type="motor_acceleration">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="P">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                    <value name="I">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                    <value name="D">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="motor_setStill">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="P">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                    <value name="I">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                    <value name="D">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
     */
 
 const motor = function (isInitialSetup, isStage, targetId, colors) {
@@ -85,36 +115,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                     </value>
                     <value name="POWER">
                         <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_acceleration">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="P">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                    <value name="I">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="D">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_setStill">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="P">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                    <value name="I">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="D">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
