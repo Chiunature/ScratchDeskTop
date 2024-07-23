@@ -110,6 +110,7 @@ class Blocks extends React.Component {
         );
         this.workspace = this.ScratchBlocks.inject(this.blocks, workspaceConfig);
         requestIdleCallback(() => {
+            this.props.setWorkspace(this.workspace);
             // Register buttons under new callback keys for creating variables,
             // lists, and procedures from extensions.
             const toolboxWorkspace = this.workspace.getFlyout().getWorkspace();
@@ -153,7 +154,6 @@ class Blocks extends React.Component {
     workspaceToCode(type) {
         const generatorName = 'cake';
         const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
-        this.props.setWorkspace(this.workspace);
         const list = this.workspace.getTopBlocks();
         let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {

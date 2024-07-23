@@ -13,7 +13,6 @@ const RunExeBtn = (props) => {
     let refObj = useRef();
     let [progress, setProgress] = useState(0);
     let [isMounted, setIsMounted] = useState(false);
-    let [isUpload, setIsUpload] = useState(false);
 
     useEffect(() => {
         getProgress();
@@ -39,8 +38,7 @@ const RunExeBtn = (props) => {
 
 
     function toggle() {
-        setIsUpload(!isUpload);
-        if(completed || isUpload) {
+        if(completed) {
             return;
         }
         setProgress(0);
