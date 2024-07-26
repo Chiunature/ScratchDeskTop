@@ -16,7 +16,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             let newList = JSON.parse(list);
             if(newList.length === 0 || newList[index]?.unit === unit) return;
             newList[index]['unit'] = unit;
-            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify([...newList]));
+            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(newList));
         }
     }
 
@@ -124,6 +124,8 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return 'G';
             case 3:
                 return 'B';
+            case 4:
+                return 'H';
             case 5:
                 return intl.formatMessage(messages['version']);
             default:

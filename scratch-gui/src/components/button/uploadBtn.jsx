@@ -30,6 +30,7 @@ const UploadBtn = (props) => {
     const compile = (isRun) => {
         if (!openUpload) {
             alert(text);
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
             return;
         }
         if (completed) {

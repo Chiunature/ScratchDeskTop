@@ -96,6 +96,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
                     this.removeFileObjects();
                 });
+                window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         // step 1: this is where the upload process begins
         handleStartSelectingFileUpload() {
@@ -211,6 +212,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             } catch (error) {
                 alert(this.props.intl.formatMessage(messages.loadError));
             }
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         // step 7: remove the <input> element from the DOM and clear reader and
         // fileToUpload reference, so those objects can be garbage collected

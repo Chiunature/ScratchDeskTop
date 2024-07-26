@@ -120,6 +120,7 @@ class ProjectManagementHoc extends React.PureComponent {
         } catch (error) {
             alert(this.props.intl.formatMessage(sharedMessages.loadError));
         }
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     confirmReadyToReplaceProject(message) {
@@ -127,6 +128,7 @@ class ProjectManagementHoc extends React.PureComponent {
         if (this.props.projectChanged && !this.props.canCreateNew) {
             readyToReplaceProject = confirm(message);
         }
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         return readyToReplaceProject;
     }
 
@@ -204,6 +206,7 @@ class ProjectManagementHoc extends React.PureComponent {
             this.state.fileList.splice(index, 1);
             this.changeFilesList();
         }
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     handleEditRecord(index, e) {
@@ -271,6 +274,7 @@ class ProjectManagementHoc extends React.PureComponent {
         }
         this.state.fileList = this.state.fileList.filter(el => !el.checked)
         this.changeFilesList();
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     async handleCopyAll() {

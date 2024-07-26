@@ -42,6 +42,7 @@ class RecordingStep extends React.Component {
     }
     handleRecordingError () {
         alert(this.props.intl.formatMessage(messages.alertMsg)); // eslint-disable-line no-alert
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
     handleLevelUpdate (level) {
         this.setState({

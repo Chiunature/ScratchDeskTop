@@ -285,7 +285,7 @@ ul {
 }
 
 .device-sensing-box ul li {
-    min-width: 85px;
+    min-width: 120px;
     height: 100%;
     display: flex;
     padding: 0 5px;
@@ -326,8 +326,9 @@ ul {
 .device-sensing-content .show-unit label {
     text-align: center;
     color: #4C97FF;
-    font-size: 14px;
+    font-size: 12px;
     flex-grow: 1;
+    margin-right: 5px;
 }
 
 .hide {

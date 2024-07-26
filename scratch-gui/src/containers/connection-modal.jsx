@@ -260,6 +260,7 @@ class ConnectionModal extends React.PureComponent {
         this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
         this.props.onSetVersion(this.state.firewareVersion);
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     render() {

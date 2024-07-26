@@ -57,7 +57,7 @@ const SettingsMenu = ({
                 window.myAPI.openExternal(result.download);
             }
         }
-
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         function _reType(ver) {
             const str = ver.split('.').join('');
             return parseInt(str);

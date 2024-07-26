@@ -19,6 +19,7 @@ const MenuBarHOC = function (WrappedComponent) {
             if (this.props.projectChanged && !this.props.canCreateNew) {
                 readyToReplaceProject = this.props.confirmWithMessage(message);
             }
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
             return readyToReplaceProject;
         }
         shouldSaveBeforeTransition() {

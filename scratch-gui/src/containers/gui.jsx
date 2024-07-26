@@ -23,7 +23,7 @@ import {
     openExtensionLibrary,
     openConnectionModal,
 } from "../reducers/modals";
-import { APLICATION } from "../config/json/LB_USER.json";
+
 import FontLoaderHOC from "../lib/font-loader-hoc.jsx";
 import LocalizationHOC from "../lib/localization-hoc.jsx";
 import SBFileUploaderHOC from "../lib/sb-file-uploader-hoc.jsx";
@@ -216,10 +216,11 @@ class GUI extends React.Component {
         if (!res) {
             return;
         }
-        this.compile.sendSerial({verifyType: verifyTypeConfig.RESET_FWLIB});
+        this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firmwareVersion);
+        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     //开启监听
@@ -275,6 +276,7 @@ class GUI extends React.Component {
                 if (isDiff) {
                     const supdate = confirm(this.mainMsg.sensing_update);
                     supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+                    window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
                     resolve(false);
                 }
             }

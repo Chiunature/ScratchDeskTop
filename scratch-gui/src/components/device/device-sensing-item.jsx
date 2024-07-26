@@ -7,11 +7,13 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
+    let [unitIndex, setUnitIndex] = useState(0);
 
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
         initUnit(obj);
+        initUnitIndex(obj);
     });
 
     let selectUnit = useCallback((el) => setUnit(el), [unit]);
@@ -58,13 +60,19 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
         setShowData(obj[unitItem]);
     }
 
+    function initUnitIndex(obj) {
+        if (!unitItem || !obj) return;
+        const arr = Object.keys(obj);
+        setUnitIndex(arr.indexOf(unitItem));
+    }
+
     return (
         <li className={item?.deviceId !== '0' ? '' : styles.hide}>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} />
                 <div className={styles.showUnit}>
-                    <label>{data}</label>
+                    <label>{DistinguishTypes(newDeviceId, unitIndex) + ': ' +data}</label>
                     <img className={styles.dropdownCaret} src={dropdownCaret} />
                 </div>
                 <div className={styles.deviceSensingUnit}>

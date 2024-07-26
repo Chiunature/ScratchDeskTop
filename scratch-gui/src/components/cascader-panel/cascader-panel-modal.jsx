@@ -101,6 +101,7 @@ function CascaderPanelModalCom(props) {
         const hasDevice = props?.deviceObj?.deviceList[index]?.deviceId && devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
         if (!hasDevice) {
             alert('该端口没有连接对应设备!');
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         return hasDevice;
     }

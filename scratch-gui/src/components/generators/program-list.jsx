@@ -74,6 +74,7 @@ export default function ProgramList({ vm, intl, programRef, display, onSetProjec
             } catch (error) {
                 log.warn(error);
                 alert(intl.formatMessage(messages.loadError));
+                window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
             }
         };
         reader.readAsArrayBuffer(content);
