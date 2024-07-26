@@ -8,7 +8,7 @@ const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
 const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
 const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
-
+const SET_MATCHMSGBLOCK = 'scratch-gui/mode/SET_MATCHMSGBLOCK';
 
 // const exeList = window.myAPI.getStoreValue('exeList');
 // const selItem = window.myAPI.getStoreValue('selItem');
@@ -17,8 +17,8 @@ const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
 
 /**
  * 生成默认程序列表
- * @param {Number} num 
- * @returns 
+ * @param {Number} num
+ * @returns
  */
 /* function getList(num) {
     return new Array(num).fill().map((item, index) => {
@@ -41,6 +41,7 @@ const initialState = {
     compileList: [],
     bufferList: [],
     matchMyBlock: [],
+    msgTaskBlock: [],
     exeList: [],
     selectedExe: window?.myAPI?.getStoreValue('selItem') ? JSON.parse(window.myAPI.getStoreValue('selItem')) : { name: '0_APP', num: 0, checked: true, index: 0 }
 }
@@ -89,6 +90,10 @@ const reducer = function (state, action) {
             return Object.assign({}, state, {
                 selectedExe: action.selectedExe
             });
+        case SET_MATCHMSGBLOCK:
+            return Object.assign({}, state, {
+                msgTaskBlock: action.msgTaskBlock
+            });
         default:
             return state;
     }
@@ -136,6 +141,12 @@ const setMatchMyBlock = function (matchMyBlock) {
         matchMyBlock: matchMyBlock
     }
 };
+const setMatchMsgTaskBlock = function (msgTaskBlock) {
+    return {
+        type: SET_MATCHMSGBLOCK,
+        msgTaskBlock: msgTaskBlock
+    }
+};
 const setIsComplete = function (isComplete) {
     return {
         type: SET_ISCOMPLETE,
@@ -168,5 +179,6 @@ export {
     setBufferList,
     setMatchMyBlock,
     setExelist,
-    setSelectedExe
+    setSelectedExe,
+    setMatchMsgTaskBlock
 };

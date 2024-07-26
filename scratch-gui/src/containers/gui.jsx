@@ -346,6 +346,7 @@ class GUI extends React.Component {
                 selectedExe,
                 bufferList: this.props.bufferList,
                 myBlockList: this.props.matchMyBlock,
+                msgTaskBlockList: this.props.msgTaskBlock,
                 soundsList: this.props.soundslist,
                 open_gyroscope_calibration: ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0
             });
@@ -422,6 +423,7 @@ class GUI extends React.Component {
             compileList,
             bufferList,
             matchMyBlock,
+            msgTaskBlock,
             loadingStateVisible,
             ...componentProps
         } = this.props;
@@ -524,6 +526,7 @@ const mapStateToProps = (state) => {
         workspace: state.scratchGui.workspaceMetrics.workspace,
         bufferList: state.scratchGui.mode.bufferList,
         matchMyBlock: state.scratchGui.mode.matchMyBlock,
+        msgTaskBlock: state.scratchGui.mode.msgTaskBlock,
         exeList: state.scratchGui.mode.exeList,
         selectedExe: state.scratchGui.mode.selectedExe,
         showFileStytem: state.scratchGui.fileStytem.showFileStytem,

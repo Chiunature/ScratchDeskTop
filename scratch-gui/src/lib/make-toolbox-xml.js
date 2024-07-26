@@ -415,12 +415,14 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
             </value>
         </block>
         ${blockSeparator}
-        <block type="event_broadcastandwait">
-                    <value name="BROADCAST_INPUT">
-                      <shadow type="event_broadcast_menu"></shadow>
-                    </value>
-                </block>
-        ${blockSeparator}
+        <block type="event_when"/>
+*/}
+const events = function (isInitialSetup, isStage, targetId, colors) {
+    return `
+            <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
+            secondaryColour="${colors.tertiary}">
+                <block type="event_whenflagclicked"/>
+                ${categorySeparator}
                 <block type="event_whenbroadcastreceived">
                     <value name="BROADCAST_INPUT">
                         <shadow type="event_broadcast_menu"></shadow>
@@ -431,13 +433,11 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
                         <shadow type="event_broadcast_menu"></shadow>
                     </value>
                 </block>
-                <block type="event_when"/>
-                */}
-const events = function (isInitialSetup, isStage, targetId, colors) {
-    return `
-            <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
-            secondaryColour="${colors.tertiary}">
-                <block type="event_whenflagclicked"/>
+                <block type="event_broadcastandwait">
+                    <value name="BROADCAST_INPUT">
+                      <shadow type="event_broadcast_menu"></shadow>
+                    </value>
+                </block>
                 ${categorySeparator}
             </category>
             `;

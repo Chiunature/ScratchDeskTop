@@ -28,7 +28,7 @@ import { activateCustomProcedures, deactivateCustomProcedures } from '../reducer
 import { setConnectionModalExtensionId } from '../reducers/connection-modal';
 import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
 import { activateTab, SOUNDS_TAB_INDEX } from '../reducers/editor-tab';
-import { getCode, setBufferList, setCompileList, setMatchMyBlock } from '../reducers/mode';
+import {getCode, setBufferList, setCompileList, setMatchMsgTaskBlock, setMatchMyBlock} from '../reducers/mode';
 import { ipc } from 'est-link';
 import { convert, pinyin } from "../utils/pingyin-pro";
 
@@ -49,7 +49,7 @@ const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
 const regexForMyBlock = /\s{1}void\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\}\;\s{1}/g;
 const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
 const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\];)|(?:ListNode\s+\*\w+\s*=\s*NULL;)/g;
-const regOpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
+const regexForMsgBlock = /void\s+Task_MessageBox\w+\([\s\S]*?\)\s*\{[\s\S]*?\/\*msg_end\*\/\s*};\s{1}/g
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -257,10 +257,17 @@ class Blocks extends React.Component {
                 matchMyBlockRes = variable.join('\n');
             }
         }
+        const msgBlock = code.match(regexForMsgBlock);
+        if(msgBlock) {
+            this.props.onSetMatchMsgBlock(msgBlock);
+        }
         this.props.setMatchMyBlock(matchMyBlockRes);
         if (match) {
             const arr = match[1].match(regexForThread);
-            const newArr = arr.filter(item => /[^ \n]/.test(item));
+            let newArr = [];
+            if(arr) {
+                newArr = arr.filter(item => /[^ \n]/.test(item));
+            }
             this.props.setCompileList(newArr);
             this.parserTask(this.workspace, newArr);
         }
@@ -745,6 +752,7 @@ class Blocks extends React.Component {
             setWorkspace,
             completed,
             onSetSoundsList,
+            onSetMatchMsgBlock,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -842,7 +850,8 @@ Blocks.propTypes = {
     }),
     completed: PropTypes.bool,
     compile: PropTypes.object,
-    onSetSoundsList: PropTypes.func
+    onSetSoundsList: PropTypes.func,
+    onSetMatchMsgBlock: PropTypes.func
 };
 
 Blocks.defaultOptions = {
@@ -923,7 +932,8 @@ const mapDispatchToProps = dispatch => ({
     setWorkspace: workspace => dispatch(setWorkspace(workspace)),
     setBufferList: bufferList => dispatch(setBufferList(bufferList)),
     setMatchMyBlock: matchMyBlock => dispatch(setMatchMyBlock(matchMyBlock)),
-    onSetSoundsList: (sound) => dispatch(setSoundsList(sound))
+    onSetSoundsList: (sound) => dispatch(setSoundsList(sound)),
+    onSetMatchMsgBlock: matchMsgBlock => dispatch(setMatchMsgTaskBlock(matchMsgBlock)),
 });
 
 export default errorBoundaryHOC('Blocks')(

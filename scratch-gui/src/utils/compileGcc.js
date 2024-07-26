@@ -29,7 +29,9 @@ import {
     Task_Info_Item,
     Task_Stack,
     Task_MyBlock,
-    Task_Open_Gyroscope_Calibration
+    Task_Open_Gyroscope_Calibration,
+    Task_Info_ItemOfMsgBlock,
+    Task_MsgBlock
 } from "../config/js/ProgrammerTasks.js";
 import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
@@ -40,6 +42,7 @@ const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\
 const reg_main = /\s{1}\/\*MyBlock Write\d+\*\/[\s\S]*?\/\*MyBlock End\d+\*\/\s{1}/g;
 const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
 const reg_OpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
+const reg_Task_MsgBlock = /\s{1}\/\*MsgBlock Write\*\/[\s\S]*?\/\*MsgBlock End\*\/\s{1}/;
 
 class Compile {
 
@@ -99,17 +102,20 @@ class Compile {
      * @param {String} myStr
      * @param handlerStr
      * @param gyroscopeStr
+     * @param msgBlockStr
      * @returns
      */
-    async handleCode(spath, codeStr, taskStr, myStr, handlerStr, gyroscopeStr) {
+    async handleCode(spath, codeStr, taskStr, myStr, handlerStr, gyroscopeStr, msgBlockStr) {
         //读取Aplication.c文件
         const result = await window.myAPI.readFiles(APLICATION, spath);
         // 检测并修改偏航角宏变量
         const newResult = await this.changeFileByReg(result, reg_OpenGyroscope, gyroscopeStr);
         //自制积木块放入前面
         const newMy = await this.changeFileByReg(newResult, reg_main, myStr);
+        //替换消息积木
+        const newMsg = await this.changeFileByReg(newMy, reg_Task_MsgBlock, msgBlockStr);
         //替换void USER_Aplication部分
-        const newUser = await this.changeFileByReg(newMy, reg_USER_Aplication, codeStr);
+        const newUser = await this.changeFileByReg(newMsg, reg_USER_Aplication, codeStr);
         //替换TaskHandle_t部分
         const newTaskHandler = await this.changeFileByReg(newUser, reg_Task_Handler, handlerStr);
         //替换MallocTask_Info User_Task[]部分
@@ -124,12 +130,13 @@ class Compile {
      * @param options
      */
     async runGcc(options) {
-        const {bufferList, myBlockList, selectedExe, verifyType, open_gyroscope_calibration}=options;
+        const {bufferList, myBlockList, selectedExe, verifyType, open_gyroscope_calibration, msgTaskBlockList}=options;
 
         let codeStr = '',
             taskStr = '',
             handlerStr = '',
             myBlockStr = '',
+            msgBlockStr = Task_MsgBlock(msgTaskBlockList.join('\n')),
             gyroscopeStr = Task_Open_Gyroscope_Calibration(open_gyroscope_calibration);
 
         bufferList.forEach((el, index) => {
@@ -148,9 +155,14 @@ class Compile {
             myBlockStr = Task_MyBlock(myBlockList);
         }
 
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, handlerStr, gyroscopeStr);
+        if(Array.isArray(msgTaskBlockList)) {
+            msgTaskBlockList.forEach((el, index) => {
+                taskStr += Task_Info_ItemOfMsgBlock(index);
+            })
+        }
 
+        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, handlerStr, gyroscopeStr, msgBlockStr);
         //编译
         if (appRes) {
             window.myAPI.commendMake(static_path).then(() => {
