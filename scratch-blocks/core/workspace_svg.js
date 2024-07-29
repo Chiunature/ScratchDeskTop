@@ -34,6 +34,7 @@ goog.require('Blockly.constants');
 goog.require('Blockly.DataCategory');
 goog.require('Blockly.DropDownDiv');
 goog.require('Blockly.Events.BlockCreate');
+goog.require('Blockly.Events.UpdateToolboxFinish');
 goog.require('Blockly.Gesture');
 goog.require('Blockly.Grid');
 goog.require('Blockly.Options');
@@ -998,26 +999,33 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value) {
 /**
  * Paste the provided block onto the workspace.
  * @param {!Element} xmlBlock XML block element.
+ * @param {!Event} e Mouse event or touch event
  */
-Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
+Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock, e) {
   if (!this.rendered) {
     return;
   }
   if (this.currentGesture_) {
     this.currentGesture_.cancel();  // Dragging while pasting?  No.
   }
+  if (xmlBlock.tagName == 'html') { // Not a valid blocks data
+    console.warn('Ignore invalid data: ', xmlBlock);
+    return;
+  }
   if (xmlBlock.tagName.toLowerCase() == 'comment') {
-    this.pasteWorkspaceComment_(xmlBlock);
-  } else {
-    this.pasteBlock_(xmlBlock);
+    this.pasteWorkspaceComment_(xmlBlock, e);
+  }else {
+    this.pasteBlock_(xmlBlock, e);
   }
 };
 
 /**
  * Paste the provided block onto the workspace.
  * @param {!Element} xmlBlock XML block element.
+ * @param {!Event} e Mouse event or touch event
  */
-Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock) {
+Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock, e) {
+  var isMouseEvent = Blockly.Touch.getTouchIdentifierFromEvent(e) === 'mouse';
   Blockly.Events.disable();
   try {
     var block = Blockly.Xml.domToBlock(xmlBlock, this);
@@ -1065,6 +1073,34 @@ Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock) {
         }
       } while (collide);
       block.moveBy(blockX, blockY);
+    } else {
+      if (isMouseEvent) {
+        var injectionDiv = this.getInjectionDiv();
+        // Bounding rect coordinates are in client coordinates, meaning that they
+        // are in pixels relative to the upper left corner of the visible browser
+        // window.  These coordinates change when you scroll the browser window.
+        var boundingRect = injectionDiv.getBoundingClientRect();
+
+        // The client coordinates offset by the injection div's upper left corner.
+        var clientOffsetPixels = new goog.math.Coordinate(
+            e.clientX - boundingRect.left, e.clientY - boundingRect.top);
+
+        // The offset in pixels between the main workspace's origin and the upper
+        // left corner of the injection div.
+        var mainOffsetPixels = this.getOriginOffsetInPixels();
+
+        // The position of the new comment in pixels relative to the origin of the
+        // main workspace.
+        var finalOffsetPixels = goog.math.Coordinate.difference(clientOffsetPixels,
+            mainOffsetPixels);
+
+        // The position of the new comment in main workspace coordinates.
+        var finalOffsetMainWs = finalOffsetPixels.scale(1 / this.scale);
+
+        blockX = finalOffsetMainWs.x;
+        blockY = finalOffsetMainWs.y;
+        block.moveBy(blockX, blockY);
+      }
     }
   } finally {
     Blockly.Events.enable();
@@ -1072,7 +1108,25 @@ Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock) {
   if (Blockly.Events.isEnabled() && !block.isShadow()) {
     Blockly.Events.fire(new Blockly.Events.BlockCreate(block));
   }
-  block.select();
+
+  if (isMouseEvent) {
+    // e is not a real mouseEvent/touchEvent/pointerEvent.  It's an event
+    // created by the context menu and has the coordinates of the mouse
+    // click that opened the context menu.
+    var fakeEvent = {
+      clientX: e.clientX,
+      clientY: e.clientY,
+      type: 'mousedown',
+      preventDefault: function() {
+        e.preventDefault();
+      },
+      stopPropagation: function() {
+        e.stopPropagation();
+      },
+      target: e.target
+    };
+    this.startDragWithFakeEvent(fakeEvent, block);
+  }
 };
 
 /**
@@ -1429,6 +1483,9 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function(e) {
   var eventGroup = Blockly.utils.genUid();
   var ws = this;
 
+  // Option to paste blocks.
+  menuOptions.push(Blockly.ContextMenu.wsPasteOption(this, e));
+
   // Options to undo/redo previous action.
   menuOptions.push(Blockly.ContextMenu.wsUndoOption(this));
   menuOptions.push(Blockly.ContextMenu.wsRedoOption(this));
@@ -1567,6 +1624,8 @@ Blockly.WorkspaceSvg.prototype.updateToolbox = function(tree) {
     this.options.languageTree = tree;
     this.toolbox_.populate_(tree);
     this.toolbox_.position();
+    this.updateWorkspaceBlocksDisabledState();
+    Blockly.Events.fire(new Blockly.Events.UpdateToolboxFinish(this));
   } else {
     if (!this.flyout_) {
       throw 'Existing toolbox has categories.  Can\'t change mode.';
@@ -1574,6 +1633,39 @@ Blockly.WorkspaceSvg.prototype.updateToolbox = function(tree) {
     this.options.languageTree = tree;
     this.flyout_.show(tree.childNodes);
   }
+};
+
+/**
+ * Modify the blocks in the workspace by attribute of disabled.
+ */
+Blockly.WorkspaceSvg.prototype.updateWorkspaceBlocksDisabledState = function() {
+  var allBlock = this.getAllBlocks();
+  var flyoutItems = this.getFlyout().getFlyoutItems();
+
+  allBlock.forEach(function(block) {
+    // Try to find the same type block in flyout.
+    var matchedBlock = flyoutItems.find(function(item) {
+      return item.type === block.type;
+    });
+
+    var ignoreList = [
+      // This self define function will not generate in flyout.
+      'procedures_definition',
+      'argument_reporter_string_number',
+      'argument_reporter_number',
+      'argument_reporter_string',
+      'argument_reporter_boolean',
+    ];
+
+    // if a block in workspace can not find the same type block in flyout.
+    // And it's not include in ignore list, and it's not a shadow block, disable it.
+    if (!matchedBlock && !ignoreList.includes(block.type) && !block.isShadow()) {
+      block.setEnabled(false);
+    } else {
+      // else recovery this block.
+      block.setEnabled(true);
+    }
+  });
 };
 
 /**

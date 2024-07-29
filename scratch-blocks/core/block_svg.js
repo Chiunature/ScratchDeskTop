@@ -234,13 +234,13 @@ Blockly.BlockSvg.prototype.setGlowBlock = function(isGlowingBlock) {
 Blockly.BlockSvg.prototype.setGlowStack = function(isGlowingStack) {
   this.isGlowingStack_ = isGlowingStack;
   // Update the applied SVG filter if the property has changed
-  /* var svg = this.getSvgRoot();
+  var svg = this.getSvgRoot();
   if (this.isGlowingStack_ && !svg.hasAttribute('filter')) {
     var stackGlowFilterId = this.workspace.options.stackGlowFilterId || 'blocklyStackGlowFilter';
     svg.setAttribute('filter', 'url(#' + stackGlowFilterId + ')');
   } else if (!this.isGlowingStack_ && svg.hasAttribute('filter')) {
     svg.removeAttribute('filter');
-  } */
+  }
 };
 
 /**
@@ -532,7 +532,7 @@ Blockly.BlockSvg.prototype.setOpacity = function(opacity) {
  * @return {number} Intended opacity, betweeen 0 and 1
  */
 Blockly.BlockSvg.prototype.getOpacity = function() {
-  return this.opacity_;
+  return this.isEnabled() ? this.opacity_ : 0.5;
 };
 
 /**
@@ -676,6 +676,8 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   if (this.isDeletable() && this.isMovable() && !block.isInFlyout) {
     menuOptions.push(
         Blockly.ContextMenu.blockDuplicateOption(block, e));
+    menuOptions.push(
+        Blockly.ContextMenu.blockCopyOption(block));
     if (this.isEditable() && this.workspace.options.comments) {
       menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
     }
@@ -867,7 +869,17 @@ Blockly.BlockSvg.prototype.dispose = function(healStack, animate) {
  * Enable or disable a block.
  */
 Blockly.BlockSvg.prototype.updateDisabled = function() {
-  // not supported
+  var children = this.getChildren(false);
+  this.updateColour();
+  if (this.isCollapsed()) {
+    return;
+  }
+
+  for (var i = 0, child; (child = children[i]); i++) {
+    if (child.rendered) {
+      child.updateDisabled();
+    }
+  }
 };
 
 /**
@@ -999,6 +1011,19 @@ Blockly.BlockSvg.prototype.setMutator = function(mutator) {
     mutator.block_ = this;
     this.mutator = mutator;
     mutator.createIcon();
+  }
+};
+
+/**
+ * Set whether the block is enabled or not.
+ * @param {boolean} enabled True if enabled.
+ */
+Blockly.BlockSvg.prototype.setEnabled = function(enabled) {
+  if (this.isEnabled() != enabled) {
+    Blockly.BlockSvg.superClass_.setEnabled.call(this, enabled);
+    if (this.rendered && !this.getInheritedDisabled()) {
+      this.updateDisabled();
+    }
   }
 };
 

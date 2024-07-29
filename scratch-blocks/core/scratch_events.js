@@ -25,14 +25,59 @@
  */
 'use strict';
 
+
+goog.provide('Blockly.Events.UpdateToolboxFinish');
 goog.provide('Blockly.Events.DragBlockOutside');
 goog.provide('Blockly.Events.EndBlockDrag');
 
 goog.require('Blockly.Events');
 goog.require('Blockly.Events.BlockBase');
+goog.require('Blockly.Events.Abstract');
 
 goog.require('goog.array');
 goog.require('goog.math.Coordinate');
+
+/**
+ * Class for toolbox update finish event.
+ * @param {!Object} workspace that finsh update toolbox.
+ * @extends {Blockly.Events.Abstract}
+ * @constructor
+ */
+Blockly.Events.UpdateToolboxFinish = function(workspace) {
+  Blockly.Events.UpdateToolboxFinish.superClass_.constructor.call(this, workspace);
+
+  /**
+   * Set a fask block id, prevent listener ignore the event.
+   */
+  this.blockId = 'fakeId';
+  this.workspaceId = workspace.id;
+};
+goog.inherits(Blockly.Events.UpdateToolboxFinish, Blockly.Events.Abstract);
+
+/**
+ * Type of this event.
+ * @type {string}
+ */
+Blockly.Events.UpdateToolboxFinish.prototype.type = Blockly.Events.UPDATE_TOOLBOX_FINISH;
+
+/**
+ * Encode the event as JSON.
+ * @return {!Object} JSON representation.
+ */
+Blockly.Events.UpdateToolboxFinish.prototype.toJson = function() {
+  var json = Blockly.Events.UpdateToolboxFinish.superClass_.toJson.call(this);
+  json['blockId'] = this.blockId;
+  return json;
+};
+
+/**
+ * Decode the JSON event.
+ * @param {!Object} json JSON representation.
+ */
+Blockly.Events.UpdateToolboxFinish.prototype.fromJson = function(json) {
+  Blockly.Events.UpdateToolboxFinish.superClass_.fromJson.call(this, json);
+  this.blockId = json['blockId'];
+};
 
 /**
  * Class for a block drag event. Fired when block dragged into or out of

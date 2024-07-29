@@ -287,6 +287,7 @@ Blockly.Field.prototype.dispose = function() {
 
 /**
  * Add or remove the UI indicating if this field is editable or not.
+ * stroke="url(#blocklyDisabledPattern8582045930717208)" fill="url(#blocklyDisabledPattern8582045930717208)"
  */
 Blockly.Field.prototype.updateEditable = function() {
   var group = this.fieldGroup_;
@@ -297,10 +298,12 @@ Blockly.Field.prototype.updateEditable = function() {
     Blockly.utils.addClass(group, 'blocklyEditableText');
     Blockly.utils.removeClass(group, 'blocklyNonEditableText');
     this.fieldGroup_.style.cursor = this.CURSOR;
+    this.fieldGroup_.children[0].setAttribute('fill-opacity', "1");
   } else {
     Blockly.utils.addClass(group, 'blocklyNonEditableText');
     Blockly.utils.removeClass(group, 'blocklyEditableText');
     this.fieldGroup_.style.cursor = '';
+    this.fieldGroup_.children[0].setAttribute('fill-opacity', "0.5");
   }
 };
 

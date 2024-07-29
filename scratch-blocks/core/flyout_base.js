@@ -117,6 +117,13 @@ Blockly.Flyout = function (workspaceOptions) {
   this.listeners_ = [];
 
   /**
+   * List of blocks.
+   * @type {!Array.<!Blockly.Block>}
+   * @private
+   */
+  this.blockContents_ = [];
+
+  /**
    * List of blocks that should always be disabled.
    * @type {!Array.<!Blockly.Block>}
    * @private
@@ -146,6 +153,12 @@ Blockly.Flyout = function (workspaceOptions) {
    */
   this.recycleBlocks_ = [];
 
+  /**
+   * A list of deivce type.
+   * @type {!Array.<string>}
+   * @private
+   */
+  this.deviceTypeList_ = ['microbit', 'arduino'];
 };
 
 /**
@@ -389,6 +402,16 @@ Blockly.Flyout.prototype.getWorkspace = function () {
 };
 
 /**
+ * Get blocks of the flyout.
+ * @return {!Array.<!Blockly.Block>} The blocks list of the flyout.
+ * @package
+ */
+Blockly.Flyout.prototype.getFlyoutItems = function () {
+  return this.blockContents_;
+};
+
+
+/**
  * Is the flyout visible?
  * @return {boolean} True if visible.
  */
@@ -476,6 +499,7 @@ Blockly.Flyout.prototype.show = function (xmlList) {
   var contents = [];
   var gaps = [];
   this.permanentlyDisabled_.length = 0;
+  this.blockContents_.length = 0;
   for (var i = 0, xml; xml = xmlList[i]; i++) {
     // Handle dynamic categories, represented by a name instead of a list of XML.
     // Look up the correct category generation function and call that to get a
@@ -495,7 +519,6 @@ Blockly.Flyout.prototype.show = function (xmlList) {
       var tagName = xml.tagName.toUpperCase();
       var default_gap = this.horizontalLayout_ ? this.GAP_X : this.GAP_Y;
       if (tagName == 'BLOCK') {
-
         // We assume that in a flyout, the same block id (or type if missing id) means
         // the same output BlockSVG.
 
@@ -506,6 +529,15 @@ Blockly.Flyout.prototype.show = function (xmlList) {
           return block.id === id;
         });
 
+        // Prevent blocks of device being recycled.
+        // If the type of block starts with these device types, means it is a deivce
+        // block which is comming from vm. Because many device blocks in vm have the same
+        // name of block type, but their drop-down menu content is different, if these
+        // blocks are recycled, the content of these block drop-down menus will not be
+        // updated when different devices are selected.
+        if (this.deviceTypeList_.includes(xml.getAttribute('type').split("_")[0])) {
+          recycled = -1;
+        }
 
         // If we found a recycled item, reuse the BlockSVG from last time.
         // Otherwise, convert the XML block to a BlockSVG.
@@ -521,6 +553,8 @@ Blockly.Flyout.prototype.show = function (xmlList) {
           // Do not enable these blocks as a result of capacity filtering.
           this.permanentlyDisabled_.push(curBlock);
         }
+        this.blockContents_ = this.blockContents_.concat(curBlock.getDescendants());
+
         contents.push({ type: 'block', block: curBlock });
         var gap = parseInt(xml.getAttribute('gap'), 10);
         gaps.push(isNaN(gap) ? default_gap : gap);

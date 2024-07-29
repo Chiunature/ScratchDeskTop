@@ -109,6 +109,12 @@ Blockly.Events.DRAG_OUTSIDE = 'dragOutside';
 Blockly.Events.END_DRAG = 'endDrag';
 
 /**
+ * Name of event that toolbox update finish
+ * @const
+ */
+Blockly.Events.UPDATE_TOOLBOX_FINISH = 'toolBoxFinish';
+
+/**
  * Name of event that moves a block.
  * @const
  */
@@ -388,6 +394,9 @@ Blockly.Events.fromJson = function(json, workspace) {
       break;
     case Blockly.Events.END_DRAG:
       event = new Blockly.Events.EndBlockDrag(null, false);
+      break;
+    case Blockly.Events.UPDATE_TOOLBOX_FINISH:
+      event = new Blockly.Events.UpdateToolboxFinish(null);
       break;
     default:
       throw 'Unknown event type.';

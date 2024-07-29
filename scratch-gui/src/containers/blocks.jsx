@@ -190,43 +190,29 @@ class Blocks extends React.Component {
     }
 
     disableBlocks(type, category_, typeId, list) {
-        let current, targetId;
+        let current;
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
             if (element.type === type) {
                 current = i;
-                targetId = element.svgGroup_.getAttribute('data-id');
             }
         }
         switch (category_) {
             case 'combined_motor':
-                this.turnToDisable(list, category_, typeId, current, targetId);
+                this.turnToDisable(list, category_, typeId, current);
                 break;
             default:
                 break;
         }
     }
 
-    turnToDisable(list, category_, typeId, current, targetId) {
+    turnToDisable(list, category_, typeId, current) {
         for (let i = 0; i < list.length; i++) {
             const el = list[i];
-            const children = el.svgGroup_.children;
             const isSameCategory = _isSameCategory(el);
             const isSameType = _isSameType(el);
             if (isSameCategory && isSameType) {
                 const isOpacity = i < current;
-                const opacity = `opacity: ${isOpacity ? '.5' : '1'}`;
-                for (let j = 0; j < children.length; j++) {
-                    const childId = children[j].getAttribute('data-id');
-                    const childClass = children[j].getAttribute('class');
-                    const hasOpacity = children[j].style['opacity'] === '.5';
-                    if ((childId && targetId === childId) || (childClass && childClass.indexOf('blocklyDraggable') !== -1) || hasOpacity) {
-                        continue;
-                    }
-                    children[j].setAttribute('style', opacity);
-                }
-                el.svgPath_.setAttribute('style', opacity);
-                // el.setEditable(!isOpacity);
                 el.setDisabled(isOpacity);
             }
         }
