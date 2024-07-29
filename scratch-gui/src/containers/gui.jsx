@@ -50,7 +50,7 @@ import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
-const FIRMWARE_VERSION = '207';
+const FIRMWARE_VERSION = '208';
 class GUI extends React.Component {
     constructor(props) {
         super(props);

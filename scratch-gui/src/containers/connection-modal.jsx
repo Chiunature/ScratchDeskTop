@@ -26,7 +26,7 @@ import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '207';
+const FIRMWARE_VERSION = '208';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
