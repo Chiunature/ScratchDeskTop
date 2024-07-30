@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useEffect, Fragment, useCallback } from "react";
+import React, { useState, useMemo, useEffect, Fragment } from "react";
 import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 
 
-const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishTypes, index, changeUnitList }) => {
+const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishTypes, index, changeUnitList, _checkTypeIs }) => {
 
     let [showData, setShowData] = useState(0);
     let [unit, setUnit] = useState(null);
@@ -13,57 +13,71 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
         const obj = getType(item);
         if (!obj) return;
         initUnit(obj);
-        initUnitIndex(obj);
-    });
-
-    let selectUnit = useCallback((el) => setUnit(el), [unit]);
-
-    let data = useMemo(() => showData, [showData]);
-
-    let unitItem = useMemo(() => {
-        if (unit) {
-            changeUnitList(unit, index);
-        }
-        return unit;
-    }, [unit]);
+    }, [item]);
 
     let newDeviceId = useMemo(() => {
         setUnit(null);
         return item.deviceId;
     }, [item.deviceId]);
 
+    let data = useMemo(() => {
+        const type = DistinguishTypes(newDeviceId, unitIndex)
+        return type ? (type + ': ' + showData) : showData;
+    }, [showData, newDeviceId, unitIndex]);
+
     function initUnit(obj) {
-        if (!unitItem) {
+        if (!unit) {
             const arr = window.myAPI.getStoreValue('sensing-unit-list');
-            let unitList, unitListItem;
+            let sensingUnitList, unitListItem;
             if (arr) {
-                unitList = JSON.parse(arr);
+                sensingUnitList = JSON.parse(arr);
             }
-            if (unitList) {
-                unitListItem = unitList[index];
+            if (sensingUnitList) {
+                unitListItem = sensingUnitList[index];
             }
-            if (!item.deviceId) {
+            if(!newDeviceId) {
                 return;
             }
-            const num = parseInt(item.deviceId.slice(-1));
-            switch (num) {
-                case 1:
-                case 5:
-                case 6:
-                    setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[2]);
-                    break;
-                default:
-                    setUnit(unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[0]);
-                    break;
+            const num = parseInt(newDeviceId.slice(-1));
+            const isSameDevice = unitListItem?.deviceId === newDeviceId;
+            if(isSameDevice) {
+                switch (num) {
+                    case 1:
+                    case 5:
+                    case 6:
+                        const motorUnit = isSameDevice && unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[2];
+                        setUnit(motorUnit);
+                        initUnitIndex(obj, motorUnit);
+                        break;
+                    default:
+                        const newUnit = isSameDevice && unitListItem?.unit ? unitListItem['unit'] : Object.keys(obj)[0];
+                        setUnit(newUnit);
+                        initUnitIndex(obj, newUnit);
+                        break;
+                }
+            }else {
+                changeUnitList(unit, index, newDeviceId);
             }
         }
-        setShowData(obj[unitItem]);
+
+        if (!_checkTypeIs(obj[unit], 'Undefined') && !_checkTypeIs(obj[unit], 'Null')) {
+            setShowData(obj[unit]);
+        }
     }
 
-    function initUnitIndex(obj) {
-        if (!unitItem || !obj) return;
+    function initUnitIndex(obj, unit) {
+        if (!unit || !obj) return;
         const arr = Object.keys(obj);
-        setUnitIndex(arr.indexOf(unitItem));
+        setUnitIndex(arr.indexOf(unit));
+    }
+
+    function selectUnit(el, unIndex) {
+        if(unit === el || unIndex === unitIndex) {
+            return;
+        }
+        setUnit(el);
+        setUnitIndex(unIndex);
+        changeUnitList(el, index, newDeviceId);
     }
 
     return (
@@ -72,17 +86,17 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} />
                 <div className={styles.showUnit}>
-                    <label>{DistinguishTypes(newDeviceId, unitIndex) + ': ' +data}</label>
-                    <img className={styles.dropdownCaret} src={dropdownCaret} />
+                    <label>{data}</label>
+                    <img className={styles.dropdownCaret} src={dropdownCaret} alt=""/>
                 </div>
                 <div className={styles.deviceSensingUnit}>
                     <div>
-                        {getType(item) && Object.keys(getType(item)).map((el, i) => {
+                        {getType(item) && Object.keys(getType(item)).map((el, unIndex) => {
                             return (
-                                el === 'Not_Run' ? (<span key={i}>Error</span>) :
-                                (<Fragment key={i}>
-                                    {DistinguishTypes(item.deviceId, i) && <span
-                                        onClick={() => selectUnit(el)}>{DistinguishTypes(item.deviceId, i)}</span>}
+                                el === 'Not_Run' ? (<span key={unIndex}>Error</span>) :
+                                (<Fragment key={unIndex}>
+                                    {DistinguishTypes(item.deviceId, unIndex) && <span
+                                        onClick={() => selectUnit(el, unIndex)}>{DistinguishTypes(item.deviceId, unIndex)}</span>}
                                 </Fragment>)
                             )
                         })}

@@ -10,12 +10,13 @@ import DeviceSensingItem from './device-sensing-item.jsx';
 
 const DeviceSensing = ({ deviceObj, intl }) => {
 
-    function changeUnitList(unit, index) {
+    function changeUnitList(unit, index, deviceId) {
         let list = window.myAPI.getStoreValue('sensing-unit-list');
         if (list) {
             let newList = JSON.parse(list);
-            if(newList.length === 0 || newList[index]?.unit === unit) return;
+            if(newList.length === 0 || (newList[index]?.deviceId === deviceId && newList[index]?.unit === unit)) return;
             newList[index]['unit'] = unit;
+            newList[index]['deviceId'] = deviceId;
             window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(newList));
         }
     }
@@ -84,18 +85,20 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         }
     }
 
-    function DistinguishTypes(deviceId, index) {
+    function DistinguishTypes(deviceId, unitIndex) {
         if (!deviceId) return;
         const num = parseInt(deviceId.slice(-1));
         switch (num) {
             case 1:
             case 5:
             case 6:
-                return motorData(index);
+                return motorData(unitIndex);
             case 2:
-                return colorData(index);
+                return colorData(unitIndex);
+            case 3:
+                return intl.formatMessage(messages['distance']);
             default:
-                return;
+                return intl.formatMessage(messages['key']);
         }
     }
 
@@ -133,11 +136,15 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         }
     }
 
+    function _checkTypeIs(currentType, target) {
+        return {}.toString.call(currentType) === '[object ' + target + ']';
+    }
+
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
                 {(deviceObj?.deviceList) && deviceObj.deviceList.map((item, index) => {
-                    return (<DeviceSensingItem key={index} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
+                    return (<DeviceSensingItem _checkTypeIs={_checkTypeIs} key={index} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
                 })}
             </ul>
         </div>

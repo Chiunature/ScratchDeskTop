@@ -225,7 +225,6 @@ class GUI extends React.Component {
 
     //开启监听
     watchDevice() {
-        let unitList = window.myAPI.getStoreValue('sensing-unit-list');
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, result) => {
@@ -243,8 +242,8 @@ class GUI extends React.Component {
                 onSetDeviceObj(result);
 
                 requestIdleCallback(() => {
+                    this.initSensingList();
                     this.blocksMotorCheck();
-                    this.initSensingList(unitList);
                     const runApp = sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP;
                     const updateSensing = sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING;
                     if (runApp) {
@@ -364,25 +363,14 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
-    deepEqual(arr1, arr2) {
-        if (arr1.length !== arr2.length) {
-            return false;
+
+    // 初始化传感器显示列表缓存
+    initSensingList() {
+        if (sessionStorage.getItem('sensing-unit-list')) {
+            return;
         }
-
-        for (let i = 0; i < arr1.length; i++) {
-            const val1 = arr1[i];
-            const val2 = arr2[i];
-
-            if (val1.deviceId !== val2.deviceId || val1.port !== val2.port) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    initSensingList(unitList) {
-        if (!unitList || unitList === "[]" || !this.deepEqual(JSON.parse(unitList), this.props.deviceObj.deviceList)) {
+        const unitList = window.myAPI.getStoreValue('sensing-unit-list');
+        if (!unitList) {
             let list = [];
             for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
                 const item = this.props.deviceObj.deviceList[i];
@@ -392,6 +380,7 @@ class GUI extends React.Component {
                     unit: null
                 });
             }
+            sessionStorage.setItem('sensing-unit-list', 'done');
             window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(list));
         }
     }

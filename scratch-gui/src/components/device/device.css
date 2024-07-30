@@ -324,11 +324,13 @@ ul {
 }
 
 .device-sensing-content .show-unit label {
+    height: 16px;
     text-align: center;
     color: #4C97FF;
     font-size: 12px;
     flex-grow: 1;
     margin-right: 5px;
+    overflow: hidden;
 }
 
 .hide {
