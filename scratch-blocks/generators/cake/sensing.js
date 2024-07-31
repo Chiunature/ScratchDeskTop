@@ -177,36 +177,6 @@ Blockly.cake['sensing_compass'] = function (block) {
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['sensing_read_pin'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    // TODO: Assemble cake into code variable.
-    let code = `Sensing_read_pin("${dropdown_port}")`;
-    return [code, Blockly.cake.ORDER_RELATIONAL];
-};
-
-Blockly.cake['sensing_write_pin'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let pin = block.getFieldValue('pin');
-    // TODO: Assemble cake into code variable.
-    let code = `Sensing_write_pin("${dropdown_port}", ${pin})`;
-    return [code, Blockly.cake.ORDER_RELATIONAL];
-};
-
-Blockly.cake['sensing_write_analog'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let pin = block.getFieldValue('pin');
-    // TODO: Assemble cake into code variable.
-    let code = `Sensing_write_analog("${dropdown_port}", ${pin})`;
-    return [code, Blockly.cake.ORDER_RELATIONAL];
-};
-
-Blockly.cake['sensing_read_analog'] = function (block) {
-    let dropdown_port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    // TODO: Assemble cake into code variable.
-    let code = `Sensing_read_analog("${dropdown_port}")`;
-    return [code, Blockly.cake.ORDER_RELATIONAL];
-};
-
 Blockly.cake['sensing_timer'] = function (block) {
     // TODO: Assemble cake into code variable.
     let code = `time_clock()`;
@@ -273,16 +243,6 @@ Blockly.cake['sensing_mainIsPress'] = function (block) {
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
-/* Blockly.cake['sensing_HSVColor'] = function (block) {
-    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    let color = Blockly.cake.valueToCode(block, "COLOR", Blockly.cake.ORDER_NONE);
-    color = color.replace(/'/g, '');
-    const min = Blockly.cake.valueToCode(block, "Min", Blockly.cake.ORDER_NONE);
-    const max = Blockly.cake.valueToCode(block, "Max", Blockly.cake.ORDER_NONE);
-    // TODO: Assemble cake into code variable.
-    const code = `sensing_HSVColor(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(color) ? color : '"' + color + '"'}, ${Blockly.cake.toStr(min) ? min : '"' + min + '"'}, ${Blockly.cake.toStr(max) ? max : '"' + max + '"'});\n`;
-    return code;
-}; */
 
 Blockly.cake['sensing_color_range'] = function (block) {
   let port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
@@ -303,4 +263,11 @@ Blockly.cake['sensing_color_range'] = function (block) {
     `${Blockly.cake.toStr(bmax) ? bmax : '"' + bmax + '"'}`
     + ')';
   return [code, Blockly.cake.ORDER_ATOMIC];
+};
+
+Blockly.cake['sensing_reflected_light_blackLine'] = function (block) {
+    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    const value = Blockly.cake.valueToCode(block, "THRESHOLD", Blockly.cake.ORDER_NONE);
+    const code = `Sensing_reflected_light_BlackLine(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(value) ? value : '"' + value + '"'})`;
+    return [code, Blockly.cake.ORDER_ATOMIC];
 };

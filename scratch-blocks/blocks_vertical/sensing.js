@@ -29,318 +29,7 @@ goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 
 
-Blockly.Blocks['sensing_touchingobject'] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_TOUCHINGOBJECT,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "TOUCHINGOBJECTMENU"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
 
-Blockly.Blocks['sensing_touchingobjectmenu'] = {
-  /**
-   * "Touching [Object]" Block Menu.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "TOUCHINGOBJECTMENU",
-          "options": [
-            [Blockly.Msg.SENSING_TOUCHINGOBJECT_POINTER, '_mouse_'],
-            [Blockly.Msg.SENSING_TOUCHINGOBJECT_EDGE, '_edge_']
-          ]
-        }
-      ],
-      "extensions": ["colours_sensing", "output_string"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_touchingcolor'] = {
-  /**
-   * Block to Report if its touching a certain Color.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_TOUCHINGCOLOR,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "COLOR"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_coloristouchingcolor'] = {
-  /**
-   * Block to Report if a color is touching a certain Color.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_COLORISTOUCHINGCOLOR,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "COLOR"
-        },
-        {
-          "type": "input_value",
-          "name": "COLOR2"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_distanceto'] = {
-  /**
-   * Block to Report distance to another Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_DISTANCETO,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "DISTANCETOMENU"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_distancetomenu'] = {
-  /**
-   * "Distance to [Object]" Block Menu.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "DISTANCETOMENU",
-          "options": [
-            [Blockly.Msg.SENSING_DISTANCETO_POINTER, '_mouse_']
-          ]
-        }
-      ],
-      "extensions": ["colours_sensing", "output_string"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_askandwait'] = {
-  /**
-   * Block to ask a question and wait
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_ASKANDWAIT,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "QUESTION"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_answer'] = {
-  /**
-   * Block to report answer
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_ANSWER,
-      "category": Blockly.Categories.sensing,
-      "checkboxInFlyout": true,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_keypressed'] = {
-  /**
-   * Block to Report if a key is pressed.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_KEYPRESSED,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "KEY_OPTION"
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_keyoptions'] = {
-  /**
-   * Options for Keys
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "KEY_OPTION",
-          "options": [
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_SPACE, 'space'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_UP, 'up arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN, 'down arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_RIGHT, 'right arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_LEFT, 'left arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_ANY, 'any'],
-            ['a', 'a'],
-            ['b', 'b'],
-            ['c', 'c'],
-            ['d', 'd'],
-            ['e', 'e'],
-            ['f', 'f'],
-            ['g', 'g'],
-            ['h', 'h'],
-            ['i', 'i'],
-            ['j', 'j'],
-            ['k', 'k'],
-            ['l', 'l'],
-            ['m', 'm'],
-            ['n', 'n'],
-            ['o', 'o'],
-            ['p', 'p'],
-            ['q', 'q'],
-            ['r', 'r'],
-            ['s', 's'],
-            ['t', 't'],
-            ['u', 'u'],
-            ['v', 'v'],
-            ['w', 'w'],
-            ['x', 'x'],
-            ['y', 'y'],
-            ['z', 'z'],
-            ['0', '0'],
-            ['1', '1'],
-            ['2', '2'],
-            ['3', '3'],
-            ['4', '4'],
-            ['5', '5'],
-            ['6', '6'],
-            ['7', '7'],
-            ['8', '8'],
-            ['9', '9']
-          ]
-        }
-      ],
-      "extensions": ["colours_sensing", "output_string"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_mousedown'] = {
-  /**
-   * Block to Report if the mouse is down.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_MOUSEDOWN,
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_mousex'] = {
-  /**
-   * Block to report mouse's x position
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_MOUSEX,
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_mousey'] = {
-  /**
-   * Block to report mouse's y position
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_MOUSEY,
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_setdragmode'] = {
-  /**
-   * Block to set drag mode.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_SETDRAGMODE,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "DRAG_MODE",
-          "options": [
-            [Blockly.Msg.SENSING_SETDRAGMODE_DRAGGABLE, 'draggable'],
-            [Blockly.Msg.SENSING_SETDRAGMODE_NOTDRAGGABLE, 'not draggable']
-          ]
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-};
 
 Blockly.Blocks['sensing_loudness'] = {
   /**
@@ -357,21 +46,6 @@ Blockly.Blocks['sensing_loudness'] = {
   }
 };
 
-Blockly.Blocks['sensing_loud'] = {
-  /**
-   * Block to report if the loudness is "loud" (greater than 10). This is an
-   * obsolete block that is implemented for compatibility with Scratch 2.0 and
-   * 1.4 projects.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_LOUD,
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
 
 Blockly.Blocks['sensing_timer'] = {
   /**
@@ -402,67 +76,8 @@ Blockly.Blocks['sensing_resettimer'] = {
   }
 };
 
-Blockly.Blocks['sensing_of_object_menu'] = {
-  /**
-   * "* of _" object menu.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "OBJECT",
-          "options": [
-            ['Sprite1', 'Sprite1'],
-            ['Stage', '_stage_']
-          ]
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_string"]
-    });
-  }
-};
 
 
-Blockly.Blocks['sensing_of'] = {
-  /**
-   * Block to report properties of sprites.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_OF,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PROPERTY",
-          "options": [
-            [Blockly.Msg.SENSING_OF_XPOSITION, 'x position'],
-            [Blockly.Msg.SENSING_OF_YPOSITION, 'y position'],
-            [Blockly.Msg.SENSING_OF_DIRECTION, 'direction'],
-            [Blockly.Msg.SENSING_OF_COSTUMENUMBER, 'costume #'],
-            [Blockly.Msg.SENSING_OF_COSTUMENAME, 'costume name'],
-            [Blockly.Msg.SENSING_OF_SIZE, 'size'],
-            [Blockly.Msg.SENSING_OF_VOLUME, 'volume'],
-            [Blockly.Msg.SENSING_OF_BACKDROPNUMBER, 'backdrop #'],
-            [Blockly.Msg.SENSING_OF_BACKDROPNAME, 'backdrop name']
-          ]
-        },
-        {
-          "type": "input_value",
-          "name": "OBJECT"
-        }
-      ],
-      "output": true,
-      "category": Blockly.Categories.sensing,
-      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "extensions": ["colours_sensing"]
-    });
-  }
-};
 
 Blockly.Blocks['sensing_current'] = {
   /**
@@ -508,36 +123,6 @@ Blockly.Blocks['sensing_dayssince2000'] = {
   }
 };
 
-Blockly.Blocks['sensing_username'] = {
-  /**
-   * Block to report user's username
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_USERNAME,
-      "category": Blockly.Categories.sensing,
-      "checkboxInFlyout": true,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_userid'] = {
-  /**
-   * Block to report user's ID. Does not actually do anything. This is an
-   * obsolete block that is implemented for compatibility with Scratch 2.0
-   * projects.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.SENSING_USERID,
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
 //红色/黄色/蓝色/绿色/ 棕色/紫色/黑色/白色
 Blockly.Blocks['sensing_color_menu'] = {
   init: function () {
@@ -568,34 +153,6 @@ Blockly.Blocks['sensing_color_menu'] = {
   }
 }
 
-/* Blockly.Blocks['sensing_menu'] = {
-    init: function () {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "SENSING_MENU",
-          "options": [
-            ["A", "A"],
-            ["B", "B"],
-            ["C", "C"],
-            ["D", "D"],
-            ["E", "E"],
-            ["F", "F"],
-            ["G", "G"],
-            ["H", "H"]
-          ]
-        },
-      ],
-      "category": Blockly.Categories.sensing,
-      "colour": Blockly.Colours.sensing.primary,
-      "colourSecondary": Blockly.Colours.sensing.secondary,
-      "colourTertiary": Blockly.Colours.sensing.tertiary,
-      "extensions": ["output_string"],
-    });
-  }
-}; */
 Blockly.Blocks['sensing_menu'] = {
   init: function () {
     this.jsonInit({
@@ -1156,191 +713,6 @@ Blockly.Blocks['sensing_compass'] = {
   }
 };
 
-Blockly.Blocks['sensing_read_pin'] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_read_pin",
-      "message0": Blockly.Msg.SENSING_READ_PIN,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PORT",
-          "options": [
-            [
-              "P0",
-              "P0"
-            ],
-            [
-              "P1",
-              "P1"
-            ],
-            [
-              "P2",
-              "P2"
-            ],
-            [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
-            ],
-          ]
-        },
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_write_pin'] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_write_pin",
-      "message0": Blockly.Msg.SENSING_WRITE_PIN,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PORT",
-          "options": [
-            [
-              "P0",
-              "P0"
-            ],
-            [
-              "P1",
-              "P1"
-            ],
-            [
-              "P2",
-              "P2"
-            ],
-            [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
-            ],
-          ]
-        },
-        {
-          "type": "field_number",
-          "name": "pin",
-          "value": 15,
-          "min": -100,
-          "max": 100
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_write_analog'] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_write_analog",
-      "message0": Blockly.Msg.SENSING_WRITE_ANALOG,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PORT",
-          "options": [
-            [
-              "P0",
-              "P0"
-            ],
-            [
-              "P1",
-              "P1"
-            ],
-            [
-              "P2",
-              "P2"
-            ],
-            [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
-            ],
-          ]
-        },
-        {
-          "type": "field_number",
-          "name": "pin",
-          "value": 15,
-          "min": -100,
-          "max": 100
-        }
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['sensing_read_analog'] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_read_analog",
-      "message0": Blockly.Msg.SENSING_READ_ANALOG,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "PORT",
-          "options": [
-            [
-              "P0",
-              "P0"
-            ],
-            [
-              "P1",
-              "P1"
-            ],
-            [
-              "P2",
-              "P2"
-            ],
-            [
-              "P3",
-              "P3"
-            ],
-            [
-              "P4",
-              "P4"
-            ],
-          ]
-        },
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_number"]
-    });
-  }
-};
 
 Blockly.Blocks['sensing_timer'] = {
   /**
@@ -1498,35 +870,6 @@ Blockly.Blocks['sensing_mainIsPress'] = {
   }
 };
 
-/* Blockly.Blocks['sensing_HSVColor'] = {
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_HSVColor",
-      "message0": Blockly.Msg.SENSING_HSVCOLOR,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "PORT"
-        },
-        {
-          "type": "input_value",
-          "name": "COLOR"
-        },
-        {
-          "type": "input_value",
-          "name": "Min"
-        },
-        {
-          "type": "input_value",
-          "name": "Max"
-        },
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "output_boolean"]
-    });
-  }
-}; */
-
 Blockly.Blocks['sensing_color_range'] = {
   init: function () {
     this.jsonInit({
@@ -1560,6 +903,27 @@ Blockly.Blocks['sensing_color_range'] = {
         {
           "type": "input_value",
           "name": "BMax"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_reflected_light_blackLine'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_reflected_light_blackLine",
+      "message0": Blockly.Msg.SENSING_REFLECTED_LIGHT_BLACKLINE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "input_value",
+          "name": "THRESHOLD"
         }
       ],
       "category": Blockly.Categories.sensing,

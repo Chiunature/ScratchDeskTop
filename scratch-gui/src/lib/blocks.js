@@ -1,6 +1,4 @@
 import ScratchBlocks from 'scratch-blocks';
-// import 'scratch-blocks/python_compressed';
-// import 'scratch-blocks/arduino_compressed';
 import 'scratch-blocks/cake_compressed';
 /**
  * Connect scratch blocks with the vm
@@ -45,7 +43,7 @@ export default function (vm) {
     };
 
 
-    const jsonForSensingMenus = function (menuOptionsFn) {
+    /* const jsonForSensingMenus = function (menuOptionsFn) {
         return {
             message0: ScratchBlocks.Msg.SENSING_OF,
             args0: [{
@@ -67,7 +65,7 @@ export default function (vm) {
             colourTertiary: ScratchBlocks.Colours.sensing.tertiary,
             outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND
         };
-    };
+    }; */
 
     const soundsMenu = function () {
         let menu = [
@@ -83,7 +81,7 @@ export default function (vm) {
         return menu;
     };
 
-    const costumesMenu = function () {
+    /* const costumesMenu = function () {
         if (vm.editingTarget && vm.editingTarget.getCostumes().length > 0) {
             return vm.editingTarget.getCostumes().map(costume => [costume.name, costume.name]);
         }
@@ -107,7 +105,7 @@ export default function (vm) {
         return [
             ['', '']
         ];
-    };
+    }; */
 
     const backdropNamesMenu = function () {
         const stage = vm.runtime.getTargetForStage();
@@ -153,11 +151,11 @@ export default function (vm) {
 
     const soundColors = ScratchBlocks.Colours.sounds;
 
-    const looksColors = ScratchBlocks.Colours.looks;
+    // const looksColors = ScratchBlocks.Colours.looks;
 
-    const motionColors = ScratchBlocks.Colours.motion;
+    // const motionColors = ScratchBlocks.Colours.motion;
 
-    const sensingColors = ScratchBlocks.Colours.sensing;
+    // const sensingColors = ScratchBlocks.Colours.sensing;
 
     const controlColors = ScratchBlocks.Colours.control;
 
@@ -168,7 +166,7 @@ export default function (vm) {
         this.jsonInit(json);
     };
 
-    ScratchBlocks.Blocks.looks_costume.init = function () {
+    /* ScratchBlocks.Blocks.looks_costume.init = function () {
         const json = jsonForMenuBlock('COSTUME', costumesMenu, looksColors, []);
         this.jsonInit(json);
     };
@@ -176,7 +174,7 @@ export default function (vm) {
     ScratchBlocks.Blocks.looks_backdrops.init = function () {
         const json = jsonForMenuBlock('BACKDROP', backdropsMenu, looksColors, []);
         this.jsonInit(json);
-    };
+    }; */
 
     ScratchBlocks.Blocks.event_whenbackdropswitchesto.init = function () {
         const json = jsonForHatBlockMenu(
@@ -185,7 +183,7 @@ export default function (vm) {
         this.jsonInit(json);
     };
 
-    ScratchBlocks.Blocks.motion_pointtowards_menu.init = function () {
+    /* ScratchBlocks.Blocks.motion_pointtowards_menu.init = function () {
         const mouse = ScratchBlocks.ScratchMsgs.translate('MOTION_POINTTOWARDS_POINTER', 'mouse-pointer');
         const json = jsonForMenuBlock('TOWARDS', spriteMenu, motionColors, [
             [mouse, '_mouse_']
@@ -212,8 +210,8 @@ export default function (vm) {
         ]);
         this.jsonInit(json);
     };
-
-    ScratchBlocks.Blocks.sensing_of_object_menu.init = function () {
+ */
+    /* ScratchBlocks.Blocks.sensing_of_object_menu.init = function () {
         const stage = ScratchBlocks.ScratchMsgs.translate('SENSING_OF_STAGE', 'Stage');
         const json = jsonForMenuBlock('OBJECT', spriteMenu, sensingColors, [
             [stage, '_stage_']
@@ -323,7 +321,7 @@ export default function (vm) {
             [edge, '_edge_']
         ]);
         this.jsonInit(json);
-    };
+    }; */
 
     ScratchBlocks.Blocks.control_create_clone_of_menu.init = function () {
         const json = jsonForMenuBlock('CLONE_OPTION', cloneMenu, controlColors, []);

@@ -28841,6 +28841,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   "SENSING_MAINISPRESS": '主机 %1 按钮是否 %2',
   "SENSING_COLOR_RANGE": '%1 颜色范围是否在 R %2 ~ %3 G %4 ~ %5 B %6 ~ %7',
   "SENSING_HSVCOLOR": '%1 %2 范围是否在 %3 ~ %4',
+  "SENSING_REFLECTED_LIGHT_BLACKLINE": "%1 检测黑线阈值在 %2 左右",
   "PLEFT": '左',
   "PRIGHT": '右',
   "UP": '上',

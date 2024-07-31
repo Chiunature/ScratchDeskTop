@@ -23,7 +23,6 @@ import {
     setCompleted,
     setConnectionModalPeripheralName,
     setPort,
-    setProgress
 } from "../../reducers/connection-modal";
 import { openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
 import { setGen, setPlayer } from "../../reducers/mode";
@@ -454,8 +453,8 @@ class MenuBar extends React.Component {
             });
         }
         this.props.onClearConnectionModalPeripheralName();
-        this.props.onSetProgress(0);
         this.props.onSetCompleted(false);
+        this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
         this.props.onSetDeviceType(null);
         this.props.onSetDeviceCards({ deviceVisible: false });
         this.props.onSetDeviceObj(null);
@@ -1003,7 +1002,6 @@ const mapDispatchToProps = (dispatch) => ({
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
-    onSetProgress: (progress) => dispatch(setProgress(progress)),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
     onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal())
 });

@@ -1,4 +1,4 @@
-import ScratchBlocks from "scratch-blocks";
+// import ScratchBlocks from "scratch-blocks";
 import { defaultColors } from './themes';
 const categorySeparator = '<sep gap="36"/>';
 
@@ -509,13 +509,22 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
             </block>
     */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
-    const name = ScratchBlocks.ScratchMsgs.translate(
+    /* const name = ScratchBlocks.ScratchMsgs.translate(
         "SENSING_ASK_TEXT",
         "What's your name?"
-    );
+    ); */
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}">
+            <block type="sensing_reflected_light_blackLine">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="THRESHOLD">
+                    <shadow type="math_number"><field name="NUM">100</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
             <block type="sensing_color_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />

@@ -6,15 +6,15 @@ import ButtonComponent from "./button.jsx";
 import SelectExeBtn from "./selectExeBtn.jsx";
 import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
-import { defineMessages } from 'react-intl';
+// import { defineMessages } from 'react-intl';
 
-const messages = defineMessages({
+/* const messages = defineMessages({
     "openUpload": {
         "id": "gui.main.openUpload",
         "description": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily",
         "defaultMessage": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily"
     },
-})
+}) */
 
 
 const UploadBtn = (props) => {
