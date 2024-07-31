@@ -23,6 +23,7 @@ const signType = require("../config/json/communication/sign.json");
 const { instruct } = require("../config/js/instructions.js");
 
 const reg = /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"estlist\"\:\s*[\s\S]*?\}\}\s*/i;
+const debugReg = /->NEW AI DownLoad Debug[\s\S]*?Error\./;
 
 class Serialport extends Common {
 
@@ -98,7 +99,7 @@ class Serialport extends Common {
         this.handleRead("readable", event);
         //开启串口关闭监听
         this.listenPortClosed("close", event);
-        //开启获取文件监听
+        //开启获取bin文件或固件下载监听
         this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
         //开启传输错误监听
         this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
@@ -331,7 +332,21 @@ class Serialport extends Common {
     }
 
     /**
-     * 读取串口数据
+     * debug数据
+     * @param receiveData
+     * @param {*} event
+     * @returns
+     */
+    checkIsDebug(receiveData, event) {
+        const text = new TextDecoder();
+        const res = text.decode(receiveData);
+        if (debugReg.test(res)) {
+            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, errMsg: res });
+        }
+    }
+
+    /**
+     * PausedMode读取串口数据
      * @param {String} eventName
      * @param {*} event
      * @returns
@@ -342,27 +357,39 @@ class Serialport extends Common {
         this.port.on(eventName, () => {
             //获取下位机发送过来的数据
             const receiveData = this.port.read();
-            //把数据放入处理函数校验是否是完整的一帧并获取数据对象
-            this.receiveObj = this.catchData(receiveData);
+            if (!receiveData) {
+              return;
+            }
+
+            this.checkIsDebug(receiveData, debugReg);
+
             //开启设备数据监控监听
-            this.watchDeviceData = receiveData && this.checkIsDeviceData(receiveData, reg);
-            let t = this.watchDeviceData && setTimeout(() => {
+            this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
+            if(this.watchDeviceData) {
+              let t = setTimeout(() => {
                 func(event);
                 clearTimeout(t);
                 t = null;
-            });
+              });
+              return;
+            }
 
+
+            //把数据放入处理函数校验是否是完整的一帧并获取数据对象
+            this.receiveObj = this.catchData(receiveData);
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
-            if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) return;
+            if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) {
+              return;
+            }
+
             //清除超时检测
             this.clearTimer();
             if (verify) {
                 //结果正确进入处理，函数会检测文件数据是否全部发送完毕
                 this.processReceivedData(event);
             } else {
-                const errMsg = `The data with index ${this.chunkIndex} did not pass the verification`;
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg });
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
                 this.clearCache();
             }
         });
@@ -399,7 +426,9 @@ class Serialport extends Common {
      */
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
-            if (this.sign && this.sign.indexOf('Boot_') !== -1) return;
+            if (this.sign && this.sign.indexOf('Boot_') !== -1) {
+              return;
+            }
             switch (arg.type) {
                 case 'FILE':
                     this.writeData(instruct.files, signType.EXE.FILES, event);

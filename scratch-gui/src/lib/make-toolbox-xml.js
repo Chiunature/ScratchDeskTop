@@ -416,6 +416,9 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
         </block>
         ${blockSeparator}
         <block type="event_when"/>
+        <value name="BROADCAST_INPUT">
+                        <shadow type="event_broadcast_menu"></shadow>
+                    </value>
 */}
 const events = function (isInitialSetup, isStage, targetId, colors) {
     return `
@@ -423,21 +426,9 @@ const events = function (isInitialSetup, isStage, targetId, colors) {
             secondaryColour="${colors.tertiary}">
                 <block type="event_whenflagclicked"/>
                 ${categorySeparator}
-                <block type="event_whenbroadcastreceived">
-                    <value name="BROADCAST_INPUT">
-                        <shadow type="event_broadcast_menu"></shadow>
-                    </value>
-                </block>
-                <block type="event_broadcast">
-                    <value name="BROADCAST_INPUT">
-                        <shadow type="event_broadcast_menu"></shadow>
-                    </value>
-                </block>
-                <block type="event_broadcastandwait">
-                    <value name="BROADCAST_INPUT">
-                      <shadow type="event_broadcast_menu"></shadow>
-                    </value>
-                </block>
+                <block type="event_whenbroadcastreceived"></block>
+                <block type="event_broadcast"></block>
+                <block type="event_broadcastandwait"></block>
                 ${categorySeparator}
             </category>
             `;

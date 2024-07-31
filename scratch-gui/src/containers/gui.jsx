@@ -183,16 +183,20 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
             callback: (event, arg) => {
-                this.props.onShowCompletedAlert(arg.msg);
+
+                if (arg.errMsg) {
+                    const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+                    window.myAPI.handlerError(arg.errMsg, spath);
+                }
+
+                arg?.msg && this.props.onShowCompletedAlert(arg.msg);
+
                 if (!arg.result) {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
                     sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
                 }
-                if (arg.errMsg) {
-                    const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-                    window.myAPI.handlerError(arg.errMsg, spath);
-                }
+
             }
         });
     }
