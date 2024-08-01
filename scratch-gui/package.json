@@ -48,6 +48,7 @@
         "echarts": "^5.5.0",
         "echarts-for-react": "^3.0.2",
         "electron-log": "^5.1.2",
+        "electron-pdf-window": "^1.0.12",
         "electron-store": "^8.2.0",
         "electron-updater": "^6.1.4",
         "es6-object-assign": "1.1.0",
