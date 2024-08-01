@@ -25,6 +25,7 @@
 const serialport = require("serialport");
 const electron = require("electron");
 const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, crashReporter } = electron;
+const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
@@ -102,6 +103,21 @@ async function updater(win, autoUpdate) {
     }
     updateFunc = await checkUpdate(win, isUpdate, mainMsg, updateFunc);
     return updateFunc;
+}
+
+function showPDF(href) {
+    const pdfwin = new PDFWindow({
+        width: 800,
+        height: 600,
+        alwaysOnTop: true,
+        title: href.slice(href.lastIndexOf('\\') + 1),
+        partition: 'PDF' + getRandomString(),
+    });
+    pdfwin.menuBarVisible = false;
+    pdfwin.loadURL(href);
+    pdfwin.on('page-title-updated', (event) => {
+        event.preventDefault();
+    })
 }
 
 function showLoading(mainWin) {
@@ -197,6 +213,18 @@ function handleMenuAndDevtool(mainWindow) {
     }
 }
 
+function openPDFWindow() {
+    ipcMain.on('pdf', (e, data) => {
+        switch (data.type) {
+            case 'pdf':
+                showPDF(data.href);
+                break;
+            default:
+                break;
+        }
+    });
+}
+
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -241,6 +269,9 @@ function createWindow() {
         saveFileToLocal();
         // 打开文件位置
         _openFileLocation();
+        openPDFWindow();
+
+
 
         // 设置静态资源路径
         ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());

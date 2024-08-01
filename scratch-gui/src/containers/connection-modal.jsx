@@ -233,10 +233,10 @@ class ConnectionModal extends React.PureComponent {
     }
 
     handleHelp() {
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         // window.open(this.state.extension.helpLink, "_blank");
-        window.myAPI.getDocxUrl(spath, HELP_PDF);
-        window.myAPI.getDocxUrl(spath, HELP_DOCX);
+        /* const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        window.myAPI.getDocxUrl(spath, HELP_PDF, 'pdf');
+        window.myAPI.getDocxUrl(spath, HELP_DOCX, 'pdf'); */
         analytics.event({
             category: "extensions",
             action: "help",
@@ -255,12 +255,12 @@ class ConnectionModal extends React.PureComponent {
             if (!res) {
                 return;
             }
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         window.myAPI.setStoreValue('version', this.state.firewareVersion);
         this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
         this.props.onSetVersion(this.state.firewareVersion);
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     render() {

@@ -278,11 +278,15 @@ async function handlerError(error, resourcePath = cwd()) {
     await writeFileWithDirectory(resourcePath + '/Error', filepath, error);
 }
 
-async function getDocxUrl(static_path, link) {
+async function getDocxUrl(static_path, link, type) {
     const href = path.join(static_path, link);
-    const res = await shell.openPath(href);
-    if (res.length > 0) {
-        exec(href);
+    if (type === 'pdf') {
+        ipcRenderer.send('pdf', { href, type });
+    } else {
+        const res = await shell.openPath(href);
+        if (res.length > 0) {
+            exec(href);
+        }
     }
 }
 

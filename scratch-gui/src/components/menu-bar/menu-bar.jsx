@@ -78,7 +78,7 @@ import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
-import { HELP_DOCX, HELP_PDF } from "../../config/json/LB_USER.json";
+import { HELP_SOFT_PDF, HELP_FIRM_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 // import setProgramList from "../../lib/setProgramList.js";
@@ -509,10 +509,10 @@ class MenuBar extends React.Component {
         const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         switch (type) {
             case HARDWARE:
-                window.myAPI.getDocxUrl(spath, HELP_PDF);
+                window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF, 'pdf');
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(spath, HELP_DOCX);
+                window.myAPI.getDocxUrl(spath, HELP_SOFT_PDF, 'pdf');
                 break;
             default:
                 break;
