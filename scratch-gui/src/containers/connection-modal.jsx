@@ -22,11 +22,11 @@ import {
     setVersion
 } from "../reducers/connection-modal";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
-import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
+// import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '209';
+const FIRMWARE_VERSION = '210';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
