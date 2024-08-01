@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import classNames from 'classnames';
 import styles from './button.css';
 import Matrix from "./matrix.jsx";
@@ -10,7 +10,7 @@ import SelectBox from "../../containers/selectBox.jsx";
 
 
 const SelectExeBtn = (props) => {
-    const { exeList, selectedExe, isRtl, compile } = props;
+    const { exeList, selectedExe, isRtl, compile, onSetSelectedExe } = props;
     let refObj = useRef();
     let [flag, setFlag] = useState(false);
     let [timer, setTimer] = useState(null);
@@ -52,7 +52,7 @@ const SelectExeBtn = (props) => {
                         </div>
                     </div>
                 </div>
-                <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} />
+                <SelectBox handleCompile={compile} flag={flag} isRtl={isRtl} exeList={exeList} selectedExe={selectedExe} onSetSelectedExe={onSetSelectedExe} />
             </div>
         </div>
     );

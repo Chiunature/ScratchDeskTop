@@ -1,92 +1,69 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SelectBoxCom from '../components/box/selectBox.jsx';
-import { setExelist, setSelectedExe } from '../reducers/mode.js';
-import bindAll from 'lodash.bindall';
+import { setExelist } from '../reducers/mode.js';
 
-class SelectBox extends React.PureComponent {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            index: this.props.selectedExe.num,
-            sx: this.props.selectedExe.num * 96
-        }
-        bindAll(this, ['handleRight', 'handleLeft'])
-    }
+export default function SelectBox({ selectedExe, onSetSelectedExe, completed, handleCompile, isRtl, flag }) {
+    let [index, setIndex] = useState(selectedExe.num);
+    let [sx, setSx] = useState(selectedExe.num * 96);
+    const exeList = useSelector(state => state.scratchGui.mode.exeList);
+    const dispatch = useDispatch();
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.selectedExe !== this.props.selectedExe) {
-            this.setState(() => ({
-                index: this.props.selectedExe.num,
-                sx: this.props.selectedExe.num * 96
-            }));
-        }
-    }
 
-    changeSelectExe() {
-        this.props.onSetSelectedExe({
-            num: this.state.index,
+    const onSetExelist = (exeList) => dispatch(setExelist(exeList));
+
+    function changeSelectExe() {
+        onSetSelectedExe({
+            num: index,
             checked: true,
-            name: `${this.state.index}_APP`
+            name: `${index}_APP`
         });
-        const newList = this.props.exeList.map((item, i) => {
-            if (item.num == this.state.index) {
+        const newList = exeList.map((item, i) => {
+            if (item.num == index) {
                 item.checked = true;
             } else {
                 item.checked = false;
             }
             return item;
         });
-        this.props.onSetExelist(newList);
+        onSetExelist(newList);
     }
 
 
-    handleRight(ul) {
-        if (this.state.index >= ul.current.children[0].children.length - 1) {
-            this.state.index = 0;
+    function handleRight(ul) {
+        let current = index;
+        if (current >= ul.current.children[0].children.length - 1) {
+            current = 0;
         } else {
-            this.state.index++;
+            current++;
         }
-        this.setState((state) => ({
-            sx: state.index * ul.current.offsetWidth
-        }));
-        this.changeSelectExe();
+        setIndex(current);
+        setSx(current * (ul.current.offsetWidth - 2));
+        changeSelectExe();
     }
 
-    handleLeft(ul) {
-        if (this.state.index <= 0) {
-            this.state.index = ul.current.children[0].children.length - 1;
+    function handleLeft(ul) {
+        let current = index;
+        if (current <= 0) {
+            current = ul.current.children[0].children.length - 1;
         } else {
-            this.state.index--;
+            current--;
         }
-        this.setState((state) => ({
-            sx: state.index * ul.current.children[0].children[0].offsetWidth
-        }));
-        this.changeSelectExe();
+        setIndex(current);
+        setSx(current * (ul.current.offsetWidth - 2));
+        changeSelectExe();
     }
 
-
-    render() {
-        return (<SelectBoxCom
-            completed={this.props.completed}
-            handleCompile={this.props.handleCompile}
-            isRtl={this.props.isRtl}
-            sx={this.state.sx}
-            flag={this.props.flag}
-            handleRight={this.handleRight}
-            handleLeft={this.handleLeft}
-        />)
-    }
+    return (
+        <SelectBoxCom
+            completed={completed}
+            handleCompile={handleCompile}
+            isRtl={isRtl}
+            sx={sx}
+            flag={flag}
+            handleRight={handleRight}
+            handleLeft={handleLeft}
+        />
+    )
 }
-
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-    onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
-    onSetExelist: (exeList) => dispatch(setExelist(exeList))
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBox);

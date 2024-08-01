@@ -283,7 +283,6 @@ const GUIComponent = (props) => {
                                 handleCompile={handleCompile}
                                 completed={completed}
                                 exeList={exeList}
-                                selectedExe={selectedExe}
                                 onSetSelectedExe={onSetSelectedExe}
                                 onSetExelist={onSetExelist}
                                 peripheralName={peripheralName} />

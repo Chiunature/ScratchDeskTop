@@ -6,6 +6,10 @@ import ButtonComponent from "./button.jsx";
 import SelectExeBtn from "./selectExeBtn.jsx";
 import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedExe } from '../../reducers/mode';
+
+
 // import { defineMessages } from 'react-intl';
 
 /* const messages = defineMessages({
@@ -18,15 +22,20 @@ import { verifyTypeConfig } from 'est-link';
 
 
 const UploadBtn = (props) => {
-    const { completed, exeList, selectedExe, isRtl, handleCompile, onSetSelectedExe, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
+    const { completed, exeList, isRtl, handleCompile, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
 
     let [openUpload, setOpenUpload] = useState(true);
     let [text, setText] = useState('');
+    const selectedExe = useSelector((state) => state.scratchGui.mode.selectedExe);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         checkIsOpenUpload();
     }, []);
 
+    const onSetSelectedExe = (exe) => {
+        return dispatch(setSelectedExe(exe));
+    }
     const compile = (isRun) => {
         if (!openUpload) {
             alert(text);
@@ -63,12 +72,12 @@ const UploadBtn = (props) => {
                     isRtl={isRtl}
                     exeList={exeList}
                     selectedExe={selectedExe}
+                    onSetSelectedExe={onSetSelectedExe}
                 />
                 <RunExeBtn
                     deviceStatus={deviceStatus}
                     compile={compile}
                     completed={completed}
-                    onSetSelectedExe={onSetSelectedExe}
                     onSetExelist={onSetExelist}
                     onSetCompleted={onSetCompleted}
                     handleRunApp={handleRunApp}
@@ -84,4 +93,4 @@ const UploadBtn = (props) => {
     )
 }
 
-export default UploadBtn;
+export default React.memo(UploadBtn);
