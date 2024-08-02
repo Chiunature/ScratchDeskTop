@@ -429,7 +429,7 @@ Blockly.Blocks['motor_specified_manner'] = {
                     "options": [
                         [
                             Blockly.Msg.RETARDATION,
-                            "breaking"
+                            "retardation"
                         ],
                         [
                             Blockly.Msg.STILL,
