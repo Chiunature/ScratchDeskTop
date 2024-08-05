@@ -55,8 +55,9 @@ function Task_Info_ItemOfMsgBlock(el, index) {
     return `\n{\r\n\t\t.Task_Name = "${indexStr}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskNumber = ${index},\r\n\t\t.TaskFunction = ${indexStr},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
 }
 
-function Task_MsgBlock(msgStr) {
-    return `\n/*MsgBlock Write*/\n${msgStr ? msgStr : ''}\n/*MsgBlock End*/\n`;
+function Task_MsgBlock(msgList) {
+    const msgStr = msgList && msgList.length > 0 ? msgList.join('\n') : '';
+    return `\n/*MsgBlock Write*/\n${msgStr}\n/*MsgBlock End*/\n`;
 }
 
 export {

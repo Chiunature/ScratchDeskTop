@@ -131,12 +131,12 @@ class Compile {
      */
     async runGcc(options) {
         const {bufferList, myBlockList, selectedExe, verifyType, open_gyroscope_calibration, msgTaskBlockList}=options;
-
+        
         let codeStr = '',
             taskStr = '',
             handlerStr = '',
             myBlockStr = '',
-            msgBlockStr = Task_MsgBlock(msgTaskBlockList.join('\n')),
+            msgBlockStr = Task_MsgBlock(msgTaskBlockList),
             gyroscopeStr = Task_Open_Gyroscope_Calibration(open_gyroscope_calibration);
 
         bufferList.forEach((el, index) => {

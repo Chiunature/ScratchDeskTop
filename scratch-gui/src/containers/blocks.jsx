@@ -232,10 +232,10 @@ class Blocks extends React.Component {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
         if (!hasStart) return;
-        const match = code.match(regex);
+        
         let matchMyBlock = code.match(regexForMyBlock);
-        const variable = code.match(regVariable);
         let matchMyBlockRes = matchMyBlock ? matchMyBlock : '';
+        const variable = code.match(regVariable);
         if (variable) {
             if (matchMyBlockRes.length > 0) {
                 matchMyBlockRes[0] = variable.join('\n') + matchMyBlockRes[0];
@@ -243,11 +243,12 @@ class Blocks extends React.Component {
                 matchMyBlockRes = variable.join('\n');
             }
         }
-        const msgBlock = code.match(regexForMsgBlock);
-        if(msgBlock) {
-            this.props.onSetMatchMsgBlock(msgBlock);
-        }
         this.props.setMatchMyBlock(matchMyBlockRes);
+
+        const msgBlock = code.match(regexForMsgBlock);
+        this.props.onSetMatchMsgBlock(msgBlock);
+        
+        const match = code.match(regex);
         if (match) {
             const arr = match[1].match(regexForThread);
             let newArr = [];
