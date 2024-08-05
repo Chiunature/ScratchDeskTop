@@ -48,8 +48,11 @@ function Task_Open_Gyroscope_Calibration(flag) {
     return `#define OPEN_GYROSCOPE_CALIBRATION ${flag}`;
 }
 
-function Task_Info_ItemOfMsgBlock(index) {
-    return `\n{\r\n\t\t.Task_Name = "Task_MessageBox${index}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskNumber = ${index},\r\n\t\t.TaskFunction = Task_MessageBox${index},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
+function Task_Info_ItemOfMsgBlock(el, index) {
+    const reg = /void (Task_MessageBox\d+)/;
+    const match = reg.exec(el);
+    const indexStr = match ? match[1] : '';
+    return `\n{\r\n\t\t.Task_Name = "${indexStr}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskNumber = ${index},\r\n\t\t.TaskFunction = ${indexStr},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
 }
 
 function Task_MsgBlock(msgStr) {

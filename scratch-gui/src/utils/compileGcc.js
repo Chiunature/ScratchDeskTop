@@ -157,7 +157,7 @@ class Compile {
 
         if(Array.isArray(msgTaskBlockList)) {
             msgTaskBlockList.forEach((el, index) => {
-                taskStr += Task_Info_ItemOfMsgBlock(index);
+                taskStr += Task_Info_ItemOfMsgBlock(el, index);
             })
         }
 
