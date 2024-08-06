@@ -238,7 +238,7 @@ Blockly.cake['event_broadcast'] = function (block) {
 Blockly.cake['event_broadcastandwait'] = function (block) {
     let broadcast = block.getFieldValue('BROADCAST_INPUT');
     // TODO: Assemble cake into code variable.
-    let code = `send_userMeassagBoxWaite("${broadcast}");\n`;
+    let code = `send_userMeassgBoxWaite("${broadcast}");\n`;
     return code;
 };
 
