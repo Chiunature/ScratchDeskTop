@@ -28,7 +28,7 @@ import { activateCustomProcedures, deactivateCustomProcedures } from '../reducer
 import { setConnectionModalExtensionId } from '../reducers/connection-modal';
 import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
 import { activateTab, SOUNDS_TAB_INDEX } from '../reducers/editor-tab';
-import {getCode, setBufferList, setCompileList, setMatchMsgTaskBlock, setMatchMyBlock} from '../reducers/mode';
+import { getCode, setBufferList, setCompileList, setMatchMsgTaskBlock, setMatchMyBlock } from '../reducers/mode';
 import { ipc } from 'est-link';
 import { convert, pinyin } from "../utils/pingyin-pro";
 
@@ -158,38 +158,54 @@ class Blocks extends React.Component {
         let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {
             this.props.getCode(code);
-            this.checkStartHat(this.workspace, this.props.code);
-            this.getCombinedMotor(newList);
+            if (newList.length > 0) {
+                this.checkStartHat(newList, this.props.code);
+                this.disableCombinedMotor(newList);
+                // this.disableEventBlocks(newList);
+            }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
-        } else {
-            return false;
         }
     }
 
-    getCombinedMotor(list) {
+    /* disableEventBlocks(list) {
+        let newList = list.filter(el => el.type === 'event_whenbroadcastreceived');
+        if (newList.length > 0) {
+            let map = new Map();
+            for (let i = 0; i < newList.length; i++) {
+                const element = newList[i];
+                if (map.has(element.inputList[0].fieldRow[1].text_)) {
+                    const index = map.get(element.inputList[0].fieldRow[1].text_);
+                    newList[index].setDisabled(true);
+                }
+                map.set(element.inputList[0].fieldRow[1].text_, i);
+            }
+        }
+    } */
+
+    disableCombinedMotor(list) {
         for (let i = 0; i < list.length; i++) {
-            let disableBlocks = [];
-            this.disableCombinedMotor(list[i], disableBlocks);
-            this.disableBlocks('combined_motor_starting', 'combined_motor', 'combined', disableBlocks);
+            let disableBlocksList = [];
+            this.getDisableCombinedMotor(list[i], disableBlocksList);
+            this.disableBlocks('combined_motor_starting', disableBlocksList);
         }
     }
 
-    disableCombinedMotor(item, disableBlocks) {
+    getDisableCombinedMotor(item, disableBlocksList) {
         const children = item.childBlocks_;
         if (children && children.length > 0) {
             for (let i = 0; i < children.length; i++) {
                 const element = children[i];
                 if (element.category_ === 'combined_motor' && !element.isShadow_) {
-                    disableBlocks.push(element);
+                    disableBlocksList.push(element);
                 }
                 if (element.childBlocks_.length > 0) {
-                    this.disableCombinedMotor(element, disableBlocks);
+                    this.getDisableCombinedMotor(element, disableBlocksList);
                 }
             }
         }
     }
 
-    disableBlocks(type, category_, typeId, list) {
+    disableBlocks(type, list) {
         let current;
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
@@ -197,13 +213,7 @@ class Blocks extends React.Component {
                 current = i;
             }
         }
-        switch (category_) {
-            case 'combined_motor':
-                this.turnToDisable(list, category_, typeId, current);
-                break;
-            default:
-                break;
-        }
+        this.turnToDisable(list, 'combined_motor', 'combined', current);
     }
 
     turnToDisable(list, category_, typeId, current) {
@@ -212,8 +222,8 @@ class Blocks extends React.Component {
             const isSameCategory = _isSameCategory(el);
             const isSameType = _isSameType(el);
             if (isSameCategory && isSameType) {
-                const isOpacity = i < current;
-                el.setDisabled(isOpacity);
+                const isDisabled = i < current;
+                el.setDisabled(isDisabled);
             }
         }
         function _isSameCategory(element) {
@@ -228,8 +238,7 @@ class Blocks extends React.Component {
     }
 
     //检查是不是开始事件头
-    checkStartHat(workspace, code) {
-        const list = workspace.getTopBlocks();
+    checkStartHat(list, code) {
         const hasStart = list.some(el => el.startHat_);
         if (!hasStart) return;
 
@@ -252,7 +261,7 @@ class Blocks extends React.Component {
         if (match) {
             const arr = match[1].match(regexForThread);
             let newArr = [];
-            if(arr) {
+            if (arr) {
                 newArr = arr.filter(item => /[^ \n]/.test(item));
             }
             this.props.setCompileList(newArr);
@@ -364,7 +373,7 @@ class Blocks extends React.Component {
         clearTimeout(this.toolboxUpdateTimeout);
     }
     requestToolboxUpdate() {
-        requestIdleCallback(this.updateToolbox.bind(this), {timeout:500});
+        requestIdleCallback(this.updateToolbox.bind(this), { timeout: 500 });
         /* clearTimeout(this.toolboxUpdateTimeout);
         this.toolboxUpdateTimeout = setTimeout(() => {
             this.updateToolbox();
