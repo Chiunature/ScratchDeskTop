@@ -46,9 +46,9 @@ const DroppableBlocks = DropAreaHOC([
 ])(BlocksComponent);
 
 const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /\s{1}void\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\}\;\s{1}/g;
+const regexForMyBlock = /\svoid\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\/\*MyBlock definition\*\/\s*};\s/g;
 const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
-const regVariable = /(?:(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+\];)|(?:ListNode\s+\*\w+\s*=\s*NULL;)/g;
+const regVariable = /(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+];|ListNode\s+\*\w+\s*=\s*NULL;/g;
 const regexForMsgBlock = /void\s+Task_MessageBox\w+\([\s\S]*?\)\s*\{[\s\S]*?\/\*msg_end\*\/\s*};\s{1}/g
 
 class Blocks extends React.Component {
@@ -232,13 +232,13 @@ class Blocks extends React.Component {
         const list = workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
         if (!hasStart) return;
-        
+
         let matchMyBlock = code.match(regexForMyBlock);
         let matchMyBlockRes = matchMyBlock ? matchMyBlock : '';
         const variable = code.match(regVariable);
         if (variable) {
             if (matchMyBlockRes.length > 0) {
-                matchMyBlockRes[0] = variable.join('\n') + matchMyBlockRes[0];
+                matchMyBlockRes[0] = variable.join('\n') + '\n' + matchMyBlockRes[0];
             } else {
                 matchMyBlockRes = variable.join('\n');
             }
@@ -247,7 +247,7 @@ class Blocks extends React.Component {
 
         const msgBlock = code.match(regexForMsgBlock);
         this.props.onSetMatchMsgBlock(msgBlock);
-        
+
         const match = code.match(regex);
         if (match) {
             const arr = match[1].match(regexForThread);

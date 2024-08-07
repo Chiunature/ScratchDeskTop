@@ -39,9 +39,8 @@ function Task_Handler(index) {
     return `\nTaskHandle_t UserHandle${index};\n`;
 }
 
-function Task_MyBlock(myStr, index) {
-    const num = index ? index : 0;
-    return `\n/*MyBlock Write${myStr ? num : 0}*/\n${myStr ? myStr : ''}\n/*MyBlock End${myStr ? num : 0}*/\n`;
+function Task_MyBlock(myStr) {
+    return `\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/\n`;
 }
 
 function Task_Open_Gyroscope_Calibration(flag) {
@@ -59,8 +58,7 @@ function Task_Info_ItemOfMsgBlock(el) {
 }
 
 function Task_MsgBlock(msgList) {
-    const msgStr = msgList && msgList.length > 0 ? msgList.join('\n') : '';
-    return `\n/*MsgBlock Write*/\n${msgStr}\n/*MsgBlock End*/\n`;
+    return `\n/*MsgBlock Write*/\n${msgList && msgList.length > 0 ? msgList.join('\n') : ''}\n/*MsgBlock End*/\n`;
 }
 
 export {
