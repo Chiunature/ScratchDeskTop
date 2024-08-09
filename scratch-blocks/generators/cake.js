@@ -363,7 +363,7 @@ Blockly.cake.combinedMotor = function (block, nameOne, nameTwo) {
 
 Blockly.cake.toStr = function (val) {
   if (!val) return;
-  let arr = ['up_int', 'down_int', '_abs_'];
+  const arr = ['up_abs', 'down_abs', '_abs_', 'sqrt_abs', 'sin_abs', 'cos_abs', 'tan_abs', 'asin_abs', 'acos_abs', 'atan_abs', 'ln_abs', 'e_abs', '10_abs'];
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
     if (typeof val === 'string' && val === item) {
