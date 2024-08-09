@@ -193,6 +193,29 @@ Blockly.Blocks['math_0to255_number'] = {
   }
 };
 
+
+Blockly.Blocks['math_-1200to1200_number'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_slider",
+          "name": "NUM",
+          "value": "0",
+          "min": "-1200",
+          "max": "1200"
+        }
+      ],
+      "output": "Number",
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "colour": Blockly.Colours.textField,
+      "colourSecondary": Blockly.Colours.textField,
+      "colourTertiary": Blockly.Colours.textField
+    });
+  }
+};
+
 Blockly.Blocks['math_positive_number'] = {
   /**
    * Block for positive number value, with decimal.

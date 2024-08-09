@@ -135,6 +135,15 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="motor_box"></shadow>
                     </value>
                 </block>
+                ${blockSeparator}
+                <block type="motor_single_pwm">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="PWM">
+                        <shadow type="math_-1200to1200_number"></shadow>
+                    </value>
+                </block>
                 ${categorySeparator}
             </category>
             `;
@@ -246,6 +255,15 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 <block type="combined_motor_spinByYawAngle">
                     <value name="ANGLE">
                         <shadow type="math_number"><field name="NUM">90</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_motor_pwm">
+                    <value name="LEFT_PWM">
+                        <shadow type="math_-1200to1200_number"></shadow>
+                    </value>
+                    <value name="RIGHT_PWM">
+                        <shadow type="math_-1200to1200_number"></shadow>
                     </value>
                 </block>
                 ${categorySeparator}

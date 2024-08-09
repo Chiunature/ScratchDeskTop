@@ -631,3 +631,36 @@ Blockly.Blocks['motor_reset_operating_degree'] = {
         });
     }
 };
+
+
+Blockly.Blocks['motor_single_pwm'] = {
+    /**
+     * Block to move steps.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.MOTOR_SINGLE_PWM,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT",
+                },
+                {
+                    "type": "input_value",
+                    "name": "PWM",
+                }
+            ],
+            "category": Blockly.Categories.motor,
+            "extensions": ["colours_motion", "shape_statement"],
+        });
+    }
+};

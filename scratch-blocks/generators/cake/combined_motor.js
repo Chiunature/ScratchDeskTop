@@ -168,3 +168,11 @@ Blockly.cake['combined_motor_spinByYawAngle'] = function (block) {
     const code = `motor_combined_Angle(${Blockly.cake.toStr(angle) ? angle : '"' + angle + '"'});\n`;
     return code;
 };
+
+Blockly.cake['combined_motor_pwm'] = function (block) {
+    const left = Blockly.cake.valueToCode(block, "LEFT_PWM", Blockly.cake.ORDER_NONE);
+    const right = Blockly.cake.valueToCode(block, "RIGHT_PWM", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    const code = `combined_motor_pwm(${Blockly.cake.toStr(left) ? left : '"' + left + '"'}, ${Blockly.cake.toStr(right) ? right : '"' + right + '"'});\n`;
+    return code;
+};

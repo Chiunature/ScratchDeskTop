@@ -136,3 +136,11 @@ Blockly.cake['motor_reset_operating_degree'] = function (block) {
     let code = `motor_reser_angle(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
+
+Blockly.cake['motor_single_pwm'] = function (block) {
+    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
+    const pwm = Blockly.cake.valueToCode(block, "PWM", Blockly.cake.ORDER_NONE);
+    // TODO: Assemble cake into code variable.
+    const code = `motor_single_pwm(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(pwm) ? pwm : '"' + pwm + '"'});\n`;
+    return code;
+};

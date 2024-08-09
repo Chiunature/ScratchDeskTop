@@ -166,6 +166,7 @@ Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER = "%1 at a speed of %2 and %3 %% to mo
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ = "%1 Combination motor executed at %2 %3 %4 %5";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE = "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5 KI %6";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE = "%1 combination motor rotates %2 degrees according to yaw angle";
+Blockly.Msg.COMBINED_MOTOR_PWM = "%1 Set the combined motor PWM to %2 %3";
 // Motor blocks
 Blockly.Msg.BACK = 'back';
 Blockly.Msg.ADVANCE = 'advance';
@@ -198,6 +199,7 @@ Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 The Motor %2 starts at %3 power";
 Blockly.Msg.MOTOR_ACCELERATION = "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL = "%1 Set the retention coefficient of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_RESET_OPERATING_DEGREE = "%1 Reset the %2 motor's running degree";
+Blockly.Msg.MOTOR_SINGLE_PWM = "%1 Set the %2 motor's PWM to %3";
 Blockly.Msg.BIG_MOTOR = "Big motor";
 Blockly.Msg.SMALL_MOTOR = "Middle motor";
 Blockly.Msg.DEFAULT = "default";

@@ -713,3 +713,35 @@ Blockly.Blocks['combined_motor_spinByYawAngle'] = {
         });
     }
 };
+
+Blockly.Blocks['combined_motor_pwm'] = {
+    /**
+         * Block to move steps.
+         * @this Blockly.Block
+         */
+    init: function () {
+        this.jsonInit({
+            "message0": Blockly.Msg.COMBINED_MOTOR_PWM,
+            "args0": [
+                {
+                    "type": "field_image",
+                    "src": Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+                    "width": 20,
+                    "height": 20,
+                    "alt": "*",
+                    "flipRtl": false
+                },
+                {
+                    "type": "input_value",
+                    "name": "LEFT_PWM",
+                },
+                {
+                    "type": "input_value",
+                    "name": "RIGHT_PWM"
+                }
+            ],
+            "category": Blockly.Categories.combined_motor,
+            "extensions": ["colours_combined_motor", "shape_statement"],
+        });
+    }
+};
