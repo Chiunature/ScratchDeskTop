@@ -26,7 +26,7 @@ import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '210';
+const FIRMWARE_VERSION = '212';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
