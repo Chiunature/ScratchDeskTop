@@ -735,7 +735,7 @@ class Blocks {
             // Otherwise, try to connect it in its new place.
             if (typeof e.newInput === 'undefined') {
                 // Moved to the new parent's next connection.
-                this._blocks[e.newParent].next = e.id;
+                if(this._blocks[e.newParent]) this._blocks[e.newParent].next = e.id;
             } else {
                 // Moved to the new parent's input.
                 // Don't obscure the shadow block.

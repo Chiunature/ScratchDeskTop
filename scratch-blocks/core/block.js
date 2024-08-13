@@ -1179,8 +1179,10 @@ Blockly.Block.prototype.setEnabled = function (enabled) {
     for (var i = 0, input; input = this.inputList[i]; i++) {
       if (input.name && (input.type === Blockly.INPUT_VALUE)) {
         var targetBlock = this.getInputTargetBlock(input.name);
-        targetBlock.setEnabled(enabled);
-        targetBlock.updateColour();
+        if (targetBlock) {
+          targetBlock.setEnabled(enabled);
+          targetBlock.updateColour();
+        }
       }
     }
 
@@ -1195,7 +1197,7 @@ Blockly.Block.prototype.setEnabled = function (enabled) {
  * @param {boolean} disabled True if disabled.
  */
 Blockly.Block.prototype.setDisabled = function (disabled) {
-  this.setEnabled(!disabled);
+  if(this) this.setEnabled(!disabled);
 };
 
 /**

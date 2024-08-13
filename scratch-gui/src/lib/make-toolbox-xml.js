@@ -141,7 +141,7 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="motor_box"></shadow>
                     </value>
                     <value name="PWM">
-                        <shadow type="math_-1200to1200_number"></shadow>
+                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
                     </value>
                 </block>
                 ${categorySeparator}
@@ -245,10 +245,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                     <value name="KP">
-                        <shadow type="math_-50to50_number"></shadow>
+                        <shadow type="math_-50to50_number"><field name="NUM">0</field></shadow>
                     </value>
                     <value name="KI">
-                        <shadow type="math_-50to50_number"></shadow>
+                        <shadow type="math_-50to50_number"><field name="NUM">0</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
@@ -260,10 +260,10 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                 ${blockSeparator}
                 <block type="combined_motor_pwm">
                     <value name="LEFT_PWM">
-                        <shadow type="math_-1200to1200_number"></shadow>
+                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
                     </value>
                     <value name="RIGHT_PWM">
-                        <shadow type="math_-1200to1200_number"></shadow>
+                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
                     </value>
                 </block>
                 ${categorySeparator}

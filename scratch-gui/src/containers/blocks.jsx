@@ -152,15 +152,14 @@ class Blocks extends React.Component {
 
 
     workspaceToCode(type) {
-        const generatorName = 'cake';
-        const code = this.ScratchBlocks[generatorName].workspaceToCode(this.workspace);
-        const list = this.workspace.getTopBlocks();
-        let newList = list.filter(el => el.startHat_);
         if (type === 'move' || type === 'change' || type === 'delete') {
+            const code = this.ScratchBlocks['cake'].workspaceToCode(this.workspace);
+            const list = this.workspace.getTopBlocks();
+            let newList = list.filter(el => el.startHat_);
             this.props.getCode(code);
             if (newList.length > 0) {
                 this.checkStartHat(newList, this.props.code);
-                this.disableCombinedMotor(newList);
+                // this.disableCombinedMotor(newList);
                 // this.disableEventBlocks(newList);
             }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
@@ -183,6 +182,11 @@ class Blocks extends React.Component {
     } */
 
     disableCombinedMotor(list) {
+        const allBlocks = this.workspace.getAllBlocks();
+        const hasCombined = allBlocks.find(el => el.category_ === 'combined_motor');
+        if (!hasCombined) { 
+            return;
+        }
         for (let i = 0; i < list.length; i++) {
             let disableBlocksList = [];
             this.getDisableCombinedMotor(list[i], disableBlocksList);
@@ -293,11 +297,13 @@ class Blocks extends React.Component {
         while (i < list.length) {
             que.push(arr[i]);
 
-            if (list[i].startHat_) {
+            if (list[i]?.startHat_) {
                 if (i > 0) j++;
                 newList[j] = que.shift();
             }
-            this.disableAllNoEventsBlocks(list[i], list[i].startHat_);
+            if (list[i]) {
+                this.disableAllNoEventsBlocks(list[i], list[i].startHat_);
+            }
             i++;
         }
         if (newList.length > 0) {
