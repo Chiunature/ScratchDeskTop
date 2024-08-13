@@ -13,14 +13,14 @@ export default function SelectBox({ selectedExe, onSetSelectedExe, completed, ha
 
     const onSetExelist = (exeList) => dispatch(setExelist(exeList));
 
-    function changeSelectExe() {
+    function changeSelectExe(current) {
         onSetSelectedExe({
-            num: index,
+            num: current,
             checked: true,
-            name: `${index}_APP`
+            name: `${current}_APP`
         });
         const newList = exeList.map((item, i) => {
-            if (item.num == index) {
+            if (item.num == current) {
                 item.checked = true;
             } else {
                 item.checked = false;
@@ -40,7 +40,7 @@ export default function SelectBox({ selectedExe, onSetSelectedExe, completed, ha
         }
         setIndex(current);
         setSx(current * (ul.current.offsetWidth - 2));
-        changeSelectExe();
+        changeSelectExe(current);
     }
 
     function handleLeft(ul) {
@@ -52,7 +52,7 @@ export default function SelectBox({ selectedExe, onSetSelectedExe, completed, ha
         }
         setIndex(current);
         setSx(current * (ul.current.offsetWidth - 2));
-        changeSelectExe();
+        changeSelectExe(current);
     }
 
     return (
