@@ -160,13 +160,14 @@ class Blocks extends React.Component {
             if (newList.length > 0) {
                 this.checkStartHat(newList, this.props.code);
                 // this.disableCombinedMotor(newList);
-                // this.disableEventBlocks(newList);
+                // this.disableEventBlocks();
             }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
         }
     }
 
-    /* disableEventBlocks(list) {
+    /* disableEventBlocks() {
+        const list = this.workspace.getTopBlocks();
         let newList = list.filter(el => el.type === 'event_whenbroadcastreceived');
         if (newList.length > 0) {
             let map = new Map();
@@ -181,7 +182,7 @@ class Blocks extends React.Component {
         }
     } */
 
-    disableCombinedMotor(list) {
+    /* disableCombinedMotor(list) {
         const allBlocks = this.workspace.getAllBlocks();
         const hasCombined = allBlocks.find(el => el.category_ === 'combined_motor');
         if (!hasCombined) { 
@@ -189,17 +190,17 @@ class Blocks extends React.Component {
         }
         for (let i = 0; i < list.length; i++) {
             let disableBlocksList = [];
-            this.getDisableCombinedMotor(list[i], disableBlocksList);
+            this.getDisableCombinedMotor(list[i], disableBlocksList, 'combined_motor');
             this.disableBlocks('combined_motor_starting', disableBlocksList);
         }
-    }
+    } */
 
-    getDisableCombinedMotor(item, disableBlocksList) {
+    /* getDisableCombinedMotor(item, disableBlocksList, category_) {
         const children = item.childBlocks_;
         if (children && children.length > 0) {
             for (let i = 0; i < children.length; i++) {
                 const element = children[i];
-                if (element.category_ === 'combined_motor' && !element.isShadow_) {
+                if (element.category_ === category_ && !element.isShadow_) {
                     disableBlocksList.push(element);
                 }
                 if (element.childBlocks_.length > 0) {
@@ -207,9 +208,9 @@ class Blocks extends React.Component {
                 }
             }
         }
-    }
+    } */
 
-    disableBlocks(type, list) {
+    /* disableBlocks(type, list) {
         let current;
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
@@ -218,9 +219,9 @@ class Blocks extends React.Component {
             }
         }
         this.turnToDisable(list, 'combined_motor', 'combined', current);
-    }
+    } */
 
-    turnToDisable(list, category_, typeId, current) {
+    /* turnToDisable(list, category_, typeId, current) {
         for (let i = 0; i < list.length; i++) {
             const el = list[i];
             const isSameCategory = _isSameCategory(el);
@@ -239,7 +240,7 @@ class Blocks extends React.Component {
             return (element.category_ && element?.type?.indexOf(typeId) !== -1) ||
                 (!element.category_ && element?.parentBlock_?.type?.indexOf(typeId) !== -1);
         }
-    }
+    } */
 
     //检查是不是开始事件头
     checkStartHat(list, code) {
@@ -273,22 +274,6 @@ class Blocks extends React.Component {
         }
     }
 
-    //处理经上层正则筛选后的C代码
-    /*handleBlockList(arr) {
-        let newArr = [];
-        for (let i = 0; i < arr.length; i++) {
-
-            if (arr[i] === '' || arr[i].replace(/[\t\r\f\n\s]*!/g, '') === '}') continue;
-
-            if ((i + 1) <= arr.length && arr[i + 1] && (arr[i + 1].replace(/[\t\r\f\n\s]*!/g, '') === '}' || arr[i + 1].replace(/[\t\r\f\n\s]*!/g, '') === '}}')) {
-                arr[i] += arr[i + 1];
-            }
-
-            newArr.push(arr[i]);
-
-        }
-        return newArr;
-    }*/
 
     //解析任务
     parserTask(workspace, arr) {
