@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import classNames from "classnames";
 import styles from "./menu-bar.css";
 import Box from '../box/box.jsx';
@@ -6,8 +6,9 @@ import Box from '../box/box.jsx';
 import ProjectTitleInput from './project-title-input.jsx';
 // import dropdownCaret from "./dropdown-caret.svg";
 import fileSaveIcon from "./icon--file-save.svg";
+import debounce from 'lodash.debounce';
 
-function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComputerHandler, downloadProject, onSetProjectTitle, saveProjectSb3 }) {
+function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, downloadProject, onSetProjectTitle, saveProjectSb3, handleClickSave }) {
 
     let programRef = useRef();
     let imgRef = useRef();
@@ -21,6 +22,8 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
             document.onmouseup = clickProgram;
         }
     }, [display]);
+
+    let handelSave = useCallback(debounce(handleClickSave, 1000), [handleClickSave]);
 
     function clickProgram(e) {
         if (e) {
@@ -40,11 +43,6 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
         }
     }
 
-    function saveFile() {
-        const openPath = sessionStorage.getItem('openPath');
-        const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
-        getSaveToComputerHandler(() => downloadProject(onlySave))();
-    }
 
 
     return (
@@ -60,7 +58,7 @@ function ProjectMenu({ projectTitle, vm, intl, MenuBarItemTooltip, getSaveToComp
                         alt="" ref={imgRef} onClick={clickProgram} /> */}
                     <ProjectTitleInput readOnly={false} className={classNames(styles.titleFieldGrowable)} />
                     <img className={classNames(styles.menuBarItem, styles.hoverable, styles.fileSaveIcon)} src={fileSaveIcon}
-                        onClick={saveFile} alt="" />
+                        onClick={handelSave} alt="" />
                 </MenuBarItemTooltip>
             </Box>
             {/* <ProgramList

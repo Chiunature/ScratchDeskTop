@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { FormattedMessage, injectIntl, intlShape, } from "react-intl";
 import PropTypes from "prop-types";
 import bindAll from "lodash.bindall";
+import debounce from "lodash.debounce";
 import bowser from "bowser";
 import React from "react";
 
@@ -198,10 +199,11 @@ class MenuBar extends React.Component {
         ]);
         this.timer = null;
         this.closeTimer = null;
+        this.keyPress = debounce(this.handleKeyPress, 1000);
     }
 
     componentDidMount() {
-        document.addEventListener("keydown", this.handleKeyPress);
+        document.addEventListener("keydown", this.keyPress);
         requestIdleCallback(() => {
             this.scanConnection();
             this.disconnectListen();
@@ -209,7 +211,7 @@ class MenuBar extends React.Component {
     }
 
     componentWillUnmount() {
-        document.removeEventListener("keydown", this.handleKeyPress);
+        document.removeEventListener("keydown", this.keyPress);
     }
 
     handleClickHome() {
@@ -284,14 +286,14 @@ class MenuBar extends React.Component {
     }
 
     handleKeyPress(event) {
+        event.preventDefault();
         const modifier = bowser.mac ? event.metaKey : event.ctrlKey;
         const key_s = event.key === "s" || event.key === "S";
-        if (modifier && !event.shiftKey && key_s) {
+        const flag = modifier && key_s;
+        if (flag && !event.shiftKey) {
             this.handleClickSave();
-            event.preventDefault();
-        } else if (modifier && event.shiftKey && key_s) {
+        } else if (flag && event.shiftKey) {
             this.getSaveToComputerHandler(this.downloadProject)();
-            event.preventDefault();
         }
     }
 
@@ -743,11 +745,11 @@ class MenuBar extends React.Component {
                         vm={this.props.vm}
                         intl={this.props.intl}
                         MenuBarItemTooltip={MenuBarItemTooltip}
-                        getSaveToComputerHandler={this.getSaveToComputerHandler}
                         downloadProject={this.downloadProject}
                         projectTitle={this.props.projectTitle}
                         onSetProjectTitle={this.props.onSetProjectTitle}
                         saveProjectSb3={this.props.saveProjectSb3}
+                        handleClickSave={this.handleClickSave}
                     />
                 </Box>
                 <Box className={classNames(styles.mainMenuTwo)}>
