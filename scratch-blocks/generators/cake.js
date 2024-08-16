@@ -392,6 +392,25 @@ Blockly.cake.checkVar = function (varName) {
   return varName;
 }
 
+Blockly.cake.checkList = function (varName) {
+  let list = [];
+  for (let i = 0; i < varName.length; i++) {
+    const item = varName[i];
+    list.push(item);
+  }
+  if (list.includes('_')) {
+    varName = list.join('');
+  } else {
+    varName = varName + '_';
+  }
+  if (!Blockly.cake.definitions_['defineList_' + varName]) {
+    Blockly.cake.definitions_['defineList_' + varName] = `ListNode *${varName};`;
+    return `${varName} = ListInit();\n`;
+  } else {
+    return '';
+  }
+}
+
 // 将hex格式颜色转换为rgb格式
 Blockly.cake.hexToRgb = function (hex) {
   if (!hex) {
