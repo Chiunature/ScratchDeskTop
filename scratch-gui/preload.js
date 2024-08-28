@@ -326,7 +326,29 @@ async function sleep(time) {
     }
 }
 
+function getHomeDir() {
+    return new Promise((resolve) => {
+        const homedir = path.join(os.homedir(), 'Desktop');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
 
+        /* const randomStringLength = 8;
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let randomString = '';
+
+        for (let i = 0; i < randomStringLength; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            randomString += characters[randomIndex];
+        } */
+        const rsName = `${year}${month}${day}`;
+        const dir = homedir + '\\' + rsName;
+        fs.mkdir(dir, { recursive: true }, () => {
+            resolve({ homedir: dir, rsName });
+         });
+    })
+}
 
 
 contextBridge.exposeInMainWorld('myAPI', {
@@ -354,4 +376,5 @@ contextBridge.exposeInMainWorld('myAPI', {
     onGetVersion: async () => await ipcInvoke('app-version'),
     sleep,
     openExternal: (url) => shell.openExternal(url),
+    getHomeDir
 });

@@ -195,7 +195,8 @@ class MenuBar extends React.Component {
             "handleHelp",
             "handleProblem",
             "saveSvg",
-            "downloadProject"
+            "downloadProject",
+            "autoSave"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -208,10 +209,16 @@ class MenuBar extends React.Component {
             this.scanConnection();
             this.disconnectListen();
         }, { timeout: 500 });
+        
+        setInterval(this.autoSave, 5 * 60 * 1000);
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
+    }
+
+    autoSave() {
+        this.handleClickSave(true);
     }
 
     handleClickHome() {
@@ -240,10 +247,10 @@ class MenuBar extends React.Component {
         this.props.onRequestCloseFile();
     }
 
-    handleClickSave() {
+    handleClickSave(isAutoSave) {
         const openPath = sessionStorage.getItem('openPath');
         const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
-        this.getSaveToComputerHandler(() => this.downloadProject(onlySave))();
+        this.getSaveToComputerHandler(() => this.downloadProject(onlySave, isAutoSave))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
     }
@@ -558,7 +565,7 @@ class MenuBar extends React.Component {
         });
     }
 
-    downloadProject(onlySave) {
+    downloadProject(onlySave, isAutoSave) {
         this.props.saveProjectSb3().then(async content => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
@@ -576,6 +583,14 @@ class MenuBar extends React.Component {
 
             // 没有保存过
             const res = await content.arrayBuffer();
+            if (isAutoSave) {
+                const { homedir } = await window.myAPI.getHomeDir();
+                const path = `${homedir}\\${this.props.projectFilename}`;
+                sessionStorage.setItem('openPath', path);
+                await window.myAPI.writeFiles(path, Buffer.from(res), '');
+                return;
+            }
+
             const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
                 file: Buffer.from(res),
                 filename: this.props.projectFilename
