@@ -169,7 +169,7 @@ AboutButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-class MenuBar extends React.Component {
+class MenuBar extends React.PureComponent {
     constructor(props) {
         super(props);
         bindAll(this, [
@@ -201,6 +201,7 @@ class MenuBar extends React.Component {
         this.timer = null;
         this.closeTimer = null;
         this.keyPress = debounce(this.handleKeyPress, 1000);
+        this.handleAutoSave = debounce(this.autoSave, 10000);
     }
 
     componentDidMount() {
@@ -209,16 +210,20 @@ class MenuBar extends React.Component {
             this.scanConnection();
             this.disconnectListen();
         }, { timeout: 500 });
-        
-        setInterval(this.autoSave, 5 * 60 * 1000);
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.autoSaveByBlockType === 'endDrag' || (prevProps.autoSaveByBlockType !== this.props.autoSaveByBlockType)) { //拖拽结束或更改时自动保存
+            this.handleAutoSave();
+        }
+    }
+
     autoSave() {
-        this.handleClickSave(true);
+        setTimeout(() => this.handleClickSave(true));
     }
 
     handleClickHome() {
@@ -575,8 +580,8 @@ class MenuBar extends React.Component {
             if (onlySave) {
                 downloadBlob(this.props.projectFilename, content, onlySave);
                 const filePath = sessionStorage.getItem('openPath');
-                filePath && this.props.onShowCompletedAlert("saveNowSuccess");
                 filePath && await this.setCacheForSave(filePath);
+                filePath && this.props.onShowCompletedAlert("saveNowSuccess");
                 //await setProgramList(this.props.projectFilename, filePath, null, content);
                 return;
             }
@@ -588,6 +593,7 @@ class MenuBar extends React.Component {
                 const path = `${homedir}\\${this.props.projectFilename}`;
                 sessionStorage.setItem('openPath', path);
                 await window.myAPI.writeFiles(path, Buffer.from(res), '');
+                this.props.onShowCompletedAlert("saveNowSuccess");
                 return;
             }
 

@@ -163,6 +163,8 @@ class Blocks extends React.Component {
                 // this.disableEventBlocks();
             }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
+        } else if (type === 'endDrag' || type === 'change') {
+            this.props.setAutoSaveByBlockType(type);
         }
     }
 
@@ -740,6 +742,7 @@ class Blocks extends React.Component {
             completed,
             onSetSoundsList,
             onSetMatchMsgBlock,
+            setAutoSaveByBlockType,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */

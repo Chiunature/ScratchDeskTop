@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import omit from "lodash.omit";
 import PropTypes from "prop-types";
-import React from "react";
+import React, {useState,useCallback} from "react";
 import {
     defineMessages,
     FormattedMessage,
@@ -207,6 +207,9 @@ const GUIComponent = (props) => {
         onSetCompleted,
         ...componentProps
     } = omit(props, "dispatch");
+    const [autoSaveByBlockType, setAutoSaveByBlockType] = useState(null);
+    const handleSetAutoSaveByBlockType = useCallback((type) => setAutoSaveByBlockType(type), [autoSaveByBlockType])
+
     if (children) {
         return <Box {...componentProps}>{children}</Box>;
     }
@@ -323,46 +326,47 @@ const GUIComponent = (props) => {
                                 handleRunApp={handleRunApp}
                             />) : null}
                         <MenuBar
-                            accountNavOpen={accountNavOpen}
-                            authorId={authorId}
-                            authorThumbnailUrl={authorThumbnailUrl}
-                            authorUsername={authorUsername}
-                            canChangeLanguage={canChangeLanguage}
-                            blocksId={blocksId}
-                            canChangeTheme={canChangeTheme}
-                            canChangeHelp={canChangeHelp}
-                            canCreateCopy={canCreateCopy}
-                            canCreateNew={canCreateNew}
-                            canEditTitle={canEditTitle}
-                            canManageFiles={canManageFiles}
-                            canRemix={canRemix}
-                            canSave={canSave}
-                            canShare={canShare}
-                            className={styles.menuBarPosition}
-                            enableCommunity={enableCommunity}
-                            isShared={isShared}
-                            logo={logo}
-                            renderLogin={renderLogin}
-                            showComingSoon={showComingSoon}
-                            onClickAbout={onClickAbout}
-                            onClickAccountNav={onClickAccountNav}
-                            onClickLogo={onClickLogo}
-                            onCloseAccountNav={onCloseAccountNav}
-                            onLogOut={onLogOut}
-                            onOpenRegistration={onOpenRegistration}
-                            onProjectTelemetryEvent={onProjectTelemetryEvent}
-                            onSeeCommunity={onSeeCommunity}
-                            onShare={onShare}
-                            onStartSelectingFileUpload={
-                                onStartSelectingFileUpload
-                            }
-                            onToggleLoginOpen={onToggleLoginOpen}
-                            onActivateDeck={onActivateDeck}
-                            getMainMessage={getMainMessage}
-                            onShowQrcode={onShowQrcode}
-                            onSetDeviceObj={onSetDeviceObj}
-                            intl={intl}
-                            onSetDeviceStatus={onSetDeviceStatus}
+                                accountNavOpen={accountNavOpen}
+                                authorId={authorId}
+                                authorThumbnailUrl={authorThumbnailUrl}
+                                authorUsername={authorUsername}
+                                canChangeLanguage={canChangeLanguage}
+                                blocksId={blocksId}
+                                canChangeTheme={canChangeTheme}
+                                canChangeHelp={canChangeHelp}
+                                canCreateCopy={canCreateCopy}
+                                canCreateNew={canCreateNew}
+                                canEditTitle={canEditTitle}
+                                canManageFiles={canManageFiles}
+                                canRemix={canRemix}
+                                canSave={canSave}
+                                canShare={canShare}
+                                className={styles.menuBarPosition}
+                                enableCommunity={enableCommunity}
+                                isShared={isShared}
+                                logo={logo}
+                                renderLogin={renderLogin}
+                                showComingSoon={showComingSoon}
+                                onClickAbout={onClickAbout}
+                                onClickAccountNav={onClickAccountNav}
+                                onClickLogo={onClickLogo}
+                                onCloseAccountNav={onCloseAccountNav}
+                                onLogOut={onLogOut}
+                                onOpenRegistration={onOpenRegistration}
+                                onProjectTelemetryEvent={onProjectTelemetryEvent}
+                                onSeeCommunity={onSeeCommunity}
+                                onShare={onShare}
+                                onStartSelectingFileUpload={
+                                    onStartSelectingFileUpload
+                                }
+                                onToggleLoginOpen={onToggleLoginOpen}
+                                onActivateDeck={onActivateDeck}
+                                getMainMessage={getMainMessage}
+                                onShowQrcode={onShowQrcode}
+                                onSetDeviceObj={onSetDeviceObj}
+                                intl={intl}
+                                onSetDeviceStatus={onSetDeviceStatus}
+                                autoSaveByBlockType={autoSaveByBlockType}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>
@@ -445,6 +449,7 @@ const GUIComponent = (props) => {
                                                     theme={theme}
                                                     vm={vm}
                                                     compile={compile}
+                                                    setAutoSaveByBlockType={handleSetAutoSaveByBlockType}
                                                 />
                                             </Box>
                                             {/* <Box
