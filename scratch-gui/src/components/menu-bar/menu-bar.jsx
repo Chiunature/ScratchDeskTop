@@ -143,7 +143,7 @@ AboutButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-class MenuBar extends React.PureComponent {
+class MenuBar extends React.Component {
     constructor(props) {
         super(props);
         bindAll(this, [

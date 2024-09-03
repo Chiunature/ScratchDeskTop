@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import omit from "lodash.omit";
 import PropTypes from "prop-types";
-import React, {useState,useCallback} from "react";
+import React from "react";
 import {
     defineMessages,
     FormattedMessage,
@@ -56,6 +56,7 @@ import Qrcode from "../code-editor/qrcode.jsx";
 import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
 import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
+import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
 
 const messages = defineMessages({
     projectManagement: {
@@ -205,10 +206,10 @@ const GUIComponent = (props) => {
         onShowUpin,
         dragging,
         onSetCompleted,
+        autoSaveByBlockType,
+        onAutoSaveByBlockType,
         ...componentProps
     } = omit(props, "dispatch");
-    const [autoSaveByBlockType, setAutoSaveByBlockType] = useState(null);
-    const handleSetAutoSaveByBlockType = useCallback((type) => setAutoSaveByBlockType(type), [autoSaveByBlockType])
 
     if (children) {
         return <Box {...componentProps}>{children}</Box>;
@@ -367,7 +368,7 @@ const GUIComponent = (props) => {
                                 intl={intl}
                                 onSetDeviceStatus={onSetDeviceStatus}
                                 autoSaveByBlockType={autoSaveByBlockType}
-                                handleSetAutoSaveByBlockType={handleSetAutoSaveByBlockType}
+                                handleSetAutoSaveByBlockType={onAutoSaveByBlockType}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>
@@ -450,7 +451,7 @@ const GUIComponent = (props) => {
                                                     theme={theme}
                                                     vm={vm}
                                                     compile={compile}
-                                                    setAutoSaveByBlockType={handleSetAutoSaveByBlockType}
+                                                    setAutoSaveByBlockType={onAutoSaveByBlockType}
                                                 />
                                             </Box>
                                             {/* <Box
@@ -630,9 +631,12 @@ const mapStateToProps = (state) => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize,
     theme: state.scratchGui.theme.theme,
     selectedExe: state.scratchGui.mode.selectedExe,
-    QrcodeVisible: state.scratchGui.alerts.QrcodeVisible
+    QrcodeVisible: state.scratchGui.alerts.QrcodeVisible,
+    autoSaveByBlockType: state.scratchGui.alerts.autoSaveByBlockType,
 });
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    onAutoSaveByBlockType: (autoSaveByBlockType) => dispatch(onAutoSaveByBlockType(autoSaveByBlockType))
+});
 export default errorBoundaryHOC("GUI")(
     injectIntl(connect(mapStateToProps, mapDispatchToProps)(GUIComponent))
 );

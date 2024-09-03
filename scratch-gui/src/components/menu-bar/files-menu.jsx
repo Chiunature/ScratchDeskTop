@@ -60,7 +60,7 @@ function FilesMenu({
         }
     }, [])
 
-    const handleAutoSave = useCallback(debounce(autoSave, 10000), [onOpenAutoSave]);
+    const handleAutoSave = useCallback(debounce(autoSave, 10000), [openAutoSave]);
 
     useEffect(() => {
         if (autoSaveByBlockType === 'endDrag' || autoSaveByBlockType === 'change') {
@@ -71,11 +71,9 @@ function FilesMenu({
     
 
     function autoSave() {
+        handleSetAutoSaveByBlockType(null);
         if (openAutoSave) {
-            setTimeout(() => {
-                handleSetAutoSaveByBlockType(null);
-                handleClickSave(true);
-            });
+            setTimeout(() => handleClickSave(true));
         }
     }
 
@@ -163,4 +161,4 @@ function FilesMenu({
     )
 }
 
-export default React.memo(FilesMenu);
+export default FilesMenu;

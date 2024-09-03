@@ -9,6 +9,7 @@ const CLOSE_ALERT_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERT_WITH_ID';
 const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
 const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
 const OPEN_AUTO_SAVE = 'scratch-gui/alerts/OPEN_AUTO_SAVE';
+const AUTO_SAVE_BY_BLOCKTYPE = 'scratch-gui/alerts/AUTO_SAVE_BY_BLOCKTYPE';
 /**
  * Initial state of alerts reducer
  *
@@ -59,7 +60,8 @@ const initialState = {
     QrcodeVisible: false,
     upinVisible: false,
     upinMsg: '',
-    openAutoSave: true
+    openAutoSave: true,
+    autoSaveByBlockType: null
 };
 
 const filterPopupAlerts = alertsList => (
@@ -165,6 +167,10 @@ const reducer = function (state, action) {
         case OPEN_AUTO_SAVE:
             return Object.assign({}, state, {
                 openAutoSave: action.openAutoSave
+            })
+        case AUTO_SAVE_BY_BLOCKTYPE:
+            return Object.assign({}, state, {
+                autoSaveByBlockType: action.autoSaveByBlockType
             })
         default:
             return state;
@@ -279,6 +285,13 @@ const openAutoSave = function (openAutoSave) {
         openAutoSave
     };
 }
+
+const onAutoSaveByBlockType = function (autoSaveByBlockType) {
+    return {
+        type: AUTO_SAVE_BY_BLOCKTYPE,
+        autoSaveByBlockType
+    };
+}
 export {
     reducer as default,
     initialState as alertsInitialState,
@@ -291,5 +304,6 @@ export {
     showStandardAlert,
     showQrcode,
     showUpin,
-    openAutoSave
+    openAutoSave,
+    onAutoSaveByBlockType
 };
