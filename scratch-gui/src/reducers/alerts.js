@@ -60,7 +60,7 @@ const initialState = {
     QrcodeVisible: false,
     upinVisible: false,
     upinMsg: '',
-    openAutoSave: true,
+    openAutoSave: false,
     autoSaveByBlockType: null
 };
 

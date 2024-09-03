@@ -24,7 +24,7 @@
  */
 const serialport = require("serialport");
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, crashReporter } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, crashReporter, Notification } = electron;
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const url = require("url");
@@ -103,6 +103,16 @@ async function updater(win, autoUpdate) {
     }
     updateFunc = await checkUpdate(win, isUpdate, mainMsg, updateFunc);
     return updateFunc;
+}
+
+function notice(title, body){
+    return new Promise((ok, fail) => {
+        if(!Notification.isSupported()) fail("当前系统不支持通知")
+        let ps = typeof(title) == 'object'? title : {title, body}
+        let n = new Notification(ps)
+        n.on('click', ok)
+        n.show()
+    })
 }
 
 function showPDF(href) {
@@ -241,7 +251,7 @@ function createWindow() {
             maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
         });
 
-    handleMenuAndDevtool(mainWindow);
+        handleMenuAndDevtool(mainWindow);
 
         mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
             details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
@@ -252,6 +262,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
+            notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区无操作超过10秒会自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
             if (app.isPackaged) {
                 watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
                 // 启用硬件加速
@@ -270,7 +281,6 @@ function createWindow() {
         // 打开文件位置
         _openFileLocation();
         openPDFWindow();
-
 
 
         // 设置静态资源路径

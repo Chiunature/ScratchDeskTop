@@ -80,6 +80,7 @@ function FilesMenu({
     function handleOpenAutoSave() {
         window.myAPI.setStoreValue('autoSave', !openAutoSave);
         onOpenAutoSave(!openAutoSave);
+        onRequestClose();
     }
 
     function checkNullOrUndefined(value) {
