@@ -495,7 +495,7 @@ class MenuBar extends React.Component {
                 downloadBlob(this.props.projectFilename, content, onlySave);
                 const filePath = sessionStorage.getItem('openPath');
                 filePath && await this.setCacheForSave(filePath);
-                filePath && this.props.onShowCompletedAlert("saveNowSuccess");
+                (filePath || isAutoSave) && this.props.onShowCompletedAlert("saveNowSuccess");
                 //await setProgramList(this.props.projectFilename, filePath, null, content);
                 return;
             }
