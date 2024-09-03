@@ -493,7 +493,7 @@ class MenuBar extends React.Component {
             // 有保存过
             if (onlySave) {
                 downloadBlob(this.props.projectFilename, content, onlySave);
-                const filePath = sessionStorage.getItem('openPath');
+                const filePath = isAutoSave ? sessionStorage.getItem('open-auto-save-path') : sessionStorage.getItem('openPath');
                 filePath && await this.setCacheForSave(filePath);
                 (filePath || isAutoSave) && this.props.onShowCompletedAlert("saveNowSuccess");
                 //await setProgramList(this.props.projectFilename, filePath, null, content);
@@ -505,7 +505,7 @@ class MenuBar extends React.Component {
             if (isAutoSave) {
                 const { homedir } = await window.myAPI.getHomeDir();
                 const path = `${homedir}\\${this.props.projectFilename}`;
-                sessionStorage.setItem('openPath', path);
+                sessionStorage.setItem('open-auto-save-path', path);
                 await window.myAPI.writeFiles(path, Buffer.from(res), '');
                 this.props.onShowCompletedAlert("saveNowSuccess");
                 return;
