@@ -523,6 +523,8 @@
   "gui.sharedMessages.pop": "pop",
   "gui.sharedMessages.replaceProjectWarning": "Replace contents of the current project?",
   "gui.sharedMessages.loadFromComputerTitle": "Load from your computer",
+  "gui.sharedMessages.openAutoSave": "Turn on auto save",
+  "gui.sharedMessages.closeAutoSave": "Turn off auto save",
   "gui.gui.defaultProjectTitle": "ATC Project",
   "gui.alerts.workspaceEmpty": "Workspace is Empty or No starting event header",
   "gui.device.port": "Port",

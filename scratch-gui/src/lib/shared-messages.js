@@ -35,5 +35,15 @@ export default defineMessages({
         id: 'gui.projectLoader.loadError',
         defaultMessage: 'The project file that was selected failed to load.',
         description: 'An error that displays when a local project file fails to load.'
+    },
+    openAutoSave: {
+        id: 'gui.sharedMessages.openAutoSave',
+        defaultMessage: 'Turn on auto save',
+        description: 'Turn on auto save'
+    },
+    closeAutoSave: {
+        id: 'gui.sharedMessages.closeAutoSave',
+        defaultMessage: 'Turn off auto save',
+        description: 'Turn off auto save'
     }
 });

@@ -14,9 +14,6 @@ import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
 import Divider from "../divider/divider.jsx";
-import MenuBarMenu from "./menu-bar-menu.jsx";
-import { MenuItem } from "../menu/menu.jsx";
-import SB3Downloader from "../../containers/sb3-downloader.jsx";
 import MenuBarHOC from "../../containers/menu-bar-hoc.jsx";
 import {
     clearConnectionModalPeripheralName,
@@ -64,17 +61,15 @@ import collectMetadata from "../../lib/collect-metadata";
 import { svgAsDataUri, saveSvgAsPng } from "save-svg-as-png";
 import styles from "./menu-bar.css";
 
-import dropdownCaret from "./dropdown-caret.svg";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
 import photoIcon from "./icon--photo.svg";
 import { ipc as ipc_Renderer, verifyTypeConfig } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
-import fileIcon from './icon--file.svg';
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
-import { showAlertWithTimeout } from "../../reducers/alerts";
+import { openAutoSave, showAlertWithTimeout } from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
@@ -82,29 +77,8 @@ import { projectTitleInitialState, setProjectTitle } from '../../reducers/projec
 import { HELP_SOFT_PDF, HELP_FIRM_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
+import FilesMenu from "./files-menu.jsx";
 // import setProgramList from "../../lib/setProgramList.js";
-
-const saveNowMessage = (
-    <FormattedMessage
-        defaultMessage="Save now"
-        description="Menu bar item for saving now"
-        id="gui.menuBar.saveNow"
-    />
-);
-const newProjectMessage = (
-    <FormattedMessage
-        defaultMessage="New"
-        description="Menu bar item for creating a new project"
-        id="gui.menuBar.new"
-    />
-);
-const homeMessage = (
-    <FormattedMessage
-        defaultMessage="File homepage"
-        description="Menu bar item for Home"
-        id="gui.menuBar.home"
-    />
-);
 
 
 const MenuBarItemTooltip = ({
@@ -196,12 +170,10 @@ class MenuBar extends React.PureComponent {
             "handleProblem",
             "saveSvg",
             "downloadProject",
-            "autoSave"
         ]);
         this.timer = null;
         this.closeTimer = null;
         this.keyPress = debounce(this.handleKeyPress, 1000);
-        this.handleAutoSave = debounce(this.autoSave, 10000);
     }
 
     componentDidMount() {
@@ -214,16 +186,6 @@ class MenuBar extends React.PureComponent {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.autoSaveByBlockType === 'endDrag' || (prevProps.autoSaveByBlockType !== this.props.autoSaveByBlockType)) { //拖拽结束或更改时自动保存
-            this.handleAutoSave();
-        }
-    }
-
-    autoSave() {
-        setTimeout(() => this.handleClickSave(true));
     }
 
     handleClickHome() {
@@ -368,54 +330,6 @@ class MenuBar extends React.PureComponent {
         }
     }
 
-    buildAboutMenu(onClickAbout) {
-        if (!onClickAbout) {
-            // hide the button
-            return null;
-        }
-        if (typeof onClickAbout === "function") {
-            // make a button which calls a function
-            return <AboutButton onClick={onClickAbout} />;
-        }
-        // assume it's an array of objects
-        // each item must have a 'title' FormattedMessage and a 'handleClick' function
-        // generate a menu with items for each object in the array
-        return (
-            <div
-                className={classNames(styles.menuBarItem, styles.hoverable, {
-                    [styles.active]: this.props.aboutMenuOpen,
-                })}
-                onMouseUp={this.props.onRequestOpenAbout}
-            >
-                <img className={styles.aboutIcon} src={aboutIcon} alt="" />
-                <MenuBarMenu
-                    className={classNames(styles.menuBarMenu)}
-                    open={this.props.aboutMenuOpen}
-                    place={this.props.isRtl ? "right" : "left"}
-                    onRequestClose={this.props.onRequestCloseAbout}
-                >
-                    {onClickAbout.map((itemProps) => (
-                        <MenuItem
-                            key={itemProps.title}
-                            isRtl={this.props.isRtl}
-                            onClick={this.wrapAboutMenuCallback(
-                                itemProps.onClick
-                            )}
-                        >
-                            {itemProps.title}
-                        </MenuItem>
-                    ))}
-                </MenuBarMenu>
-            </div>
-        );
-    }
-
-    wrapAboutMenuCallback(callback) {
-        return () => {
-            callback();
-            this.props.onRequestCloseAbout();
-        };
-    }
 
     scanConnection() {
         this.timer = !this.timer && setInterval(() => {
@@ -554,7 +468,7 @@ class MenuBar extends React.PureComponent {
             });
         }
     }
-    
+
     async screenPrintWorkspace() {
         const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
         const transform = blocks.getAttribute('transform');
@@ -640,8 +554,6 @@ class MenuBar extends React.PureComponent {
     }
 
     render() {
-        // Show the About button only if we have a handler for it (like in the desktop app)
-        // const aboutButton = this.buildAboutMenu(this.props.onClickAbout);
         return (
             <Box className={classNames(this.props.className, styles.menuBar)}>
                 <Box className={styles.mainMenu}>
@@ -662,87 +574,28 @@ class MenuBar extends React.PureComponent {
                                 intl={this.props.intl}
                             />)}
                         {this.props.canManageFiles && (
-                            <div
-                                className={classNames(
-                                    styles.menuBarItem,
-                                    styles.hoverable,
-                                    {
-                                        [styles.active]:
-                                            this.props.fileMenuOpen,
-                                    }
-                                )}
-                                onMouseUp={this.props.onClickFile}
-                            >
-                                <img src={fileIcon} alt="" />
-                                <span className={styles.collapsibleLabel}>
-                                    <FormattedMessage
-                                        defaultMessage="File"
-                                        description="Text for file dropdown menu"
-                                        id="gui.menuBar.file"
-                                    />
-                                </span>
-                                <img src={dropdownCaret} alt="" />
-                                <MenuBarMenu
-                                    className={classNames(styles.menuBarMenu)}
-                                    open={this.props.fileMenuOpen}
-                                    place={this.props.isRtl ? "left" : "right"}
-                                    onRequestClose={
-                                        this.props.onRequestCloseFile
-                                    }
-                                >
-                                        <MenuItem
-                                            isRtl={this.props.isRtl}
-                                            onClick={this.handleClickHome}
-                                        >
-                                            {homeMessage}
-                                        </MenuItem>
-                                        <MenuItem
-                                            isRtl={this.props.isRtl}
-                                            onClick={this.handleClickNew}
-                                        >
-                                            {newProjectMessage}
-                                        </MenuItem>
-                                        <MenuItem
-                                            onClick={
-                                                this.handleClickSave
-                                            }
-                                        >
-                                            {saveNowMessage}
-                                            <span>（Ctrl+s）</span>
-                                        </MenuItem>
-                                        <MenuItem
-                                            onClick={
-                                                this.props
-                                                    .onStartSelectingFileUpload
-                                            }
-                                        >
-                                            {this.props.intl.formatMessage(
-                                                sharedMessages.loadFromComputerTitle
-                                            )}
-                                        </MenuItem>
-                                        <SB3Downloader>
-                                            {(
-                                                className
-                                            ) => (
-                                                <MenuItem
-                                                    className={className}
-                                                onClick={this.getSaveToComputerHandler(this.downloadProject)}
-                                                >
-                                                    <FormattedMessage
-                                                        defaultMessage="Save to your computer"
-                                                        description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
-                                                        id="gui.menuBar.downloadToComputer"
-                                                    />
-                                                    <span>（Ctrl+Shift+s）</span>
-                                                </MenuItem>
-                                            )}
-                                        </SB3Downloader>
-                                </MenuBarMenu>
-                            </div>
+                            <FilesMenu
+                                ref={this.filesMenuRef}
+                                fileMenuOpen={this.props.fileMenuOpen}
+                                onClickFile={this.props.onClickFile}
+                                isRtl={this.props.isRtl}
+                                onRequestClose={this.props.onRequestCloseFile}
+                                onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
+                                intl={this.props.intl}
+                                autoSaveByBlockType={this.props.autoSaveByBlockType}
+                                openAutoSave={this.props.openAutoSave}
+                                onOpenAutoSave={this.props.onOpenAutoSave}
+                                handleClickHome={this.handleClickHome}
+                                handleClickNew={this.handleClickNew}
+                                handleClickSave={this.handleClickSave}
+                                getSaveToComputerHandler={this.getSaveToComputerHandler}
+                                downloadProject={this.downloadProject}
+                                handleSetAutoSaveByBlockType={this.props.handleSetAutoSaveByBlockType}
+                            />
                         )}
                     </Box>
                     <Divider className={classNames(styles.divider)} />
-                    <div
+                    <Box
                         className={classNames(
                             styles.menuBarItem,
                             styles.hoverable,
@@ -757,9 +610,9 @@ class MenuBar extends React.PureComponent {
                                     defaultMessage="Unconnected"
                                     description="Text for menubar unconnected button"
                                     id="gui.menuBar.noConnection"
-                            />}
+                                />}
                         </span>
-                    </div>
+                    </Box>
                 </Box>
                 <Box className={classNames(styles.mainMenuInp)}>
                     <ProjectMenu
@@ -822,9 +675,9 @@ class MenuBar extends React.PureComponent {
                         <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
                         <span className={styles.collapsibleLabel}>
                             <FormattedMessage
-                            defaultMessage="Device"
-                            description="View device information"
-                            id="gui.menuBar.Device"
+                                defaultMessage="Device"
+                                description="View device information"
+                                id="gui.menuBar.Device"
                             />
                         </span>
                     </div>
@@ -983,7 +836,8 @@ const mapStateToProps = (state, ownProps) => {
         saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
         projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
         workspace: state.scratchGui.workspaceMetrics.workspace,
-        port: state.scratchGui.connectionModal.port
+        port: state.scratchGui.connectionModal.port,
+        openAutoSave: state.scratchGui.alerts.openAutoSave,
     };
 };
 
@@ -1026,7 +880,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
-    onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal())
+    onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal()),
+    onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
 });
 
 export default compose(

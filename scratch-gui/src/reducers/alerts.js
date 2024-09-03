@@ -8,6 +8,7 @@ const CLOSE_ALERTS_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERTS_WITH_ID';
 const CLOSE_ALERT_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERT_WITH_ID';
 const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
 const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
+const OPEN_AUTO_SAVE = 'scratch-gui/alerts/OPEN_AUTO_SAVE';
 /**
  * Initial state of alerts reducer
  *
@@ -57,7 +58,8 @@ const initialState = {
     alertsList: [],
     QrcodeVisible: false,
     upinVisible: false,
-    upinMsg: ''
+    upinMsg: '',
+    openAutoSave: true
 };
 
 const filterPopupAlerts = alertsList => (
@@ -160,6 +162,10 @@ const reducer = function (state, action) {
             return Object.assign({}, state, {
                 upinVisible: false
             });
+        case OPEN_AUTO_SAVE:
+            return Object.assign({}, state, {
+                openAutoSave: action.openAutoSave
+            })
         default:
             return state;
     }
@@ -267,6 +273,12 @@ const showUpin = function () {
     };
 };
 
+const openAutoSave = function (openAutoSave) {
+    return {
+        type: OPEN_AUTO_SAVE,
+        openAutoSave
+    };
+}
 export {
     reducer as default,
     initialState as alertsInitialState,
@@ -278,5 +290,6 @@ export {
     showExtensionAlert,
     showStandardAlert,
     showQrcode,
-    showUpin
+    showUpin,
+    openAutoSave
 };

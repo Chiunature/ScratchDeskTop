@@ -367,6 +367,7 @@ const GUIComponent = (props) => {
                                 intl={intl}
                                 onSetDeviceStatus={onSetDeviceStatus}
                                 autoSaveByBlockType={autoSaveByBlockType}
+                                handleSetAutoSaveByBlockType={handleSetAutoSaveByBlockType}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>
