@@ -10,6 +10,8 @@ const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
 const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
 const OPEN_AUTO_SAVE = 'scratch-gui/alerts/OPEN_AUTO_SAVE';
 const AUTO_SAVE_BY_BLOCKTYPE = 'scratch-gui/alerts/AUTO_SAVE_BY_BLOCKTYPE';
+const FILE_NOTIFY = 'scratch-gui/alerts/FILE_NOTIFY';
+
 /**
  * Initial state of alerts reducer
  *
@@ -43,7 +45,7 @@ function needUpin() {
         // const isUndefined = isType("Undefined");
         return upin !== newObj?.version;
     } catch (error) {
-        console.info(error);   
+        console.info(error);
         return false;
     }
 } */
@@ -61,7 +63,8 @@ const initialState = {
     upinVisible: false,
     upinMsg: '',
     openAutoSave: false,
-    autoSaveByBlockType: null
+    autoSaveByBlockType: null,
+    showFileNotify: false
 };
 
 const filterPopupAlerts = alertsList => (
@@ -171,6 +174,10 @@ const reducer = function (state, action) {
         case AUTO_SAVE_BY_BLOCKTYPE:
             return Object.assign({}, state, {
                 autoSaveByBlockType: action.autoSaveByBlockType
+            })
+        case FILE_NOTIFY:
+            return Object.assign({}, state, {
+                showFileNotify: action.showFileNotify
             })
         default:
             return state;
@@ -292,6 +299,13 @@ const onAutoSaveByBlockType = function (autoSaveByBlockType) {
         autoSaveByBlockType
     };
 }
+
+const showFileNotify = function (showFileNotify) {
+    return {
+        type: FILE_NOTIFY,
+        showFileNotify
+    };
+}
 export {
     reducer as default,
     initialState as alertsInitialState,
@@ -305,5 +319,6 @@ export {
     showQrcode,
     showUpin,
     openAutoSave,
-    onAutoSaveByBlockType
+    onAutoSaveByBlockType,
+    showFileNotify
 };

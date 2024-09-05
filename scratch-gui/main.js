@@ -262,7 +262,7 @@ function createWindow() {
             loadingWindow.hide();
             loadingWindow.close();
             mainWindow.show();
-            notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区无操作超过10秒会自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
+            notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
             if (app.isPackaged) {
                 watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
                 // 启用硬件加速

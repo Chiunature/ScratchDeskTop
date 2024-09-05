@@ -69,7 +69,7 @@ import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
-import { openAutoSave, showAlertWithTimeout } from "../../reducers/alerts";
+import {openAutoSave, showAlertWithTimeout, showFileNotify} from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
@@ -78,6 +78,7 @@ import { HELP_SOFT_PDF, HELP_FIRM_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
+import FilesSaveNotify from "../alerts/files-save-notify.jsx";
 // import setProgramList from "../../lib/setProgramList.js";
 
 
@@ -220,6 +221,7 @@ class MenuBar extends React.Component {
         this.getSaveToComputerHandler(() => this.downloadProject(onlySave, isAutoSave))();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
+        (this.props.openAutoSave && this.props.showFileNotify) && this.props.onShowFileNotify(false);
     }
 
     handleClickSaveAsCopy() {
@@ -555,56 +557,59 @@ class MenuBar extends React.Component {
 
     render() {
         return (
-            <Box className={classNames(this.props.className, styles.menuBar)}>
-                <Box className={styles.mainMenu}>
-                    <Box className={styles.fileGroup}>
-                        {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (
-                            <SettingsMenu
-                                reUpdateDriver={this.reUpdateDriver}
-                                handleHelp={this.handleHelp}
-                                handleProblem={this.handleProblem}
-                                canChangeLanguage={this.props.canChangeLanguage}
-                                canChangeTheme={this.props.canChangeTheme}
-                                canChangeHelp={this.props.canChangeHelp}
-                                isRtl={this.props.isRtl}
-                                onRequestClose={this.props.onRequestCloseSettings}
-                                onRequestOpen={this.props.onClickSettings}
-                                settingsMenuOpen={this.props.settingsMenuOpen}
-                                getMainMessage={this.props.getMainMessage}
-                                intl={this.props.intl}
-                            />)}
-                        {this.props.canManageFiles && (
-                            <FilesMenu
-                                ref={this.filesMenuRef}
-                                fileMenuOpen={this.props.fileMenuOpen}
-                                onClickFile={this.props.onClickFile}
-                                isRtl={this.props.isRtl}
-                                onRequestClose={this.props.onRequestCloseFile}
-                                onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
-                                intl={this.props.intl}
-                                autoSaveByBlockType={this.props.autoSaveByBlockType}
-                                openAutoSave={this.props.openAutoSave}
-                                onOpenAutoSave={this.props.onOpenAutoSave}
-                                handleClickHome={this.handleClickHome}
-                                handleClickNew={this.handleClickNew}
-                                handleClickSave={this.handleClickSave}
-                                getSaveToComputerHandler={this.getSaveToComputerHandler}
-                                downloadProject={this.downloadProject}
-                                handleSetAutoSaveByBlockType={this.props.handleSetAutoSaveByBlockType}
-                            />
-                        )}
-                    </Box>
-                    <Divider className={classNames(styles.divider)} />
-                    <Box
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator
-                        )}
-                        onMouseUp={this.handleConnectionMouseUp}
-                    >
-                        <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
-                        <span className={styles.collapsibleLabel}>
+            <>
+                <Box className={classNames(this.props.className, styles.menuBar)}>
+                    <Box className={styles.mainMenu}>
+                        <Box className={styles.fileGroup}>
+                            {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (
+                                <SettingsMenu
+                                    reUpdateDriver={this.reUpdateDriver}
+                                    handleHelp={this.handleHelp}
+                                    handleProblem={this.handleProblem}
+                                    canChangeLanguage={this.props.canChangeLanguage}
+                                    canChangeTheme={this.props.canChangeTheme}
+                                    canChangeHelp={this.props.canChangeHelp}
+                                    isRtl={this.props.isRtl}
+                                    onRequestClose={this.props.onRequestCloseSettings}
+                                    onRequestOpen={this.props.onClickSettings}
+                                    settingsMenuOpen={this.props.settingsMenuOpen}
+                                    getMainMessage={this.props.getMainMessage}
+                                    intl={this.props.intl}
+                                />)}
+                            {this.props.canManageFiles && (
+                                <FilesMenu
+                                    ref={this.filesMenuRef}
+                                    fileMenuOpen={this.props.fileMenuOpen}
+                                    onClickFile={this.props.onClickFile}
+                                    isRtl={this.props.isRtl}
+                                    onRequestClose={this.props.onRequestCloseFile}
+                                    onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
+                                    intl={this.props.intl}
+                                    autoSaveByBlockType={this.props.autoSaveByBlockType}
+                                    openAutoSave={this.props.openAutoSave}
+                                    onOpenAutoSave={this.props.onOpenAutoSave}
+                                    handleClickHome={this.handleClickHome}
+                                    handleClickNew={this.handleClickNew}
+                                    handleClickSave={this.handleClickSave}
+                                    getSaveToComputerHandler={this.getSaveToComputerHandler}
+                                    downloadProject={this.downloadProject}
+                                    handleSetAutoSaveByBlockType={this.props.handleSetAutoSaveByBlockType}
+                                    onShowFileNotify={this.props.onShowFileNotify}
+                                    showFileNotify={this.props.showFileNotify}
+                                />
+                            )}
+                        </Box>
+                        <Divider className={classNames(styles.divider)} />
+                        <Box
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator
+                            )}
+                            onMouseUp={this.handleConnectionMouseUp}
+                        >
+                            <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
+                            <span className={styles.collapsibleLabel}>
                             {this.props.peripheralName ? this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('(')) :
                                 <FormattedMessage
                                     defaultMessage="Unconnected"
@@ -612,96 +617,98 @@ class MenuBar extends React.Component {
                                     id="gui.menuBar.noConnection"
                                 />}
                         </span>
+                        </Box>
                     </Box>
-                </Box>
-                <Box className={classNames(styles.mainMenuInp)}>
-                    <ProjectMenu
-                        vm={this.props.vm}
-                        intl={this.props.intl}
-                        MenuBarItemTooltip={MenuBarItemTooltip}
-                        downloadProject={this.downloadProject}
-                        projectTitle={this.props.projectTitle}
-                        onSetProjectTitle={this.props.onSetProjectTitle}
-                        saveProjectSb3={this.props.saveProjectSb3}
-                        handleClickSave={this.handleClickSave}
-                    />
-                </Box>
-                <Box className={classNames(styles.mainMenuTwo)}>
-                    <div
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator,
-                            {
-                                [styles.active]: "",
-                            }
-                        )}
-                        onClick={this.saveSvg}
-                    >
-                        <img className={styles.screenShotLogo} src={photoIcon} alt="" />
-                    </div>
-                    <Divider className={classNames(styles.divider)} />
-                    <div
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator,
-                            {
-                                [styles.active]: "",
-                            }
-                        )}
-                        onMouseUp={() => this.props.onOpenCascaderPanelModal()}
-                    >
-                        <img className={styles.unconnectedIcon} src={foucsUpdateIcon} alt="" />
-                        <span className={styles.collapsibleLabel}>
+                    <Box className={classNames(styles.mainMenuInp)}>
+                        <ProjectMenu
+                            vm={this.props.vm}
+                            intl={this.props.intl}
+                            MenuBarItemTooltip={MenuBarItemTooltip}
+                            downloadProject={this.downloadProject}
+                            projectTitle={this.props.projectTitle}
+                            onSetProjectTitle={this.props.onSetProjectTitle}
+                            saveProjectSb3={this.props.saveProjectSb3}
+                            handleClickSave={this.handleClickSave}
+                        />
+                    </Box>
+                    <Box className={classNames(styles.mainMenuTwo)}>
+                        <div
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onClick={this.saveSvg}
+                        >
+                            <img className={styles.screenShotLogo} src={photoIcon} alt="" />
+                        </div>
+                        <Divider className={classNames(styles.divider)} />
+                        <div
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onMouseUp={() => this.props.onOpenCascaderPanelModal()}
+                        >
+                            <img className={styles.unconnectedIcon} src={foucsUpdateIcon} alt="" />
+                            <span className={styles.collapsibleLabel}>
                             <FormattedMessage
                                 defaultMessage="Force updates"
                                 description="Force updates"
                                 id="gui.device.updateSensing"
                             />
                         </span>
-                    </div>
-                    <div
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator,
-                            {
-                                [styles.active]: "",
-                            }
-                        )}
-                        onClick={this.showDeviceCards}
-                    >
-                        <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
-                        <span className={styles.collapsibleLabel}>
+                        </div>
+                        <div
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onClick={this.showDeviceCards}
+                        >
+                            <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
+                            <span className={styles.collapsibleLabel}>
                             <FormattedMessage
                                 defaultMessage="Device"
                                 description="View device information"
                                 id="gui.menuBar.Device"
                             />
                         </span>
-                    </div>
-                    <div
-                        id="menuBarGen"
-                        className={classNames(
-                            styles.menuBarItem,
-                            styles.hoverable,
-                            styles.generator,
-                            {
-                                [styles.active]: "",
-                            }
-                        )}
-                        onClick={() => this.props.onSetGen(!this.props.isGen)}
-                    >
-                        <img className={styles.unconnectedIcon} src={genIcon} alt="" />
-                        <span className={styles.collapsibleLabel}><FormattedMessage
-                            defaultMessage="Generator"
-                            description="Text for menubar Generator button"
-                            id="gui.menuBar.Generator"
-                        /></span>
-                    </div>
+                        </div>
+                        <div
+                            id="menuBarGen"
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onClick={() => this.props.onSetGen(!this.props.isGen)}
+                        >
+                            <img className={styles.unconnectedIcon} src={genIcon} alt="" />
+                            <span className={styles.collapsibleLabel}><FormattedMessage
+                                defaultMessage="Generator"
+                                description="Text for menubar Generator button"
+                                id="gui.menuBar.Generator"
+                            /></span>
+                        </div>
+                    </Box>
                 </Box>
-            </Box>
+                <FilesSaveNotify showFileNotify={this.props.showFileNotify} onShowFileNotify={this.props.onShowFileNotify} />
+            </>
         );
     }
 }
@@ -838,6 +845,7 @@ const mapStateToProps = (state, ownProps) => {
         workspace: state.scratchGui.workspaceMetrics.workspace,
         port: state.scratchGui.connectionModal.port,
         openAutoSave: state.scratchGui.alerts.openAutoSave,
+        showFileNotify: state.scratchGui.alerts.showFileNotify
     };
 };
 
@@ -882,6 +890,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
     onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal()),
     onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
+    onShowFileNotify: (fileNotify) => dispatch(showFileNotify(fileNotify)),
 });
 
 export default compose(

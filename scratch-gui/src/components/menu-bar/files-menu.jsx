@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import classNames from "classnames";
 import Box from "../box/box.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
@@ -48,8 +48,11 @@ function FilesMenu({
     openAutoSave,
     onOpenAutoSave,
     autoSaveByBlockType,
-    handleSetAutoSaveByBlockType
+    handleSetAutoSaveByBlockType,
+    onShowFileNotify,
+    showFileNotify,
 }) {
+    let [timer, setTimer] = useState(null);
 
     useEffect(() => {
         const flag = window.myAPI.getStoreValue('autoSave');
@@ -60,18 +63,29 @@ function FilesMenu({
         }
     }, [])
 
-    const handleAutoSave = useCallback(debounce(autoSave, 10000), [openAutoSave]);
+    // const handleAutoSave = useCallback(debounce(autoSave, 10000), [openAutoSave]);
 
     useEffect(() => {
         if (autoSaveByBlockType === 'endDrag' || autoSaveByBlockType === 'change') {
-            handleAutoSave();
+            if(openAutoSave) {
+                const t = !timer && setTimeout(() => {
+                    autoSave();
+                    clearTimeout(timer);
+                    setTimer(null);
+                }, 10 * 60 * 1000);
+                t && setTimer(t);
+
+                !showFileNotify && onShowFileNotify(true);
+            }
+
+            handleSetAutoSaveByBlockType(null);
+
+            // handleAutoSave();
         }
     }, [autoSaveByBlockType])
 
-    
 
     function autoSave() {
-        handleSetAutoSaveByBlockType(null);
         if (openAutoSave) {
             setTimeout(() => handleClickSave(true));
         }
@@ -86,7 +100,6 @@ function FilesMenu({
     function checkNullOrUndefined(value) {
         return Object.prototype.toString.call(value) === '[object Undefined]' || Object.prototype.toString.call(value) === '[object Null]';
     }
-
 
     return (
         <Box
