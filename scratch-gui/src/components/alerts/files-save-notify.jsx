@@ -22,18 +22,22 @@ function FilesSaveNotify({showFileNotify, onShowFileNotify}) {
         return showFileNotify;
     }, [showFileNotify])
 
+    function openCacheDir() {
+        window.myAPI.openCacheDir();
+    }
+
     return (
         <Portal>
             <Box className={classNames(styles.fileSaveBox, !flag && styles.hideNotify)}>
                 <Box className={styles.fileSaveHeader}>
-                    <span>通知:</span>
+                    <span>通知(关闭即此次不再显示):</span>
                     <CloseButton className={styles.alertCloseButton} onClick={closeFileNotify}></CloseButton>
                 </Box>
                 <Box className={styles.fileSaveBody}>
                     <img src={fileIcon} alt=""/>
                     <div className={styles.fileText}>
                         <span>文件在10分钟后会自动备份</span>
-                        <span>保存文件</span>
+                        <span onClick={openCacheDir}>打开保存文件的目录</span>
                     </div>
                 </Box>
             </Box>

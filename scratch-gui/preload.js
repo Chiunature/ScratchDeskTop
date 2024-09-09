@@ -351,6 +351,12 @@ function getHomeDir() {
     })
 }
 
+function openCacheDir() {
+    const homedir = path.join(os.homedir(), 'Documents');
+    const dir = homedir + '\\NEW-AI\\';
+    shell.openPath(dir);
+}
+
 
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
@@ -377,5 +383,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     onGetVersion: async () => await ipcInvoke('app-version'),
     sleep,
     openExternal: (url) => shell.openExternal(url),
-    getHomeDir
+    getHomeDir,
+    openCacheDir
 });
