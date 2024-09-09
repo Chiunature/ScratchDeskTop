@@ -76,6 +76,11 @@ function FilesMenu({
                 t && setTimer(t);
 
                 !showFileNotify && onShowFileNotify(true);
+            } else {
+                if(!timer) {
+                    clearTimeout(timer);
+                    setTimer(null);
+                }
             }
 
             handleSetAutoSaveByBlockType(null);
