@@ -24,7 +24,7 @@
  */
 const serialport = require("serialport");
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, crashReporter, Notification } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, Notification } = electron;
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const url = require("url");
@@ -54,16 +54,16 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
-// const crashDumpsDir = app.getPath('crashDumps');
-// console.info('Crash file path=>', crashDumpsDir + '/reports');
+/*const crashDumpsDir = app.getPath('crashDumps');
+console.info('Crash file path=>', crashDumpsDir + '/reports');
 // 开启crash捕获
-crashReporter.start({
+ crashReporter.start({
     productName: 'NEW-AI',
     companyName: 'Dr.luck',
     submitURL: 'https://zsff.drluck.club/ATC/crash-reports',
     uploadToServer: false,
     ignoreSystemCrashHandler: false, // 不忽略系统自带的奔溃处理
-});
+}); */
 
 const options = {
     sandbox: false,
