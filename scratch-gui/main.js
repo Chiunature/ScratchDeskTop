@@ -52,10 +52,10 @@ console.info = logger.info || logger.warn;
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
-let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc, crashDumpsDir = '';
+let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
-crashDumpsDir = app.getPath('crashDumps');
-console.info('Crash file path=>', crashDumpsDir + '/reports');
+// const crashDumpsDir = app.getPath('crashDumps');
+// console.info('Crash file path=>', crashDumpsDir + '/reports');
 // 开启crash捕获
 crashReporter.start({
     productName: 'NEW-AI',
@@ -385,10 +385,10 @@ app.on("ready", () => {
 });
 
 // GPU进程崩溃
-app.on('gpu-process-crashed', function () {
+/* app.on('gpu-process-crashed', function () {
     console.info('GPU进程崩溃,程序退出');
     app.exit(0);
-});
+}); */
 
 // 所有窗口关闭时退出应用.
 app.on("window-all-closed", function () {
