@@ -63,7 +63,21 @@ function FilesMenu({
         }
     }, [])
 
-    // const handleAutoSave = useCallback(debounce(autoSave, 10000), [openAutoSave]);
+    useEffect(() => {
+        if (openAutoSave) {
+            window.myAPI.ipcRender({
+                eventName: 'auto-save-file-before-close',
+                callback: () => {
+                    clearTimeout(timer);
+                    setTimer(null);
+                    handleClickSave(true);
+                    window.myAPI.ipcInvoke('return-close-app', openAutoSave);
+                }
+            })
+        } else {
+            window.myAPI.delEvents('auto-save-file-before-close');
+        }
+    }, [openAutoSave])
 
     useEffect(() => {
         if (autoSaveByBlockType === 'endDrag' || autoSaveByBlockType === 'change') {
@@ -85,7 +99,6 @@ function FilesMenu({
 
             handleSetAutoSaveByBlockType(null);
 
-            // handleAutoSave();
         }
     }, [autoSaveByBlockType])
 

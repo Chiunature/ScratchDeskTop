@@ -105,10 +105,10 @@ async function updater(win, autoUpdate) {
     return updateFunc;
 }
 
-function notice(title, body){
+function notice(title, body) {
     return new Promise((ok, fail) => {
-        if(!Notification.isSupported()) fail("当前系统不支持通知")
-        let ps = typeof(title) == 'object'? title : {title, body}
+        if (!Notification.isSupported()) fail("当前系统不支持通知")
+        let ps = typeof (title) == 'object' ? title : { title, body }
         let n = new Notification(ps)
         n.on('click', ok)
         n.show()
@@ -238,98 +238,97 @@ function openPDFWindow() {
 function createWindow() {
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-        mainWindow = new BrowserWindow({
-            width: width,
-            height: height,
-            x: 0,
-            y: 0,
-            show: false,
-            minWidth: 1020,
-            minHeight: 750,
-            partition: 'persist:window-id' + getRandomString(),
-            webPreferences: options,
-            maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
+    mainWindow = new BrowserWindow({
+        width: width,
+        height: height,
+        x: 0,
+        y: 0,
+        show: false,
+        minWidth: 1020,
+        minHeight: 750,
+        partition: 'persist:window-id' + getRandomString(),
+        webPreferences: options,
+        maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
+    });
+
+    handleMenuAndDevtool(mainWindow);
+
+    mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
+        details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
+        callback({ requestHeaders: details.requestHeaders });
+    });
+
+    mainWindow.once("ready-to-show", () => {
+        loadingWindow.hide();
+        loadingWindow.close();
+        mainWindow.show();
+        if (app.isPackaged) {
+            watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
+            // 启用硬件加速
+            app.commandLine.appendSwitch('--enable-gpu-rasterization');
+        }
+    });
+
+    getRenderVersion();
+    openSerialPort();
+    // 开启子线程操作文件缓存
+    handleChildProcess();
+    // 防止页面失去焦点
+    _handleOnFocus();
+    // 保存文件到本地
+    saveFileToLocal();
+    // 打开文件位置
+    _openFileLocation();
+    openPDFWindow();
+
+
+    // 设置静态资源路径
+    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
+    ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
+        if (!mainMsg && args.msg) {
+            mainMsg = { ...args.msg };
+        }
+        notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
+        return updater(mainWindow, args.autoUpdate);
+    });
+    // 检测电脑是否安装了驱动
+    ipcHandle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
+        if (flag === ipc.DRIVER.INSTALL) return;
+        //是否需要重装驱动
+        if (flag === ipc.DRIVER.REUPDATE) {
+            return await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
+        }
+        return await _checkInstallDriver({ message: mainMsg['installDriver'] });
+    });
+
+    // 关闭window时触发下列事件.
+    mainWindow.on("close", async (e) => {
+        e.preventDefault();
+        if (isUpdate) return;
+        const { response } = await dialog.showMessageBox({
+            type: "info",
+            title: " ",
+            message: mainMsg.exit,
+            buttons: [mainMsg['cancel'], mainMsg['confirm']],
+            defaultId: 0,
+            cancelId: 0,
         });
-
-        handleMenuAndDevtool(mainWindow);
-
-        mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
-            details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
-            callback({ requestHeaders: details.requestHeaders });
-        });
-
-        mainWindow.once("ready-to-show", () => {
-            loadingWindow.hide();
-            loadingWindow.close();
-            mainWindow.show();
-            if (app.isPackaged) {
-                watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
-                // 启用硬件加速
-                app.commandLine.appendSwitch('--enable-gpu-rasterization');
+        if (response === 1) {
+            if (updateFunc && typeof updateFunc === 'function') {
+                dialog.showMessageBox({
+                    type: "info",
+                    buttons: ["OK"],
+                    title: mainMsg['updateApp'],
+                    message: mainMsg['updating'],
+                    detail: mainMsg['waiting'],
+                }).catch();
+                const res = await updateFunc();
+                res && app.exit();
+                return;
             }
-        });
-
-        getRenderVersion();
-        openSerialPort();
-        // 开启子线程操作文件缓存
-        handleChildProcess();
-        // 防止页面失去焦点
-        _handleOnFocus();
-        // 保存文件到本地
-        saveFileToLocal();
-        // 打开文件位置
-        _openFileLocation();
-        openPDFWindow();
-
-
-        // 设置静态资源路径
-        ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
-        ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
-            if (!mainMsg && args.msg) {
-                mainMsg = { ...args.msg };
-            }
-            notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
-            return updater(mainWindow, args.autoUpdate);
-        });
-        // 检测电脑是否安装了驱动
-        ipcHandle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
-            if (flag === ipc.DRIVER.INSTALL) return;
-            //是否需要重装驱动
-            if (flag === ipc.DRIVER.REUPDATE) {
-                return await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
-            }
-            return await _checkInstallDriver({ message: mainMsg['installDriver'] });
-        });
-
-        // 关闭window时触发下列事件.
-        mainWindow.on("close", async (e) => {
-            e.preventDefault();
-            if (isUpdate) return;
-            const { response } = await dialog.showMessageBox({
-                type: "info",
-                title: " ",
-                message: mainMsg.exit,
-                buttons: [mainMsg['cancel'], mainMsg['confirm']],
-                defaultId: 0,
-                cancelId: 0,
-            });
-            if (response === 1) {
-                if (updateFunc && typeof updateFunc === 'function') {
-                    dialog.showMessageBox({
-                        type: "info",
-                        buttons: ["OK"],
-                        title: mainMsg['updateApp'],
-                        message: mainMsg['updating'],
-                        detail: mainMsg['waiting'],
-                    }).catch();
-                    const res = await updateFunc();
-                    res && app.exit();
-                    return;
-                }
-                mainWindow = null;
-                _delEvents();
-                app.exit();
-            }
+            _handleSaveBeforClose();
+            app.exit();
+        }
     });
 
     async function _checkInstallDriver({ title = ' ', message }) {
@@ -349,6 +348,23 @@ function createWindow() {
         }
     }
 
+    function _handleSaveBeforClose() {
+        mainWindow.webContents.send('auto-save-file-before-close');
+        ipcHandle('return-close-app', (event, args) => {
+            args && dialog.showMessageBox({
+                type: "info",
+                buttons: ["OK"],
+                title: "备份",
+                message: "自动备份",
+                detail: mainMsg['waiting'],
+            }).catch();
+
+            setTimeout(() => app.exit(), 2000);
+
+            return;
+        })
+    }
+
     function _handleOnFocus() {
         ipcMain.on('mainOnFocus', () => {
             mainWindow.blur();
@@ -363,14 +379,6 @@ function createWindow() {
         })
     }
 
-    //退出客户端去掉事件监听
-    function _delEvents() {
-        const eventList = ipcMain.eventNames();
-        eventList.forEach(item => {
-            ipcMain.removeAllListeners([item]);
-        });
-    }
-
     function getRenderVersion() {
         ipcHandle('app-version', () => {
             const ver = app.getVersion();
@@ -378,6 +386,15 @@ function createWindow() {
         })
     }
 }
+
+//退出客户端去掉事件监听
+/* function _delEvents() {
+    const eventList = ipcMain.eventNames();
+    eventList.forEach(item => {
+        ipcMain.removeAllListeners([item]);
+    });
+} */
+
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on("ready", () => {
