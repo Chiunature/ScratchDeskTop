@@ -109,8 +109,6 @@ class Serialport extends Common {
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
         //开始重启主机监听
         this.restartMain(ipc_Main.SEND_OR_ON.RESTART);
-        //与主机交互
-        this.interactive(ipc_Main.SEND_OR_ON.MATRIX);
         //传感器更新
         this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
     }
@@ -360,8 +358,7 @@ class Serialport extends Common {
             if (!receiveData) {
               return;
             }
-
-            this.checkIsDebug(receiveData, debugReg);
+            // this.checkIsDebug(receiveData, debugReg);
 
             //开启设备数据监控监听
             this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);

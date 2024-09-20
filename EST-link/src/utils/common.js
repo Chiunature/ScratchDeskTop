@@ -304,8 +304,8 @@ class Common {
         return 0xdc;
       case DELETE_EXE:
         return 0xe8;
-            case SOURCE_SOUNDS:
-                return 0xec;
+      case SOURCE_SOUNDS:
+        return 0xec;
       default:
         break;
     }
@@ -381,7 +381,7 @@ class Common {
     const list = this.getBufferArray(data);
     const start = list.indexOf(0x5a);
     let newList = [];
-    if (list[start] === 0x5a && list[start + 1] === 0x98 && list[start + 2] === 0x97) {
+    if (list[start] === 0x5a && (list[start + 1] === 0x97 || list[start + 1] === 0x98) && (list[start + 2] === 0x97 || list[start + 2] === 0x98)) {
       for (let i = start; i < list[start + 3] + 7; i++) {
         newList.push(list[i]);
       }
@@ -412,8 +412,10 @@ class Common {
         return false;
       case signType.BOOT.FILENAME:    //文件名
       case signType.BOOT.BIN:         //文件数据
-        const listBin = [0x5A, 0x98, 0x97, 0x01, 0xfd, 0x01, 0x88, 0xA5];
-        return _intercept(listBin, data);
+        const listBin = data.slice(0, -2);
+        let sum = 0;
+        listBin.forEach(item => sum += item)
+        return _intercept(listBin.concat((sum & 0xff), data[data.length - 1]), data);
       default:
         return false;
     }

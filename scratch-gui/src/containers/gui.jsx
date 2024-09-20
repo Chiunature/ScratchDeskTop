@@ -72,7 +72,6 @@ class GUI extends React.Component {
                 this.downloadSource();
                 this.getFirmwareFiles();
                 this.watchDevice();
-                this.matrixSend('FieldMatrix');
                 // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
             }, { timeout: 500 })
@@ -201,12 +200,12 @@ class GUI extends React.Component {
         });
     }
 
-    matrixSend(blockName) {
+    /* matrixSend(blockName) {
         const that = this;
         ScratchBlocks[blockName].callback = (type, obj) => {
             if (!that.props.completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, obj, blockName } });
         }
-    }
+    } */
 
     proxyMotor(proxyVal, type, data) {
         if (!ScratchBlocks[type].proxy) return;
@@ -353,7 +352,6 @@ class GUI extends React.Component {
                 myBlockList: this.props.matchMyBlock,
                 msgTaskBlockList: this.props.msgTaskBlock,
                 soundsList: this.props.soundslist,
-                open_gyroscope_calibration: ScratchBlocks['cake'].OPEN_GYROSCOPE_CALIBRATION.size > 0 ? 1 : 0
             });
 
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);

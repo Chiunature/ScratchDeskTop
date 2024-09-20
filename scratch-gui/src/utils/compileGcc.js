@@ -37,11 +37,11 @@ import { APLICATION } from "../config/json/LB_USER.json";
 import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 
 
-const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\)\;\s*\}\;\s{1}/g;
-const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\}\;\s{1}/;
+const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\);\s*\};\s{1}/g;
+const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\};\s{1}/;
 const reg_MyBlock = /\s{1}\/\*MyBlock Write\d*\*\/[\s\S]*?\/\*MyBlock End\d*\*\/\s{1}/g;
-const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
-const reg_OpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
+// const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
+// const reg_OpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 const reg_Task_MsgBlock = /\s{1}\/\*MsgBlock Write\*\/[\s\S]*?\/\*MsgBlock End\*\/\s{1}/;
 
 class Compile {
@@ -100,27 +100,21 @@ class Compile {
      * @param {String} codeStr
      * @param {String} taskStr
      * @param {String} myStr
-     * @param handlerStr
-     * @param gyroscopeStr
      * @param msgBlockStr
      * @returns
      */
-    async handleCode(spath, codeStr, taskStr, myStr, handlerStr, gyroscopeStr, msgBlockStr) {
+    async handleCode(spath, codeStr, taskStr, myStr, msgBlockStr) {
         //读取Aplication.c文件
         const result = await window.myAPI.readFiles(APLICATION, spath);
-        // 检测并修改偏航角宏变量
-        const newResult = await this.changeFileByReg(result, reg_OpenGyroscope, gyroscopeStr);
         //自制积木块放入前面
-        const newMy = await this.changeFileByReg(newResult, reg_MyBlock, myStr);
+        const newMy = await this.changeFileByReg(result, reg_MyBlock, myStr);
         //替换消息积木
         const newMsg = await this.changeFileByReg(newMy, reg_Task_MsgBlock, msgBlockStr);
         //替换void USER_Aplication部分
         const newUser = await this.changeFileByReg(newMsg, reg_USER_Aplication, codeStr);
-        //替换TaskHandle_t部分
-        const newTaskHandler = await this.changeFileByReg(newUser, reg_Task_Handler, handlerStr);
         //替换MallocTask_Info User_Task[]部分
         const taskIntoStr = Task_Info(taskStr);
-        const newTaskInto = await this.changeFileByReg(newTaskHandler, reg_Task_Info, taskIntoStr);
+        const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
         //重新写入Aplication.c文件
         return await window.myAPI.writeFiles(APLICATION, newTaskInto, spath);
     }
@@ -130,20 +124,17 @@ class Compile {
      * @param options
      */
     async runGcc(options) {
-        const {bufferList, myBlockList, selectedExe, verifyType, open_gyroscope_calibration, msgTaskBlockList}=options;
+        const {bufferList, myBlockList, selectedExe, verifyType, msgTaskBlockList}=options;
 
         let codeStr = '',
             taskStr = '',
-            handlerStr = '',
             myBlockStr = Task_MyBlock(Array.isArray(myBlockList) ? myBlockList.join('\n') : myBlockList),
-            msgBlockStr = Task_MsgBlock(msgTaskBlockList),
-            gyroscopeStr = Task_Open_Gyroscope_Calibration(open_gyroscope_calibration);
+            msgBlockStr = Task_MsgBlock(msgTaskBlockList);
 
         bufferList.forEach((el, index) => {
             if (el) {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
-                handlerStr += Task_Handler(index);
             }
         })
 
@@ -154,7 +145,7 @@ class Compile {
         }
 
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, handlerStr, gyroscopeStr, msgBlockStr);
+        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, msgBlockStr);
         //编译
         if (appRes) {
             window.myAPI.commendMake(static_path).then(() => {

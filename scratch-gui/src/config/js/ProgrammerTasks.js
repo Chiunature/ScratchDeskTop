@@ -28,7 +28,7 @@ function Task_Stack(item, index) {
 }
 
 function Task_Info_Item(index) {
-    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n\t\t.USER_TASK_Handler = &UserHandle${index}\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 512,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n},\n`;
 }
 
 function Task_Info(taskStr) {
@@ -54,7 +54,7 @@ function Task_Info_ItemOfMsgBlock(el) {
     const matchNum = numReg.exec(el);
     const indexStr = match ? match[1] : '';
     const numStr = matchNum ? matchNum[1] : 0;
-    return `\n{\r\n\t\t.Task_Name = "${indexStr}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskNumber = ${numStr},\r\n\t\t.TaskFunction = ${indexStr},\r\n\t\t.USER_TASK_Handler = NULL\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "${indexStr}",\r\n\t\t.Task_StackSize = 256,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskNumber = ${numStr},\r\n\t\t.TaskFunction = ${indexStr},\r\n},\n`;
 }
 
 function Task_MsgBlock(msgList) {
