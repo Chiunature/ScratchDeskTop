@@ -58,7 +58,7 @@ Blockly.cake['matrix_lamp'] = function (block) {
     }
 
     // TODO: Assemble cake into code variable.
-    let code = `char BMP${no}[] = {${lp}};\nmatrix_lamp(NULL, BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
+    let code = `char BMP${no}[] = {${lp}};\nmatrix_lamp(BMP${no}, ${Blockly.cake.toStr(newColor) ? newColor : '"' + newColor + '"'});\n`;
     return code;
 };
 
@@ -74,7 +74,7 @@ Blockly.cake['matrix_lamp_set'] = function (block) {
         brightness = parseInt(brightness / 10) + '';
     }
     // TODO: Assemble cake into code variable.
-    let code = `matrix_set_lamp(NULL, ${Blockly.cake.toStr(brightness) ? brightness : '"' + brightness + '"'});\n`;
+    let code = `matrix_set_lamp(${Blockly.cake.toStr(brightness) ? brightness : '"' + brightness + '"'});\n`;
     return code;
 };
 
