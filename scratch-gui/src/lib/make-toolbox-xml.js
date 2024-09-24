@@ -635,6 +635,167 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             ${blockSeparator}
             <block type="sensing_reset_timer"></block>
             ${categorySeparator}
+            ${blockSeparator}
+             <block type="sensing_camera_find_color_block">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="R">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="G">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="B">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="TOLERANCE">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_find_color_state"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_find_color_block_x"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_find_color_block_y"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_find_color_pixel"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_middle_find">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="RADIUS">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="R">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="G">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="B">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_middle_find_red"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_middle_find_green"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_middle_find_blue"></block>
+            ${blockSeparator}
+            <block type="sensing_camera_extern_color">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_extern_red">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_extern_green">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_extern_blue">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_find_line">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camer_find_line_state" />
+            ${blockSeparator}
+            <block type="sensing_camer_find_line_showsex" />
+            ${blockSeparator}
+            <block type="sensing_camer_find_line_rho" />
+            ${blockSeparator}
+            <block type="sensing_camer_find_line_theta" />
+            ${blockSeparator}
+            <block type="sensing_camera_number_check">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camer_number_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_get_number" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_check">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_face_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_x" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_y" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_trace">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_face_trace_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_trace_x" />
+            ${blockSeparator}
+            <block type="sensing_camera_face_trace_y" />
+            ${blockSeparator}
+            <block type="sensing_camera_qr_check">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_qr_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_id" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_x" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_y" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_roll" />
+            ${blockSeparator}
+            <block type="sensing_camera_apriltag_distance" />
+            ${blockSeparator}
+            <block type="sensing_camera_characteristic">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_camera_characteristic_state" />
+            ${blockSeparator}
+            <block type="sensing_camera_characteristic_matchine" />
+            ${blockSeparator}
+            <block type="sensing_camera_characteristic_roll" />
+            ${categorySeparator}
         </category>
     `;
 };
