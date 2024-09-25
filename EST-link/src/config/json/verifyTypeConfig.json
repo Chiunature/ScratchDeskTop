@@ -16,5 +16,6 @@
     "RUN_APP": "RUN_APP",
     "NO_RUN_APP": "NO_RUN_APP",
     "DOING": "DOING",
-    "DONE": "DONE"
+    "DONE": "DONE",
+    "FIRMWARE_VERSION": "215"
 }

@@ -26,7 +26,6 @@ import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import getMainMsg from "../lib/alerts/message.js";
 
 
-const FIRMWARE_VERSION = '214';
 class ConnectionModal extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -49,7 +48,7 @@ class ConnectionModal extends React.PureComponent {
             extension: extensionData.find(
                 (ext) => ext.extensionId === props.extensionId
             ),
-            firewareVersion: parseInt(FIRMWARE_VERSION),
+            firewareVersion: parseInt(verifyTypeConfig.FIRMWARE_VERSION),
             phase: props.vm.getPeripheralIsConnected(props.extensionId)
                 ? PHASES.connected
                 : PHASES.scanning,
@@ -64,7 +63,7 @@ class ConnectionModal extends React.PureComponent {
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
         const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const fv = window.myAPI.getVersion(spath) || FIRMWARE_VERSION;
+        const fv = window.myAPI.getVersion(spath) || verifyTypeConfig.FIRMWARE_VERSION;
         this.setState({ firewareVersion: parseInt(fv) });
     }
 

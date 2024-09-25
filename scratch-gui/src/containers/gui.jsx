@@ -50,7 +50,6 @@ import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 
-const FIRMWARE_VERSION = '214';
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -264,7 +263,7 @@ class GUI extends React.Component {
         return new Promise((resolve) => {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
             const { device } = instructions;
-            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIRMWARE_VERSION;
+            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || verifyTypeConfig.FIRMWARE_VERSION;
             if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.versionlist?.ver === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
@@ -314,7 +313,7 @@ class GUI extends React.Component {
     async handleCompile(isRun) {
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
-            const firmwareVersion = window.myAPI.getVersion(static_path) || FIRMWARE_VERSION;
+            const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
             if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
                 return;
