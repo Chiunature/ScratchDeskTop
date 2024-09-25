@@ -53,6 +53,12 @@ const blockColors = {
         tertiary: '#2E8EB8',
         quaternary: '#2E8EB8'
     },
+    sensing_camera: {
+        "primary": "#0fbd8c",
+        "secondary": "#0fbd8c",
+        "tertiary": "#0b8e69",
+        "quaternary": "#0b8e69"
+    },
     pen: {
         primary: '#0fBD8C',
         secondary: '#0DA57A',

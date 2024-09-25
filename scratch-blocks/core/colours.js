@@ -30,7 +30,7 @@ Blockly.Colours = {
     "secondary": "#4280D7",
     "tertiary": "#00b0f9"
   },
-  motor: {
+  "motor": {
     "primary": "#64c7f0",
     "secondary": "#00b0f9",
     "tertiary": "#00b0f9",
@@ -70,6 +70,11 @@ Blockly.Colours = {
     "primary": "#f18e2f",
     "secondary": "#f18e2f",
     "tertiary": "#d67214"
+  },
+  "sensing_camera": {
+    "primary": "#0fbd8c",
+    "secondary": "#0fbd8c",
+    "tertiary": "#0fbd8c",
   },
   "pen": {
     "primary": "#0fBD8C",

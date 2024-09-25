@@ -457,7 +457,7 @@ Blockly.Msg.CATEGORY_SENSING = 'Sensing';
 Blockly.Msg.CATEGORY_OPERATORS = 'Operators';
 Blockly.Msg.CATEGORY_VARIABLES = 'Variables';
 Blockly.Msg.CATEGORY_MYBLOCKS = 'My Blocks';
-
+Blockly.Msg.CATEGORY_SENSING_CAMERA = 'Camera';
 // Context menus
 Blockly.Msg.COPY = 'Copy';
 Blockly.Msg.PASTE = 'Paste';
