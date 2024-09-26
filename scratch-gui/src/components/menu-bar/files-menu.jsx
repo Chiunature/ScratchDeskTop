@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classNames from "classnames";
 import Box from "../box/box.jsx";
 import MenuBarMenu from "./menu-bar-menu.jsx";
@@ -9,7 +9,7 @@ import fileIcon from './icon--file.svg';
 import dropdownCaret from "./dropdown-caret.svg";
 import sharedMessages from "../../lib/shared-messages";
 import { FormattedMessage } from "react-intl";
-import debounce from "lodash.debounce";
+
 
 const saveNowMessage = (
     <FormattedMessage
@@ -53,6 +53,7 @@ function FilesMenu({
     showFileNotify,
 }) {
     let [timer, setTimer] = useState(null);
+    let [mount, setMount] = useState(false);
 
     useEffect(() => {
         const flag = window.myAPI.getStoreValue('autoSave');
@@ -64,20 +65,22 @@ function FilesMenu({
     }, [])
 
     useEffect(() => {
-        if (openAutoSave) {
+        if (!mount) {
+            setMount(true); 
             window.myAPI.ipcRender({
                 eventName: 'auto-save-file-before-close',
-                callback: () => {
-                    clearTimeout(timer);
-                    setTimer(null);
-                    handleClickSave(true);
-                    window.myAPI.ipcInvoke('return-close-app', openAutoSave);
+                callback: async () => {
+                    const flag = window.myAPI.getStoreValue('autoSave');
+                    if (flag) {
+                        clearTimeout(timer);
+                        setTimer(null);
+                        handleClickSave(true);
+                    }
+                    await window.myAPI.ipcInvoke('return-close-app', flag);
                 }
             })
-        } else {
-            window.myAPI.delEvents('auto-save-file-before-close');
         }
-    }, [openAutoSave])
+    }, [mount])
 
     useEffect(() => {
         if (autoSaveByBlockType === 'endDrag' || autoSaveByBlockType === 'change') {

@@ -37,6 +37,10 @@ const createProtocol = require("./src/config/js/createProtocol.js");
 const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
 const getRandomString = require("./src/utils/getRandomString.js");
 
+//设置通知标题上面的 英文 electron.app.Electron 
+const pg = require("./package.json");
+app.setAppUserModelId(pg.description);
+
 const Store = require("electron-store");
 Store.initRenderer();
 
@@ -53,17 +57,6 @@ console.info = logger.info || logger.warn;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
-
-/*const crashDumpsDir = app.getPath('crashDumps');
-console.info('Crash file path=>', crashDumpsDir + '/reports');
-// 开启crash捕获
- crashReporter.start({
-    productName: 'NEW-AI',
-    companyName: 'Dr.luck',
-    submitURL: 'https://zsff.drluck.club/ATC/crash-reports',
-    uploadToServer: false,
-    ignoreSystemCrashHandler: false, // 不忽略系统自带的奔溃处理
-}); */
 
 const options = {
     sandbox: false,
@@ -306,8 +299,8 @@ function createWindow() {
         e.preventDefault();
         if (isUpdate) return;
         const { response } = await dialog.showMessageBox({
-            type: "info",
-            title: " ",
+            type: "warning",
+            title: "\t",
             message: mainMsg.exit,
             buttons: [mainMsg['cancel'], mainMsg['confirm']],
             defaultId: 0,
@@ -327,7 +320,6 @@ function createWindow() {
                 return;
             }
             _handleSaveBeforClose();
-            app.exit();
         }
     });
 
@@ -351,16 +343,19 @@ function createWindow() {
     function _handleSaveBeforClose() {
         mainWindow.webContents.send('auto-save-file-before-close');
         ipcHandle('return-close-app', (event, args) => {
-            args && dialog.showMessageBox({
-                type: "info",
-                buttons: ["OK"],
-                title: "备份",
-                message: "自动备份",
-                detail: mainMsg['waiting'],
-            }).catch();
+            if (args) {
+                 dialog.showMessageBox({
+                    type: "warning",
+                    buttons: ["OK"],
+                    title: "备份",
+                    message: "自动备份中, 请勿操作......, 备份完成将自动退出!",
+                    detail: mainMsg['waiting'],
+                }).catch();
 
-            setTimeout(() => app.exit(), 2000);
-
+                setTimeout(() => app.exit(), 2000);
+            } else {
+                app.exit()
+            }
             return;
         })
     }
