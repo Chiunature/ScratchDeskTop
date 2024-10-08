@@ -377,7 +377,7 @@ function createWindow() {
     function getRenderVersion() {
         ipcHandle('app-version', () => {
             const ver = app.getVersion();
-            return ver || '1.6.4';
+            return ver || '1.6.5';
         })
     }
 }
