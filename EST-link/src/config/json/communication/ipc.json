@@ -28,7 +28,8 @@
             "TRANSMISSION": "transmission-error"
         },
         "FILE": {
-            "DELETE": "delRecord"
+            "DELETE": "delRecord",
+            "NAME": "fileName"
         },
         "BLE": {
             "GETBlELIST": "getBleList",
@@ -75,6 +76,10 @@
             "GETBlELIST": "getBleList",
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"
+        },
+        "FILE": {
+            "DELETE": "delRecord",
+            "NAME": "fileName"
         }
     },
     "DRIVER": {

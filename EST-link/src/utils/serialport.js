@@ -256,10 +256,17 @@ class Serialport extends Common {
             this.sign = str;
             //写入数据
             this.port.write(Buffer.from(data));
+        
             //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-            if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
+        if (this.verifyType) {
+            if (this.verifyType.indexOf(SOURCE) === -1) {
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
+            }else { 
+                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.filesObj.fileName, progress: Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100) });
             }
+        }
+       
+            
             if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
         } catch (e) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
