@@ -177,6 +177,7 @@ const SerialportList = (props) => {
                     </button>
                     <button
                         className={styles.connectionButton}
+                        disabled={props.sourceCompleted}
                         onClick={lookRecord}
                     >查看本次记录</button>
                 </Box>
