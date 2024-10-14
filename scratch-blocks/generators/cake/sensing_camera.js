@@ -16,7 +16,7 @@ Blockly.cake['sensing_camera_find_color_block'] = function (block) {
     const G = Blockly.cake.valueToCode(block, "G", Blockly.cake.ORDER_NONE);
     const B = Blockly.cake.valueToCode(block, "B", Blockly.cake.ORDER_NONE);
     const T = Blockly.cake.valueToCode(block, "TOLERANCE", Blockly.cake.ORDER_NONE);
-    const code = `camera_find_color_block(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(R) ? R : '"' + R + '"'}, ${Blockly.cake.toStr(G) ? G : '"' + G + '"'}, ${Blockly.cake.toStr(B) ? B : '"' + B + '"'}, ${Blockly.cake.toStr(T) ? T : '"' + T + '"'});`;
+    const code = `camera_find_color_block(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(R) ? R : '"' + R + '"'}, ${Blockly.cake.toStr(G) ? G : '"' + G + '"'}, ${Blockly.cake.toStr(B) ? B : '"' + B + '"'}, ${Blockly.cake.toStr(T) ? T : '"' + T + '"'});\n`;
     return code;
 };
 
@@ -46,7 +46,7 @@ Blockly.cake['sensing_camera_middle_find'] = function (block) {
     const G = Blockly.cake.valueToCode(block, "G", Blockly.cake.ORDER_NONE);
     const B = Blockly.cake.valueToCode(block, "B", Blockly.cake.ORDER_NONE);
     const radius = Blockly.cake.valueToCode(block, "RADIUS", Blockly.cake.ORDER_NONE);
-    const code = `camera_middle_find(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(radius) ? radius : '"' + radius + '"'}, ${Blockly.cake.toStr(R) ? R : '"' + R + '"'}, ${Blockly.cake.toStr(G) ? G : '"' + G + '"'}, ${Blockly.cake.toStr(B) ? B : '"' + B + '"'});`;
+    const code = `camera_middle_find(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(radius) ? radius : '"' + radius + '"'}, ${Blockly.cake.toStr(R) ? R : '"' + R + '"'}, ${Blockly.cake.toStr(G) ? G : '"' + G + '"'}, ${Blockly.cake.toStr(B) ? B : '"' + B + '"'});\n`;
     return code;
 };
 
@@ -67,7 +67,7 @@ Blockly.cake['sensing_camera_middle_find_blue'] = function (block) {
 
 Blockly.cake['sensing_camera_extern_color'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_extern_color(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_extern_color(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -91,7 +91,7 @@ Blockly.cake['sensing_camera_extern_blue'] = function (block) {
 
 Blockly.cake['sensing_camera_find_line'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_find_line(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_find_line(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -117,7 +117,7 @@ Blockly.cake['sensing_camer_find_line_theta'] = function (block) {
 
 Blockly.cake['sensing_camera_number_check'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_number_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_number_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -133,7 +133,7 @@ Blockly.cake['sensing_camera_get_number'] = function (block) {
 
 Blockly.cake['sensing_camera_face_check'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_face_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_face_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -154,7 +154,7 @@ Blockly.cake['sensing_camera_face_y'] = function (block) {
 
 Blockly.cake['sensing_camera_face_trace'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_face_trace(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_face_trace(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -175,7 +175,7 @@ Blockly.cake['sensing_camera_face_trace_y'] = function (block) {
 
 Blockly.cake['sensing_camera_qr_check'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_qr_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_qr_check(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -186,7 +186,7 @@ Blockly.cake['sensing_camera_qr_state'] = function (block) {
 
 Blockly.cake['sensing_camera_apriltag'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_apriltag(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_apriltag(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
@@ -222,7 +222,7 @@ Blockly.cake['sensing_camera_apriltag_distance'] = function (block) {
 
 Blockly.cake['sensing_camera_characteristic'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_characteristic(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});`;
+    const code = `camera_characteristic(${Blockly.cake.toStr(port) ? port : '"' + port + '"'});\n`;
     return code;
 };
 
