@@ -72,20 +72,17 @@ Blockly.cake['sensing_camera_extern_color'] = function (block) {
 };
 
 Blockly.cake['sensing_camera_extern_red'] = function (block) {
-    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_extern_red(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
+    const code = `camera_extern_red()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_camera_extern_green'] = function (block) {
-    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_extern_green(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
+    const code = `camera_extern_green()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.cake['sensing_camera_extern_blue'] = function (block) {
-    const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
-    const code = `camera_extern_blue(${Blockly.cake.toStr(port) ? port : '"' + port + '"'})`;
+    const code = `camera_extern_blue()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -95,22 +92,22 @@ Blockly.cake['sensing_camera_find_line'] = function (block) {
     return code;
 };
 
-Blockly.cake['sensing_camer_find_line_state'] = function (block) {
-    const code = `camer_find_line_state()`;
+Blockly.cake['sensing_camera_find_line_state'] = function (block) {
+    const code = `camera_find_line_state()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['sensing_camer_find_line_showsex'] = function (block) {
-    const code = `camer_find_line_showsex()`;
+Blockly.cake['sensing_camera_find_line_showsex'] = function (block) {
+    const code = `camera_find_line_showsex()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['sensing_camer_find_line_rho'] = function (block) {
-    const code = `camer_find_line_rho()`;
+Blockly.cake['sensing_camera_find_line_rho'] = function (block) {
+    const code = `camera_find_line_rho()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
-Blockly.cake['sensing_camer_find_line_theta'] = function (block) {
+Blockly.cake['sensing_camera_find_line_theta'] = function (block) {
     const code = `camer_find_line_theta()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
@@ -121,8 +118,8 @@ Blockly.cake['sensing_camera_number_check'] = function (block) {
     return code;
 };
 
-Blockly.cake['sensing_camer_number_state'] = function (block) {
-    const code = `camer_number_state()`;
+Blockly.cake['sensing_camera_number_state'] = function (block) {
+    const code = `camera_number_state()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 
@@ -180,7 +177,7 @@ Blockly.cake['sensing_camera_qr_check'] = function (block) {
 };
 
 Blockly.cake['sensing_camera_qr_state'] = function (block) {
-    const code = `camer_qr_state()`;
+    const code = `camera_qr_state()`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
 

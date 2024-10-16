@@ -153,10 +153,9 @@ Blockly.cake['combined_motor_moveByYawAngle'] = function (block) {
     }
     const count = Blockly.cake.valueToCode(block, "COUNT", Blockly.cake.ORDER_NONE);
     const KP = Blockly.cake.valueToCode(block, "KP", Blockly.cake.ORDER_NONE);
-    const KI = Blockly.cake.valueToCode(block, "KI", Blockly.cake.ORDER_NONE);
     const unit = block.getFieldValue('unit');
     const direction = block.getFieldValue('direction');
-    const code = `motor_combined_straight(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'}, ${Blockly.cake.toStr(KP) ? KP : '"' + KP + '"'}, ${Blockly.cake.toStr(KI) ? KI : '"' + KI + '"'});\n`;
+    const code = `motor_combined_straight(${Blockly.cake.toStr(direction) ? direction : '"' + direction + '"'}, ${Blockly.cake.toStr(count) ? count : '"' + count + '"'}, ${Blockly.cake.toStr(unit) ? unit : '"' + unit + '"'}, ${Blockly.cake.toStr(KP) ? KP : '"' + KP + '"'});\n`;
     return code;
 }; 
 

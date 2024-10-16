@@ -217,12 +217,6 @@ Blockly.Blocks['sensing_camera_extern_red'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_red",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_RED,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "PORT"
-        },
-      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -234,12 +228,6 @@ Blockly.Blocks['sensing_camera_extern_green'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_green",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_GREEN,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "PORT"
-        },
-      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -251,12 +239,6 @@ Blockly.Blocks['sensing_camera_extern_blue'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_blue",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_BLUE,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "PORT"
-        },
-      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -288,44 +270,44 @@ Blockly.Blocks['sensing_camera_find_line'] = {
   }
 };
 
-Blockly.Blocks['sensing_camer_find_line_state'] = {
+Blockly.Blocks['sensing_camera_find_line_state'] = {
   init: function () {
     this.jsonInit({
-      "type": "sensing_camer_find_line_state",
-      "message0": Blockly.Msg.SENSING_CAMER_FIND_LINE_STATE,
+      "type": "sensing_camera_find_line_state",
+      "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_STATE,
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
 };
 
-Blockly.Blocks['sensing_camer_find_line_showsex'] = {
+Blockly.Blocks['sensing_camera_find_line_showsex'] = {
   init: function () {
     this.jsonInit({
-      "type": "sensing_camer_find_line_showsex",
-      "message0": Blockly.Msg.SENSING_CAMER_FIND_LINE_SHOWSEX,
+      "type": "sensing_camera_find_line_showsex",
+      "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_SHOWSEX,
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
 };
 
-Blockly.Blocks['sensing_camer_find_line_rho'] = {
+Blockly.Blocks['sensing_camera_find_line_rho'] = {
   init: function () {
     this.jsonInit({
-      "type": "sensing_camer_find_line_rho",
-      "message0": Blockly.Msg.SENSING_CAMER_FIND_LINE_RHO,
+      "type": "sensing_camera_find_line_rho",
+      "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_RHO,
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
 };
 
-Blockly.Blocks['sensing_camer_find_line_theta'] = {
+Blockly.Blocks['sensing_camera_find_line_theta'] = {
   init: function () {
     this.jsonInit({
-      "type": "sensing_camer_find_line_theta",
-      "message0": Blockly.Msg.SENSING_CAMER_FIND_LINE_THETA,
+      "type": "sensing_camera_find_line_theta",
+      "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_THETA,
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -357,11 +339,11 @@ Blockly.Blocks['sensing_camera_number_check'] = {
   }
 };
 
-Blockly.Blocks['sensing_camer_number_state'] = {
+Blockly.Blocks['sensing_camera_number_state'] = {
   init: function () {
     this.jsonInit({
-      "type": "sensing_camer_number_state",
-      "message0": Blockly.Msg.SENSING_CAMER_NUMBER_STATE,
+      "type": "sensing_camera_number_state",
+      "message0": Blockly.Msg.SENSING_CAMERA_NUMBER_STATE,
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });

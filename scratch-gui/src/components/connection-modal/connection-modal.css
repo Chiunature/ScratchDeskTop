@@ -253,6 +253,7 @@
     align-items: center;
     padding: .5rem;
     overflow: auto;
+    scroll-behavior: smooth;
 }
 
 .activityArea::-webkit-scrollbar {

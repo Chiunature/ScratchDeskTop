@@ -135,15 +135,6 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="motor_box"></shadow>
                     </value>
                 </block>
-                ${blockSeparator}
-                <block type="motor_single_pwm">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="PWM">
-                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
-                    </value>
-                </block>
                 ${categorySeparator}
             </category>
             `;
@@ -247,23 +238,11 @@ const combined_motor = function (isInitialSetup, isStage, targetId, colors) {
                     <value name="KP">
                         <shadow type="math_-50to50_number"><field name="NUM">0</field></shadow>
                     </value>
-                    <value name="KI">
-                        <shadow type="math_-50to50_number"><field name="NUM">0</field></shadow>
-                    </value>
                 </block>
                 ${blockSeparator}
                 <block type="combined_motor_spinByYawAngle">
                     <value name="ANGLE">
                         <shadow type="math_number"><field name="NUM">90</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_motor_pwm">
-                    <value name="LEFT_PWM">
-                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
-                    </value>
-                    <value name="RIGHT_PWM">
-                        <shadow type="math_-1200to1200_number"><field name="NUM">0</field></shadow>
                     </value>
                 </block>
                 ${categorySeparator}
@@ -922,23 +901,11 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_extern_red">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
+            <block type="sensing_camera_extern_red" />
             ${blockSeparator}
-            <block type="sensing_camera_extern_green">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
+            <block type="sensing_camera_extern_green" />
             ${blockSeparator}
-            <block type="sensing_camera_extern_blue">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
+            <block type="sensing_camera_extern_blue" />
             ${blockSeparator}
             <block type="sensing_camera_find_line">
                 <value name="PORT">
@@ -946,13 +913,13 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camer_find_line_state" />
+            <block type="sensing_camera_find_line_state" />
             ${blockSeparator}
-            <block type="sensing_camer_find_line_showsex" />
+            <block type="sensing_camera_find_line_showsex" />
             ${blockSeparator}
-            <block type="sensing_camer_find_line_rho" />
+            <block type="sensing_camera_find_line_rho" />
             ${blockSeparator}
-            <block type="sensing_camer_find_line_theta" />
+            <block type="sensing_camera_find_line_theta" />
             ${blockSeparator}
             <block type="sensing_camera_number_check">
                 <value name="PORT">
@@ -960,7 +927,7 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camer_number_state" />
+            <block type="sensing_camera_number_state" />
             ${blockSeparator}
             <block type="sensing_camera_get_number" />
             ${blockSeparator}

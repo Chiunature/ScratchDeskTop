@@ -17,10 +17,18 @@ const filterPlaceholder = {
 
 const SerialportList = (props) => {
 
-    let inputRef = useRef();
     let [filterQuery, setFilterQuery] = useState('');
     let [fileList, setFileList] = useState([]);
     const [isShow, setIsShow] = useState(false);
+    const [isScroll, setIsScroll] = useState(true);
+    let inputRef = useRef();
+    let boxRef = useRef();
+
+    useEffect(() => {
+        if (boxRef.current && isScroll) {
+            boxRef.current.scrollTop = boxRef.current.scrollHeight;
+        }
+    }, [fileList, isScroll]);
 
     useEffect(() => {
         getFileName();
@@ -28,6 +36,19 @@ const SerialportList = (props) => {
             window.myAPI.delEvents(ipc_Renderer.RETURN.FILE.NAME);
         }
     }, [])
+
+    const handleScroll = () => {
+        if (boxRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = boxRef.current;
+            // 如果用户滚动到列表底部，启用自动滚动
+            if (scrollTop + clientHeight >= scrollHeight) {
+                setIsScroll(true);
+            } else {
+                // 否则禁用自动滚动
+                setIsScroll(false);
+            }
+        }
+    }
 
     let portList = useMemo(() => props.serialList.filter(el => el?.advertisement?.localName.indexOf(filterQuery) !== -1), [props.serialList, filterQuery]);
     let deviceType = useMemo(() => props.deviceType, [props.deviceType]);
@@ -85,7 +106,7 @@ const SerialportList = (props) => {
                     onClear={handleFilterClear}
                 />
             </Box>}
-            <Box className={styles.activityArea}>
+            <Box className={styles.activityArea} componentRef={boxRef} onScroll={handleScroll}>
                 <Box className={styles.linkHelp} style={{
                     justifyContent: isShow ? "flex-start" : "center",
                     alignItems: isShow && "flex-start"
