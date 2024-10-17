@@ -288,7 +288,7 @@ class Serialport extends Common {
         if (this.port && this.port.isOpen) {
             this.port.flush();
         }
-        if (this.verifyType.indexOf(SOURCE) === -1) { 
+        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) { 
             this.sign = null;
         }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
