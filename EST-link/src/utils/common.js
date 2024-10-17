@@ -32,8 +32,6 @@ class Common {
         this[key] = item[key];
       });
     });
-    this.subFileIndex = 0;
-    this.files = {};
     this.watchDeviceList = [];
     this.deviceIdList = Object.keys(device);
     this.upload_sources_status = null;

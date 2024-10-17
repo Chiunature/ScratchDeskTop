@@ -16,8 +16,8 @@
  * }
  */
 const Common = require("./common.js");
-const { distinguish, verifyBinType } = require("../config/js/verify.js");
-const { SOURCE, EST_RUN, RESET_FWLIB, SOURCE_APP } = require("../config/json/verifyTypeConfig.json");
+const { verifyBinType } = require("../config/js/verify.js");
+const { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
 const { instruct } = require("../config/js/instructions.js");
@@ -40,10 +40,11 @@ class Serialport extends Common {
         this.timeOutTimer = null;
         this.checkConnectTimer = null;
         this.verifyType = null;
-        this.filesObj = null;
         this.receiveObj = null;
         this.watchDeviceData = null;
         this.selectedExe = null;
+        this.sourceFiles = [];
+        this.uploadingFile = null;
     }
 
     /**
@@ -153,14 +154,6 @@ class Serialport extends Common {
             if (data.selectedExe) {
                 this.selectedExe = data.selectedExe;
             }
-            if (typeof data.subFileIndex === 'number') {
-                this.subFileIndex = data.subFileIndex;
-            }
-            if (data.clearFilesObj) {
-                for (const key in this.files) {
-                    delete this.files[key];
-                }
-            }
             //本身是哭脸的时候，发重置不会断开，正常发送文件
             if (data.verifyType === RESET_FWLIB) {
                 this.upload_sources_status = data.verifyType;
@@ -176,7 +169,7 @@ class Serialport extends Common {
     checkConnected(event) {
         if (this.upload_sources_status === RESET_FWLIB) {
             this.checkConnectTimer = setTimeout(() => {
-                this.readyToUpload({ verifyType: SOURCE_APP }, event);
+                this.readyToUpload({ verifyType: SOURCE }, event);
                 this.upload_sources_status = null;
             }, 1000);
         }
@@ -184,20 +177,20 @@ class Serialport extends Common {
 
     readyToUpload(data, event) {
         //处理渲染进程发送过来的通信需要的数据
-        const { fileData, fileName } = verifyBinType.call(this, {
+        const result = verifyBinType.call(this, {
             ...data,
-            files: this.files,                  //文件夹对象
-            filesIndex: this.subFileIndex,       //文件夹内的子文件遍历下标,
             selectedExe: this.selectedExe
-        });
-        //根据返回的子文件数据和子文件名进入上传处理
-        this.upload({
-            fileName,
-            binData: fileData,
-            verifyType: data.verifyType,
-            filesIndex: this.subFileIndex,      //当前文件所在文件夹中的下标
-            filesLen: this.files.filesLen       //文件夹包含的文件数量
         }, event);
+        if (Array.isArray(result)) {
+            this.sourceFiles = [...result];
+            this.uploadingFile = this.sourceFiles.shift();
+            //根据返回的子文件数据和子文件名进入上传处理
+            this.upload({
+                fileName: this.uploadingFile.fileName,
+                binData: this.uploadingFile.fileData,
+                verifyType: this.uploadingFile.verifyType,
+            }, event);
+        }
     }
 
     /**
@@ -213,12 +206,6 @@ class Serialport extends Common {
         //将子文件数据切割成248个
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
         this.verifyType = data.verifyType;
-        this.filesObj = {
-            filesIndex: data.filesIndex,        //当前文件所在文件夹中的下标
-            fileVerifyType: data.verifyType,
-            fileName: data.fileName,            //当前文件名
-            filesLen: data.filesLen             //当前文件所在的文件夹的文件数量
-        };
         //根据文件类型获取功能码
         const bits = this.getBits(data.verifyType);
         //将文件名放入处理函数获取需要发送给下位机的完整指令
@@ -256,18 +243,19 @@ class Serialport extends Common {
             this.sign = str;
             //写入数据
             this.port.write(Buffer.from(data));
-        
+
             //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-        if (this.verifyType) {
-            if (this.verifyType.indexOf(SOURCE) === -1) {
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
-            }else { 
-                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.filesObj.fileName, progress: Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100) });
+            if (this.verifyType && this.chunkBuffer.length > 0) {
+                if (this.verifyType.indexOf(SOURCE) === -1) {
+                    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
+                } else {
+                    event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100) });
+                }
             }
-        }
-       
-            
-            if (str && str.indexOf('Boot_') !== -1) this.checkOverTime(event);
+
+            if (str && str.indexOf('Boot_') !== -1) {
+                this.checkOverTime(event);
+            }
         } catch (e) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
         }
@@ -300,11 +288,11 @@ class Serialport extends Common {
         if (this.port && this.port.isOpen) {
             this.port.flush();
         }
-        this.deleteObj(this.files, this.filesObj);
+        if (this.verifyType.indexOf(SOURCE) === -1) { 
+            this.sign = null;
+        }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
-        this.verifyType = null;
         this.chunkIndex = 0;
-        this.sign = null;
         clearTimeout(this.checkConnectTimer);
         this.checkConnectTimer = null;
         this.receiveObj = null;
@@ -363,28 +351,27 @@ class Serialport extends Common {
             //获取下位机发送过来的数据
             const receiveData = this.port.read();
             if (!receiveData) {
-              return;
+                return;
             }
             // this.checkIsDebug(receiveData, debugReg);
 
             //开启设备数据监控监听
             this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
-            if(this.watchDeviceData) {
-              let t = setTimeout(() => {
-                func(event);
-                clearTimeout(t);
-                t = null;
-              });
-              return;
+            if (this.watchDeviceData) {
+                let t = setTimeout(() => {
+                    func(event);
+                    clearTimeout(t);
+                    t = null;
+                });
+                return;
             }
-
 
             //把数据放入处理函数校验是否是完整的一帧并获取数据对象
             this.receiveObj = this.catchData(receiveData);
             //根据标识符进行校验操作检验数据并返回结果
             const verify = this.verification(this.sign, this.receiveObj, event);
             if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) {
-              return;
+                return;
             }
 
             //清除超时检测
@@ -414,10 +401,26 @@ class Serialport extends Common {
         const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
         //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
         if (isLast) {
-            //进入结束后的处理函数，检测是那种类型的文件发送完毕
-            distinguish(this.filesObj, this.verifyType, event);
             //清除缓存
             this.clearCache();
+
+            //检测是那种类型的文件发送完毕
+            if (this.verifyType === BOOTBIN) {
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
+            }
+
+            if (this.verifyType.indexOf(SOURCE) !== -1) {
+                if (this.sourceFiles.length > 0) {
+                    this.uploadingFile = this.sourceFiles.shift();
+                    this.upload({
+                        fileName: this.uploadingFile.fileName,
+                        binData: this.uploadingFile.fileData,
+                        verifyType: this.uploadingFile.verifyType,
+                    }, event);
+                } else {
+                    event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
+                } 
+            }
         } else {
             this.sendBin(event);
         }
@@ -431,7 +434,7 @@ class Serialport extends Common {
     getAppExe(eventName) {
         this.ipcMain(eventName, (event, arg) => {
             if (this.sign && this.sign.indexOf('Boot_') !== -1) {
-              return;
+                return;
             }
             switch (arg.type) {
                 case 'FILE':

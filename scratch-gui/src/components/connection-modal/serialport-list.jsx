@@ -19,6 +19,7 @@ const SerialportList = (props) => {
 
     let [filterQuery, setFilterQuery] = useState('');
     let [fileList, setFileList] = useState([]);
+    const [total, setTotal] = useState(0);
     const [isShow, setIsShow] = useState(false);
     const [isScroll, setIsScroll] = useState(true);
     let inputRef = useRef();
@@ -32,8 +33,15 @@ const SerialportList = (props) => {
 
     useEffect(() => {
         getFileName();
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.LENGTH,
+            callback: (e, data) => {
+                if (!data) return;
+                setTotal(data);
+            }
+        })
         return () => {
-            window.myAPI.delEvents(ipc_Renderer.RETURN.FILE.NAME);
+            window.myAPI.delEvents([ipc_Renderer.RETURN.COMMUNICATION.SOURCE.LENGTH, ipc_Renderer.RETURN.FILE.NAME]);
         }
     }, [])
 
@@ -180,6 +188,7 @@ const SerialportList = (props) => {
                                     description="Firmware opgradering"
                                     id="gui.playbackStep.loadingMsg"
                                 />
+                                {`${fileList.length}/${total}`}
                             </>
                         ) : <>
                             {props.version === props.firewareVersion ? (<FormattedMessage

@@ -68,7 +68,8 @@
             },
             "SOURCE": {
                 "CONPLETED": "return_sourceCompleted",
-                "NEXTFILE": "nextFile"
+                "NEXTFILE": "nextFile",
+                "LENGTH": "return_sourceLength"
             }
         },
         "VERSION": "return_version",

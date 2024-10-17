@@ -24,12 +24,10 @@
  * @author avenger-jxc
  */
 import {
-    Task_Handler,
     Task_Info,
     Task_Info_Item,
     Task_Stack,
     Task_MyBlock,
-    Task_Open_Gyroscope_Calibration,
     Task_Info_ItemOfMsgBlock,
     Task_MsgBlock
 } from "../config/js/ProgrammerTasks.js";
@@ -40,8 +38,6 @@ import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
 const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\);\s*\};\s{1}/g;
 const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\};\s{1}/;
 const reg_MyBlock = /\s{1}\/\*MyBlock Write\d*\*\/[\s\S]*?\/\*MyBlock End\d*\*\/\s{1}/g;
-// const reg_Task_Handler = /\s{1}TaskHandle_t\s+UserHandle\d*\;\s{1}/g;
-// const reg_OpenGyroscope = /\#define OPEN_GYROSCOPE_CALIBRATION \w+/;
 const reg_Task_MsgBlock = /\s{1}\/\*MsgBlock Write\*\/[\s\S]*?\/\*MsgBlock End\*\/\s{1}/;
 
 class Compile {
@@ -169,10 +165,6 @@ class Compile {
                 window.myAPI.ipcRender({
                     sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                     sendParams: { verifyType },
-                    eventName: ipc_Renderer.RETURN.COMMUNICATION.SOURCE.NEXTFILE,
-                    callback: (event, data) => {
-                        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { ...data, verifyType: data.fileVerifyType } });
-                    }
                 });
                 break;
             case verifyTypeConfig.BOOTBIN:
