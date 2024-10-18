@@ -314,7 +314,8 @@ class GUI extends React.Component {
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
             const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
-            if (firmwareVersion && this.props?.deviceObj?.versionlist?.ver !== Number(firmwareVersion)) {
+            const currentVer = this.props?.deviceObj?.versionlist?.ver;
+            if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
                 return;
             }
