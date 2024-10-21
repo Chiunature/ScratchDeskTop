@@ -17,16 +17,16 @@ const SelectBoxCom = (props) => {
         handleCompile
     } = props;
     const [arr, setArr] = useState(Object.keys(matrix));
-    let [timer, setTimer] = useState(null);
+    // let [timer, setTimer] = useState(null);
     let refUl = useRef();
     let refBox = useRef();
 
-    useEffect(() => {
+    /* useEffect(() => {
         document.addEventListener('wheel', handleWheel)
         return () => {
             document.removeEventListener('wheel', handleWheel);
         }
-    }, []);
+    }, []); 
 
     function handleWheel(e) {
         clearTimeout(timer);
@@ -40,7 +40,7 @@ const SelectBoxCom = (props) => {
             }
         }, 50);
         setTimer(timer);
-    }
+    }*/
 
     return (
         <div className={classNames(styles.selectBox, flag ? styles.selectShow : '')} ref={refBox}>
