@@ -1,6 +1,6 @@
 {
     "name": "new-ai",
-    "version": "1.6.5",
+    "version": "1.6.6",
     "description": "NEW-AI极睿",
     "main": "main.js",
     "scripts": {

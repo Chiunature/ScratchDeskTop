@@ -13,7 +13,7 @@ import Device from '../device/device.jsx';
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from '../device/selectExe.jsx';
 import Box from "../box/box.jsx";
-// import DataViewCom from '../device/data-view.jsx';
+
 
 const tabClassNames = {
     tabs: styles.tabs,
@@ -263,7 +263,6 @@ const DeviceCards = props => {
                                 <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
                                     {index === 0 && <Device {...props} />}
                                     {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
-                                    {/* {index === 2 && <DataViewCom {...props} />} */}
                                 </div>
                             </div>
                         </div>
