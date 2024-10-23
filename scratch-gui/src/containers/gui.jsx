@@ -193,11 +193,6 @@ class GUI extends React.Component {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
                     sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
-                } else {
-                    const runApp = sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP;
-                    if (runApp) {
-                        this.handleRunApp();
-                    }
                 }
             }
         });
@@ -250,6 +245,10 @@ class GUI extends React.Component {
                 requestIdleCallback(() => {
                     this.initSensingList();
                     this.blocksMotorCheck();
+                    const runApp = sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP;
+                    if (runApp) {
+                        this.handleRunApp();
+                    }
                     const updateSensing = sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING;
                     if (updateSensing) {
                         sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
