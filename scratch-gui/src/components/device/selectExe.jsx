@@ -55,7 +55,7 @@ const SelectExe = (props) => {
                                 )
                             })
                         }
-                    </ul>) : (<img style={{ margin: 20 }} width={200} src={emptyIcon} alt='' />)
+                    </ul>) : (<img style={{ margin: 20 }} width={400} height={300} src={emptyIcon} alt='' />)
             }
         </>
     );

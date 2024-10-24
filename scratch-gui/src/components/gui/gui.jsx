@@ -57,6 +57,7 @@ import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
 import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
+import DeviceModal from "../connection-modal/deviceModal.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -280,17 +281,17 @@ const GUIComponent = (props) => {
                         )}
                         {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck} /> : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible ? (
-                            <DeviceCards
-                                intl={intl}
-                                deviceObj={deviceObj}
-                                handleCompile={handleCompile}
-                                completed={completed}
-                                exeList={exeList}
-                                onSetSelectedExe={onSetSelectedExe}
-                                onSetExelist={onSetExelist}
-                                peripheralName={peripheralName} />
-                        ) : null}
+                        {deviceVisible && <DeviceModal
+                            intl={intl}
+                            deviceObj={deviceObj}
+                            handleCompile={handleCompile}
+                            completed={completed}
+                            exeList={exeList}
+                            onSetSelectedExe={onSetSelectedExe}
+                            onSetExelist={onSetExelist}
+                            peripheralName={peripheralName}
+                            onRequestClose={onViewDeviceCards}
+                        /> }
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
@@ -327,48 +328,48 @@ const GUIComponent = (props) => {
                                 handleRunApp={handleRunApp}
                             />) : null}
                         <MenuBar
-                                accountNavOpen={accountNavOpen}
-                                authorId={authorId}
-                                authorThumbnailUrl={authorThumbnailUrl}
-                                authorUsername={authorUsername}
-                                canChangeLanguage={canChangeLanguage}
-                                blocksId={blocksId}
-                                canChangeTheme={canChangeTheme}
-                                canChangeHelp={canChangeHelp}
-                                canCreateCopy={canCreateCopy}
-                                canCreateNew={canCreateNew}
-                                canEditTitle={canEditTitle}
-                                canManageFiles={canManageFiles}
-                                canRemix={canRemix}
-                                canSave={canSave}
-                                canShare={canShare}
-                                className={styles.menuBarPosition}
-                                enableCommunity={enableCommunity}
-                                isShared={isShared}
-                                logo={logo}
-                                renderLogin={renderLogin}
-                                showComingSoon={showComingSoon}
-                                onClickAbout={onClickAbout}
-                                onClickAccountNav={onClickAccountNav}
-                                onClickLogo={onClickLogo}
-                                onCloseAccountNav={onCloseAccountNav}
-                                onLogOut={onLogOut}
-                                onOpenRegistration={onOpenRegistration}
-                                onProjectTelemetryEvent={onProjectTelemetryEvent}
-                                onSeeCommunity={onSeeCommunity}
-                                onShare={onShare}
-                                onStartSelectingFileUpload={
-                                    onStartSelectingFileUpload
-                                }
-                                onToggleLoginOpen={onToggleLoginOpen}
-                                onActivateDeck={onActivateDeck}
-                                getMainMessage={getMainMessage}
-                                onShowQrcode={onShowQrcode}
-                                onSetDeviceObj={onSetDeviceObj}
-                                intl={intl}
-                                onSetDeviceStatus={onSetDeviceStatus}
-                                autoSaveByBlockType={autoSaveByBlockType}
-                                handleSetAutoSaveByBlockType={onAutoSaveByBlockType}
+                            accountNavOpen={accountNavOpen}
+                            authorId={authorId}
+                            authorThumbnailUrl={authorThumbnailUrl}
+                            authorUsername={authorUsername}
+                            canChangeLanguage={canChangeLanguage}
+                            blocksId={blocksId}
+                            canChangeTheme={canChangeTheme}
+                            canChangeHelp={canChangeHelp}
+                            canCreateCopy={canCreateCopy}
+                            canCreateNew={canCreateNew}
+                            canEditTitle={canEditTitle}
+                            canManageFiles={canManageFiles}
+                            canRemix={canRemix}
+                            canSave={canSave}
+                            canShare={canShare}
+                            className={styles.menuBarPosition}
+                            enableCommunity={enableCommunity}
+                            isShared={isShared}
+                            logo={logo}
+                            renderLogin={renderLogin}
+                            showComingSoon={showComingSoon}
+                            onClickAbout={onClickAbout}
+                            onClickAccountNav={onClickAccountNav}
+                            onClickLogo={onClickLogo}
+                            onCloseAccountNav={onCloseAccountNav}
+                            onLogOut={onLogOut}
+                            onOpenRegistration={onOpenRegistration}
+                            onProjectTelemetryEvent={onProjectTelemetryEvent}
+                            onSeeCommunity={onSeeCommunity}
+                            onShare={onShare}
+                            onStartSelectingFileUpload={
+                                onStartSelectingFileUpload
+                            }
+                            onToggleLoginOpen={onToggleLoginOpen}
+                            onActivateDeck={onActivateDeck}
+                            getMainMessage={getMainMessage}
+                            onShowQrcode={onShowQrcode}
+                            onSetDeviceObj={onSetDeviceObj}
+                            intl={intl}
+                            onSetDeviceStatus={onSetDeviceStatus}
+                            autoSaveByBlockType={autoSaveByBlockType}
+                            handleSetAutoSaveByBlockType={onAutoSaveByBlockType}
                         />
                         <Box className={styles.bodyWrapper}>
                             <Box className={styles.flexWrapper}>

@@ -1,7 +1,8 @@
 @import "../../css/colors.css";
 @import "../../css/units.css";
 
-.modal-content {
+.modal-content,
+.device-modal {
     width: 480px;
     margin: 0;
     position: absolute;
@@ -9,6 +10,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: visible;
+}
+
+.device-modal {
+    width: fit-content;
 }
 
 .header {
@@ -475,4 +480,74 @@
 
 .error-dot {
     background: $error-primary;
+}
+
+.header-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: $extensions-primary;
+    border-bottom: 1px solid $extensions-tertiary;
+    font-size: 0.625rem;
+    font-weight: bold;
+}
+
+.header-buttons-hidden {
+    border-bottom: 0px;
+}
+
+.header-buttons-right {
+    display: flex;
+    flex-direction: row;
+}
+
+.tab-list {
+    height: $stage-menu-height;
+    width: 250px;
+    /* Match width of the toolbox */
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+
+    /* Overrides for react-tabs styling */
+    margin: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.tab {
+    flex-grow: 1;
+    height: 80%;
+    margin-bottom: 0;
+
+    border: 1px solid $ui-black-transparent;
+
+    padding: 0.125rem 1.25rem 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: white;
+    color: $text-primary-transparent;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    user-select: none;
+    white-space: nowrap;
+}
+
+.tab:nth-child(1) {
+    border-right: none;
+}
+
+.is-selected {
+    color: hsla(163, 85%, 40%, 1);
+    border-radius: unset;
+    background-color: rgb(238, 238, 238);
+    z-index: 4;
 }

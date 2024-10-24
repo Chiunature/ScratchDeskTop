@@ -60,6 +60,7 @@ const ModalComponent = (props) => (
                         />
                     ) : null}
                     {props.contentLabel}
+                    {props.contentLabelNode}
                 </div>
                 <div
                     className={classNames(

@@ -42,7 +42,7 @@ import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
-import { activateDeck } from "../reducers/cards.js";
+import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
@@ -564,7 +564,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj)),
     onSetDeviceStatus: (status) => dispatch(setDeviceStatus(status)),
     onShowQrcode: () => dispatch(showQrcode()),
-    onShowUpin: () => dispatch(showUpin())
+    onShowUpin: () => dispatch(showUpin()),
+    onViewDeviceCards: () => dispatch(viewDeviceCards()),
 });
 
 const ConnectedGUI = injectIntl(

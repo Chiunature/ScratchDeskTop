@@ -104,6 +104,7 @@ $sides: 20rem;
     user-select: none;
     letter-spacing: 0.4px;
     cursor: default;
+    white-space: nowrap;
 }
 
 [dir="ltr"] .header-item-title {
@@ -123,9 +124,10 @@ $sides: 20rem;
 }
 
 .header-item-close {
+    width: fit-content;
     flex-basis: $sides;
     justify-content: flex-end;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .full-screen .header-item-close {

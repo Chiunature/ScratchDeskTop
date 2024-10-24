@@ -197,8 +197,8 @@ const DeviceCards = props => {
                 designDraftWidth / designDraftHeight
                 ? document.documentElement.clientWidth / designDraftWidth
                 : document.documentElement.clientHeight / designDraftHeight;
-        const newScale = `scale(${scale})`;
-        top = Math.ceil(Math.ceil(-30 * (1 / scale)) * (1 / scale) * 1.4);
+        const newScale = `scale(${scale.toFixed(2)})`;
+        top = Math.ceil(Math.ceil(-30 * (1 / scale.toFixed(2))) * (1 / scale.toFixed(2)) * 1.4);
         // 缩放比例
         if (screenRef.current.style.transform.indexOf('scale') === -1) {
             screenRef.current.style.transform += newScale;
@@ -261,8 +261,7 @@ const DeviceCards = props => {
                                     handleSelect={handleSelect}
                                 />
                                 <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
-                                    {index === 0 && <Device {...props} />}
-                                    {index === 1 && <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
+                                    {index === 0 ? <Device {...props} /> : <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />}
                                 </div>
                             </div>
                         </div>
