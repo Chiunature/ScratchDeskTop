@@ -168,6 +168,7 @@ ul {
     max-height: 850px;
     list-style-type: none;
     overflow: auto;
+    min-width: 400px;
 }
 
 .sel-exe::-webkit-scrollbar {

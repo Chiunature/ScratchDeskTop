@@ -42,7 +42,7 @@ const SelectExe = (props) => {
                         {
                             exeList.map((item, index) => {
                                 return (
-                                    <li className={completed ? styles.ban : ''} key={item.num} draggable onClick={() => handleSelectExe(item, index)}>
+                                    <li className={completed ? styles.ban : ''} key={item.num} onClick={() => handleSelectExe(item, index)}>
                                         <div><input type='radio' checked={item.checked} readOnly />{item.num}</div>
                                         <div className={styles.edit}>
                                             <input className={item.checked ? styles.check : ''} type='text' disabled={!item.checked} ref={(c) => refObj.current[index] = c} defaultValue={item.name} onChange={handleInpChange} />

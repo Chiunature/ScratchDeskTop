@@ -57,7 +57,6 @@ import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
 import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
-import DeviceModal from "../connection-modal/deviceModal.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -281,7 +280,7 @@ const GUIComponent = (props) => {
                         )}
                         {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck} /> : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible && <DeviceModal
+                        {deviceVisible && <DeviceCards
                             intl={intl}
                             deviceObj={deviceObj}
                             handleCompile={handleCompile}
