@@ -690,26 +690,6 @@ class MenuBar extends React.Component {
                         </span>
                         </div>
                         <div
-                            className={classNames(
-                                styles.menuBarItem,
-                                styles.hoverable,
-                                styles.generator,
-                                {
-                                    [styles.active]: "",
-                                }
-                            )}
-                            onClick={this.showDeviceCards}
-                        >
-                            <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
-                            <span className={styles.collapsibleLabel}>
-                            <FormattedMessage
-                                defaultMessage="Device"
-                                description="View device information"
-                                id="gui.menuBar.Device"
-                            />
-                        </span>
-                        </div>
-                        <div
                             id="menuBarGen"
                             className={classNames(
                                 styles.menuBarItem,
