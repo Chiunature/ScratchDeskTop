@@ -13,6 +13,8 @@ const START_DRAG = 'scratch-gui/cards/START_DRAG';
 const END_DRAG = 'scratch-gui/cards/END_DRAG';
 const VIEW_DEVICE_CARDS = 'scratch-gui/cards/VIEW_DEVICE_CARDS';
 const SET_DEVICE_CARDS = 'scratch-gui/cards/SET_DEVICE_CARDS';
+const SET_PROGRAMSEL = 'scratch-gui/cards/SET_PROGRAMSEL';
+
 const initialState = {
     visible: false,
     content: decks,
@@ -30,7 +32,8 @@ const initialState = {
         },
         expanded: true,
         dragging: false,
-    }
+    },
+    programSel: false
 };
 
 const reducer = function (state, action) {
@@ -106,6 +109,10 @@ const reducer = function (state, action) {
         return Object.assign({}, state, {
             deviceCards: action.deviceCards
         });
+    case SET_PROGRAMSEL:
+        return Object.assign({}, state, {
+            programSel: !state.programSel
+        });
     default:
         return state;
     }
@@ -124,6 +131,10 @@ const viewCards = function () {
 
 const viewDeviceCards = function (deviceVisible) {
     return {type: VIEW_DEVICE_CARDS, deviceVisible};
+};
+
+const setProgramSel = function () {
+    return {type: SET_PROGRAMSEL};
 };
 
 const closeCards = function () {
@@ -169,5 +180,6 @@ export {
     startDrag,
     endDrag,
     viewDeviceCards,
-    setDeviceCards
+    setDeviceCards,
+    setProgramSel
 };

@@ -6,7 +6,7 @@ import {
     activateDeck,
     setDeviceCards
 } from '../reducers/cards';
-import CardsComponent from '../components/connection-modal/deviceModal.jsx';
+import CardsComponent from '../components/cards/deviceProgramCards.jsx';
 import { loadImageData } from '../lib/libraries/decks/translate-image.js';
 import { showAlertWithTimeout } from "../reducers/alerts";
 

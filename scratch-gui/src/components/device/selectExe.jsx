@@ -37,7 +37,7 @@ const SelectExe = (props) => {
     return (
         <>
             {
-                exeList.length > 0 ?
+                exeList.length > 0 &&
                     (<ul className={styles.selExe} ref={refUl}>
                         {
                             exeList.map((item, index) => {
@@ -55,7 +55,7 @@ const SelectExe = (props) => {
                                 )
                             })
                         }
-                    </ul>) : (<img style={{ margin: 20 }} width={400} height={300} src={emptyIcon} alt='' />)
+                    </ul>)
             }
         </>
     );

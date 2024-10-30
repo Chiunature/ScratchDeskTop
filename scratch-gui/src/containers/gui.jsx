@@ -42,7 +42,7 @@ import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../utils/compileGcc.js";
 import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
-import { activateDeck, viewDeviceCards } from "../reducers/cards.js";
+import { activateDeck, setProgramSel, viewDeviceCards } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
 import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
@@ -73,7 +73,7 @@ class GUI extends React.Component {
                 this.watchDevice();
                 // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
-            }, { timeout: 500 })
+            }, {timeout: 500})
         }
     }
     componentDidUpdate(prevProps) {
@@ -217,7 +217,7 @@ class GUI extends React.Component {
         if (!res) {
             return;
         }
-        this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
+        this.compile.sendSerial({verifyType: verifyTypeConfig.RESET_FWLIB});
         this.props.onSetSourceCompleted(true);
         this.props.onOpenConnectionModal();
         window.myAPI.setStoreValue('version', firmwareVersion);
@@ -489,6 +489,7 @@ const mapStateToProps = (state) => {
             state.scratchGui.editorTab.activeTabIndex === BLOCKS_TAB_INDEX,
         cardsVisible: state.scratchGui.cards.visible,
         deviceVisible: state.scratchGui.cards.deviceCards.deviceVisible,
+        programSel: state.scratchGui.cards.programSel,
         connectionModalVisible: state.scratchGui.modals.connectionModal,
         costumeLibraryVisible: state.scratchGui.modals.costumeLibrary,
         costumesTabVisible:
@@ -566,6 +567,7 @@ const mapDispatchToProps = (dispatch) => ({
     onShowQrcode: () => dispatch(showQrcode()),
     onShowUpin: () => dispatch(showUpin()),
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
+    onSetProgramSel: () => dispatch(setProgramSel())
 });
 
 const ConnectedGUI = injectIntl(

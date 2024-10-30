@@ -11,6 +11,7 @@ const MENU_MODE = 'modeMenu';
 const MENU_SETTINGS = 'settingsMenu';
 const MENU_THEME = 'themeMenu';
 const MENU_HELP = 'HELPMenu';
+const MENU_DEVICE = 'deviceMenu';
 class Menu {
     constructor(id) {
         this.id = id;
@@ -60,7 +61,8 @@ const rootMenu = new Menu('root')
     .addChild(new Menu(MENU_SETTINGS))
     .addChild(new Menu(MENU_LOGIN))
     .addChild(new Menu(MENU_ACCOUNT))
-    .addChild(new Menu(MENU_ABOUT));
+    .addChild(new Menu(MENU_ABOUT))
+    .addChild(new Menu(MENU_DEVICE))
 
 const initialState = {
     [MENU_ABOUT]: false,
@@ -72,7 +74,8 @@ const initialState = {
     [MENU_MODE]: false,
     [MENU_SETTINGS]: false,
     [MENU_THEME]: false,
-    [MENU_HELP]: false
+    [MENU_HELP]: false,
+    [MENU_DEVICE]: false
 };
 
 const reducer = function (state, action) {
@@ -152,6 +155,10 @@ const openHelpMenu = () => openMenu(MENU_HELP);
 const closeHelpMenu = () => closeMenu(MENU_HELP);
 const helpMenuOpen = state => state.scratchGui.menus[MENU_HELP];
 
+const openDeviceMenu = () => openMenu(MENU_DEVICE);
+const closeDeviceMenu = () => closeMenu(MENU_DEVICE);
+const deviceMenuOpen = state => state.scratchGui.menus[MENU_DEVICE];
+
 export {
     reducer as default,
     initialState as menuInitialState,
@@ -184,5 +191,8 @@ export {
     themeMenuOpen,
     openHelpMenu,
     closeHelpMenu,
-    helpMenuOpen
+    helpMenuOpen,
+    openDeviceMenu,
+    closeDeviceMenu,
+    deviceMenuOpen
 };

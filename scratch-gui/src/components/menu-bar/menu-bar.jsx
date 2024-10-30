@@ -43,6 +43,7 @@ import {
     closeLanguageMenu,
     closeLoginMenu,
     closeSettingsMenu,
+    closeDeviceMenu,
     editMenuOpen,
     fileMenuOpen,
     languageMenuOpen,
@@ -54,7 +55,9 @@ import {
     openLanguageMenu,
     openLoginMenu,
     openSettingsMenu,
-    settingsMenuOpen
+    settingsMenuOpen,
+    openDeviceMenu,
+    deviceMenuOpen
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
@@ -69,9 +72,9 @@ import connectedIcon from "./icon--connected.svg";
 import genIcon from "./icon--generator.svg";
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
-import {openAutoSave, showAlertWithTimeout, showFileNotify} from "../../reducers/alerts";
+import { openAutoSave, showAlertWithTimeout, showFileNotify } from "../../reducers/alerts";
 import downloadBlob from '../../lib/download-blob';
-import { setDeviceCards, viewDeviceCards } from "../../reducers/cards.js";
+import { setDeviceCards, setProgramSel, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
 import { HELP_SOFT_PDF, HELP_FIRM_PDF } from "../../config/json/LB_USER.json";
@@ -79,6 +82,7 @@ import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
 import FilesSaveNotify from "../alerts/files-save-notify.jsx";
+import DeviceMenu from "./device-menu.jsx";
 // import setProgramList from "../../lib/setProgramList.js";
 
 
@@ -165,6 +169,7 @@ class MenuBar extends React.Component {
             "handleDisconnect",
             "scanConnection",
             "showDeviceCards",
+            "showProgramCards",
             "handleClickHome",
             "reUpdateDriver",
             "handleHelp",
@@ -423,7 +428,16 @@ class MenuBar extends React.Component {
         if (!this.props.peripheralName) {
             this.props.onShowCompletedAlert("selectADeviceFirst");
         } else {
+            if (!this.props.completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } })
             this.props.onViewDeviceCards();
+        }
+    }
+
+    showProgramCards() {
+        if (!this.props.peripheralName) {
+            this.props.onShowCompletedAlert("selectADeviceFirst");
+        } else {
+            this.props.onSetProgramSel();
         }
     }
 
@@ -646,6 +660,15 @@ class MenuBar extends React.Component {
                             <img className={styles.screenShotLogo} src={photoIcon} alt="" />
                         </div>
                         <Divider className={classNames(styles.divider)} />
+                        <DeviceMenu
+                            peripheralName={this.props.peripheralName}
+                            onClickDevice={this.props.onClickDevice}
+                            onRequestCloseDevice={this.props.onRequestCloseDevice}
+                            isRtl={this.props.isRtl}
+                            deviceMenuOpen={this.props.deviceMenuOpen}
+                            showDeviceCards={this.showDeviceCards}
+                            showProgramCards={this.showProgramCards}
+                        />
                         <div
                             className={classNames(
                                 styles.menuBarItem,
@@ -819,6 +842,7 @@ const mapStateToProps = (state, ownProps) => {
         fileMenuOpen: fileMenuOpen(state),
         editMenuOpen: editMenuOpen(state),
         settingsMenuOpen: settingsMenuOpen(state),
+        deviceMenuOpen: deviceMenuOpen(state),
         isRtl: state.locales.isRtl,
         isUpdating: getIsUpdating(loadingState),
         isShowingProject: getIsShowingProject(loadingState),
@@ -883,12 +907,15 @@ const mapDispatchToProps = (dispatch) => ({
     onClearConnectionModalPeripheralName: () =>
         dispatch(clearConnectionModalPeripheralName()),
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
+    onSetProgramSel: () => dispatch(setProgramSel()),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
     onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal()),
+    onClickDevice: () => dispatch(openDeviceMenu()),
+    onRequestCloseDevice: () => dispatch(closeDeviceMenu()),
     onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
     onShowFileNotify: (fileNotify) => dispatch(showFileNotify(fileNotify)),
 });

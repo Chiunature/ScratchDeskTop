@@ -57,6 +57,7 @@ import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
 import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
+import DeviceModal from "../connection-modal/deviceModal.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -113,6 +114,7 @@ const GUIComponent = (props) => {
         blocksId,
         cardsVisible,
         deviceVisible,
+        programSel,
         canChangeLanguage,
         canChangeTheme,
         canChangeHelp,
@@ -167,6 +169,7 @@ const GUIComponent = (props) => {
         onSetExelist,
         onSetSelectedExe,
         onViewDeviceCards,
+        onSetProgramSel,
         onSetVersion,
         onSetGen,
         onActivateDeck,
@@ -282,7 +285,6 @@ const GUIComponent = (props) => {
                         {cardsVisible ? <Cards /> : null}
                         {deviceVisible && <DeviceCards
                             intl={intl}
-                            deviceObj={deviceObj}
                             handleCompile={handleCompile}
                             completed={completed}
                             exeList={exeList}
@@ -290,7 +292,14 @@ const GUIComponent = (props) => {
                             onSetExelist={onSetExelist}
                             peripheralName={peripheralName}
                             onRequestClose={onViewDeviceCards}
-                        /> }
+                        />}
+                        {programSel && <DeviceModal
+                                intl={intl}
+                                deviceObj={deviceObj}
+                                completed={completed}
+                                peripheralName={peripheralName}
+                                onRequestClose={onSetProgramSel}
+                        />}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
@@ -327,6 +336,7 @@ const GUIComponent = (props) => {
                                 handleRunApp={handleRunApp}
                             />) : null}
                         <MenuBar
+                            completed={completed}
                             accountNavOpen={accountNavOpen}
                             authorId={authorId}
                             authorThumbnailUrl={authorThumbnailUrl}
