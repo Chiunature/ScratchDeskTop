@@ -9,7 +9,8 @@ import styles from './alerts.css';
 const AlertsComponent = ({
     alertsList,
     className,
-    onCloseAlert
+    onCloseAlert,
+    onShowCompletedAlert
 }) => (
     <Box
         bounds="parent"
@@ -32,6 +33,8 @@ const AlertsComponent = ({
                     showReconnect={a.showReconnect}
                     showSaveNow={a.showSaveNow}
                     onCloseAlert={onCloseAlert}
+                    onShowCompletedAlert={onShowCompletedAlert}
+                    progress={a.progress}
                 />
             ))}
         </Box>

@@ -4,7 +4,7 @@ import CascaderPanelModalCom from '../components/cascader-panel/cascader-panel-m
 import { closeCascaderPanelModal } from "../reducers/modals";
 import { initOptions } from '../components/cascader-panel/Cascader.js';
 import bindAll from 'lodash.bindall';
-
+import { showAlertWithTimeout } from "../reducers/alerts";
 class CascaderPanelModal extends PureComponent {
     constructor(props) {
         super(props);
@@ -35,6 +35,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => dispatch(closeCascaderPanelModal()),
+    onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CascaderPanelModal);

@@ -10,6 +10,9 @@
     border-style: solid;
     border-color: $ui-white-transparent;
     box-sizing: content-box;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.25rem;
 }
 
 .spinner::before, .spinner::after {

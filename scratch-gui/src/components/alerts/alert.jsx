@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
-
+import { FormattedMessage } from 'react-intl';
+import { ipc as ipc_Render } from 'est-link';
 import Box from '../box/box.jsx';
 import CloseButton from '../close-button/close-button.jsx';
 import Spinner from '../spinner/spinner.jsx';
-import {AlertLevels} from '../../lib/alerts/index.jsx';
+import { AlertLevels } from '../../lib/alerts/index.jsx';
 
 import styles from './alert.css';
 
@@ -28,94 +28,127 @@ const AlertComponent = ({
     onDownload,
     onSaveNow,
     onReconnect,
-    showReconnect
-}) => (
-    <Box
-        className={classNames(styles.alert, styles[level])}
-    >
-        {/* TODO: implement Rtl handling */}
-        {(iconSpinner || iconURL) && (
-            <div className={styles.iconSection}>
-                {iconSpinner && (
-                    <Spinner
-                        className={styles.alertSpinner}
-                        level={level}
+    showReconnect,
+    progress,
+    onShowCompletedAlert
+}) => {
+
+    let [pg, setPg] = useState(0)
+
+    useEffect(() => {
+        progressBar()
+        return () => {
+            delProgressBar()
+        }
+    }, [progress])
+
+    function progressBar() {
+        window.myAPI.ipcRender({
+            eventName: ipc_Render.PROGRESSBAR,
+            callback: (e, num) => {
+                if (num !== pg) {
+                    setPg(num)
+                }
+                if (parseInt(num) > 98) {
+                    onShowCompletedAlert("calibrationSuccess")
+                    setPg(0)
+                }
+            }
+        })
+    }
+
+    function delProgressBar() {
+        window.myAPI.delEvents('progressBar');
+    }
+
+    return (
+        <Box
+            className={classNames(styles.alert, styles[level])}
+        >
+            {/* TODO: implement Rtl handling */}
+            {(iconSpinner || iconURL) && (
+                <div className={styles.iconSection}>
+                    {iconSpinner && (
+                        <Spinner
+                            className={styles.alertSpinner}
+                            level={level}
+                        />
+                    )}
+                    {iconURL && (
+                        <img
+                            className={styles.alertIcon}
+                            src={iconURL}
+                        />
+                    )}
+                </div>
+            )}
+            <div className={styles.alertMessage}>
+                {extensionName ? (
+                    <FormattedMessage
+                        defaultMessage="lost connection to {extensionName}."
+                        description="Message indicating that an extension peripheral has been disconnected"
+                        id="gui.alerts.lostPeripheralConnection"
+                        values={{
+                            extensionName: (
+                                `${extensionName}`
+                            )
+                        }}
                     />
+                ) : content} {progress && pg + '%'}
+            </div>
+            <div className={styles.alertButtons}>
+                {showSaveNow && (
+                    <button
+                        className={styles.alertConnectionButton}
+                        onClick={onSaveNow}
+                    >
+                        <FormattedMessage
+                            defaultMessage="Try Again"
+                            description="Button to try saving again"
+                            id="gui.alerts.tryAgain"
+                        />
+                    </button>
                 )}
-                {iconURL && (
-                    <img
-                        className={styles.alertIcon}
-                        src={iconURL}
-                    />
+                {showDownload && (
+                    <button
+                        className={styles.alertConnectionButton}
+                        onClick={onDownload}
+                    >
+                        <FormattedMessage
+                            defaultMessage="Download"
+                            description="Button to download project locally"
+                            id="gui.alerts.download"
+                        />
+                    </button>
+                )}
+                {showReconnect && (
+                    <button
+                        className={styles.alertConnectionButton}
+                        onClick={onReconnect}
+                    >
+                        <FormattedMessage
+                            defaultMessage="Reconnect"
+                            description="Button to reconnect the device"
+                            id="gui.connection.reconnect"
+                        />
+                    </button>
+                )}
+                {closeButton && (
+                    <Box
+                        className={styles.alertCloseButtonContainer}
+                    >
+                        <CloseButton
+                            className={classNames(styles.alertCloseButton)}
+                            color={closeButtonColors[level]}
+                            size={CloseButton.SIZE_LARGE}
+                            onClick={onCloseAlert}
+                        />
+                    </Box>
                 )}
             </div>
-        )}
-        <div className={styles.alertMessage}>
-            {extensionName ? (
-                <FormattedMessage
-                    defaultMessage="lost connection to {extensionName}."
-                    description="Message indicating that an extension peripheral has been disconnected"
-                    id="gui.alerts.lostPeripheralConnection"
-                    values={{
-                        extensionName: (
-                            `${extensionName}`
-                        )
-                    }}
-                />
-            ) : content}
-        </div>
-        <div className={styles.alertButtons}>
-            {showSaveNow && (
-                <button
-                    className={styles.alertConnectionButton}
-                    onClick={onSaveNow}
-                >
-                    <FormattedMessage
-                        defaultMessage="Try Again"
-                        description="Button to try saving again"
-                        id="gui.alerts.tryAgain"
-                    />
-                </button>
-            )}
-            {showDownload && (
-                <button
-                    className={styles.alertConnectionButton}
-                    onClick={onDownload}
-                >
-                    <FormattedMessage
-                        defaultMessage="Download"
-                        description="Button to download project locally"
-                        id="gui.alerts.download"
-                    />
-                </button>
-            )}
-            {showReconnect && (
-                <button
-                    className={styles.alertConnectionButton}
-                    onClick={onReconnect}
-                >
-                    <FormattedMessage
-                        defaultMessage="Reconnect"
-                        description="Button to reconnect the device"
-                        id="gui.connection.reconnect"
-                    />
-                </button>
-            )}
-            {closeButton && (
-                <Box
-                    className={styles.alertCloseButtonContainer}
-                >
-                    <CloseButton
-                        className={classNames(styles.alertCloseButton)}
-                        color={closeButtonColors[level]}
-                        size={CloseButton.SIZE_LARGE}
-                        onClick={onCloseAlert}
-                    />
-                </Box>
-            )}
-        </div>
-    </Box>
-);
+        </Box>
+    )
+};
 
 AlertComponent.propTypes = {
     closeButton: PropTypes.bool,

@@ -554,6 +554,51 @@ const alerts = [
         level: AlertLevels.SUCCESS,
         maxDisplaySecs: 1,
     },
+    {
+        alertId: "calibration",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibrationSuccess"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Calibration in progress, please wait a moment..."
+                description="Calibration in progress"
+                id="gui.alerts.calibration"
+            />
+        ),
+        level: AlertLevels.SUCCESS,
+        iconSpinner: true,
+        progress: true,
+    },
+    {
+        alertId: "calibrationSuccess",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibration"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Calibration completed"
+                description="Calibration completed"
+                id="gui.alerts.calibrationSuccess"
+            />
+        ),
+        level: AlertLevels.SUCCESS,
+        maxDisplaySecs: 2,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

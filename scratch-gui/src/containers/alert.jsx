@@ -7,6 +7,7 @@ import AlertComponent from '../components/alerts/alert.jsx';
 import {openConnectionModal} from '../reducers/modals';
 import {setConnectionModalExtensionId} from '../reducers/connection-modal';
 import {manualUpdateProject} from '../reducers/project-state';
+import { showAlertWithTimeout } from "../reducers/alerts";
 
 class Alert extends React.Component {
     constructor (props) {
@@ -36,11 +37,14 @@ class Alert extends React.Component {
             onSaveNow,
             showDownload,
             showReconnect,
-            showSaveNow
+            showSaveNow,
+            progress,
+            onShowCompletedAlert
         } = this.props;
         return (
             <SB3Downloader>{(_, downloadProject) => (
                 <AlertComponent
+                    progress={progress}
                     closeButton={closeButton}
                     content={content}
                     extensionName={extensionName}
@@ -55,6 +59,7 @@ class Alert extends React.Component {
                     onDownload={downloadProject}
                     onReconnect={this.handleOnReconnect}
                     onSaveNow={onSaveNow}
+                    onShowCompletedAlert={onShowCompletedAlert}
                 />
             )}</SB3Downloader>
         );
@@ -70,7 +75,8 @@ const mapDispatchToProps = dispatch => ({
     },
     onSaveNow: () => {
         dispatch(manualUpdateProject());
-    }
+    },
+    onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
 });
 
 Alert.propTypes = {
@@ -88,7 +94,8 @@ Alert.propTypes = {
     onSaveNow: PropTypes.func,
     showDownload: PropTypes.bool,
     showReconnect: PropTypes.bool,
-    showSaveNow: PropTypes.bool
+    showSaveNow: PropTypes.bool,
+    progress: PropTypes.bool
 };
 
 export default connect(

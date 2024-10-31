@@ -118,7 +118,7 @@
     bottom: 50px;
     right: 7%;
     user-select: none;
-    transition: all .3s;
+    transition: all .5s linear;
 }
 
 .file-save-box .file-save-header {

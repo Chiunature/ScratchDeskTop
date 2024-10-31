@@ -45,7 +45,8 @@
         "MATRIX": "MATRIX",
         "RESTART": "restart",
         "SENSING_UPDATE": "sensing_update",
-        "GETMAINMSG": "get_main_msg"
+        "GETMAINMSG": "get_main_msg",
+        "CALIBRATION": "calibration"
     },
     "RETURN": {
         "EXE": {
@@ -89,5 +90,6 @@
     },
     "FILE":  {
       "SAVE": "save-file"
-    }
+    },
+    "PROGRESSBAR": "progressBar"
 }

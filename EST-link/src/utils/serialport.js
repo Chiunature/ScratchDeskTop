@@ -288,7 +288,7 @@ class Serialport extends Common {
         if (this.port && this.port.isOpen) {
             this.port.flush();
         }
-        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) { 
+        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
             this.sign = null;
         }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
@@ -338,6 +338,22 @@ class Serialport extends Common {
         }
     }
 
+    checkIsCalibration(receiveData, event) {
+        const text = new TextDecoder();
+        const res = text.decode(receiveData.slice(4, -2));
+        const num = res.replace(/[^0-9]/ig, '');
+        
+        if (num.length > 2) {
+            return
+        }
+
+        event.reply(ipc_Main.PROGRESSBAR, num);
+
+        if (parseInt(num) === 99) {
+            this.sign = null;
+        }   
+    }
+
     /**
      * PausedMode读取串口数据
      * @param {String} eventName
@@ -354,6 +370,10 @@ class Serialport extends Common {
                 return;
             }
             // this.checkIsDebug(receiveData, debugReg);
+            if (this.sign === ipc_Main.SEND_OR_ON.CALIBRATION) {
+                this.checkIsCalibration(receiveData, event);
+                return;
+            }
 
             //开启设备数据监控监听
             this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
@@ -419,7 +439,7 @@ class Serialport extends Common {
                     }, event);
                 } else {
                     event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
-                } 
+                }
             }
         } else {
             this.sendBin(event);
@@ -445,6 +465,9 @@ class Serialport extends Common {
                     break;
                 case 'APP':
                     this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+                    break;
+                case ipc_Main.SEND_OR_ON.CALIBRATION:
+                    this.writeData(instruct.calibration, ipc_Main.SEND_OR_ON.CALIBRATION, event);
                     break;
                 default:
                     break;
