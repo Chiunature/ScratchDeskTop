@@ -28,7 +28,7 @@ function Task_Stack(item, index) {
 }
 
 function Task_Info_Item(index) {
-    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = 512,\r\n\t\t.UBase_Proier = 2,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n},\n`;
+    return `\n{\r\n\t\t.Task_Name = "USER_Aplication${index}",\r\n\t\t.Task_StackSize = AplicationStackSize,\r\n\t\t.UBase_Proier = AplicationProier,\r\n\t\t.TaskFunction = USER_Aplication${index},\r\n},\n`;
 }
 
 function Task_Info(taskStr) {
