@@ -110,6 +110,7 @@ const reducer = function (state, action) {
             deviceCards: action.deviceCards
         });
     case SET_PROGRAMSEL:
+        if(state.programSel === action.programSel) return state;
         return Object.assign({}, state, {
             programSel: !state.programSel
         });

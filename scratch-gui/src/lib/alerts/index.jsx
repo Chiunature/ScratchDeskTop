@@ -29,6 +29,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -53,6 +54,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -77,6 +79,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -101,6 +104,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -124,6 +128,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -147,6 +152,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -169,6 +175,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         closeButton: true,
         content: (
@@ -191,6 +198,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
+            "calibration"
         ],
         showDownload: true,
         showSaveNow: true,
@@ -214,6 +222,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -229,7 +238,7 @@ const alerts = [
     {
         alertId: "saving",
         alertType: AlertTypes.INLINE,
-        clearList: ["saveSuccess", "saving", "savingError"],
+        clearList: ["saveSuccess", "saving", "savingError", "calibration"],
         content: (
             <FormattedMessage
                 defaultMessage="Saving project…"
@@ -287,7 +296,7 @@ const alerts = [
     {
         alertId: "selectADeviceFirst",
         alertType: AlertTypes.STANDARD,
-        clearList: ["selectADeviceFirst"],
+        clearList: ["selectADeviceFirst", "calibration"],
         closeButton: true,
         content: (
             <FormattedMessage
@@ -309,6 +318,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -330,6 +340,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -351,6 +362,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -372,6 +384,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -393,6 +406,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -414,6 +428,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -435,7 +450,8 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "uploadTimeout"
+            "uploadTimeout",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -457,7 +473,8 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "uploadTimeout"
+            "uploadTimeout",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -479,7 +496,8 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "uploadTimeout"
+            "uploadTimeout",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -501,6 +519,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -522,6 +541,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage
@@ -543,6 +563,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
+            "calibration"
         ],
         content: (
             <FormattedMessage

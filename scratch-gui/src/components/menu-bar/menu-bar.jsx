@@ -391,7 +391,8 @@ class MenuBar extends React.Component {
         this.props.onSetCompleted(false);
         this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
         this.props.onSetDeviceType(null);
-        this.props.onSetDeviceCards({ deviceVisible: false });
+        this.props.onSetProgramSel(false);
+        this.props.onViewDeviceCards(false);
         this.props.onSetDeviceObj(null);
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
@@ -886,8 +887,8 @@ const mapDispatchToProps = (dispatch) => ({
     onShowDisonnectAlert: (item) => showAlertWithTimeout(dispatch, item),
     onClearConnectionModalPeripheralName: () =>
         dispatch(clearConnectionModalPeripheralName()),
-    onViewDeviceCards: () => dispatch(viewDeviceCards()),
-    onSetProgramSel: () => dispatch(setProgramSel()),
+    onViewDeviceCards: (flag) => dispatch(viewDeviceCards(flag)),
+    onSetProgramSel: (flag) => dispatch(setProgramSel(flag)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
