@@ -567,7 +567,7 @@ const mapDispatchToProps = (dispatch) => ({
     onShowQrcode: () => dispatch(showQrcode()),
     onShowUpin: () => dispatch(showUpin()),
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
-    onSetProgramSel: () => dispatch(setProgramSel())
+    onSetProgramSel: (flag) => dispatch(setProgramSel(flag))
 });
 
 const ConnectedGUI = injectIntl(

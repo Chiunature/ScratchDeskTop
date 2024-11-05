@@ -36,7 +36,7 @@ export default function DeviceModal(props) {
             className={styles.deviceModal}
             headerClassName={styles.header}
             id="DeviceModal"
-            onRequestClose={props.onRequestClose}
+            onRequestClose={() => props.onRequestClose(false)}
             intl={props.intl}
             style={{
                 content: {
