@@ -438,7 +438,7 @@ class MenuBar extends React.Component {
         if (!this.props.peripheralName) {
             this.props.onShowCompletedAlert("selectADeviceFirst");
         } else {
-            this.props.onSetProgramSel();
+            this.props.onSetProgramSel(true);
         }
     }
 
