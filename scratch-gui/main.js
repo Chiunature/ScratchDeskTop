@@ -71,13 +71,6 @@ const options = {
     nodeIntegrationInWorker: true
 }
 
-const pack = {
-    electron,
-    fs,
-    path,
-    process: global.process,
-    isPackaged: app.isPackaged
-}
 // 使用快速启动模式
 app.commandLine.appendSwitch('enable-features', 'HardwareAccelerationModeDefault');
 app.commandLine.appendSwitch('gpu-memory-buffer-compositor-resources');
@@ -132,7 +125,6 @@ function showLoading(mainWin) {
         resizable: false,
         transparent: true,
         partition: 'persist:showLoading',
-        maxMemory: 512 * 1024 * 1024
     });
 
     loadingWindow.once("show", mainWin);
@@ -189,6 +181,13 @@ function handleChildProcess() {
 
 
 function openSerialPort() {
+    const pack = {
+        electron: electron,
+        fs: fs,
+        path: path,
+        process: global.process,
+        isPackaged: app.isPackaged
+    }
     const sp = new Serialport({ serialport, ...pack });
     //获取串口列表
     sp.getList();
@@ -241,15 +240,10 @@ function createWindow() {
         minHeight: 750,
         partition: 'persist:window-id' + getRandomString(),
         webPreferences: options,
-        maxMemory: 512 * 1024 * 1024 // 设置最大内存为512MB
     });
 
     handleMenuAndDevtool(mainWindow);
 
-    mainWindow.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
-        details.requestHeaders['Cache-Control'] = 'max-age=7200'; // 设置缓存有效期为2小时
-        callback({ requestHeaders: details.requestHeaders });
-    });
 
     mainWindow.once("ready-to-show", () => {
         loadingWindow.hide();
@@ -281,7 +275,7 @@ function createWindow() {
         if (!mainMsg && args.msg) {
             mainMsg = { ...args.msg };
         }
-        notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
+        // notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
         return updater(mainWindow, args.autoUpdate);
     });
     // 检测电脑是否安装了驱动

@@ -2,7 +2,7 @@
     "name": "new-ai",
     "version": "1.6.6",
     "description": "NEW-AI极睿",
-    "main": "main.js",
+    "main": "main-with-cache.js",
     "scripts": {
         "build": "npm run clean && webpack --colors --bail",
         "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
@@ -112,6 +112,7 @@
         "style-loader": "^0.23.0",
         "text-encoding": "0.7.0",
         "to-style": "1.3.3",
+        "v8-compile-cache": "^2.4.0",
         "wav-encoder": "1.3.0",
         "xhr": "2.5.0"
     },
@@ -236,7 +237,8 @@
             "src/utils/**/*",
             "main.js",
             "preload.js",
-            "update.js"
+            "update.js",
+            "main-with-cache.js"
         ],
         "fileAssociations": [
             {
