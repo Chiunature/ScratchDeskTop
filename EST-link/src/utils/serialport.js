@@ -97,7 +97,7 @@ class Serialport extends Common {
         //开启断开连接监听
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
         //开启读取数据监听
-        this.handleRead("readable", event);
+        this.handleRead("data", event);
         //开启串口关闭监听
         this.listenPortClosed("close", event);
         //开启获取bin文件或固件下载监听
@@ -355,7 +355,7 @@ class Serialport extends Common {
     }
 
     /**
-     * PausedMode读取串口数据
+     * FlowMode读取串口数据
      * @param {String} eventName
      * @param {*} event
      * @returns
@@ -363,9 +363,9 @@ class Serialport extends Common {
     handleRead(eventName, event) {
         if (!this.port) return;
         const func = this.throttle(this.watchDevice.bind(this), 100);
-        this.port.on(eventName, () => {
+        this.port.on(eventName, (receiveData) => {
             //获取下位机发送过来的数据
-            const receiveData = this.port.read();
+            // const receiveData = this.port.read();
             if (!receiveData) {
                 return;
             }

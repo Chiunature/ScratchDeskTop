@@ -2,7 +2,7 @@ const { autoUpdater } = require('electron-updater');
 const { app, dialog } = require('electron');
 const fs = require("fs-extra");
 const path = require("path");
-const incrementUpdate = require("./src/config/js/incrementUpdate.js");
+const incrementUpdate = require("./scripts/incrementUpdate.js");
 
 const server = 'https://zsff.drluck.club';
 const updateUrl = `${server}/ATC`;

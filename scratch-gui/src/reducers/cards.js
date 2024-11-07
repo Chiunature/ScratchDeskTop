@@ -134,8 +134,8 @@ const viewDeviceCards = function (deviceVisible) {
     return {type: VIEW_DEVICE_CARDS, deviceVisible};
 };
 
-const setProgramSel = function () {
-    return {type: SET_PROGRAMSEL};
+const setProgramSel = function (programSel) {
+    return {type: SET_PROGRAMSEL, programSel};
 };
 
 const closeCards = function () {

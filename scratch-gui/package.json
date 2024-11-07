@@ -199,16 +199,8 @@
                 "to": "./zadig.exe"
             },
             {
-                "from": "./resources/sounds",
-                "to": "./sounds"
-            },
-            {
                 "from": "build",
-                "to": "app.asar.unpacked",
-                "filter": [
-                    "!**/scripts/afterPack.js",
-                    "!**/scripts/afterSign.js"
-                ]
+                "to": "app.asar.unpacked"
             },
             {
                 "from": "NEW-AI极睿智能编程套装说明书.pdf",
@@ -226,15 +218,16 @@
                 "from": "scripts",
                 "to": "./scripts",
                 "filter": [
-                    "!**/afterPack.js",
-                    "!**/afterSign.js"
+                    "**/hotVersion.json"
                 ]
             }
         ],
         "files": [
             "node_modules/**/*",
-            "src/config/**/*",
-            "src/utils/**/*",
+            "scripts/**/*",
+            "src/utils/storeChildProcess.js",
+            "src/utils/StoreUtil.js",
+            "src/config/json/**/*",
             "main.js",
             "preload.js",
             "update.js",

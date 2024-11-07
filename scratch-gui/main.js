@@ -24,18 +24,17 @@
  */
 const serialport = require("serialport");
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, Notification } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
-const url = require("url");
 const fs = require("fs");
 const { cwd } = require("process");
 const { exec } = require("child_process");
 const { Serialport, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
-const createProtocol = require("./src/config/js/createProtocol.js");
-const watchLaunchFromATC = require("./src/config/js/watchLaunchFromATC.js");
-const getRandomString = require("./src/utils/getRandomString.js");
+// const createProtocol = require("./scripts/createProtocol.js");
+const watchLaunchFromATC = require("./scripts/watchLaunchFromATC.js");
+const getRandomString = require("./scripts/getRandomString.js");
 
 //设置通知标题上面的 英文 electron.app.Electron 
 const pg = require("./package.json");
@@ -58,18 +57,6 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
-const options = {
-    sandbox: false,
-    nativeWindowOpen: true,
-    nodeIntegration: true,
-    contextIsolation: true,
-    javascript: true,
-    plugins: true,
-    webSecurity: false,
-    preload: path.join(__dirname, "preload.js"),
-    requestedExecutionLevel: "requireAdministrator",
-    nodeIntegrationInWorker: true
-}
 
 // 使用快速启动模式
 app.commandLine.appendSwitch('enable-features', 'HardwareAccelerationModeDefault');
@@ -91,7 +78,7 @@ async function updater(win, autoUpdate) {
     return updateFunc;
 }
 
-function notice(title, body) {
+/* function notice(title, body) {
     return new Promise((ok, fail) => {
         if (!Notification.isSupported()) fail("当前系统不支持通知")
         let ps = typeof (title) == 'object' ? title : { title, body }
@@ -99,7 +86,7 @@ function notice(title, body) {
         n.on('click', ok)
         n.show()
     })
-}
+} */
 
 function showPDF(href) {
     const pdfwin = new PDFWindow({
@@ -199,12 +186,7 @@ function handleMenuAndDevtool(mainWindow) {
     //关闭默认菜单
     if (app.isPackaged) {
         Menu.setApplicationMenu(null);
-        createProtocol("app", "", path.join(process.resourcesPath, "./app.asar.unpacked"));
-        mainWindow.loadURL(url.format({
-            pathname: path.join(process.resourcesPath, "app.asar.unpacked/index.html"),
-            protocol: "file:",
-            slashes: true,
-        }));
+        mainWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/index.html"));
     } else {
         mainWindow.loadURL("http://127.0.0.1:8601/");
         const devtools = new BrowserWindow();
@@ -228,6 +210,18 @@ function openPDFWindow() {
 }
 
 function createWindow() {
+    const options = {
+        sandbox: false,
+        nativeWindowOpen: true,
+        nodeIntegration: true,
+        contextIsolation: true,
+        javascript: true,
+        plugins: true,
+        webSecurity: false,
+        preload: path.resolve(__dirname, "preload.js"),
+        requestedExecutionLevel: "requireAdministrator",
+        nodeIntegrationInWorker: true
+    };
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({

@@ -197,10 +197,6 @@ module.exports = [
                         to: 'static'
                     },
                     {
-                        from: 'scripts',
-                        to: 'scripts'
-                    },
-                    {
                         from: 'worker.js',
                         to: 'worker.js'
                     },
