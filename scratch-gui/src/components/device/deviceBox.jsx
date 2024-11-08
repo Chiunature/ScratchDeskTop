@@ -92,6 +92,16 @@ const DeviceBox = ({ list, intl, messages }) => {
                                 )
                             })}
                         </ul>}
+                        {el.gray && Object.keys(el.gray).length > 0 && <ul className={styles.midUl}>
+                            {Object.keys(el.gray).map((item, index) => {
+                                return (
+                                    <li key={index}>
+                                        <span>{item === 'Not_Run' ? 'Error' : item}</span>
+                                        <span>{el.gray[item]}</span>
+                                    </li>
+                                )
+                            })}
+                        </ul>}
                     </div>
                 )
             })}

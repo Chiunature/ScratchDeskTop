@@ -56,6 +56,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 6:
                 return smallMotorSensingIcon;
             case 2:
+            case 7:
                 return colorSensingIcon;
             case 3:
                 return superSoundIcon;
@@ -80,12 +81,14 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return { ultrasion: item.ultrasion };
             case 4:
                 return item.touch;
+            case 7:
+                return item.gray;
             default:
                 return null;
         }
     }
 
-    function DistinguishTypes(deviceId, unitIndex) {
+    function DistinguishTypes(deviceId, unitIndex, keyName) {
         if (!deviceId) return;
         const num = parseInt(deviceId.slice(-1));
         switch (num) {
@@ -97,8 +100,10 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return colorData(unitIndex);
             case 3:
                 return intl.formatMessage(messages['distance']);
-            default:
+            case 4:
                 return intl.formatMessage(messages['key']);
+            default:
+                return keyName;
         }
     }
 

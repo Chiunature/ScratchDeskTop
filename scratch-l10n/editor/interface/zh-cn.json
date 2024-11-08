@@ -592,6 +592,7 @@
   "gui.device.updatePlaceHolder": "请选择端口和设备",
   "gui.device.updateSensing": "强制外设更新",
   "gui.device.gyroscopeCalibration": "陀螺仪校准",
+  "gui.device.gray": "灰度",
   "gui.main.Exit": "你所做的更改可能未保存!",
   "gui.main.reupdateFireware": "固件已是最新版本, 是否要重新更新?",
   "gui.main.updateFireware": "检测到固件版本不是最新, 是否前去更新?",

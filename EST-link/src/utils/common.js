@@ -362,6 +362,9 @@ class Common {
       } else if (item.touch) {
         item.sensing_device = device[this.deviceIdList[4]];
         item.deviceId = this.deviceIdList[4];
+      } else if (item.gray) {
+        item.sensing_device = device[this.deviceIdList[7]];
+        item.deviceId = this.deviceIdList[7];
       }
     }
 

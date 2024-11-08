@@ -95,8 +95,8 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
                             return (
                                 el === 'Not_Run' ? (<span key={unIndex}>Error</span>) :
                                 (<Fragment key={unIndex}>
-                                    {DistinguishTypes(item.deviceId, unIndex) && <span
-                                        onClick={() => selectUnit(el, unIndex)}>{DistinguishTypes(item.deviceId, unIndex)}</span>}
+                                    {DistinguishTypes(item.deviceId, unIndex, el) && <span
+                                        onClick={() => selectUnit(el, unIndex)}>{DistinguishTypes(item.deviceId, unIndex, el)}</span>}
                                 </Fragment>)
                             )
                         })}
