@@ -613,6 +613,12 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
             <block type="sensing_timer"></block>
             ${blockSeparator}
             <block type="sensing_reset_timer"></block>
+            ${blockSeparator}
+            <block type="sensing_get_gray_line">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
             ${categorySeparator}
         </category>
     `;

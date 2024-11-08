@@ -756,4 +756,30 @@ Blockly.Blocks['sensing_reflected_light_blackLine'] = {
   }
 };
 
-
+Blockly.Blocks['sensing_get_gray_line'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_get_gray_line",
+      "message0": Blockly.Msg.SENSING_GET_GRAY_LINE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "VALUES",
+          "options": [
+            ["R1", "R1"],
+            ["R2", "R2"],
+            ["Middle", "Middle"],
+            ["L1", "L1"],
+            ["L2", "L2"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
