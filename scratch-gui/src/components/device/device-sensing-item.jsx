@@ -21,7 +21,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     }, [item.deviceId]);
 
     let data = useMemo(() => {
-        const type = DistinguishTypes(newDeviceId, unitIndex)
+        const type = DistinguishTypes(newDeviceId, unitIndex, unit)
         return type ? (type + ': ' + showData) : showData;
     }, [showData, newDeviceId, unitIndex]);
 
