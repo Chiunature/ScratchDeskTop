@@ -242,6 +242,6 @@ Blockly.cake['sensing_reflected_light_blackLine'] = function (block) {
 Blockly.cake['sensing_get_gray_line'] = function (block) {
     const port = Blockly.cake.valueToCode(block, "PORT", Blockly.cake.ORDER_NONE);
     const value = block.getFieldValue("VALUES");
-    const code = `sensing_get_gray_line(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(value) ? value : '"' + value + '"'})`;
+    const code = `get_gray_line(${Blockly.cake.toStr(port) ? port : '"' + port + '"'}, ${Blockly.cake.toStr(value) ? value : '"' + value + '"'})`;
     return [code, Blockly.cake.ORDER_ATOMIC];
 };
