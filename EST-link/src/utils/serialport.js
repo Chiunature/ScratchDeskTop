@@ -7,12 +7,16 @@
  * @params: {
  *  port: 串口
  *  chunkBuffer: bin文件数据缓存
- *  chunkIndex: 切片下标
+ *  chunkBufferSize: bin文件数据缓存大小
  *  sign: 步骤标识
- *  timeOutTimer: 检测指令是否成功有返回
+ *  timeOutTimer: 超时定时器
+ *  checkConnectTimer: 检测连接定时器
  *  verifyType: 判断是发固件文件还是bin数据
- *  receiveDataBuffer: 接收到的数据缓存
- *  filesObj: 传输的文件对象
+ *  receiveObj: 接收到的数据缓存
+ *  watchDeviceData: 监听设备数据
+ *  selectedExe: 选择exe文件
+ *  sourceFiles: 要下载的资源文件组
+ *  uploadingFile: 正在上传的文件
  * }
  */
 const Common = require("./common.js");
@@ -35,7 +39,7 @@ class Serialport extends Common {
         this.portList = [];
         this.isConnectedPortList = [];
         this.chunkBuffer = [];
-        this.chunkIndex = 0;
+        this.chunkBufferSize = 0;
         this.sign = null;
         this.timeOutTimer = null;
         this.checkConnectTimer = null;
@@ -205,6 +209,7 @@ class Serialport extends Common {
         }
         //将子文件数据切割成248个
         this.chunkBuffer = this.uploadSlice(data.binData, 248);
+        this.chunkBufferSize = this.chunkBuffer.length;
         this.verifyType = data.verifyType;
         //根据文件类型获取功能码
         const bits = this.getBits(data.verifyType);
@@ -243,15 +248,6 @@ class Serialport extends Common {
             this.sign = str;
             //写入数据
             this.port.write(Buffer.from(data));
-
-            //判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
-            if (this.verifyType && this.chunkBuffer.length > 0) {
-                if (this.verifyType.indexOf(SOURCE) === -1) {
-                    event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100));
-                } else {
-                    event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: Math.ceil(((this.chunkIndex + 1) / this.chunkBuffer.length) * 100) });
-                }
-            }
 
             if (str && str.indexOf('Boot_') !== -1) {
                 this.checkOverTime(event);
@@ -292,7 +288,6 @@ class Serialport extends Common {
             this.sign = null;
         }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
-        this.chunkIndex = 0;
         clearTimeout(this.checkConnectTimer);
         this.checkConnectTimer = null;
         this.receiveObj = null;
@@ -314,12 +309,12 @@ class Serialport extends Common {
      * @returns
      */
     sendBin(event) {
-        if (this.chunkIndex < 0) {
+        if (this.chunkBufferSize <= 0) {
             return;
         }
-        const element = this.chunkBuffer[this.chunkIndex];
+        const element = this.chunkBuffer.shift();
         //将文件数据放入处理函数获取需要发送给下位机的完整指令
-        const { binArr } = this.checkBinData(element, this.chunkIndex, this.chunkBuffer.length - 1);
+        const { binArr } = this.checkBinData(element, this.chunkBuffer.length === 0);
         //传入bin数据并修改标识符
         this.writeData(binArr, signType.BOOT.BIN, event);
     }
@@ -409,16 +404,32 @@ class Serialport extends Common {
     }
 
     /**
+     * 判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度
+     * @param {*} event
+     */
+    processHandle(event) {
+        if (this.verifyType && this.chunkBuffer.length >= 0) {
+            const progress =  Math.ceil(((this.chunkBufferSize - this.chunkBuffer.length) / this.chunkBufferSize) * 100);
+            if (this.verifyType.indexOf(SOURCE) === -1) {
+                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, progress);
+            } else {
+                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: progress });
+            }
+        }
+    }
+
+    /**
      * 处理接收到的数据
      * @param {*} event
      */
     processReceivedData(event) {
         if (this.sign === signType.BOOT.FILENAME) {
             this.sign = signType.BOOT.BIN;
-        } else {
-            this.chunkIndex++;
         }
-        const isLast = this.chunkIndex > this.chunkBuffer.length - 1;
+        
+        this.processHandle(event);
+
+        const isLast = this.chunkBuffer.length === 0
         //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
         if (isLast) {
             //清除缓存

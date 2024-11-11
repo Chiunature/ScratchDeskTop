@@ -128,13 +128,12 @@ class Common {
   /**
    * bin信息指令
    * @param {Array} item
-   * @param {Number} currentIndex
-   * @param {Number} lastIndex
+   * @param {Number} isLast
    * @returns
    */
-  checkBinData(item, currentIndex, lastIndex) {
+  checkBinData(item, isLast) {
     const len = item.length;
-    const bits = currentIndex === lastIndex ? 0xbb : 0xaa;
+    const bits = isLast ? 0xbb : 0xaa;
     let sum = 0x5a + 0x97 + 0x98 + len + bits;
     item.forEach(el => sum += el);
     return {
