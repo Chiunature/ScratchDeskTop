@@ -135,6 +135,12 @@ const motor = function (isInitialSetup, isStage, targetId, colors) {
                         <shadow type="motor_box"></shadow>
                     </value>
                 </block>
+                ${blockSeparator}
+                <block type="motor_angle">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
                 ${categorySeparator}
             </category>
             `;
