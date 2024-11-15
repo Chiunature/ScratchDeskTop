@@ -35,17 +35,11 @@ function Task_Info(taskStr) {
     return `\nMallocTask_Info User_Task[] = {${taskStr}\n};\n`;
 }
 
-function Task_Handler(index) {
-    return `\nTaskHandle_t UserHandle${index};\n`;
-}
 
 function Task_MyBlock(myStr) {
     return `\n/*MyBlock Write*/\n${myStr ? myStr : ''}\n/*MyBlock End*/\n`;
 }
 
-function Task_Open_Gyroscope_Calibration(flag) {
-    return `#define OPEN_GYROSCOPE_CALIBRATION ${flag}`;
-}
 
 function Task_Info_ItemOfMsgBlock(el) {
     const reg = /void (Task_MessageBox\d+)/;
@@ -65,9 +59,7 @@ export {
     Task_MyBlock,
     Task_Info,
     Task_Stack,
-    Task_Handler,
     Task_Info_Item,
-    Task_Open_Gyroscope_Calibration,
     Task_Info_ItemOfMsgBlock,
     Task_MsgBlock
 }
