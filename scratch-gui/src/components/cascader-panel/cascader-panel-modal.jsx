@@ -98,7 +98,7 @@ function CascaderPanelModalCom(props) {
 
     function checkPorts(el) {
         const index = getIndex(el.father);
-        const devices = ['a1', 'a5', 'a6', 'a2'];
+        const devices = ['a1', 'a5', 'a6', 'a2', 'a7'];
         const hasDevice = props?.deviceObj?.deviceList[index]?.deviceId && devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
         if (!hasDevice) {
             alert('该端口没有连接对应设备!');
