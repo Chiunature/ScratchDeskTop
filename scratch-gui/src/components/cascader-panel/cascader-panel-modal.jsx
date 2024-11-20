@@ -125,6 +125,9 @@ function CascaderPanelModalCom(props) {
                 case props.intl.formatMessage(message.color):
                     dataList[index] = 0xA2;
                     break;
+                case props.intl.formatMessage(message.gray):
+                    dataList[index] = 0xA9;
+                    break;
                 default:
                     break;
             }
@@ -184,6 +187,13 @@ function CascaderPanelModalCom(props) {
                                                 defaultMessage="Color recognizer"
                                                 description="Color recognizer"
                                                 id="gui.device.color"
+                                            />
+                                        </li>
+                                        <li>
+                                            <FormattedMessage
+                                                defaultMessage="Gray"
+                                                description="Gray"
+                                                id="gui.device.gray"
                                             />
                                         </li>
                                     </ul>

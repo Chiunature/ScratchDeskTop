@@ -80,6 +80,12 @@ export async function initOptions(intl) {
                 checked: false,
                 father: el.label
             },
+            {
+                value: intl.formatMessage(message.gray),
+                label: intl.formatMessage(message.gray),
+                checked: false,
+                father: el.label
+            },
         ]
         el['children'] = children;
     }

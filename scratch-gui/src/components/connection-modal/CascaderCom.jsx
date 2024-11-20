@@ -83,6 +83,9 @@ const CascaderCom = (props) => {
         case props.intl.formatMessage(message.color):
           dataList[index] = 0xA2;
           break;
+        case props.intl.formatMessage(message.gray):
+          dataList[index] = 0xA9;
+          break;
         default:
           break;
       }
