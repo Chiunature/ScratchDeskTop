@@ -772,7 +772,7 @@ Blockly.Blocks['sensing_get_gray_line'] = {
           "options": [
             ["R1", "R1"],
             ["R2", "R2"],
-            ["Middle", "Middle"],
+            ["M1", "M1"],
             ["L1", "L1"],
             ["L2", "L2"],
           ]
