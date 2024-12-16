@@ -27,7 +27,7 @@ Blockly.cake['sound_play'] = function (block) {
     if (!Blockly.cake.soundslist.includes(soundItem)) {
         Blockly.cake.soundslist.push(soundItem);
     }
-    return `sound_play("${sound}.wav");\n`;
+    return `sound_play("1:/music/${sound}.wav");\n`;
 }
 
 Blockly.cake['sound_stopallsounds'] = function (block) {
