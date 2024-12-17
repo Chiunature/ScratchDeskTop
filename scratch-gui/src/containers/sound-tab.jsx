@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import bindAll from 'lodash.bindall';
-import {defineMessages, intlShape, injectIntl} from 'react-intl';
+import { defineMessages, intlShape, injectIntl } from 'react-intl';
 import VM from 'scratch-vm';
 
 import AssetPanel from '../components/asset-panel/asset-panel.jsx';
@@ -18,12 +18,12 @@ import SoundEditor from './sound-editor.jsx';
 import SoundLibrary from './sound-library.jsx';
 
 import soundLibraryContent from '../lib/libraries/music-only.json';
-import {handleFileUpload, soundUpload} from '../lib/file-uploader.js';
+import { handleFileUpload, soundUpload } from '../lib/file-uploader.js';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import downloadBlob from '../lib/download-blob';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
     closeSoundLibrary,
@@ -36,12 +36,12 @@ import {
     COSTUMES_TAB_INDEX
 } from '../reducers/editor-tab';
 
-import {setRestore} from '../reducers/restore-deletion';
-import {showStandardAlert, closeAlertWithId} from '../reducers/alerts';
+import { setRestore } from '../reducers/restore-deletion';
+import { showStandardAlert, closeAlertWithId } from '../reducers/alerts';
 import { setGen } from '../reducers/mode.js';
 
 class SoundTab extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         bindAll(this, [
             'handleSelectSound',
@@ -55,7 +55,7 @@ class SoundTab extends React.Component {
             'handleDrop',
             'setFileInput'
         ]);
-        this.state = {selectedSoundIndex: 0};
+        this.state = { selectedSoundIndex: 0 };
     }
     componentDidMount() {
         this.props.onSetGen();
@@ -74,46 +74,46 @@ class SoundTab extends React.Component {
 
         // If switching editing targets, reset the sound index
         if (prevProps.editingTarget !== editingTarget) {
-            this.setState({selectedSoundIndex: 0});
+            this.setState({ selectedSoundIndex: 0 });
         } else if (this.state.selectedSoundIndex > target.sounds.length - 1) {
-            this.setState({selectedSoundIndex: Math.max(target.sounds.length - 1, 0)});
+            this.setState({ selectedSoundIndex: Math.max(target.sounds.length - 1, 0) });
         }
     }
 
-    handleSelectSound (soundIndex) {
-        this.setState({selectedSoundIndex: soundIndex});
+    handleSelectSound(soundIndex) {
+        this.setState({ selectedSoundIndex: soundIndex });
     }
 
-    handleDeleteSound (soundIndex) {
+    handleDeleteSound(soundIndex) {
         const restoreFun = this.props.vm.deleteSound(soundIndex);
         if (soundIndex >= this.state.selectedSoundIndex) {
-            this.setState({selectedSoundIndex: Math.max(0, soundIndex - 1)});
+            this.setState({ selectedSoundIndex: Math.max(0, soundIndex - 1) });
         }
-        this.props.dispatchUpdateRestore({restoreFun, deletedItem: 'Sound'});
+        this.props.dispatchUpdateRestore({ restoreFun, deletedItem: 'Sound' });
     }
 
-    handleExportSound (soundIndex) {
+    handleExportSound(soundIndex) {
         const item = this.props.vm.editingTarget.sprite.sounds[soundIndex];
-        const blob = new Blob([item.asset.data], {type: item.asset.assetType.contentType});
+        const blob = new Blob([item.asset.data], { type: item.asset.assetType.contentType });
         downloadBlob(`${item.name}.${item.asset.dataFormat}`, blob);
     }
 
-    handleDuplicateSound (soundIndex) {
+    handleDuplicateSound(soundIndex) {
         this.props.vm.duplicateSound(soundIndex).then(() => {
-            this.setState({selectedSoundIndex: soundIndex + 1});
+            this.setState({ selectedSoundIndex: soundIndex + 1 });
         });
     }
 
-    handleNewSound () {
+    handleNewSound() {
         if (!this.props.vm.editingTarget) {
             return null;
         }
         const sprite = this.props.vm.editingTarget.sprite;
         const sounds = sprite.sounds ? sprite.sounds : [];
-        this.setState({selectedSoundIndex: Math.max(sounds.length - 1, 0)});
+        this.setState({ selectedSoundIndex: Math.max(sounds.length - 1, 0) });
     }
 
-    handleSurpriseSound () {
+    handleSurpriseSound() {
         const soundItem = soundLibraryContent[Math.floor(Math.random() * soundLibraryContent.length)];
         const vmSound = {
             format: soundItem.dataFormat,
@@ -127,11 +127,11 @@ class SoundTab extends React.Component {
         });
     }
 
-    handleFileUploadClick () {
+    handleFileUploadClick() {
         this.fileInput.click();
     }
 
-    handleSoundUpload (e) {
+    handleSoundUpload(e) {
         const storage = this.props.vm.runtime.storage;
         const targetId = this.props.vm.editingTarget.id;
         this.props.onShowImporting();
@@ -148,7 +148,7 @@ class SoundTab extends React.Component {
         }, this.props.onCloseImporting);
     }
 
-    handleDrop (dropInfo) {
+    handleDrop(dropInfo) {
         if (dropInfo.dragType === DragConstants.SOUND) {
             const sprite = this.props.vm.editingTarget.sprite;
             const activeSound = sprite.sounds[this.state.selectedSoundIndex];
@@ -156,7 +156,7 @@ class SoundTab extends React.Component {
             this.props.vm.reorderSound(this.props.vm.editingTarget.id,
                 dropInfo.index, dropInfo.newIndex);
 
-            this.setState({selectedSoundIndex: sprite.sounds.indexOf(activeSound)});
+            this.setState({ selectedSoundIndex: sprite.sounds.indexOf(activeSound) });
         } else if (dropInfo.dragType === DragConstants.BACKPACK_COSTUME) {
             this.props.onActivateCostumesTab();
             this.props.vm.addCostume(dropInfo.payload.body, {
@@ -170,11 +170,11 @@ class SoundTab extends React.Component {
         }
     }
 
-    setFileInput (input) {
+    setFileInput(input) {
         this.fileInput = input;
     }
 
-    render () {
+    render() {
         const {
             dispatchUpdateRestore, // eslint-disable-line no-unused-vars
             intl,
@@ -221,40 +221,39 @@ class SoundTab extends React.Component {
             }
         });
 
-        const arr = [
-            {
-                title: intl.formatMessage(messages.addSound),
-                img: addSoundFromLibraryIcon,
-                onClick: onNewSoundFromLibraryClick
-            }, 
-            // {
-            //     title: intl.formatMessage(messages.fileUploadSound),
-            //     img: fileUploadIcon,
-            //     onClick: this.handleFileUploadClick,
-            //     fileAccept: '.wav, .mp3',
-            //     fileChange: this.handleSoundUpload,
-            //     fileInput: this.setFileInput,
-            //     fileMultiple: true
-            // }, 
-            {
-                title: intl.formatMessage(messages.surpriseSound),
-                img: surpriseIcon,
-                onClick: this.handleSurpriseSound
-            }, 
-            // {
-            //     title: intl.formatMessage(messages.recordSound),
-            //     img: addSoundFromRecordingIcon,
-            //     onClick: onNewSoundFromRecordingClick
-            // }, 
-            {
-                title: intl.formatMessage(messages.addSound),
-                img: searchIcon,
-                onClick: onNewSoundFromLibraryClick
-            }
-        ];
         return (
             <AssetPanel
-                buttons={arr}
+                buttons={[
+                    {
+                        title: intl.formatMessage(messages.addSound),
+                        img: addSoundFromLibraryIcon,
+                        onClick: onNewSoundFromLibraryClick
+                    },
+                    // {
+                    //     title: intl.formatMessage(messages.fileUploadSound),
+                    //     img: fileUploadIcon,
+                    //     onClick: this.handleFileUploadClick,
+                    //     fileAccept: '.wav, .mp3',
+                    //     fileChange: this.handleSoundUpload,
+                    //     fileInput: this.setFileInput,
+                    //     fileMultiple: true
+                    // }, 
+                    {
+                        title: intl.formatMessage(messages.surpriseSound),
+                        img: surpriseIcon,
+                        onClick: this.handleSurpriseSound
+                    },
+                    // {
+                    //     title: intl.formatMessage(messages.recordSound),
+                    //     img: addSoundFromRecordingIcon,
+                    //     onClick: onNewSoundFromRecordingClick
+                    // }, 
+                    {
+                        title: intl.formatMessage(messages.addSound),
+                        img: searchIcon,
+                        onClick: onNewSoundFromLibraryClick
+                    }
+                ]}
                 dragType={DragConstants.SOUND}
                 isRtl={isRtl}
                 items={sounds}
