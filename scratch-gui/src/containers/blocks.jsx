@@ -153,7 +153,7 @@ class Blocks extends React.Component {
 
     workspaceToCode(type) {
         if (type === 'move' || type === 'change' || type === 'delete') {
-            const code = this.ScratchBlocks['cake'].workspaceToCode(this.workspace);
+            const code = this.ScratchBlocks[this.props.generatorName].workspaceToCode(this.workspace);
             const list = this.workspace.getTopBlocks();
             let newList = list.filter(el => el.startHat_);
             this.props.getCode(code);
@@ -742,6 +742,7 @@ class Blocks extends React.Component {
             completed,
             onSetSoundsList,
             onSetMatchMsgBlock,
+            generatorName,
             setAutoSaveByBlockType,
             ...props
         } = this.props;
@@ -891,7 +892,8 @@ const mapStateToProps = state => ({
     customProceduresVisible: state.scratchGui.customProcedures.active,
     workspaceMetrics: state.scratchGui.workspaceMetrics,
     completed: state.scratchGui.connectionModal.completed,
-    code: state.scratchGui.mode.code
+    code: state.scratchGui.mode.code,
+    generatorName: state.scratchGui.mode.generatorName
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -8,12 +8,8 @@ const SET_BUFFERLIST = 'scratch-gui/mode/SET_BUFFERLIST';
 const SET_MATCHMYBLOCK = 'scratch-gui/mode/SET_MATCHMYBLOCK';
 const SET_EXELIST = 'scratch-gui/mode/SET_EXELIST';
 const SET_SELECTEDEXE = 'scratch-gui/mode/SET_SELECTEDEXE';
+const SET_GENERATORNAME = 'scratch-gui/mode/SET_GENERATORNAME';
 const SET_MATCHMSGBLOCK = 'scratch-gui/mode/SET_MATCHMSGBLOCK';
-
-// const exeList = window.myAPI.getStoreValue('exeList');
-// const selItem = window.myAPI.getStoreValue('selItem');
-// (exeList && exeList.length < 20) && window.myAPI.removeStoreValue('exeList');
-// !selItem && window.myAPI.setStoreValue('selItem', JSON.stringify({ name: '0_APP', num: 0, checked: true, index: 0 }));
 
 /**
  * 生成默认程序列表
@@ -43,7 +39,8 @@ const initialState = {
     matchMyBlock: [],
     msgTaskBlock: [],
     exeList: [],
-    selectedExe: window?.myAPI?.getStoreValue('selItem') ? JSON.parse(window.myAPI.getStoreValue('selItem')) : { name: '0_APP', num: 0, checked: true, index: 0 }
+    selectedExe: window?.myAPI?.getStoreValue('selItem') ? JSON.parse(window.myAPI.getStoreValue('selItem')) : { name: '0_APP', num: 0, checked: true, index: 0 },
+    generatorName: 'cake'
 }
 
 const reducer = function (state, action) {
@@ -89,6 +86,10 @@ const reducer = function (state, action) {
         case SET_SELECTEDEXE:
             return Object.assign({}, state, {
                 selectedExe: action.selectedExe
+            });
+        case SET_GENERATORNAME:
+            return Object.assign({}, state, {
+                generatorName: action.generatorName
             });
         case SET_MATCHMSGBLOCK:
             return Object.assign({}, state, {
@@ -167,6 +168,12 @@ const setSelectedExe = function (selectedExe) {
         selectedExe: selectedExe
     };
 };
+const setGeneratorName = function (generatorName) {
+    return {
+        type: SET_GENERATORNAME,
+        generatorName: generatorName
+    };
+};
 export {
     reducer as default,
     initialState as modeInitialState,
@@ -180,5 +187,6 @@ export {
     setMatchMyBlock,
     setExelist,
     setSelectedExe,
+    setGeneratorName,
     setMatchMsgTaskBlock
 };

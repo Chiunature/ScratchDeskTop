@@ -11,6 +11,7 @@ const MENU_MODE = 'modeMenu';
 const MENU_SETTINGS = 'settingsMenu';
 const MENU_THEME = 'themeMenu';
 const MENU_HELP = 'HELPMenu';
+const MENU_GEN = 'genMenu';
 const MENU_DEVICE = 'deviceMenu';
 class Menu {
     constructor(id) {
@@ -62,6 +63,7 @@ const rootMenu = new Menu('root')
     .addChild(new Menu(MENU_LOGIN))
     .addChild(new Menu(MENU_ACCOUNT))
     .addChild(new Menu(MENU_ABOUT))
+    .addChild(new Menu(MENU_GEN))
     .addChild(new Menu(MENU_DEVICE))
 
 const initialState = {
@@ -75,6 +77,7 @@ const initialState = {
     [MENU_SETTINGS]: false,
     [MENU_THEME]: false,
     [MENU_HELP]: false,
+    [MENU_GEN]: false,
     [MENU_DEVICE]: false
 };
 
@@ -155,6 +158,10 @@ const openHelpMenu = () => openMenu(MENU_HELP);
 const closeHelpMenu = () => closeMenu(MENU_HELP);
 const helpMenuOpen = state => state.scratchGui.menus[MENU_HELP];
 
+const openGenMenu = () => openMenu(MENU_GEN);
+const closeGenMenu = () => closeMenu(MENU_GEN);
+const genMenuOpen = state => state.scratchGui.menus[MENU_GEN];
+
 const openDeviceMenu = () => openMenu(MENU_DEVICE);
 const closeDeviceMenu = () => closeMenu(MENU_DEVICE);
 const deviceMenuOpen = state => state.scratchGui.menus[MENU_DEVICE];
@@ -192,6 +199,9 @@ export {
     openHelpMenu,
     closeHelpMenu,
     helpMenuOpen,
+    openGenMenu,
+    closeGenMenu,
+    genMenuOpen,
     openDeviceMenu,
     closeDeviceMenu,
     deviceMenuOpen

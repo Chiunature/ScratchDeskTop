@@ -23,7 +23,7 @@ import {
     setPort,
 } from "../../reducers/connection-modal";
 import { openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
-import { setGen, setPlayer } from "../../reducers/mode";
+import { getCode, setGen, setGeneratorName, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
     getIsShowingProject,
@@ -43,6 +43,7 @@ import {
     closeLanguageMenu,
     closeLoginMenu,
     closeSettingsMenu,
+    closeGenMenu,
     closeDeviceMenu,
     editMenuOpen,
     fileMenuOpen,
@@ -56,6 +57,8 @@ import {
     openLoginMenu,
     openSettingsMenu,
     settingsMenuOpen,
+    openGenMenu,
+    genMenuOpen,
     openDeviceMenu,
     deviceMenuOpen
 } from "../../reducers/menus";
@@ -69,7 +72,6 @@ import unconnectedIcon from "./icon--unconnected.svg";
 import photoIcon from "./icon--photo.svg";
 import { ipc as ipc_Renderer, verifyTypeConfig } from 'est-link';
 import connectedIcon from "./icon--connected.svg";
-import genIcon from "./icon--generator.svg";
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
 import { openAutoSave, showAlertWithTimeout, showFileNotify } from "../../reducers/alerts";
@@ -82,6 +84,7 @@ import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
 import FilesSaveNotify from "../alerts/files-save-notify.jsx";
+import GeneratorsMenu from "./generators-menu.jsx";
 import DeviceMenu from "./device-menu.jsx";
 // import setProgramList from "../../lib/setProgramList.js";
 
@@ -690,25 +693,18 @@ class MenuBar extends React.Component {
                             />
                         </span>
                         </div>
-                        <div
-                            id="menuBarGen"
-                            className={classNames(
-                                styles.menuBarItem,
-                                styles.hoverable,
-                                styles.generator,
-                                {
-                                    [styles.active]: "",
-                                }
-                            )}
-                            onClick={() => this.props.onSetGen(!this.props.isGen)}
-                        >
-                            <img className={styles.unconnectedIcon} src={genIcon} alt="" />
-                            <span className={styles.collapsibleLabel}><FormattedMessage
-                                defaultMessage="Generator"
-                                description="Text for menubar Generator button"
-                                id="gui.menuBar.Generator"
-                            /></span>
-                        </div>
+                        <GeneratorsMenu
+                            onClickGen={this.props.onClickGen}
+                            onRequestCloseGen={this.props.onRequestCloseGen}
+                            onSetGen={this.props.onSetGen}
+                            isGen={this.props.isGen}
+                            isRtl={this.props.isRtl}
+                            genMenuOpen={this.props.genMenuOpen}
+                            onSetGeneratorName={this.props.onSetGeneratorName}
+                            generatorName={this.props.generatorName}
+                            onGetCode={this.props.onGetCode}
+                            workspace={this.props.workspace}
+                        />
                     </Box>
                 </Box>
                 <FilesSaveNotify showFileNotify={this.props.showFileNotify} onShowFileNotify={this.props.onShowFileNotify} />
@@ -823,6 +819,7 @@ const mapStateToProps = (state, ownProps) => {
         fileMenuOpen: fileMenuOpen(state),
         editMenuOpen: editMenuOpen(state),
         settingsMenuOpen: settingsMenuOpen(state),
+        genMenuOpen: genMenuOpen(state),
         deviceMenuOpen: deviceMenuOpen(state),
         isRtl: state.locales.isRtl,
         isUpdating: getIsUpdating(loadingState),
@@ -849,6 +846,7 @@ const mapStateToProps = (state, ownProps) => {
         projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
         workspace: state.scratchGui.workspaceMetrics.workspace,
         port: state.scratchGui.connectionModal.port,
+        generatorName: state.scratchGui.mode.generatorName,
         openAutoSave: state.scratchGui.alerts.openAutoSave,
         showFileNotify: state.scratchGui.alerts.showFileNotify
     };
@@ -895,8 +893,12 @@ const mapDispatchToProps = (dispatch) => ({
     onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
     onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal()),
+    onClickGen: () => dispatch(openGenMenu()),
+    onRequestCloseGen: () => dispatch(closeGenMenu()),
     onClickDevice: () => dispatch(openDeviceMenu()),
     onRequestCloseDevice: () => dispatch(closeDeviceMenu()),
+    onSetGeneratorName: (generatorName) => dispatch(setGeneratorName(generatorName)),
+    onGetCode: code => dispatch(getCode(code)),
     onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
     onShowFileNotify: (fileNotify) => dispatch(showFileNotify(fileNotify)),
 });

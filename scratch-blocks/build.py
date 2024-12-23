@@ -230,7 +230,7 @@ class Gen_compressed(threading.Thread):
     self.gen_blocks("vertical")
     self.gen_blocks("common")
     # self.gen_generator("arduino")
-    # self.gen_generator("python")
+    self.gen_generator("python")
     self.gen_generator("cake")
   def gen_core(self, vertical):
     if vertical:

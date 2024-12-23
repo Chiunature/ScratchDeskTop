@@ -1,0 +1,12 @@
+{
+    "genList": [
+        {
+            "generatorName": "cake",
+            "typeName": "C"
+        },
+        {
+            "generatorName": "Python",
+            "typeName": "Python"
+        }
+    ]
+}
