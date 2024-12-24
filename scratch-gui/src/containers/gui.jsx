@@ -191,30 +191,12 @@ class GUI extends React.Component {
         });
     }
 
-    /* matrixSend(blockName) {
-        const that = this;
-        ScratchBlocks[blockName].callback = (type, obj) => {
-            if (!that.props.completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.MATRIX, sendParams: { type, obj, blockName } });
-        }
-    } */
 
     proxyMotor(proxyVal, type, data) {
         if (!ScratchBlocks[type].proxy) return;
         proxyVal = ScratchBlocks[type].proxy();
         const newList = data.map(el => el.sensing_device);
         proxyVal.portList = [...newList];
-    }
-
-    checkUpdateFirmware(firmwareVersion) {
-        const res = confirm(this.mainMsg.update);
-        if (!res) {
-            return;
-        }
-        this.compile.sendSerial({verifyType: verifyTypeConfig.RESET_FWLIB});
-        this.props.onSetSourceCompleted(true);
-        this.props.onOpenConnectionModal();
-        window.myAPI.setStoreValue('version', firmwareVersion);
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
     }
 
     //开启监听
@@ -249,6 +231,24 @@ class GUI extends React.Component {
                 }, { timeout: 500 });
             }
         });
+    }
+
+    checkUpdateFirmware() {
+        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
+        const currentVer = this.props?.deviceObj?.versionlist?.ver;
+        if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
+            const res = confirm(this.mainMsg.update);
+            if (!res) {
+                return false;
+            }
+            this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
+            this.props.onSetSourceCompleted(true);
+            this.props.onOpenConnectionModal();
+            window.myAPI.setStoreValue('version', firmwareVersion);
+            return false;
+        }
+        return true;
     }
 
     checkUpdateSensing() {
@@ -290,8 +290,22 @@ class GUI extends React.Component {
         }
     }
 
+    checkWorkspace() {
+        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        const list = this.props.workspace.getTopBlocks();
+        const hasStart = list.some(el => el.startHat_);
+        if (!hasStart || blocks.getBBox().height === 0 || this.props.compileList.length === 0) {
+            this.props.onShowCompletedAlert("workspaceEmpty");
+            return false;
+        }
+        return true;
+    }
 
-    async onClickUploadCode(verifyType, selectedExe) {
+
+    async onClickUploadCode() {
+        const selItem = await window.myAPI.getStoreValue('selItem');
+        const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+        const verifyType = verifyTypeConfig.BOOTBIN;
         switch (this.props.generatorName) {
             case CAKE:
                 this.compile.sendSerial({
@@ -319,43 +333,35 @@ class GUI extends React.Component {
 
 
     async handleCompile(isRun) {
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
             // 检查固件版本
-            const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
-            const currentVer = this.props?.deviceObj?.versionlist?.ver;
-            if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
-                this.checkUpdateFirmware(firmwareVersion);
+            const firmwareRes = this.checkUpdateFirmware();
+            if (!firmwareRes) {
                 return;
             }
             // 检查传感器版本
-            const isTrue = await this.checkUpdateSensing();
-            if (!isTrue) {
+            const sensingRes = await this.checkUpdateSensing();
+            if (!sensingRes) {
                 return;
             }
             // 检查工作区是否为空
-            const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
-            const list = this.props.workspace.getTopBlocks();
-            const hasStart = list.some(el => el.startHat_);
-            if (!hasStart || blocks.getBBox().height === 0 || this.props.compileList.length === 0) {
-                this.props.onShowCompletedAlert("workspaceEmpty");
+            const workspaceRes = this.checkWorkspace();
+            if (!workspaceRes) {
                 return;
             }
-
-            this.props.onSetCompleted(true);
-            this.props.onShowCompletedAlert("uploading");
             // 检查是否需要运行APP
             if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
             }
 
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+
             await window.myAPI.sleep(2000);
 
-            const selItem = window.myAPI.getStoreValue('selItem');
-            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-            const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
+
             // 区分是哪种代码类型的下载
-            this.onClickUploadCode(verifyType, selectedExe);
+            this.onClickUploadCode();
 
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {

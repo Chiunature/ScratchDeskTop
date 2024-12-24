@@ -22,7 +22,7 @@ import { setSelectedExe } from '../../reducers/mode';
 
 
 const UploadBtn = (props) => {
-    const { completed, exeList, isRtl, handleCompile, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl } = props;
+    const { completed, exeList, isRtl, handleCompile, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl, generatorName } = props;
 
     let [openUpload, setOpenUpload] = useState(true);
     let [text, setText] = useState('');
@@ -75,6 +75,7 @@ const UploadBtn = (props) => {
                     onSetSelectedExe={onSetSelectedExe}
                 />
                 <RunExeBtn
+                    generatorName={generatorName}
                     deviceStatus={deviceStatus}
                     compile={compile}
                     completed={completed}

@@ -184,6 +184,7 @@ const GUIComponent = (props) => {
         extensionLibraryContent,
         vm,
         isGen,
+        generatorName,
         code,
         theme,
         completed,
@@ -323,6 +324,7 @@ const GUIComponent = (props) => {
                         {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
+                                generatorName={generatorName}
                                 intl={intl}
                                 onSetCompleted={onSetCompleted}
                                 deviceStatus={deviceStatus}
@@ -517,7 +519,14 @@ const GUIComponent = (props) => {
                                         styles[stageSize]
                                     )}
                                 >
-                                    <Generator onSetGen={onSetGen} code={code} isGen={isGen} codeEditorLanguage="cpp" codeEditorOptions={codeEditorOptions} codeEditorTheme="vs" />
+                                    <Generator
+                                        onSetGen={onSetGen}
+                                        code={code}
+                                        isGen={isGen}
+                                        codeEditorLanguage="cpp"
+                                        codeEditorOptions={codeEditorOptions}
+                                        codeEditorTheme="vs"
+                                    />
                                     {/* <StageWrapper
                                         isFullScreen={isFullScreen}
                                         isRendererSupported={isRendererSupported}

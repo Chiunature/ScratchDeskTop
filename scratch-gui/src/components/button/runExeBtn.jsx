@@ -6,10 +6,11 @@ import Cirle from "./cirle.jsx";
 import yesIcon from "./icon--yes.svg";
 import startIcon from "./icon--start.svg";
 import { ipc as ipc_Renderer } from "est-link";
-
+import { CAKE } from "../../config/json/generators.json"
+import SpinnerComponent from "../spinner/spinner.jsx";
 
 const RunExeBtn = (props) => {
-    const { completed, compile, deviceStatus, onSetCompleted } = props;
+    const { completed, compile, deviceStatus, onSetCompleted, generatorName } = props;
     let refObj = useRef();
     let [progress, setProgress] = useState(0);
     let [isMounted, setIsMounted] = useState(false);
@@ -38,7 +39,7 @@ const RunExeBtn = (props) => {
 
 
     function toggle() {
-        if(completed) {
+        if (completed) {
             return;
         }
         setProgress(0);
@@ -51,15 +52,20 @@ const RunExeBtn = (props) => {
                 <div className={styles.selectExeRound}>
                     <div className={classNames(styles.selectExeBlock, styles.selectExeWrapper, newProgress > 99 ? styles.isCompleteHide : '')}>
                         <div style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
-                            {completed ? <p className={classNames(styles.uploadP)}>{newProgress}%</p> :
+                            {
+                                completed ?
+                                    (generatorName === CAKE ?
+                                        <p className={classNames(styles.uploadP)}>{newProgress}%</p> :
+                                        <SpinnerComponent/>) :
                                 <ButtonComponent
                                     onClick={toggle}
                                     className={classNames(styles.uploadBtn)}
                                     iconSrc={startIcon}
-                                />}
+                                    />
+                            }
                         </div>
                         <Cirle completed={completed} deviceStatus={deviceStatus} />
-                        <img className={newProgress > 99 ? '' : styles.yesBtnSpin} src={yesIcon} />
+                        <img className={newProgress > 99 ? '' : styles.yesBtnSpin} src={yesIcon} alt="" />
                     </div>
                 </div>
             </div>
