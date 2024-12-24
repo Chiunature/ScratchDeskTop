@@ -484,6 +484,11 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyMusic = APIMusic.playMusic()';
       }
       result = '\tMyMusic.' + result;
+    case 'MEM':
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyMem = APIMem.mem()';
+      }
+      result = '\tMyMem.' + result;
     default:
       break;
   }
