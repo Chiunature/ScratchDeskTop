@@ -8,5 +8,7 @@
             "generatorName": "Python",
             "typeName": "Python"
         }
-    ]
+    ],
+    "CAKE": "cake",
+    "PYTHON": "Python"
 }

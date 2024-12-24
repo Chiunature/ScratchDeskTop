@@ -120,7 +120,7 @@ class Compile {
      * @param options
      */
     async runGcc(options) {
-        const {bufferList, myBlockList, selectedExe, verifyType, msgTaskBlockList}=options;
+        const { bufferList, myBlockList, selectedExe, verifyType, msgTaskBlockList, codeType } = options;
 
         let codeStr = '',
             taskStr = '',
@@ -134,7 +134,7 @@ class Compile {
             }
         })
 
-        if(Array.isArray(msgTaskBlockList)) {
+        if (Array.isArray(msgTaskBlockList)) {
             msgTaskBlockList.forEach((el) => {
                 taskStr += Task_Info_ItemOfMsgBlock(el);
             })
@@ -144,8 +144,10 @@ class Compile {
         const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, msgBlockStr);
         //编译
         if (appRes) {
+            // console.time('编译')
             window.myAPI.commendMake(static_path).then(() => {
-                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
+                // console.timeEnd('编译')
+                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, codeType } });
             }).catch(err => {
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
                 window.myAPI.handlerError(err, static_path);
@@ -159,7 +161,7 @@ class Compile {
      * @param options
      */
     async sendSerial(options) {
-        const {verifyType} = options;
+        const { verifyType } = options;
         switch (verifyType) {
             case verifyTypeConfig.RESET_FWLIB:
                 window.myAPI.ipcRender({

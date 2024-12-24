@@ -49,6 +49,8 @@ import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
+import { CAKE, PYTHON } from "../config/json/generators.json"
+import { handleUploadPython } from "../lib/generator/python/index.js";
 
 class GUI extends React.Component {
     constructor(props) {
@@ -73,7 +75,7 @@ class GUI extends React.Component {
                 this.watchDevice();
                 // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
                 // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
-            }, {timeout: 500})
+            }, { timeout: 500 })
         }
     }
     componentDidUpdate(prevProps) {
@@ -152,15 +154,6 @@ class GUI extends React.Component {
         }
     }
 
-    /* getFirmwareVersion(firmwareVersion, ver) {
-        const status = sessionStorage.getItem('isFirmwareUpdate');
-        const isNew = ver > 0 && ver == firmwareVersion;
-        if (isNew || status === 'updating') {
-            return;
-        }
-        sessionStorage.setItem('isFirmwareUpdate', 'updating');
-        this.checkUpdateFirmware(firmwareVersion);
-    } */
 
     //下载资源监听
     downloadSource() {
@@ -298,32 +291,49 @@ class GUI extends React.Component {
     }
 
 
-    /* async checkDriver() {
-        const driver = window.myAPI.getStoreValue('driver');
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, driver);
-        if (res) {
-            this.props.onActivateDeck("install-drivers");
-            window.myAPI.setStoreValue('driver', ipc_Renderer.DRIVER.INSTALL);
+    async onClickUploadCode(verifyType, selectedExe) {
+        switch (this.props.generatorName) {
+            case CAKE:
+                this.compile.sendSerial({
+                    verifyType,
+                    selectedExe,
+                    bufferList: this.props.bufferList,
+                    myBlockList: this.props.matchMyBlock,
+                    msgTaskBlockList: this.props.msgTaskBlock,
+                    soundsList: this.props.soundslist,
+                    codeType: this.props.generatorName
+                });
+                break;
+            case PYTHON:
+                handleUploadPython({
+                    verifyType,
+                    selectedExe,
+                    codeStr: this.props.code,
+                    codeType: this.props.generatorName
+                });
+                break;
+            default:
+                break;
         }
-    } */
-
+    }
 
 
     async handleCompile(isRun) {
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
+            // 检查固件版本
             const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
             const currentVer = this.props?.deviceObj?.versionlist?.ver;
             if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
                 this.checkUpdateFirmware(firmwareVersion);
                 return;
             }
-
+            // 检查传感器版本
             const isTrue = await this.checkUpdateSensing();
             if (!isTrue) {
                 return;
             }
-
+            // 检查工作区是否为空
             const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
             const list = this.props.workspace.getTopBlocks();
             const hasStart = list.some(el => el.startHat_);
@@ -334,7 +344,7 @@ class GUI extends React.Component {
 
             this.props.onSetCompleted(true);
             this.props.onShowCompletedAlert("uploading");
-
+            // 检查是否需要运行APP
             if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
             }
@@ -344,14 +354,8 @@ class GUI extends React.Component {
             const selItem = window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
             const verifyType = this.props.soundslist?.length > 0 ? verifyTypeConfig.SOURCE_SOUNDS : verifyTypeConfig.BOOTBIN;
-            this.compile.sendSerial({
-                verifyType,
-                selectedExe,
-                bufferList: this.props.bufferList,
-                myBlockList: this.props.matchMyBlock,
-                msgTaskBlockList: this.props.msgTaskBlock,
-                soundsList: this.props.soundslist,
-            });
+            // 区分是哪种代码类型的下载
+            this.onClickUploadCode(verifyType, selectedExe);
 
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
@@ -532,6 +536,7 @@ const mapStateToProps = (state) => {
         upinMsg: state.scratchGui.alerts.upinMsg,
         dragging: state.scratchGui.cards.deviceCards.dragging,
         cascarderPanelVisible: state.scratchGui.modals.cascarderPanel,
+        generatorName: state.scratchGui.mode.generatorName,
     };
 };
 

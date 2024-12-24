@@ -24,6 +24,7 @@
  */
 const { SOURCE, BOOTBIN } = require("../json/verifyTypeConfig.json");
 const { BIN, LB_FWLIB } = require("../json/LB_FWLIB.json");
+const { CAKE, PYTHON } = require("../json/code_type.json");
 const ipc_Main = require("../json/communication/ipc.json");
 
 
@@ -50,7 +51,7 @@ function getAllFiles(fs, path, dir) {
  * @returns
  */
 function verifyBinType(options, event) {
-    const { verifyType, selectedExe } = options;
+    const { verifyType } = options;
     const { path, fs, process, isPackaged } = this;
     const dir = path.resolve(__dirname);
     const root = isPackaged ? dir.slice(0, dir.indexOf('resources') - 1) : process.cwd();
@@ -61,6 +62,16 @@ function verifyBinType(options, event) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.LENGTH, allFiles.length);
             return allFiles;
         case BOOTBIN:
+            return getResultByCodeType(options);
+        default:
+            return false;
+    }
+}
+
+function getResultByCodeType(options) {
+    const { selectedExe, codeType } = options;
+    switch (codeType) {
+        case CAKE:
             const pathname = path.join(root, BIN);
             return [
                 {
@@ -68,6 +79,14 @@ function verifyBinType(options, event) {
                     verifyType: BOOTBIN,
                     fileName: `${selectedExe.num}_APP.bin`,
                     fileData: fs.readFileSync(pathname)
+                }
+            ]
+        case PYTHON:
+            return [
+                {
+                    verifyType: BOOTBIN,
+                    fileName: `${selectedExe.num}.py`,
+                    fileData: options.codeStr
                 }
             ]
         default:
