@@ -313,7 +313,7 @@ class GUI extends React.Component {
                 });
                 break;
             case PYTHON:
-                handleUploadPython({
+                await handleUploadPython({
                     verifyType,
                     selectedExe,
                     codeStr: this.props.code,
