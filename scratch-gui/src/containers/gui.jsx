@@ -39,7 +39,7 @@ import { ipc as ipc_Renderer, verifyTypeConfig, instructions } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
-import Compile from "../utils/compileGcc.js";
+import Compile from "../lib/generator/cake/compileGcc.js";
 import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
 import { activateDeck, setProgramSel, viewDeviceCards } from "../reducers/cards.js";
@@ -220,14 +220,8 @@ class GUI extends React.Component {
                 requestIdleCallback(() => {
                     this.initSensingList();
                     this.blocksMotorCheck();
-                    const runApp = sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP;
-                    if (runApp) {
-                        this.handleRunApp();
-                    }
-                    const updateSensing = sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING;
-                    if (updateSensing) {
-                        sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
-                    }
+                    sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP && this.handleRunApp();
+                    sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING && sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
                 }, { timeout: 500 });
             }
         });
