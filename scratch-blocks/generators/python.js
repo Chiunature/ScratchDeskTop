@@ -199,15 +199,18 @@ Blockly.Python.finish = function (code) {
   if (variables.length !== 0) {
     ret += variables.join('\n') + "\n\n";
   }
-  // setups
-  if (setups.length !== 0) {
-    ret += setups.join('\n') + "\n\n";
-  }
 
   // tasks
   if (tasks.length !== 0) {
     ret += tasks.join('\n') + "\n\n";
   }
+
+  // setups
+  if (setups.length !== 0) {
+    ret += setups.join('\n') + "\n\n";
+  }
+
+  
 
   let str = '', threadStr = '', arr = Object.keys(Blockly.Python.tasks_);
   arr.forEach((key, index) => {
@@ -224,8 +227,7 @@ Blockly.Python.finish = function (code) {
     `while ${str}:
       time.sleep ms(0.1)`;
 
-  ret += code + "\n" + threadStr + '\n' + whileEnd;
-
+  ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd;
   // repeat
   if (loops.length !== 0) {
     // if there is no loop add a empty loop function.
@@ -260,6 +262,28 @@ Blockly.Python.finish = function (code) {
 
   return ret;
 };
+
+Blockly.Python.splitCodeByTask = function (code) {
+  let result = '\n';
+  const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
+  const task = Object.keys(Blockly.Python.tasks_);
+  const arr = code.match(regexForThread);
+  if (!arr) {
+    return code;
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i].replace(/\/\* Start \*\//, '').replace(/\/\* End \*\//, '');
+    result = result + '\n' +
+`def ${task[i]}():
+    global ${task[i]}_finished
+    ${item}
+    ${task[i]}_finished = True
+`;
+  }
+  
+  return result;
+}
 
 /**
  * Common tasks for generating Python from blocks.
@@ -310,12 +334,12 @@ Blockly.Python.scrub_ = function (block, code) {
     // Add indent at start except custom function
     if (block.type !== 'procedures_definition'
       && block.type !== 'procedures_prototype') {
-      codeWithIndent = Blockly.Arduino.INDENT + codeWithIndent;
+      codeWithIndent = Blockly.Python.INDENT + codeWithIndent;
       if (commentCode !== '') {
-        commentCode = Blockly.Arduino.INDENT + commentCode;
+        commentCode = Blockly.Python.INDENT + commentCode;
       }
     }
-    codeWithIndent = codeWithIndent.replace(/\n/g, "\n" + Blockly.Arduino.INDENT);
+    codeWithIndent = codeWithIndent.replace(/\n/g, "\n" + Blockly.Python.INDENT);
     // Delet final indent
     codeWithIndent = codeWithIndent.slice(0, codeWithIndent.length - 2);
   }
@@ -373,3 +397,90 @@ Blockly.Python.check_ = function (block) {
   }
   return true;
 };
+
+Blockly.Python.stringToHex = function (matrix) {
+  // 将字符串按照每9个字符分割成数组
+  const matrixArr = matrix.match(/.{1,7}/g);
+  // 定义存储16进制数的数组
+  const hexArr = [];
+  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
+  matrixArr.map(element => {
+    const decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
+    const hexNum = '0x' + decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+    hexArr.push(hexNum);
+  });
+
+  return hexArr;
+}
+
+// 将hex格式颜色转换为rgb格式
+Blockly.Python.hexToRgb = function (hex) {
+  if (!hex) {
+    return;
+  }
+  // 去除 # 号
+  hex = hex.replace(/#/, "").replace(/'/g, '');
+
+  // 将hex字符串拆分为R、G、B分量
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+    return;
+  }
+  // 返回rgb格式
+  return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+// 将grb格式颜色转换为hex格式
+Blockly.Python.grbToHex = function (grb) {
+  if (!grb) {
+    return;
+  }
+  // 提取R、G、B分量
+  const values = grb.match(/\d+/g);
+
+  const g = parseInt(values[0]);
+  const r = parseInt(values[1]);
+  const b = parseInt(values[2]);
+
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+    return;
+  }
+  // 将每个分量转换为2位十六进制数
+  const hexR = r.toString(16).padStart(2, "0");
+  const hexG = g.toString(16).padStart(2, "0");
+  const hexB = b.toString(16).padStart(2, "0");
+
+  // 返回hex格式
+  return "0x" + hexR + hexG + hexB;
+}
+
+Blockly.Python.toStr = function (val) {
+  if (!val) return;
+  const arr = ['up_abs', 'down_abs', '_abs_', 'sqrt_abs', 'sin_abs', 'cos_abs', 'tan_abs', 'asin_abs', 'acos_abs', 'atan_abs', 'ln_abs', 'e_abs', '10_abs'];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (typeof val === 'string' && val === item) {
+      return false;
+    }
+  }
+  const regex = /[()\[\]_]/g;
+  const matches = val.match(regex);
+  return matches && matches.length > 0;
+}
+
+Blockly.Python.handleResult = function (code, type) {
+  let result = code;
+  switch (type) {
+    case 'matrix':
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyLed = APIMatrix.showLed()';
+      }
+      result = '\tMyLed.' + result;
+      break;
+    default:
+      break;
+  }
+  return result
+}

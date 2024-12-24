@@ -16,7 +16,6 @@ function GeneratorsMenu(props) {
 
 
     function changeCodeName(codeName) {
-        console.log(codeName)
         const code = ScratchBlocks[codeName].workspaceToCode(workspace);
         onGetCode(code);
         if (generatorName !== codeName) {

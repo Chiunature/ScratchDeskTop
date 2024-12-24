@@ -149,19 +149,8 @@ Blockly.Python['event_whenmicrobitgesture'] = function (block) {
 
 Blockly.Python['event_whenflagclicked'] = function (block) {
 
-  let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
-  branch = Blockly.Python.addLoopTrap(branch, block.id);
-
   const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
   Blockly.Python.tasks_[task] = `${task}_finished = False`
 
-  let code =
-`/* Start */
-def ${task}():
-  global ${task}_finished
-  ${branch}
-  ${task}_finished = True
-`;
-
-  return code;
+  return '/* Start */\n';
 };
