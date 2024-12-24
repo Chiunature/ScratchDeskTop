@@ -91,7 +91,7 @@ Blockly.Python.ORDER_NONE = 99;             // (...)
 Blockly.Python.INDENT = '  ';
 
 Blockly.Python.firstLoop = true;
-
+Blockly.Python.soundslist = [];
 /**
  * Initialise the database of variable names.
  * @param {!Blockly.Workspace} workspace Workspace to generate code from.
@@ -479,6 +479,11 @@ Blockly.Python.handleResult = function (code, type) {
       }
       result = '\tMyLed.' + result;
       break;
+    case 'sound':
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyMusic = APIMusic.playMusic()';
+      }
+      result = '\tMyMusic.' + result;
     default:
       break;
   }

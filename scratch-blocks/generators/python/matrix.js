@@ -22,7 +22,7 @@ goog.provide('Blockly.Python.matrix');
 
 goog.require('Blockly.Python');
 
-const TYPE = 'matrix';
+const MATRIX_TYPE = 'matrix';
 
 Blockly.Python['matrix'] = function(block) {
   // Numeric value.

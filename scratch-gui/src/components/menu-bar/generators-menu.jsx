@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames';
 import menuBarStyles from './menu-bar.css';
 import styles from './settings-menu.css';
@@ -14,12 +14,14 @@ import { genList } from "../../config/json/generators.json";
 function GeneratorsMenu(props) {
     const { onSetGen, isGen, onClickGen, onRequestCloseGen, isRtl, genMenuOpen, onSetGeneratorName, generatorName, onGetCode, workspace } = props;
 
+    const [ typeName, setTypeName ] = useState(genList[0].typeName);
 
-    function changeCodeName(codeName) {
-        const code = ScratchBlocks[codeName].workspaceToCode(workspace);
+    function changeCodeName(item) {
+        const code = ScratchBlocks[item.generatorName].workspaceToCode(workspace);
         onGetCode(code);
-        if (generatorName !== codeName) {
-            onSetGeneratorName(codeName);
+        setTypeName(item.typeName);
+        if (generatorName !== item.generatorName) {
+            onSetGeneratorName(item.generatorName);
             if (!isGen) {
                 onSetGen(true);
             }
@@ -43,12 +45,12 @@ function GeneratorsMenu(props) {
             onMouseUp={onClickGen}
         >
             <img className={menuBarStyles.unconnectedIcon} src={genIcon} alt="" />
-            <span className={menuBarStyles.collapsibleLabel}>
+            <span className={menuBarStyles.collapsibleLabel} style={{ minWidth: '110px'}}>
                 <FormattedMessage
                     defaultMessage="Generator"
                     description="Text for menubar Generator button"
                     id="gui.menuBar.Generator"
-                />
+                />: {typeName}
             </span>
             <img src={dropdownCaret} alt="" />
             <MenuBarMenu
@@ -61,7 +63,7 @@ function GeneratorsMenu(props) {
                     {
                         genList.map((item, index) => {
                             return (
-                                <MenuItem onClick={() => changeCodeName(item.generatorName)} key={index}>
+                                <MenuItem onClick={() => changeCodeName(item)} key={index}>
                                     <img
                                         className={classNames(styles.check, {
                                             [styles.selected]: generatorName === item.generatorName
