@@ -80,7 +80,8 @@ Blockly.Python['data_addtolist'] = function(block) {
     return '';
   }
 
-  return varName + '.append(' + item + ')\n';
+  const code = `pushdata(${Blockly.Python.toStr(item) ? item : '"' + item + '"'})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
 Blockly.Python['data_deleteoflist'] = function(block) {
@@ -91,8 +92,8 @@ Blockly.Python['data_deleteoflist'] = function(block) {
   if (varName === 'unnamed') {
     return '';
   }
-
-  return 'del ' + varName + '[' + index + ' - 1]\n';
+  const code = `deletindex(${index})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
 Blockly.Python['data_deletealloflist'] = function(block) {
@@ -101,8 +102,8 @@ Blockly.Python['data_deletealloflist'] = function(block) {
   if (varName === 'unnamed') {
     return '';
   }
-
-  return 'del ' + varName + '[0:]\n';
+  const code = `deletAll()\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
 Blockly.Python['data_insertatlist'] = function(block) {
@@ -116,7 +117,8 @@ Blockly.Python['data_insertatlist'] = function(block) {
     return '';
   }
 
-  return varName + '.insert(' + index + ' - 1, ' + item + ')\n';
+  const code = `Puldata(${index}, ${item})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
 Blockly.Python['data_replaceitemoflist'] = function(block) {
@@ -130,7 +132,8 @@ Blockly.Python['data_replaceitemoflist'] = function(block) {
     return '';
   }
 
-  return varName + '[' + index + ' - 1] = ' + item + '\n';
+  const code = `LB_ListIndexChangerData(${index}, ${item})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
 Blockly.Python['data_itemoflist'] = function(block) {
@@ -138,7 +141,9 @@ Blockly.Python['data_itemoflist'] = function(block) {
       Blockly.Python.ORDER_ADDITIVE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
       Blockly.Variables.NAME_TYPE);
-  return [varName + '[' + index + ' - 1]', Blockly.Python.ORDER_ATOMIC];
+  
+  const code = Blockly.Python.handleResult(`getIndexdata(${index})`, Blockly.Python.LIST_TYPE);
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['data_itemnumoflist'] = function(block) {
@@ -146,13 +151,16 @@ Blockly.Python['data_itemnumoflist'] = function(block) {
       Blockly.Python.ORDER_ADDITIVE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
       Blockly.Variables.NAME_TYPE);
-  return [varName + '.index(' + item + ') + 1', Blockly.Python.ORDER_UNARY_SIGN];
+  
+  const code = Blockly.Python.handleResult(`getIndexdata(${item})`, Blockly.Python.LIST_TYPE);
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['data_lengthoflist'] = function(block) {
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
       Blockly.Variables.NAME_TYPE);
-  return ['len(' + varName + ')', Blockly.Python.ORDER_ATOMIC];
+  const code = Blockly.Python.handleResult(`getNumber()`, Blockly.Python.LIST_TYPE);
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['data_listcontainsitem'] = function(block) {
@@ -160,14 +168,16 @@ Blockly.Python['data_listcontainsitem'] = function(block) {
       Blockly.Python.ORDER_ADDITIVE) || '0';
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
       Blockly.Variables.NAME_TYPE);
-  return ['' + item + ' in ' + varName, Blockly.Python.ORDER_RELATIONAL];
+  
+  const code = Blockly.Python.handleResult(`cmpdata(${item})`, Blockly.Python.LIST_TYPE);
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_showlist'] = function() {
+/* Blockly.Python['data_showlist'] = function() {
   return '';
 };
 
 Blockly.Python['data_hidelist'] = function() {
   return '';
-};
+}; */
 

@@ -98,6 +98,8 @@ Blockly.Python.ULTRASIONIC_TYPE = 'ultrasionic';
 Blockly.Python.TOUCH_TYPE = 'touch';
 Blockly.Python.KEY_TYPE = 'key';
 Blockly.Python.GRAY_TYPE = 'gray';
+Blockly.Python.LIST_TYPE = 'userlist';
+
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -534,6 +536,12 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyGray = APIGray.gray()';
       }
       result = '\tMyGray.' + result;
+      break;
+    case Blockly.Python.LIST_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyList= APIList.userlist()';
+      }
+      result = '\tMyList.' + result;
       break;
     default:
       break;
