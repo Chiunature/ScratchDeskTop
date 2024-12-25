@@ -26,7 +26,7 @@ goog.require('Blockly.Python');
 Blockly.Python['control_wait'] = function(block) {
   var arg0 = Blockly.Python.valueToCode(block, 'DURATION',
       Blockly.Python.ORDER_FUNCTION_CALL);
-  var code = "sleep(" + arg0 + " * 1000" + ")\n";
+  var code = "_time.sleep_s(" + arg0 + ")\n";
   return code;
 };
 
