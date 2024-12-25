@@ -52,3 +52,7 @@ Blockly.Python['math_0to100_number'] = Blockly.Python['math_number'];
 Blockly.Python['math_intn100to100_number'] = Blockly.Python['math_number'];
 Blockly.Python['math_n100to100_number'] = Blockly.Python['math_number'];
 Blockly.Python['math_half_angle'] = Blockly.Python['math_number'];
+Blockly.Python['math_-100to100_number'] = Blockly.Python['math_number'];
+Blockly.Python['math_-50to50_number'] = Blockly.Python['math_number'];
+Blockly.Python['math_0to255_number'] = Blockly.Python['math_number'];
+Blockly.Python['math_-1200to1200_number'] = Blockly.Python['math_number'];

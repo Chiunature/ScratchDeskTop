@@ -8,7 +8,7 @@ goog.require('Blockly.Python');
 Blockly.Python['sensing_menu'] = function (block) {
     const menu = block.getFieldValue('SENSING_MENU');
     // TODO: Assemble Python into code variable.
-    return [menu + '1', Blockly.Python.ORDER_ATOMIC];
+    return [`"${menu}1"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_set_yaw_angle'] = function (block) {
@@ -20,14 +20,14 @@ Blockly.Python['sensing_set_yaw_angle'] = function (block) {
 Blockly.Python['sensing_gyroscope_acceleration'] = function (block) {
     const directiion = block.getFieldValue('directiion');
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`acceleration(${directiion})`, Blockly.Python.MEM_TYPE);
+    const code = Blockly.Python.handleResult(`acceleration("${directiion}")`, Blockly.Python.MEM_TYPE);
     return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_gyroscope_attitude'] = function (block) {
     const attitude = block.getFieldValue('attitude');
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`attitude(${attitude})`, Blockly.Python.MEM_TYPE);
+    const code = Blockly.Python.handleResult(`attitude("${attitude}")`, Blockly.Python.MEM_TYPE);
     return [code, Blockly.Python.ORDER_RELATIONAL];
 };
 
@@ -112,7 +112,7 @@ Blockly.Python['sensing_reflected_light_judgment'] = function (block) {
     const judgment = block.getFieldValue('judgment');
     const inp = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`lightJudgment(${port}, '${judgment}', ${inp})`, Blockly.Python.COLOR_TYPE);
+    const code = Blockly.Python.handleResult(`lightJudgment(${port}, "${judgment}", ${inp})`, Blockly.Python.COLOR_TYPE);
     return [code, Blockly.Python.ORDER_RELATIONAL];
 };
 
