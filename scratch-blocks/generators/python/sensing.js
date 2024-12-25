@@ -123,39 +123,62 @@ Blockly.Python['sensing_reflected_light_detection'] = function (block) {
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.cake['sensing_sound_intensity'] = function (block) {
-    // TODO: Assemble cake into code variable.
+Blockly.Python['sensing_sound_intensity'] = function (block) {
+    // TODO: Assemble Python into code variable.
     const code = Blockly.Python.handleResult(`soundIntensity()`, Blockly.Python.SOUND_TYPE);
-    return [code.trim(), Blockly.cake.ORDER_ATOMIC];
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_ultrasonic_judgment'] = function (block) {
-    let port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
-    let judgment = block.getFieldValue('judgment');
-    let inp = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_NONE);
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const judgment = block.getFieldValue('judgment');
+    const inp = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`sensing_ultrasonic_judgment(${port}, "${judgment}", ${inp})`, Blockly.Python.ULTRASIONIC_TYPE);
+    const code = Blockly.Python.handleResult(`sensing_ultrasonic_judgment(${port}, "${judgment}", ${inp})`, Blockly.Python.ULTRASIONIC_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
 };
 
 Blockly.Python['sensing_ultrasonic_detection'] = function (block) {
-    let port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`sensing_ultrasonic_detection(${port})`, Blockly.Python.ULTRASIONIC_TYPE);
+    const code = Blockly.Python.handleResult(`sensing_ultrasonic_detection(${port})`, Blockly.Python.ULTRASIONIC_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
 };
 
 Blockly.Python['sensing_key_judgment'] = function (block) {
-    let port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`DetectingTouch(${port})`, Blockly.Python.TOUCH_TYPE);
+    const code = Blockly.Python.handleResult(`DetectingTouch(${port})`, Blockly.Python.TOUCH_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
 };
 
 Blockly.Python['sensing_key_press'] = function (block) {
-    let port = block.getFieldValue('PORT');
-    let status = block.getFieldValue('status');
+    const port = block.getFieldValue('PORT');
+    const status = block.getFieldValue('status');
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`Sensing_key_press(${port}, "${status}")`, Blockly.Python.TOUCH_TYPE);
+    const code = Blockly.Python.handleResult(`Sensing_key_press(${port}, "${status}")`, Blockly.Python.TOUCH_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Python['sensing_isHandling'] = function (block) {
+    const keys = block.getFieldValue('KEYS');
+    const button = block.getFieldValue('BUTTON');
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`isHandling("${keys}", "${button}")`, Blockly.Python.KEY_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_Handling'] = function (block) {
+    const keys = block.getFieldValue('KEYS');
+    const button = block.getFieldValue('BUTTON');
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`Handling("${keys}", "${button}")`, Blockly.Python.KEY_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_get_gray_line'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const value = block.getFieldValue("VALUES");
+    const code = Blockly.Python.handleResult(`line(${port}, "${value}")`, Blockly.Python.GRAY_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };

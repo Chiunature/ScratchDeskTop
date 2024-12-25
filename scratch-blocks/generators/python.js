@@ -96,6 +96,8 @@ Blockly.Python.SOUND_TYPE = 'sound';
 Blockly.Python.MOTOR_TYPE = 'motor';
 Blockly.Python.ULTRASIONIC_TYPE = 'ultrasionic';
 Blockly.Python.TOUCH_TYPE = 'touch';
+Blockly.Python.KEY_TYPE = 'key';
+Blockly.Python.GRAY_TYPE = 'gray';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -520,6 +522,18 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyTouch = APITouch.touch()';
       }
       result = '\tMyTouch.' + result;
+      break;
+    case Blockly.Python.KEY_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyRemodet = APIKey.key()';
+      }
+      result = '\tMyRemodet.' + result;
+      break;
+    case Blockly.Python.GRAY_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyGray = APIGray.gray()';
+      }
+      result = '\tMyGray.' + result;
       break;
     default:
       break;
