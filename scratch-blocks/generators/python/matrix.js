@@ -22,7 +22,6 @@ goog.provide('Blockly.Python.matrix');
 
 goog.require('Blockly.Python');
 
-const MATRIX_TYPE = 'matrix';
 
 Blockly.Python['matrix'] = function(block) {
   // Numeric value.
@@ -71,7 +70,7 @@ Blockly.Python['matrix_lamp'] = function (block) {
 
   // TODO: Assemble Python into code variable.
   let code = `matrix_lamp(${newColor}, ${lp})\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python['matrix_lamp_text'] = function (block) {
@@ -80,7 +79,7 @@ Blockly.Python['matrix_lamp_text'] = function (block) {
   const match = regex.exec(text);
   if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
   let code = `matrix_text_lamp(${text})\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python['matrix_lamp_set'] = function (block) {
@@ -90,7 +89,7 @@ Blockly.Python['matrix_lamp_set'] = function (block) {
   }
   // TODO: Assemble Python into code variable.
   let code = `matrix_set_lamp(${brightness})\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python['matrix_lamp_single'] = function (block) {
@@ -98,13 +97,13 @@ Blockly.Python['matrix_lamp_single'] = function (block) {
   let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
   let code = `matrix_lamp_single(${x}, ${y})\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python['matrix_lamp_stop'] = function (block) {
   // TODO: Assemble Python into code variable.
   let code = `matrix_clearAll()\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python['matrix_color'] = function (block) {
@@ -124,5 +123,5 @@ Blockly.Python['matrix_color'] = function (block) {
   }
   // TODO: Assemble Python into code variable.
   let code = `matrix_color(${newColor})\n`;
-  return Blockly.Python.handleResult(code, TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };

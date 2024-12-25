@@ -89,6 +89,13 @@ Blockly.Python.ORDER_NONE = 99;             // (...)
  * define indent
  */
 Blockly.Python.INDENT = '  ';
+Blockly.Python.MEM_TYPE = 'MEM';
+Blockly.Python.COLOR_TYPE = 'COLOR';
+Blockly.Python.MATRIX_TYPE = 'matrix';
+Blockly.Python.SOUND_TYPE = 'sound';
+Blockly.Python.MOTOR_TYPE = 'motor';
+
+
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -473,22 +480,36 @@ Blockly.Python.toStr = function (val) {
 Blockly.Python.handleResult = function (code, type) {
   let result = code;
   switch (type) {
-    case 'matrix':
+    case Blockly.Python.MATRIX_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyLed = APIMatrix.showLed()';
       }
       result = '\tMyLed.' + result;
       break;
-    case 'sound':
+    case Blockly.Python.SOUND_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyMusic = APIMusic.playMusic()';
       }
       result = '\tMyMusic.' + result;
-    case 'MEM':
+      break;
+    case Blockly.Python.MEM_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyMem = APIMem.mem()';
       }
       result = '\tMyMem.' + result;
+      break;
+    case Blockly.Python.COLOR_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyColor = APIColor.color()';
+      }
+      result = '\tMyColor.' + result;
+      break;
+    case Blockly.Python.MOTOR_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyMotor = APIMotor.motor()';
+      }
+      result = '\tMyMotor.' + result;
+      break;
     default:
       break;
   }

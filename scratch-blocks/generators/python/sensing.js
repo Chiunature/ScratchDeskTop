@@ -4,7 +4,6 @@ goog.provide('Blockly.Python.sensing');
 
 goog.require('Blockly.Python');
 
-const MEM_TYPE = 'MEM';
 
 Blockly.Python['sensing_menu'] = function (block) {
     const menu = block.getFieldValue('SENSING_MENU');
@@ -14,27 +13,118 @@ Blockly.Python['sensing_menu'] = function (block) {
 
 Blockly.Python['sensing_set_yaw_angle'] = function (block) {
     // TODO: Assemble Python into code variable.
-    let code = `Resetyaw()\n`;
-    return Blockly.Python.handleResult(code, MEM_TYPE);
+    const code = `Resetyaw()\n`;
+    return Blockly.Python.handleResult(code, Blockly.Python.MEM_TYPE);
 };
 
 Blockly.Python['sensing_gyroscope_acceleration'] = function (block) {
-    let directiion = block.getFieldValue('directiion');
+    const directiion = block.getFieldValue('directiion');
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`acceleration(${directiion})`, MEM_TYPE);
+    const code = Blockly.Python.handleResult(`acceleration(${directiion})`, Blockly.Python.MEM_TYPE);
     return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_gyroscope_attitude'] = function (block) {
-    let attitude = block.getFieldValue('attitude');
+    const attitude = block.getFieldValue('attitude');
     // TODO: Assemble Python into code variable.
-    let code = Blockly.Python.handleResult(`attitude(${attitude})`, MEM_TYPE);
+    const code = Blockly.Python.handleResult(`attitude(${attitude})`, Blockly.Python.MEM_TYPE);
     return [code, Blockly.Python.ORDER_RELATIONAL];
 };
 
-Blockly.cake['sensing_gyroscope_angle'] = function (block) {
-    let port = block.getFieldValue('PORT');
+Blockly.Python['sensing_gyroscope_angle'] = function (block) {
+    const port = block.getFieldValue('PORT');
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`angleofattitude(${port})`, Blockly.Python.MEM_TYPE);
+    return [code, Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Python['sensing_color_range'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const rmin = Blockly.Python.valueToCode(block, "RMin", Blockly.Python.ORDER_NONE);
+    const gmin = Blockly.Python.valueToCode(block, "GMin", Blockly.Python.ORDER_NONE);
+    const bmin = Blockly.Python.valueToCode(block, "BMin", Blockly.Python.ORDER_NONE);
+    const rmax = Blockly.Python.valueToCode(block, "RMax", Blockly.Python.ORDER_NONE);
+    const gmax = Blockly.Python.valueToCode(block, "GMax", Blockly.Python.ORDER_NONE);
+    const bmax = Blockly.Python.valueToCode(block, "BMax", Blockly.Python.ORDER_NONE);
+    // TODO: Assemble Python into code variable.
+    const str = 'hsvcmp(' +
+        `${port}` + ', ' +
+        `${rmin}` + ', ' +
+        `${rmax}` + ', ' +
+        `${gmin}` + ', ' +
+        `${gmax}` + ', ' +
+        `${bmin}` + ', ' +
+        `${bmax}`
+        + ')';
+    const code = Blockly.Python.handleResult(str, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_color_judgment'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const color = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE);
+    let index = '0';
+    const list = ["#ff000c", "#ffe360", "#0090f5", "#00cb54", "#914800", "#ad0000", "#000000", "#ffffff"];
+    for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        if (item == color.replace(/'/g, '')) {
+            index = i + 1 + '';
+        }
+    }
+    const code = Blockly.Python.handleResult(`judgment(${port}, ${index})`, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_color_detection'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`dectection(${port})`, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_color_detectionRGB'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const color = block.getFieldValue('color');
+    let rgb;
+    switch (color) {
+        case "red":
+            // rgb = '0xFF0000';
+            rgb = "1";
+            break;
+        case "green":
+            // rgb = '0x00FF00';
+            rgb = "4";
+            break;
+        case "blue":
+            // rgb = '0x0000FF';
+            rgb = "3";
+            break;
+        default:
+            break;
+    }
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`Sensing_color_detectionRGB(${port}, ${rgb})`, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Python['sensing_reflected_light_judgment'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const judgment = block.getFieldValue('judgment');
+    const inp = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_NONE);
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`lightJudgment(${port}, '${judgment}', ${inp})`, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Python['sensing_reflected_light_detection'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`lightdetection(${port})`, Blockly.Python.COLOR_TYPE);
+    return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.cake['sensing_sound_intensity'] = function (block) {
     // TODO: Assemble cake into code variable.
-    let code = Blockly.Python.handleResult(`angleofattitude(${port})`, MEM_TYPE);
-    return [code, Blockly.cake.ORDER_RELATIONAL];
+    const code = Blockly.Python.handleResult(`soundIntensity()`, Blockly.Python.SOUND_TYPE);
+    return [code, Blockly.cake.ORDER_ATOMIC];
 };
