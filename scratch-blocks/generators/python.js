@@ -94,8 +94,8 @@ Blockly.Python.COLOR_TYPE = 'COLOR';
 Blockly.Python.MATRIX_TYPE = 'matrix';
 Blockly.Python.SOUND_TYPE = 'sound';
 Blockly.Python.MOTOR_TYPE = 'motor';
-
-
+Blockly.Python.ULTRASIONIC_TYPE = 'ultrasionic';
+Blockly.Python.TOUCH_TYPE = 'touch';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -282,11 +282,10 @@ Blockly.Python.splitCodeByTask = function (code) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i].replace(/\/\* Start \*\//, '').replace(/\/\* End \*\//, '');
     result = result + '\n' +
-`def ${task[i]}():
+      `def ${task[i]}():
     global ${task[i]}_finished
     ${item}
-    ${task[i]}_finished = True
-`;
+    ${task[i]}_finished = True\n`;
   }
   
   return result;
@@ -509,6 +508,18 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyMotor = APIMotor.motor()';
       }
       result = '\tMyMotor.' + result;
+      break;
+    case Blockly.Python.ULTRASIONIC_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyUltrasion = APIUltrasion.ultrasionic()';
+      }
+      result = '\tMyUltrasion.' + result;
+      break;
+    case Blockly.Python.TOUCH_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyTouch = APITouch.touch()';
+      }
+      result = '\tMyTouch.' + result;
       break;
     default:
       break;

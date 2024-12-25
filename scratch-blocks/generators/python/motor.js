@@ -61,21 +61,21 @@ Blockly.Python['motor_rate'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
     const code = Blockly.Python.handleResult(`rate(${port})`, Blockly.Python.MOTOR_TYPE);
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_angle'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
     const code = Blockly.Python.handleResult(`angle(${port})`, Blockly.Python.MOTOR_TYPE);
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_position'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
     const code = Blockly.Python.handleResult(`pos(${port})`, Blockly.Python.MOTOR_TYPE);
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_startWithPower'] = function (block) {
