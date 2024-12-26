@@ -32,7 +32,7 @@ Blockly.Python['procedures_definition'] = function(block) {
 
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (!nextBlock) {
-    code += Blockly.Python.INDENT + "pass\n";
+    code += Blockly.Python.INDENT + "\tpass\n";
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
@@ -74,7 +74,7 @@ Blockly.Python['procedures_call'] = function(block) {
     }
   }
 
-  var code = funcName + '(' + argCode.join(', ') + ');\n';
+  var code = '\t' + funcName + '(' + argCode.join(', ') + ')\n';
   return code;
 };
 
