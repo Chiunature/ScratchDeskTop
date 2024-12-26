@@ -128,3 +128,7 @@ Blockly.Python['control_repeat_until'] = function(block) {
   }
   return code;
 };
+
+Blockly.Python['control_break'] = function (block) {
+  return '\tbreak;\n';
+};
