@@ -152,5 +152,5 @@ Blockly.Python['event_whenflagclicked'] = function (block) {
   const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
   Blockly.Python.tasks_[task] = `${task}_finished = False`
 
-  return '/* Start */\n';
+  return '\n/* Start */\n';
 };

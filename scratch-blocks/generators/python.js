@@ -224,21 +224,26 @@ Blockly.Python.finish = function (code) {
   
 
   let str = '', threadStr = '', arr = Object.keys(Blockly.Python.tasks_);
-  arr.forEach((key, index) => {
-    const t = `${key}_finished`;
-    threadStr += `_thread.start_new_thread(${key}, ())\n`
-    if (index === arr.length - 1) {
-      str += 'not ' + t;
-    } else {
-      str += 'not ' + t + ' or ';
-    }
-  })
 
-  let whileEnd =
-    `while ${str}:
-      time.sleep ms(0.1)`;
+  if (arr.length > 0) {
+    arr.forEach((key, index) => {
+      const t = `${key}_finished`;
+      threadStr += `_thread.start_new_thread(${key}, ())\n`
+      if (index === arr.length - 1) {
+        str += 'not ' + t;
+      } else {
+        str += 'not ' + t + ' or ';
+      }
+    })
 
-  ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd;
+    let whileEnd =
+      `while ${str}:
+        time.sleep ms(0.1)`;
+
+    ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd;
+  } else {
+    ret += code;
+  }
   // repeat
   if (loops.length !== 0) {
     // if there is no loop add a empty loop function.
@@ -276,9 +281,10 @@ Blockly.Python.finish = function (code) {
 
 Blockly.Python.splitCodeByTask = function (code) {
   let result = '\n';
-  const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
+  const regexForThread = /\s{1}\/\* Start \*\/\s*[\s\S]*?\s*\/\* End \*\/\s{1}/g;
   const task = Object.keys(Blockly.Python.tasks_);
   const arr = code.match(regexForThread);
+
   if (!arr) {
     return code;
   }
