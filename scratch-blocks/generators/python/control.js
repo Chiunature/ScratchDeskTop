@@ -26,7 +26,7 @@ goog.require('Blockly.Python');
 Blockly.Python['control_wait'] = function(block) {
   var arg0 = Blockly.Python.valueToCode(block, 'DURATION',
       Blockly.Python.ORDER_FUNCTION_CALL);
-  var code = "\t_time.sleep_s(" + arg0 + ")\n";
+  var code = Blockly.Python.INDENT + "_time.sleep_s(" + arg0 + ")\n";
   return code;
 };
 
@@ -35,12 +35,12 @@ Blockly.Python['control_repeat'] = function(block) {
       Blockly.Python.ORDER_FUNCTION_CALL);
   var branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
-
-  var code = "\tfor count in range(" + repeats + "):\n";
+    
+  var code = Blockly.Python.INDENT + "for count in range(" + repeats + "):\n";
   if (branch) {
-    code += '\t' + branch;
+    code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += "\tpass\n";
   }
   return code;
 };
@@ -48,13 +48,17 @@ Blockly.Python['control_repeat'] = function(block) {
 Blockly.Python['control_forever'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
-
-  var code = "\twhile True:\n";
-  code += '\t' + branch;
+  
+  var code = Blockly.Python.INDENT + "while True:\n";
+  if (branch) {
+    code += Blockly.Python.addIndent(branch);
+  } else {
+    code += "\tpass\n";
+  }
 
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
     Blockly.Python.firstLoop = false;
-    code += Blockly.Python.INDENT + "\trepeat()\n";
+    code += Blockly.Python.INDENT + "repeat()\n";
   }
 
   return code;
@@ -66,11 +70,11 @@ Blockly.Python['control_if'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
-  var code = "\tif " + argument + ":\n";
+  var code = Blockly.Python.INDENT + "if " + argument + ":\n";
   if (branch) {
-    code += '\t' + branch;
+    code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += "\tpass\n";
   }
   return code;
 };
@@ -83,17 +87,17 @@ Blockly.Python['control_if_else'] = function(block) {
   var branch2 = Blockly.Python.statementToCode(block, 'SUBSTACK2');
   branch2 = Blockly.Python.addLoopTrap(branch2, block.id);
 
-  var code = "\tif " + argument + ":\n";
+  var code = Blockly.Python.INDENT + "if " + argument + ":\n";
   if (branch) {
-    code += '\t' + branch;
+    code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += "\tpass\n";
   }
-  code += "\telse:\n";
+  code += Blockly.Python.INDENT + "else:\n";
   if (branch2) {
-    code += '\t' + branch2;
+    code += Blockly.Python.addIndent(branch2);
   } else {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += "\tpass\n";
   }
   return code;
 };
@@ -101,10 +105,10 @@ Blockly.Python['control_if_else'] = function(block) {
 Blockly.Python['control_wait_until'] = function(block) {
   var argument = Blockly.Python.valueToCode(block, 'CONDITION',
       Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
-  var code = "\twhile not " + argument + ":\n";
-  code += Blockly.Python.INDENT + "\tpass\n";
+  var code = Blockly.Python.INDENT + "while not " + argument + ":\n";
+  code += "\tpass\n";
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
-    code += Blockly.Python.INDENT + "\trepeat()\n";
+    code += Blockly.Python.INDENT + "repeat()\n";
   }
   return code;
 };
@@ -116,19 +120,19 @@ Blockly.Python['control_repeat_until'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
-  var code = "\twhile not " + argument + ":\n";
+  var code = Blockly.Python.INDENT + "while not " + argument + ":\n";
   if (branch) {
-    code += '\t' + branch;
+    code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += "\tpass\n";
   }
   
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
-    code += Blockly.Python.INDENT + "\trepeat()\n";
+    code += Blockly.Python.INDENT + "repeat()\n";
   }
   return code;
 };
 
 Blockly.Python['control_break'] = function (block) {
-  return '\tbreak\n';
+  return Blockly.Python.INDENT + 'break\n';
 };
