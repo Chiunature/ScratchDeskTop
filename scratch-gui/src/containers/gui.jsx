@@ -208,12 +208,11 @@ class GUI extends React.Component {
                     return;
                 }
                 const { deviceObj, version, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
-                const { estlist, versionlist } = result;
-                if (deviceObj?.estlist?.est === estlist?.est) {
-                    onSetDeviceStatus(estlist.est);
+                if (deviceObj?.estlist?.est === result?.estlist?.est) {
+                    onSetDeviceStatus(result.estlist.est);
                 }
-                if (version !== versionlist.ver) {
-                    onSetVersion(versionlist.ver);
+                if (version !== result?.versionlist.ver) {
+                    onSetVersion(result.versionlist.ver);
                 }
                 onSetDeviceObj(result);
 

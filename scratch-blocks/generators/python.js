@@ -236,9 +236,7 @@ Blockly.Python.finish = function (code) {
       }
     })
 
-    let whileEnd =
-      `while ${str}:
-    _time.sleep_ms(0.1)`;
+    let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + '_time.sleep_ms(0.1)';
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd;
   } else {
@@ -281,7 +279,7 @@ Blockly.Python.finish = function (code) {
 
 Blockly.Python.splitCodeByTask = function (code) {
   let result = '\n';
-  const regexForThread = /\s{1}\/\* Start \*\/\s*[\s\S]*?\s*\/\* End \*\/\s{1}/g;
+  const regexForThread = /\s{1}\/\* Start \*\/[\s\S]*?\/\* End \*\/\s{1}/g;
   const task = Object.keys(Blockly.Python.tasks_);
   const arr = code.match(regexForThread);
 
@@ -290,12 +288,12 @@ Blockly.Python.splitCodeByTask = function (code) {
   }
 
   for (let i = 0; i < arr.length; i++) {
-    const item = arr[i].replace(/\s{1}\/\* Start \*\//, '').replace(/\/\* End \*\/\s{1}/, '');
+    const item = arr[i].replace(/\s{1}\/\* Start \*\/\s{1}/, '').replace(/\s{1}\/\* End \*\/\s{1}/, '');
     result = result +
       `\ndef ${task[i]}():\n` +
-      `\tglobal ${task[i]}_finished\n` +
-      `${item}` +
-      `\n\t${task[i]}_finished = True\n`;
+      `${Blockly.Python.INDENT}  global ${task[i]}_finished\n` +
+      `${Blockly.Python.addIndent(item)}` +
+      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${task[i]}_finished = True\n`;
   }
   
   return result;
@@ -493,61 +491,61 @@ Blockly.Python.handleResult = function (code, type) {
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyLed = APIMatrix.showLed()';
       }
-      result = Blockly.Python.INDENT + 'MyLed.' + result;
+      result = 'MyLed.' + result;
       break;
     case Blockly.Python.SOUND_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyMusic = APIMusic.playMusic()';
       }
-      result = Blockly.Python.INDENT + 'MyMusic.' + result;
+      result = 'MyMusic.' + result;
       break;
     case Blockly.Python.MEM_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyMem = APIMem.mem()';
       }
-      result = Blockly.Python.INDENT + 'MyMem.' + result;
+      result = 'MyMem.' + result;
       break;
     case Blockly.Python.COLOR_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyColor = APIColor.color()';
       }
-      result = Blockly.Python.INDENT + 'MyColor.' + result;
+      result = 'MyColor.' + result;
       break;
     case Blockly.Python.MOTOR_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyMotor = APIMotor.motor()';
       }
-      result = Blockly.Python.INDENT + 'MyMotor.' + result;
+      result = 'MyMotor.' + result;
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyUltrasion = APIUltrasion.ultrasionic()';
       }
-      result = Blockly.Python.INDENT + 'MyUltrasion.' + result;
+      result = 'MyUltrasion.' + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyTouch = APITouch.touch()';
       }
-      result = Blockly.Python.INDENT + 'MyTouch.' + result;
+      result = 'MyTouch.' + result;
       break;
     case Blockly.Python.KEY_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyRemodet = APIKey.key()';
       }
-      result = Blockly.Python.INDENT + 'MyRemodet.' + result;
+      result = 'MyRemodet.' + result;
       break;
     case Blockly.Python.GRAY_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyGray = APIGray.gray()';
       }
-      result = Blockly.Python.INDENT + 'MyGray.' + result;
+      result = 'MyGray.' + result;
       break;
     case Blockly.Python.LIST_TYPE:
       if (!Blockly.Python.setups_[type]) {
         Blockly.Python.setups_[type] = 'MyList= APIList.userlist()';
       }
-      result = Blockly.Python.INDENT + 'MyList.' + result;
+      result = 'MyList.' + result;
       break;
     default:
       break;
@@ -557,5 +555,10 @@ Blockly.Python.handleResult = function (code, type) {
 
 Blockly.Python.addIndent = function (code) {
   const arr = code.split('\n');
-  return arr.map(item => Blockly.Python.INDENT + item).join('\n');
+  return arr.map(item => {
+    if(item.trim().length > 0) {
+      item = Blockly.Python.INDENT + item;
+    }
+    return item;
+  }).join('\n');
 }

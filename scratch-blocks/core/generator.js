@@ -100,7 +100,7 @@ Blockly.Generator.prototype.workspaceToCode = function(workspace) {
   for (var x = 0, block; block = blocks[x]; x++) {
     var line = this.blockToCode(block);
     if(line.indexOf('/* Start */') !== -1 && line.indexOf('/* End */') === -1) {
-      line = line + '/* End */\n';
+      line = line + '\n/* End */\n';
     }
     if (goog.isArray(line)) {
       // Value blocks return tuples of code and operator order.
