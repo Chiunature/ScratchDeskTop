@@ -62,14 +62,15 @@ function verifyBinType(options, event) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.LENGTH, allFiles.length);
             return allFiles;
         case BOOTBIN:
-            return getResultByCodeType(options);
+            return getResultByCodeType(options, { path, fs, root });
         default:
             return false;
     }
 }
 
-function getResultByCodeType(options) {
+function getResultByCodeType(options, codeOptions) {
     const { selectedExe, codeType } = options;
+    const { path, fs, root } = codeOptions;
     switch (codeType) {
         case CAKE:
             const pathname = path.join(root, BIN);
