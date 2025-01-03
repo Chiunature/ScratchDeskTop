@@ -74,7 +74,7 @@ Blockly.Python['procedures_call'] = function(block) {
     }
   }
 
-  var code = '\t' + funcName + '(' + argCode.join(', ') + ')\n';
+  var code = funcName + '(' + argCode.join(', ') + ')\n';
   return code;
 };
 
