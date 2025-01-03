@@ -2,7 +2,7 @@
     "genList": [
         {
             "generatorName": "cake",
-            "typeName": "C"
+            "typeName": "cake"
         },
         {
             "generatorName": "Python",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames';
 import menuBarStyles from './menu-bar.css';
 import styles from './settings-menu.css';
@@ -14,7 +14,11 @@ import { genList } from "../../config/json/generators.json";
 function GeneratorsMenu(props) {
     const { onSetGen, isGen, onClickGen, onRequestCloseGen, isRtl, genMenuOpen, onSetGeneratorName, generatorName, onGetCode, workspace } = props;
 
-    const [ typeName, setTypeName ] = useState(genList[0].typeName);
+    const [typeName, setTypeName] = useState(generatorName);
+
+    useEffect(() => {
+        window.myAPI.setStoreValue('generatorName', typeName);
+    }, [typeName])
 
     function changeCodeName(item) {
         const code = ScratchBlocks[item.generatorName].workspaceToCode(workspace);
@@ -45,7 +49,7 @@ function GeneratorsMenu(props) {
             onMouseUp={onClickGen}
         >
             <img className={menuBarStyles.unconnectedIcon} src={genIcon} alt="" />
-            <span className={menuBarStyles.collapsibleLabel} style={{ minWidth: '110px'}}>
+            <span className={menuBarStyles.collapsibleLabel} style={{ minWidth: '110px' }}>
                 <FormattedMessage
                     defaultMessage="Generator"
                     description="Text for menubar Generator button"
