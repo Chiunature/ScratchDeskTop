@@ -183,7 +183,7 @@
   "gui.prompt.ok": "确定",
   "gui.playbackStep.stopMsg": "停止",
   "gui.playbackStep.playMsg": "播放",
-  "gui.playbackStep.loadingMsg": "载入中,请勿操作……",
+  "gui.playbackStep.loadingMsg": "载入中，请勿操作……",
   "gui.playbackStep.saveMsg": "保存",
   "gui.playbackStep.reRecordMsg": "重新录制",
   "gui.recordModal.title": "录制声音",
