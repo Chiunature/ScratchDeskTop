@@ -8,7 +8,7 @@ goog.require('Blockly.Python');
 Blockly.Python['sensing_menu'] = function (block) {
     const menu = block.getFieldValue('SENSING_MENU');
     // TODO: Assemble Python into code variable.
-    return [`"${menu}1"`, Blockly.Python.ORDER_ATOMIC];
+    return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_set_yaw_angle'] = function (block) {

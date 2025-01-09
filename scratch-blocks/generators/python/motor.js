@@ -7,7 +7,7 @@ goog.require('Blockly.Python');
 Blockly.Python['motor_box'] = function (block) {
     const menu = block.getFieldValue('MOTOR');
     // TODO: Assemble Python into code variable.
-    return [`"${menu}1"`, Blockly.cake.ORDER_ATOMIC];
+    return [`"${menu}"`, Blockly.cake.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_acceleration_menu'] = function (block) {
@@ -18,7 +18,8 @@ Blockly.Python['motor_acceleration_menu'] = function (block) {
 
 Blockly.Python['motor_starting'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
-    const spin = block.getFieldValue('SPIN');
+    let spin = block.getFieldValue('SPIN');
+    spin = spin[0].toLowerCase() + spin.slice(1);
     // TODO: Assemble Python into code variable.
     const code = `Start(${port}, "${spin}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
@@ -41,7 +42,8 @@ Blockly.Python['motor_speed'] = function (block) {
 
 Blockly.Python['motor_specifiedunit'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
-    const spin = block.getFieldValue('SPIN');
+    let spin = block.getFieldValue('SPIN');
+    spin = spin[0].toLowerCase() + spin.slice(1);
     const count = Blockly.Python.valueToCode(block, "COUNT", Blockly.Python.ORDER_NONE);
     const unit = block.getFieldValue('unit');
     // TODO: Assemble Python into code variable.
