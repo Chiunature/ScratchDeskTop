@@ -74,6 +74,12 @@ Blockly.Blocks['sensing_camera_find_color_state'] = {
     this.jsonInit({
       "type": "sensing_camera_find_color_state",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_COLOR_STATE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
@@ -85,6 +91,12 @@ Blockly.Blocks['sensing_camera_find_color_block_x'] = {
     this.jsonInit({
       "type": "sensing_camera_find_color_block_x",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK_X,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -96,6 +108,12 @@ Blockly.Blocks['sensing_camera_find_color_block_y'] = {
     this.jsonInit({
       "type": "sensing_camera_find_color_block_y",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK_Y,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -107,6 +125,12 @@ Blockly.Blocks['sensing_camera_find_color_pixel'] = {
     this.jsonInit({
       "type": "sensing_camera_find_color_pixel",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_COLOR_PIXEL,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -159,6 +183,12 @@ Blockly.Blocks['sensing_camera_middle_find_red'] = {
     this.jsonInit({
       "type": "sensing_camera_middle_find_red",
       "message0": Blockly.Msg.SENSING_CAMERA_MIDDLE_FIND_RED,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -170,6 +200,12 @@ Blockly.Blocks['sensing_camera_middle_find_green'] = {
     this.jsonInit({
       "type": "sensing_camera_middle_find_green",
       "message0": Blockly.Msg.SENSING_CAMERA_MIDDLE_FIND_GREEN,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -181,6 +217,12 @@ Blockly.Blocks['sensing_camera_middle_find_blue'] = {
     this.jsonInit({
       "type": "sensing_camera_middle_find_blue",
       "message0": Blockly.Msg.SENSING_CAMERA_MIDDLE_FIND_BLUE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],
       "category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
@@ -217,7 +259,12 @@ Blockly.Blocks['sensing_camera_extern_red'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_red",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_RED,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -228,7 +275,12 @@ Blockly.Blocks['sensing_camera_extern_green'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_green",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_GREEN,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -239,7 +291,12 @@ Blockly.Blocks['sensing_camera_extern_blue'] = {
     this.jsonInit({
       "type": "sensing_camera_extern_blue",
       "message0": Blockly.Msg.SENSING_CAMERA_EXTERN_BLUE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -275,7 +332,12 @@ Blockly.Blocks['sensing_camera_find_line_state'] = {
     this.jsonInit({
       "type": "sensing_camera_find_line_state",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -286,7 +348,12 @@ Blockly.Blocks['sensing_camera_find_line_showsex'] = {
     this.jsonInit({
       "type": "sensing_camera_find_line_showsex",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_SHOWSEX,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -297,7 +364,12 @@ Blockly.Blocks['sensing_camera_find_line_rho'] = {
     this.jsonInit({
       "type": "sensing_camera_find_line_rho",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_RHO,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -308,7 +380,12 @@ Blockly.Blocks['sensing_camera_find_line_theta'] = {
     this.jsonInit({
       "type": "sensing_camera_find_line_theta",
       "message0": Blockly.Msg.SENSING_CAMERA_FIND_LINE_THETA,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -344,7 +421,12 @@ Blockly.Blocks['sensing_camera_number_state'] = {
     this.jsonInit({
       "type": "sensing_camera_number_state",
       "message0": Blockly.Msg.SENSING_CAMERA_NUMBER_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -355,7 +437,12 @@ Blockly.Blocks['sensing_camera_get_number'] = {
     this.jsonInit({
       "type": "sensing_camera_get_number",
       "message0": Blockly.Msg.SENSING_CAMERA_GET_NUMBER,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -391,7 +478,12 @@ Blockly.Blocks['sensing_camera_face_state'] = {
     this.jsonInit({
       "type": "sensing_camera_face_state",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -402,7 +494,12 @@ Blockly.Blocks['sensing_camera_face_x'] = {
     this.jsonInit({
       "type": "sensing_camera_face_x",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_X,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -413,7 +510,12 @@ Blockly.Blocks['sensing_camera_face_y'] = {
     this.jsonInit({
       "type": "sensing_camera_face_y",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_Y,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -449,7 +551,12 @@ Blockly.Blocks['sensing_camera_face_trace_state'] = {
     this.jsonInit({
       "type": "sensing_camera_face_trace_state",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_TRACE_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -460,7 +567,12 @@ Blockly.Blocks['sensing_camera_face_trace_x'] = {
     this.jsonInit({
       "type": "sensing_camera_face_trace_x",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_TRACE_X,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -471,7 +583,12 @@ Blockly.Blocks['sensing_camera_face_trace_y'] = {
     this.jsonInit({
       "type": "sensing_camera_face_trace_y",
       "message0": Blockly.Msg.SENSING_CAMERA_FACE_TRACE_Y,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -507,7 +624,12 @@ Blockly.Blocks['sensing_camera_qr_state'] = {
     this.jsonInit({
       "type": "sensing_camera_qr_state",
       "message0": Blockly.Msg.SENSING_CAMERA_QR_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -543,7 +665,12 @@ Blockly.Blocks['sensing_camera_apriltag_state'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_state",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -554,7 +681,12 @@ Blockly.Blocks['sensing_camera_apriltag_id'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_id",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_ID,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -565,7 +697,12 @@ Blockly.Blocks['sensing_camera_apriltag_x'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_x",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_X,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -576,7 +713,12 @@ Blockly.Blocks['sensing_camera_apriltag_y'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_y",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_Y,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -587,7 +729,12 @@ Blockly.Blocks['sensing_camera_apriltag_roll'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_roll",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_ROLL,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -598,7 +745,12 @@ Blockly.Blocks['sensing_camera_apriltag_distance'] = {
     this.jsonInit({
       "type": "sensing_camera_apriltag_distance",
       "message0": Blockly.Msg.SENSING_CAMERA_APRILTAG_DISTANCE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -635,7 +787,12 @@ Blockly.Blocks['sensing_camera_characteristic_state'] = {
     this.jsonInit({
       "type": "sensing_camera_characteristic_state",
       "message0": Blockly.Msg.SENSING_CAMERA_CHARACTERISTIC_STATE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_boolean"]
     });
   }
@@ -646,7 +803,12 @@ Blockly.Blocks['sensing_camera_characteristic_matchine'] = {
     this.jsonInit({
       "type": "sensing_camera_characteristic_matchine",
       "message0": Blockly.Msg.SENSING_CAMERA_CHARACTERISTIC_MATCHINE,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }
@@ -657,7 +819,12 @@ Blockly.Blocks['sensing_camera_characteristic_roll'] = {
     this.jsonInit({
       "type": "sensing_camera_characteristic_roll",
       "message0": Blockly.Msg.SENSING_CAMERA_CHARACTERISTIC_ROLL,
-      "category": Blockly.Categories.sensing_camera,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        }
+      ],"category": Blockly.Categories.sensing_camera,
       "extensions": ["colours_sensing_camera", "output_number"]
     });
   }

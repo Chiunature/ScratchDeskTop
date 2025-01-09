@@ -287,7 +287,7 @@ class GUI extends React.Component {
         const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
         const list = this.props.workspace.getTopBlocks();
         const hasStart = list.some(el => el.startHat_);
-        if (!hasStart || blocks.getBBox().height === 0 || this.props.compileList.length === 0) {
+        if (!hasStart || blocks.getBBox().height === 0) {
             this.props.onShowCompletedAlert("workspaceEmpty");
             return false;
         }

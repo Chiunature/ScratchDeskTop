@@ -175,7 +175,7 @@ class Serialport extends Common {
             this.checkConnectTimer = setTimeout(() => {
                 this.readyToUpload({ verifyType: SOURCE }, event);
                 this.upload_sources_status = null;
-            }, 1000);
+            }, 3000);
         }
     }
 

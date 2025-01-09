@@ -99,7 +99,7 @@ Blockly.Python.TOUCH_TYPE = 'touch';
 Blockly.Python.KEY_TYPE = 'key';
 Blockly.Python.GRAY_TYPE = 'gray';
 Blockly.Python.LIST_TYPE = 'userlist';
-
+Blockly.Python.CAM_TYPE = 'camera';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -546,6 +546,12 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyList= APIList.userlist()';
       }
       result = 'MyList.' + result;
+      break;
+    case Blockly.Python.CAM_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyCam = APICam.cam()';
+      }
+      result = 'MyCam.' + result;
       break;
     default:
       break;

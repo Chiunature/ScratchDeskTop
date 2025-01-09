@@ -875,13 +875,26 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_color_state"></block>
+            <block type="sensing_camera_find_color_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_color_block_x"></block>
+            <block type="sensing_camera_find_color_block_x">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
-            <block type="sensing_camera_find_color_block_y"></block>
+            <block type="sensing_camera_find_color_block_y">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
-            <block type="sensing_camera_find_color_pixel"></block>
+            <block type="sensing_camera_find_color_pixel">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
             <block type="sensing_camera_middle_find">
                 <value name="PORT">
@@ -901,11 +914,20 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_middle_find_red"></block>
+            <block type="sensing_camera_middle_find_red">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
-            <block type="sensing_camera_middle_find_green"></block>
+            <block type="sensing_camera_middle_find_green">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
-            <block type="sensing_camera_middle_find_blue"></block>
+            <block type="sensing_camera_middle_find_blue">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value></block>
             ${blockSeparator}
             <block type="sensing_camera_extern_color">
                 <value name="PORT">
@@ -913,11 +935,23 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_extern_red" />
+            <block type="sensing_camera_extern_red">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_extern_green" />
+            <block type="sensing_camera_extern_green">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_extern_blue" />
+            <block type="sensing_camera_extern_blue">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_find_line">
                 <value name="PORT">
@@ -925,13 +959,29 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_line_state" />
+            <block type="sensing_camera_find_line_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_line_showsex" />
+            <block type="sensing_camera_find_line_showsex">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_line_rho" />
+            <block type="sensing_camera_find_line_rho">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_find_line_theta" />
+            <block type="sensing_camera_find_line_theta">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_number_check">
                 <value name="PORT">
@@ -939,9 +989,17 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_number_state" />
+            <block type="sensing_camera_number_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_get_number" />
+            <block type="sensing_camera_get_number">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_face_check">
                 <value name="PORT">
@@ -949,11 +1007,23 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_state" />
+            <block type="sensing_camera_face_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_x" />
+            <block type="sensing_camera_face_x">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_y" />
+            <block type="sensing_camera_face_y">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_face_trace">
                 <value name="PORT">
@@ -961,11 +1031,23 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_trace_state" />
+            <block type="sensing_camera_face_trace_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_trace_x" />
+            <block type="sensing_camera_face_trace_x">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_face_trace_y" />
+            <block type="sensing_camera_face_trace_y">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_qr_check">
                 <value name="PORT">
@@ -973,7 +1055,11 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_qr_state" />
+            <block type="sensing_camera_qr_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_apriltag">
                 <value name="PORT">
@@ -981,17 +1067,41 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_state" />
+            <block type="sensing_camera_apriltag_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_id" />
+            <block type="sensing_camera_apriltag_id">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_x" />
+            <block type="sensing_camera_apriltag_x">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_y" />
+            <block type="sensing_camera_apriltag_y">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_roll" />
+            <block type="sensing_camera_apriltag_roll">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_apriltag_distance" />
+            <block type="sensing_camera_apriltag_distance">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_camera_characteristic">
                 <value name="PORT">
@@ -999,11 +1109,23 @@ const sensing_camera = function (colors) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_camera_characteristic_state" />
+            <block type="sensing_camera_characteristic_state">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_characteristic_matchine" />
+            <block type="sensing_camera_characteristic_matchine">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
             ${blockSeparator}
-            <block type="sensing_camera_characteristic_roll" />
+            <block type="sensing_camera_characteristic_roll">
+                <value name="PORT">
+                    <shadow type="sensing_camera_menu" />
+                </value>
+            </block>
         ${categorySeparator}
     </category>
     `;
