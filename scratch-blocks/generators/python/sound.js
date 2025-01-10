@@ -42,3 +42,10 @@ Blockly.Python['sound_setvolumeto'] = function (block) {
     const code = `setvolumeto(${volume})\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE);
 }
+
+Blockly.Python['sound_PlayMusic'] = function (block) {
+    const note = Blockly.Python.valueToCode(block, "NOTE", Blockly.Python.ORDER_ATOMIC);
+    const beats = Blockly.Python.valueToCode(block, "BEATS", Blockly.Python.ORDER_ATOMIC);
+    const code = `soundPianomusic("${note}.wav", ${beats})\n`;
+    return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE);
+}

@@ -358,16 +358,6 @@ const matrix = function (isInitialSetup, isStage, targetId, colors) {
                 </shadow>
             </value>
         </block>
-        <block type="sound_PlayMusic">
-            <value name="NOTE">
-                <shadow type="note"></shadow>
-            </value>
-            <value name="BEATS">
-                <shadow type="math_number">
-                    <field name="NUM">0.25</field>
-                </shadow>
-            </value>
-        </block>
 */}
 const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
     return `
@@ -391,6 +381,17 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
             <value name="VOLUME">
                 <shadow type="math_0to100_number">
                     <field name="NUM">100</field>
+                </shadow>
+            </value>
+        </block>
+        ${blockSeparator}
+        <block type="sound_PlayMusic">
+            <value name="NOTE">
+                <shadow type="note"></shadow>
+            </value>
+            <value name="BEATS">
+                <shadow type="math_number">
+                    <field name="NUM">0.25</field>
                 </shadow>
             </value>
         </block>
