@@ -1,10 +1,6 @@
 {
     "genList": [
         {
-            "generatorName": "cake",
-            "typeName": "cake"
-        },
-        {
             "generatorName": "Python",
             "typeName": "Python"
         }

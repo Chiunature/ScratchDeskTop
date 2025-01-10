@@ -26,14 +26,14 @@ const SET_MATCHMSGBLOCK = 'scratch-gui/mode/SET_MATCHMSGBLOCK';
     })
 } */
 
-function initGeneratorName() {
+/* function initGeneratorName() {
     const generator = window?.myAPI?.getStoreValue('generatorName');
     if (generator) {
         return generator
     } else {
-        return 'cake'
+        return 'Python'
     }
-}
+} */
 
 const initialState = {
     showBranding: false,
@@ -49,7 +49,7 @@ const initialState = {
     msgTaskBlock: [],
     exeList: [],
     selectedExe: window?.myAPI?.getStoreValue('selItem') ? JSON.parse(window.myAPI.getStoreValue('selItem')) : { name: '0_APP', num: 0, checked: true, index: 0 },
-    generatorName: initGeneratorName(),
+    generatorName: 'Python',
 }
 
 const reducer = function (state, action) {
