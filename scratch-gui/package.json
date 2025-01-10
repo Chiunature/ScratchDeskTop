@@ -191,8 +191,8 @@
         "afterPack": "./scripts/afterPack.js",
         "extraResources": [
             {
-                "from": "./resources/gcc-arm-none-eabi",
-                "to": "./gcc-arm-none-eabi"
+                "from": "./resources/LB_FWLIB",
+                "to": "./LB_FWLIB"
             },
             {
                 "from": "./resources/zadig.exe",
