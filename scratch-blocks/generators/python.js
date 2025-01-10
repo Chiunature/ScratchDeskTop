@@ -100,6 +100,7 @@ Blockly.Python.KEY_TYPE = 'key';
 Blockly.Python.GRAY_TYPE = 'gray';
 Blockly.Python.LIST_TYPE = 'userlist';
 Blockly.Python.CAM_TYPE = 'camera';
+Blockly.Python.TIMER_TYPE = 'timer';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -221,7 +222,7 @@ Blockly.Python.finish = function (code) {
     ret += setups.join('\n') + "\n\n";
   }
 
-  
+
 
   let str = '', threadStr = '', arr = Object.keys(Blockly.Python.tasks_);
 
@@ -295,7 +296,7 @@ Blockly.Python.splitCodeByTask = function (code) {
       `${Blockly.Python.addIndent(item)}` +
       `${Blockly.Python.INDENT + Blockly.Python.INDENT}${task[i]}_finished = True\n`;
   }
-  
+
   return result;
 }
 
@@ -543,7 +544,7 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.LIST_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyList= APIList.userlist()';
+        Blockly.Python.setups_[type] = 'MyList = APIList.userlist()';
       }
       result = 'MyList.' + result;
       break;
@@ -552,6 +553,12 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyCam = APICam.cam()';
       }
       result = 'MyCam.' + result;
+      break;
+    case Blockly.Python.TIMER_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyTimer = APIOSTimer.osTimer()';
+      }
+      result = 'MyTimer.' + result;
       break;
     default:
       break;
@@ -562,7 +569,7 @@ Blockly.Python.handleResult = function (code, type) {
 Blockly.Python.addIndent = function (code) {
   const arr = code.split('\n');
   return arr.map(item => {
-    if(item.trim().length > 0) {
+    if (item.trim().length > 0) {
       item = Blockly.Python.INDENT + item;
     }
     return item;

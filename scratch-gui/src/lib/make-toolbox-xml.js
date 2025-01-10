@@ -501,6 +501,17 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
                 </value>
             </block>
+        <block type="sensing_reflected_light_blackLine">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="THRESHOLD">
+                    <shadow type="math_number"><field name="NUM">100</field></shadow>
+                </value>
+        </block>
+        ${blockSeparator}
+        <block type="sensing_mainIsPress"></block>
+        ${blockSeparator}
     */}
 const sensing = function (isInitialSetup, isStage, targetId, colors) {
     /* const name = ScratchBlocks.ScratchMsgs.translate(
@@ -510,15 +521,6 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}">
-            <block type="sensing_reflected_light_blackLine">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="THRESHOLD">
-                    <shadow type="math_number"><field name="NUM">100</field></shadow>
-                </value>
-            </block>
-            ${blockSeparator}
             <block type="sensing_color_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -605,8 +607,6 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${blockSeparator}
-            <block type="sensing_mainIsPress"></block>
             ${blockSeparator}
             <block type="sensing_isHandling"></block>
             ${blockSeparator}

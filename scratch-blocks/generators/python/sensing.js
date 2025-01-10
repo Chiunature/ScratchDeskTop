@@ -32,9 +32,10 @@ Blockly.Python['sensing_gyroscope_attitude'] = function (block) {
 };
 
 Blockly.Python['sensing_gyroscope_angle'] = function (block) {
-    const port = block.getFieldValue('PORT');
+    let port = block.getFieldValue('PORT');
+    port = port[0].toLowerCase() + port.slice(1);
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`angleofattitude(${port})`, Blockly.Python.MEM_TYPE);
+    const code = Blockly.Python.handleResult(`angleofattitude("${port}")`, Blockly.Python.MEM_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
 };
 
@@ -103,7 +104,7 @@ Blockly.Python['sensing_color_detectionRGB'] = function (block) {
             break;
     }
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`Sensing_color_detectionRGB(${port}, ${rgb})`, Blockly.Python.COLOR_TYPE);
+    const code = Blockly.Python.handleResult(`detectionRGB(${port}, ${rgb})`, Blockly.Python.COLOR_TYPE);
     return [code.trim(), Blockly.Python.ORDER_RELATIONAL];
 };
 
@@ -181,4 +182,16 @@ Blockly.Python['sensing_get_gray_line'] = function (block) {
     const value = block.getFieldValue("VALUES");
     const code = Blockly.Python.handleResult(`line(${port}, "${value}")`, Blockly.Python.GRAY_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_timer'] = function (block) {
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`getTickCount()`, Blockly.Python.TIMER_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['sensing_reset_timer'] = function (block) {
+    // TODO: Assemble Python into code variable.
+    let code = `resetTick()\n`;
+    return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
 };
