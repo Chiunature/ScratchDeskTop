@@ -9,7 +9,7 @@
     "DELETE_EXE": "DELETE_EXE",
     "SERIALPORT": "serialport",
     "BLUETOOTH": "ble",
-    "EST_STOP": "EST_STOP",
+    "EST_STOP": "stop",
     "EST_RUN": "run",
     "RESET_FWLIB": "RESET_FWLIB",
     "SOURCE_SOUNDS": "SOURCE_SOUNDS",
@@ -17,5 +17,5 @@
     "NO_RUN_APP": "NO_RUN_APP",
     "DOING": "DOING",
     "DONE": "DONE",
-    "FIRMWARE_VERSION": "220"
+    "FIRMWARE_VERSION": "222"
 }
