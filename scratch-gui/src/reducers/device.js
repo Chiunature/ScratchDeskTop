@@ -14,9 +14,8 @@ const initialState = {
     deviceStatus: null,
     deviceObj: {
         deviceList: [],
-        gyrolist: {}, 
-        flashlist: {}, 
-        adclist: {}
+        mem: {},
+        flashlist: {},
     }
 };
 

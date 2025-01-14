@@ -208,11 +208,11 @@ class GUI extends React.Component {
                     return;
                 }
                 const { deviceObj, version, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
-                if (deviceObj?.estlist?.est === result?.estlist?.est) {
-                    onSetDeviceStatus(result.estlist.est);
+                if (deviceObj?.NewAiState === result?.NewAiState) {
+                    onSetDeviceStatus(result.NewAiState);
                 }
-                if (version !== result?.versionlist.ver) {
-                    onSetVersion(result.versionlist.ver);
+                if (version !== result?.version) {
+                    onSetVersion(result.version);
                 }
                 onSetDeviceObj(result);
 
@@ -229,7 +229,7 @@ class GUI extends React.Component {
     checkUpdateFirmware() {
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
-        const currentVer = this.props?.deviceObj?.versionlist?.ver;
+        const currentVer = this.props?.deviceObj?.version;
         if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
             const res = confirm(this.mainMsg.update);
             if (!res) {
@@ -249,7 +249,7 @@ class GUI extends React.Component {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
             const { device } = instructions;
             const firmwareVersion = window.myAPI.getVersion(resourcesPath) || verifyTypeConfig.FIRMWARE_VERSION;
-            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.versionlist?.ver === Number(firmwareVersion)) {
+            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
                     const index = parseInt(item['port']);
@@ -343,7 +343,7 @@ class GUI extends React.Component {
                 return;
             }
             // 检查是否需要运行APP
-            if (this.props?.deviceObj?.estlist?.est === verifyTypeConfig.EST_RUN) {
+            if (this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);
             }

@@ -4,9 +4,10 @@ import { FormattedMessage } from 'react-intl';
 
 const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
 
-    const gyrolist = useMemo(() => deviceObj?.gyrolist, [deviceObj?.gyrolist]);
-    const adclist = useMemo(() => deviceObj?.adclist, [deviceObj?.adclist]);
-    const versionlist = useMemo(() => deviceObj?.versionlist, [deviceObj?.versionlist]);
+    const mem = useMemo(() => deviceObj?.mem, [deviceObj?.mem]);
+    const bat = useMemo(() => deviceObj?.bat, [deviceObj?.bat]);
+    const version = useMemo(() => deviceObj?.version, [deviceObj?.version]);
+    const sound = useMemo(() => deviceObj?.sound, [deviceObj?.sound]);
 
     return (
         <>
@@ -21,28 +22,28 @@ const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
                         <span>{intl.formatMessage(messages['mainName'])}</span>
                         <span>{peripheralName.slice(0, peripheralName.indexOf('('))}</span>
                     </li>}
-                    {versionlist?.ver && <li>
+                    {version && <li>
                         <span>{intl.formatMessage(messages['version'])}</span>
-                        <span>{versionlist.ver}</span>
+                        <span>{version}</span>
                     </li>}
-                    {adclist?.bat && <li>
+                    {bat && <li>
                         <span>{intl.formatMessage(messages['electricity'])}</span>
-                        <span>{adclist.bat >= 100 ? '100' : adclist.bat}%</span>
+                        <span>{bat >= 100 ? '100' : bat}%</span>
                     </li>}
                 </ul>
             </div>
             <div className={styles.midBox}>
                 <p>{intl.formatMessage(messages['mainControl'])}</p>
                 <ul className={styles.midUl}>
-                    {gyrolist && Object.keys(gyrolist).length > 0 && Object.keys(gyrolist).map((item, index) => {
+                    {mem && Object.keys(mem).length > 0 && Object.keys(mem).map((item, index) => {
                         return (item.indexOf('id') === -1 && <li key={index}>
                             <span>{intl.formatMessage(messages[item])}</span>
-                            <span>{gyrolist[item]}</span>
+                            <span>{mem[item]}</span>
                         </li>)
                     })}
-                    {adclist?.sound && <li>
+                    {sound && <li>
                         <span>{intl.formatMessage(messages['soundIntensity'])}</span>
-                        <span>{adclist.sound}</span>
+                        <span>{sound}</span>
                     </li>}
                 </ul>
             </div>

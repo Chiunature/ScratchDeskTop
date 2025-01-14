@@ -24,10 +24,8 @@ const { verifyBinType } = require("../config/js/verify.js");
 const { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
-const { instruct } = require("../config/js/instructions.js");
+const { instruct, reg } = require("../config/js/instructions.js");
 
-const reg = /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"estlist\"\:\s*[\s\S]*?\}\}\s*/i;
-const debugReg = /->NEW AI DownLoad Debug[\s\S]*?Error\./;
 
 class Serialport extends Common {
 
@@ -328,7 +326,7 @@ class Serialport extends Common {
     checkIsDebug(receiveData, event) {
         const text = new TextDecoder();
         const res = text.decode(receiveData);
-        if (debugReg.test(res)) {
+        if (reg.deBug.test(res)) {
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, errMsg: res });
         }
     }
@@ -337,7 +335,7 @@ class Serialport extends Common {
         const text = new TextDecoder();
         const res = text.decode(receiveData.slice(4, -2));
         const num = res.replace(/[^0-9]/ig, '');
-        
+
         if (num.length > 2) {
             return
         }
@@ -346,7 +344,7 @@ class Serialport extends Common {
 
         if (parseInt(num) === 99) {
             this.sign = null;
-        }   
+        }
     }
 
     /**
@@ -371,7 +369,7 @@ class Serialport extends Common {
             }
 
             //开启设备数据监控监听
-            this.watchDeviceData = this.checkIsDeviceData(receiveData, reg);
+            this.watchDeviceData = this.checkIsDeviceData(receiveData, reg.devicesData);
             if (this.watchDeviceData) {
                 let t = setTimeout(() => {
                     func(event);
@@ -409,7 +407,7 @@ class Serialport extends Common {
      */
     processHandle(event) {
         if (this.verifyType && this.chunkBuffer.length >= 0) {
-            const progress =  Math.ceil(((this.chunkBufferSize - this.chunkBuffer.length) / this.chunkBufferSize) * 100);
+            const progress = Math.ceil(((this.chunkBufferSize - this.chunkBuffer.length) / this.chunkBufferSize) * 100);
             if (this.verifyType.indexOf(SOURCE) === -1) {
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, progress);
             } else {
@@ -426,7 +424,7 @@ class Serialport extends Common {
         if (this.sign === signType.BOOT.FILENAME) {
             this.sign = signType.BOOT.BIN;
         }
-        
+
         this.processHandle(event);
 
         const isLast = this.chunkBuffer.length === 0

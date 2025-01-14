@@ -24,7 +24,13 @@ const deviceId = {
     'a7': 'gray'
 }
 
+const reg = {
+    devicesData: /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"BusConnect\"\:\s*[\s\S]*?\}\s*/i,
+    deBug: /->NEW AI DownLoad Debug[\s\S]*?Error\./
+}
+
 module.exports = {
+    reg,
     instruct,
     device: deviceId
 };
