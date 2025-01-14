@@ -55,3 +55,27 @@ Blockly.Blocks['note'] = {
     });
   }
 };
+
+Blockly.Blocks['piano'] = {
+  /**
+   * Block for musical note value.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_piano",
+          "name": "NOTE",
+          "value": 60
+        }
+      ],
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "output": "Number",
+      "colour": Blockly.Colours.textField,
+      "colourSecondary": Blockly.Colours.textField,
+      "colourTertiary": Blockly.Colours.textField
+    });
+  }
+};

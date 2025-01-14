@@ -56,6 +56,7 @@ goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.FieldVariable');
 goog.require('Blockly.FieldVerticalSeparator');
 goog.require('Blockly.FieldSlider');
+goog.require('Blockly.FieldPiano');
 goog.require('Blockly.Generator');
 goog.require('Blockly.Msg');
 goog.require('Blockly.Procedures');

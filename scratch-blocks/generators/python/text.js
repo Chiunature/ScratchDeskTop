@@ -34,3 +34,9 @@ Blockly.Python['note'] = function (block) {
   var code = parseFloat(block.getFieldValue('NOTE'));
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
+
+Blockly.Python['piano'] = function (block) {
+  // Numeric value.
+  var code = block.getFieldValue('NOTE');
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};

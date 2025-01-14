@@ -387,7 +387,7 @@ const sound = function (isInitialSetup, isStage, targetId, soundName, colors) {
         ${blockSeparator}
         <block type="sound_PlayMusic">
             <value name="NOTE">
-                <shadow type="note"></shadow>
+                <shadow type="piano"></shadow>
             </value>
             <value name="BEATS">
                 <shadow type="math_number">
