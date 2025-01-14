@@ -68,11 +68,10 @@ Blockly.Blocks['piano'] = {
         {
           "type": "field_piano",
           "name": "NOTE",
-          "value": 60
         }
       ],
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "output": "Number",
+      "output": "String",
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
       "colourTertiary": Blockly.Colours.textField

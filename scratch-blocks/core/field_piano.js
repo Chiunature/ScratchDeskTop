@@ -43,7 +43,7 @@ goog.require('goog.userAgent');
  * @constructor
  */
 Blockly.FieldPiano = function(opt_value, opt_validator) {
-  opt_value = (opt_value && !isNaN(opt_value)) ? String(opt_value) : '0';
+  opt_value = (opt_value && !isNaN(opt_value)) ? String(opt_value) : 'C';
   Blockly.FieldPiano.superClass_.constructor.call(
       this, opt_value, opt_validator);
   this.addArgType('note');
@@ -163,7 +163,7 @@ Blockly.FieldPiano = function(opt_value, opt_validator) {
   this.octaveUpMouseDownWrapper_ = null;
 
   this.noteNum_ = 0;
-  this.noteName_ = Blockly.FieldPiano.KEY_INFO[0].name;
+  this.noteName_ = null;
 };
 goog.inherits(Blockly.FieldPiano, Blockly.FieldTextInput);
 
@@ -293,16 +293,16 @@ Blockly.FieldPiano.KEY_LABEL_PADDING = 8;
  */
 Blockly.FieldPiano.KEY_INFO = [
   {name: 'C', pitch: 0},
-  {name: 'C-#', pitch: 1, isBlack: true},
+  {name: 'C#', pitch: 1, isBlack: true},
   {name: 'D', pitch: 2},
-  {name: 'E-#', pitch: 3, isBlack: true},
+  {name: 'E#', pitch: 3, isBlack: true},
   {name: 'E', pitch: 4},
   {name: 'F', pitch: 5},
-  {name: 'F-#', pitch: 6, isBlack: true},
+  {name: 'F#', pitch: 6, isBlack: true},
   {name: 'G', pitch: 7},
-  {name: 'G-#', pitch: 8, isBlack: true},
+  {name: 'G#', pitch: 8, isBlack: true},
   {name: 'A', pitch: 9},
-  {name: 'B-#', pitch: 10, isBlack: true},
+  {name: 'B#', pitch: 10, isBlack: true},
   {name: 'B', pitch: 11},
   {name: 'C', pitch: 12}
 ];
@@ -680,7 +680,7 @@ Blockly.FieldPiano.prototype.onMouseEnter_ = function(e) {
  * @param {!Event} e Mouse event.
  * @private
  */
-Blockly.FieldPiano.prototype.selectNoteWithMouseEvent_ = function(e) {
+Blockly.FieldPiano.prototype.selectNoteWithMouseEvent_ = function (e) {
   var newNoteNum = Number(e.target.getAttribute('data-pitch')) + this.displayedOctave_ * 12;
   let newNote = e.target.getAttribute('data-name');
   this.setNoteNum_(newNoteNum, newNote);
@@ -762,14 +762,15 @@ Blockly.FieldPiano.prototype.stepOctaveAnimation_ = function() {
  * @private
  */
 Blockly.FieldPiano.prototype.setNoteNum_ = function (noteNum, noteText = this.noteName_) {
-  noteNum = this.callValidator(noteNum);
+  // noteNum = this.callValidator(noteNum);
   this.noteNum_ = noteNum;
   this.noteName_ = noteText;
   if (this.displayedOctave_ && this.displayedOctave_ > 0) { 
-    noteText = noteText + this.displayedOctave_;
+    this.noteName_ = noteText + this.displayedOctave_;
   }
-  this.setText(noteText);
-  Blockly.FieldTextInput.htmlInput_.value = noteNum;
+  this.setValue(this.noteName_);
+  Blockly.FieldTextInput.htmlInput_.value = this.noteName_;
+  Blockly.FieldTextInput.htmlInput_.setAttribute('value', this.noteName_);
 };
 
 /**
@@ -787,6 +788,10 @@ Blockly.FieldPiano.prototype.setText = function(text) {
   // Cached width is obsolete.  Clear it.
   this.size_.width = 0;
 };
+
+Blockly.FieldPiano.prototype.validate_ = function () { 
+  return this.noteName_;
+}
 
 /**
  * For a MIDI note number, find the index of the corresponding piano key.
