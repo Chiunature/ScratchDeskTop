@@ -475,9 +475,6 @@ class Serialport extends Common {
                 case 'APP':
                     this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
                     break;
-                case ipc_Main.SEND_OR_ON.CALIBRATION:
-                    this.writeData(instruct.calibration, ipc_Main.SEND_OR_ON.CALIBRATION, event);
-                    break;
                 default:
                     break;
             }

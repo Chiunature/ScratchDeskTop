@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from "react-intl";
 import Box from "../box/box.jsx";
-import Divider from '../divider/divider.jsx';
+// import Divider from '../divider/divider.jsx';
 import Modal from "../../containers/modal.jsx";
 import styles from "./cascader-panel.css";
 import Input from '../forms/input.jsx';
@@ -136,12 +136,12 @@ function CascaderPanelModalCom(props) {
         sessionStorage.setItem('update-sensing', verifyTypeConfig.DOING);
     }
 
-    function calibration() {
+    /* function calibration() {
         props.onShowCompletedAlert("calibration");
         setTimeout(() => {
             window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.EXE.FILES, sendParams: { type: ipc_Render.SEND_OR_ON.CALIBRATION } });
         }, 1000);
-    }
+    } */
 
     return (
         <Modal
@@ -239,14 +239,7 @@ function CascaderPanelModalCom(props) {
                                 id="gui.device.updateSensing"
                             />
                         </button>
-                        <Divider />
-                        <button className={classNames(styles.redButton, styles.connectionButton)} onClick={calibration}>
-                            <FormattedMessage
-                                defaultMessage="Gyroscope calibration"
-                                description="Gyroscope calibration"
-                                id="gui.device.gyroscopeCalibration"
-                            />
-                        </button>
+                        {/* <Divider /> */}
                     </Box>
                 </Box>
             </Box>
