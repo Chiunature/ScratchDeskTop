@@ -28,9 +28,10 @@ const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const fs = require("fs");
+const noble = require("@abandonware/noble");
 const { cwd } = require("process");
 const { exec } = require("child_process");
-const { Serialport, ipc } = require("est-link");
+const { Serialport, Bluetooth, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 // const createProtocol = require("./scripts/createProtocol.js");
 const watchLaunchFromATC = require("./scripts/watchLaunchFromATC.js");
@@ -57,6 +58,13 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow, loadingWindow, isUpdate, mainMsg, updateFunc;
 
+const pack = {
+    electron: electron,
+    fs: fs,
+    path: path,
+    process: global.process,
+    isPackaged: app.isPackaged
+}
 
 // 使用快速启动模式
 app.commandLine.appendSwitch('enable-features', 'HardwareAccelerationModeDefault');
@@ -166,15 +174,15 @@ function handleChildProcess() {
     port2.start();
 }
 
+function openBle() {
+    const ble = new Bluetooth({ noble, ...pack });
+    ble.linkBle();
+    ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
+        ble.scanning(open).discover(event);
+    });
+}
 
 function openSerialPort() {
-    const pack = {
-        electron: electron,
-        fs: fs,
-        path: path,
-        process: global.process,
-        isPackaged: app.isPackaged
-    }
     const sp = new Serialport({ serialport, ...pack });
     //获取串口列表
     sp.getList();
@@ -252,6 +260,7 @@ function createWindow() {
 
     getRenderVersion();
     openSerialPort();
+    openBle();
     // 开启子线程操作文件缓存
     handleChildProcess();
     // 防止页面失去焦点

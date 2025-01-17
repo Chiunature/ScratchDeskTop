@@ -22,7 +22,7 @@ const initialState = {
     port: null,
     completed: false,
     isConnectedSerial: false,
-    version: window?.myAPI?.getStoreValue('version'),
+    version: null,
     progress: 0,
     soundslist: [],
     sourceCompleted: false
@@ -55,7 +55,8 @@ const reducer = function (state, action) {
             state.serialList = [...action.serialList];
             return Object.assign({}, state);
         case CHANGE_SERIAL_LIST:
-            const newList = state.serialList.map(el => {
+            return Object.assign({}, state, {
+                serialList: state.serialList.map(el => {
                 if (el.id === action.port.id) {
                     el.checked = true;
                     el.state = 'connected';
@@ -64,13 +65,11 @@ const reducer = function (state, action) {
                     el.state = 'disconnected';
                 }
                 return el;
-            });
-            return Object.assign({}, state, {
-                serialList: newList
+                })
             });
         case SET_PORT:
             return Object.assign({}, state, {
-                port: {...action.port},
+                port: { ...action.port },
             });
         case SET_COMPLETED:
             return Object.assign({}, state, {

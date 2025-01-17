@@ -86,7 +86,7 @@ import FilesMenu from "./files-menu.jsx";
 import FilesSaveNotify from "../alerts/files-save-notify.jsx";
 import GeneratorsMenu from "./generators-menu.jsx";
 import DeviceMenu from "./device-menu.jsx";
-// import setProgramList from "../../lib/setProgramList.js";
+import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
 
 
 const MenuBarItemTooltip = ({
@@ -650,6 +650,24 @@ class MenuBar extends React.Component {
                         />
                     </Box>
                     <Box className={classNames(styles.mainMenuTwo)}>
+                        <div
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onMouseUp={this.handleConnectionMouseUp}
+                        >
+                            <img className={styles.screenShotLogo} src={blueToothIcon} alt="" />
+                            <span className={styles.collapsibleLabel}><FormattedMessage
+                                defaultMessage="Bluetooth"
+                                description="Bluetooth"
+                                id="gui.connection.bluetooth"
+                            /></span>
+                        </div>
                         <div
                             className={classNames(
                                 styles.menuBarItem,
