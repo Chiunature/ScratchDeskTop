@@ -38,7 +38,7 @@ class ConnectionModal extends React.PureComponent {
             "handleError",
             "handleHelp",
             "handleUpdate",
-            "handleBleConnect",
+            "handleGetBleList",
             "scanBle",
             "noScanBle",
             "handleSelectPort",
@@ -58,7 +58,7 @@ class ConnectionModal extends React.PureComponent {
     }
 
     componentDidMount() {
-        // this.scanBle();
+        this.scanBle();
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
@@ -80,7 +80,7 @@ class ConnectionModal extends React.PureComponent {
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
-        // !this.props.peripheralName && this.noScanBle();
+        !this.props.peripheralName && this.noScanBle();
     }
 
     componentDidUpdate(preProps) {
@@ -90,7 +90,7 @@ class ConnectionModal extends React.PureComponent {
     }
 
     scanBle() {
-        !this.props.peripheralName && this.handleBleConnect();
+        !this.props.peripheralName && this.handleGetBleList();
         this.bleTimer = !this.bleTimer && setInterval(() => {
             !this.props.peripheralName && this.handleBleScan();
         }, 5000);
@@ -100,6 +100,9 @@ class ConnectionModal extends React.PureComponent {
         clearInterval(this.bleTimer);
         this.bleTimer = null;
         this.handleBleScan(false);
+        if (!this.props.peripheralName) {
+            this.props.onGetSerialList([]);
+        }
     }
 
     handleBleScan(open = true) {
@@ -107,20 +110,19 @@ class ConnectionModal extends React.PureComponent {
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
     }
 
-    handleBleConnect() {
+    handleGetBleList() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.SEND_OR_ON.BLE.GETBlELIST,
             callback: (e, result) => {
                 if (!result) return;
                 const bleList = JSON.parse(result);
-                console.log(bleList);
                 this.props.onGetSerialList([...bleList]);
             }
         });
     }
 
     async handleSelectPort(port, index) {
-        if (port.checked || this.props.completed) {
+        if (this.props.completed) {
             return;
         }
         this.props.onChangeSerialList(port);
@@ -163,13 +165,17 @@ class ConnectionModal extends React.PureComponent {
         try {
             this.props.vm.disconnectPeripheral(this.props.extensionId);
         } finally {
+            if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+                this.props.onGetSerialList([]);
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+            } else {
+                this.props.onChangeSerialList(this.props.port);
+            }
             this.props.onClearConnectionModalPeripheralName();
-            this.props.onGetSerialList([]);
             this.props.onSetPort(null);
             this.props.onSetIsConnectedSerial(false);
             this.props.onShowDisonnectAlert(msg);
-            // this.props.onCancel();
-            window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+            this.scanBle();
         }
     }
 
@@ -256,7 +262,7 @@ class ConnectionModal extends React.PureComponent {
             }
             window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
-        window.myAPI.setStoreValue('version', this.state.firewareVersion);
+        await window.myAPI.setStoreValue('version', this.state.firewareVersion);
         this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
         this.props.onSetVersion(this.state.firewareVersion);

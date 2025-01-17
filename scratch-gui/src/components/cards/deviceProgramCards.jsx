@@ -170,7 +170,7 @@ const DeviceProgramCards = props => {
         e.stopPropagation();
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
-            sendParams: { fileName: item.name + '.bin', verifyType: "DELETE_EXE" },
+            sendParams: { fileName: item.path, verifyType: "DELETE_EXE" },
         });
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         onShowDelExeAlert("delExeSuccess");

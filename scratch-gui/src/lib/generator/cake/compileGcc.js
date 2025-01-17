@@ -149,7 +149,6 @@ class Compile {
                 // console.timeEnd('编译')
                 if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe, codeType } });
             }).catch(err => {
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
                 window.myAPI.handlerError(err, static_path);
             });
         }

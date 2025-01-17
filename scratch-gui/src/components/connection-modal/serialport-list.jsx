@@ -84,26 +84,30 @@ const SerialportList = (props) => {
         })
     }
 
-    function handleFilterChange() {
+    /* function handleFilterChange() {
         const value = inputRef.current.value;
         if (value.length === 0) {
             handleFilterClear();
         } else {
             setFilterQuery(value);
         }
-    }
+    } */
 
-    function handleFilterClear() {
+    /* function handleFilterClear() {
         setFilterQuery('');
-    }
+    } */
 
     function lookRecord() {
         setIsShow(!isShow);
     }
 
+    function getPortName(port) {
+        return deviceType === verifyTypeConfig.SERIALPORT ? port?.friendlyName || port?.advertisement?.localName : `${port?.friendlyName || port?.advertisement?.localName} (${port?.address})`;
+    }
+
     return (
         <Box className={styles.body}>
-            {deviceType !== verifyTypeConfig.SERIALPORT && <Box className={styles.headArea}>
+            {/* {deviceType !== verifyTypeConfig.SERIALPORT && <Box className={styles.headArea}>
                 <Filter
                     className={classNames(styles.filterBarItem, styles.filter)}
                     inputRef={inputRef}
@@ -113,7 +117,7 @@ const SerialportList = (props) => {
                     onChange={handleFilterChange}
                     onClear={handleFilterClear}
                 />
-            </Box>}
+            </Box>} */}
             <Box className={styles.activityArea} componentRef={boxRef} onScroll={handleScroll}>
                 <Box className={styles.linkHelp} style={{
                     justifyContent: isShow ? "flex-start" : "center",
@@ -161,7 +165,7 @@ const SerialportList = (props) => {
                                                     />
                                                 </>}
                                                 <div className={styles.helpStepText}>
-                                                    {port.friendlyName || port?.advertisement?.localName}
+                                                    {getPortName(port)}
                                                 </div>
                                             </div>
                                         );
@@ -170,7 +174,7 @@ const SerialportList = (props) => {
                     }
                 </Box>
             </Box>
-            <Box className={styles.bottomArea}>
+            {deviceType === verifyTypeConfig.SERIALPORT && <Box className={styles.bottomArea}>
                 <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
                     <button
                         className={classNames(
@@ -211,7 +215,7 @@ const SerialportList = (props) => {
                         onClick={lookRecord}
                     >查看本次记录</button>
                 </Box>
-            </Box>
+            </Box>}
         </Box>
     )
 };

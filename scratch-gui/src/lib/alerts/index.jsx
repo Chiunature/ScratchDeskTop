@@ -312,7 +312,6 @@ const alerts = [
         alertId: "successfullyConnected",
         alertType: AlertTypes.STANDARD,
         clearList: [
-            "disconnect",
             "failedConnected",
             "successfullyConnected",
             "uploadSuccess",
@@ -358,7 +357,6 @@ const alerts = [
         clearList: [
             "disconnect",
             "failedConnected",
-            "successfullyConnected",
             "uploadSuccess",
             "uploadError",
             "uploading",
@@ -529,7 +527,7 @@ const alerts = [
             />
         ),
         level: AlertLevels.SUCCESS,
-        maxDisplaySecs: 3,
+        maxDisplaySecs: 1,
     },
     {
         alertId: "delExeFail",

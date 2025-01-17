@@ -47,6 +47,7 @@ class Serialport extends Common {
         this.selectedExe = null;
         this.sourceFiles = [];
         this.uploadingFile = null;
+        this.receiveData = [];
     }
 
     /**
@@ -99,13 +100,11 @@ class Serialport extends Common {
         //开启断开连接监听
         this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
         //开启读取数据监听
-        this.handleRead("data", event);
+        this.handleRead(event);
         //开启串口关闭监听
-        this.listenPortClosed("close", event);
+        this.listenPortClosed(event);
         //开启获取bin文件或固件下载监听
         this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
-        //开启传输错误监听
-        this.listenError(ipc_Main.SEND_OR_ON.ERROR.TRANSMISSION);
         //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
         //开启获取主机文件监听
@@ -220,37 +219,45 @@ class Serialport extends Common {
 
     /**
      * 侦听串口关闭
-     * @param {String} eventName
      * @param {*} event
      */
-    listenPortClosed(eventName, event) {
-        this.port.on(eventName, () => {
-            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
+    listenPortClosed(event) {
+        this.port.on("close", () => {
+            this.removeAllMainListeners([
+                ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES,
+                ipc_Main.SEND_OR_ON.EXE.DELETE,
+                ipc_Main.SEND_OR_ON.EXE.FILES,
+                ipc_Main.SEND_OR_ON.RESTART,
+                ipc_Main.SEND_OR_ON.SENSING_UPDATE,
+                ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED
+            ]);
             this.clearCache();
+            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
         });
     }
 
     /**
      * 写入数据
      * @param {Array} data
-     * @param {String} str
+     * @param {String} sign
      * @param {*} event
      * @returns
      */
-    writeData(data, str, event) {
+    writeData(data, sign, event) {
         if (!this.port || !data) {
             return;
         }
         try {
             //修改标识符，根据标识符判断要发送的是文件还是文件名
-            this.sign = str;
+            this.sign = sign;
             //写入数据
             this.port.write(Buffer.from(data));
 
-            if (str && str.indexOf('Boot_') !== -1) {
+            if (sign && sign.includes('Boot_')) {
                 this.checkOverTime(event);
             }
         } catch (e) {
+            console.log(e)
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
         }
     }
@@ -286,6 +293,7 @@ class Serialport extends Common {
             this.sign = null;
         }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
+        this.receiveData.splice(0, this.receiveData.length);
         clearTimeout(this.checkConnectTimer);
         this.checkConnectTimer = null;
         this.receiveObj = null;
@@ -331,7 +339,7 @@ class Serialport extends Common {
         }
     }
 
-    checkIsCalibration(receiveData, event) {
+    /* checkIsCalibration(receiveData, event) {
         const text = new TextDecoder();
         const res = text.decode(receiveData.slice(4, -2));
         const num = res.replace(/[^0-9]/ig, '');
@@ -345,57 +353,81 @@ class Serialport extends Common {
         if (parseInt(num) === 99) {
             this.sign = null;
         }
-    }
+    } */
 
     /**
      * FlowMode读取串口数据
-     * @param {String} eventName
      * @param {*} event
      * @returns
      */
-    handleRead(eventName, event) {
+    handleRead(event) {
         if (!this.port) return;
-        const func = this.throttle(this.watchDevice.bind(this), 100);
-        this.port.on(eventName, (receiveData) => {
-            //获取下位机发送过来的数据
-            // const receiveData = this.port.read();
-            if (!receiveData) {
-                return;
-            }
-            // this.checkIsDebug(receiveData, debugReg);
-            if (this.sign === ipc_Main.SEND_OR_ON.CALIBRATION) {
-                this.checkIsCalibration(receiveData, event);
+        let buffer = '';
+        const text = new TextDecoder();
+        const watch = this.throttle(this.watchDevice.bind(this), 100);
+        this.port.on('data', (data) => {
+
+            if (!data) {
                 return;
             }
 
-            //开启设备数据监控监听
-            this.watchDeviceData = this.checkIsDeviceData(receiveData, reg.devicesData);
-            if (this.watchDeviceData) {
-                let t = setTimeout(() => {
-                    func(event);
-                    clearTimeout(t);
-                    t = null;
-                });
+            const isBoot = this.sign && this.sign.includes('Boot_');
+            if (isBoot || this.sign === signType.EXE.FILES) {
+
+                this.receiveData = [...this.receiveData, ...data];
+
+                //把数据放入处理函数校验是否是完整的一帧并获取数据对象
+                this.receiveObj = this.catchData(this.receiveData);
+                if (!this.receiveObj) {
+                    return;
+                } else {
+                    this.receiveData.splice(0, this.receiveData.length);
+                }
+
+                //清除超时检测
+                this.clearTimer();
+
+                //根据标识符进行校验操作检验数据并返回结果
+                const verify = this.verification(this.sign, this.receiveObj, event);
+
+                if (verify) {
+                    //结果正确进入处理，函数会检测文件数据是否全部发送完毕
+                    this.processReceivedData(event);
+                } else {
+                    if (isBoot) {
+                        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
+                        this.clearCache();
+                    } else {
+                        // 重置标识符
+                        this.sign = null;
+                    }
+                }
+
                 return;
             }
 
-            //把数据放入处理函数校验是否是完整的一帧并获取数据对象
-            this.receiveObj = this.catchData(receiveData);
-            //根据标识符进行校验操作检验数据并返回结果
-            const verify = this.verification(this.sign, this.receiveObj, event);
-            if (!this.sign || (this.sign && this.sign.indexOf('Boot_') === -1) || !this.receiveObj) {
-                return;
+            buffer += text.decode(data);
+
+            // 判断缓冲区中是否存在完整的数据包
+            const completePacketIndex = buffer.indexOf('\n');
+
+            if (completePacketIndex !== -1) {
+                // 处理完整的数据包
+                const completePacket = buffer.slice(0, completePacketIndex + 1);
+                buffer = buffer.slice(completePacketIndex + 1);
+
+                // 开启设备数据监控监听
+                this.watchDeviceData = this.checkIsDeviceData(completePacket, reg.devicesData);
+                if (this.watchDeviceData) {
+                    buffer = ''
+                    let t = setTimeout(() => {
+                        watch(event);
+                        clearTimeout(t);
+                        t = null;
+                    });
+                }
             }
 
-            //清除超时检测
-            this.clearTimer();
-            if (verify) {
-                //结果正确进入处理，函数会检测文件数据是否全部发送完毕
-                this.processReceivedData(event);
-            } else {
-                event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
-                this.clearCache();
-            }
         });
         //本身不是哭脸的时候，发重置会断开，连上后发送文件
         this.checkConnected(event);

@@ -17,8 +17,8 @@ const {
   SOURCE_VERSION,
   SOURCE_CONFIG,
   BOOTBIN,
-    DELETE_EXE,
-    SOURCE_SOUNDS
+  DELETE_EXE,
+  SOURCE_SOUNDS
 } = require("../config/json/verifyTypeConfig.json");
 const ipc_Main = require("../config/json/communication/ipc.json");
 const signType = require("../config/json/communication/sign.json");
@@ -98,13 +98,11 @@ class Common {
    * @param {String} listener
    */
   removeAllMainListeners(listener) {
-    if (listener) {
-      this.electron.ipcMain.removeAllListeners([listener]);
-      return;
-    }
     const eventList = this.electron.ipcMain.eventNames();
     eventList.forEach(el => {
-        listener === el && this.electron.ipcMain.removeAllListeners([el]);
+      if (listener.includes(el)) {
+        this.electron.ipcMain.removeAllListeners([el]);
+      }
     });
   }
 
@@ -149,7 +147,7 @@ class Common {
    */
   sendToSerial(eventName, fn) {
     this.ipcMain(eventName, (event, data) => {
-        typeof fn === 'function' && fn.call(this, event, data);
+      typeof fn === 'function' && fn.call(this, event, data);
     });
   }
 
@@ -405,7 +403,7 @@ class Common {
     const text = new TextDecoder();
     switch (sign) {
       case signType.EXE.FILES:
-        if (data && data[4] === 0xE7) {
+        if (data && data[4] === 0x7F) {
           const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
           event.reply(ipc_Main.RETURN.EXE.FILES, names);
         }
@@ -536,15 +534,14 @@ class Common {
 
   checkIsDeviceData(data, reg) {
     try {
-      const text = new TextDecoder();
-      const newData = text.decode(data);
-      const result = newData.match(reg);
+      const result = data.match(reg);
       if (result && result[0].length > 0) {
         return JSON.parse(result[0]);
       } else {
         return null;
       }
     } catch (error) {
+      console.log(error);
       return null;
     }
   }
