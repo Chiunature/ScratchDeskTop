@@ -177,9 +177,7 @@ function handleChildProcess() {
 function openBle() {
     const ble = new Bluetooth({ noble, ...pack });
     ble.linkBle();
-    ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
-        ble.scanning(open).discover(event);
-    });
+    ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => ble.scanning(event, open));
 }
 
 function openSerialPort() {

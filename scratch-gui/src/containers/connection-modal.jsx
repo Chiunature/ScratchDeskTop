@@ -53,7 +53,6 @@ class ConnectionModal extends React.PureComponent {
                 ? PHASES.connected
                 : PHASES.scanning,
         };
-        this.bleTimer = null;
         this.mainMsg = getMainMsg(props.intl);
     }
 
@@ -80,7 +79,7 @@ class ConnectionModal extends React.PureComponent {
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
-        !this.props.peripheralName && this.noScanBle();
+        this.noScanBle();
     }
 
     componentDidUpdate(preProps) {
@@ -90,22 +89,20 @@ class ConnectionModal extends React.PureComponent {
     }
 
     scanBle() {
-        !this.props.peripheralName && this.handleGetBleList();
-        this.bleTimer = !this.bleTimer && setInterval(() => {
-            !this.props.peripheralName && this.handleBleScan();
-        }, 5000);
+        if (!this.props.peripheralName) {
+            this.handleGetBleList();
+            this.handleBleScan(true);
+        }
     }
 
     noScanBle() {
-        clearInterval(this.bleTimer);
-        this.bleTimer = null;
         this.handleBleScan(false);
         if (!this.props.peripheralName) {
             this.props.onGetSerialList([]);
         }
     }
 
-    handleBleScan(open = true) {
+    handleBleScan(open) {
         if (this.props.peripheralName) return;
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
     }
@@ -162,9 +159,7 @@ class ConnectionModal extends React.PureComponent {
     }
 
     handleDisconnect(msg = "disconnect") {
-        try {
             this.props.vm.disconnectPeripheral(this.props.extensionId);
-        } finally {
             if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
                 this.props.onGetSerialList([]);
                 window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
@@ -175,8 +170,6 @@ class ConnectionModal extends React.PureComponent {
             this.props.onSetPort(null);
             this.props.onSetIsConnectedSerial(false);
             this.props.onShowDisonnectAlert(msg);
-            this.scanBle();
-        }
     }
 
     handleCancel() {

@@ -32,7 +32,7 @@ Blockly.Python['procedures_definition'] = function(block) {
 
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (!nextBlock) {
-    code += Blockly.Python.INDENT + "\tpass\n";
+    code += Blockly.Python.INDENT + "pass\n";
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
@@ -44,6 +44,14 @@ Blockly.Python['procedures_definition'] = function(block) {
 
     code = Blockly.Python.scrub_(block, code);
   }
+
+  const arr = code.split('\n');
+  code = arr.map((item, index) => {
+    if (item.trim().length > 0 && index > 0) {
+      item = Blockly.Python.INDENT + item;
+    }
+    return item;
+  }).join('\n');
 
   Blockly.Python.customFunctions_[func] = code;
   return null;
