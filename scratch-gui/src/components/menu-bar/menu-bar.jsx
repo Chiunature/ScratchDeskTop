@@ -156,19 +156,12 @@ class MenuBar extends React.Component {
         super(props);
         bindAll(this, [
             "handleClickNew",
-            "handleClickRemix",
             "handleClickSave",
             "handleClickSaveAsCopy",
-            "handleClickSeeCommunity",
-            "handleClickShare",
             "handleKeyPress",
-            "handleLanguageMouseUp",
-            "handleRestoreOption",
             "getSaveToComputerHandler",
-            "restoreOptionMessage",
             "handleConnectionMouseUp",
             "handleConnection",
-            "handleConnectedSerialPort",
             "handleDisconnect",
             "scanConnection",
             "showDeviceCards",
@@ -176,9 +169,13 @@ class MenuBar extends React.Component {
             "handleClickHome",
             "reUpdateDriver",
             "handleHelp",
-            "handleProblem",
             "saveSvg",
             "downloadProject",
+            "handleGetBleList",
+            "scanBle",
+            "noScanBle",
+            "handleSelectPort",
+            "handleBleScan"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -190,11 +187,65 @@ class MenuBar extends React.Component {
         requestIdleCallback(() => {
             this.scanConnection();
             this.disconnectListen();
+            this.scanBle();
         }, { timeout: 500 });
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
+        this.noScanBle();
+    }
+
+    scanBle() {
+        if (!this.props.peripheralName) {
+            this.handleGetBleList();
+            this.handleBleScan(true);
+        }
+    }
+
+    noScanBle() {
+        this.handleBleScan(false);
+        if (!this.props.peripheralName) {
+            this.props.onGetSerialList([]);
+        }
+    }
+
+    handleBleScan(open) {
+        if (this.props.peripheralName) return;
+        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
+    }
+
+    handleGetBleList() {
+        window.myAPI.ipcRender({
+            eventName: ipc_Renderer.RETURN.BLE.GETBlELIST,
+            callback: (e, result) => {
+                if (!result) return;
+                const bleList = JSON.parse(result);
+                this.props.onGetSerialList([...bleList]);
+            }
+        });
+    }
+
+    async handleSelectPort(port, index) {
+        if (this.props.completed) {
+            return;
+        }
+        this.props.onChangeSerialList(port);
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
+            sendParams: { newPort: port, index },
+            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
+            callback: (e, res) => {
+                const { bleType, msg, success } = res;
+                this.props.onShowConnectAlert(msg);
+                if (success) {
+                    this.props.onSetCompleted(false);
+                    this.props.onSetDeviceType(bleType);
+                    this.props.onSetPort(port);
+                    this.props.onSetConnectionModalPeripheralName(port?.advertisement?.localName);
+                }
+            }
+        });
     }
 
     handleClickHome() {
@@ -218,11 +269,6 @@ class MenuBar extends React.Component {
         }
     }
 
-    handleClickRemix() {
-        this.props.onClickRemix();
-        this.props.onRequestCloseFile();
-    }
-
     handleClickSave(isAutoSave) {
         const openPath = sessionStorage.getItem('openPath');
         const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
@@ -235,38 +281,6 @@ class MenuBar extends React.Component {
     handleClickSaveAsCopy() {
         this.props.onClickSaveAsCopy();
         this.props.onRequestCloseFile();
-    }
-
-    handleClickSeeCommunity(waitForUpdate) {
-        if (this.props.shouldSaveBeforeTransition()) {
-            this.props.autoUpdateProject(); // save before transitioning to project page
-            waitForUpdate(true); // queue the transition to project page
-        } else {
-            waitForUpdate(false); // immediately transition to project page
-        }
-    }
-
-    handleClickShare(waitForUpdate) {
-        if (!this.props.isShared) {
-            if (this.props.canShare) {
-                // save before transitioning to project page
-                this.props.onShare();
-            }
-            if (this.props.canSave) {
-                // save before transitioning to project page
-                this.props.autoUpdateProject();
-                waitForUpdate(true); // queue the transition to project page
-            } else {
-                waitForUpdate(false); // immediately transition to project page
-            }
-        }
-    }
-
-    handleRestoreOption(restoreFun) {
-        return () => {
-            restoreFun();
-            this.props.onRequestCloseEdit();
-        };
     }
 
     handleKeyPress(event) {
@@ -296,50 +310,6 @@ class MenuBar extends React.Component {
         };
     }
 
-    handleLanguageMouseUp(e) {
-        if (!this.props.languageMenuOpen) {
-            this.props.onClickLanguage(e);
-        }
-    }
-
-    restoreOptionMessage(deletedItem) {
-        switch (deletedItem) {
-            case "Sprite":
-                return (
-                    <FormattedMessage
-                        defaultMessage="Restore Sprite"
-                        description="Menu bar item for restoring the last deleted sprite."
-                        id="gui.menuBar.restoreSprite"
-                    />
-                );
-            case "Sound":
-                return (
-                    <FormattedMessage
-                        defaultMessage="Restore Sound"
-                        description="Menu bar item for restoring the last deleted sound."
-                        id="gui.menuBar.restoreSound"
-                    />
-                );
-            case "Costume":
-                return (
-                    <FormattedMessage
-                        defaultMessage="Restore Costume"
-                        description="Menu bar item for restoring the last deleted costume."
-                        id="gui.menuBar.restoreCostume"
-                    />
-                );
-            default: {
-                return (
-                    <FormattedMessage
-                        defaultMessage="Restore"
-                        description="Menu bar item for restoring the last deleted item in its disabled state." /* eslint-disable-line max-len */
-                        id="gui.menuBar.restore"
-                    />
-                );
-            }
-        }
-    }
-
 
     scanConnection() {
         this.timer = !this.timer && setInterval(() => {
@@ -359,7 +329,7 @@ class MenuBar extends React.Component {
             if (result) {
                 clearInterval(this.timer);
                 this.timer = null;
-                this.handleConnectedSerialPort(result);
+                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED, sendParams: result });
             }
         }
     }
@@ -375,10 +345,6 @@ class MenuBar extends React.Component {
         this.props.onOpenConnectionModal();
     }
 
-    handleConnectedSerialPort(port) {
-        if (!port) return;
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED, sendParams: port });
-    }
 
     handleDisconnect(msg) {
         if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
@@ -400,6 +366,7 @@ class MenuBar extends React.Component {
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
         sessionStorage.setItem(' isFirmwareUpdate', 'done');
+        this.handleBleScan(true);
     }
 
     disconnectListen() {
@@ -467,9 +434,6 @@ class MenuBar extends React.Component {
         }
     }
 
-    handleProblem() {
-        this.props.onShowQrcode();
-    }
     saveSvg() {
         const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
         if (blocks.getBBox().height === 0) {
@@ -583,7 +547,7 @@ class MenuBar extends React.Component {
                                 <SettingsMenu
                                     reUpdateDriver={this.reUpdateDriver}
                                     handleHelp={this.handleHelp}
-                                    handleProblem={this.handleProblem}
+                                    onShowQrcode={this.props.onShowQrcode}
                                     canChangeLanguage={this.props.canChangeLanguage}
                                     canChangeTheme={this.props.canChangeTheme}
                                     canChangeHelp={this.props.canChangeHelp}

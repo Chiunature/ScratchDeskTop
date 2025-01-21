@@ -38,11 +38,7 @@ class ConnectionModal extends React.PureComponent {
             "handleError",
             "handleHelp",
             "handleUpdate",
-            "handleGetBleList",
-            "scanBle",
-            "noScanBle",
             "handleSelectPort",
-            "handleBleScan"
         ]);
         this.state = {
             extension: extensionData.find(
@@ -57,7 +53,6 @@ class ConnectionModal extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.scanBle();
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
@@ -79,43 +74,12 @@ class ConnectionModal extends React.PureComponent {
             "PERIPHERAL_REQUEST_ERROR",
             this.handleError
         );
-        this.noScanBle();
     }
 
     componentDidUpdate(preProps) {
         if (preProps.sourceCompleted !== this.props.sourceCompleted) {
             document.body.removeAttribute("style");
         }
-    }
-
-    scanBle() {
-        if (!this.props.peripheralName) {
-            this.handleGetBleList();
-            this.handleBleScan(true);
-        }
-    }
-
-    noScanBle() {
-        this.handleBleScan(false);
-        if (!this.props.peripheralName) {
-            this.props.onGetSerialList([]);
-        }
-    }
-
-    handleBleScan(open) {
-        if (this.props.peripheralName) return;
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
-    }
-
-    handleGetBleList() {
-        window.myAPI.ipcRender({
-            eventName: ipc_Renderer.SEND_OR_ON.BLE.GETBlELIST,
-            callback: (e, result) => {
-                if (!result) return;
-                const bleList = JSON.parse(result);
-                this.props.onGetSerialList([...bleList]);
-            }
-        });
     }
 
     async handleSelectPort(port, index) {
@@ -303,8 +267,6 @@ class ConnectionModal extends React.PureComponent {
                 sourceCompleted={this.props.sourceCompleted}
                 firewareVersion={this.state.firewareVersion}
                 deviceType={this.props.deviceType}
-                scanBle={this.handleBleScan}
-                noScanBle={this.noScanBle}
                 intl={this.props.intl}
             />
         );

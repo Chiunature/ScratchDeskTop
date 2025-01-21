@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { FormattedMessage, defineMessages} from 'react-intl';
+// import { ipc } from "est-link";
 import LanguageMenu from './language-menu.jsx';
 import MenuBarMenu from './menu-bar-menu.jsx';
 import ThemeMenu from './theme-menu.jsx';
@@ -27,7 +28,6 @@ const ariaMessages = defineMessages({
     },
 });
 
-
 const SettingsMenu = ({
     canChangeLanguage,
     canChangeTheme,
@@ -39,7 +39,7 @@ const SettingsMenu = ({
     reUpdateDriver,
     getMainMessage,
     handleHelp,
-    handleProblem,
+    onShowQrcode,
     intl
 }) => {
 
@@ -81,7 +81,7 @@ const SettingsMenu = ({
                 id="gui.menuBar.settings"
             />
         </span>
-        <img src={dropdownCaret} />
+        <img src={dropdownCaret} alt="" />
         <MenuBarMenu
             className={menuBarStyles.menuBarMenu}
             open={settingsMenuOpen}
@@ -90,7 +90,6 @@ const SettingsMenu = ({
         >
             <MenuSection>
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
-                {/* <PickerMenu/> */}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
                 {canChangeHelp && <HelpMenu handleHelp={handleHelp} onRequestCloseSettings={onRequestClose} />}
                 <MenuItem onClick={reUpdateDriver}>
@@ -102,7 +101,7 @@ const SettingsMenu = ({
                         />
                     </span>
                 </MenuItem>
-                <MenuItem onClick={handleProblem}>
+                <MenuItem onClick={onShowQrcode}>
                     <span className={styles.dropdownLabel}>
                         <FormattedMessage
                             defaultMessage="Problem feedback"

@@ -35,17 +35,16 @@ class Bluetooth extends Common {
      * 扫描设备
      * @param {Boolean} open true表示开启扫描, false表示停止扫描
      */
-    scanning(event, open) {
+    async scanning(event, open) {
         if (open) {
             const eventList = this.noble.eventNames();
             !eventList.includes('discover') && this.discover(event);
-            !eventList.includes('stateChange') && this.noble.on('stateChange', (state) => {
-                if (state === 'poweredOn') {
-                    this.noble.startScanning([], true);
-                } else {
-                    this.noble.stopScanning();
-                }
-            });
+            // const state = !eventList.includes('stateChange') && await this.stateChange();
+            // if (!state) {
+            //     this.noble.stopScanning();
+            //     return;
+            // }
+            this.noble.startScanning([], true);
         } else {
             this.noble.stopScanning();
             this.noble.removeAllListeners('discover');
@@ -55,6 +54,18 @@ class Bluetooth extends Common {
             this.peripheralCacheId.splice(0, this.peripheralCacheId.length);
             this.peripheralCacheList.splice(0, this.peripheralCacheList.length);
         }
+    }
+
+    stateChange() {
+        return new Promise((resolve) => {
+            this.noble.on('stateChange', (state) => {
+                if (state === 'poweredOn') {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            });
+        })
     }
 
     /**
@@ -467,8 +478,8 @@ class Bluetooth extends Common {
                         this.bleWrite(instruct.files, signType.EXE.FILES, event);
                         setTimeout(() => {
                             this.bleWrite(instruct.stop_watch, null, event);
-                        }, 900);
-                    }, 900);
+                        }, 1000);
+                    }, 1000);
                     break;
                 case 'SENSING_UPDATE':
                     this.bleWrite(instruct.sensing_update, null, event);
