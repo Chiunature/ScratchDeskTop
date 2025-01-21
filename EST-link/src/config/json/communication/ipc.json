@@ -75,7 +75,7 @@
         },
         "VERSION": "return_version",
         "BLE": {
-            "GETBlELIST": "getBleList",
+            "GETBlELIST": "return_getBleList",
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"
         },
