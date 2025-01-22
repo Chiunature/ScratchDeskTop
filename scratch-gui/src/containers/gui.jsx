@@ -344,7 +344,7 @@ class GUI extends React.Component {
                 return;
             }
             // 检查是否需要运行APP
-            if (this.props?.deviceObj?.NewAiState !== verifyTypeConfig.EST_STOP) {
+            if (this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);
             }
