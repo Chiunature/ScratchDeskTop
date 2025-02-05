@@ -36,14 +36,19 @@ class Bluetooth extends Common {
      * @param {Boolean} open true表示开启扫描, false表示停止扫描
      */
     async scanning(event, open) {
+        let state = true;
         if (open) {
             const eventList = this.noble.eventNames();
             !eventList.includes('discover') && this.discover(event);
-            // const state = !eventList.includes('stateChange') && await this.stateChange();
-            // if (!state) {
-            //     this.noble.stopScanning();
-            //     return;
-            // }
+            
+            if (!eventList.includes('stateChange')) {
+                state = await this.stateChange();
+            }
+            
+            if (!state) {
+                this.noble.stopScanning();
+                return;
+            }
             this.noble.startScanning([], true);
         } else {
             this.noble.stopScanning();
