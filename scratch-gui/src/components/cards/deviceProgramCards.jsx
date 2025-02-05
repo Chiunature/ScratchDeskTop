@@ -172,8 +172,11 @@ const DeviceProgramCards = props => {
             sendName: ipc_Renderer.SEND_OR_ON.EXE.DELETE,
             sendParams: { fileName: item.path, verifyType: "DELETE_EXE" },
         });
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
         onShowDelExeAlert("delExeSuccess");
+        
+        setTimeout(() => {
+             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
+        }, 1000);
     }
 
     /* const handleScreenAuto = () => {

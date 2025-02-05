@@ -29,6 +29,7 @@ class Bluetooth extends Common {
         this.sourceFiles = [];
         this.uploadingFile = null;
         this.receiveData = [];
+        this.isStopWatch = false;
     }
 
     /**
@@ -40,11 +41,11 @@ class Bluetooth extends Common {
         if (open) {
             const eventList = this.noble.eventNames();
             !eventList.includes('discover') && this.discover(event);
-            
+
             if (!eventList.includes('stateChange')) {
                 state = await this.stateChange();
             }
-            
+
             if (!state) {
                 this.noble.stopScanning();
                 return;
@@ -324,6 +325,8 @@ class Bluetooth extends Common {
                                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
                                 this.clearCache();
                             } else {
+                                this.isStopWatch && this.bleWrite(instruct.stop_watch, null, event);
+                                this.isStopWatch = false;
                                 // 重置标识符
                                 this.sign = null;
                             }
@@ -479,11 +482,9 @@ class Bluetooth extends Common {
             switch (arg.type) {
                 case 'FILE':
                     this.bleWrite(instruct.stop_watch, null, event);
+                    this.isStopWatch = true;
                     setTimeout(() => {
                         this.bleWrite(instruct.files, signType.EXE.FILES, event);
-                        setTimeout(() => {
-                            this.bleWrite(instruct.stop_watch, null, event);
-                        }, 1000);
                     }, 1000);
                     break;
                 case 'SENSING_UPDATE':
@@ -563,9 +564,7 @@ class Bluetooth extends Common {
         this.ipcMain(eventName, (event, data) => {
             const bits = this.getBits(data.verifyType);
             const { binArr } = this.checkFileName(data.fileName, bits);
-            setTimeout(() => {
-                this.bleWrite(binArr, null, event);
-            }, 1000);
+            this.bleWrite(binArr, null, event);
         });
     }
 
