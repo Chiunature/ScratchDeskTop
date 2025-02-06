@@ -165,7 +165,7 @@ Blockly.Blocks['combined_motor_direction'] = {
                                 "height": 25,
                                 "alt": Blockly.Msg.TURNLEFT
                             },
-                            "turnleft"
+                            "trueleft"
                         ],
                         [
                             {
@@ -174,7 +174,7 @@ Blockly.Blocks['combined_motor_direction'] = {
                                 "height": 25,
                                 "alt": Blockly.Msg.TURNRIGHT
                             },
-                            "turnright"
+                            "trueright"
                         ],
                     ]
                 }
@@ -249,7 +249,7 @@ Blockly.Blocks['combined_motor_turn'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.RIGHT,
                             },
-                            "turnright"
+                            "trueright"
                         ],
                         [
                             {
@@ -258,7 +258,7 @@ Blockly.Blocks['combined_motor_turn'] = {
                                 "height": 20,
                                 "alt": Blockly.Msg.LEFT,
                             },
-                            "turnleft"
+                            "trueleft"
                         ]
                     ]
                 },
@@ -333,7 +333,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 25,
                                 "alt": Blockly.Msg.TURNLEFT
                             },
-                            "turnleft"
+                            "trueleft"
                         ],
                         [
                             {
@@ -342,7 +342,7 @@ Blockly.Blocks['combined_motor_line'] = {
                                 "height": 25,
                                 "alt": Blockly.Msg.TURNRIGHT
                             },
-                            "turnright"
+                            "trueright"
                         ],
                     ]
                 },

@@ -110,7 +110,7 @@ Blockly.Python['combined_motor_movestep'] = function (block) {
     // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble Python into code variable.
     // const code = `motor_combined_movestep("${one}", "${two}", ${left}, ${right});\n`;
-    const code = `SetDoubleMotorSpeed(${left}, ${right})\n`;
+    const code = `setDoubleMotorSpeed(${left}, ${right})\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -126,7 +126,7 @@ Blockly.Python['combined_motor_stopping'] = function (block) {
     // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble Python into code variable.
     // const code = `motor_combined_stopping("${one}", "${two}", "${style}");\n`;
-    const code = `SetDoubleStopMode("${style}")\n`;
+    const code = `setDoubleStopMode("${style}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
