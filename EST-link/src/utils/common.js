@@ -398,12 +398,12 @@ class Common {
    */
   verification(sign, recevieObj, event) {
     if (!recevieObj) return;
-    const { data } = recevieObj;
+    const { data, bit } = recevieObj;
     if (!data) return;
     const text = new TextDecoder();
     switch (sign) {
       case signType.EXE.FILES:
-        if (data && data[4] === 0x7F) {
+        if (data && bit === 0x7F) {
           const names = text.decode(Buffer.from(data.slice(5, data.length - 2)));
           event.reply(ipc_Main.RETURN.EXE.FILES, names);
         }

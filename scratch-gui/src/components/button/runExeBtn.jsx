@@ -64,7 +64,7 @@ const RunExeBtn = (props) => {
                                     />
                             }
                         </div>
-                        <Cirle completed={completed} deviceStatus={deviceStatus} />
+                        <Cirle deviceStatus={deviceStatus} />
                         <img className={newProgress > 99 ? '' : styles.yesBtnSpin} src={yesIcon} alt="" />
                     </div>
                 </div>
