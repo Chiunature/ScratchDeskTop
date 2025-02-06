@@ -477,7 +477,7 @@ class Bluetooth extends Common {
                     this.isStopWatch = true;
                     setTimeout(() => {
                         this.bleWrite(instruct.files, signType.EXE.FILES, event);
-                    }, 1000);
+                    }, 500);
                     break;
                 case 'SENSING_UPDATE':
                     this.bleWrite(instruct.sensing_update, null, event);
