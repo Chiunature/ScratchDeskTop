@@ -30,27 +30,31 @@ class Bluetooth extends Common {
         this.uploadingFile = null;
         this.receiveData = [];
         this.isStopWatch = false;
+        this.bleState = null;
     }
 
     /**
      * 扫描设备
      * @param {Boolean} open true表示开启扫描, false表示停止扫描
      */
-    async scanning(event, open) {
-        let state = true;
+    scanning(event, open) {
         if (open) {
             const eventList = this.noble.eventNames();
-            !eventList.includes('discover') && this.discover(event);
-
             if (!eventList.includes('stateChange')) {
-                state = await this.stateChange();
+                this.discover(event);
+                this.noble.on('stateChange', (state) => {
+                    this.bleState = state;
+                    if (state !== 'poweredOn') {
+                        this.noble.stopScanning();
+                    }
+                });
+            } else {
+                if (this.bleState === 'poweredOn') {
+                    this.noble.startScanning([], true);
+                } else {
+                    event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
+                }
             }
-
-            if (!state) {
-                this.noble.stopScanning();
-                return;
-            }
-            this.noble.startScanning([], true);
         } else {
             this.noble.stopScanning();
             this.noble.removeAllListeners('discover');
@@ -60,18 +64,6 @@ class Bluetooth extends Common {
             this.peripheralCacheId.splice(0, this.peripheralCacheId.length);
             this.peripheralCacheList.splice(0, this.peripheralCacheList.length);
         }
-    }
-
-    stateChange() {
-        return new Promise((resolve) => {
-            this.noble.on('stateChange', (state) => {
-                if (state === 'poweredOn') {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            });
-        })
     }
 
     /**

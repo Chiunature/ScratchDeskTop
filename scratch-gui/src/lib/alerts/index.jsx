@@ -618,6 +618,28 @@ const alerts = [
         level: AlertLevels.SUCCESS,
         maxDisplaySecs: 2,
     },
+    {
+        alertId: "bleISNotSupported",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibration"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Bluetooth not turned on"
+                description="Bluetooth not turned on"
+                id="gui.alerts.bleISNotSupported"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 2,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

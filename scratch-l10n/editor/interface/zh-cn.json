@@ -297,6 +297,7 @@
   "gui.alerts.uploadSuccess": "发送成功",
   "gui.alerts.uploadTimeout": "发送超时",
   "gui.alerts.saveSuccess": "保存成功",
+  "gui.alerts.bleISNotSupported": "蓝牙未开启或不被支持",
   "gui.defaultProject.meow": "喵",
   "gui.defaultProject.variable": "我的变量",
   "gui.howtos.install-drivers": "安装驱动",

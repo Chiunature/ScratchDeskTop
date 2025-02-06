@@ -75,6 +75,7 @@
         },
         "VERSION": "return_version",
         "BLE": {
+            "SCANNING": "return_bleScanning",
             "GETBlELIST": "return_getBleList",
             "CONNECTION": "ble-connection",
             "DISCONNECTED": "ble-disconnected"

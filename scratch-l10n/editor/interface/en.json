@@ -267,6 +267,7 @@
   "gui.alerts.uploading": "Uploading...",
   "gui.alerts.uploadSuccess": "Successfully sent",
   "gui.alerts.uploadTimeout": "Send Timeout",
+  "gui.alerts.bleISNotSupported": "Bluetooth not turned on",
   "gui.defaultProject.meow": "Meow",
   "gui.defaultProject.variable": "my variable",
   "gui.howtos.install-drivers": "Install drivers",

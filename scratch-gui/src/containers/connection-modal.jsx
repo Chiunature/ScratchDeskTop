@@ -59,6 +59,10 @@ class ConnectionModal extends React.PureComponent {
         const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
         const fv = window.myAPI.getVersion(spath) || verifyTypeConfig.FIRMWARE_VERSION;
         this.setState({ firewareVersion: parseInt(fv) });
+        // window.myAPI.ipcRender({
+        //     sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING,
+        //     sendParams: true
+        // });
     }
 
     componentWillUnmount() {

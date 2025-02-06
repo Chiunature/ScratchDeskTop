@@ -187,19 +187,19 @@ class MenuBar extends React.Component {
         requestIdleCallback(() => {
             this.scanConnection();
             this.disconnectListen();
-            this.scanBle();
+            // this.scanBle();
         }, { timeout: 500 });
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
-        this.noScanBle();
+        // this.noScanBle();
     }
 
     scanBle() {
         if (!this.props.peripheralName) {
             this.handleGetBleList();
-            this.handleBleScan(true);
+            this.handleBleScan(false);
         }
     }
 
@@ -212,7 +212,14 @@ class MenuBar extends React.Component {
 
     handleBleScan(open) {
         if (this.props.peripheralName) return;
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING, sendParams: open });
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING,
+            sendParams: open,
+            eventName: ipc_Renderer.RETURN.BLE.SCANNING,
+            callback: (e, res) => {
+                this.props.onShowConnectAlert(res.msg);
+            }
+        });
     }
 
     handleGetBleList() {
