@@ -134,7 +134,7 @@ Blockly.DataCategory.addSetVariableTo = function (xmlList, variable) {
   //   </value>
   // </block>
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_setvariableto',
-    'VARIABLE', ['VALUE', 'math_number', 0]);
+    'VARIABLE', ['VALUE', 'text', '0']);
 };
 
 /**

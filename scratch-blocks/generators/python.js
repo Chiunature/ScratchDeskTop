@@ -135,7 +135,7 @@ Blockly.Python.init = function (workspace) {
   }
   Blockly.Python.variableDB_.setVariableMap(workspace.getVariableMap());
 
-  var variables = Blockly.Variables.allVariables(workspace);
+  /* var variables = Blockly.Variables.allVariables(workspace);
   for (var x = 0; x < variables.length; x++) {
     if (variables[x].type === Blockly.LIST_VARIABLE_TYPE) {
       Blockly.Python.variables_[x] =
@@ -144,7 +144,7 @@ Blockly.Python.init = function (workspace) {
       Blockly.Python.variables_[x] =
         Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
     }
-  }
+  } */
 };
 
 /**
@@ -239,7 +239,7 @@ Blockly.Python.finish = function (code) {
 
     let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
 
-    ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' +'MyOSysTem.KillThisTask()';
+    ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' + 'MyOSysTem.KillThisTask()';
   } else {
     ret += code;
   }

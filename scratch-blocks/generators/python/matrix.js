@@ -78,7 +78,7 @@ Blockly.Python['matrix_lamp_text'] = function (block) {
   // const regex = /^[A-Za-z0-9]+$/;
   // const match = regex.exec(text);
   // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `matrix_text_lamp(${text})\n`;
+  let code = `matrix_text_lamp(str(${text}))\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
