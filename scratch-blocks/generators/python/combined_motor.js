@@ -71,7 +71,7 @@ Blockly.Python['combined_motor_turn'] = function (block) {
     `${Blockly.Python.toStr(angle) ? angle : '"' + angle + '"'},`+ 
     `${Blockly.Python.toStr(distance) ? distance : '"' + distance + '"'},`+
     `${Blockly.Python.toStr(unit) ? unit : '"' + unit + '"'})\n`;
-    return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+    return '\n';
 };
 
 Blockly.Python['combined_motor_line'] = function (block) {
@@ -100,8 +100,8 @@ Blockly.Python['combined_motor_move'] = function (block) {
     const distance = block.getFieldValue('distance');
     const result = block.getFieldValue('result');
     // TODO: Assemble Python into code variable.
-    const code = `motor_combined_move(${Blockly.Python.toStr(left) ? left : '"' + left + '"'}, ${Blockly.Python.toStr(right) ? right : '"' + right + '"'}, ${Blockly.Python.toStr(distance) ? distance : '"' + distance + '"'}, ${Blockly.Python.toStr(result) ? result : '"' + result + '"'})\n`;
-    return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+    const code = `\n`;
+    return code;
 };
 
 Blockly.Python['combined_motor_movestep'] = function (block) {
@@ -117,8 +117,8 @@ Blockly.Python['combined_motor_movestep'] = function (block) {
 Blockly.Python['combined_motor_angle'] = function (block) {
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    const code = `motor_combined_angle(${Blockly.Python.toStr(angle) ? angle : '"' + angle + '"'})\n`;
-    return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+    const code = `\n`;
+    return code;
 };
 
 Blockly.Python['combined_motor_stopping'] = function (block) {
@@ -152,7 +152,7 @@ Blockly.Python['combined_motor_moveByYawAngle'] = function (block) {
     const unit = block.getFieldValue('unit');
     let direction = block.getFieldValue('direction');
     direction = direction[0].toLowerCase() + direction.slice(1);
-    const code = `DoubleMotorStraight("${direction}", ${count}, "${unit}", ${KP})\n`;
+    const code = `DoubleMotorStraight("${direction}", ${count}, "${unit}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 }; 
 
@@ -166,6 +166,6 @@ Blockly.Python['combined_motor_pwm'] = function (block) {
     const left = Blockly.Python.valueToCode(block, "LEFT_PWM", Blockly.Python.ORDER_NONE);
     const right = Blockly.Python.valueToCode(block, "RIGHT_PWM", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    const code = `motor_combined_pwm(${Blockly.Python.toStr(left) ? left : '"' + left + '"'}, ${Blockly.Python.toStr(right) ? right : '"' + right + '"'})\n`;
-    return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+    const code = `\n`;
+    return code;
 };

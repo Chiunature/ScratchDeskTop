@@ -237,7 +237,7 @@ Blockly.Python.finish = function (code) {
       }
     })
 
-    let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
+    let whileEnd = `MyOSysTem = APIOSTimer.osTimer()\n` + `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' + 'MyOSysTem.KillThisTask()';
   } else {
@@ -291,7 +291,6 @@ Blockly.Python.splitCodeByTask = function (code) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i].replace(/\s{1}\/\* Start \*\/\s{1}/, '').replace(/\s{1}\/\* End \*\/\s{1}/, '');
     result = result +
-      `MyOSysTem = APIOSTimer.osTimer()\n` +
       `\ndef ${task[i]}():\n` +
       `${Blockly.Python.INDENT}  global ${task[i]}_finished\n` +
       `${Blockly.Python.addIndent(item)}` +

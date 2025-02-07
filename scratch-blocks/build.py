@@ -231,7 +231,7 @@ class Gen_compressed(threading.Thread):
     self.gen_blocks("common")
     # self.gen_generator("arduino")
     self.gen_generator("python")
-    self.gen_generator("cake")
+    # self.gen_generator("cake")
   def gen_core(self, vertical):
     if vertical:
       target_filename = 'blockly_compressed_vertical.js'

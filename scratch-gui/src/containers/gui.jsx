@@ -343,14 +343,16 @@ class GUI extends React.Component {
             if (!workspaceRes) {
                 return;
             }
+
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+
             // 检查是否需要运行APP
             if (this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);
             }
 
-            this.props.onSetCompleted(true);
-            this.props.onShowCompletedAlert("uploading");
 
 
             // 区分是哪种代码类型的下载
