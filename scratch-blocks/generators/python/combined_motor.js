@@ -82,7 +82,7 @@ Blockly.Python['combined_motor_line'] = function (block) {
     // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble Python into code variable.
     // const code = `motor_combined_line("${one}", "${two}", "${line}", ${distance}, "${unit}");\n`;
-    const code = `DoubleMotorLine("${line}", ${distance}, "${unit}")\n`;
+    const code = `DoubleMotorStraight("${line}", ${distance}, "${unit}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -152,7 +152,7 @@ Blockly.Python['combined_motor_moveByYawAngle'] = function (block) {
     const unit = block.getFieldValue('unit');
     let direction = block.getFieldValue('direction');
     direction = direction[0].toLowerCase() + direction.slice(1);
-    const code = `DoubleMotorStraight("${direction}", ${count}, "${unit}")\n`;
+    const code = `DoubleMotorLine("${direction}", ${count}, "${unit}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 }; 
 
