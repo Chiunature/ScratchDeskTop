@@ -26,8 +26,8 @@ goog.require('Blockly.Python');
 Blockly.Python['control_wait'] = function(block) {
   let arg0 = Blockly.Python.valueToCode(block, 'DURATION',
       Blockly.Python.ORDER_FUNCTION_CALL);
-  let code = "_time.sleep_s(" + arg0 + ")\n";
-  return code;
+  const code = "dekay_s(" + arg0 + ")\n";
+  return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
 };
 
 Blockly.Python['control_repeat'] = function(block) {

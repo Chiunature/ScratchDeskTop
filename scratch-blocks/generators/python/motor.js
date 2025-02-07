@@ -86,3 +86,10 @@ Blockly.Python['motor_startWithPower'] = function (block) {
     const code = `PowerStart(${port}, ${power})\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
+
+Blockly.Python['motor_reset_operating_degree'] = function (block) {
+    let port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    // TODO: Assemble Python into code variable.
+    let code = `resetMotorAngle(${port})\n`;
+    return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+};
