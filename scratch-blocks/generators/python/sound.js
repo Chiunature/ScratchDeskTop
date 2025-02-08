@@ -13,6 +13,7 @@ Blockly.Python['sound_sounds_menu'] = function (block) {
 Blockly.Python['sound_playuntildone'] = function (block) {
     let sound = Blockly.Python.valueToCode(block, "SOUND_MENU", Blockly.Python.ORDER_ATOMIC);
     if (!sound) return '';
+    sound = sound.replace(/\d/g, '');
     const soundItem = `${sound}.wav`;
     if (!Blockly.Python.soundslist.includes(soundItem)) {
         Blockly.Python.soundslist.push(soundItem);
@@ -24,6 +25,7 @@ Blockly.Python['sound_playuntildone'] = function (block) {
 Blockly.Python['sound_play'] = function (block) {
     let sound = Blockly.Python.valueToCode(block, "SOUND_MENU", Blockly.Python.ORDER_ATOMIC);
     if (!sound) return '';
+    sound = sound.replace(/\d/g, '');
     const soundItem = `${sound}.wav`;
     if (!Blockly.Python.soundslist.includes(soundItem)) {
         Blockly.Python.soundslist.push(soundItem);

@@ -143,7 +143,8 @@ class SoundLibrary extends React.PureComponent {
             md5: soundItem._md5,
             rate: soundItem.rate,
             sampleCount: soundItem.sampleCount,
-            name: soundItem.name
+            name: soundItem.name,
+            oldName: soundItem.oldName,
         };
         this.props.vm.addSound(vmSound).then(() => {
             this.props.onNewSound();
@@ -154,12 +155,13 @@ class SoundLibrary extends React.PureComponent {
         const soundLibraryThumbnailData = soundLibraryContent.map(sound => {
             const {
                 md5ext,
-                ...otherData
+                name,
             } = sound;
             return {
                 _md5: md5ext,
                 rawURL: this.props.isRtl ? soundIconRtl : soundIcon,
-                ...otherData
+                oldName: name,
+                ...sound
             };
         });
 
