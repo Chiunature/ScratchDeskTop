@@ -452,8 +452,6 @@ const control = function (isInitialSetup, isStage, targetId, colors) {
         ${blockSeparator}
         <block id="wait_until" type="control_wait_until"/>
         ${blockSeparator}
-        <block type="control_stop"/>
-        ${blockSeparator}
         <block type="control_break"/>
         ${categorySeparator}
         <block type="control_repeat">
