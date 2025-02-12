@@ -289,7 +289,7 @@ class Blocks extends React.Component {
                 newList[j] = que.shift();
             }
             if (list[i]) {
-                this.disableAllNoEventsBlocks(list[i], list[i].startHat_);
+                this.disableAllNoEventsBlocks(list[i], !list[i].startHat_);
             }
             i++;
         }
@@ -299,13 +299,13 @@ class Blocks extends React.Component {
     }
 
     disableAllNoEventsBlocks(element, disable) {
-        element.setDisabled(!disable);
+        element.setEnabled(disable);
         const children = element.childBlocks_;
         if (children.length === 0) return;
         for (let i = 0; i < children.length; i++) {
             const item = children[i];
             if (item.isShadow_) continue;
-            item.setDisabled(!disable);
+            item.setEnabled(disable);
             this.disableAllNoEventsBlocks(item, disable);
         }
     }

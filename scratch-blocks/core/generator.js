@@ -178,7 +178,7 @@ Blockly.Generator.prototype.blockToCode = function(block) {
   var func = this[block.type];
  
   if (!func) { 
-    block.setDisabled(true);
+    block.setEnabled(true);
     return '';
   }
   goog.asserts.assertFunction(func,

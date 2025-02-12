@@ -532,8 +532,8 @@ Blockly.BlockSvg.prototype.setOpacity = function(opacity) {
  * @return {number} Intended opacity, betweeen 0 and 1
  */
 Blockly.BlockSvg.prototype.getOpacity = function() {
-  // return this.isEnabled() ? this.opacity_ : 0.5;
-  return this.opacity_;
+  return this.isEnabled() ? this.opacity_ : 0.6;
+  // return this.opacity_;
 };
 
 /**
