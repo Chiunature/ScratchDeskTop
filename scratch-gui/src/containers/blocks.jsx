@@ -154,14 +154,14 @@ class Blocks extends React.Component {
     workspaceToCode(type) {
         if (type === 'move' || type === 'change' || type === 'delete') {
             const code = this.ScratchBlocks[this.props.generatorName].workspaceToCode(this.workspace);
-            const list = this.workspace.getTopBlocks();
-            let newList = list.filter(el => el.startHat_);
             this.props.getCode(code);
-            if (newList.length > 0) {
-                this.checkStartHat(newList, this.props.code);
+            // const list = this.workspace.getTopBlocks();
+            // let newList = list.filter(el => el.startHat_);
+            // if (newList.length > 0) {
+                // this.checkStartHat(newList, this.props.code);
                 // this.disableCombinedMotor(newList);
                 // this.disableEventBlocks();
-            }
+            // }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
         } else if (type === 'endDrag' || type === 'change') {
             this.props.setAutoSaveByBlockType(type);

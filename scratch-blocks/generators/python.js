@@ -532,7 +532,7 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.KEY_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyRemodet = APIKey.key()';
+        Blockly.Python.setups_[type] = 'MyRemodet = APIKey.Key()';
       }
       result = 'MyRemodet.' + result;
       break;

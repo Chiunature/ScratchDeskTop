@@ -2,8 +2,8 @@ import { ipc as ipc_Renderer } from 'est-link'
 
 export async function handleUploadPython(options) {
     return new Promise((resolve) => {
-    const { verifyType, selectedExe, codeStr, codeType } = options;
-    const result = stringToArrayBuffer(codeStr);
+        const { verifyType, selectedExe, codeStr, codeType } = options;
+        const result = stringToArrayBuffer(codeStr);
         if (selectedExe) {
             window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
