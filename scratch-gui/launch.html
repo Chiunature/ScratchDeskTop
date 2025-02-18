@@ -18,21 +18,75 @@
             color: white;
         }
 
+        h2 {
+            text-align: center;
+            line-height: 200px;
+        }
 
+        .launch-box .loading {
+            /* font-size: 14px; */
+            font-weight: bold;
+            width: fit-content;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+        }
 
         .launch-box {
             position: relative;
             background: url(static/est.png) no-repeat;
             background-size: cover;
+            object-fit: cover;
         }
 
-        
+        .version {
+            position: absolute;
+            right: 4px;
+            bottom: 4px;
+            font-size: 12px;
+            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 10px;
+            left: 0;
+            width: 0;
+            bottom: 0;
+            background-color: white;
+        }
     </style>
 </head>
 
 <body>
     <span style="color: transparent;">666</span>
-    <div class="launch-box"></div>
+    <div class="launch-box">
+        <div class="loading">
+            <span id="load-text">检查更新中......</span>
+            <span id="percent"></span>
+        </div>
+        <div class="progress-bar" id="processBar"></div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = window.require("electron");
+
+        let processBar = document.getElementById('processBar');
+        let percent = document.getElementById('percent');
+        let loadText = document.getElementById('load-text');
+        let progress = 0;
+
+        ipcRenderer.on('update', (event, text) => {
+            loadText.innerHTML = text === 'lb_version' ? '正在下载固件更新包......' : text === 'atc_version' ? '正在下载软件更新包......' : text;
+        })
+
+        ipcRenderer.on('load_progress', (event, progress) => {
+            processBar.style.width = progress + '%';
+            percent.innerHTML = Math.floor(progress) + '%';
+        })
+    </script>
 </body>
 
 </html>

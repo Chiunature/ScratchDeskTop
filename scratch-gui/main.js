@@ -33,7 +33,7 @@ const { cwd } = require("process");
 const { exec } = require("child_process");
 const { Serialport, Bluetooth, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
-// const createProtocol = require("./scripts/createProtocol.js");
+const { getZip } = require("./scripts/checkForUpdate.js")
 const watchLaunchFromATC = require("./scripts/watchLaunchFromATC.js");
 const getRandomString = require("./scripts/getRandomString.js");
 
@@ -120,11 +120,72 @@ function showLoading(mainWin) {
         resizable: false,
         transparent: true,
         partition: 'persist:showLoading',
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            requestedExecutionLevel: "requireAdministrator",
+        }
     });
 
     loadingWindow.once("show", mainWin);
-    loadingWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/launch.html"));
-    loadingWindow.show();
+    if (app.isPackaged) {
+        loadingWindow.loadFile(path.join(process.resourcesPath, "app.asar.unpacked/launch.html"));
+    } else {
+        loadingWindow.loadFile("./launch.html");
+        const devtools = new BrowserWindow();
+        // 解决 Windows 无法正常打开开发者工具的问题
+        loadingWindow.webContents.setDevToolsWebContents(devtools.webContents);
+        // 打开开发者工具
+        loadingWindow.webContents.openDevTools({ mode: 'detach' });
+    }
+
+    // 读取本地hotVersion
+    fs.readFile(path.join(process.resourcesPath, "./scripts/hotVersion.json"), "utf8", async (err, data) => {
+        if (err) {
+            return;
+        } else {
+            //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
+            const nowRes = JSON.parse(data);
+            const response = await fetch("https://zsff.drluck.club/ATC/hotVersion.json");
+            const newRes = await response.json();
+
+            await compare(nowRes.lb_version, newRes.lb_version, {
+                requestUrl: "https://zsff.drluck.club/ATC/LB_FWLIB.zip",
+                targetPath: path.join(process.resourcesPath, "./LB_FWLIB.zip"),
+                oldPath: path.join(process.resourcesPath, "./LB_FWLIB"),
+                callback: (loaded, total) => loadingWindow.webContents.send(ipc.LOAD_PROGRESS, Math.floor(loaded / total * 100)),
+                type: "lb_version",
+                newResult: newRes
+            })
+
+            await compare(nowRes.atc_version, newRes.atc_version, {
+                requestUrl: "https://zsff.drluck.club/ATC/unpacked.zip",
+                targetPath: path.join(process.resourcesPath, "./unpacked.zip"),
+                oldPath: path.join(process.resourcesPath, "./app.asar.unpacked"),
+                callback: (loaded, total) => loadingWindow.webContents.send(ipc.LOAD_PROGRESS, Math.floor(loaded / total * 100)),
+                type: "atc_version",
+                newResult: newRes
+            })
+
+            setTimeout(() => {
+                loadingWindow.webContents.send(ipc.UPDATE, "OK");
+                loadingWindow.show();
+            }, 1000);
+        }
+    });
+
+
+    async function compare(oldVersion, newVersion, options) {
+        const { requestUrl, targetPath, oldPath, callback, newResult, type } = options;
+        if (oldVersion !== newVersion) {
+            // 如果版本号不同，则触发更新
+            loadingWindow.webContents.send(ipc.UPDATE, type);
+            await getZip(requestUrl, targetPath, oldPath, callback);
+            fs.writeFileSync(path.join(process.resourcesPath, "./scripts/hotVersion.json"), JSON.stringify(newResult), {
+                encoding: "utf8"
+            });
+        }
+    }
 };
 
 function saveFileToLocal() {
@@ -341,7 +402,7 @@ function createWindow() {
         mainWindow.webContents.send('auto-save-file-before-close');
         ipcHandle('return-close-app', (event, args) => {
             if (args) {
-                 dialog.showMessageBox({
+                dialog.showMessageBox({
                     type: "warning",
                     buttons: ["OK"],
                     title: "备份",

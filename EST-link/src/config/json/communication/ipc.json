@@ -92,5 +92,7 @@
     "FILE":  {
       "SAVE": "save-file"
     },
-    "PROGRESSBAR": "progressBar"
+    "PROGRESSBAR": "progressBar",
+    "UPDATE": "update",
+    "LOAD_PROGRESS": "load_progress"
 }
