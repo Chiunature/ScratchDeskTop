@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+const AdmZip = require("adm-zip");
 function getZip(requestUrl, targetPath, oldPath, callback) {
     return new Promise((resolve) => {
         fetch(requestUrl)
@@ -46,7 +49,7 @@ async function extractZip(targetPath, oldPath) {
         zip.extractAllTo(oldPath, true);
         fs.unlink(targetPath, (err) => console.info(err));
     } catch (error) {
-        console.info(error)
+        // console.info(error)
     }
 }
 
@@ -67,7 +70,6 @@ function deleteOld(dir) {
         })
     })
 }
-
 
 module.exports = {
     getZip,

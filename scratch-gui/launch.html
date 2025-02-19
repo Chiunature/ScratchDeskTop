@@ -8,6 +8,7 @@
         html,
         body,
         .launch-box {
+            width: 100%;
             height: 100%;
             overflow: hidden;
         }
@@ -24,7 +25,6 @@
         }
 
         .launch-box .loading {
-            /* font-size: 14px; */
             font-weight: bold;
             width: fit-content;
             text-align: center;
@@ -51,20 +51,20 @@
 
         .progress-bar {
             position: absolute;
-            height: 10px;
+            height: 15px;
             left: 0;
             width: 0;
-            bottom: 0;
+            bottom: 10px;
             background-color: white;
+            z-index: 100;
         }
     </style>
 </head>
 
 <body>
-    <span style="color: transparent;">666</span>
     <div class="launch-box">
         <div class="loading">
-            <span id="load-text">检查更新中......</span>
+            <span id="load-text">开始检查更新......</span>
             <span id="percent"></span>
         </div>
         <div class="progress-bar" id="processBar"></div>
