@@ -106,7 +106,7 @@ Blockly.Python['control_wait_until'] = function(block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
     Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
   
-  let code = "while not " + argument + ":\n";
+  let code = "while " + argument + ":\n";
   code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
 
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
@@ -123,7 +123,7 @@ Blockly.Python['control_repeat_until'] = function(block) {
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
-  let code = "while not " + argument + ":\n";
+  let code = "while " + argument + ":\n";
   if (branch) {
     code += Blockly.Python.addIndent(branch);
   } else {
