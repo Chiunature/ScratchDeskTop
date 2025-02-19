@@ -230,6 +230,7 @@
             "src/utils/StoreUtil.js",
             "src/config/json/**/*",
             "main.js",
+            "loadWin.js",
             "preload.js",
             "update.js",
             "main-with-cache.js"
