@@ -99,16 +99,20 @@ Blockly.Python['procedures_prototype'] = function(block) {
 
     if (ch === 'n') {
       funcName = funcName.replace('%n', 'N');
-      argCode.push(safeArgName);
     }
     else if (ch === 's') {
       funcName = funcName.replace('%s', 'S');
-      argCode.push(safeArgName);
     }
     else {
       funcName = funcName.replace('%b', 'B');
-      argCode.push(safeArgName);
     }
+    let sum = 0;
+    for (let j = 0; j < argCode.length; j++) {
+      if(argCode[j].indexOf(safeArgName) !== -1) {
+        sum++;
+      }
+    }
+    argCode.push(sum > 0 ? safeArgName + sum : safeArgName);
   }
   funcName = Blockly.Python.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
 
