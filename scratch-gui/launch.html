@@ -30,7 +30,7 @@
             text-align: center;
             position: absolute;
             left: 50%;
-            bottom: 40px;
+            bottom: 30px;
             transform: translateX(-50%);
         }
 
@@ -39,6 +39,15 @@
             background: url(static/est.png) no-repeat;
             background-size: cover;
             object-fit: cover;
+
+        }
+
+        .launch-box img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .version {
@@ -51,11 +60,12 @@
 
         .progress-bar {
             position: absolute;
-            height: 15px;
+            height: 10px;
             left: 0;
             width: 0;
             bottom: 10px;
             background-color: white;
+            /* background-image: linear-gradient(to right, #93a5cf 0%, #e4efe9 100%); */
             z-index: 100;
         }
     </style>
@@ -63,6 +73,7 @@
 
 <body>
     <div class="launch-box">
+        <img src="static/est.png" alt="" />
         <div class="loading">
             <span id="load-text">开始检查更新......</span>
             <span id="percent"></span>
