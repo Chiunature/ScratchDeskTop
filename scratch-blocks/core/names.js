@@ -182,15 +182,15 @@ Blockly.Names.prototype.safeName_ = function (name) {
         const list = str.split(' ');
         for (let i = 0; i < list.length; i++) {
           if (list[i] && list[i].length > 1) {
-            // list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
-            list[i] = list[i].slice(0, 1);
+            list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
+            // list[i] = list[i].slice(0, 1);
           }
         }
 
         name = list.join('');
         let newName = _convertToValidCVariable(name);
-        if (newName.length > 30) {
-          newName = newName.slice(0, 30);
+        if (newName.length > 99) {
+          newName = newName.slice(0, 99);
         }
         return newName + '_';
       }
