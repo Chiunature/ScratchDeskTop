@@ -66,6 +66,7 @@
   "gui.customProcedures.runWithoutScreenRefresh": "Run without screen refresh",
   "gui.customProcedures.cancel": "Cancel",
   "gui.customProcedures.ok": "OK",
+  "gui.customProcedures.maxAdd": "The maximum number of allowed inputs has been reached.",
   "gui.SpriteInfo.direction": "Direction",
   "gui.directionPicker.rotationStyles.allAround": "All Around",
   "gui.directionPicker.rotationStyles.leftRight": "Left/Right",

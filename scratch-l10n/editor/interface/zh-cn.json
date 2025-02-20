@@ -75,6 +75,7 @@
   "gui.customProcedures.runWithoutScreenRefresh": "运行时不刷新屏幕",
   "gui.customProcedures.cancel": "取消",
   "gui.customProcedures.ok": "完成",
+  "gui.customProcedures.maxAdd": "已达到允许输入的最大数量。",
   "gui.SpriteInfo.direction": "方向",
   "gui.directionPicker.rotationStyles.allAround": "任意旋转",
   "gui.directionPicker.rotationStyles.leftRight": "左右翻转",

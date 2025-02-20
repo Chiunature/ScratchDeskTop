@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '../../containers/modal.jsx';
 import Box from '../box/box.jsx';
-import {defineMessages, injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import booleanInputIcon from './icon--boolean-input.svg';
 import textInputIcon from './icon--text-input.svg';
@@ -29,101 +29,110 @@ const CustomProcedures = props => (
             componentRef={props.componentRef}
         />
         <Box className={styles.body}>
-            <div className={styles.optionsRow}>
-                <div
-                    className={styles.optionCard}
-                    role="button"
-                    tabIndex="0"
-                    onClick={props.onAddNumber}
-                >
-                    <img
-                        className={styles.optionIcon}
-                        src={textInputIcon}
+            {props.procCode_ >= 9 ?
+                <div className={styles.optionsRow} style={{ alignItems: 'center', justifyContent: 'center', height: '138px' }}>
+                    <FormattedMessage
+                        defaultMessage="The maximum number of allowed inputs has been reached."
+                        description="The maximum number of allowed inputs has been reached."
+                        id="gui.customProcedures.maxAdd"
                     />
-                    <div className={styles.optionTitle}>
-                        <FormattedMessage
-                            defaultMessage="Add an input"
-                            description="Label for button to add a number input"
-                            id="gui.customProcedures.addAnInputNumber"
+                </div> :
+                <div className={styles.optionsRow}>
+                    <div
+                        className={styles.optionCard}
+                        role="button"
+                        tabIndex="0"
+                        onClick={props.onAddNumber}
+                    >
+                        <img
+                            className={styles.optionIcon}
+                            src={textInputIcon}
                         />
+                        <div className={styles.optionTitle}>
+                            <FormattedMessage
+                                defaultMessage="Add an input"
+                                description="Label for button to add a number input"
+                                id="gui.customProcedures.addAnInputNumber"
+                            />
+                        </div>
+                        <div className={styles.optionDescription}>
+                            <FormattedMessage
+                                defaultMessage="number"
+                                description="Description of the number input type"
+                                id="gui.customProcedures.numberType"
+                            />
+                        </div>
                     </div>
-                    <div className={styles.optionDescription}>
-                        <FormattedMessage
-                            defaultMessage="number"
-                            description="Description of the number input type"
-                            id="gui.customProcedures.numberType"
+                    <div
+                        className={styles.optionCard}
+                        role="button"
+                        tabIndex="0"
+                        onClick={props.onAddText}
+                    >
+                        <img
+                            className={styles.optionIcon}
+                            src={textInputIcon}
                         />
+                        <div className={styles.optionTitle}>
+                            <FormattedMessage
+                                defaultMessage="Add an input"
+                                description="Label for button to add a text input"
+                                id="gui.customProcedures.addAnInputText"
+                            />
+                        </div>
+                        <div className={styles.optionDescription}>
+                            <FormattedMessage
+                                defaultMessage="text"
+                                description="Description of the text input type"
+                                id="gui.customProcedures.TextType"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className={styles.optionCard}
+                        role="button"
+                        tabIndex="0"
+                        onClick={props.onAddBoolean}
+                    >
+                        <img
+                            className={styles.optionIcon}
+                            src={booleanInputIcon}
+                        />
+                        <div className={styles.optionTitle}>
+                            <FormattedMessage
+                                defaultMessage="Add an input"
+                                description="Label for button to add a boolean input"
+                                id="gui.customProcedures.addAnInputBoolean"
+                            />
+                        </div>
+                        <div className={styles.optionDescription}>
+                            <FormattedMessage
+                                defaultMessage="boolean"
+                                description="Description of the boolean input type"
+                                id="gui.customProcedures.booleanType"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className={styles.optionCard}
+                        role="button"
+                        tabIndex="0"
+                        onClick={props.onAddLabel}
+                    >
+                        <img
+                            className={styles.optionIcon}
+                            src={labelIcon}
+                        />
+                        <div className={styles.optionTitle}>
+                            <FormattedMessage
+                                defaultMessage="Add a label"
+                                description="Label for button to add a label"
+                                id="gui.customProcedures.addALabel"
+                            />
+                        </div>
                     </div>
                 </div>
-                <div
-                    className={styles.optionCard}
-                    role="button"
-                    tabIndex="0"
-                    onClick={props.onAddText}
-                >
-                    <img
-                        className={styles.optionIcon}
-                        src={textInputIcon}
-                    />
-                    <div className={styles.optionTitle}>
-                        <FormattedMessage
-                            defaultMessage="Add an input"
-                            description="Label for button to add a text input"
-                            id="gui.customProcedures.addAnInputText"
-                        />
-                    </div>
-                    <div className={styles.optionDescription}>
-                        <FormattedMessage
-                            defaultMessage="text"
-                            description="Description of the text input type"
-                            id="gui.customProcedures.TextType"
-                        />
-                    </div>
-                </div>
-                <div
-                    className={styles.optionCard}
-                    role="button"
-                    tabIndex="0"
-                    onClick={props.onAddBoolean}
-                >
-                    <img
-                        className={styles.optionIcon}
-                        src={booleanInputIcon}
-                    />
-                    <div className={styles.optionTitle}>
-                        <FormattedMessage
-                            defaultMessage="Add an input"
-                            description="Label for button to add a boolean input"
-                            id="gui.customProcedures.addAnInputBoolean"
-                        />
-                    </div>
-                    <div className={styles.optionDescription}>
-                        <FormattedMessage
-                            defaultMessage="boolean"
-                            description="Description of the boolean input type"
-                            id="gui.customProcedures.booleanType"
-                        />
-                    </div>
-                </div>
-                <div
-                    className={styles.optionCard}
-                    role="button"
-                    tabIndex="0"
-                    onClick={props.onAddLabel}
-                >
-                    <img
-                        className={styles.optionIcon}
-                        src={labelIcon}
-                    />
-                    <div className={styles.optionTitle}>
-                        <FormattedMessage
-                            defaultMessage="Add a label"
-                            description="Label for button to add a label"
-                            id="gui.customProcedures.addALabel"
-                        />
-                    </div>
-                </div>
-            </div>
+            }
             {/* <div className={styles.checkboxRow}>
                 <label>
                     <input

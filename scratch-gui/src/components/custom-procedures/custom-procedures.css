@@ -2,8 +2,13 @@
 @import "../../css/units.css";
 
 .modal-content {
+    /* margin: 50px auto; */
     width: 700px;
-    margin: 50px auto; /* This modal is taller than most, reduce top margin */
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
 }
 
 .body {
@@ -22,7 +27,7 @@
     position: relative;
 }
 
-.workspace :global(.injectionDiv){
+.workspace :global(.injectionDiv) {
     position: absolute;
     top: 0;
     right: 0;
