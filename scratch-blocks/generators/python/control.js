@@ -40,9 +40,9 @@ Blockly.Python['control_repeat'] = function(block) {
   if (branch) {
     code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
+    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
   }
-  return code;
+  return code + Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
 };
 
 Blockly.Python['control_forever'] = function(block) {
@@ -53,7 +53,7 @@ Blockly.Python['control_forever'] = function(block) {
   if (branch) {
     code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
+    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
   }
 
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
@@ -61,7 +61,7 @@ Blockly.Python['control_forever'] = function(block) {
     code += Blockly.Python.INDENT + "repeat()\n";
   }
 
-  return code;
+  return code + Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
 };
 
 Blockly.Python['control_if'] = function(block) {
@@ -106,8 +106,8 @@ Blockly.Python['control_wait_until'] = function(block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
     Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
   
-  let code = "while " + argument + ":\n";
-  code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
+  let code = "while not " + argument + ":\n";
+  code += Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n"
 
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
     code += Blockly.Python.INDENT + "repeat()\n";
@@ -123,17 +123,17 @@ Blockly.Python['control_repeat_until'] = function(block) {
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
-  let code = "while " + argument + ":\n";
+  let code = "while not (" + argument + "):\n";
   if (branch) {
     code += Blockly.Python.addIndent(branch);
   } else {
-    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
+    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
   }
   
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
     code += Blockly.Python.INDENT + "repeat()\n";
   }
-  return code;
+  return code + Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
 };
 
 Blockly.Python['control_break'] = function (block) {

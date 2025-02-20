@@ -154,7 +154,7 @@ Blockly.Python.init = function (workspace) {
  */
 Blockly.Python.finish = function (code) {
   // Convert the imports dictionary into a list.
-  var imports = [];
+  var imports = [`MyOSysTem = APIOSTimer.osTimer()\n`];
   for (var name in Blockly.Python.imports_) {
     imports.push(Blockly.Python.imports_[name]);
   }
@@ -194,6 +194,12 @@ Blockly.Python.finish = function (code) {
   if (imports.length !== 0) {
     ret += imports.join('\n') + "\n\n";
   }
+
+  // setups
+  if (setups.length !== 0) {
+    ret += setups.join('\n') + "\n\n";
+  }
+
   // custom function definitions
   if (customFunctions.length !== 0) {
     ret += customFunctions.join('\n') + "\n";
@@ -217,10 +223,6 @@ Blockly.Python.finish = function (code) {
     ret += tasks.join('\n') + "\n\n";
   }
 
-  // setups
-  if (setups.length !== 0) {
-    ret += setups.join('\n') + "\n\n";
-  }
 
 
 
@@ -237,7 +239,7 @@ Blockly.Python.finish = function (code) {
       }
     })
 
-    let whileEnd = `MyOSysTem = APIOSTimer.osTimer()\n` + `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
+    let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' + 'MyOSysTem.KillThisTask()';
   } else {
