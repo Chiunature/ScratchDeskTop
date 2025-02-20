@@ -163,8 +163,6 @@ class GUI extends React.Component {
             callback: async (event, arg) => {
                 this.props.onSetSourceCompleted(false);
                 this.props.onShowCompletedAlert(arg.msg);
-                await window.myAPI.sleep(1000);
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.RESTART });
             },
         });
     }
