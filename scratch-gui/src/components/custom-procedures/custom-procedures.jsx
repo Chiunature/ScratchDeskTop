@@ -124,7 +124,7 @@ const CustomProcedures = props => (
                     </div>
                 </div>
             </div>
-            <div className={styles.checkboxRow}>
+            {/* <div className={styles.checkboxRow}>
                 <label>
                     <input
                         checked={props.warp}
@@ -137,7 +137,7 @@ const CustomProcedures = props => (
                         id="gui.customProcedures.runWithoutScreenRefresh"
                     />
                 </label>
-            </div>
+            </div> */}
             <Box className={styles.buttonRow}>
                 <button
                     className={styles.cancelButton}
