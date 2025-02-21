@@ -78,7 +78,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 2:
                 return item.color;
             case 3:
-                return { ultrasion: item.ultrasion };
+                return item.ultrasion;
             case 4:
                 return item.touch;
             case 7:
