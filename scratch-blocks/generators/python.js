@@ -528,15 +528,15 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.TOUCH_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyTouch = APITouch.touch()';
+        Blockly.Python.setups_[type] = 'MyTouch = APITouch.Touch()';
       }
       result = 'MyTouch.' + result;
       break;
     case Blockly.Python.KEY_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyRemodet = APIKey.Key()';
+        Blockly.Python.setups_[type] = 'MyRemote = APIKey.Key()';
       }
-      result = 'MyRemodet.' + result;
+      result = 'MyRemote.' + result;
       break;
     case Blockly.Python.GRAY_TYPE:
       if (!Blockly.Python.setups_[type]) {

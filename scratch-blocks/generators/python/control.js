@@ -106,7 +106,7 @@ Blockly.Python['control_wait_until'] = function(block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
     Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
   
-  let code = "while not " + argument + ":\n";
+  let code = "while not (" + argument + "):\n";
   code += Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n"
 
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
