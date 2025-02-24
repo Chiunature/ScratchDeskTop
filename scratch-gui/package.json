@@ -200,6 +200,10 @@
                 "to": "./zadig.exe"
             },
             {
+                "from": "./resources/ByteCode",
+                "to": "./ByteCode"
+            },
+            {
                 "from": "build",
                 "to": "app.asar.unpacked"
             },

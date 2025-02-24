@@ -113,12 +113,12 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.EXE.FILES,
             callback: (event, arg) => {
-                const list = arg.split('/').filter(item => /(\.py|\.bin)/.test(item));
+                const list = arg.split('/').filter(item => /(\.py|\.bin|\.o)/.test(item));
                 const exeList = list.map((el, index) => {
                     const current = el.indexOf('.');
                     return {
                         path: el,
-                        name: el.replace(/(\.py|\.bin)/, ''),
+                        name: el.replace(/(\.py|\.bin|\.o)/, ''),
                         num: el.slice(0, current),
                         checked: index === 0,
                         index
@@ -295,31 +295,38 @@ class GUI extends React.Component {
 
 
     async onClickUploadCode() {
-        const selItem = await window.myAPI.getStoreValue('selItem');
-        const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
-        const verifyType = verifyTypeConfig.BOOTBIN;
-        switch (this.props.generatorName) {
-            case CAKE:
-                this.compile.sendSerial({
-                    verifyType,
-                    selectedExe,
-                    bufferList: this.props.bufferList,
-                    myBlockList: this.props.matchMyBlock,
-                    msgTaskBlockList: this.props.msgTaskBlock,
-                    soundsList: this.props.soundslist,
-                    codeType: this.props.generatorName
-                });
-                break;
-            case PYTHON:
-                await handleUploadPython({
-                    verifyType,
-                    selectedExe,
-                    codeStr: this.props.code,
-                    codeType: this.props.generatorName
-                });
-                break;
-            default:
-                break;
+        try {
+            const selItem = await window.myAPI.getStoreValue('selItem');
+            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+            const verifyType = verifyTypeConfig.BOOTBIN;
+            switch (this.props.generatorName) {
+                case CAKE:
+                    this.compile.sendSerial({
+                        verifyType,
+                        selectedExe,
+                        bufferList: this.props.bufferList,
+                        myBlockList: this.props.matchMyBlock,
+                        msgTaskBlockList: this.props.msgTaskBlock,
+                        soundsList: this.props.soundslist,
+                        codeType: this.props.generatorName
+                    });
+                    break;
+                case PYTHON:
+                    await handleUploadPython({
+                        verifyType,
+                        selectedExe,
+                        codeStr: this.props.code,
+                        codeType: this.props.generatorName
+                    });
+                    break;
+                default:
+                    break;
+            }
+        } catch (error) {
+            this.props.onShowCompletedAlert("uploadError");
+            this.props.onSetCompleted(false);
+            this.props.onSetSourceCompleted(false);
+            sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
         }
     }
 
@@ -358,7 +365,7 @@ class GUI extends React.Component {
 
             sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
-            window.myAPI.handlerError(error, spath);
+            window.myAPI.handlerError(error);
         }
     }
 

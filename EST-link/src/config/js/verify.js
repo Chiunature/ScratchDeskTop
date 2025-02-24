@@ -86,7 +86,7 @@ function getResultByCodeType(options, codeOptions) {
             return [
                 {
                     verifyType: BOOTBIN,
-                    fileName: `${selectedExe.num}.py`,
+                    fileName: `${selectedExe.num}.o`,
                     fileData: options.codeStr
                 }
             ]

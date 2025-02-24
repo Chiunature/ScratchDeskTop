@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const { spawn, exec } = require("child_process");
+const { execFile, exec } = require("child_process");
 const { cwd } = require("process");
 const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
@@ -179,27 +179,27 @@ function deleteFiles(link, resourcePath = cwd()) {
  * 调用编译命令
  * @returns
  */
-function commendMake(cpath = cwd()) {
-    const cpuCount = os.cpus();
-    const absolutePathToLbsMake = path.join(cpath, DIR, 'lbs_make');
+function commendMake() {
     return new Promise((resolve, reject) => {
-        let errStr = '';
-        const progress = spawn(absolutePathToLbsMake, [`-j${cpuCount && cpuCount.length > 0 ? cpuCount.length : 4}`, '-C', './LB_USER'], { cwd: path.join(cpath, DIR) });
-        progress.stderr.on('data', (err) => {
-            errStr += err.toString();
-        });
+        const pathCWD = cwd();
+        const process = execFile(path.join(pathCWD, DIR, "rust-msc-latest-win10.exe"), [], { cwd: path.join(pathCWD, DIR) });
 
-        progress.on('error', (err) => {
+        /* let errStr = '';
+        process.stderr.on('data', (err) => {
+            errStr += err.toString();
+        }); */
+
+        process.on('error', (err) => {
             if (err) {
                 reject(err.message);
             }
         })
 
-        progress.on('close', (code, signal) => {
+        process.on('close', (code) => {
             if (code === 0) {
                 resolve(true);
             } else {
-                reject(errStr);
+                reject(false);
             }
         });
     });
