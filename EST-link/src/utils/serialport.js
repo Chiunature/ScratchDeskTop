@@ -287,14 +287,12 @@ class Serialport extends Common {
         if (this.port && this.port.isOpen) {
             this.port.flush();
         }
-        if (this.verifyType && this.verifyType.indexOf(SOURCE) === -1) {
-            this.sign = null;
-        }
         this.chunkBuffer.splice(0, this.chunkBuffer.length);
         this.receiveData.splice(0, this.receiveData.length);
         clearTimeout(this.checkConnectTimer);
         this.checkConnectTimer = null;
         this.receiveObj = null;
+        this.sign = null;
     }
 
     /**
@@ -464,11 +462,11 @@ class Serialport extends Common {
             this.clearCache();
 
             //检测是那种类型的文件发送完毕
-            if (this.verifyType === BOOTBIN) {
+            if (this.verifyType.includes(BOOTBIN)) {
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
             }
 
-            if (this.verifyType.indexOf(SOURCE) !== -1) {
+            if (this.verifyType.includes(SOURCE)) {
                 if (this.sourceFiles.length > 0) {
                     this.uploadingFile = this.sourceFiles.shift();
                     this.upload({
