@@ -4,6 +4,10 @@ export async function handleUploadPython(options) {
     return new Promise(async (resolve, reject) => {
         const { verifyType, selectedExe, codeStr, codeType } = options;
 
+        if (!selectedExe) {
+            reject(false);
+        }
+
         const pyPath = `${DIR}/${selectedExe.num}.py`;
         await window.myAPI.writeFiles(pyPath, codeStr);
 
@@ -18,7 +22,7 @@ export async function handleUploadPython(options) {
                 const result = await window.myAPI.readFiles(pyoPath, '', {});
                 // window.myAPI.changeFileName(pyoPath, OPath);
 
-                if (selectedExe && result) {
+                if (result) {
                     window.myAPI.ipcRender({
                         sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                         sendParams: {
