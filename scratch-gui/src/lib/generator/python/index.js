@@ -5,24 +5,10 @@ export async function handleUploadPython(options) {
         const { verifyType, selectedExe, codeStr, codeType } = options;
 
         const pyPath = `${DIR}/${selectedExe.num}.py`;
-        // const isExists = await window.myAPI.FileIsExists(pyPath);
-        
-        /* if (isExists) {
-            window.myAPI.replaceFiles(pyPath, pyPath, codeStr);
-        } else {
-            await window.myAPI.writeFiles(pyPath, codeStr);
-        } */
         await window.myAPI.writeFiles(pyPath, codeStr);
 
         const mainPyStr = `import ${selectedExe.num}`;
         const mainPyPath = `${DIR}/main.py`;
-        // const isMainPyExists = await window.myAPI.FileIsExists(mainPyPath);
-
-        /* if (isMainPyExists) {
-            window.myAPI.replaceFiles(mainPyPath, mainPyPath, mainPyStr);
-        } else {
-            await window.myAPI.writeFiles(mainPyPath, mainPyStr);
-        } */
         await window.myAPI.writeFiles(mainPyPath, mainPyStr);
 
         window.myAPI.commendMake().then(async (res) => {
@@ -51,8 +37,8 @@ export async function handleUploadPython(options) {
     })
 }
 
-function stringToArrayBuffer(str) {
+/* function stringToArrayBuffer(str) {
     const encoder = new TextEncoder();
     const res = encoder.encode(str);
     return res.buffer;
-}
+} */
