@@ -509,8 +509,6 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
         </block>
         ${blockSeparator}
-        <block type="sensing_mainIsPress"></block>
-        ${blockSeparator}
     */}
 const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
     /* const name = ScratchBlocks.ScratchMsgs.translate(
@@ -610,6 +608,8 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             <block type="sensing_isHandling"></block>
             ${blockSeparator}
             <block type="sensing_Handling"></block>
+            ${blockSeparator}
+            <block type="sensing_mainIsPress"></block>
             ${categorySeparator}
             <block type="sensing_gyroscope_angle"></block>
             ${blockSeparator}

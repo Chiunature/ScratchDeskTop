@@ -28704,7 +28704,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   "COMBINED_MOTOR_PWM": "%1 组合电机设置电机的PWM值为 %2 和 %3",
   "MOTOR_STARTWITHPOWER": "%1 电机 %2 以 %3 %% 的功率启动",
   "ANGLE_MOTOR": '%1 电机 %2 角度',
-  "MOTOR_POSITION": '%1 电机 %2 编码器值',
+  "MOTOR_POSITION": '%1 电机 %2 位置',
   "RATE_MOTOR": "%1 电机 %2 速度",
   "MOTOR_SETSTILL": "%1 将 %2 保持系数增加为 P %3 I %4 D %5",
   "MOTOR_RESET_OPERATING_DEGREE": "%1 重置电机 %2 运转度数",

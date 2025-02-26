@@ -153,6 +153,14 @@ Blockly.Python['sensing_key_judgment'] = function (block) {
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python['sensing_mainIsPress'] = function (block) {
+    const keys = block.getFieldValue('KEYS');
+    const btn = block.getFieldValue('BUTTON');
+    // TODO: Assemble Python into code variable.
+    const code = Blockly.Python.handleResult(`Sensing_key_judment("${keys}", "${btn}")`, Blockly.Python.TOUCH_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python['sensing_key_press'] = function (block) {
     const port = block.getFieldValue('PORT');
     const status = block.getFieldValue('status');
@@ -165,7 +173,7 @@ Blockly.Python['sensing_isHandling'] = function (block) {
     const keys = block.getFieldValue('KEYS');
     const button = block.getFieldValue('BUTTON');
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`isHandling("${keys}", "${button}")`, Blockly.Python.KEY_TYPE);
+    const code = Blockly.Python.handleResult(`isHandling("${button}", "${keys}")`, Blockly.Python.KEY_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -173,7 +181,7 @@ Blockly.Python['sensing_Handling'] = function (block) {
     const keys = block.getFieldValue('KEYS');
     const button = block.getFieldValue('BUTTON');
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`Handling("${keys}", "${button}")`, Blockly.Python.KEY_TYPE);
+    const code = Blockly.Python.handleResult(`Handling("${button}", "${keys}")`, Blockly.Python.KEY_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
