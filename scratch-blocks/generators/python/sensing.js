@@ -157,7 +157,7 @@ Blockly.Python['sensing_mainIsPress'] = function (block) {
     const keys = block.getFieldValue('KEYS');
     const btn = block.getFieldValue('BUTTON');
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`Sensing_key_judment("${keys}", "${btn}")`, Blockly.Python.TOUCH_TYPE);
+    const code = Blockly.Python.handleResult(`Sensing_key_judment("${keys}", ${btn})`, Blockly.Python.TOUCH_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
