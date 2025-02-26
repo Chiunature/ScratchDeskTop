@@ -683,8 +683,8 @@ Blockly.Blocks['sensing_mainIsPress'] = {
           "type": "field_dropdown",
           "name": "BUTTON",
           "options": [
-            [Blockly.Msg.PRESS, 1],
-            [Blockly.Msg.UNPRESS, 0],
+            [Blockly.Msg.PRESS, "1"],
+            [Blockly.Msg.UNPRESS, "0"],
           ]
         },
       ],
