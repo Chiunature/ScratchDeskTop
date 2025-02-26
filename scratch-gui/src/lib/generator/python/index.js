@@ -11,14 +11,11 @@ export async function handleUploadPython(options) {
         const pyPath = `${DIR}/${selectedExe.num}.py`;
         await window.myAPI.writeFiles(pyPath, codeStr);
 
-        const mainPyStr = `import ${selectedExe.num}`;
-        const mainPyPath = `${DIR}/main.py`;
-        await window.myAPI.writeFiles(mainPyPath, mainPyStr);
 
         window.myAPI.commendMake().then(async (res) => {
             if (res) {
                 // const OPath = `${DIR}/pikascript-api/${selectedExe.num}.o`;
-                const pyoPath = `${DIR}/pikascript-api/${selectedExe.num}.py.o`;
+                const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
                 const result = await window.myAPI.readFiles(pyoPath, '', {});
                 // window.myAPI.changeFileName(pyoPath, OPath);
 
@@ -37,6 +34,8 @@ export async function handleUploadPython(options) {
             } else {
                 reject(false);
             }
+        }).catch((e) => {
+            reject(false);
         })
     })
 }

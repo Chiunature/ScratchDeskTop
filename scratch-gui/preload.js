@@ -182,7 +182,7 @@ function deleteFiles(link, resourcePath = cwd()) {
 function commendMake() {
     return new Promise((resolve, reject) => {
         const pathCWD = cwd();
-        const process = execFile(path.join(pathCWD, DIR, "rust-msc-latest-win10.exe"), [], { cwd: path.join(pathCWD, DIR) });
+        const process = execFile(path.join(pathCWD, DIR, "ByteCode.exe"), [], { cwd: path.join(pathCWD, DIR) });
 
         /* let errStr = '';
         process.stderr.on('data', (err) => {

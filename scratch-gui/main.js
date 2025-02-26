@@ -23,19 +23,19 @@
  * @author avenger-jxc
  */
 const serialport = require("serialport");
-const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const fs = require("fs");
 const noble = require("@abandonware/noble");
-const { cwd } = require("process");
 const { exec } = require("child_process");
 const { Serialport, Bluetooth, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 const { showLoading } = require("./loadWin.js");
 const watchLaunchFromATC = require("./scripts/watchLaunchFromATC.js");
 const getRandomString = require("./scripts/getRandomString.js");
+
+const electron = require("electron");
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
 
 //设置通知标题上面的 英文 electron.app.Electron 
 const pg = require("./package.json");
@@ -44,7 +44,7 @@ app.setAppUserModelId(pg.description);
 const Store = require("electron-store");
 Store.initRenderer();
 
-const logger = require("electron-log");
+/* const logger = require("electron-log");
 logger.transports.file.maxSize = 1002430;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
 let date = new Date();
@@ -52,7 +52,7 @@ date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 //需要保存的了路径
 logger.transports.file.resolvePathFn = () => cwd() + '\\Logs\\' + date + '.log';
 //全局的console.info写进日志文件
-console.info = logger.info || logger.warn;
+console.info = logger.info || logger.warn; */
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
@@ -144,7 +144,7 @@ function handleChildProcess() {
             const result = await _onmessage();
             return result;
         } catch (error) {
-            console.info(error);
+            // console.info(error);
         }
     })
     function _onmessage() {
@@ -160,13 +160,13 @@ function handleChildProcess() {
     port2.start();
 }
 
-function openBle() {
+/* function openBle() {
     const ble = new Bluetooth({ noble, ...pack });
     ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
         ble.scanning(event, open);
         ble.linkBle();
     });
-}
+} */
 
 function openSerialPort() {
     const sp = new Serialport({ serialport, ...pack });
@@ -203,7 +203,7 @@ function openPDFWindow() {
     });
 }
 
-function createWindow() {
+function createWindow(loadingWindow) {
     const options = {
         sandbox: false,
         nativeWindowOpen: true,
@@ -235,6 +235,7 @@ function createWindow() {
 
     mainWindow.once("ready-to-show", () => {
         mainWindow.show();
+        loadingWindow.close();
         if (app.isPackaged) {
             watchLaunchFromATC(mainWindow, ipc.SEND_OR_ON.LAUCHFROMATC);
             // 启用硬件加速
@@ -316,7 +317,7 @@ function createWindow() {
         if (response === 0) {
             return false;
         } else {
-            exec(`cd ./resources && zadig.exe`);
+            exec(path.join(app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath(), `resources/zadig.exe`));
             return true;
         }
     }

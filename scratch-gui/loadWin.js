@@ -21,9 +21,7 @@ async function showLoading(mainWin) {
     });
 
     loadingWindow.once("show", () => {
-        loadingWindow.hide();
-        mainWin();
-        loadingWindow.close();
+        mainWin(loadingWindow);
     });
 
     if (app.isPackaged) {
@@ -35,48 +33,46 @@ async function showLoading(mainWin) {
     // const progressFunc = (loaded, total) => loadingWindow.webContents.send(ipc.LOAD_PROGRESS, Math.floor(loaded / total * 100));
     // const resourcesPath = app.isPackaged ? process.resourcesPath : path.join(app.getAppPath(), "resources");
 
-    /*  loadingWindow.webContents.on("did-finish-load", () => {
+    loadingWindow.webContents.on("did-finish-load", () => {
+        loadingWindow.show();
+        /*loadingWindow.webContents.send(ipc.UPDATE, "检查更新中......");
  
-         loadingWindow.webContents.send(ipc.UPDATE, "检查更新中......");
+        fs.readFile(path.join(resourcesPath, "./scripts/hotVersion.json"), "utf8", async (err, data) => {
+            if (err) {
+                return;
+            } else {
+                try {
+                    //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
+                    const nowRes = JSON.parse(data);
+                    const response = await fetch("https://zsff.drluck.club/ATC/hotVersion.json");
+                    const newRes = await response.json();
  
-         fs.readFile(path.join(resourcesPath, "./scripts/hotVersion.json"), "utf8", async (err, data) => {
-             if (err) {
-                 return;
-             } else {
-                 try {
-                     //记录本地的版本号，因为我们需要比对本地版本号和线上是否相同再触发更新
-                     const nowRes = JSON.parse(data);
-                     const response = await fetch("https://zsff.drluck.club/ATC/hotVersion.json");
-                     const newRes = await response.json();
+                    await compare(nowRes.lb_version, newRes.lb_version, {
+                        requestUrl: "https://zsff.drluck.club/ATC/LB_FWLIB.zip",
+                        targetPath: path.join(resourcesPath, "./LB_FWLIB.zip"),
+                        oldPath: path.join(resourcesPath, "./LB_FWLIB"),
+                        callback: progressFunc,
+                        type: "lb_version",
+                        newResult: newRes
+                    })
  
-                     await compare(nowRes.lb_version, newRes.lb_version, {
-                         requestUrl: "https://zsff.drluck.club/ATC/LB_FWLIB.zip",
-                         targetPath: path.join(resourcesPath, "./LB_FWLIB.zip"),
-                         oldPath: path.join(resourcesPath, "./LB_FWLIB"),
-                         callback: progressFunc,
-                         type: "lb_version",
-                         newResult: newRes
-                     })
- 
-                     await compare(nowRes.atc_version, newRes.atc_version, {
-                         requestUrl: "https://zsff.drluck.club/ATC/unpacked.zip",
-                         targetPath: path.join(resourcesPath, "./unpacked.zip"),
-                         oldPath: path.join(resourcesPath, "./app.asar.unpacked"),
-                         callback: progressFunc,
-                         type: "atc_version",
-                         newResult: newRes
-                     })
-                     loadingWindow.webContents.send(ipc.UPDATE, "加载中......");
-                 } catch (error) {
-                     loadingWindow.webContents.send(ipc.UPDATE, "无法联网检查更新或出现其它问题，请检查网络连接后重试");
-                 }finally {
-                     loadingWindow.show();
-                 }
-             }
-         });
-     }); */
-
-    loadingWindow.show();
+                    await compare(nowRes.atc_version, newRes.atc_version, {
+                        requestUrl: "https://zsff.drluck.club/ATC/unpacked.zip",
+                        targetPath: path.join(resourcesPath, "./unpacked.zip"),
+                        oldPath: path.join(resourcesPath, "./app.asar.unpacked"),
+                        callback: progressFunc,
+                        type: "atc_version",
+                        newResult: newRes
+                    })
+                    loadingWindow.webContents.send(ipc.UPDATE, "加载中......");
+                } catch (error) {
+                    loadingWindow.webContents.send(ipc.UPDATE, "无法联网检查更新或出现其它问题，请检查网络连接后重试");
+                }finally {
+                    loadingWindow.show();
+                }
+            }
+        });*/
+    });
 
     /* async function compare(oldVersion, newVersion, options) {
         const { requestUrl, targetPath, oldPath, callback, newResult, type } = options;
