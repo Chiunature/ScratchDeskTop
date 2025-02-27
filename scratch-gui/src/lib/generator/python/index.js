@@ -8,16 +8,15 @@ export async function handleUploadPython(options) {
             reject(false);
         }
 
-        const pyPath = `${DIR}/${selectedExe.num}.py`;
-        await window.myAPI.writeFiles(pyPath, codeStr);
+        try {
+            const pyPath = `${DIR}/${selectedExe.num}.py`;
+            await window.myAPI.writeFiles(pyPath, codeStr);
 
 
-        window.myAPI.commendMake().then(async (res) => {
+            const res = await window.myAPI.commendMake();
             if (res) {
-                // const OPath = `${DIR}/pikascript-api/${selectedExe.num}.o`;
                 const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
                 const result = await window.myAPI.readFiles(pyoPath, '', {});
-                // window.myAPI.changeFileName(pyoPath, OPath);
 
                 if (result) {
                     window.myAPI.ipcRender({
@@ -34,9 +33,10 @@ export async function handleUploadPython(options) {
             } else {
                 reject(false);
             }
-        }).catch((e) => {
+        } catch (error) {
             reject(false);
-        })
+        }
+
     })
 }
 
