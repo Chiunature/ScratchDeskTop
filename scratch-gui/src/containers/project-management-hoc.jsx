@@ -38,9 +38,11 @@ class ProjectManagementHoc extends React.PureComponent {
             'changeFilesList',
             'preventDefaultEvents',
             'handleScreenAuto',
-            'handleOpen'
+            'handleOpen',
+            'adjustManagement'
         ]);
         this.inp = createRef();
+        this.overlayRef = createRef();
         this.state = {
             fileList: [],
             filterQuery: '',
@@ -50,17 +52,57 @@ class ProjectManagementHoc extends React.PureComponent {
             },
             loading: true
         };
+        this.resizeObserver = null;
         this.mainMsg = getMainMsg(props.intl);
     }
 
     componentDidMount() {
         this.initFileList();
-        this.handleScreenAuto();
-        window.addEventListener('resize', this.handleScreenAuto);
+        // this.handleScreenAuto();
+        // window.addEventListener('resize', this.handleScreenAuto);
+        requestIdleCallback(this.adjustManagement);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleScreenAuto);
+        if (this.overlayRef && this.resizeObserver) {
+            this.resizeObserver.unobserve(this.overlayRef);
+            this.resizeObserver.disconnect();
+        }
+        // window.removeEventListener('resize', this.handleScreenAuto);
+    }
+
+    adjustManagement() {
+        if (this.overlayRef) {
+            const designDraftWidth = document.documentElement.clientWidth;
+            const designDraftHeight = document.documentElement.clientHeight;
+            this.resizeObserver = new ResizeObserver(entries => {
+                for (let entry of entries) {
+                    const { width, height } = entry.contentRect
+                    const scale = width / height < designDraftWidth / designDraftHeight ? width / designDraftWidth : height / designDraftHeight;
+                    if (scale > 1) {
+                        break;
+                    }
+                    this.setState((state) => ({
+                        content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
+                    }));
+                }
+            })
+            this.resizeObserver.observe(this.overlayRef)
+        }
+    }
+
+    handleScreenAuto() {
+        const designDraftWidth = 1920;
+        const designDraftHeight = 1080;
+        const scale =
+            document.documentElement.clientWidth /
+                document.documentElement.clientHeight <
+                designDraftWidth / designDraftHeight
+                ? document.documentElement.clientWidth / designDraftWidth
+                : document.documentElement.clientHeight / designDraftHeight;
+        this.setState((state) => ({
+            content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
+        }));
     }
 
     async initFileList() {
@@ -291,19 +333,6 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
-    handleScreenAuto() {
-        const designDraftWidth = 1920;
-        const designDraftHeight = 1080;
-        const scale =
-            document.documentElement.clientWidth /
-                document.documentElement.clientHeight <
-                designDraftWidth / designDraftHeight
-                ? document.documentElement.clientWidth / designDraftWidth
-                : document.documentElement.clientHeight / designDraftHeight;
-        this.setState((state) => ({
-            content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
-        }));
-    }
 
     render() {
         return (
@@ -315,6 +344,7 @@ class ProjectManagementHoc extends React.PureComponent {
                 onRequestClose={this.props.onRequestClose}
                 style={{ content: this.state.content }}
                 intl={this.props.intl}
+                overlayRef={(e) => this.overlayRef = e}
             >
                 <Box className={styles.body}>
                     <ProjectManagement

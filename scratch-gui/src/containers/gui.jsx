@@ -220,7 +220,7 @@ class GUI extends React.Component {
                     this.blocksMotorCheck();
                     sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP && this.handleRunApp();
                     sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING && sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
-                }, { timeout: 500 });
+                });
             }
         });
     }
