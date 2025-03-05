@@ -618,7 +618,7 @@ Blockly.VerticalFlyout.prototype.createCheckbox_ = function (block, cursorX,
     {
       'transform': 'translate(' + width + ', ' + height + ')'
     }, null);
-  Blockly.utils.createSvgElement('rect',
+  /* Blockly.utils.createSvgElement('rect',
     {
       'class': 'blocklyFlyoutCheckbox',
       'height': this.CHECKBOX_SIZE,
@@ -630,7 +630,7 @@ Blockly.VerticalFlyout.prototype.createCheckbox_ = function (block, cursorX,
     {
       'class': 'blocklyFlyoutCheckboxPath',
       'd': this.CHECKMARK_PATH
-    }, checkboxGroup);
+    }, checkboxGroup); */
   Blockly.utils.createSvgElement('rect',
     {
       'class': 'blocklyTouchTargetBackground',

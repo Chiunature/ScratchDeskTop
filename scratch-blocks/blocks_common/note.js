@@ -37,7 +37,7 @@ Blockly.Blocks['note'] = {
    * Block for musical note value.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [
@@ -56,12 +56,36 @@ Blockly.Blocks['note'] = {
   }
 };
 
+Blockly.Blocks['motor_port'] = {
+  /**
+   * Block for musical note value.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_motor",
+          "name": "MOTOR",
+          "motorList": ["A", "B", "C", "D", "E", "F", "G", "H"]
+        }
+      ],
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "colour": Blockly.Colours.pen.primary,
+      "colourSecondary": Blockly.Colours.pen.secondary,
+      "colourTertiary": Blockly.Colours.pen.tertiary,
+      "output": "String",
+    });
+  }
+};
+
 Blockly.Blocks['piano'] = {
   /**
    * Block for musical note value.
    * @this Blockly.Block
    */
-  init: function() {
+  init: function () {
     this.jsonInit({
       "message0": "%1",
       "args0": [

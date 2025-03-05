@@ -40,7 +40,7 @@ import layout, { STAGE_SIZE_MODES } from "../../lib/layout-constants";
 import { resolveStageSize } from "../../lib/screen-utils";
 import { themeMap } from '../../lib/themes';
 import styles from "./gui.css";
-// import addExtensionIcon from "./icon--extensions.svg";
+import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
 // import costumesIcon from "./icon--costumes.svg";
 import soundsIcon from "./icon--sounds.svg";
@@ -64,12 +64,12 @@ const messages = defineMessages({
         id: "gui.menuBar.home",
         description: "Project Management",
         defaultMessage: "Project Management",
-    }
-    // addExtension: {
-    //     id: "gui.gui.addExtension",
-    //     description: "Button to add an extension in the target pane",
-    //     defaultMessage: "Add Extension",
-    // },
+    },
+    addExtension: {
+        id: "gui.gui.addExtension",
+        description: "Button to add an extension in the target pane",
+        defaultMessage: "Add Extension",
+    },
 });
 
 // Cache this value to only retrieve it once the first time.
@@ -466,7 +466,7 @@ const GUIComponent = (props) => {
                                                     setAutoSaveByBlockType={onAutoSaveByBlockType}
                                                 />
                                             </Box>
-                                            {/* <Box
+                                            <Box
                                                 className={
                                                     styles.extensionButtonContainer
                                                 }
@@ -475,9 +475,9 @@ const GUIComponent = (props) => {
                                                     className={
                                                         styles.extensionButton
                                                     }
-                                                    // title={intl.formatMessage(
-                                                    //     messages.addExtension
-                                                    // )}
+                                                    title={intl.formatMessage(
+                                                        messages.addExtension
+                                                    )}
                                                     onClick={
                                                         onExtensionButtonClick
                                                     }
@@ -491,7 +491,7 @@ const GUIComponent = (props) => {
                                                         src={addExtensionIcon}
                                                     />
                                                 </button>
-                                            </Box> */}
+                                            </Box>
                                             {/* <Box className={styles.watermark}>
                                                 <Watermark />
                                             </Box> */}

@@ -888,7 +888,8 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   if (this.iconURI_) {
     this.bubble_ = goog.dom.createDom('div',
         {'class': 'scratchCategoryItemIcon'});
-    this.bubble_.style.backgroundImage = 'url(' + this.iconURI_ + ')';
+    // this.bubble_.style.backgroundImage = 'url(' + this.iconURI_ + ')';
+    this.bubble_.style.backgroundColor = this.colour_;
   } else {
     this.bubble_ = goog.dom.createDom('div',
         {'class': 'scratchCategoryItemBubble'});

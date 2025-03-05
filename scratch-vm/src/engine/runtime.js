@@ -96,6 +96,13 @@ const ArgumentTypeMap = (() => {
             fieldName: 'NOTE'
         }
     };
+
+    map[ArgumentType.MOTOR] = {
+        shadow: {
+            type: 'motor_port',
+            fieldName: 'MOTOR'
+        }
+    };
     map[ArgumentType.IMAGE] = {
         // Inline images are weird because they're not actually "arguments".
         // They are more analagous to the label on a block.

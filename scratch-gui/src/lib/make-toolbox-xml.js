@@ -1202,7 +1202,7 @@ const makeToolboxXML = function (
     const myBlocksXML =
         moveCategory("procedures") ||
         myBlocks({ colors: colors.more });
-    const sensing_cameraXML = moveCategory("sensing_camera") || sensing_camera({ colors: colors.sensing_camera });
+    // const sensing_cameraXML = moveCategory("sensing_camera") || sensing_camera({ colors: colors.sensing_camera });
     const everything = [
         xmlOpen,
         motorXML,
@@ -1219,8 +1219,8 @@ const makeToolboxXML = function (
         gap,
         sensingXML,
         gap,
-        sensing_cameraXML,
-        gap,
+        // sensing_cameraXML,
+        // gap,
         operatorsXML,
         gap,
         variablesXML,
