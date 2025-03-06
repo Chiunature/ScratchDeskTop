@@ -1,6 +1,6 @@
 import { ipc as ipc_Renderer } from 'est-link'
 import { DIR } from '../../../config/json/LB_USER.json'
-export async function handleUploadPython(options) {
+export async function handleUploadPython(options, static_path) {
     return new Promise(async (resolve, reject) => {
         const { verifyType, selectedExe, codeStr, codeType } = options;
 
@@ -13,7 +13,7 @@ export async function handleUploadPython(options) {
             await window.myAPI.writeFiles(pyPath, codeStr);
 
 
-            const res = await window.myAPI.commendMake();
+            const res = await window.myAPI.commendMake(static_path);
             if (res) {
                 const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
                 const result = await window.myAPI.readFiles(pyoPath, '', {});

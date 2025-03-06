@@ -179,9 +179,8 @@ function deleteFiles(link, resourcePath = cwd()) {
  * 调用编译命令
  * @returns
  */
-function commendMake() {
+function commendMake(pathCWD = cwd()) {
     return new Promise((resolve, reject) => {
-        const pathCWD = cwd();
         const process = execFile(path.join(pathCWD, DIR, "ByteCode.exe"), [], { cwd: path.join(pathCWD, DIR) });
 
         /* let errStr = '';

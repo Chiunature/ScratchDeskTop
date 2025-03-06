@@ -299,6 +299,7 @@ class GUI extends React.Component {
             const selItem = await window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
+            const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
             switch (this.props.generatorName) {
                 case CAKE:
                     this.compile.sendSerial({
@@ -317,7 +318,7 @@ class GUI extends React.Component {
                         selectedExe,
                         codeStr: this.props.code,
                         codeType: this.props.generatorName
-                    });
+                    }, static_path);
                     break;
                 default:
                     break;
