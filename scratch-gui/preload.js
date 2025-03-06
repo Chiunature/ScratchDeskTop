@@ -183,21 +183,23 @@ function commendMake(pathCWD = cwd()) {
     return new Promise((resolve, reject) => {
         const process = execFile(path.join(pathCWD, DIR, "ByteCode.exe"), [], { cwd: path.join(pathCWD, DIR) });
 
-        /* let errStr = '';
+        let errStr = '';
         process.stderr.on('data', (err) => {
             errStr += err.toString();
-        }); */
+        });
 
-        process.on('error', (err) => {
+        /* process.on('error', (err) => {
             if (err) {
+                handlerError(err.message, pathCWD);
                 reject(err.message);
             }
-        })
+        }) */
 
         process.on('close', (code) => {
             if (code === 0) {
                 resolve(true);
             } else {
+                handlerError(errStr, pathCWD);
                 reject(false);
             }
         });

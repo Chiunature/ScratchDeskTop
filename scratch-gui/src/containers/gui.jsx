@@ -295,11 +295,11 @@ class GUI extends React.Component {
 
 
     async onClickUploadCode() {
+        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
             const selItem = await window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
-            const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
             switch (this.props.generatorName) {
                 case CAKE:
                     this.compile.sendSerial({
