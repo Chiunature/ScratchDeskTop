@@ -155,6 +155,7 @@ class Blocks extends React.Component {
         if (type === 'move' || type === 'change' || type === 'delete') {
             const code = this.ScratchBlocks[this.props.generatorName].workspaceToCode(this.workspace);
             this.props.getCode(code);
+            this.parserTask(this.workspace, [])
             // const list = this.workspace.getTopBlocks();
             // let newList = list.filter(el => el.startHat_);
             // if (newList.length > 0) {
@@ -282,14 +283,14 @@ class Blocks extends React.Component {
         let list = workspace.getTopBlocks();
         let i = 0, j = 0, que = [], newList = [];
         while (i < list.length) {
-            que.push(arr[i]);
+            arr.length > 0 && que.push(arr[i]);
 
             if (list[i]?.startHat_) {
                 if (i > 0) j++;
                 newList[j] = que.shift();
             }
             if (list[i]) {
-                this.disableAllNoEventsBlocks(list[i], !list[i].startHat_);
+                this.disableAllNoEventsBlocks(list[i], list[i].startHat_);
             }
             i++;
         }
@@ -366,7 +367,7 @@ class Blocks extends React.Component {
         clearTimeout(this.toolboxUpdateTimeout);
     }
     requestToolboxUpdate() {
-        requestIdleCallback(this.updateToolbox.bind(this), { timeout: 500 });
+        requestIdleCallback(this.updateToolbox.bind(this));
         /* clearTimeout(this.toolboxUpdateTimeout);
         this.toolboxUpdateTimeout = setTimeout(() => {
             this.updateToolbox();
@@ -422,8 +423,10 @@ class Blocks extends React.Component {
 
     attachVM() {
         this.workspace.addChangeListener((event) => {
-            this.workspaceToCode(event.type);
-            this.props.vm.blockListener(event);
+            requestIdleCallback(() => {
+                this.workspaceToCode(event.type);
+                this.props.vm.blockListener(event);
+            })
         });
         this.flyoutWorkspace = this.workspace
             .getFlyout()
