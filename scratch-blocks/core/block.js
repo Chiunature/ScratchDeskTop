@@ -863,7 +863,7 @@ Blockly.Block.prototype.makeColour_ = function (colour) {
   } else if (goog.isString(colour) && colour.match(/^#[0-9a-fA-F]{6}$/)) {
     return colour;
   } else {
-    throw 'Invalid colour: ' + colour;
+    return colour;
   }
 };
 

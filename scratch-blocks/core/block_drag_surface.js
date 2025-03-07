@@ -278,12 +278,13 @@ Blockly.BlockDragSurfaceSvg.prototype.getCurrentBlock = function() {
  *     to, or null if the blocks should be removed from this surface without
  *     being moved to a different surface.
  */
-Blockly.BlockDragSurfaceSvg.prototype.clearAndHide = function(opt_newSurface) {
+Blockly.BlockDragSurfaceSvg.prototype.clearAndHide = function (opt_newSurface) {
+  const child = this.getCurrentBlock();
   if (opt_newSurface) {
     // appendChild removes the node from this.dragGroup_
-    opt_newSurface.appendChild(this.getCurrentBlock());
+    child && opt_newSurface.appendChild(child);
   } else {
-    this.dragGroup_.removeChild(this.getCurrentBlock());
+    child && this.dragGroup_.removeChild(child);
   }
   this.SVG_.style.display = 'none';
   goog.asserts.assert(
