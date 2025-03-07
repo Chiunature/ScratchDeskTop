@@ -300,13 +300,13 @@ class Blocks extends React.Component {
     }
 
     disableAllNoEventsBlocks(element, disable) {
-        element.setEnabled(disable);
+        element.setDisabled(!disable);
         const children = element.childBlocks_;
         if (children.length === 0) return;
         for (let i = 0; i < children.length; i++) {
             const item = children[i];
             if (item.isShadow_) continue;
-            item.setEnabled(disable);
+            item.setDisabled(!disable);
             this.disableAllNoEventsBlocks(item, disable);
         }
     }

@@ -799,8 +799,8 @@ Blockly.Block.prototype.setTooltip = function (newTip) {
  * @return {string} #RRGGBB string.
  */
 Blockly.Block.prototype.getColour = function () {
-  return this.isEnabled() ? this.colour_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
-  // return this.colour_;
+  // return this.isEnabled() ? this.colour_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
+  return this.colour_;
 };
 
 /**
@@ -808,8 +808,8 @@ Blockly.Block.prototype.getColour = function () {
  * @return {string} #RRGGBB string.
  */
 Blockly.Block.prototype.getColourSecondary = function () {
-  return this.isEnabled() ? this.colourSecondary_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
-  // return this.colourSecondary_;
+  // return this.isEnabled() ? this.colourSecondary_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
+  return this.colourSecondary_;
 };
 
 /**
@@ -817,8 +817,8 @@ Blockly.Block.prototype.getColourSecondary = function () {
  * @return {string} #RRGGBB string.
  */
 Blockly.Block.prototype.getColourTertiary = function () {
-  return this.isEnabled() ? this.colourTertiary_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
-  // return this.colourTertiary_;
+  // return this.isEnabled() ? this.colourTertiary_ : 'url(#' + this.workspace.options.disabledPatternId + ')';
+  return this.colourTertiary_;
 };
 
 /**
@@ -1171,7 +1171,7 @@ Blockly.Block.prototype.isEnabled = function () {
  * @param {boolean} enabled True if enabled.
  */
 Blockly.Block.prototype.setEnabled = function (enabled) {
-  // this.setEditable(enabled);
+  this.setEditable(enabled);
   if (this.isEnabled() != enabled) {
     Blockly.Events.fire(new Blockly.Events.BlockChange(
       this, 'disabled', null, this.disabled, !enabled));
