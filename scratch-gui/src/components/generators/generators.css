@@ -149,6 +149,7 @@
 
 :global(.decorationsOverviewRuler),
 :global(.invisible.scrollbar.vertical),
-:global(.invisible.scrollbar.vertical.fade) {
+:global(.invisible.scrollbar.vertical.fade),
+:global(.visible.scrollbar.vertical) {
     display: none !important;
 }
