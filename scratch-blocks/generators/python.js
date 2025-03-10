@@ -126,6 +126,7 @@ Blockly.Python.init = function (workspace) {
   Blockly.Python.loops_ = Object.create(null);
 
   Blockly.Python.tasks_ = Object.create(null);
+  Blockly.Python.definitions_ = Object.create(null);
 
   if (!Blockly.Python.variableDB_) {
     Blockly.Python.variableDB_ =
@@ -295,11 +296,22 @@ Blockly.Python.splitCodeByTask = function (code) {
     result = result +
       `\ndef ${task[i]}():\n` +
       `${Blockly.Python.INDENT}  global ${task[i]}_finished\n` +
+      Blockly.Python.addDefineition() +
       `${Blockly.Python.addIndent(item)}` +
       `${Blockly.Python.INDENT + Blockly.Python.INDENT}${task[i]}_finished = True\n`;
   }
 
   return result;
+}
+
+Blockly.Python.addDefineition = function () {
+  let str = '';
+
+  Object.keys(Blockly.Python.definitions_).forEach(el => {
+    str += `${Blockly.Python.INDENT}${Blockly.Python.definitions_[el]}\n`
+  })
+
+  return str;
 }
 
 /**
@@ -576,4 +588,11 @@ Blockly.Python.addIndent = function (code) {
     }
     return item;
   }).join('\n');
+}
+
+Blockly.Python.checkVar = function (varName) {
+  if (!Blockly.Python.definitions_['defineVariable_' + varName]) {
+    Blockly.Python.definitions_['defineVariable_' + varName] = `${Blockly.Python.INDENT}global ${varName}`;
+  }
+  return varName;
 }
