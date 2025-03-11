@@ -770,11 +770,10 @@ Blockly.Blocks['sensing_get_gray_line'] = {
           "type": "field_dropdown",
           "name": "VALUES",
           "options": [
-            ["R1", "R1"],
-            ["R2", "R2"],
-            ["M1", "M1"],
-            ["L1", "L1"],
-            ["L2", "L2"],
+            ["1", "1"],
+            ["2", "2"],
+            ["3", "3"],
+            ["4", "4"],
           ]
         },
       ],
