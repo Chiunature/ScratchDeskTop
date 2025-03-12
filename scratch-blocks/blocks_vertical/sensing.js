@@ -782,3 +782,30 @@ Blockly.Blocks['sensing_get_gray_line'] = {
     });
   }
 };
+
+Blockly.Blocks['sensing_get_gray_lineState'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_get_gray_lineState",
+      "message0": Blockly.Msg.SENSING_GET_GRAY_LINESTATE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "VALUES",
+          "options": [
+            ["1", "1"],
+            ["2", "2"],
+            ["3", "3"],
+            ["4", "4"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+}

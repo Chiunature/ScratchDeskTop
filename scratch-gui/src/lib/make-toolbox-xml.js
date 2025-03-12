@@ -624,6 +624,12 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
+            ${blockSeparator}
+            <block type="sensing_get_gray_lineState">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
             ${categorySeparator}
         </category>
     `;

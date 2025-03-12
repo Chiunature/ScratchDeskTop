@@ -375,6 +375,7 @@ Blockly.Msg.SENSING_COLOR_RANGE = 'Is the color range of port %1 within R %2 ~ %
 Blockly.Msg.SENSING_HSVCOLOR = 'Is the %2 range of port %1 within %3 ~ %4';
 Blockly.Msg.SENSING_REFLECTED_LIGHT_BLACKLINE = '%1 The threshold for detecting black lines is around %2';
 Blockly.Msg.SENSING_GET_GRAY_LINE = '%1 Obtain grayscale sensor values %2';
+Blockly.Msg.SENSING_GET_GRAY_LINESTATE = '%1 Is it Obtain grayscale sensor values %2 ?';
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK = '%1 search for color blocks R %2 G %3 B %4 tolerance %5';
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_STATE = '%1 Get the current search status of the color block';
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK_X = '%1 Obtain the x-coordinate system of the current color block';

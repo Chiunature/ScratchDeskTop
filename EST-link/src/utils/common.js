@@ -362,6 +362,19 @@ class Common {
       } else if (item.gray) {
         item.sensing_device = device[this.deviceIdList[7]];
         item.deviceId = this.deviceIdList[7];
+        const obj = { n: [], b: [], ...item.gray };
+        for (let key in obj) {
+          if (/^\d{1}/.test(key)) {
+            obj['n'].push(` ${key}:${obj[key]} `);
+            delete obj[key];
+          } else if (/b[\d+?]/.test(key)) {
+            obj['b'].push(` ${key}:${obj[key]} `);
+            delete obj[key];
+          }
+        }
+        obj['n'] = obj['n'].join('|');
+        obj['b'] = obj['b'].join('|');
+        item.gray = { ... obj }
       }
     }
 

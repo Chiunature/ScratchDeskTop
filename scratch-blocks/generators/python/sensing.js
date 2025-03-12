@@ -192,6 +192,13 @@ Blockly.Python['sensing_get_gray_line'] = function (block) {
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python['sensing_get_gray_lineState'] = function (block) {
+    const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
+    const value = block.getFieldValue("VALUES");
+    const code = Blockly.Python.handleResult(`line(${port}, "${value}")`, Blockly.Python.GRAY_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python['sensing_timer'] = function (block) {
     // TODO: Assemble Python into code variable.
     const code = Blockly.Python.handleResult(`getTickCount()`, Blockly.Python.TIMER_TYPE);
