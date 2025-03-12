@@ -56,6 +56,7 @@ Blockly.Names = function (reservedWords, opt_variablePrefix) {
  */
 Blockly.Names.DEVELOPER_VARIABLE_TYPE = 'DEVELOPER_VARIABLE';
 Blockly.Names.pingyin_pro = null;
+Blockly.Names.customFuncs = Object.create(null);
 /**
  * When JavaScript (or most other languages) is generated, variable 'foo' and
  * procedure 'foo' would collide.  However, Blockly has no such problems since
@@ -132,6 +133,15 @@ Blockly.Names.prototype.getName = function (name, type) {
     return prefix + this.db_[normalized];
   }
   var safeName = this.getDistinctName(name, type);
+
+  if (type == Blockly.PROCEDURE_CATEGORY_NAME && safeName.includes('_')) {
+     if (!Blockly.Names.customFuncs[safeName]) {
+      Blockly.Names.customFuncs[safeName] = 'customFunc' + Object.keys(Blockly.Names.customFuncs).length;
+    }
+    
+    safeName = Blockly.Names.customFuncs[safeName];
+  }
+
   this.db_[normalized] = safeName.substr(prefix.length);
   return safeName;
 };
