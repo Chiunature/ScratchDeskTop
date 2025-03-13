@@ -699,12 +699,12 @@ Blockly.Block.prototype.setInsertionMarker = function (insertionMarker) {
  * @return {boolean} True if editable.
  */
 Blockly.Block.prototype.isEditable = function () {
-  /* if (this.getSurroundParent()) {
+  if (this.getSurroundParent()) {
     return this.getSurroundParent().isEnabled();
   } else {
     return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
-  } */
-  return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
+  }
+  // return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
 };
 
 /**

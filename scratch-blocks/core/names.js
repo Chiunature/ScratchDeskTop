@@ -132,6 +132,14 @@ Blockly.Names.prototype.getName = function (name, type) {
   if (normalized in this.db_) {
     return prefix + this.db_[normalized];
   }
+
+  for (const key in Blockly.Names.customFuncs) {
+    const v = Blockly.Names.customFuncs[key];
+    if (!Object.values(this.db_).includes(v)) { 
+      delete Blockly.Names.customFuncs[key];
+    }
+  }
+
   var safeName = this.getDistinctName(name, type);
 
   if (type == Blockly.PROCEDURE_CATEGORY_NAME && safeName.includes('_')) {
