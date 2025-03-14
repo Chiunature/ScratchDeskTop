@@ -99,9 +99,7 @@ Blockly.Generator.prototype.workspaceToCode = function(workspace) {
   var blocks = workspace.getTopBlocks(false);
   for (var x = 0, block; block = blocks[x]; x++) {
     var line = this.blockToCode(block);
-    if(line.indexOf('/* Start */') !== -1 && line.indexOf('/* End */') === -1) {
-      line = line + '\n/* End */\n';
-    }
+
     if (goog.isArray(line)) {
       // Value blocks return tuples of code and operator order.
       // Top-level blocks don't care about operator order.
@@ -167,7 +165,7 @@ Blockly.Generator.prototype.allNestedComments = function(block) {
  *     operator order value.  Returns '' if block is null.
  */
 Blockly.Generator.prototype.blockToCode = function(block) {
-  if (!block) {
+  if (!block || !this.check_(block)) {
     return '';
   }
   if (block.disabled) {
@@ -393,7 +391,7 @@ Blockly.Generator.prototype.init = function(_workspace) {
 };
 
 /**
- * Common tasks for generating code from blocks.  This is called from
+ * Common tasks for generating code from blocks. This is called from
  * blockToCode and is called on every block, not just top level blocks.
  * Subclasses may override this, e.g. to generate code for statements following
  * the block, or to handle comments for the specified block and any connected
@@ -406,6 +404,19 @@ Blockly.Generator.prototype.init = function(_workspace) {
 Blockly.Generator.prototype.scrub_ = function(_block, code) {
   // Optionally override
   return code;
+};
+
+/**
+ * Common tasks for generating code from blocks. This is called from
+ * blockToCode and is called on every block, not just top level blocks.
+ * Subclasses may override this, e.g. check whether this block has a
+ * valid connection.
+ * @param {!Blockly.Block} _block The current block.
+ * @return {bool} Wether the block has effective connection.
+ * @private
+ */
+Blockly.Generator.prototype.check_ = function(_block) {
+  return true;
 };
 
 /**

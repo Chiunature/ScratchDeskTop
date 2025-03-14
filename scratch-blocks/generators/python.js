@@ -136,16 +136,23 @@ Blockly.Python.init = function (workspace) {
   }
   Blockly.Python.variableDB_.setVariableMap(workspace.getVariableMap());
 
-  /* var variables = Blockly.Variables.allVariables(workspace);
-  for (var x = 0; x < variables.length; x++) {
-    if (variables[x].type === Blockly.LIST_VARIABLE_TYPE) {
-      Blockly.Python.variables_[x] =
-        Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = []';
-    } else {
-      Blockly.Python.variables_[x] =
-        Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
+  var variables = Blockly.Variables.allVariables(workspace);
+  if (variables) {
+    for (var x = 0; x < variables.length; x++) {
+      /* if (variables[x].type === Blockly.LIST_VARIABLE_TYPE) {
+        Blockly.Python.variables_[x] =
+          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = []';
+      } else {
+        Blockly.Python.variables_[x] =
+          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
+      } */
+      if (variables[x].type !== Blockly.LIST_VARIABLE_TYPE) {
+        Blockly.Python.variables_[x] =
+          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
+      }
     }
-  } */
+  }
+
 };
 
 /**
@@ -196,6 +203,11 @@ Blockly.Python.finish = function (code) {
     ret += imports.join('\n') + "\n\n";
   }
 
+  // variables
+  if (variables.length !== 0) {
+    ret += variables.join('\n') + "\n\n";
+  }
+
   // setups
   if (setups.length !== 0) {
     ret += setups.join('\n') + "\n\n";
@@ -214,17 +226,11 @@ Blockly.Python.finish = function (code) {
     ret += "def repeat():\n" + Blockly.Python.INDENT;
     ret += loops.join('\n' + Blockly.Python.INDENT) + "\n\n";
   }
-  // variables
-  if (variables.length !== 0) {
-    ret += variables.join('\n') + "\n\n";
-  }
 
   // tasks
   if (tasks.length !== 0) {
     ret += tasks.join('\n') + "\n\n";
   }
-
-
 
 
   let str = '', threadStr = '', arr = Object.keys(Blockly.Python.tasks_);
@@ -296,22 +302,11 @@ Blockly.Python.splitCodeByTask = function (code) {
     result = result +
       `\ndef ${task[i]}():\n` +
       `${Blockly.Python.INDENT}  global ${task[i]}_finished\n` +
-      Blockly.Python.addDefineition() +
       `${Blockly.Python.addIndent(item)}` +
       `${Blockly.Python.INDENT + Blockly.Python.INDENT}${task[i]}_finished = True\n`;
   }
 
   return result;
-}
-
-Blockly.Python.addDefineition = function () {
-  let str = '';
-
-  Object.keys(Blockly.Python.definitions_).forEach(el => {
-    str += `${Blockly.Python.INDENT}${Blockly.Python.definitions_[el]}\n`
-  })
-
-  return str;
 }
 
 /**

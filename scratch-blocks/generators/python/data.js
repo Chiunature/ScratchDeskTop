@@ -42,10 +42,7 @@ Blockly.Python['data_setvariableto'] = function(block) {
   if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
     arg0 = parseFloat(arg0.slice(1, -1)).toString();
   }
-  if (!Blockly.Python.setups_[varName]) {
-    Blockly.Python.setups_[varName] = varName + ' = ' + arg0 + '\n';
-  }
-  return '';
+  return varName + ' = ' + arg0 + '\n';
 };
 
 Blockly.Python['data_changevariableby'] = function(block) {
@@ -56,7 +53,7 @@ Blockly.Python['data_changevariableby'] = function(block) {
   if (varName === 'unnamed') {
     return '';
   }
-  Blockly.Python.checkVar(varName);
+
   return varName + ' += ' + arg0 + '\n';
 };
 

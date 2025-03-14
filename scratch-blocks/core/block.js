@@ -699,12 +699,12 @@ Blockly.Block.prototype.setInsertionMarker = function (insertionMarker) {
  * @return {boolean} True if editable.
  */
 Blockly.Block.prototype.isEditable = function () {
-  if (this.getSurroundParent()) {
+  /* if (this.getSurroundParent()) {
     return this.getSurroundParent().isEnabled();
   } else {
     return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
-  }
-  // return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
+  } */
+  return this.editable_ && !(this.workspace && this.workspace.options.readOnly);
 };
 
 /**
@@ -1171,7 +1171,7 @@ Blockly.Block.prototype.isEnabled = function () {
  * @param {boolean} enabled True if enabled.
  */
 Blockly.Block.prototype.setEnabled = function (enabled) {
-  this.setEditable(enabled);
+  // this.setEditable(enabled);
   if (this.isEnabled() != enabled) {
     Blockly.Events.fire(new Blockly.Events.BlockChange(
       this, 'disabled', null, this.disabled, !enabled));

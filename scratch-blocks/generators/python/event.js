@@ -149,8 +149,27 @@ Blockly.Python['event_whenmicrobitgesture'] = function (block) {
 
 Blockly.Python['event_whenflagclicked'] = function (block) {
 
+  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+
   const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
   Blockly.Python.tasks_[task] = `${task}_finished = False`
 
-  return '\n/* Start */\n';
+  var code = '\n/* Start */\n';
+  if (!nextBlock) {
+    code += Blockly.Python.INDENT + "\n";
+  } else {
+    var variablesName = [];
+    for (var x in Blockly.Python.variables_) {
+      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+    }
+    if (variablesName.length !== 0) {
+      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+    }
+
+    code = Blockly.Python.scrub_(block, code);
+  }
+
+  code += '\n/* End */\n';
+
+  return code;
 };
