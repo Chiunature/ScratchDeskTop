@@ -58,7 +58,7 @@ function FilesMenu({
     useEffect(() => {
         const flag = window.myAPI.getStoreValue('autoSave');
         if (checkNullOrUndefined(flag)) {
-            window.myAPI.setStoreValue('autoSave', true);
+            window.myAPI.setStoreValue('autoSave', false);
         } else {
             onOpenAutoSave(flag);
         }
