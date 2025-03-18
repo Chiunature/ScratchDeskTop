@@ -1,5 +1,6 @@
 const defaultsDeep = require('lodash.defaultsdeep');
 var path = require('path');
+var os = require('os');
 var webpack = require('webpack');
 const pkg = require('./package.json');
 // Plugins
@@ -7,9 +8,11 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 // gzip插件
 const CompressionPlugin = require("compression-webpack-plugin");
-
+const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 // PostCss
 var autoprefixer = require('autoprefixer');
 var postcssVars = require('postcss-simple-vars');
@@ -20,7 +23,7 @@ const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 
 const base = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    devtool: 'cheap-module-source-map',
+    devtool: process.env.NODE_ENV === 'production' ? 'hidden-source-map' : 'cheap-module-eval-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
         host: '0.0.0.0',
@@ -39,8 +42,7 @@ const base = {
     },
     module: {
         rules: [{
-            test: /\.jsx?$/,
-            loader: 'babel-loader',
+            test: /\.(js?|jsx?|tsx?|ts?)$/,
             include: [
                 path.resolve(__dirname, 'src'),
                 /node_modules[\\/]scratch-[^\\/]+[\\/]src/,
@@ -48,20 +50,10 @@ const base = {
                 /node_modules[\\/]pify/,
                 /node_modules[\\/]@vernier[\\/]godirect/
             ],
-            options: {
-                // Explicitly disable babelrc so we don't catch various config
-                // in much lower dependencies.
-                babelrc: false,
-                plugins: [
-                    '@babel/plugin-syntax-dynamic-import',
-                    '@babel/plugin-transform-async-to-generator',
-                    '@babel/plugin-proposal-object-rest-spread',
-                    '@babel/plugin-proposal-optional-chaining',
-                    ['react-intl', {
-                        messagesDir: './translations/messages/'
-                    }]],
-                presets: ['@babel/preset-env', '@babel/preset-react']
-            }
+            exclude: path.resolve(__dirname, 'node_modules'),
+            use: {
+                loader: 'happypack/loader?id=happyBabel',
+            },
         },
         {
             test: /\.css$/,
@@ -69,7 +61,7 @@ const base = {
             use: [{
                 loader: 'style-loader'
             }, {
-                loader: 'css-loader',
+                loader: 'css-loader?minimize',
                 options: {
                     modules: true,
                     importLoaders: 1,
@@ -97,13 +89,47 @@ const base = {
         {
             test: /\.css$/,
             include: MONACO_DIR,
-            use: ['style-loader', 'css-loader']
+            use: ['style-loader', 'css-loader?minimize']
         }]
     },
     optimization: {
         minimizer: [
+            new ParallelUglifyPlugin({
+                uglifyJS: {
+                    include: [/\.min\.js$/, /\.js$/],
+                    cacheDir: path.resolve(__dirname, 'cache'),
+                    output: {
+                      // 最紧凑的输出
+                      beautify: false,
+                      // 删除所有的注释
+                      comments: false,
+                    },
+                    compress: {
+                      // 在UglifyJs删除没有用到的代码时不输出警告
+                      warnings: false,
+                      // 删除所有的 `console` 语句，可以兼容ie浏览器
+                      drop_console: true,
+                      // 内嵌定义了但是只用到一次的变量
+                      collapse_vars: true,
+                      // 提取出出现多次但是没有定义成变量去引用的静态值
+                      reduce_vars: true,
+                    }
+                  },
+            }),
             new UglifyJsPlugin({
-                include: /\.min\.js$/
+                include: [/\.min\.js$/, /\.js$/],
+                uglifyOptions: {
+                    compress: {
+                        warnings: false,
+                        drop_console: true,
+                        collapse_vars: true,
+                        reduce_vars: true
+                    },
+                    output: {
+                        beautify: false,
+                        comments: false
+                    }
+                }
             })
         ]
     },
@@ -111,6 +137,26 @@ const base = {
         new MonacoWebpackPlugin({
             languages: ['c', 'cpp', 'python', 'lua', 'javascript'],
             features: ['!gotoSymbol']
+        }),
+        new HappyPack({
+            id: 'happyBabel',
+            loaders: [{
+                loader: 'babel-loader',
+                options: {
+                    babelrc: false,
+                    plugins: [
+                        '@babel/plugin-syntax-dynamic-import',
+                        '@babel/plugin-transform-async-to-generator',
+                        '@babel/plugin-proposal-object-rest-spread',
+                        '@babel/plugin-proposal-optional-chaining',
+                        ['react-intl', {
+                            messagesDir: './translations/messages/'
+                        }]],
+                    presets: ['@babel/preset-env', '@babel/preset-react']
+                }
+            }],
+            threadPool: happyThreadPool,
+            verbose: true,
         })
     ]
 };
