@@ -33,7 +33,6 @@ class Serialport extends Common {
         super(...args);
         this._type = 'serialport';
         this.port = null;
-        this.portIndex = 0;
         this.portList = [];
         this.isConnectedPortList = [];
         this.chunkBuffer = [];
@@ -48,6 +47,7 @@ class Serialport extends Common {
         this.sourceFiles = [];
         this.uploadingFile = null;
         this.receiveData = [];
+        this.currentPort = null;
     }
 
     /**
@@ -62,11 +62,11 @@ class Serialport extends Common {
                 }
                 return pre;
             }, []);
-            for (let i = 0; i < newArr.length; i++) {
-                const item = newArr[i];
+            for (const item of newArr) {
                 !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
             }
-            return { result: this.portList[this.portIndex] ? this.portList[this.portIndex] : null, type: this._type };
+            this.currentPort = this.portList.shift();
+            return { result: this.currentPort ? this.currentPort : null, type: this._type };
         });
     }
 
@@ -129,15 +129,10 @@ class Serialport extends Common {
     OpenPort(event) {
         this.port.open((err) => {
             if (err) {
-                this.isConnectedPortList.push(this.portList[this.portIndex].pnpId);
-                this.portIndex++;
+                this.isConnectedPortList.push(this.currentPort.pnpId);
                 event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
-                if (this.portIndex === this.portList.length) {
-                    this.portIndex = 0;
-                }
             } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.portList[this.portIndex], type: this._type });
-                this.portIndex = 0;
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
                 this.portList.splice(0, this.portList.length);
                 this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
             }

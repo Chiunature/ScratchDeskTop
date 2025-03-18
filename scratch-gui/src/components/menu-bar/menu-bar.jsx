@@ -188,7 +188,7 @@ class MenuBar extends React.Component {
             this.scanConnection();
             this.disconnectListen();
             // this.scanBle();
-        }, { timeout: 500 });
+        });
     }
 
     componentWillUnmount() {
@@ -326,7 +326,7 @@ class MenuBar extends React.Component {
                 return;
             }
             this.handleConnection();
-        }, 1500);
+        }, 2000);
     }
 
     async handleConnection() {
