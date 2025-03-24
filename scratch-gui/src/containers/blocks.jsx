@@ -45,11 +45,11 @@ const DroppableBlocks = DropAreaHOC([
     DragConstants.BACKPACK_CODE
 ])(BlocksComponent);
 
-const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
-const regexForMyBlock = /\svoid\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\/\*MyBlock definition\*\/\s*};\s/g;
-const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
-const regVariable = /(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+];|ListNode\s+\*\w+\s*;/g;
-const regexForMsgBlock = /void\s+Task_MessageBox\w+\([\s\S]*?\)\s*\{[\s\S]*?\/\*msg_end\*\/\s*};\s{1}/g
+// const regex = /int\s+main\s*\(\s*\)\s*{([\s*\S*]*)}/;
+// const regexForMyBlock = /\svoid\s+MyBlock_[\s\S]*?\([\s\S]*?\)\s*\{[\s\S]*?\/\*MyBlock definition\*\/\s*};\s/g;
+// const regexForThread = /\/\* Start \*\/\s+[\s\S]*?\s+\/\* End \*\//g;
+// const regVariable = /(__attribute__\(\(section\(".*"\)\)\)\s*)?char\s+\w+\[\d+];|ListNode\s+\*\w+\s*;/g;
+// const regexForMsgBlock = /void\s+Task_MessageBox\w+\([\s\S]*?\)\s*\{[\s\S]*?\/\*msg_end\*\/\s*};\s{1}/g
 
 class Blocks extends React.Component {
     constructor(props) {
@@ -246,7 +246,7 @@ class Blocks extends React.Component {
     } */
 
     //检查是不是开始事件头
-    checkStartHat(list, code) {
+    /* checkStartHat(list, code) {
         const hasStart = list.some(el => el.startHat_);
         if (!hasStart) return;
 
@@ -275,7 +275,7 @@ class Blocks extends React.Component {
             this.props.setCompileList(newArr);
             this.parserTask(this.workspace, newArr);
         }
-    }
+    } */
 
 
     //解析任务
@@ -423,10 +423,8 @@ class Blocks extends React.Component {
 
     attachVM() {
         this.workspace.addChangeListener((event) => {
-            requestIdleCallback(() => {
-                this.workspaceToCode(event.type);
-                this.props.vm.blockListener(event);
-            })
+            this.workspaceToCode(event.type);
+            this.props.vm.blockListener(event);
         });
         this.flyoutWorkspace = this.workspace
             .getFlyout()
