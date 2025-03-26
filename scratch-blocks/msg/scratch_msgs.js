@@ -28894,7 +28894,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   "SENSING_HSVCOLOR": '%1 %2 范围是否在 %3 ~ %4',
   "SENSING_REFLECTED_LIGHT_BLACKLINE": "%1 检测黑线阈值在 %2 左右",
   "SENSING_GET_GRAY_LINE": "%1 获取灰度传感器值 %2",
-  "SENSING_GET_GRAY_LINESTATE": "%1 灰度传感器值为 %2",
+  "SENSING_GET_GRAY_LINESTATE": "%1 灰度传感器 %2 号的状态是否为1",
   "SENSING_CAMERA_FIND_COLOR_BLOCK" : '%1 %2 搜索色块 R %3 G %4 B %5 容差 %6',
   "SENSING_CAMERA_FIND_COLOR_STATE": '%1 获取色块当前查找的状态',
   "SENSING_CAMERA_FIND_COLOR_BLOCK_X": '%1 获取当前色块的x坐标系',

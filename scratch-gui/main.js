@@ -152,8 +152,7 @@ function handleChildProcess() {
             port2.removeAllListeners('message');
             port2.once('message', (msg) => {
                 const { data } = msg;
-                if (data.type === 'get') resolve(data.value);
-                resolve();
+                resolve(data.value);
             });
         })
     }
