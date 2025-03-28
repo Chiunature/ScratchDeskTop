@@ -200,7 +200,7 @@ Blockly.Python['sensing_get_gray_lineState'] = function (block) {
 };
 
 Blockly.Python['sensing_linepatrolInit'] = function (block) {
-    return Blockly.Python.handleResult(`linepatrolInit()`, Blockly.Python.GRAY_TYPE);
+    return Blockly.Python.handleResult(`linepatrolInit()\n`, Blockly.Python.GRAY_TYPE);
 };
 
 Blockly.Python['sensing_linepatrol'] = function (block) {
@@ -210,13 +210,14 @@ Blockly.Python['sensing_linepatrol'] = function (block) {
     const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
     const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
     const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-    return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd})`, Blockly.Python.GRAY_TYPE);
+    return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd})\n`, Blockly.Python.GRAY_TYPE);
 };
 
 Blockly.Python['sensing_judgelineState'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
-    const status = Blockly.Python.valueToCode(block, "STATEUS", Blockly.Python.ORDER_NONE);
-    return Blockly.Python.handleResult(`linepatrol(${port}, ${status})`, Blockly.Python.GRAY_TYPE);
+    const status = block.getFieldValue("STATEUS");
+    const code = Blockly.Python.handleResult(`judgelineState(${port}, ${status})`, Blockly.Python.GRAY_TYPE);
+    return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_timer'] = function (block) {

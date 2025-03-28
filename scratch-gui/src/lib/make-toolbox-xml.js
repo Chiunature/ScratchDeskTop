@@ -644,13 +644,13 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="math_number"><field name="NUM">50</field></shadow>
                 </value>
                 <value name="KP">
-                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                    <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                 </value>
                 <value name="KI">
-                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                    <shadow type="math_number"><field name="NUM">0</field></shadow>
                 </value>
                 <value name="KD">
-                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                    <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                 </value>
             </block>
             ${blockSeparator}
