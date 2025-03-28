@@ -3,14 +3,16 @@ const StoreUtil = require('./StoreUtil.js');
 const myStore = new StoreUtil({});
 
 
-function handleStore({ type, key, value = null }, port) {
+function handleStore(data, port) {
+    const { type, key, value } = data;
     switch (type) {
         case 'set':
             myStore.set(key, value);
+            port.postMessage({...data});
             break;
         case 'get':
             const result = myStore.get(key);
-            port.postMessage({type, value: result});
+            port.postMessage({ type, value: result });
             break;
         default:
             break;
@@ -22,7 +24,7 @@ process.parentPort.once('message', (e) => {
     port.on('message', (event) => {
         if (typeof event.data === 'object') {
             handleStore(event.data, port);
-    }
+        }
     })
     port.start();
 });

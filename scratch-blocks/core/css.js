@@ -1494,7 +1494,7 @@ Blockly.Css.CONTENT = [
 
   '.lls-port-selector--type-flipper .lls-port-selector__hub {',
   'position: relative;',
-  'margin-top: 34px;',
+  'margin-top: 20px;',
   'height: 300px;',
   'width: 200px;',
   'border: 2px solid #fff;',
@@ -1597,8 +1597,8 @@ Blockly.Css.CONTENT = [
   '.lls-port-selector .sensor-port-pair--selected {',
   'opacity: 1;',
   '}',
-
-  '.lls-port-selector .button.selected {',
+  
+  '.linepatrol-list li.selected, .lls-port-selector .button.selected {',
   'background: #fff;',
   '}',
 
@@ -1709,5 +1709,33 @@ Blockly.Css.CONTENT = [
     'font-weight: normal;',
     'text-align: center;',
   '}',
+
+  '.linepatrol-list {',
+  'width: 70%;',
+  'height: 30px;',
+  'margin: 0 auto;',
+  'padding: 0;',
+  'list-style: none;',
+  'display: flex;',
+  'justify-content: center;',
+  'items-align: center;',
+  'border: 2px solid #fff;',
+  'color: #fff;',
+  'border-radius: 5px;',
+  'cursor: pointer;',
+  '}',
+
+  '.linepatrol-list li {',
+  'width: 50px;',
+  'height: 100%;',
+  'flex-shrink: 0;',
+  'display:grid;',
+  'place-items:center;',
+  'opacity: 0.6;',
+  '}',
+
+  '.linepatrol-list li:not(:last-child) {',
+  'border-right: 2px solid #fff;',
+  '}'
 ];
 

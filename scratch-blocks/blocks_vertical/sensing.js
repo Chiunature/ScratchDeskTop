@@ -809,3 +809,93 @@ Blockly.Blocks['sensing_get_gray_lineState'] = {
     });
   }
 }
+
+
+Blockly.Blocks['sensing_linepatrolInit'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_linepatrolInit",
+      "message0": Blockly.Msg.SENSING_LINEPATROLINIT,
+      "args0": [],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+}
+
+Blockly.Blocks['sensing_linepatrol'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_linepatrol",
+      "message0": Blockly.Msg.SENSING_LINEPATROL,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT_ONE"
+        },
+        {
+          "type": "input_value",
+          "name": "PORT_TWO"
+        },
+        {
+          "type": "input_value",
+          "name": "SPEED"
+        },
+        {
+          "type": "input_value",
+          "name": "KP"
+        },
+        {
+          "type": "input_value",
+          "name": "KI"
+        },
+        {
+          "type": "input_value",
+          "name": "KD"
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+}
+
+
+Blockly.Blocks['sensing_judgelineState'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "sensing_judgelineState",
+      "message0": Blockly.Msg.SENSING_JUDGELINESTATE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PORT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "STATEUS",
+          "options": [
+            ["(0)0000", "0"],
+            ["(1)0001", "1"],
+            ["(2)0010", "2"],
+            ["(3)0011", "3"],
+            ["(4)0100", "4"],
+            ["(5)0101", "5"],
+            ["(6)0110", "6"],
+            ["(7)0111", "7"],
+            ["(8)1000", "8"],
+            ["(9)1001", "9"],
+            ["(10)1010", "10"],
+            ["(11)1011", "11"],
+            ["(12)1100", "12"],
+            ["(13)1101", "13"],
+            ["(14)1110", "14"],
+            ["(15)1111", "15"],
+          ]
+        },
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+}

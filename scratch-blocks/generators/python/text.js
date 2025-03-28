@@ -41,6 +41,12 @@ Blockly.Python['motor_port'] = function (block) {
   return [`"${code}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python['motor_linepatrol'] = function (block) {
+  // Numeric value.
+  var code = block.getFieldValue('MOTOR');
+  return [`"${code}"`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python['piano'] = function (block) {
   // Numeric value.
   var code = block.getFieldValue('NOTE');

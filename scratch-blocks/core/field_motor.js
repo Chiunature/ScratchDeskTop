@@ -6,12 +6,17 @@ goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.style');
 
-Blockly.FieldMotor = function (motorList, opt_validator) {
+// linepatrol = [1,2,3,4]
+Blockly.FieldMotor = function (motorList, linepatrol, opt_validator) {
     this.motorList = motorList;
     this.rightList = motorList.slice(4);
     this.leftList = motorList.slice(0, 4);
     this.motor_ = motorList[0];
-    Blockly.FieldMotor.superClass_.constructor.call(this, this.motor_, opt_validator);
+    if (linepatrol) {
+        this.linepatrolList = linepatrol;
+        this.linepatrol_ = linepatrol[0];
+    }
+    Blockly.FieldMotor.superClass_.constructor.call(this, this.motor_, this.linepatrol_, opt_validator);
     this.addArgType('motor');
 };
 goog.inherits(Blockly.FieldMotor, Blockly.Field);
@@ -31,7 +36,7 @@ Blockly.FieldMotor.touch_sensing_svg = 'touch_press.svg';
  * @nocollapse
  */
 Blockly.FieldMotor.fromJson = function (options) {
-    return new Blockly.FieldMotor(options['motorList']);
+    return new Blockly.FieldMotor(options['motorList'], options['linepatrol']);
 };
 
 Blockly.FieldMotor.prototype.btnList = null;
@@ -85,7 +90,17 @@ Blockly.FieldMotor.prototype.init = function (block) {
     }
     // Force a reset of the text to add the arrow.
     this.text_ = null;
-    this.setText(this.motor_);
+
+    if (this.motor_ && this.linepatrol_) {
+        this.setText(this.motor_ + '->' + this.linepatrol_);
+    } else {
+        this.setText(this.motor_);
+    }
+    
+
+    if (this.linepatrol_) {
+        this.linepatrolDom = this.createLinepatrolDom_(this.linepatrolList);
+    }
 
     this.leftDom = this.createMotorListDom_(this.leftList, 'left');
     this.rightDom = this.createMotorListDom_(this.rightList, 'right');
@@ -107,7 +122,7 @@ Blockly.FieldMotor.prototype.setValue = function (motor) {
             this.sourceBlock_, 'field', this.name, this.motor_, motor));
     }
     this.motor_ = motor;
-    this.setText(this.motor_);
+    this.setText(motor);
 };
 
 Blockly.FieldMotor.prototype.setText = function (text) {
@@ -149,6 +164,38 @@ Blockly.FieldMotor.prototype.positionArrow = function (x) {
     return addedWidth;
 };
 
+Blockly.FieldMotor.prototype.createLinepatrolDom_ = function (list) {
+    const box = document.createElement('ul');
+    box.setAttribute('class', 'linepatrol-list');
+
+    for (let i = 0; i < list.length; i++) {
+        const item = document.createElement('li');
+        item.innerHTML = list[i];
+        if (this.linepatrol_ === list[i]) {
+            item.classList.add('selected');
+            item.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
+         }
+        box.appendChild(item);
+    }
+
+    box.onclick = (e) => {
+        for (let i = 0; i < this.linepatrolList.length; i++) {
+            const child = box.childNodes[i];
+            child.classList.remove('selected');
+            child.removeAttribute('style');
+        }
+        if (e.target.tagName === 'LI') {
+            this.linepatrol_ = e.target.innerHTML;
+            e.target.classList.add('selected');
+            e.target.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
+            this.motor_ = this.motor_.split('->')[0];
+            this.setValue(this.motor_ + '->' + this.linepatrol_);
+        }
+    }
+
+    return box;
+}
+
 /**
  * 创建按钮列表
  * @param {*} list 
@@ -189,7 +236,12 @@ Blockly.FieldMotor.prototype.handleClick_ = function (dom) {
             if (element === dom) {
                 child.classList.add('selected');
                 child.setAttribute('style', `color: ${this.sourceBlock_.getColour()}`);
-                this.setValue(child.innerHTML);
+                if(this.linepatrol_) {
+                    this.setValue(child.innerHTML + '->' + this.linepatrol_);
+                } else {
+                    this.setValue(child.innerHTML);
+                }
+                
             } else {
                 child.classList.remove('selected');
                 child.removeAttribute('style');
@@ -237,9 +289,14 @@ Blockly.FieldMotor.prototype.checkType = function (type) {
  */
 Blockly.FieldMotor.prototype.createMototDom_ = function () {
     const div = document.createElement('div');
+    div.setAttribute('style', `background-color: ${this.sourceBlock_.getColour()};padding:5px 0;`);
+
+    if (this.linepatrolDom) {
+        div.appendChild(this.linepatrolDom);
+    }
+
     const selector = document.createElement('div');
     selector.setAttribute('class', 'lls-port-selector lls-port-selector--type-flipper lls-port-selector--no-motors');
-    selector.setAttribute('style', `background-color: ${this.sourceBlock_.getColour()}`);
     div.appendChild(selector);
 
     const wrapper = document.createElement('div');
@@ -304,7 +361,12 @@ Blockly.FieldMotor.prototype.showEditor_ = function () {
     Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
     Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
-    this.setValue(this.getValue());
+    if (this.linepatrol_) { 
+        this.motor_ = this.motor_.split('->')[0];
+        this.setValue(this.motor_ + '->' + this.linepatrol_);
+    } else {
+        this.setValue(this.getValue());
+    }
 };
 
 Blockly.FieldMotor.prototype.changeMotor = function (type, obj) {
@@ -356,6 +418,8 @@ Blockly.FieldMotor.prototype.dispose = function () {
     this.motorList = null;
     this.rightList = null;
     this.leftList = null;
+    this.linepatrolList = null;
+    this.linepatrol_ = null;
     Blockly.FieldMotor.proxy = null;
     Blockly.Events.setGroup(false);
     Blockly.FieldMotor.superClass_.dispose.call(this);

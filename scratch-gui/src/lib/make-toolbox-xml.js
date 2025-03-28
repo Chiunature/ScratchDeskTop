@@ -630,6 +630,38 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
+            ${blockSeparator}
+            <block type="sensing_linepatrolInit"></block>
+            ${blockSeparator}
+            <block type="sensing_linepatrol">
+                <value name="PORT_ONE">
+                    <shadow type="math_number" />
+                </value>
+                <value name="PORT_TWO">
+                    <shadow type="math_number" />
+                </value>
+                <value name="SPEED">
+                    <shadow type="math_number"><field name="NUM">50</field></shadow>
+                </value>
+                <value name="KP">
+                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                </value>
+                <value name="KI">
+                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                </value>
+                <value name="KD">
+                    <shadow type="math_number"><field name="NUM">10</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="sensing_judgelineState">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="STATEUS">
+                    <shadow type="math_number" />
+                </value>
+            </block>
             ${categorySeparator}
         </category>
     `;

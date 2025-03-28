@@ -80,6 +80,32 @@ Blockly.Blocks['motor_port'] = {
   }
 };
 
+
+Blockly.Blocks['motor_linepatrol'] = {
+  /**
+   * Block for musical note value.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_motor",
+          "name": "MOTOR",
+          "motorList": ["A", "B", "C", "D", "E", "F", "G", "H"],
+          "linepatrol": ['1', '2', '3', '4']
+        }
+      ],
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "colour": Blockly.Colours.sensing.primary,
+      "colourSecondary": Blockly.Colours.sensing.secondary,
+      "colourTertiary": Blockly.Colours.sensing.tertiary,
+      "output": "String",
+    });
+  }
+};
+
 Blockly.Blocks['piano'] = {
   /**
    * Block for musical note value.
