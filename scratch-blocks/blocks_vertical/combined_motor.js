@@ -737,3 +737,52 @@ Blockly.Blocks['combined_motor_pwm'] = {
         });
     }
 };
+
+Blockly.Blocks['combined_linepatrolInit'] = {
+    init: function () {
+      this.jsonInit({
+        "type": "combined_linepatrolInit",
+        "message0": Blockly.Msg.SENSING_LINEPATROLINIT,
+        "args0": [],
+        "category": Blockly.Categories.combined_motor,
+        "extensions": ["colours_combined_motor", "shape_statement"]
+      });
+    }
+  }
+  
+  Blockly.Blocks['combined_linepatrol'] = {
+    init: function () {
+      this.jsonInit({
+        "type": "combined_linepatrol",
+        "message0": Blockly.Msg.SENSING_LINEPATROL,
+        "args0": [
+          {
+            "type": "input_value",
+            "name": "PORT_ONE"
+          },
+          {
+            "type": "input_value",
+            "name": "PORT_TWO"
+          },
+          {
+            "type": "input_value",
+            "name": "SPEED"
+          },
+          {
+            "type": "input_value",
+            "name": "KP"
+          },
+          {
+            "type": "input_value",
+            "name": "KI"
+          },
+          {
+            "type": "input_value",
+            "name": "KD"
+          },
+        ],
+        "category": Blockly.Categories.combined_motor,
+        "extensions": ["colours_combined_motor", "shape_statement"]
+      });
+    }
+  }

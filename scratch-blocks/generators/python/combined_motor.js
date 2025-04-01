@@ -169,3 +169,17 @@ Blockly.Python['combined_motor_pwm'] = function (block) {
     const code = `\n`;
     return code;
 };
+
+Blockly.Python['combined_linepatrolInit'] = function (block) {
+    return Blockly.Python.handleResult(`linepatrolInit()\n`, Blockly.Python.GRAY_TYPE);
+};
+
+Blockly.Python['combined_linepatrol'] = function (block) {
+    const portOne = Blockly.Python.valueToCode(block, "PORT_ONE", Blockly.Python.ORDER_NONE);
+    const portTwo = Blockly.Python.valueToCode(block, "PORT_TWO", Blockly.Python.ORDER_NONE);
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE);
+    const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
+    const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
+    const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
+    return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd})\n`, Blockly.Python.GRAY_TYPE);
+};

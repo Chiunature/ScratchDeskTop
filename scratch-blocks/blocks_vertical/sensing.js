@@ -811,55 +811,6 @@ Blockly.Blocks['sensing_get_gray_lineState'] = {
 }
 
 
-Blockly.Blocks['sensing_linepatrolInit'] = {
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_linepatrolInit",
-      "message0": Blockly.Msg.SENSING_LINEPATROLINIT,
-      "args0": [],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-}
-
-Blockly.Blocks['sensing_linepatrol'] = {
-  init: function () {
-    this.jsonInit({
-      "type": "sensing_linepatrol",
-      "message0": Blockly.Msg.SENSING_LINEPATROL,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "PORT_ONE"
-        },
-        {
-          "type": "input_value",
-          "name": "PORT_TWO"
-        },
-        {
-          "type": "input_value",
-          "name": "SPEED"
-        },
-        {
-          "type": "input_value",
-          "name": "KP"
-        },
-        {
-          "type": "input_value",
-          "name": "KI"
-        },
-        {
-          "type": "input_value",
-          "name": "KD"
-        },
-      ],
-      "category": Blockly.Categories.sensing,
-      "extensions": ["colours_sensing", "shape_statement"]
-    });
-  }
-}
-
 
 Blockly.Blocks['sensing_judgelineState'] = {
   init: function () {

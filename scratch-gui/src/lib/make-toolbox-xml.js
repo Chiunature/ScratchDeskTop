@@ -251,6 +251,29 @@ const combined_motor = function ({ isInitialSetup, isStage, targetId, colors }) 
                         <shadow type="math_number"><field name="NUM">90</field></shadow>
                     </value>
                 </block>
+                ${blockSeparator}
+                <block type="combined_linepatrolInit"></block>
+                ${blockSeparator}
+                <block type="combined_linepatrol">
+                    <value name="PORT_ONE">
+                        <shadow type="math_number" />
+                    </value>
+                    <value name="PORT_TWO">
+                        <shadow type="math_number" />
+                    </value>
+                    <value name="SPEED">
+                        <shadow type="math_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="KP">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                    <value name="KI">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                    <value name="KD">
+                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+                    </value>
+                </block>
                 ${categorySeparator}
             </category>
             `;
@@ -628,29 +651,6 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             <block type="sensing_get_gray_lineState">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_linepatrolInit"></block>
-            ${blockSeparator}
-            <block type="sensing_linepatrol">
-                <value name="PORT_ONE">
-                    <shadow type="math_number" />
-                </value>
-                <value name="PORT_TWO">
-                    <shadow type="math_number" />
-                </value>
-                <value name="SPEED">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="KP">
-                    <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                </value>
-                <value name="KI">
-                    <shadow type="math_number"><field name="NUM">0</field></shadow>
-                </value>
-                <value name="KD">
-                    <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                 </value>
             </block>
             ${blockSeparator}
