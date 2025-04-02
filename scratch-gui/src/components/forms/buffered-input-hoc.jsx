@@ -9,7 +9,7 @@ import React from 'react';
  */
 export default function (Input) {
     class BufferedInput extends React.Component {
-        constructor (props) {
+        constructor(props) {
             super(props);
             bindAll(this, [
                 'handleChange',
@@ -20,29 +20,38 @@ export default function (Input) {
                 value: null
             };
         }
-        handleKeyPress (e) {
+        handleKeyPress(e) {
             if (e.key === 'Enter') {
                 this.handleFlush();
                 e.target.blur();
             }
         }
-        handleFlush () {
+        async handleFlush() {
             const isNumeric = typeof this.props.value === 'number';
             const validatesNumeric = isNumeric ? !isNaN(this.state.value) : true;
+
             if (this.state.value !== null && validatesNumeric) {
                 this.props.onSubmit(isNumeric ? Number(this.state.value) : this.state.value);
+
                 const oldFilePath = sessionStorage.getItem('openPath');
-                if(!oldFilePath || !this.state.value) return;
-                const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + this.state.value;
-                window.myAPI.changeFileName(oldFilePath, newFilePath);
+
+                if (!oldFilePath || !this.state.value) {
+                    return;
+                }
+
+                const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + this.state.value + oldFilePath.slice(oldFilePath.lastIndexOf('.'));
+
+                await window.myAPI.changeFileName(oldFilePath, newFilePath);
+
                 sessionStorage.setItem('openPath', newFilePath);
             }
-            this.setState({value: null});
+
+            this.setState({ value: null });
         }
-        handleChange (e) {
-            this.setState({value: e.target.value});
+        handleChange(e) {
+            this.setState({ value: e.target.value });
         }
-        render () {
+        render() {
             const bufferedValue = this.state.value === null ? this.props.value : this.state.value;
             return (
                 <Input

@@ -300,12 +300,19 @@ function getMediaPath(link = '') {
     });
 }
 
-function changeFileName(oldPath, newPath) {
-    fs.rename(oldPath, newPath, (err) => {
+async function changeFileName(oldPath, newPath) {
+    fs.cp(oldPath, newPath, (err) => {
         if (err) {
-            console.error(err);
+            console.error('Error creating new file:', err);
         } else {
-            console.log('文件名已被修改');
+            console.log('New file created successfully.');
+            /* fs.rename(oldPath, newPath, (err) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log('文件名已被修改');
+                }
+            }); */
         }
     });
 }
