@@ -41,9 +41,10 @@ export default function (Input) {
 
                 const newFilePath = oldFilePath.slice(0, oldFilePath.lastIndexOf('\\') + 1) + this.state.value + oldFilePath.slice(oldFilePath.lastIndexOf('.'));
 
-                await window.myAPI.changeFileName(oldFilePath, newFilePath);
-
-                sessionStorage.setItem('openPath', newFilePath);
+                if (oldFilePath !== newFilePath) {
+                    await window.myAPI.changeFileName(oldFilePath, newFilePath);
+                    sessionStorage.setItem('openPath', newFilePath);
+                }
             }
 
             this.setState({ value: null });

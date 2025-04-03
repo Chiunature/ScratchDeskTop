@@ -148,6 +148,10 @@ class Serialport extends Common {
             if (data.selectedExe) {
                 this.selectedExe = data.selectedExe;
             }
+
+            // 是否需要下载完成后执行程序
+            this.isRunAfterUploaded = data.isRun;
+
             //本身是哭脸的时候，发重置不会断开，正常发送文件
             if (data.verifyType === RESET_FWLIB) {
                 this.upload_sources_status = data.verifyType;
@@ -156,6 +160,7 @@ class Serialport extends Common {
                 this.checkConnected(event);
                 return;
             }
+
             this.readyToUpload(data, event);
         });
     }

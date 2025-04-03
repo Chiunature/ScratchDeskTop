@@ -25,7 +25,8 @@ export async function handleUploadPython(options, static_path = '') {
                             verifyType,
                             selectedExe,
                             codeType,
-                            codeStr: result
+                            codeStr: result,
+                            isRun: options.isRun,
                         }
                     });
                 }

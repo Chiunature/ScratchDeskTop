@@ -35,6 +35,7 @@ class Common {
     this.watchDeviceList = [];
     this.deviceIdList = Object.keys(device);
     this.upload_sources_status = null;
+    this.isRunAfterUploaded = false;
   }
 
   /**
@@ -131,7 +132,7 @@ class Common {
    */
   checkBinData(item, isLast) {
     const len = item.length;
-    const bits = isLast ? 0xbb : 0xaa;
+    const bits = isLast ? (this.isRunAfterUploaded ? 0xbc : 0xbb) : 0xaa;
     let sum = 0x5a + 0x97 + 0x98 + len + bits;
     item.forEach(el => sum += el);
     return {

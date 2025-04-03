@@ -184,7 +184,7 @@ class GUI extends React.Component {
                 if (!arg.result) {
                     this.props.onSetCompleted(false);
                     this.props.onSetSourceCompleted(false);
-                    sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+                    // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
                 }
             }
         });
@@ -294,7 +294,7 @@ class GUI extends React.Component {
     }
 
 
-    async onClickUploadCode() {
+    async onClickUploadCode(isRun) {
         const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
         try {
             const selItem = await window.myAPI.getStoreValue('selItem');
@@ -317,7 +317,8 @@ class GUI extends React.Component {
                         verifyType,
                         selectedExe,
                         codeStr: this.props.code,
-                        codeType: this.props.generatorName
+                        codeType: this.props.generatorName,
+                        isRun
                     }, static_path);
                     break;
                 default:
@@ -327,7 +328,7 @@ class GUI extends React.Component {
             this.props.onShowCompletedAlert("uploadError");
             this.props.onSetCompleted(false);
             this.props.onSetSourceCompleted(false);
-            sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+            // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
         }
     }
 
@@ -362,9 +363,9 @@ class GUI extends React.Component {
 
 
             // 区分是哪种代码类型的下载
-            this.onClickUploadCode();
+            this.onClickUploadCode(isRun);
 
-            sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
+            // sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
             window.myAPI.handlerError(error);
         }
