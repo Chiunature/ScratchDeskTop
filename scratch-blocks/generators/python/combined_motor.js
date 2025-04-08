@@ -181,5 +181,6 @@ Blockly.Python['combined_linepatrol'] = function (block) {
     const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
     const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
     const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-    return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd})\n`, Blockly.Python.GRAY_TYPE);
+    const sp = Blockly.Python.valueToCode(block, "SPIN_PARAMS", Blockly.Python.ORDER_NONE);
+    return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd}, ${sp})\n`, Blockly.Python.GRAY_TYPE);
 };
