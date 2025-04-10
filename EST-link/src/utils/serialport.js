@@ -130,9 +130,9 @@ class Serialport extends Common {
         this.port.open((err) => {
             if (err) {
                 this.isConnectedPortList.push(this.currentPort.pnpId);
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "" });
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: false, msg: "" });
             } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
+                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
                 this.portList.splice(0, this.portList.length);
                 this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
             }
@@ -230,7 +230,7 @@ class Serialport extends Common {
                 ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED
             ]);
             this.clearCache();
-            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
+            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: false, msg: "disconnect" });
         });
     }
 

@@ -307,28 +307,6 @@ class Common {
     }
   }
 
-  /**
-   * 校验数据的switch
-   * @param {Object} actions
-   * @param {String} condition
-   * @param {String} type
-   * @returns
-   */
-  switch(actions, condition, type = false) {
-    if (type) {
-      if (actions[condition] && typeof actions[condition] === 'function') {
-        return actions[condition]();
-      } else {
-        return false;
-      }
-    } else {
-      if (actions[condition] && typeof actions[condition] === 'function') {
-        actions[condition]();
-      } else {
-        return false;
-      }
-    }
-  }
 
   /**
    * 根据获取到的功能码判断设备类型
@@ -555,7 +533,6 @@ class Common {
         return null;
       }
     } catch (error) {
-      console.log(error);
       return null;
     }
   }

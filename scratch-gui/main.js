@@ -159,13 +159,13 @@ function handleChildProcess() {
     port2.start();
 }
 
-/* function openBle() {
+function openBle() {
     const ble = new Bluetooth({ noble, ...pack });
     ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
         ble.scanning(event, open);
         ble.linkBle();
     });
-} */
+}
 
 function openSerialPort() {
     const sp = new Serialport({ serialport, ...pack });
@@ -244,7 +244,7 @@ function createWindow(loadingWindow) {
 
     getRenderVersion();
     openSerialPort();
-    // openBle();
+    openBle();
     // 开启子线程操作文件缓存
     handleChildProcess();
     // 防止页面失去焦点
@@ -398,3 +398,21 @@ app.on("activate", function () {
     }
 });
 
+//限制只能开启一个应用
+/* function singleLock() {
+    const gotTheLock = app.requestSingleInstanceLock();
+    if (!gotTheLock) {
+        app.quit();
+    } else {
+        app.on('second-instance', (event, commandLine, workingDirectory) => {
+            // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
+            if (mainWindow) {
+                if (mainWindow.isMinimized()) mainWindow.restore();
+                mainWindow.focus();
+                mainWindow.show();
+            }
+        })
+    }
+}
+singleLock()
+*/

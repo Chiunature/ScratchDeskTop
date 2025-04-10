@@ -22,7 +22,7 @@ const SerialportList = (props) => {
     const [total, setTotal] = useState(0);
     const [isShow, setIsShow] = useState(false);
     const [isScroll, setIsScroll] = useState(true);
-    let inputRef = useRef();
+    // let inputRef = useRef();
     let boxRef = useRef();
 
     useEffect(() => {
@@ -120,8 +120,8 @@ const SerialportList = (props) => {
             </Box>} */}
             <Box className={styles.activityArea} componentRef={boxRef} onScroll={handleScroll}>
                 <Box className={styles.linkHelp} style={{
-                    justifyContent: isShow ? "flex-start" : "center",
-                    alignItems: isShow && "flex-start"
+                    justifyContent: (isShow || deviceType === verifyTypeConfig.BLUETOOTH) ? "flex-start" : "center",
+                    alignItems: (isShow || deviceType === verifyTypeConfig.BLUETOOTH) && "flex-start"
                 }}>
                     {
                         isShow ?

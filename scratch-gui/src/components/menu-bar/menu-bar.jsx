@@ -187,19 +187,18 @@ class MenuBar extends React.Component {
         requestIdleCallback(() => {
             this.scanConnection();
             this.disconnectListen();
-            // this.scanBle();
         });
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
-        // this.noScanBle();
+        this.noScanBle();
     }
 
     scanBle() {
         if (!this.props.peripheralName) {
             this.handleGetBleList();
-            this.handleBleScan(false);
+            this.handleBleScan(true);
         }
     }
 
@@ -348,7 +347,11 @@ class MenuBar extends React.Component {
         this.props.onSetConnectionModalPeripheralName(name);
     }
 
-    handleConnectionMouseUp() {
+    handleConnectionMouseUp(deviceType) {
+        if (!this.props.peripheralName && deviceType === verifyTypeConfig.BLUETOOTH) {
+            this.props.onSetDeviceType(deviceType);
+            this.scanBle();
+        }
         this.props.onOpenConnectionModal();
     }
 
@@ -363,39 +366,41 @@ class MenuBar extends React.Component {
                 }
             });
         }
-        this.props.onClearConnectionModalPeripheralName();
+
+        this.props.onSetDeviceObj(null);
         this.props.onSetCompleted(false);
-        this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
-        this.props.onSetDeviceType(null);
         this.props.onSetProgramSel(false);
         this.props.onViewDeviceCards(false);
-        this.props.onSetDeviceObj(null);
+        this.props.onClearConnectionModalPeripheralName();
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
+        this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-        sessionStorage.setItem(' isFirmwareUpdate', 'done');
-        this.handleBleScan(true);
+
+        // this.handleBleScan(true);
     }
 
     disconnectListen() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
-            callback: (event, arg) => {
-                if (arg.res) {
+            callback: (event, args) => {
+                if (args.connectSuccess) {
                     clearTimeout(this.closeTimer);
                     this.closeTimer = null;
                     if (!this.props.peripheralName) {
-                        this.props.onSetDeviceType(arg.type);
-                        this.setPortItem([arg.serial], arg.type, arg.serial.friendlyName);
-                        this.props.onShowConnectAlert(arg.msg);
+                        this.props.onSetDeviceType(args.type);
+                        this.setPortItem([args.serial], args.type, args.serial.friendlyName);
+                        this.props.onShowConnectAlert(args.msg);
                     }
+
+                    this.noScanBle();
                 } else {
                     this.scanConnection();
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
-                            arg.msg.length > 0 && this.handleDisconnect(arg.msg);
+                            args.msg.length > 0 && this.handleDisconnect(args.msg);
                         }, 2000);
                     } else {
-                        this.handleDisconnect(arg.msg);
+                        this.handleDisconnect(args.msg);
                     }
                 }
             },
@@ -607,6 +612,24 @@ class MenuBar extends React.Component {
                                 />}
                         </span>
                         </Box>
+                        <Box
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                {
+                                    [styles.active]: "",
+                                }
+                            )}
+                            onMouseUp={() => this.handleConnectionMouseUp(verifyTypeConfig.BLUETOOTH)}
+                        >
+                            <img className={styles.screenShotLogo} src={blueToothIcon} alt="" />
+                            <span className={styles.collapsibleLabel}><FormattedMessage
+                                defaultMessage="Bluetooth"
+                                description="Bluetooth"
+                                id="gui.connection.bluetooth"
+                            /></span>
+                        </Box>
                     </Box>
                     <Box className={classNames(styles.mainMenuInp)}>
                         <ProjectMenu
@@ -621,24 +644,6 @@ class MenuBar extends React.Component {
                         />
                     </Box>
                     <Box className={classNames(styles.mainMenuTwo)}>
-                        {/* <div
-                            className={classNames(
-                                styles.menuBarItem,
-                                styles.hoverable,
-                                styles.generator,
-                                {
-                                    [styles.active]: "",
-                                }
-                            )}
-                            onMouseUp={this.handleConnectionMouseUp}
-                        >
-                            <img className={styles.screenShotLogo} src={blueToothIcon} alt="" />
-                            <span className={styles.collapsibleLabel}><FormattedMessage
-                                defaultMessage="Bluetooth"
-                                description="Bluetooth"
-                                id="gui.connection.bluetooth"
-                            /></span>
-                        </div> */}
                         <div
                             className={classNames(
                                 styles.menuBarItem,

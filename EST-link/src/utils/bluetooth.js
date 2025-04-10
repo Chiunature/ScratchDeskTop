@@ -186,11 +186,6 @@ class Bluetooth extends Common {
                 ipc_Main.SEND_OR_ON.EXE.DELETE,
                 ipc_Main.SEND_OR_ON.EXE.FILES,
             ]);
-
-            /* this.peripheralCacheId = this.peripheralCacheId.filter(id => id !== this.peripheral.id);
-            this.peripheralCacheList = this.peripheralCacheList.filter(item => item.id !== this.peripheral.id);
-            this.peripheralList = this.peripheralList.filter(item => item.id !== this.peripheral.id);
-            event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify([...this.peripheralCacheList])); */
         })
     }
 
@@ -423,6 +418,10 @@ class Bluetooth extends Common {
             if (data.selectedExe) {
                 this.selectedExe = data.selectedExe;
             }
+
+            // 是否需要下载完成后执行程序
+            this.isRunAfterUploaded = data.isRun;
+
             //本身是哭脸的时候，发重置不会断开，正常发送文件
             if (data.verifyType === RESET_FWLIB) {
                 this.upload_sources_status = data.verifyType;
