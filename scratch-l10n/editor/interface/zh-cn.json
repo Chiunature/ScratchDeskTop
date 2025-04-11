@@ -56,6 +56,7 @@
   "gui.connection.unavailable.helpbutton": "帮助",
   "gui.connection.firmware": "固件升级",
   "gui.connection.isNewFirmware": "固件升级(固件已是最新版本)",
+  "gui.connection.unsupportedDevice": "未知或不支持的设备",
   "gui.controls.go": "运行",
   "gui.controls.stop": "停止",
   "gui.crashMessage.label": "呀，出错了。",

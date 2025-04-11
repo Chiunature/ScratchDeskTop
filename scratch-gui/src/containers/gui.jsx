@@ -502,6 +502,7 @@ const mapStateToProps = (state) => {
         cardsVisible: state.scratchGui.cards.visible,
         deviceVisible: state.scratchGui.cards.deviceCards.deviceVisible,
         programSel: state.scratchGui.cards.programSel,
+        bleListVisible: state.scratchGui.modals.bleList,
         connectionModalVisible: state.scratchGui.modals.connectionModal,
         costumeLibraryVisible: state.scratchGui.modals.costumeLibrary,
         costumesTabVisible:

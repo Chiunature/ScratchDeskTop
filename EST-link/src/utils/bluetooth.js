@@ -39,21 +39,18 @@ class Bluetooth extends Common {
      */
     scanning(event, open) {
         if (open) {
+            this.discover(event);
             const eventList = this.noble.eventNames();
             if (!eventList.includes('stateChange')) {
-                this.discover(event);
                 this.noble.on('stateChange', (state) => {
                     this.bleState = state;
                     if (state !== 'poweredOn') {
                         this.noble.stopScanning();
+                        event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
+                    } else {
+                        this.noble.startScanning([], true);
                     }
                 });
-            } else {
-                if (this.bleState === 'poweredOn') {
-                    this.noble.startScanning([], true);
-                } else {
-                    event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
-                }
             }
         } else {
             this.noble.stopScanning();
@@ -70,24 +67,19 @@ class Bluetooth extends Common {
      * 发现设备
      */
     discover(event) {
-        this.noble.on('discover', (peripheral) => {
-            if (peripheral.advertisement.localName && peripheral.state === 'disconnected') {
-                if (this.peripheralCacheId && !this.peripheralCacheId.includes(peripheral.id)) {
-                    this.peripheralCacheId.push(peripheral.id);
-                    this.peripheralList.push(peripheral);
-                    this.peripheralCacheList.push({
-                        id: peripheral.id,
-                        uuid: peripheral.uuid,
-                        address: peripheral.address,
-                        addressType: peripheral.addressType,
-                        connectable: peripheral.connectable,
-                        advertisement: { ...peripheral.advertisement },
-                        state: peripheral.state,
-                        checked: false
-                    });
-                    event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify([...this.peripheralCacheList]));
-                }
-            }
+        const eventList = this.noble.eventNames();
+        !eventList.includes('discover') && this.noble.on('discover', (peripheral) => {
+            const ble = {
+                id: peripheral.id,
+                uuid: peripheral.uuid,
+                address: peripheral.address,
+                addressType: peripheral.addressType,
+                connectable: peripheral.connectable,
+                advertisement: { ...peripheral.advertisement },
+                state: peripheral.state,
+                checked: false
+            };
+            event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify(ble));
         });
     }
 

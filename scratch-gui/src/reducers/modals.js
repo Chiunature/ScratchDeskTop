@@ -12,6 +12,8 @@ const MODAL_SOUND_RECORDER = 'soundRecorder';
 const MODAL_CONNECTION = 'connectionModal';
 const MODAL_TIPS_LIBRARY = 'tipsLibrary';
 const MODAL_CASCADER_PANEL = 'cascarderPanel';
+const MODAL_BLELIST = 'bleList';
+
 const initialState = {
     [MODAL_BACKDROP_LIBRARY]: false,
     [MODAL_COSTUME_LIBRARY]: false,
@@ -23,7 +25,8 @@ const initialState = {
     [MODAL_SOUND_RECORDER]: false,
     [MODAL_CONNECTION]: false,
     [MODAL_TIPS_LIBRARY]: false,
-    [MODAL_CASCADER_PANEL]: false
+    [MODAL_CASCADER_PANEL]: false,
+    [MODAL_BLELIST]: false
 };
 
 const reducer = function (state, action) {
@@ -83,6 +86,9 @@ const openConnectionModal = function () {
 const openCascaderPanelModal = function () {
     return openModal(MODAL_CASCADER_PANEL);
 };
+const openBleListModal = function () {
+    return openModal(MODAL_BLELIST);
+};
 const openTipsLibrary = function () {
     return openModal(MODAL_TIPS_LIBRARY);
 };
@@ -119,6 +125,9 @@ const closeConnectionModal = function () {
 const closeCascaderPanelModal = function () {
     return closeModal(MODAL_CASCADER_PANEL);
 };
+const closeBleListModal = function () {
+    return closeModal(MODAL_BLELIST);
+};
 export {
     reducer as default,
     initialState as modalsInitialState,
@@ -133,6 +142,7 @@ export {
     openTipsLibrary,
     openConnectionModal,
     openCascaderPanelModal,
+    openBleListModal,
     closeBackdropLibrary,
     closeCostumeLibrary,
     closeExtensionLibrary,
@@ -143,5 +153,6 @@ export {
     closeTelemetryModal,
     closeTipsLibrary,
     closeConnectionModal,
-    closeCascaderPanelModal
+    closeCascaderPanelModal,
+    closeBleListModal
 };

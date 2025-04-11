@@ -22,7 +22,7 @@ import {
     setConnectionModalPeripheralName,
     setPort,
 } from "../../reducers/connection-modal";
-import { openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
+import { openBleListModal, openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
 import { getCode, setGen, setGeneratorName, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
@@ -171,11 +171,6 @@ class MenuBar extends React.Component {
             "handleHelp",
             "saveSvg",
             "downloadProject",
-            "handleGetBleList",
-            "scanBle",
-            "noScanBle",
-            "handleSelectPort",
-            "handleBleScan"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -192,67 +187,8 @@ class MenuBar extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyPress);
-        this.noScanBle();
     }
 
-    scanBle() {
-        if (!this.props.peripheralName) {
-            this.handleGetBleList();
-            this.handleBleScan(true);
-        }
-    }
-
-    noScanBle() {
-        this.handleBleScan(false);
-        if (!this.props.peripheralName) {
-            this.props.onGetSerialList([]);
-        }
-    }
-
-    handleBleScan(open) {
-        if (this.props.peripheralName) return;
-        window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING,
-            sendParams: open,
-            eventName: ipc_Renderer.RETURN.BLE.SCANNING,
-            callback: (e, res) => {
-                this.props.onShowConnectAlert(res.msg);
-            }
-        });
-    }
-
-    handleGetBleList() {
-        window.myAPI.ipcRender({
-            eventName: ipc_Renderer.RETURN.BLE.GETBlELIST,
-            callback: (e, result) => {
-                if (!result) return;
-                const bleList = JSON.parse(result);
-                this.props.onGetSerialList([...bleList]);
-            }
-        });
-    }
-
-    async handleSelectPort(port, index) {
-        if (this.props.completed) {
-            return;
-        }
-        this.props.onChangeSerialList(port);
-        window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
-            sendParams: { newPort: port, index },
-            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
-            callback: (e, res) => {
-                const { bleType, msg, success } = res;
-                this.props.onShowConnectAlert(msg);
-                if (success) {
-                    this.props.onSetCompleted(false);
-                    this.props.onSetDeviceType(bleType);
-                    this.props.onSetPort(port);
-                    this.props.onSetConnectionModalPeripheralName(port?.advertisement?.localName);
-                }
-            }
-        });
-    }
 
     handleClickHome() {
         this.props.onRequestCloseFile();
@@ -348,11 +284,12 @@ class MenuBar extends React.Component {
     }
 
     handleConnectionMouseUp(deviceType) {
-        if (!this.props.peripheralName && deviceType === verifyTypeConfig.BLUETOOTH) {
-            this.props.onSetDeviceType(deviceType);
-            this.scanBle();
+        if (deviceType === verifyTypeConfig.BLUETOOTH) {
+            !this.props.peripheralName && this.props.onSetDeviceType(deviceType);
+            this.props.onOpenBleListModal();
+        } else {
+            this.props.onOpenConnectionModal();
         }
-        this.props.onOpenConnectionModal();
     }
 
 
@@ -375,8 +312,6 @@ class MenuBar extends React.Component {
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
         this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-
-        // this.handleBleScan(true);
     }
 
     disconnectListen() {
@@ -392,7 +327,6 @@ class MenuBar extends React.Component {
                         this.props.onShowConnectAlert(args.msg);
                     }
 
-                    this.noScanBle();
                 } else {
                     this.scanConnection();
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
@@ -600,17 +534,17 @@ class MenuBar extends React.Component {
                                 styles.hoverable,
                                 styles.generator
                             )}
-                            onMouseUp={this.handleConnectionMouseUp}
+                            onMouseUp={() => this.handleConnectionMouseUp()}
                         >
                             <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
                             <span className={styles.collapsibleLabel}>
-                            {this.props.peripheralName ? this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('(')) :
-                                <FormattedMessage
-                                    defaultMessage="Unconnected"
-                                    description="Text for menubar unconnected button"
-                                    id="gui.menuBar.noConnection"
-                                />}
-                        </span>
+                                {this.props.peripheralName ? this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('(')) :
+                                    <FormattedMessage
+                                        defaultMessage="Unconnected"
+                                        description="Text for menubar unconnected button"
+                                        id="gui.menuBar.noConnection"
+                                    />}
+                            </span>
                         </Box>
                         <Box
                             className={classNames(
@@ -680,12 +614,12 @@ class MenuBar extends React.Component {
                         >
                             <img className={styles.unconnectedIcon} src={foucsUpdateIcon} alt="" />
                             <span className={styles.collapsibleLabel}>
-                            <FormattedMessage
-                                defaultMessage="Force updates"
-                                description="Force updates"
-                                id="gui.device.updateSensing"
-                            />
-                        </span>
+                                <FormattedMessage
+                                    defaultMessage="Force updates"
+                                    description="Force updates"
+                                    id="gui.device.updateSensing"
+                                />
+                            </span>
                         </div>
                         <GeneratorsMenu
                             onClickGen={this.props.onClickGen}
@@ -870,6 +804,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onSetGen: (isGen) => dispatch(setGen(isGen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
+    onOpenBleListModal: () => dispatch(openBleListModal()),
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),
     onGetSerialList: (serialList) => dispatch(getSerialList(serialList)),
     onSetPort: (port) => dispatch(setPort(port)),

@@ -58,6 +58,7 @@ import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
 import DeviceModal from "../connection-modal/deviceModal.jsx";
+import BleListModal from "../../containers/ble-list-modal.jsx";
 
 const messages = defineMessages({
     projectManagement: {
@@ -127,6 +128,7 @@ const GUIComponent = (props) => {
         canShare,
         canUseCloud,
         children,
+        bleListVisible,
         connectionModalVisible,
         costumeLibraryVisible,
         costumesTabVisible,
@@ -295,11 +297,11 @@ const GUIComponent = (props) => {
                             onRequestClose={onViewDeviceCards}
                         />}
                         {programSel && <DeviceModal
-                                intl={intl}
-                                deviceObj={deviceObj}
-                                completed={completed}
-                                peripheralName={peripheralName}
-                                onRequestClose={onSetProgramSel}
+                            intl={intl}
+                            deviceObj={deviceObj}
+                            completed={completed}
+                            peripheralName={peripheralName}
+                            onRequestClose={onSetProgramSel}
                         />}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
@@ -308,6 +310,7 @@ const GUIComponent = (props) => {
                             <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
                         ) : null}
                         {cascarderPanelVisible && <CascaderPanelModal peripheralName={peripheralName} intl={intl} completed={completed} vm={vm} deviceObj={deviceObj} />}
+                        {bleListVisible && <BleListModal intl={intl} vm={vm} peripheralName={peripheralName} />}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
                                 vm={vm}

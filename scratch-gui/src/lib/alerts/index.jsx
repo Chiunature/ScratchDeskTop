@@ -632,13 +632,13 @@ const alerts = [
         ],
         content: (
             <FormattedMessage
-                defaultMessage="Bluetooth not turned on"
-                description="Bluetooth not turned on"
+                defaultMessage="Bluetooth not turned on or not supported"
+                description="Bluetooth not turned on or not supported"
                 id="gui.alerts.bleISNotSupported"
             />
         ),
         level: AlertLevels.WARN,
-        maxDisplaySecs: 2,
+        maxDisplaySecs: 5,
     },
 ];
 
