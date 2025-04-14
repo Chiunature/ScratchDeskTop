@@ -102,7 +102,7 @@ const SerialportList = (props) => {
     }
 
     function getPortName(port) {
-        return deviceType === verifyTypeConfig.SERIALPORT ? port?.friendlyName || port?.advertisement?.localName : `${port?.friendlyName || port?.localName} (${port?.address})`;
+        return deviceType === verifyTypeConfig.BLUETOOTH ? `${port?.friendlyName || port?.localName} (${port?.address})` : (port?.friendlyName || port?.advertisement?.localName);
     }
 
     return (

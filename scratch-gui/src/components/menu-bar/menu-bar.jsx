@@ -310,8 +310,6 @@ class MenuBar extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, args) => {
-                const isSerialport = this.props.deviceType === verifyTypeConfig.SERIALPORT;
-
                 if (args.connectSuccess) {
                     clearTimeout(this.closeTimer);
                     this.closeTimer = null;
@@ -321,13 +319,14 @@ class MenuBar extends React.Component {
                         this.props.onShowConnectAlert(args.msg);
                     }
                 } else {
-                    if (isSerialport) {
+                    if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
                             args.msg.length > 0 && this.handleDisconnect(args.msg);
                         }, 2000);
                     } else {
                         this.handleDisconnect(args.msg);
                     }
+
                     this.scanConnection();
                 }
             },
