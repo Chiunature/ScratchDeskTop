@@ -163,7 +163,7 @@ const SerialportList = (props) => {
                     }
                 </Box>
             </Box>
-            {deviceType === verifyTypeConfig.SERIALPORT && <Box className={styles.bottomArea}>
+            {deviceType !== verifyTypeConfig.BLUETOOTH && <Box className={styles.bottomArea}>
                 <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
                     <button
                         className={classNames(
