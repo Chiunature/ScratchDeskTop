@@ -9,7 +9,7 @@ class Bluetooth extends Common {
     constructor(...args) {
         super(...args);
         this._type = 'ble';
-        this.peripheralList = [];
+        this.peripheralList = new Map();
         this.peripheralCacheId = [];
         this.peripheralCacheList = [];
         this.peripheral = null;
@@ -51,13 +51,15 @@ class Bluetooth extends Common {
                         this.noble.startScanning([], true);
                     }
                 });
+            } else {
+                this.noble.startScanning([], true);
             }
         } else {
             this.noble.stopScanning();
             this.noble.removeAllListeners('discover');
             this.peripheral = null;
             this.newPeripheral = null;
-            this.peripheralList.splice(0, this.peripheralList.length);
+            this.peripheralList.clear();
             this.peripheralCacheId.splice(0, this.peripheralCacheId.length);
             this.peripheralCacheList.splice(0, this.peripheralCacheList.length);
         }
@@ -75,10 +77,10 @@ class Bluetooth extends Common {
                 address: peripheral.address,
                 addressType: peripheral.addressType,
                 connectable: peripheral.connectable,
-                advertisement: { ...peripheral.advertisement },
-                state: peripheral.state,
-                checked: false
+                localName: peripheral.advertisement.localName,
+                state: peripheral.state
             };
+            this.peripheralList.set(peripheral.id, peripheral);
             event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify(ble));
         });
     }
@@ -88,14 +90,18 @@ class Bluetooth extends Common {
      * @returns
      */
     linkBle() {
-        this.ipcMain(ipc_Main.SEND_OR_ON.BLE.CONNECTION, (event, data) => {
-            if (data.newPort.checked && this.peripheral) {
+        this.ipcMain(ipc_Main.SEND_OR_ON.BLE.CONNECTION, (event, port) => {
+            if (port.checked && this.peripheral) {
                 this.peripheral.disconnect();
                 return;
             }
 
-            this.newPeripheral = this.peripheralList[data.index];
-            if (this.peripheral && this.peripheral.id === this.newPeripheral.id) return;
+            this.newPeripheral = this.peripheralList.get(port.id);
+
+            if (this.peripheral && this.peripheral.id === this.newPeripheral.id) {
+                return;
+            }
+
             if (this.peripheral && this.peripheral.state === 'connected' && this.peripheral.id !== this.newPeripheral.id) {
                 this.peripheral.disconnect();
             }
@@ -156,16 +162,24 @@ class Bluetooth extends Common {
                     reject(false);
                 }
                 // 断开连接监听
-                this.disconnect(event);
+                this.disconnectListen(event);
+                this.disconnected();
                 resolve(true);
             });
         });
     }
 
     /**
-     * 断开连接
+     * 监听断开连接指令
+     * */
+    disconnected() {
+        this.ipcHandle(ipc_Main.SEND_OR_ON.BLE.DISCONNECTED, () => this.peripheral && this.peripheral.disconnect());
+    }
+
+    /**
+     * peripheral断开连接监听
      */
-    disconnect(event) {
+    disconnectListen(event) {
         this.peripheral && this.peripheral.once('disconnect', () => {
             if (this.peripheral.id === this.newPeripheral.id) {
                 event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });

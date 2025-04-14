@@ -276,11 +276,11 @@ class MenuBar extends React.Component {
         }
     }
 
-    setPortItem(list, type, name) {
-        this.props.onSetPort(list[0]);
-        this.props.onGetSerialList([...list]);
+    setPortItem(serial, type) {
+        this.props.onSetPort(serial);
+        this.props.onGetSerialList([serial]);
         this.props.onSetDeviceType(type);
-        this.props.onSetConnectionModalPeripheralName(name);
+        this.props.onSetConnectionModalPeripheralName(serial.friendlyName);
     }
 
     handleConnectionMouseUp(deviceType) {
@@ -294,16 +294,8 @@ class MenuBar extends React.Component {
 
 
     handleDisconnect(msg) {
-        if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
-            this.props.onGetSerialList([]);
-        } else {
-            this.props.serialList.forEach(el => {
-                if (this.props?.port?.id === el.id) {
-                    el.checked = false;
-                }
-            });
-        }
-
+        this.props.onSetPort(null);
+        this.props.onGetSerialList([]);
         this.props.onSetDeviceObj(null);
         this.props.onSetCompleted(false);
         this.props.onSetProgramSel(false);
@@ -318,24 +310,25 @@ class MenuBar extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, args) => {
+                const isSerialport = this.props.deviceType === verifyTypeConfig.SERIALPORT;
+
                 if (args.connectSuccess) {
                     clearTimeout(this.closeTimer);
                     this.closeTimer = null;
                     if (!this.props.peripheralName) {
                         this.props.onSetDeviceType(args.type);
-                        this.setPortItem([args.serial], args.type, args.serial.friendlyName);
+                        this.setPortItem(args.serial, args.type);
                         this.props.onShowConnectAlert(args.msg);
                     }
-
                 } else {
-                    this.scanConnection();
-                    if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+                    if (isSerialport) {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
                             args.msg.length > 0 && this.handleDisconnect(args.msg);
                         }, 2000);
                     } else {
                         this.handleDisconnect(args.msg);
                     }
+                    this.scanConnection();
                 }
             },
         });

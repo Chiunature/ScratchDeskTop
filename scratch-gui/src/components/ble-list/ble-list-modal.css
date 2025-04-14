@@ -50,6 +50,11 @@
     gap: 10px;
 }
 
+.ble-list .ble-item p {
+    color: #696969;
+    font-weight: 600;
+}
+
 .ble-list .ble-item .ble-list-item {
     width: 100%;
     margin: 0 10px;
@@ -80,6 +85,8 @@
     font-weight: 400;
     letter-spacing: 0.4px;
     white-space: nowrap;
+    min-width: 64px;
+    text-align: center;
 }
 
 .disconnect {
@@ -88,4 +95,40 @@
 
 .connected {
     background-color: $pen-primary !important;
+}
+
+.radar-small {
+    width: 40px;
+    height: 40px;
+}
+
+[dir="ltr"] .radar-small {
+    margin-right: 0.5rem;
+}
+
+[dir="rtl"] .radar-small {
+    margin-left: 0.5rem;
+}
+
+.radar-big {
+    width: 120px;
+    height: 120px;
+}
+
+.radar-spin {
+    animation: spin 4s linear infinite;
+}
+
+[dir="ltr"] .radar {
+    margin-right: 0.5rem;
+}
+
+[dir="rtl"] .radar {
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }

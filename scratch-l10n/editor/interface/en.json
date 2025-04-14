@@ -52,6 +52,7 @@
   "gui.connection.unavailable.tryagainbutton": "Try again",
   "gui.connection.unavailable.helpbutton": "Help",
   "gui.connection.unsupportedDevice": "Unknown or unsupported devices",
+  "gui.connection.connectedBle": "Connected Bluetooth: ",
   "gui.controls.go": "Go",
   "gui.controls.stop": "Stop",
   "gui.crashMessage.label": "Oops! Something went wrong.",

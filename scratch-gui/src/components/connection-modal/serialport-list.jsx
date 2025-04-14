@@ -102,7 +102,7 @@ const SerialportList = (props) => {
     }
 
     function getPortName(port) {
-        return deviceType === verifyTypeConfig.SERIALPORT ? port?.friendlyName || port?.advertisement?.localName : `${port?.friendlyName || port?.advertisement?.localName} (${port?.address})`;
+        return deviceType === verifyTypeConfig.SERIALPORT ? port?.friendlyName || port?.advertisement?.localName : `${port?.friendlyName || port?.localName} (${port?.address})`;
     }
 
     return (
@@ -153,17 +153,6 @@ const SerialportList = (props) => {
                                                 key={index}
                                                 onClick={() => select(port, index)}
                                             >
-                                                {deviceType !== verifyTypeConfig.SERIALPORT && <>
-                                                    <div className={styles.helpStepNumber}>
-                                                        {index + 1}
-                                                    </div>
-                                                    <Input
-                                                        type="radio"
-                                                        name="value"
-                                                        checked={port.checked}
-                                                        readOnly
-                                                    />
-                                                </>}
                                                 <div className={styles.helpStepText}>
                                                     {getPortName(port)}
                                                 </div>

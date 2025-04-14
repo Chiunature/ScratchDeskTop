@@ -21,7 +21,7 @@ import {
     getSerialList,
     setVersion
 } from "../reducers/connection-modal";
-import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
+import { verifyTypeConfig } from "est-link";
 // import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
 import getMainMsg from "../lib/alerts/message.js";
 
@@ -32,13 +32,11 @@ class ConnectionModal extends React.PureComponent {
         bindAll(this, [
             "handleScanning",
             "handleCancel",
-            "handleConnected",
             "handleConnecting",
             "handleDisconnect",
             "handleError",
             "handleHelp",
             "handleUpdate",
-            "handleSelectPort",
         ]);
         this.state = {
             extension: extensionData.find(
@@ -86,28 +84,6 @@ class ConnectionModal extends React.PureComponent {
         }
     }
 
-    async handleSelectPort(port, index) {
-        if (this.props.completed) {
-            return;
-        }
-        this.props.onChangeSerialList(port);
-        window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
-            sendParams: { newPort: port, index },
-            eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
-            callback: (e, res) => {
-                const { bleType, msg, success } = res;
-                this.props.onShowConnectAlert(msg);
-                if (success) {
-                    this.props.onSetCompleted(false);
-                    this.props.onSetDeviceType(bleType);
-                    this.props.onSetPort(port);
-                    this.props.onSetConnectionModalPeripheralName(port?.advertisement?.localName);
-                }
-            }
-        });
-    }
-
     handleScanning() {
         this.setState({
             phase: PHASES.scanning,
@@ -126,18 +102,9 @@ class ConnectionModal extends React.PureComponent {
         });
     }
 
-    handleDisconnect(msg = "disconnect") {
-            this.props.vm.disconnectPeripheral(this.props.extensionId);
-            if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
-                this.props.onGetSerialList([]);
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
-            } else {
-                this.props.onChangeSerialList(this.props.port);
-            }
-            this.props.onClearConnectionModalPeripheralName();
-            this.props.onSetPort(null);
-            this.props.onSetIsConnectedSerial(false);
-            this.props.onShowDisonnectAlert(msg);
+    handleDisconnect() {
+        this.props.vm.disconnectPeripheral(this.props.extensionId);
+        this.props.onSetIsConnectedSerial(false);
     }
 
     handleCancel() {
@@ -178,24 +145,6 @@ class ConnectionModal extends React.PureComponent {
                 label: this.props.extensionId,
             });
         }
-    }
-
-    handleConnected() {
-        if (!this.props.port) return;
-        this.props.onSetConnectionModalPeripheralName(this.props.port.friendlyName);
-        window.myAPI.ipcRender({
-            sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED,
-            sendParams: this.props.port,
-            eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
-            callback: (event, arg) => {
-                if (arg.res) {
-                    this.props.onShowConnectAlert(arg.msg);
-                    this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
-                } else {
-                    this.handleDisconnect(arg.msg);
-                }
-            },
-        });
     }
 
     handleHelp() {
@@ -261,12 +210,10 @@ class ConnectionModal extends React.PureComponent {
                 }
                 vm={this.props.vm}
                 onCancel={this.handleCancel}
-                onConnected={this.handleConnected}
                 onConnecting={this.handleConnecting}
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}
                 onScanning={this.handleScanning}
-                onSelectport={this.handleSelectPort}
                 onUpdate={this.handleUpdate}
                 sourceCompleted={this.props.sourceCompleted}
                 firewareVersion={this.state.firewareVersion}

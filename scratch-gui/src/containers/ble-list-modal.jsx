@@ -41,6 +41,11 @@ const messages = defineMessages({
         defaultMessage: "Bluetooth",
         description: "Bluetooth",
         id: "gui.connection.bluetooth"
+    },
+    connectedBle: {
+        defaultMessage: "Connected Bluetooth: ",
+        description: "Connected Bluetooth: ",
+        id: "gui.connection.connectedBle"
     }
 });
 
@@ -53,11 +58,12 @@ class BleListModal extends PureComponent {
             "scanBle",
             "noScanBle",
             "handleSelectPort",
-            "handleBleScan"
+            "handleBleScan",
+            "handleBleDisconnect"
         ]);
         this.state = {
             bleList: [],
-            selectedBle: null,
+            selectedBle: this.props.port || null,
         }
     }
 
@@ -125,7 +131,7 @@ class BleListModal extends PureComponent {
 
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.BLE.CONNECTION,
-            sendParams: { newPort: port },
+            sendParams: port,
             eventName: ipc_Renderer.RETURN.BLE.CONNECTION,
             callback: (e, res) => {
                 const { bleType, msg, success } = res;
@@ -133,21 +139,52 @@ class BleListModal extends PureComponent {
                 if (success) {
                     this.props.onSetCompleted(false);
                     this.props.onSetDeviceType(bleType);
+
+                    // 修改状态
+                    port.state = 'connected';
                     this.props.onSetPort(port);
-                    this.props.onSetConnectionModalPeripheralName(port?.advertisement?.localName);
+                    this.props.onGetSerialList([port]);
+                    this.props.onSetConnectionModalPeripheralName(port?.localName);
+
+                    this.setState({
+                        selectedBle: port,
+                        bleList: this.state.bleList.map(item => {
+                            if (item.id === port.id) {
+                                item.state = 'connected';
+                            }
+                            return item;
+                        })
+                    })
                 }
             }
         });
+    }
+
+    async handleBleDisconnect(port) {
+        await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);
+        this.props.onSetPort(null);
+
+        this.setState({
+            selectedBle: null,
+            bleList: this.state.bleList.map(item => {
+                if (item.id === port.id) {
+                    item.state = 'disconnect';
+                }
+                return item;
+            })
+        })
     }
 
     render() {
         return (
             <BleListModalCom
                 {...this.props}
-                onCancel={this.handleCancel}
                 messages={messages}
+                onCancel={this.handleCancel}
                 bleList={this.state.bleList}
+                selectedBle={this.state.selectedBle}
                 handleSelectPort={this.handleSelectPort}
+                handleBleDisconnect={this.handleBleDisconnect}
             />
         )
     }
@@ -157,6 +194,7 @@ const mapStateToProps = (state) => ({
     sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
     peripheralName: state.scratchGui.connectionModal.peripheralName,
     completed: state.scratchGui.connectionModal.completed,
+    port: state.scratchGui.connectionModal.port,
 })
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => dispatch(closeBleListModal()),
