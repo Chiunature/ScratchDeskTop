@@ -195,7 +195,7 @@ Blockly.Python['sensing_get_gray_line'] = function (block) {
 Blockly.Python['sensing_get_gray_lineState'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     const value = block.getFieldValue("VALUES");
-    const code = Blockly.Python.handleResult(`line(${port}, "${value}")`, Blockly.Python.GRAY_TYPE);
+    const code = Blockly.Python.handleResult(`lineSingleState(${port}, "${value}")`, Blockly.Python.GRAY_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
