@@ -10,8 +10,6 @@ class Bluetooth extends Common {
         super(...args);
         this._type = 'ble';
         this.peripheralList = new Map();
-        this.peripheralCacheId = [];
-        this.peripheralCacheList = [];
         this.peripheral = null;
         this.newPeripheral = null;
         this.service = null;
@@ -56,12 +54,7 @@ class Bluetooth extends Common {
             }
         } else {
             this.noble.stopScanning();
-            this.noble.removeAllListeners('discover');
-            this.peripheral = null;
-            this.newPeripheral = null;
             this.peripheralList.clear();
-            this.peripheralCacheId.splice(0, this.peripheralCacheId.length);
-            this.peripheralCacheList.splice(0, this.peripheralCacheList.length);
         }
     }
 
@@ -71,13 +64,17 @@ class Bluetooth extends Common {
     discover(event) {
         const eventList = this.noble.eventNames();
         !eventList.includes('discover') && this.noble.on('discover', (peripheral) => {
+            if (!peripheral.id) {
+                return;
+            }
+
             const ble = {
                 id: peripheral.id,
                 uuid: peripheral.uuid,
                 address: peripheral.address,
                 addressType: peripheral.addressType,
                 connectable: peripheral.connectable,
-                localName: peripheral.advertisement.localName,
+                localName: peripheral.advertisement.localName ? peripheral.advertisement.localName : '',
                 state: peripheral.state
             };
             this.peripheralList.set(peripheral.id, peripheral);

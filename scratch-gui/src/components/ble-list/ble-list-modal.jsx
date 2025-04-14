@@ -57,7 +57,7 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
                         </>
                     )
                 }
-                {bleList.map((device) => {
+                {bleList.sort((a, b) => (b.localName.length - a.localName.length)).map((device) => {
                     return (
                         <div className={styles.bleItem} key={device.id}>
                             <img src={bleIcon} alt='' />

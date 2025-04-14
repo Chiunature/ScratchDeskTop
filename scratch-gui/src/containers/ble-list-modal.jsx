@@ -63,7 +63,7 @@ class BleListModal extends PureComponent {
         ]);
         this.state = {
             bleList: [],
-            selectedBle: this.props.port || null,
+            selectedBle: { ...this.props.port } || null,
         }
     }
 
@@ -98,7 +98,6 @@ class BleListModal extends PureComponent {
     }
 
     handleBleScan(open) {
-        if (this.props.peripheralName) return;
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING,
             sendParams: open,
@@ -162,7 +161,8 @@ class BleListModal extends PureComponent {
 
     async handleBleDisconnect(port) {
         await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);
-        this.props.onSetPort(null);
+
+        this.handleBleScan(true);
 
         this.setState({
             selectedBle: null,
