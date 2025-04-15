@@ -72,7 +72,7 @@ class BleListModal extends PureComponent {
     }
 
     componentWillUnmount() {
-        this.props.onSetDeviceType(null);
+        this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
         this.noScanBle();
         window.myAPI.delEvents([ipc_Renderer.RETURN.BLE.GETBlELIST, ipc_Renderer.RETURN.BLE.CONNECTION, ipc_Renderer.RETURN.BLE.SCANNING]);
     }

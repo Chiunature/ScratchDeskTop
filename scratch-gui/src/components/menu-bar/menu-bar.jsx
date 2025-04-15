@@ -189,6 +189,12 @@ class MenuBar extends React.Component {
         document.removeEventListener("keydown", this.keyPress);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.deviceType !== this.props.deviceType) {
+            this.scanConnection();
+        }
+    }
+
 
     handleClickHome() {
         this.props.onRequestCloseFile();
@@ -255,7 +261,7 @@ class MenuBar extends React.Component {
 
     scanConnection() {
         this.timer = !this.timer && setInterval(() => {
-            if (this.props.deviceType && this.props.deviceType !== verifyTypeConfig.SERIALPORT) {
+            if (this.props.deviceType && this.props.deviceType === verifyTypeConfig.BLUETOOTH) {
                 clearInterval(this.timer);
                 this.timer = null;
                 return;
@@ -284,12 +290,8 @@ class MenuBar extends React.Component {
     }
 
     handleConnectionMouseUp(deviceType) {
-        if (deviceType === verifyTypeConfig.BLUETOOTH) {
-            !this.props.peripheralName && this.props.onSetDeviceType(deviceType);
-            this.props.onOpenBleListModal();
-        } else {
-            this.props.onOpenConnectionModal();
-        }
+        !this.props.peripheralName && this.props.onSetDeviceType(deviceType);
+        deviceType === verifyTypeConfig.BLUETOOTH ? this.props.onOpenBleListModal() :  this.props.onOpenConnectionModal();
     }
 
 
@@ -526,7 +528,7 @@ class MenuBar extends React.Component {
                                 styles.hoverable,
                                 styles.generator
                             )}
-                            onMouseUp={() => this.handleConnectionMouseUp()}
+                            onMouseUp={() => this.handleConnectionMouseUp(verifyTypeConfig.SERIALPORT)}
                         >
                             <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
                             <span className={styles.collapsibleLabel}>
