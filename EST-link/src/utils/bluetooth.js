@@ -109,6 +109,8 @@ class Bluetooth extends Common {
             this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
             //开启删除程序监听
             this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
+            //开启设备断开监听
+            this.disconnected();
             // 连接蓝牙是否成功
             this.isConnectedSuccess(event);
         });
@@ -160,7 +162,7 @@ class Bluetooth extends Common {
                 }
                 // 断开连接监听
                 this.disconnectListen(event);
-                this.disconnected();
+
                 resolve(true);
             });
         });
