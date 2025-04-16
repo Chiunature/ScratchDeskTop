@@ -25,7 +25,7 @@
 }
 
 .ble-list::-webkit-scrollbar {
-    width: 0.4rem;
+    width: 0.3rem;
 }
 
 .ble-list::-webkit-scrollbar-thumb {

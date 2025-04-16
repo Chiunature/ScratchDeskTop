@@ -210,6 +210,7 @@ class ConnectionModal extends React.PureComponent {
                 }
                 vm={this.props.vm}
                 onCancel={this.handleCancel}
+                onConnected={()=>{}}
                 onConnecting={this.handleConnecting}
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}

@@ -11,7 +11,6 @@ class Bluetooth extends Common {
         this._type = 'ble';
         this.peripheralList = new Map();
         this.peripheral = null;
-        this.newPeripheral = null;
         this.service = null;
         this.serviceUUID = '0000fff0-0000-1000-8000-00805f9b34fb';
         this.characteristicUUID = '0000fff1-0000-1000-8000-00805f9b34fb';
@@ -74,10 +73,12 @@ class Bluetooth extends Common {
                 address: peripheral.address,
                 addressType: peripheral.addressType,
                 connectable: peripheral.connectable,
-                localName: peripheral.advertisement.localName ? peripheral.advertisement.localName : '',
+                localName: peripheral.advertisement.localName ? peripheral.advertisement.localName : 'unkown',
                 state: peripheral.state
             };
+
             this.peripheralList.set(peripheral.id, peripheral);
+            
             event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify(ble));
         });
     }
@@ -88,19 +89,16 @@ class Bluetooth extends Common {
      */
     linkBle() {
         this.ipcMain(ipc_Main.SEND_OR_ON.BLE.CONNECTION, (event, port) => {
-            if (port.checked && this.peripheral) {
-                this.peripheral.disconnect();
+
+            this.peripheral = this.peripheralList.get(port.id);
+
+            if (!this.peripheral) {
+                event.reply(ipc_Main.RETURN.BLE.CONNECTION, {
+                    bleType: this._type,
+                    msg: "failedConnected",
+                    success: false
+                });
                 return;
-            }
-
-            this.newPeripheral = this.peripheralList.get(port.id);
-
-            if (this.peripheral && this.peripheral.id === this.newPeripheral.id) {
-                return;
-            }
-
-            if (this.peripheral && this.peripheral.state === 'connected' && this.peripheral.id !== this.newPeripheral.id) {
-                this.peripheral.disconnect();
             }
 
             //开启获取文件监听
@@ -110,7 +108,7 @@ class Bluetooth extends Common {
             //开启删除程序监听
             this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
             //开启设备断开监听
-            this.disconnected();
+            this.disconnected(ipc_Main.SEND_OR_ON.BLE.DISCONNECTED);
             // 连接蓝牙是否成功
             this.isConnectedSuccess(event);
         });
@@ -120,34 +118,44 @@ class Bluetooth extends Common {
      * 连接蓝牙是否成功
      */
     async isConnectedSuccess(event) {
-        this.peripheral = this.newPeripheral;
+        try {
+            const resForConnect = this.peripheral && await this.connectBle(event);
 
-        const resForConnect = this.peripheral && await this.connectBle(event);
+            event.reply(ipc_Main.RETURN.BLE.CONNECTION, {
+                bleType: this._type,
+                msg: resForConnect ? "successfullyConnected" : "failedConnected",
+                success: resForConnect
+            });
 
-        event.reply(ipc_Main.RETURN.BLE.CONNECTION, {
-            bleType: resForConnect ? this._type : null,
-            msg: resForConnect ? "successfullyConnected" : "failedConnected",
-            success: resForConnect
-        });
+            if (!resForConnect) {
+                this.peripheral = null;
+                this.removeAllMainListeners([
+                    ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES,
+                    ipc_Main.SEND_OR_ON.EXE.DELETE,
+                    ipc_Main.SEND_OR_ON.EXE.FILES,
+                    ipc_Main.SEND_OR_ON.BLE.DISCONNECTED
+                ]);
+                return;
+            }
 
-        if (!resForConnect) {
-            this.peripheral = null;
-            this.newPeripheral = null;
-            this.removeAllMainListeners([
-                ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES,
-                ipc_Main.SEND_OR_ON.EXE.DELETE,
-                ipc_Main.SEND_OR_ON.EXE.FILES,
-            ]);
-            return;
+            this.noble.stopScanning();
+
+            resForConnect &&
+                await this.discoverBleServices() &&
+                await this.discoverBleCharacteristics() &&
+                await this.bleSubscribe(event);
+
+        } catch (error) {
+            event.reply(ipc_Main.RETURN.BLE.CONNECTION, {
+                bleType: this._type,
+                msg: "failedConnected",
+                success: false
+            });
+
+            if (this.peripheral) { 
+                this.peripheral.disconnect();
+            }
         }
-
-        this.noble.stopScanning();
-
-        const resForServices = resForConnect && await this.discoverBleServices();
-
-        const resForCharacteristics = resForServices && await this.discoverBleCharacteristics();
-
-        resForCharacteristics && await this.bleSubscribe(event);
     }
 
     /**
@@ -171,8 +179,8 @@ class Bluetooth extends Common {
     /**
      * 监听断开连接指令
      * */
-    disconnected() {
-        this.ipcHandle(ipc_Main.SEND_OR_ON.BLE.DISCONNECTED, () => this.peripheral && this.peripheral.disconnect());
+    disconnected(eventName) {
+        this.ipcHandle(eventName, () => this.peripheral && this.peripheral.disconnect());
     }
 
     /**
@@ -180,17 +188,19 @@ class Bluetooth extends Common {
      */
     disconnectListen(event) {
         this.peripheral && this.peripheral.once('disconnect', () => {
-            if (this.peripheral.id === this.newPeripheral.id) {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
-            }
+            event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { res: false, msg: "disconnect" });
 
-            clearInterval(this.timeOutTimer);
-            this.timeOutTimer = null;
             this.removeAllMainListeners([
                 ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES,
                 ipc_Main.SEND_OR_ON.EXE.DELETE,
                 ipc_Main.SEND_OR_ON.EXE.FILES,
+                ipc_Main.SEND_OR_ON.BLE.DISCONNECTED
             ]);
+
+
+            clearInterval(this.timeOutTimer);
+            this.timeOutTimer = null;
+            this.peripheral = null;
         })
     }
 
@@ -199,11 +209,14 @@ class Bluetooth extends Common {
      */
     discoverBleServices() {
         return new Promise((resolve, reject) => {
+            if (!this.peripheral) {
+                reject();
+            }
+            
             this.peripheral.discoverServices([this.serviceUUID], (error, services) => {
                 if (error) {
-                    console.error('发现服务失败', error);
-                    reject(error);
-                    return;
+                    // console.error('发现服务失败', error);
+                    reject(error.message);
                 }
                 this.service = services[0];
                 resolve(true);
@@ -216,11 +229,14 @@ class Bluetooth extends Common {
      */
     discoverBleCharacteristics() {
         return new Promise((resolve, reject) => {
+            if (!this.service) {
+                reject();
+            }
+
             this.service.discoverCharacteristics([this.characteristicUUID], (error, characteristics) => {
                 if (error) {
-                    console.error('发现特征失败', error);
-                    reject(error);
-                    return;
+                    // console.error('发现特征失败', error);
+                    reject(error.message);
                 }
                 this.characteristic = characteristics[0];
                 resolve(true);
@@ -272,14 +288,17 @@ class Bluetooth extends Common {
     bleSubscribe(event) {
         const watch = this.throttle(this.watchDevice.bind(this), 100);
         return new Promise((resolve, reject) => {
+            if (!this.characteristic) {
+                reject();
+            }
+
             let buffer = '';
             const text = new TextDecoder();
             this.characteristic.subscribe((error) => {
                 if (error) {
-                    console.error('启用通知失败', error);
+                    // console.error('启用通知失败', error);
                     this.characteristic.unsubscribe();
-                    reject(false);
-                    return;
+                    reject(error.message);
                 }
 
                 console.log('已启用通知');

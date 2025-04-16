@@ -640,6 +640,28 @@ const alerts = [
         level: AlertLevels.WARN,
         maxDisplaySecs: 5,
     },
+    {
+        alertId: "deviceISConnected",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibration"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="The serial device is connected, please disconnect and select Bluetooth again"
+                description="The serial device is connected, please disconnect and select Bluetooth again"
+                id="gui.alerts.deviceISConnected"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

@@ -271,6 +271,7 @@
   "gui.alerts.uploadSuccess": "Successfully sent",
   "gui.alerts.uploadTimeout": "Send Timeout",
   "gui.alerts.bleISNotSupported": "Bluetooth not turned on or not supported",
+  "gui.alerts.deviceISConnected": "The serial device is connected, please disconnect and select Bluetooth again",
   "gui.defaultProject.meow": "Meow",
   "gui.defaultProject.variable": "my variable",
   "gui.howtos.install-drivers": "Install drivers",

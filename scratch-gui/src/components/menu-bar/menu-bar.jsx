@@ -22,7 +22,7 @@ import {
     setConnectionModalPeripheralName,
     setPort,
 } from "../../reducers/connection-modal";
-import { openBleListModal, openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
+import { closeBleListModal, openBleListModal, openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
 import { getCode, setGen, setGeneratorName, setPlayer } from "../../reducers/mode";
 import {
     autoUpdateProject,
@@ -190,7 +190,7 @@ class MenuBar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.deviceType !== this.props.deviceType) {
+        if (prevProps.deviceType === verifyTypeConfig.BLUETOOTH && prevProps.deviceType !== this.props.deviceType) {
             this.scanConnection();
         }
     }
@@ -290,8 +290,26 @@ class MenuBar extends React.Component {
     }
 
     handleConnectionMouseUp(deviceType) {
-        !this.props.peripheralName && this.props.onSetDeviceType(deviceType);
-        deviceType === verifyTypeConfig.BLUETOOTH ? this.props.onOpenBleListModal() :  this.props.onOpenConnectionModal();
+        if (!this.props.peripheralName) { 
+
+            this.props.onSetDeviceType(deviceType);
+
+            deviceType === verifyTypeConfig.BLUETOOTH ? this.props.onOpenBleListModal() : this.props.onOpenConnectionModal();
+            
+        } else {
+            if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+
+                if (deviceType === verifyTypeConfig.BLUETOOTH) {
+                    this.props.onShowCompletedAlert("deviceISConnected");
+                    return;
+                }
+
+                this.props.onOpenConnectionModal(); 
+            } else {
+
+                this.props.onOpenBleListModal();
+            }
+        }
     }
 
 
@@ -319,6 +337,7 @@ class MenuBar extends React.Component {
                         this.props.onSetDeviceType(args.type);
                         this.setPortItem(args.serial, args.type);
                         this.props.onShowConnectAlert(args.msg);
+                        this.props.onCloseBleListModal();
                     }
                 } else {
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
@@ -824,6 +843,7 @@ const mapDispatchToProps = (dispatch) => ({
     onGetCode: code => dispatch(getCode(code)),
     onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
     onShowFileNotify: (fileNotify) => dispatch(showFileNotify(fileNotify)),
+    onCloseBleListModal: () => dispatch(closeBleListModal()),
 });
 
 export default compose(

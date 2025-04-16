@@ -72,7 +72,7 @@ class BleListModal extends PureComponent {
     }
 
     componentWillUnmount() {
-        this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
+        !this.props.peripheralName && this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
         this.noScanBle();
         window.myAPI.delEvents([ipc_Renderer.RETURN.BLE.GETBlELIST, ipc_Renderer.RETURN.BLE.CONNECTION, ipc_Renderer.RETURN.BLE.SCANNING]);
     }
@@ -82,10 +82,8 @@ class BleListModal extends PureComponent {
     }
 
     scanBle() {
-        if (!this.props.peripheralName) {
-            this.handleGetBleList();
-            this.handleBleScan(true);
-        }
+        this.handleGetBleList();
+        this.handleBleScan(true);
     }
 
     noScanBle() {
@@ -124,7 +122,7 @@ class BleListModal extends PureComponent {
     }
 
     async handleSelectPort(port) {
-        if (this.props.completed || this.props.peripheralName) {
+        if (this.props.completed || this.props.peripheralName || port.state === 'connected') {
             return;
         }
 
@@ -135,6 +133,7 @@ class BleListModal extends PureComponent {
             callback: (e, res) => {
                 const { bleType, msg, success } = res;
                 this.props.onShowConnectAlert(msg);
+
                 if (success) {
                     this.props.onSetCompleted(false);
                     this.props.onSetDeviceType(bleType);
@@ -162,7 +161,7 @@ class BleListModal extends PureComponent {
     async handleBleDisconnect(port) {
         await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.BLE.DISCONNECTED);
 
-        this.handleBleScan(true);
+        this.scanBle();
 
         this.setState({
             selectedBle: null,

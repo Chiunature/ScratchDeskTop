@@ -16,6 +16,10 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
         return device.state === 'connected' ? styles.connected : '';
     }
 
+    const bleName = (device) => {
+        return device.localName === 'unkown' ? intl.formatMessage(messages.unsupportedDevice) : device.localName;
+    }
+
     return (
         <Modal
             id="ble-list-modal"
@@ -62,7 +66,7 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
                         <div className={styles.bleItem} key={device.id}>
                             <img src={bleIcon} alt='' />
                             <div className={styles.bleListItem}>
-                                <span>{device?.localName || intl.formatMessage(messages.unsupportedDevice)}</span>
+                                <span>{bleName(device)}</span>
                                 <span className={styles.text}>{device.address || device.id}</span>
                             </div>
                             <ButtonComponent

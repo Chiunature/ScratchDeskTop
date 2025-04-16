@@ -301,6 +301,7 @@
   "gui.alerts.uploadTimeout": "发送超时",
   "gui.alerts.saveSuccess": "保存成功",
   "gui.alerts.bleISNotSupported": "蓝牙未开启或不被支持",
+  "gui.alerts.deviceISConnected": "串口设备已连接，请断开再选择蓝牙",
   "gui.defaultProject.meow": "喵",
   "gui.defaultProject.variable": "我的变量",
   "gui.howtos.install-drivers": "安装驱动",
