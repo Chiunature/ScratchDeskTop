@@ -7,13 +7,13 @@ goog.require('Blockly.Python');
 Blockly.Python['motor_box'] = function (block) {
     const menu = block.getFieldValue('MOTOR');
     // TODO: Assemble Python into code variable.
-    return [`"${menu}"`, Blockly.cake.ORDER_ATOMIC];
+    return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_acceleration_menu'] = function (block) {
     const menu = block.getFieldValue('MENU');
     // TODO: Assemble Python into code variable.
-    return [`"${menu}"`, Blockly.cake.ORDER_ATOMIC];
+    return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['motor_starting'] = function (block) {
