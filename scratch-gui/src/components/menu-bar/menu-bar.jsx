@@ -342,13 +342,12 @@ class MenuBar extends React.Component {
                 } else {
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
-                            args.msg.length > 0 && this.handleDisconnect(args.msg);
+                            this.handleDisconnect(args.msg);
+                            this.scanConnection();
                         }, 2000);
                     } else {
                         this.handleDisconnect(args.msg);
                     }
-
-                    this.scanConnection();
                 }
             },
         });

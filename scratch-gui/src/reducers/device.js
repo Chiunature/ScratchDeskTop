@@ -10,7 +10,7 @@ const SET_DEVICESTATUS = 'scratch-gui/device/deviceStatus';
 const initialState = {
     deviceId: null,
     deviceName: null,
-    deviceType: null,
+    deviceType: 'serialport',
     deviceStatus: null,
     deviceObj: {
         deviceList: [],

@@ -31,7 +31,7 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
             <div className={styles.bleList}>
                 <div className={styles.bleItem}>
                     <p>{intl.formatMessage(messages.connectedBle)}</p>
-                    {!selectedBle && <img className={classNames(styles.radarSmall, styles.radarSpin)} src={radarIcon} alt='' />}
+                    {(!selectedBle || !selectedBle.id) && <img className={classNames(styles.radarSmall, styles.radarSpin)} src={radarIcon} alt='' />}
                 </div>
                 {
                     (selectedBle && selectedBle.id) && (
