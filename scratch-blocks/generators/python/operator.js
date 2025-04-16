@@ -27,8 +27,8 @@ Blockly.Python['operator_arithmetic'] = function(block) {
   var oplist = {
     operator_add: [' + ', Blockly.Python.ORDER_ADDITIVE],
     operator_subtract: [' - ', Blockly.Python.ORDER_ADDITIVE],
-    operator_multiply: [' * ', Blockly.Python.ORDER_MULTIPLICATIVE],
-    operator_divide: [' / ', Blockly.Python.ORDER_MULTIPLICATIVE]
+    operator_multiply: [' * ', Blockly.Python.ORDER_ADDITIVE],
+    operator_divide: [' / ', Blockly.Python.ORDER_ADDITIVE]
   };
   var tuple = oplist[block.type];
   var op = tuple[0];
