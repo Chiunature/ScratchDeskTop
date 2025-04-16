@@ -135,14 +135,14 @@ Blockly.Python['sensing_ultrasonic_judgment'] = function (block) {
     const judgment = block.getFieldValue('judgment');
     const inp = Blockly.Python.valueToCode(block, "value", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`sensing_ultrasonic_judgment(${port}, "${judgment}", ${inp})`, Blockly.Python.ULTRASIONIC_TYPE);
+    const code = Blockly.Python.handleResult(`sensing_ultrasionic_judgment(${port}, "${judgment}", ${inp})`, Blockly.Python.ULTRASIONIC_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['sensing_ultrasonic_detection'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`sensing_ultrasonic_detection(${port})`, Blockly.Python.ULTRASIONIC_TYPE);
+    const code = Blockly.Python.handleResult(`sensing_ultrasionic_detection(${port})`, Blockly.Python.ULTRASIONIC_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
