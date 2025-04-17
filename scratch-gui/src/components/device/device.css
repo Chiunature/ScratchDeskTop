@@ -99,7 +99,7 @@
 .mid-part::-webkit-scrollbar-thumb,
 .mid-right::-webkit-scrollbar-thumb,
 .mid-left::-webkit-scrollbar-thumb {
-    background-color: #CECDCE;
+    background-color: #cecdce;
     border-radius: 3px;
 }
 
@@ -176,14 +176,13 @@ ul {
 }
 
 .sel-exe::-webkit-scrollbar-thumb {
-    background-color: #CECDCE;
+    background-color: #cecdce;
     border-radius: 3px;
 }
 
 .sel-exe::-webkit-scrollbar-track {
     background-color: #f1f1f1;
 }
-
 
 .sel-exe li {
     display: flex;
@@ -202,7 +201,7 @@ ul {
     flex-shrink: 0;
 }
 
-.sel-exe li div:first-child>input {
+.sel-exe li div:first-child > input {
     margin-right: 1rem;
 }
 
@@ -255,37 +254,35 @@ ul {
 }
 
 .device-sensing-box {
-    width: 70%;
+    width: fit-content;
     height: 40px;
     position: absolute;
     top: 49.5px;
     left: 26%;
     z-index: 35;
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 6px;
-    transition: all .7s;
+    transition: all 0.8s;
 }
-
 
 @media screen and (min-width: 1450px) {
     .device-sensing-box {
-        width: 70%;
+        width: fit-content;
         height: 40px;
         position: absolute;
         top: 49.5px;
         left: 19%;
         z-index: 35;
-        background: rgba(0, 0, 0, .2);
+        background: rgba(0, 0, 0, 0.2);
         border-radius: 6px;
     }
-
 }
 
 .device-sensing-box ul {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
 .device-sensing-box ul::-webkit-scrollbar {
@@ -300,7 +297,6 @@ ul {
     padding: 0 5px;
     box-sizing: border-box;
 }
-
 
 .device-sensing-text {
     height: 100%;
@@ -335,7 +331,7 @@ ul {
 .device-sensing-content .show-unit label {
     height: 16px;
     text-align: center;
-    color: #4C97FF;
+    color: #4c97ff;
     font-size: 12px;
     flex-grow: 1;
     margin-right: 5px;
@@ -358,7 +354,7 @@ ul {
     display: flex;
     flex-flow: column nowrap;
     justify-items: center;
-    color: #4C97FF;
+    color: #4c97ff;
     font-size: 12px;
     border-radius: 6px;
     user-select: none;
@@ -368,7 +364,7 @@ ul {
     position: absolute;
     top: 40px;
     left: 0;
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.2);
     display: none !important;
 }
 
@@ -391,5 +387,5 @@ ul {
 }
 
 .device-sensing-unit div span:hover {
-    background: rgba(255, 255, 255, .7);
+    background: rgba(255, 255, 255, 0.7);
 }
