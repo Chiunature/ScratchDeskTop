@@ -31,18 +31,18 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    function motorData(keyName) {
-        switch (keyName) {
-            case 'circly':
+    function motorData(num) {
+        switch (num) {
+            case 0:
                 return intl.formatMessage(messages['circly']);
-            case 'angle':
+            case 1:
                 return intl.formatMessage(messages['angle']);
-            case 'actualSpeed':
+            case 2:
                 return intl.formatMessage(messages['actualSpeed']);
-            case 'version':
+            case 3:
                 return intl.formatMessage(messages['version']);
             default:
-                return 'Error';
+                return;
         }
     }
 
@@ -75,9 +75,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                     <div className={styles.midBox} key={index}>
                         <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
-                            {Object.keys(el.motor).map((keyName, index) => {
+                            {motorData(index) && Object.keys(el.motor).map((keyName, index) => {
                                 return (<li key={index}>
-                                    <span>{motorData(keyName)}</span>
+                                    <span>{motorData(index)}</span>
                                     <span>{el.motor[keyName]}</span>
                                 </li>)
                             })}
