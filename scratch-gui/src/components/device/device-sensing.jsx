@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styles from './device.css';
 import colorSensingIcon from 'scratch-blocks/media/color_sensing.svg';
 import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';
@@ -14,7 +14,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         let list = window.myAPI.getStoreValue('sensing-unit-list');
         if (list) {
             let newList = JSON.parse(list);
-            if(newList.length === 0 || (newList[index]?.deviceId === deviceId && newList[index]?.unit === unit)) return;
+            if (newList.length === 0 || (newList[index]?.deviceId === deviceId && newList[index]?.unit === unit)) return;
             newList[index]['unit'] = unit;
             newList[index]['deviceId'] = deviceId;
             window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(newList));
@@ -102,8 +102,20 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return intl.formatMessage(messages['distance']);
             case 4:
                 return intl.formatMessage(messages['key']);
+            case 7:
+                return grayData(unitIndex, keyName);
             default:
                 return keyName;
+        }
+    }
+
+    function grayData(num, keyName) {
+        switch (num) {
+            case 0:
+            case 1:
+                return keyName;
+            default:
+                return intl.formatMessage(messages['version']);
         }
     }
 
@@ -149,7 +161,13 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         <div className={styles.deviceSensingBox}>
             <ul>
                 {(deviceObj?.deviceList) && deviceObj.deviceList.map((item, index) => {
-                    return (<DeviceSensingItem _checkTypeIs={_checkTypeIs} key={index} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />)
+                    return (
+                        <Fragment key={index}>
+                            {
+                                item?.deviceId !== '0' && <DeviceSensingItem _checkTypeIs={_checkTypeIs} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />
+                            }
+                        </Fragment>
+                    )
                 })}
             </ul>
         </div>

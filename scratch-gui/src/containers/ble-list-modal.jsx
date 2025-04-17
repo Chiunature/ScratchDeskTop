@@ -68,7 +68,7 @@ class BleListModal extends PureComponent {
     }
 
     componentDidMount() {
-        this.scanBle();
+        !this.props.peripheralName && this.scanBle();
     }
 
     componentWillUnmount() {

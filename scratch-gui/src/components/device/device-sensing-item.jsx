@@ -81,7 +81,7 @@ const DeviceSensingItem = ({ item, getPort, getSensing, getType, DistinguishType
     }
 
     return (
-        <li className={item?.deviceId !== '0' ? '' : styles.hide}>
+        <li>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} />
