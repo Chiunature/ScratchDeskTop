@@ -17,11 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @fileoverview The class representing one block.
- * @author avenger-jxc
- */
 const serialport = require("serialport");
 const PDFWindow = require('electron-pdf-window')
 const path = require("path");
