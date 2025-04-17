@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import styles from './device.css';
 
 
@@ -31,23 +31,23 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    function motorData(num) {
-        switch (num) {
-            case 0:
+    function motorData(keyName) {
+        switch (keyName) {
+            case 'circly':
                 return intl.formatMessage(messages['circly']);
-            case 1:
+            case 'angle':
                 return intl.formatMessage(messages['angle']);
-            case 2:
+            case 'actualSpeed':
                 return intl.formatMessage(messages['actualSpeed']);
-            case 3:
+            case 'version':
                 return intl.formatMessage(messages['version']);
             default:
-                return;
+                return 'Error';
         }
     }
 
-    function colorData(type) {
-        switch (type) {
+    function colorData(keyName) {
+        switch (keyName) {
             case 'l':
                 return intl.formatMessage(messages['lightIntensity']);
             case 'rgb':
@@ -59,45 +59,50 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
-    const newGetPort = useCallback((index) => getPort(index), [list]);
-    const newMotorData = useCallback((num) => motorData(num), [list]);
-    const newColorData = useCallback((type) => colorData(type), [list]);
+    function grayData(keyName) {
+        switch (keyName) {
+            case 'version':
+                return intl.formatMessage(messages['version']);
+            default:
+                return keyName;
+        }
+    }
 
     return (
         <>
             {newList.map((el, index) => {
                 return (
                     <div className={styles.midBox} key={index}>
-                        <p>{intl.formatMessage(messages['port'])}: {newGetPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
+                        <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
-                            {Object.keys(el.motor).map((item, index) => {
-                                return (newMotorData(index) && <li key={index}>
-                                    <span>{item === 'Not_Run' ? 'Error' : newMotorData(index)}</span>
-                                    <span>{el.motor[item]}</span>
+                            {Object.keys(el.motor).map((keyName, index) => {
+                                return (<li key={index}>
+                                    <span>{motorData(keyName)}</span>
+                                    <span>{el.motor[keyName]}</span>
                                 </li>)
                             })}
                         </ul>}
                         {el.ultrasion && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasion.cm}</span><span>cm</span></li></ul>}
                         {el.touch && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['key'])}</span><span>{el.touch.state}</span></li></ul>}
                         {el.color && Object.keys(el.color).length > 0 && <ul className={styles.midUl}>
-                            {Object.keys(el.color).map((item, index) => {
+                            {Object.keys(el.color).map((keyName, index) => {
                                 return (
                                     <Fragment key={index}>
-                                        {(item === 'l' || item === 'rgb' || item === 'version' || item === 'Not_Run') && <li>
-                                            <span>{newColorData(item)}</span>
-                                            <span>{el.color[item]}</span>
-                                            {item === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[item] }}></div></span>}
+                                        {(keyName === 'l' || keyName === 'rgb' || keyName === 'version' || keyName === 'Not_Run') && <li>
+                                            <span>{colorData(keyName)}</span>
+                                            <span>{el.color[keyName]}</span>
+                                            {keyName === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[keyName] }}></div></span>}
                                         </li>}
                                     </Fragment>
                                 )
                             })}
                         </ul>}
                         {el.gray && Object.keys(el.gray).length > 0 && <ul className={styles.midUl}>
-                            {Object.keys(el.gray).map((item, index) => {
+                            {Object.keys(el.gray).map((keyName, index) => {
                                 return (
                                     <li key={index}>
-                                        <span>{item === 'Not_Run' ? 'Error' : item}</span>
-                                        <span>{el.gray[item]}</span>
+                                        <span>{keyName === 'Not_Run' ? 'Error' : grayData(keyName)}</span>
+                                        <span>{el.gray[keyName]}</span>
                                     </li>
                                 )
                             })}
