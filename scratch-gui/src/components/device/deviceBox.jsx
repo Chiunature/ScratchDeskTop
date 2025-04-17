@@ -75,11 +75,18 @@ const DeviceBox = ({ list, intl, messages }) => {
                     <div className={styles.midBox} key={index}>
                         <p>{intl.formatMessage(messages['port'])}: {getPort(el.port)}-{intl.formatMessage(messages[el.sensing_device])}</p>
                         {el.motor && Object.keys(el.motor).length > 0 && <ul className={styles.midUl}>
-                            {motorData(index) && Object.keys(el.motor).map((keyName, index) => {
-                                return (<li key={index}>
-                                    <span>{motorData(index)}</span>
-                                    <span>{el.motor[keyName]}</span>
-                                </li>)
+                            {Object.keys(el.motor).map((keyName, index) => {
+                                return (
+                                    <Fragment key={index}>
+                                        {
+                                            motorData(index) &&
+                                            <li>
+                                                <span>{motorData(index)}</span>
+                                                <span>{el.motor[keyName]}</span>
+                                            </li>
+                                        }
+                                    </Fragment>
+                                )
                             })}
                         </ul>}
                         {el.ultrasion && <ul className={styles.midUl}><li><span>{intl.formatMessage(messages['distance'])}</span><span>{el.ultrasion.cm}</span><span>cm</span></li></ul>}
@@ -88,11 +95,14 @@ const DeviceBox = ({ list, intl, messages }) => {
                             {Object.keys(el.color).map((keyName, index) => {
                                 return (
                                     <Fragment key={index}>
-                                        {(keyName === 'l' || keyName === 'rgb' || keyName === 'version' || keyName === 'Not_Run') && <li>
-                                            <span>{colorData(keyName)}</span>
-                                            <span>{el.color[keyName]}</span>
-                                            {keyName === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[keyName] }}></div></span>}
-                                        </li>}
+                                        {
+                                            (keyName === 'l' || keyName === 'rgb' || keyName === 'version' || keyName === 'Not_Run') &&
+                                            <li>
+                                                <span>{colorData(keyName)}</span>
+                                                <span>{el.color[keyName]}</span>
+                                                {keyName === 'rgb' && <span><div className={styles.col} style={{ 'backgroundColor': el.color[keyName] }}></div></span>}
+                                            </li>
+                                        }
                                     </Fragment>
                                 )
                             })}
