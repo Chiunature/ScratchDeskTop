@@ -36,9 +36,9 @@ function getAllFiles(fs, path, dir) {
             const pathname = path.join(dir, file);
             if (fs.statSync(pathname).isDirectory()) {
                 traverse(pathname, `SOURCE_${file.toUpperCase()}`);
-        } else {
+            } else {
                 res.push({ verifyType: type, pathname, fileName: file, fileData: fs.readFileSync(pathname) });
-        }
+            }
         })
     }
     traverse(dir, null);
@@ -86,7 +86,7 @@ function getResultByCodeType(options, codeOptions) {
             return [
                 {
                     verifyType: BOOTBIN,
-                    fileName: `${selectedExe.num}.o`,
+                    fileName: `${selectedExe.num}.py`,
                     fileData: options.codeStr
                 }
             ]

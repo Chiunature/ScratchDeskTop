@@ -9,7 +9,7 @@ export async function handleUploadPython(options, static_path = '') {
         }
 
         try {
-            const pyPath = `${DIR}/${selectedExe.num}.py`;
+            /* const pyPath = `${DIR}/${selectedExe.num}.py`;
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
 
@@ -33,7 +33,18 @@ export async function handleUploadPython(options, static_path = '') {
                 resolve(true);
             } else {
                 reject(false);
-            }
+            } */
+            window.myAPI.ipcRender({
+                sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
+                sendParams: {
+                    verifyType,
+                    selectedExe,
+                    codeType,
+                    codeStr: new Uint8Array(stringToArrayBuffer(codeStr)),
+                    isRun: options.isRun,
+                }
+            });
+            resolve(true);
         } catch (error) {
             reject(false);
         }
@@ -41,8 +52,8 @@ export async function handleUploadPython(options, static_path = '') {
     })
 }
 
-/* function stringToArrayBuffer(str) {
+function stringToArrayBuffer(str) {
     const encoder = new TextEncoder();
     const res = encoder.encode(str);
     return res.buffer;
-} */
+}
