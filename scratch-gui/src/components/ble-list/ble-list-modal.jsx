@@ -69,12 +69,15 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
                                 <span>{bleName(device)}</span>
                                 <span className={styles.text}>{device.address || device.id}</span>
                             </div>
-                            <ButtonComponent
-                                className={classNames(styles.bleConnectBtn, btnCSSStatus(device))}
-                                onClick={() => handleSelectPort(device)}
-                            >
-                                {btnStatus(device)}
-                            </ButtonComponent>
+                            {
+                                device.localName !== 'unkown' &&
+                                <ButtonComponent
+                                    className={classNames(styles.bleConnectBtn, btnCSSStatus(device))}
+                                    onClick={() => handleSelectPort(device)}
+                                >
+                                    {btnStatus(device)}
+                                </ButtonComponent>
+                            }
                         </div>
                     )
                 }
