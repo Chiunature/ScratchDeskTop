@@ -22,10 +22,10 @@
  * @fileoverview The class representing one block.
  * @author avenger-jxc
  */
-const { SOURCE, BOOTBIN } = require("../json/verifyTypeConfig.json");
-const { BIN, LB_FWLIB } = require("../json/LB_FWLIB.json");
-const { CAKE, PYTHON } = require("../json/code_type.json");
-const ipc_Main = require("../json/communication/ipc.json");
+import { SOURCE, BOOTBIN } from "../json/verifyTypeConfig.json";
+import { BIN, LB_FWLIB } from "../json/LB_FWLIB.json";
+import { CAKE, PYTHON } from "../json/code_type.json";
+import ipc_Main from "../json/ipc.json";
 
 
 
@@ -47,10 +47,10 @@ function getAllFiles(fs, path, dir) {
 
 /**
  * 处理是哪种类型的校验
- * @param  {Object} options
- * @returns
+ * @param  {Object} options 
+ * @returns 
  */
-function verifyBinType(options, event) {
+export function verifyBinType(options, event) {
     const { verifyType } = options;
     const { path, fs, process, isPackaged } = this;
     const dir = path.resolve(__dirname);
@@ -95,6 +95,6 @@ function getResultByCodeType(options, codeOptions) {
     }
 }
 
-module.exports = {
-    verifyBinType
-};
+// module.exports = {
+//     verifyBinType
+// };

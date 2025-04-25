@@ -1,11 +1,11 @@
-const Common = require("./common");
-const { verifyBinType } = require("../config/js/verify.js");
-const { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
-const ipc_Main = require("../config/json/communication/ipc.json");
-const signType = require("../config/json/communication/sign.json");
-const { instruct, reg } = require("../config/js/instructions.js");
+import Common from "./common";
+import { verifyBinType } from "../config/js/verify.js";
+import { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } from "../config/json/verifyTypeConfig.json";
+import ipc_Main from "../config/json/ipc.json";
+import signType from "../config/json/sign.json";
+import { instructions, reg } from "../config/js/instructions.js";
 
-class Bluetooth extends Common {
+export class Bluetooth extends Common {
     constructor(...args) {
         super(...args);
         this._type = 'ble';
@@ -78,7 +78,7 @@ class Bluetooth extends Common {
             };
 
             this.peripheralList.set(peripheral.id, peripheral);
-            
+
             event.reply(ipc_Main.RETURN.BLE.GETBlELIST, JSON.stringify(ble));
         });
     }
@@ -152,7 +152,7 @@ class Bluetooth extends Common {
                 success: false
             });
 
-            if (this.peripheral) { 
+            if (this.peripheral) {
                 this.peripheral.disconnect();
             }
         }
@@ -212,7 +212,7 @@ class Bluetooth extends Common {
             if (!this.peripheral) {
                 reject();
             }
-            
+
             this.peripheral.discoverServices([this.serviceUUID], (error, services) => {
                 if (error) {
                     // console.error('发现服务失败', error);
@@ -336,7 +336,7 @@ class Bluetooth extends Common {
                                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError" });
                                 this.clearCache();
                             } else {
-                                this.isStopWatch && this.bleWrite(instruct.stop_watch, null, event);
+                                this.isStopWatch && this.bleWrite(instructions.stop_watch, null, event);
                                 this.isStopWatch = false;
                                 // 重置标识符
                                 this.sign = null;
@@ -496,17 +496,17 @@ class Bluetooth extends Common {
             }
             switch (arg.type) {
                 case 'FILE':
-                    this.bleWrite(instruct.stop_watch, null, event);
+                    this.bleWrite(instructions.stop_watch, null, event);
                     this.isStopWatch = true;
                     setTimeout(() => {
-                        this.bleWrite(instruct.files, signType.EXE.FILES, event);
+                        this.bleWrite(instructions.files, signType.EXE.FILES, event);
                     }, 500);
                     break;
                 case 'SENSING_UPDATE':
-                    this.bleWrite(instruct.sensing_update, null, event);
+                    this.bleWrite(instructions.sensing_update, null, event);
                     break;
                 case 'APP':
-                    this.bleWrite(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+                    this.bleWrite(arg.status === EST_RUN ? instructions.app_stop : instructions.app_run, null, event);
                     break;
                 default:
                     break;
@@ -586,4 +586,6 @@ class Bluetooth extends Common {
 
 }
 
-module.exports = Bluetooth;
+// module.exports = Bluetooth;
+// module.exports['default'] = Bluetooth;
+export default Bluetooth;

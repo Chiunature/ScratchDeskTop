@@ -1,14 +1,22 @@
 const Serialport = require("./utils/serialport");
 const Bluetooth = require("./utils/bluetooth");
-const ipc = require("./config/json/communication/ipc.json");
+const ipc = require("./config/json/ipc.json");
 const verifyTypeConfig = require("./config/json/verifyTypeConfig.json");
-const instructions = require("./config/js/instructions.js");
+const { instructions, deviceIdMap, reg } = require("./config/js/instructions.js");
 
-module.exports = {
+
+const defaultExports = {
 	name: 'est-link',
 	Serialport,
 	Bluetooth,
 	ipc,
 	verifyTypeConfig,
-	instructions
+	instructions,
+	deviceIdMap,
+	reg
+}
+
+module.exports = defaultExports
+module.exports['default'] = {
+	...defaultExports
 }

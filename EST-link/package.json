@@ -2,11 +2,15 @@
   "name": "est-link",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.js",
-  "browser": false,
+  "main": "dist/cjs/bundle.js",
+  "module": "dist/esm/main.js",
+  "exports": {
+    "import": "./dist/esm/bundle.js",
+    "require": "./dist/cjs/bundle.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack --mode production"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +31,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "eslint": "7.5",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.99.6",
+    "webpack-cli": "^6.0.1"
   }
 }

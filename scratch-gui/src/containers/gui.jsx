@@ -35,7 +35,7 @@ import storage from "../lib/storage";
 import vmListenerHOC from "../lib/vm-listener-hoc.jsx";
 import vmManagerHOC from "../lib/vm-manager-hoc.jsx";
 import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
-import { ipc as ipc_Renderer, verifyTypeConfig, instructions } from "est-link";
+import { ipc as ipc_Renderer, verifyTypeConfig, deviceIdMap } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
@@ -93,7 +93,6 @@ class GUI extends React.Component {
     }
     async componentWillUnmount() {
         window.myAPI.delEvents();
-        // await window.myAPI.removeForage("programlist");
     }
 
     async getMainMessage() {
@@ -246,13 +245,12 @@ class GUI extends React.Component {
     checkUpdateSensing() {
         return new Promise((resolve) => {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-            const { device } = instructions;
             const firmwareVersion = window.myAPI.getVersion(resourcesPath) || verifyTypeConfig.FIRMWARE_VERSION;
             if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
                     const index = parseInt(item['port']);
-                    const deviceItem = device[item.deviceId];
+                    const deviceItem = deviceIdMap[item.deviceId];
                     if (parseInt(item.deviceId) !== 0 && item[deviceItem]?.version !== item[deviceItem]?.SoftwareVersion) {
                         dataList[index] = _type(deviceItem);
                     }

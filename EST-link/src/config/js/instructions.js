@@ -1,4 +1,4 @@
-const instruct = {
+export const instructions = {
     version: [0x5A, 0x97, 0x98, 0x01, 0xEA, 0x01, 0x75, 0xA5],
     files: [0x5A, 0x97, 0x98, 0x01, 0xE7, 0x01, 0x72, 0xA5],
     app_run: [0x5A, 0x97, 0x98, 0x01, 0xB6, 0x01, 0x41, 0xA5],
@@ -14,7 +14,7 @@ const instruct = {
     stop_watch: [0x5A, 0x97, 0x98, 0x01, 0xBA, 0x01, 0x45, 0xA5]
 }
 
-const deviceId = {
+export const deviceIdMap = {
     '0': 'noDevice',
     'a1': 'motor',
     'a2': 'color',
@@ -25,13 +25,13 @@ const deviceId = {
     'a7': 'gray'
 }
 
-const reg = {
+export const reg = {
     devicesData: /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,[\s\S]*?\"BusConnect\"\:\s*[\s\S]*?\}\s*/i,
     deBug: /->NEW AI DownLoad Debug[\s\S]*?Error\./
 }
 
-module.exports = {
-    reg,
-    instruct,
-    device: deviceId
-};
+// module.exports = {
+//     reg,
+//     instruct,
+//     device: deviceId
+// };

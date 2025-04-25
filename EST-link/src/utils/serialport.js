@@ -19,15 +19,15 @@
  *  uploadingFile: 正在上传的文件
  * }
  */
-const Common = require("./common.js");
-const { verifyBinType } = require("../config/js/verify.js");
-const { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } = require("../config/json/verifyTypeConfig.json");
-const ipc_Main = require("../config/json/communication/ipc.json");
-const signType = require("../config/json/communication/sign.json");
-const { instruct, reg } = require("../config/js/instructions.js");
+import Common from "./common.js";
+import { verifyBinType } from "../config/js/verify.js";
+import { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } from "../config/json/verifyTypeConfig.json";
+import ipc_Main from "../config/json/ipc.json";
+import signType from "../config/json/sign.json";
+import { instructions, reg } from "../config/js/instructions.js";
 
 
-class Serialport extends Common {
+export class Serialport extends Common {
 
     constructor(...args) {
         super(...args);
@@ -123,9 +123,9 @@ class Serialport extends Common {
     }
 
     /**
-     * 串口打开
-     * @param {*} event
-     */
+   * 串口打开
+   * @param {*} event
+   */
     OpenPort(event) {
         this.port.open((err) => {
             if (err) {
@@ -495,13 +495,13 @@ class Serialport extends Common {
             }
             switch (arg.type) {
                 case 'FILE':
-                    this.writeData(instruct.files, signType.EXE.FILES, event);
+                    this.writeData(instructions.files, signType.EXE.FILES, event);
                     break;
                 case 'SENSING_UPDATE':
-                    this.writeData(instruct.sensing_update, null, event);
+                    this.writeData(instructions.sensing_update, null, event);
                     break;
                 case 'APP':
-                    this.writeData(arg.status === EST_RUN ? instruct.app_stop : instruct.app_run, null, event);
+                    this.writeData(arg.status === EST_RUN ? instructions.app_stop : instructions.app_run, null, event);
                     break;
                 default:
                     break;
@@ -527,7 +527,7 @@ class Serialport extends Common {
      */
     /* restartMain(eventName) {
         this.ipcMain(eventName, (event, data) => {
-            this.writeData(instruct.restart, null, event);
+            this.writeData(instructions.restart, null, event);
         });
     } */
 
@@ -549,7 +549,7 @@ class Serialport extends Common {
 
     matrixSend(event, obj) {
         // 先清屏
-        obj.type === 'change' && this.writeData(instruct.matrix.clear, null, event);
+        obj.type === 'change' && this.writeData(instructions.matrix.clear, null, event);
         const list = this.matrixChange(obj);
         this.writeData(list, null, event);
     }
@@ -557,4 +557,6 @@ class Serialport extends Common {
 }
 
 
-module.exports = Serialport
+// module.exports = Serialport
+// module.exports['default'] = Serialport;
+export default Serialport;
