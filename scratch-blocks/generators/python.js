@@ -238,12 +238,8 @@ Blockly.Python.finish = function (code) {
   if (arr.length > 0) {
     arr.forEach((key, index) => {
       const t = `${key}_finished`;
-      threadStr += `_thread.start_new_thread(${key}, ())\n`
-      if (index === arr.length - 1) {
-        str += 'not ' + t;
-      } else {
-        str += 'not ' + t + ' or ';
-      }
+      threadStr += `_thread.start_new_thread(${key}, ())\n`;
+      str += index === arr.length - 1 ? 'not ' + t : 'not ' + t + ' or ';
     })
 
     let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';

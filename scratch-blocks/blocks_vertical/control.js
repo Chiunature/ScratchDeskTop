@@ -175,22 +175,24 @@ Blockly.Blocks['control_stop'] = {
    * @this Blockly.Block
    */
   init: function () {
-    var ALL_SCRIPTS = 'all';
+    // var ALL_SCRIPTS = 'all';
     var THIS_SCRIPT = 'single';
-    var OTHER_SCRIPTS = 'and exit';
+    var OTHER_SCRIPTS = 'other';
+    var EXIT = 'exit';
 
     var stopDropdown = new Blockly.FieldDropdown(function () {
       if (this.sourceBlock_ &&
-      this.sourceBlock_.nextConnection &&
-      this.sourceBlock_.nextConnection.isConnected()) {
-      return [
-      [Blockly.Msg.CONTROL_STOP_EXIT, OTHER_SCRIPTS]
-      ];
+        this.sourceBlock_.nextConnection &&
+        this.sourceBlock_.nextConnection.isConnected()) {
+        return [
+          [Blockly.Msg.CONTROL_STOP_EXIT, EXIT]
+        ];
       }
       return [
-      [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
-      [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
-      // [Blockly.Msg.CONTROL_STOP_EXIT, OTHER_SCRIPTS]
+        [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
+        // [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
+        [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS],
+        [Blockly.Msg.CONTROL_STOP_EXIT, EXIT]
       ];
     }, function (option) {
       // Create an event group to keep field value and mutator in sync
@@ -546,10 +548,10 @@ Blockly.Blocks['control_break'] = {
    * @this Blockly.Block
    */
   init: function () {
-      this.jsonInit({
-          "message0": Blockly.Msg.CONTROL_BREAK,
-          "category": Blockly.Categories.control,
-          "extensions": ["colours_control", "shape_end"],
-      });
+    this.jsonInit({
+      "message0": Blockly.Msg.CONTROL_BREAK,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"],
+    });
   }
 };

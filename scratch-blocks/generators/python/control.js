@@ -23,16 +23,16 @@ goog.provide('Blockly.Python.control');
 goog.require('Blockly.Python');
 
 
-Blockly.Python['control_wait'] = function(block) {
+Blockly.Python['control_wait'] = function (block) {
   let arg0 = Blockly.Python.valueToCode(block, 'DURATION',
-      Blockly.Python.ORDER_FUNCTION_CALL);
+    Blockly.Python.ORDER_FUNCTION_CALL);
   const code = "dekay_s(" + arg0 + ")\n";
   return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
 };
 
-Blockly.Python['control_repeat'] = function(block) {
+Blockly.Python['control_repeat'] = function (block) {
   let repeats = Blockly.Python.valueToCode(block, 'TIMES',
-      Blockly.Python.ORDER_FUNCTION_CALL);
+    Blockly.Python.ORDER_FUNCTION_CALL);
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
@@ -45,10 +45,10 @@ Blockly.Python['control_repeat'] = function(block) {
   return code + Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
 };
 
-Blockly.Python['control_forever'] = function(block) {
+Blockly.Python['control_forever'] = function (block) {
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
-  
+
   let code = "while True:\n";
   if (branch) {
     code += Blockly.Python.addIndent(branch);
@@ -64,9 +64,9 @@ Blockly.Python['control_forever'] = function(block) {
   return code + Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
 };
 
-Blockly.Python['control_if'] = function(block) {
+Blockly.Python['control_if'] = function (block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
-      Blockly.Python.ORDER_NONE) || 'False';
+    Blockly.Python.ORDER_NONE) || 'False';
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
@@ -79,9 +79,9 @@ Blockly.Python['control_if'] = function(block) {
   return code;
 };
 
-Blockly.Python['control_if_else'] = function(block) {
+Blockly.Python['control_if_else'] = function (block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
-      Blockly.Python.ORDER_NONE) || 'False';
+    Blockly.Python.ORDER_NONE) || 'False';
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
   let branch2 = Blockly.Python.statementToCode(block, 'SUBSTACK2');
@@ -102,10 +102,10 @@ Blockly.Python['control_if_else'] = function(block) {
   return code;
 };
 
-Blockly.Python['control_wait_until'] = function(block) {
+Blockly.Python['control_wait_until'] = function (block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
     Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
-  
+
   let code = "while not (" + argument + "):\n";
   code += Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n"
 
@@ -116,9 +116,9 @@ Blockly.Python['control_wait_until'] = function(block) {
   return code;
 };
 
-Blockly.Python['control_repeat_until'] = function(block) {
+Blockly.Python['control_repeat_until'] = function (block) {
   let argument = Blockly.Python.valueToCode(block, 'CONDITION',
-      Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
+    Blockly.Python.ORDER_UNARY_POSTFIX) || 'False';
 
   let branch = Blockly.Python.statementToCode(block, 'SUBSTACK');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
@@ -129,7 +129,7 @@ Blockly.Python['control_repeat_until'] = function(block) {
   } else {
     // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
   }
-  
+
   if (block.getRootBlock().type === 'event_whenmicrobitbegin') {
     code += Blockly.Python.INDENT + "repeat()\n";
   }
@@ -138,4 +138,29 @@ Blockly.Python['control_repeat_until'] = function(block) {
 
 Blockly.Python['control_break'] = function (block) {
   return 'break\n';
+};
+
+Blockly.Python['control_stop'] = function (block) {
+  // const ALL_SCRIPTS = 'all';
+  const THIS_SCRIPT = 'single';
+  const OTHER_SCRIPTS = 'other';
+  const EXIT = 'exit';
+
+  let stop_options = '';
+  switch (block.getFieldValue('STOP_OPTION')) {
+    // case ALL_SCRIPTS:
+    //   return 'MyOSysTem.osTaskExit()\n';
+    case THIS_SCRIPT:
+      stop_options = 'stopThisTask';
+      break;
+    case OTHER_SCRIPTS:
+      stop_options = 'stopOtherTask';
+      break;
+    case EXIT:
+      stop_options = 'stopAndExit';
+      break;
+    default:
+      break;
+  } 
+  return Blockly.Python.handleResult(`StopPrograment("${stop_options}")\n`, Blockly.Python.TIMER_TYPE);
 };

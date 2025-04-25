@@ -28583,7 +28583,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   "CONTROL_STOP": "停止",
   "CONTROL_STOP_ALL": "全部程序",
   "CONTROL_STOP_THIS": "这个程序",
-  "CONTROL_STOP_OTHER": "该角色的其他程序",
+  "CONTROL_STOP_OTHER": "其他程序",
   "CONTROL_STOP_EXIT": "并退出程序",
   "CONTROL_WAIT": "等待 %1 秒",
   "CONTROL_WAITUNTIL": "等待 %1",

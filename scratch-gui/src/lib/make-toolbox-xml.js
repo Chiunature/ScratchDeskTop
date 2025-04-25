@@ -495,6 +495,8 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
         <block type="control_if_else"/>
         ${blockSeparator}
          <block id="repeat_until" type="control_repeat_until"/>
+         ${blockSeparator}
+        <block type="control_stop" />
         ${categorySeparator}
     </category>
     `;
