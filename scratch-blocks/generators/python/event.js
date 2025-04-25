@@ -173,3 +173,54 @@ Blockly.Python['event_whenflagclicked'] = function (block) {
 
   return code;
 };
+
+//暂不支持中文
+Blockly.Python['event_whenbroadcastreceived'] = function (block) {
+  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+
+  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+
+  let code = '';
+
+  if (!nextBlock) {
+    code += Blockly.Python.INDENT + "\n";
+  } else {
+    code = Blockly.Python.scrub_(block, code);
+  }
+  
+  Blockly.Python.msg_[broadcast + ''] = `def messagbox${broadcast}():\n` + 
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    'while True:\n' +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    `MyMsg.waiteMessageBox(${broadcast})\n` +
+    Blockly.Python.addIndent(code, Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT) +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    'MyOSysTem.osTaskYIELD()\n' +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    Blockly.Python.INDENT + Blockly.Python.INDENT +
+    `MyMsg.FlashMessageBox(${broadcast})\n`;
+  
+  Blockly.Python.tasks_[`messagbox${broadcast}`] = '';
+  return null;
+};
+
+Blockly.Python['event_broadcast'] = function (block) {
+  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+  // TODO: Assemble Python into code variable.
+  return Blockly.Python.handleResult(`setMessageBox(${broadcast})\n`, Blockly.Python.MSG_TYPE);
+};
+
+Blockly.Python['event_broadcastandwait'] = function (block) {
+  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+  // TODO: Assemble Python into code variable.
+  return Blockly.Python.handleResult(`setMessageBoxWaite(${broadcast})\n`, Blockly.Python.MSG_TYPE);
+};
+
+Blockly.Python['event_broadcast_menu'] = function (block) {
+  // TODO: Assemble Python into code variable.
+  const varName = Blockly.Python.variableDB_.getName(block.getFieldValue('BROADCAST_OPTION'),
+      Blockly.Variables.NAME_TYPE);
+  return [varName, Blockly.Python.ORDER_ATOMIC];
+};

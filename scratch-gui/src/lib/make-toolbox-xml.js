@@ -446,19 +446,22 @@ const sound = function ({ isInitialSetup, isStage, targetId, soundName, colors }
         </block>
         ${blockSeparator}
         <block type="event_when"/>
-        <value name="BROADCAST_INPUT">
-                        <shadow type="event_broadcast_menu"></shadow>
-                    </value>
-        <block type="event_whenbroadcastreceived"></block>
-                <block type="event_broadcast"></block>
-                <block type="event_broadcastandwait"></block>
-                ${categorySeparator}
+            <value name="BROADCAST_INPUT">
+                    <shadow type="event_broadcast_menu"></shadow>
+                </value>
+        ${categorySeparator}
 */}
 const events = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
             <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
             secondaryColour="${colors.tertiary}">
                 <block type="event_whenflagclicked"/>
+                ${blockSeparator}
+                <block type="event_whenbroadcastreceived"/>
+                ${blockSeparator}
+                <block type="event_broadcast"/>
+                ${blockSeparator}
+                <block type="event_broadcastandwait"/>
                 ${categorySeparator}
             </category>
             `;

@@ -101,6 +101,7 @@ Blockly.Python.GRAY_TYPE = 'gray';
 Blockly.Python.LIST_TYPE = 'userlist';
 Blockly.Python.CAM_TYPE = 'camera';
 Blockly.Python.TIMER_TYPE = 'timer';
+Blockly.Python.MSG_TYPE = 'msg';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -126,6 +127,7 @@ Blockly.Python.init = function (workspace) {
   Blockly.Python.loops_ = Object.create(null);
 
   Blockly.Python.tasks_ = Object.create(null);
+  Blockly.Python.msg_ = Object.create(null);
   Blockly.Python.definitions_ = Object.create(null);
 
   if (!Blockly.Python.variableDB_) {
@@ -166,6 +168,12 @@ Blockly.Python.finish = function (code) {
   for (var name in Blockly.Python.imports_) {
     imports.push(Blockly.Python.imports_[name]);
   }
+
+  var msgs = [];
+  for (var name in Blockly.Python.msg_) {
+    msgs.push(Blockly.Python.msg_[name]);
+  }
+
   // Convert the custom function definitions dictionary into a list.
   var customFunctions = [];
   for (var name in Blockly.Python.customFunctions_) {
@@ -213,6 +221,11 @@ Blockly.Python.finish = function (code) {
     ret += setups.join('\n') + "\n\n";
   }
 
+  // msgs
+  if (msgs.length !== 0) {
+    ret += msgs.join('\n') + "\n\n";
+  }
+
   // custom function definitions
   if (customFunctions.length !== 0) {
     ret += customFunctions.join('\n') + "\n";
@@ -233,16 +246,23 @@ Blockly.Python.finish = function (code) {
   }
 
 
-  let str = '', threadStr = '', arr = Object.keys(Blockly.Python.tasks_);
+  let taskFinishedStr = '', threadStr = '';
+  const _task = Object.keys(Blockly.Python.tasks_);
 
-  if (arr.length > 0) {
-    arr.forEach((key, index) => {
-      const t = `${key}_finished`;
+  if (_task.length > 0) {
+    const _taskFilter = _task.filter(el => el.includes('task'));
+    if (_taskFilter.length > 0) {
+      _taskFilter.forEach((key, index) => {
+        const t = `${key}_finished`;
+        taskFinishedStr += (index === _taskFilter.length - 1 ? 'not ' + t : 'not ' + t + ' or ');
+      })
+    }
+
+    _task.forEach((key) => {
       threadStr += `_thread.start_new_thread(${key}, ())\n`;
-      str += index === arr.length - 1 ? 'not ' + t : 'not ' + t + ' or ';
     })
 
-    let whileEnd = `while ${str}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
+    const whileEnd = `while ${taskFinishedStr}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' + 'MyOSysTem.KillThisTask()';
   } else {
@@ -565,17 +585,23 @@ Blockly.Python.handleResult = function (code, type) {
       }
       result = 'MyTimer.' + result;
       break;
+    case Blockly.Python.MSG_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'MyMsg = APIMessage.box()';
+      }
+      result = 'MyMsg.' + result;
+      break;
     default:
       break;
   }
   return result
 }
 
-Blockly.Python.addIndent = function (code) {
+Blockly.Python.addIndent = function (code, indent = Blockly.Python.INDENT) {
   const arr = code.split('\n');
   return arr.map(item => {
     if (item.trim().length > 0) {
-      item = Blockly.Python.INDENT + item;
+      item = indent + item;
     }
     return item;
   }).join('\n');
