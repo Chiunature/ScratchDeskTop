@@ -1,5 +1,6 @@
 // est-link/webpack.config.js
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 const esmConfig = {
     entry: './src/main.js',
@@ -10,15 +11,25 @@ const esmConfig = {
         library: { type: 'module' },       // 输出ES模块格式
         globalObject: 'this',
     },
+    externals: [nodeExternals()],
+    target: 'node', // 必须声明Node环境
+    node: {
+        __dirname: false, // 保留目录路径
+        __filename: false // 保留文件路径
+    },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.node$/,
+                use: 'node-loader'
             }
         ]
-    }
+    },
 };
 
 const cjsConfig = {
@@ -28,6 +39,12 @@ const cjsConfig = {
         filename: 'bundle.js',
         library: { type: 'commonjs2' },     // 输出CommonJS格式
         globalObject: 'this',
+    },
+    externals: [nodeExternals()],
+    target: 'node', // 必须声明Node环境
+    node: {
+        __dirname: false, // 保留目录路径
+        __filename: false // 保留文件路径
     },
     module: {
         rules: [
@@ -42,9 +59,13 @@ const cjsConfig = {
                     }
                 },
                 exclude: /node_modules/
+            },
+            {
+                test: /\.node$/,
+                use: 'node-loader'
             }
         ]
-    }
+    },
 };
 
 module.exports = [esmConfig, cjsConfig];
