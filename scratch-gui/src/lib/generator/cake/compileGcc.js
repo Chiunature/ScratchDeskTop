@@ -140,7 +140,7 @@ class Compile {
             })
         }
 
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const static_path = localStorage.getItem('static_path') || window.resourcesPath;
         const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, msgBlockStr);
         //编译
         if (appRes) {

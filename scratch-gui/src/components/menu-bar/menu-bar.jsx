@@ -290,12 +290,12 @@ class MenuBar extends React.Component {
     }
 
     handleConnectionMouseUp(deviceType) {
-        if (!this.props.peripheralName) { 
+        if (!this.props.peripheralName) {
 
             this.props.onSetDeviceType(deviceType);
 
             deviceType === verifyTypeConfig.BLUETOOTH ? this.props.onOpenBleListModal() : this.props.onOpenConnectionModal();
-            
+
         } else {
             if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
 
@@ -304,7 +304,7 @@ class MenuBar extends React.Component {
                     return;
                 }
 
-                this.props.onOpenConnectionModal(); 
+                this.props.onOpenConnectionModal();
             } else {
 
                 this.props.onOpenBleListModal();
@@ -371,15 +371,15 @@ class MenuBar extends React.Component {
     }
 
     async reUpdateDriver() {
-        const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, ipc_Renderer.DRIVER.REUPDATE);
+        /* const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, ipc_Renderer.DRIVER.REUPDATE);
         if (res) {
             this.props.onActivateDeck("install-drivers");
             window.myAPI.setStoreValue('driver', ipc_Renderer.DRIVER.INSTALL);
-        }
+        } */
     }
 
     handleHelp(type) {
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const spath = localStorage.getItem('static_path') || window.resourcesPath;
         switch (type) {
             case HARDWARE:
                 window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF, 'pdf');

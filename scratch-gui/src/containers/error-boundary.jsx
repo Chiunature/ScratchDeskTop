@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import BrowserModalComponent from '../components/browser-modal/browser-modal.jsx';
 import CrashMessageComponent from '../components/crash-message/crash-message.jsx';
 import log from '../lib/log.js';
-import {recommendedBrowser} from '../lib/supported-browser';
+import { recommendedBrowser } from '../lib/supported-browser';
 
 class ErrorBoundary extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
             error: null,
@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component {
      * @param {Error} error - the error that was caught.
      * @param {React.ErrorInfo} errorInfo - the React error info associated with the error.
      */
-    componentDidCatch (error, errorInfo) {
+    componentDidCatch(error, errorInfo) {
         error = error || {
             stack: 'Unknown stack',
             message: 'Unknown error'
@@ -44,19 +44,19 @@ class ErrorBoundary extends React.Component {
             `Component stack: ${errorInfo.componentStack}`
         ].join('\n');
         log.error(err);
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const spath = localStorage.getItem('static_path') || window.resourcesPath;
         window.myAPI.handlerError(err, spath);
     }
 
-    handleBack () {
+    handleBack() {
         window.history.back();
     }
 
-    handleReload () {
+    handleReload() {
         window.location.replace(window.location.origin + window.location.pathname);
     }
 
-    render () {
+    render() {
         if (this.state.error) {
             if (recommendedBrowser()) {
                 return (

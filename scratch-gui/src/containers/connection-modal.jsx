@@ -22,7 +22,7 @@ import {
     setVersion
 } from "../reducers/connection-modal";
 import { verifyTypeConfig } from "est-link";
-// import { HELP_DOCX, HELP_PDF } from "../config/json/LB_USER.json";
+import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
 import getMainMsg from "../lib/alerts/message.js";
 
 
@@ -42,7 +42,7 @@ class ConnectionModal extends React.PureComponent {
             extension: extensionData.find(
                 (ext) => ext.extensionId === props.extensionId
             ),
-            firewareVersion: parseInt(verifyTypeConfig.FIRMWARE_VERSION),
+            firewareVersion: FIREWARE_VERSION,
             phase: props.vm.getPeripheralIsConnected(props.extensionId)
                 ? PHASES.connected
                 : PHASES.scanning,
@@ -54,13 +54,9 @@ class ConnectionModal extends React.PureComponent {
         // this.props.vm.on("PERIPHERAL_CONNECTED", this.handleConnected);
         // this.props.vm.on("PERIPHERAL_DISCONNECTED", this.handleDisconnect);
         this.props.vm.on("PERIPHERAL_REQUEST_ERROR", this.handleError);
-        const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const fv = window.myAPI.getVersion(spath) || verifyTypeConfig.FIRMWARE_VERSION;
-        this.setState({ firewareVersion: parseInt(fv) });
-        // window.myAPI.ipcRender({
-        //     sendName: ipc_Renderer.SEND_OR_ON.BLE.SCANNING,
-        //     sendParams: true
-        // });
+        const spath = localStorage.getItem('static_path') || window.resourcesPath;
+        const fv = window.myAPI.getVersion(spath) || FIREWARE_VERSION;
+        this.setState({ firewareVersion: fv });
     }
 
     componentWillUnmount() {
@@ -149,9 +145,6 @@ class ConnectionModal extends React.PureComponent {
 
     handleHelp() {
         // window.open(this.state.extension.helpLink, "_blank");
-        /* const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
-        window.myAPI.getDocxUrl(spath, HELP_PDF, 'pdf');
-        window.myAPI.getDocxUrl(spath, HELP_DOCX, 'pdf'); */
         analytics.event({
             category: "extensions",
             action: "help",
@@ -175,7 +168,6 @@ class ConnectionModal extends React.PureComponent {
         await window.myAPI.setStoreValue('version', this.state.firewareVersion);
         this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);
-        this.props.onSetVersion(this.state.firewareVersion);
     }
 
     render() {
@@ -210,7 +202,7 @@ class ConnectionModal extends React.PureComponent {
                 }
                 vm={this.props.vm}
                 onCancel={this.handleCancel}
-                onConnected={()=>{}}
+                onConnected={() => { }}
                 onConnecting={this.handleConnecting}
                 onDisconnect={this.handleDisconnect}
                 onHelp={this.handleHelp}

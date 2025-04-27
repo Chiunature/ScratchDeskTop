@@ -52,17 +52,15 @@ function getAllFiles(fs, path, dir) {
  */
 export function verifyBinType(options, event) {
     const { verifyType } = options;
-    const { path, fs, process, isPackaged } = this;
-    const dir = path.resolve(__dirname);
-    const root = isPackaged ? dir.slice(0, dir.indexOf('resources') - 1) : process.cwd();
+    const { path, fs, staticPath } = this;
     //根据类型判断是哪种通信
     switch (verifyType) {
         case SOURCE:
-            const allFiles = getAllFiles(fs, path, path.join(root, LB_FWLIB));
+            const allFiles = getAllFiles(fs, path, path.join(staticPath, LB_FWLIB));
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.LENGTH, allFiles.length);
             return allFiles;
         case BOOTBIN:
-            return getResultByCodeType(options, { path, fs, root });
+            return getResultByCodeType(options, { path, fs, root: staticPath });
         default:
             return false;
     }

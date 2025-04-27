@@ -217,7 +217,7 @@ function getVersion(vpath, verTxt = '/Version.txt') {
         const p = path.join(vpath, VERSION, verTxt);
         return fs.readFileSync(p, 'utf-8');
     } catch (error) {
-        handlerError(error, vpath);
+        // handlerError(error, vpath);
         return false;
     }
 }

@@ -81,7 +81,8 @@ class Blocks extends React.Component {
             'onWorkspaceMetricsChange',
             'setBlocks',
             'setLocale',
-            'workspaceToCode'
+            'workspaceToCode',
+            'getStaticPath'
         ]);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.statusButtonCallback = this.handleConnectionModalStart;
@@ -99,9 +100,7 @@ class Blocks extends React.Component {
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
 
-        const static_path = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
-        window.resourcesPath = static_path;
-        sessionStorage.setItem("static_path", static_path);
+        window.resourcesPath =  await this.getStaticPath();
 
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
@@ -150,6 +149,14 @@ class Blocks extends React.Component {
         }, { timeout: 500 })
     }
 
+    async getStaticPath() {
+        let static_path = localStorage.getItem('static_path');
+        if (!static_path) {
+            static_path = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
+            localStorage.setItem('static_path', static_path);
+        }
+        return static_path;
+    }
 
     workspaceToCode(type) {
         if (type === 'move' || type === 'change' || type === 'delete') {
@@ -159,9 +166,9 @@ class Blocks extends React.Component {
             // const list = this.workspace.getTopBlocks();
             // let newList = list.filter(el => el.startHat_);
             // if (newList.length > 0) {
-                // this.checkStartHat(newList, this.props.code);
-                // this.disableCombinedMotor(newList);
-                // this.disableEventBlocks();
+            // this.checkStartHat(newList, this.props.code);
+            // this.disableCombinedMotor(newList);
+            // this.disableEventBlocks();
             // }
             // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
         } else if (type === 'endDrag' || type === 'change') {

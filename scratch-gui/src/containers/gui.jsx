@@ -174,7 +174,7 @@ class GUI extends React.Component {
             callback: (event, arg) => {
 
                 if (arg.errMsg) {
-                    const spath = sessionStorage.getItem("static_path") || window.resourcesPath;
+                    const spath = localStorage.getItem('static_path') || window.resourcesPath;
                     window.myAPI.handlerError(arg.errMsg, spath);
                 }
 
@@ -224,11 +224,10 @@ class GUI extends React.Component {
         });
     }
 
-    checkUpdateFirmware() {
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const firmwareVersion = window.myAPI.getVersion(static_path) || verifyTypeConfig.FIRMWARE_VERSION;
+    checkUpdateFirmware(resourcesPath) {
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath);
         const currentVer = this.props?.deviceObj?.version;
-        if (firmwareVersion && typeof currentVer === 'number' && currentVer !== Number(firmwareVersion)) {
+        if (firmwareVersion && currentVer !== Number(firmwareVersion)) {
             const res = confirm(this.mainMsg.update);
             if (!res) {
                 return false;
@@ -242,10 +241,10 @@ class GUI extends React.Component {
         return true;
     }
 
-    checkUpdateSensing() {
+    checkUpdateSensing(resourcesPath) {
         return new Promise((resolve) => {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || verifyTypeConfig.FIRMWARE_VERSION;
+            const firmwareVersion = window.myAPI.getVersion(resourcesPath);
             if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
@@ -293,7 +292,7 @@ class GUI extends React.Component {
 
 
     async onClickUploadCode(isRun) {
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
+        const static_path = localStorage.getItem('static_path') || window.resourcesPath;
         try {
             const selItem = await window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
@@ -333,13 +332,14 @@ class GUI extends React.Component {
 
     async handleCompile(isRun) {
         try {
+            const static_path = localStorage.getItem('static_path') || window.resourcesPath;
             // 检查固件版本
-            const firmwareRes = this.checkUpdateFirmware();
+            const firmwareRes = this.checkUpdateFirmware(static_path);
             if (!firmwareRes) {
                 return;
             }
             // 检查传感器版本
-            const sensingRes = await this.checkUpdateSensing();
+            const sensingRes = await this.checkUpdateSensing(static_path);
             if (!sensingRes) {
                 return;
             }
@@ -365,7 +365,7 @@ class GUI extends React.Component {
 
             // sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
-            window.myAPI.handlerError(error);
+            // window.myAPI.handlerError(error);
         }
     }
 

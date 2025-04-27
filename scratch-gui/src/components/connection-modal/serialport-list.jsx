@@ -5,15 +5,15 @@ import React, { useCallback, useMemo, useRef, useState, useEffect } from "react"
 import Box from "../box/box.jsx";
 // import Dots from "./dots.jsx";
 import styles from "./connection-modal.css";
-import Input from "../forms/input.jsx";
+// import Input from "../forms/input.jsx";
 import { verifyTypeConfig, ipc as ipc_Renderer } from "est-link";
-import Filter from "../filter/filter.jsx";
+// import Filter from "../filter/filter.jsx";
 
-const filterPlaceholder = {
+/* const filterPlaceholder = {
     id: 'gui.library.filterPlaceholder',
     defaultMessage: 'Search',
     description: 'Placeholder text for library search field'
-}
+} */
 
 const SerialportList = (props) => {
 
@@ -105,6 +105,7 @@ const SerialportList = (props) => {
         return deviceType === verifyTypeConfig.BLUETOOTH ? `${port?.friendlyName || port?.localName} (${port?.address})` : (port?.friendlyName || port?.advertisement?.localName);
     }
 
+
     return (
         <Box className={styles.body}>
             {/* {deviceType !== verifyTypeConfig.SERIALPORT && <Box className={styles.headArea}>
@@ -184,7 +185,7 @@ const SerialportList = (props) => {
                                 {`${fileList.length}/${total}`}
                             </>
                         ) : <>
-                            {props.version === props.firewareVersion ? (<FormattedMessage
+                            {props.version == props.firewareVersion ? (<FormattedMessage
                                 defaultMessage="The latest version"
                                 description="The firmware is already the latest version"
                                 id="gui.connection.isNewFirmware"

@@ -22,7 +22,7 @@ const PDFWindow = require('electron-pdf-window')
 const path = require("path");
 const fs = require("fs");
 const noble = require("@abandonware/noble");
-const { exec } = require("child_process");
+
 const { Serialport, Bluetooth, ipc } = require("est-link");
 const checkUpdate = require("./update.js");
 const { showLoading } = require("./loadWin.js");
@@ -52,14 +52,6 @@ console.info = logger.info || logger.warn; */
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow, isUpdate, mainMsg, updateFunc;
-
-const pack = {
-    electron: electron,
-    fs: fs,
-    path: path,
-    process: global.process,
-    isPackaged: app.isPackaged
-}
 
 // 使用快速启动模式
 app.commandLine.appendSwitch('enable-features', 'HardwareAccelerationModeDefault');
@@ -154,7 +146,7 @@ function handleChildProcess() {
     port2.start();
 }
 
-function openBle() {
+function openBle(pack) {
     const ble = new Bluetooth({ noble, ...pack });
     ipcMain.on(ipc.SEND_OR_ON.BLE.SCANNING, (event, open) => {
         ble.scanning(event, open);
@@ -162,7 +154,7 @@ function openBle() {
     });
 }
 
-function openSerialPort() {
+function openSerialPort(pack) {
     const sp = new Serialport({ serialport, ...pack });
     //获取串口列表
     sp.getList();
@@ -197,6 +189,14 @@ function openPDFWindow() {
     });
 }
 
+function getStaticPath() {
+    let resourcesRoot = path.resolve(app.getAppPath());
+    if (app.isPackaged) {
+        resourcesRoot = path.dirname(resourcesRoot);
+    }
+    return resourcesRoot;
+}
+
 function createWindow(loadingWindow) {
     const options = {
         sandbox: false,
@@ -209,7 +209,16 @@ function createWindow(loadingWindow) {
         preload: path.resolve(__dirname, "preload.js"),
         requestedExecutionLevel: "requireAdministrator",
         nodeIntegrationInWorker: true
-    };
+    }
+
+    const pack = {
+        electron: electron,
+        fs: fs,
+        path: path,
+        process: global.process,
+        staticPath: getStaticPath(),
+    }
+
     // 获取主显示器的宽高信息
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
@@ -238,8 +247,8 @@ function createWindow(loadingWindow) {
     });
 
     getRenderVersion();
-    openSerialPort();
-    openBle();
+    openSerialPort(pack);
+    openBle(pack);
     // 开启子线程操作文件缓存
     handleChildProcess();
     // 防止页面失去焦点
@@ -252,28 +261,13 @@ function createWindow(loadingWindow) {
 
 
     // 设置静态资源路径
-    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => {
-        let resourcesRoot = path.resolve(app.getAppPath());
-        if (app.isPackaged) {
-            resourcesRoot = path.dirname(resourcesRoot);
-        }
-        return resourcesRoot;
-    });
+    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => getStaticPath());
     ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
         if (!mainMsg && args.msg) {
             mainMsg = { ...args.msg };
         }
         // notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
         return updater(mainWindow, args.autoUpdate);
-    });
-    // 检测电脑是否安装了驱动
-    ipcHandle(ipc.SEND_OR_ON.DEVICE.CHECK, async (event, flag) => {
-        if (flag === ipc.DRIVER.INSTALL) return;
-        //是否需要重装驱动
-        if (flag === ipc.DRIVER.REUPDATE) {
-            return await _checkInstallDriver({ message: mainMsg['reinstallDriver'] });
-        }
-        return await _checkInstallDriver({ message: mainMsg['installDriver'] });
     });
 
     // 关闭window时触发下列事件.
@@ -305,22 +299,6 @@ function createWindow(loadingWindow) {
         }
     });
 
-    async function _checkInstallDriver({ title = ' ', message }) {
-        const { response } = await dialog.showMessageBox({
-            type: "info",
-            title,
-            message,
-            buttons: [mainMsg['cancel'], mainMsg['confirm']],
-            defaultId: 0,
-            cancelId: 0,
-        });
-        if (response === 0) {
-            return false;
-        } else {
-            exec(path.join(app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath(), `resources/zadig.exe`));
-            return true;
-        }
-    }
 
     function _handleSaveBeforClose() {
         mainWindow.webContents.send('auto-save-file-before-close');

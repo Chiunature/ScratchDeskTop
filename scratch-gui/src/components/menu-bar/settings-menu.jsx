@@ -92,7 +92,7 @@ const SettingsMenu = ({
                 {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
                 {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
                 {canChangeHelp && <HelpMenu handleHelp={handleHelp} onRequestCloseSettings={onRequestClose} />}
-                <MenuItem onClick={reUpdateDriver}>
+                {/* <MenuItem onClick={reUpdateDriver}>
                     <span className={styles.dropdownLabel}>
                         <FormattedMessage
                             defaultMessage="Reinstall driver"
@@ -100,7 +100,7 @@ const SettingsMenu = ({
                             id="gui.menuBar.reinstallDriver"
                         />
                     </span>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={onShowQrcode}>
                     <span className={styles.dropdownLabel}>
                         <FormattedMessage
