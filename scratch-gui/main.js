@@ -252,7 +252,13 @@ function createWindow(loadingWindow) {
 
 
     // 设置静态资源路径
-    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => app.isPackaged ? process.resourcesPath.slice(0, -10) : app.getAppPath());
+    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => {
+        let resourcesRoot = path.resolve(app.getAppPath());
+        if (app.isPackaged) {
+            resourcesRoot = path.dirname(resourcesRoot);
+        }
+        return resourcesRoot;
+    });
     ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
         if (!mainMsg && args.msg) {
             mainMsg = { ...args.msg };
