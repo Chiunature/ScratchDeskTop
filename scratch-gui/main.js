@@ -216,6 +216,7 @@ function createWindow(loadingWindow) {
         fs: fs,
         path: path,
         process: global.process,
+        isPackaged: app.isPackaged,
         staticPath: getStaticPath(),
     }
 

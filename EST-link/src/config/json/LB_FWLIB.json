@@ -6,5 +6,5 @@
     "VERSION": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/version",
     "CONFIG": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/config",
     "SOUNDS": "./resources/sounds",
-    "LB_FWLIB": "./resources/LB_FWLIB"
+    "LB_FWLIB": "./LB_FWLIB"
 }
