@@ -235,7 +235,6 @@ class GUI extends React.Component {
             this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
-            window.myAPI.setStoreValue('version', firmwareVersion);
             return false;
         }
         return true;
