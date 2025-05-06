@@ -180,38 +180,27 @@ export class Serialport extends Common {
             ...data,
             selectedExe: this.selectedExe
         }, event);
-        if (Array.isArray(result)) {
+
+        if (Array.isArray(result) && result.length > 0) {
             this.sourceFiles = [...result];
-            this.uploadingFile = this.sourceFiles.shift();
-            //根据返回的子文件数据和子文件名进入上传处理
-            this.upload({
-                fileName: this.uploadingFile.fileName,
-                binData: this.uploadingFile.fileData,
-                verifyType: this.uploadingFile.verifyType,
-            }, event);
+            this.upload(event);
         }
     }
 
-    /**
-     * 上传文件
-     * @param {*} event
-     * @param {Object} data
-     * @returns
-     */
-    upload(data, event) {
-        if (!data.binData || !data.fileName) {
-            return;
-        }
-        //将子文件数据切割成248个
-        this.chunkBuffer = this.uploadSlice(data.binData, 248);
+    upload(event) {
+        this.uploadingFile = this.sourceFiles.shift();
+
+        this.verifyType = this.uploadingFile.verifyType;
+
+        //根据返回的子文件数据和子文件名进入上传处理
+        this.chunkBuffer = this.handleDataOfUpload(this.uploadingFile);
+
         this.chunkBufferSize = this.chunkBuffer.length;
-        this.verifyType = data.verifyType;
-        //根据文件类型获取功能码
-        const bits = this.getBits(data.verifyType);
-        //将文件名放入处理函数获取需要发送给下位机的完整指令
-        const { binArr } = this.checkFileName(data.fileName, bits);
-        //写入文件名和指令，告诉下位机要发送的文件
-        this.writeData(binArr, signType.BOOT.FILENAME, event);
+
+        if (this.chunkBufferSize > 0) {
+            //写入指令，告诉下位机要发送的文件
+            this.writeData(this.chunkBuffer.shift(), signType.BOOT.BIN, event);
+        }
     }
 
 
@@ -255,7 +244,6 @@ export class Serialport extends Common {
                 this.checkOverTime(event);
             }
         } catch (e) {
-            console.log(e)
             event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: false, msg: "uploadError", errMsg: e });
         }
     }
@@ -436,11 +424,10 @@ export class Serialport extends Common {
     processHandle(event) {
         if (this.verifyType && this.chunkBuffer.length >= 0) {
             const progress = Math.ceil(((this.chunkBufferSize - this.chunkBuffer.length) / this.chunkBufferSize) * 100);
-            if (this.verifyType.indexOf(SOURCE) === -1) {
+
+            this.verifyType.includes(SOURCE) ?
+                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: progress }) :
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, progress);
-            } else {
-                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: progress });
-            }
         }
     }
 
@@ -449,9 +436,6 @@ export class Serialport extends Common {
      * @param {*} event
      */
     processReceivedData(event) {
-        if (this.sign === signType.BOOT.FILENAME) {
-            this.sign = signType.BOOT.BIN;
-        }
 
         this.processHandle(event);
 
@@ -467,16 +451,7 @@ export class Serialport extends Common {
             }
 
             if (this.verifyType.includes(SOURCE)) {
-                if (this.sourceFiles.length > 0) {
-                    this.uploadingFile = this.sourceFiles.shift();
-                    this.upload({
-                        fileName: this.uploadingFile.fileName,
-                        binData: this.uploadingFile.fileData,
-                        verifyType: this.uploadingFile.verifyType,
-                    }, event);
-                } else {
-                    event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
-                }
+                this.sourceFiles.length > 0 ? this.upload(event) : event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
             }
         } else {
             this.sendBin(event);

@@ -153,17 +153,12 @@ class ConnectionModal extends React.PureComponent {
     }
 
 
-    async handleUpdate() {
-        if (!this.props.peripheralName) {
-            this.props.onShowConnectAlert("selectADeviceFirst");
-            return;
-        }
-        if (this.props.version === this.state.firewareVersion) {
+    handleUpdate() {
+        if (this.props.version == this.state.firewareVersion) {
             const res = confirm(this.mainMsg.reupdate);
             if (!res) {
                 return;
             }
-            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         this.props.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
         this.props.onSetSourceCompleted(true);

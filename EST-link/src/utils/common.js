@@ -404,7 +404,6 @@ export class Common {
                     event.reply(ipc_Main.RETURN.EXE.FILES, names);
                 }
                 return false;
-            case signType.BOOT.FILENAME:    //文件名
             case signType.BOOT.BIN:         //文件数据
                 const listBin = data.slice(0, -2);
                 let sum = 0;
@@ -569,6 +568,29 @@ export class Common {
         return res;
     }
 
+    /**
+     * 处理要上传的文件数据
+     * @param {Object} data
+     * @returns {Array}
+     */
+    handleDataOfUpload(data, sliceLength = 248) {
+        if (!data.fileData || !data.fileName) {
+            return;
+        }
+
+        //将子文件数据切割成248个
+        const sliceList = this.uploadSlice(data.fileData, sliceLength);
+
+        //根据文件类型获取功能码
+        const bits = this.getBits(data.verifyType);
+
+        //将文件名放入处理函数获取需要发送给下位机的完整指令
+        const { binArr } = this.checkFileName(data.fileName, bits);
+
+        sliceList.unshift(binArr);
+
+        return sliceList;
+    }
 }
 
 // module.exports = Common;

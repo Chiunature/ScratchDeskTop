@@ -399,9 +399,6 @@ export class Bluetooth extends Common {
      * @param {*} event
      */
     processReceivedData(event) {
-        if (this.sign === signType.BOOT.FILENAME) {
-            this.sign = signType.BOOT.BIN;
-        }
 
         this.processHandle(event);
 
@@ -416,17 +413,8 @@ export class Bluetooth extends Common {
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, { result: true, msg: "uploadSuccess" });
             }
 
-            if (this.verifyType.indexOf(SOURCE) !== -1) {
-                if (this.sourceFiles.length > 0) {
-                    this.uploadingFile = this.sourceFiles.shift();
-                    this.upload({
-                        fileName: this.uploadingFile.fileName,
-                        binData: this.uploadingFile.fileData,
-                        verifyType: this.uploadingFile.verifyType,
-                    }, event);
-                } else {
-                    event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
-                }
+            if (this.verifyType.includes(SOURCE)) {
+                this.sourceFiles.length > 0 ? this.upload(event) : event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
             }
         } else {
             this.sendBin(event);
@@ -473,15 +461,25 @@ export class Bluetooth extends Common {
             ...data,
             selectedExe: this.selectedExe
         }, event);
-        if (Array.isArray(result)) {
+        if (Array.isArray(result) && result.length > 0) {
             this.sourceFiles = [...result];
+            this.upload(event);
+        }
+    }
+
+    upload(event) {
             this.uploadingFile = this.sourceFiles.shift();
+
+        this.verifyType = this.uploadingFile.verifyType;
+
             //根据返回的子文件数据和子文件名进入上传处理
-            this.upload({
-                fileName: this.uploadingFile.fileName,
-                binData: this.uploadingFile.fileData,
-                verifyType: this.uploadingFile.verifyType,
-            }, event);
+        this.chunkBuffer = this.handleDataOfUpload(this.uploadingFile);
+
+        this.chunkBufferSize = this.chunkBuffer.length;
+
+        if (this.chunkBufferSize > 0) {
+            //写入指令，告诉下位机要发送的文件
+            this.bleWrite(this.chunkBuffer.shift(), signType.BOOT.BIN, event);
         }
     }
 
@@ -515,32 +513,6 @@ export class Bluetooth extends Common {
     }
 
     /**
-     * 上传文件
-     * @param {*} event
-     * @param {Object} data
-     * @returns
-     */
-    upload(data, event) {
-        try {
-            if (!data.binData || !data.fileName) {
-                return;
-            }
-            //将子文件数据切割成248个
-            this.chunkBuffer = this.uploadSlice(data.binData, 128);
-            this.chunkBufferSize = this.chunkBuffer.length;
-            this.verifyType = data.verifyType;
-            //根据文件类型获取功能码
-            const bits = this.getBits(data.verifyType);
-            //将文件名放入处理函数获取需要发送给下位机的完整指令
-            const { binArr } = this.checkFileName(data.fileName, bits);
-            //写入文件名和指令，告诉下位机要发送的文件
-            this.bleWrite(binArr, signType.BOOT.FILENAME, event);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    /**
      * 发bin数据
      * @param {*} event
      * @returns
@@ -563,11 +535,10 @@ export class Bluetooth extends Common {
     processHandle(event) {
         if (this.verifyType && this.chunkBuffer.length >= 0) {
             const progress = Math.ceil(((this.chunkBufferSize - this.chunkBuffer.length) / this.chunkBufferSize) * 100);
-            if (this.verifyType.indexOf(SOURCE) === -1) {
+
+            this.verifyType.includes(SOURCE) ?
+                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: progress }) :
                 event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, progress);
-            } else {
-                event.reply(ipc_Main.RETURN.FILE.NAME, { fileName: this.uploadingFile.fileName, progress: progress });
-            }
         }
     }
 
