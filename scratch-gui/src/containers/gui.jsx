@@ -51,7 +51,7 @@ import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
 import { CAKE, PYTHON } from "../config/json/generators.json"
 import { handleUploadPython } from "../lib/generator/python/index.js";
-
+import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -225,7 +225,7 @@ class GUI extends React.Component {
     }
 
     checkUpdateFirmware(resourcesPath) {
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath);
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
         const currentVer = this.props?.deviceObj?.version;
         if (firmwareVersion && currentVer !== Number(firmwareVersion)) {
             const res = confirm(this.mainMsg.update);
@@ -243,7 +243,7 @@ class GUI extends React.Component {
     checkUpdateSensing(resourcesPath) {
         return new Promise((resolve) => {
             const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-            const firmwareVersion = window.myAPI.getVersion(resourcesPath);
+            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
             if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
                 for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                     const item = this.props?.deviceObj?.deviceList[i];
