@@ -104,7 +104,7 @@ Blockly.Python['sensing_color_detectionRGB'] = function (block) {
             break;
     }
     // TODO: Assemble Python into code variable.
-    const code = Blockly.Python.handleResult(`detectionRGB(${port}, ${rgb})`, Blockly.Python.COLOR_TYPE);
+    const code = Blockly.Python.handleResult(`dectectionRGB(${port}, ${rgb})`, Blockly.Python.COLOR_TYPE);
     return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
