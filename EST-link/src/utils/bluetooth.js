@@ -402,7 +402,7 @@ export class Bluetooth extends Common {
 
         this.processHandle(event);
 
-        const isLast = this.chunkBuffer.length === 0
+        const isLast = this.chunkBuffer.length === 0;
         //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
         if (isLast) {
             //清除缓存
@@ -417,7 +417,8 @@ export class Bluetooth extends Common {
                 this.sourceFiles.length > 0 ? this.upload(event) : event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
             }
         } else {
-            this.sendBin(event);
+            //继续发送下一组数据
+            this.bleWrite(this.chunkBuffer.shift(), signType.BOOT.BIN, event);
         }
     }
 
@@ -468,12 +469,12 @@ export class Bluetooth extends Common {
     }
 
     upload(event) {
-            this.uploadingFile = this.sourceFiles.shift();
+        this.uploadingFile = this.sourceFiles.shift();
 
         this.verifyType = this.uploadingFile.verifyType;
 
-            //根据返回的子文件数据和子文件名进入上传处理
-        this.chunkBuffer = this.handleDataOfUpload(this.uploadingFile);
+        //根据返回的子文件数据和子文件名进入上传处理
+        this.chunkBuffer = this.handleDataOfUpload(this.uploadingFile, 128);
 
         this.chunkBufferSize = this.chunkBuffer.length;
 
@@ -512,21 +513,6 @@ export class Bluetooth extends Common {
         });
     }
 
-    /**
-     * 发bin数据
-     * @param {*} event
-     * @returns
-     */
-    sendBin(event) {
-        if (this.chunkBufferSize <= 0) {
-            return;
-        }
-        const element = this.chunkBuffer.shift();
-        //将文件数据放入处理函数获取需要发送给下位机的完整指令
-        const { binArr } = this.checkBinData(element, this.chunkBuffer.length === 0);
-        //传入bin数据并修改标识符
-        this.bleWrite(binArr, signType.BOOT.BIN, event);
-    }
 
     /**
     * 判断是否是bin文件通信，bin文件通信需要给渲染进程发送通信进度

@@ -294,22 +294,6 @@ export class Serialport extends Common {
     }
 
     /**
-     * 发bin数据
-     * @param {*} event
-     * @returns
-     */
-    sendBin(event) {
-        if (this.chunkBufferSize <= 0) {
-            return;
-        }
-        const element = this.chunkBuffer.shift();
-        //将文件数据放入处理函数获取需要发送给下位机的完整指令
-        const { binArr } = this.checkBinData(element, this.chunkBuffer.length === 0);
-        //传入bin数据并修改标识符
-        this.writeData(binArr, signType.BOOT.BIN, event);
-    }
-
-    /**
      * debug数据
      * @param receiveData
      * @param {*} event
@@ -439,7 +423,7 @@ export class Serialport extends Common {
 
         this.processHandle(event);
 
-        const isLast = this.chunkBuffer.length === 0
+        const isLast = this.chunkBuffer.length === 0;
         //如果是已经发送了最后一组文件数据，就结束通信，否则继续发送下一组
         if (isLast) {
             //清除缓存
@@ -454,7 +438,8 @@ export class Serialport extends Common {
                 this.sourceFiles.length > 0 ? this.upload(event) : event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.CONPLETED, { msg: "uploadSuccess" });
             }
         } else {
-            this.sendBin(event);
+            //发送下一组数据
+            this.writeData(this.chunkBuffer.shift(), signType.BOOT.BIN, event);
         }
     }
 

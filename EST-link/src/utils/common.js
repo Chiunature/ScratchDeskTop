@@ -581,15 +581,22 @@ export class Common {
         //将子文件数据切割成248个
         const sliceList = this.uploadSlice(data.fileData, sliceLength);
 
+        const newList = sliceList.reduce((pre, cur, index) => {
+            //将文件数据放入处理函数获取需要发送给下位机的完整指令
+            const { binArr } = this.checkBinData(cur, index === sliceList.length - 1);
+            pre.push(binArr);
+            return pre;
+        }, [])
+
         //根据文件类型获取功能码
         const bits = this.getBits(data.verifyType);
 
         //将文件名放入处理函数获取需要发送给下位机的完整指令
         const { binArr } = this.checkFileName(data.fileName, bits);
 
-        sliceList.unshift(binArr);
+        newList.unshift(binArr);
 
-        return sliceList;
+        return newList;
     }
 }
 
