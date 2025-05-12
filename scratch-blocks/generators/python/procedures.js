@@ -23,7 +23,7 @@ goog.provide('Blockly.Python.procedures');
 goog.require('Blockly.Python');
 
 
-Blockly.Python['procedures_definition'] = function(block) {
+Blockly.Python['procedures_definition'] = function (block) {
   var func = Blockly.Python.statementToCode(block, 'custom_block');
 
   // Delet first indent.
@@ -47,7 +47,7 @@ Blockly.Python['procedures_definition'] = function(block) {
 
   const arr = code.split('\n');
   code = arr.map((item, index) => {
-    if (item.trim().length > 0 && index > 0) {
+    if (item.trim().length > 0 && index > 0 && !item.includes('def')) {
       item = Blockly.Python.INDENT + item;
     }
     return item;
@@ -57,7 +57,7 @@ Blockly.Python['procedures_definition'] = function(block) {
   return null;
 };
 
-Blockly.Python['procedures_call'] = function(block) {
+Blockly.Python['procedures_call'] = function (block) {
   // Generators can not automatic handle indefinite parameters. We should get
   // block.inputList and handle
   var funcName = block.getProcCode();
@@ -86,7 +86,7 @@ Blockly.Python['procedures_call'] = function(block) {
   return code;
 };
 
-Blockly.Python['procedures_prototype'] = function(block) {
+Blockly.Python['procedures_prototype'] = function (block) {
   var funcName = block.getProcCode();
   var argName = block.displayNames_;
   var argCode = [];
@@ -108,7 +108,7 @@ Blockly.Python['procedures_prototype'] = function(block) {
     }
     let sum = 0;
     for (let j = 0; j < argCode.length; j++) {
-      if(argCode[j].indexOf(safeArgName) !== -1) {
+      if (argCode[j].indexOf(safeArgName) !== -1) {
         sum++;
       }
     }
@@ -120,19 +120,19 @@ Blockly.Python['procedures_prototype'] = function(block) {
   return code;
 };
 
-Blockly.Python['argument_reporter_boolean'] = function(block) {
+Blockly.Python['argument_reporter_boolean'] = function (block) {
   var argName = block.getFieldValue('VALUE');
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['argument_reporter_number'] = function(block) {
+Blockly.Python['argument_reporter_number'] = function (block) {
   var argName = block.getFieldValue('VALUE');
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['argument_reporter_string'] = function(block) {
+Blockly.Python['argument_reporter_string'] = function (block) {
   var argName = block.getFieldValue('VALUE');
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];

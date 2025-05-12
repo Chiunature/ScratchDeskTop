@@ -557,7 +557,7 @@ export class Common {
     }
 
     checkSerialName(item) {
-        const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual', 'USB 串行设备', 'USB Serial Device'];
+        const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual', 'USB 串行设备', 'USB Serial Device', 'Communications', 'USB 序列裝置', '序列埠'];
         let res = false;
         for (let i = 0; i < nameList.length; i++) {
             if (item.indexOf(nameList[i]) !== -1) {
