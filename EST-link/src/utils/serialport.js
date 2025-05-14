@@ -54,27 +54,26 @@ export class Serialport extends Common {
      * 获取串口列表
      */
     getList() {
-        this.ipcHandle(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event, arg) => {
+        this.ipcMain(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event) => {
             const result = await this.serialport.SerialPort.list();
+
             const newArr = result.reduce((pre, cur) => {
-                if (cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
+                if (cur.friendlyName && this.checkSerialName(cur.friendlyName) && !cur.isOpen) {
                     pre.push(cur);
                 }
                 return pre;
             }, []);
+
             for (const item of newArr) {
                 !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
             }
-            this.currentPort = this.portList.shift();
-            return { result: this.currentPort ? this.currentPort : null, type: this._type };
-        });
-    }
 
-    /**
-     * 连接串口
-     */
-    connectSerial() {
-        this.ipcMain(ipc_Main.SEND_OR_ON.CONNECTION.CONNECTED, (event, arg) => this.linkToSerial(arg, event));
+            this.currentPort = this.portList.shift();
+
+            const success = await this.linkToSerial(this.currentPort, event);
+
+            event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, { currentPort: success ? this.currentPort : null });
+        });
     }
 
     /**
@@ -94,23 +93,31 @@ export class Serialport extends Common {
      * @param {Object} serial
      * @param {*} event
      */
-    linkToSerial(serial, event) {
-        this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
-        this.OpenPort(event);
-        //开启断开连接监听
-        this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
-        //开启读取数据监听
-        this.handleRead(event);
-        //开启串口关闭监听
-        this.listenPortClosed(event);
-        //开启获取bin文件或固件下载监听
-        this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
-        //开启删除程序监听
-        this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
-        //开启获取主机文件监听
-        this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
-        //传感器更新
-        this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
+    async linkToSerial(serial, event) {
+        try {
+            this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
+            return await this.OpenPort(event);
+        } catch (error) {
+            return false;
+        } finally {
+            if (!this.port && !this.port.isOpen) {
+                return false;
+            }
+            //开启断开连接监听
+            this.disconnectSerial(ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED);
+            //开启读取数据监听
+            this.handleRead(event);
+            //开启串口关闭监听
+            this.listenPortClosed(event);
+            //开启获取bin文件或固件下载监听
+            this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
+            //开启删除程序监听
+            this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
+            //开启获取主机文件监听
+            this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
+            //传感器更新
+            this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
+        }
     }
 
     updateSensing(eventName) {
@@ -127,16 +134,20 @@ export class Serialport extends Common {
    * @param {*} event
    */
     OpenPort(event) {
-        this.port.open((err) => {
-            if (err) {
-                this.isConnectedPortList.push(this.currentPort.pnpId);
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: false, msg: "" });
-            } else {
-                event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
-                this.portList.splice(0, this.portList.length);
-                this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
-            }
-        });
+        return new Promise((resolve) => {
+            this.port.open((err) => {
+                if (err) {
+                    this.isConnectedPortList.push(this.currentPort.pnpId);
+                    // event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: false, msg: "" });
+                    resolve(false);
+                } else {
+                    event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
+                    this.portList.splice(0, this.portList.length);
+                    this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
+                    resolve(true);
+                }
+            });
+        })
     }
 
     /**

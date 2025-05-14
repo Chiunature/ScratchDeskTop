@@ -273,12 +273,17 @@ class MenuBar extends React.Component {
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
-            const { result } = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST);
-            if (result) {
-                clearInterval(this.timer);
-                this.timer = null;
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.CONNECTED, sendParams: result });
-            }
+            window.myAPI.ipcRender({
+                sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST, 
+                eventName: ipc_Renderer.RETURN.CONNECTION.GETLIST,
+                callback: (event, data) => {
+                    const { currentPort } = data;
+                    if (currentPort) {
+                        clearInterval(this.timer);
+                        this.timer = null;
+                    }
+                }
+             });
         }
     }
 

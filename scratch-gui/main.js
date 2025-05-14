@@ -158,8 +158,6 @@ function openSerialPort(pack) {
     const sp = new Serialport({ serialport, ...pack });
     //获取串口列表
     sp.getList();
-    //连接串口
-    sp.connectSerial();
 }
 
 function handleMenuAndDevtool(mainWindow) {
