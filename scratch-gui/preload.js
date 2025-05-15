@@ -214,8 +214,7 @@ function commendMake(pathCWD = cwd()) {
  */
 function getVersion(vpath, verTxt = '/Version.txt') {
     try {
-        const p = path.join(vpath, VERSION, verTxt);
-        return fs.readFileSync(p, 'utf-8');
+        return readFilesAsync(path.join(VERSION, verTxt), vpath);
     } catch (error) {
         // handlerError(error, vpath);
         return false;
