@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from './device.css';
 import delImg from './delete.svg';
 import downloadImg from './download.svg';
-import emptyIcon from "../project-management/icon--empty.svg";
+// import emptyIcon from "../project-management/icon--empty.svg";
 
 const SelectExe = (props) => {
     const { exeList, completed, selectedExe, handleSelectExe, onSetExelist, handleCompile, handleDelExe } = props;
@@ -38,24 +38,24 @@ const SelectExe = (props) => {
         <>
             {
                 exeList.length > 0 &&
-                    (<ul className={styles.selExe} ref={refUl}>
-                        {
-                            exeList.map((item, index) => {
-                                return (
-                                    <li className={completed ? styles.ban : ''} key={item.num} onClick={() => handleSelectExe(item, index)}>
-                                        <div><input type='radio' checked={item.checked} readOnly />{item.num}</div>
-                                        <div className={styles.edit}>
-                                            <input className={item.checked ? styles.check : ''} type='text' disabled={!item.checked} ref={(c) => refObj.current[index] = c} defaultValue={item.name} onChange={handleInpChange} />
-                                        </div>
-                                        <div className={styles.img}>
-                                            <img src={downloadImg} onClick={() => download(item)} alt='' />
-                                            <img src={delImg} onClick={(e) => handleDelExe(item, e)} alt='' />
-                                        </div>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>)
+                (<ul className={styles.selExe} ref={refUl}>
+                    {
+                        exeList.map((item, index) => {
+                            return (
+                                <li className={completed ? styles.ban : ''} key={item.num} onClick={() => handleSelectExe(item, index)}>
+                                    <div><input type='radio' checked={item.checked} readOnly />{item.num}</div>
+                                    <div className={styles.edit}>
+                                        <input className={item.checked ? styles.check : ''} type='text' disabled={!item.checked} ref={(c) => refObj.current[index] = c} defaultValue={item.name} onChange={handleInpChange} />
+                                    </div>
+                                    <div className={styles.img}>
+                                        <img src={downloadImg} onClick={() => download(item)} alt='' />
+                                        <img src={delImg} onClick={(e) => handleDelExe(item, e)} alt='' />
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>)
             }
         </>
     );

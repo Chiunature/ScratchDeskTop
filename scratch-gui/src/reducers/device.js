@@ -6,12 +6,14 @@ const SET_TYPE = 'scratch-gui/device/setType';
 const CLEAR_TYPE = 'scratch-gui/device/clearType';
 const SET_DEVICEOBJ = 'scratch-gui/device/deviceObj';
 const SET_DEVICESTATUS = 'scratch-gui/device/deviceStatus';
+const SET_CURRENTMAC = 'scratch-gui/device/currentMAC';
 
 const initialState = {
     deviceId: null,
     deviceName: null,
     deviceType: 'serialport',
     deviceStatus: null,
+    currentMAC: null,
     deviceObj: {
         deviceList: [],
         mem: {},
@@ -53,6 +55,10 @@ const reducer = function (state, action) {
         case SET_DEVICESTATUS:
             return Object.assign({}, state, {
                 deviceStatus: action.deviceStatus
+            });
+        case SET_CURRENTMAC:
+            return Object.assign({}, state, {
+                currentMAC: action.currentMAC
             });
         default:
             return state;
@@ -112,6 +118,13 @@ const setDeviceStatus = function (status) {
     }
 }
 
+const setCurrentMAC = function (mac) {
+    return {
+        type: SET_CURRENTMAC,
+        currentMAC: mac
+    }
+}
+
 export {
     reducer as default,
     initialState as deviceInitialState,
@@ -122,5 +135,6 @@ export {
     setDeviceType,
     clearDeviceType,
     setDeviceObj,
-    setDeviceStatus
+    setDeviceStatus,
+    setCurrentMAC
 };

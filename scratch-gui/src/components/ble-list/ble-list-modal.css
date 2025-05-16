@@ -132,3 +132,25 @@
         transform: rotate(360deg);
     }
 }
+
+.ble-cache-list {
+    background: #fff;
+    height: 28px;
+    width: 100%;
+    border: 1px solid #9bc0dd;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    color: gray;
+    outline: none;
+    margin-left: 1rem;
+}
+
+.delete-img {
+    height: 28px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #9bc0dd;
+    border-left: none;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}

@@ -59,22 +59,39 @@ class BleListModal extends PureComponent {
             "noScanBle",
             "handleSelectPort",
             "handleBleScan",
-            "handleBleDisconnect"
+            "handleBleDisconnect",
+            "initBleCacheList",
+            "handleSelectCache",
+            "deleteSelectCache"
         ]);
         this.state = {
             bleList: [],
+            bleCacheList: [],
+            selectedCache: null,
             selectedBle: { ...this.props.port } || null,
         }
     }
 
     componentDidMount() {
         !this.props.peripheralName && this.scanBle();
+        this.initBleCacheList();
     }
 
     componentWillUnmount() {
         !this.props.peripheralName && this.props.onSetDeviceType(verifyTypeConfig.SERIALPORT);
         this.noScanBle();
         window.myAPI.delEvents([ipc_Renderer.RETURN.BLE.GETBlELIST, ipc_Renderer.RETURN.BLE.CONNECTION, ipc_Renderer.RETURN.BLE.SCANNING]);
+    }
+
+    initBleCacheList() {
+        const MAClist = localStorage.getItem('MAClist');
+        if (MAClist) {
+            const cacheList = JSON.parse(MAClist);
+            this.setState({
+                bleCacheList: cacheList,
+                selectedCache: cacheList[0]
+            });
+        }
     }
 
     handleCancel() {
@@ -174,6 +191,25 @@ class BleListModal extends PureComponent {
         })
     }
 
+    deleteSelectCache() {
+        if (selectedCache === this.props.currentMAC) {
+            alert("当前设备已连接，无法删除");
+            return;
+        }
+        const cacheList = this.state.bleCacheList.filter(item => item.id !== selectedCache);
+        this.setState({
+            bleCacheList: cacheList,
+            selectedCache: cacheList[0]
+        });
+        localStorage.setItem('MAClist', JSON.stringify(cacheList));
+    }
+
+    handleSelectCache(e) {
+        this.setState({
+            selectedCache: e.target.value
+        });
+    }
+
     render() {
         return (
             <BleListModalCom
@@ -184,6 +220,9 @@ class BleListModal extends PureComponent {
                 selectedBle={this.state.selectedBle}
                 handleSelectPort={this.handleSelectPort}
                 handleBleDisconnect={this.handleBleDisconnect}
+                bleCacheList={this.state.bleCacheList}
+                handleSelectCache={this.handleSelectCache}
+                deleteSelectCache={this.deleteSelectCache}
             />
         )
     }
@@ -194,6 +233,7 @@ const mapStateToProps = (state) => ({
     peripheralName: state.scratchGui.connectionModal.peripheralName,
     completed: state.scratchGui.connectionModal.completed,
     port: state.scratchGui.connectionModal.port,
+    currentMAC: state.scratchGui.device.currentMAC,
 })
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => dispatch(closeBleListModal()),

@@ -44,7 +44,7 @@ import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connec
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
 import { activateDeck, setProgramSel, viewDeviceCards } from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
-import { setDeviceObj, setDeviceStatus } from "../reducers/device.js";
+import { setCurrentMAC, setDeviceObj, setDeviceStatus } from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
@@ -89,6 +89,9 @@ class GUI extends React.Component {
             // this only notifies container when a project changes from not yet loaded to loaded
             // At this time the project view in www doesn't need to know when a project is unloaded
             this.props.onProjectLoaded();
+        }
+        if (!this.props.peripheralName && this.props.peripheralName !== prevProps.peripheralName) {
+            this.props.onSetCurrentMAC(null);
         }
     }
     async componentWillUnmount() {
@@ -201,70 +204,70 @@ class GUI extends React.Component {
     watchDevice() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
-            callback: (e, result) => {
-                if (!result || this.props.completed || this.props.dragging) {
+            callback: (e, newDeviceObj) => {
+                if (!newDeviceObj || this.props.completed || this.props.dragging) {
                     return;
                 }
                 const { deviceObj, version, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
-                if (deviceObj?.NewAiState === result?.NewAiState) {
-                    onSetDeviceStatus(result.NewAiState);
+
+                if (deviceObj?.NewAiState === newDeviceObj?.NewAiState) {
+                    onSetDeviceStatus(newDeviceObj.NewAiState);
                 }
-                if (version !== result?.version) {
-                    onSetVersion(result.version);
+
+                if (version !== newDeviceObj?.version) {
+                    onSetVersion(newDeviceObj.version);
                 }
-                onSetDeviceObj(result);
+
+                onSetDeviceObj(newDeviceObj);
 
                 requestIdleCallback(() => {
                     this.initSensingList();
                     this.blocksMotorCheck();
-                    sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP && this.handleRunApp();
-                    sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING && sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
+                    this.props.deviceType === 'serialport' && this.storageMAC(deviceObj, newDeviceObj);
+                    // sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP && this.handleRunApp();
+                    // sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING && sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
                 });
             }
         });
     }
 
+    storageMAC(oldObj, newObj) {
+        const MAClist = localStorage.getItem('MAClist');
+        if (!MAClist) {
+            localStorage.setItem('MAClist', JSON.stringify([newObj?.MAC]));
+        } else if (oldObj?.MAC !== newObj?.MAC && MAClist) {
+            const MAClist = JSON.parse(MAClist);
+            !MAClist.includes(newObj.MAC) && localStorage.setItem('MAClist', JSON.stringify([...MAClist, newObj.MAC]));
+        }
+
+        if (this.props.currentMAC !== newObj.MAC) {
+            this.props.onSetCurrentMAC(newObj.MAC);
+        }
+    }
+
     checkUpdateFirmware(resourcesPath) {
         const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
         const currentVer = this.props?.deviceObj?.version;
+
         if (firmwareVersion && currentVer !== Number(firmwareVersion)) {
             const res = confirm(this.mainMsg.update);
             if (!res) {
                 return false;
             }
+
             this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
+
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
+
             return false;
         }
+
         return true;
     }
 
     checkUpdateSensing(resourcesPath) {
-        return new Promise((resolve) => {
-            const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-            const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
-            if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
-                for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
-                    const item = this.props?.deviceObj?.deviceList[i];
-                    const index = parseInt(item['port']);
-                    const deviceItem = deviceIdMap[item.deviceId];
-                    if (parseInt(item.deviceId) !== 0 && item[deviceItem]?.version !== item[deviceItem]?.SoftwareVersion) {
-                        dataList[index] = _type(deviceItem);
-                    }
-                }
-                const isDiff = dataList.find(item => item !== 0xff);
-                if (isDiff) {
-                    const supdate = confirm(this.mainMsg.sensing_update);
-                    supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
-                    window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
-                    resolve(false);
-                }
-            }
-            resolve(true);
-        })
-
-        function _type(deviceItem) {
+        const _type = (deviceItem) => {
             switch (deviceItem) {
                 case 'big_motor':
                     return 0xA1;
@@ -276,6 +279,31 @@ class GUI extends React.Component {
                     return 0xff;
             }
         }
+
+        const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
+        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
+
+        if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
+            for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
+                const item = this.props?.deviceObj?.deviceList[i];
+                const index = parseInt(item['port']);
+                const deviceItem = deviceIdMap[item.deviceId];
+                if (parseInt(item.deviceId) !== 0 && item[deviceItem]?.version !== item[deviceItem]?.SoftwareVersion) {
+                    dataList[index] = _type(deviceItem);
+                }
+            }
+
+            const isDiff = dataList.find(item => item !== 0xff);
+
+            if (isDiff) {
+                const supdate = confirm(this.mainMsg.sensing_update);
+                supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+                // window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+                return false;
+            }
+        }
+
+        return true;
     }
 
     checkWorkspace() {
@@ -296,6 +324,7 @@ class GUI extends React.Component {
             const selItem = await window.myAPI.getStoreValue('selItem');
             const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
+
             switch (this.props.generatorName) {
                 case CAKE:
                     this.compile.sendSerial({
@@ -324,7 +353,6 @@ class GUI extends React.Component {
             this.props.onShowCompletedAlert("uploadError");
             this.props.onSetCompleted(false);
             this.props.onSetSourceCompleted(false);
-            // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
         }
     }
 
@@ -332,16 +360,19 @@ class GUI extends React.Component {
     async handleCompile(isRun) {
         try {
             const static_path = localStorage.getItem('static_path') || window.resourcesPath;
+
             // 检查固件版本
             const firmwareRes = this.checkUpdateFirmware(static_path);
             if (!firmwareRes) {
                 return;
             }
+
             // 检查传感器版本
-            const sensingRes = await this.checkUpdateSensing(static_path);
+            const sensingRes = this.checkUpdateSensing(static_path);
             if (!sensingRes) {
                 return;
             }
+
             // 检查工作区是否为空
             const workspaceRes = this.checkWorkspace();
             if (!workspaceRes) {
@@ -357,19 +388,15 @@ class GUI extends React.Component {
                 await window.myAPI.sleep(2000);
             }
 
-
-
             // 区分是哪种代码类型的下载
             this.onClickUploadCode(isRun);
-
-            // sessionStorage.setItem('run-app', isRun ? verifyTypeConfig.RUN_APP : verifyTypeConfig.NO_RUN_APP);
         } catch (error) {
             // window.myAPI.handlerError(error);
         }
     }
 
     handleRunApp(status) {
-        sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+        // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
         window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
     }
 
@@ -426,6 +453,8 @@ class GUI extends React.Component {
             matchMyBlock,
             msgTaskBlock,
             loadingStateVisible,
+            currentMAC,
+            onSetCurrentMAC,
             ...componentProps
         } = this.props;
         return (
@@ -543,6 +572,8 @@ const mapStateToProps = (state) => {
         dragging: state.scratchGui.cards.deviceCards.dragging,
         cascarderPanelVisible: state.scratchGui.modals.cascarderPanel,
         generatorName: state.scratchGui.mode.generatorName,
+        currentMAC: state.scratchGui.device.currentMAC,
+        deviceType: state.scratchGui.device.deviceType,
     };
 };
 
@@ -578,7 +609,8 @@ const mapDispatchToProps = (dispatch) => ({
     onShowQrcode: () => dispatch(showQrcode()),
     onShowUpin: () => dispatch(showUpin()),
     onViewDeviceCards: () => dispatch(viewDeviceCards()),
-    onSetProgramSel: (flag) => dispatch(setProgramSel(flag))
+    onSetProgramSel: (flag) => dispatch(setProgramSel(flag)),
+    onSetCurrentMAC: (mac) => dispatch(setCurrentMAC(mac)),
 });
 
 const ConnectedGUI = injectIntl(

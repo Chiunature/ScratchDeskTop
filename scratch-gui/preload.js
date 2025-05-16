@@ -111,7 +111,7 @@ function readFilesAsync(link, resourcePath = cwd(), options = { encoding: 'utf8'
         return res;
     } catch (error) {
         handlerError(error, resourcePath);
-        return;
+        return null;
     }
 }
 
@@ -217,7 +217,7 @@ function getVersion(vpath, verTxt = '/Version.txt') {
         return readFilesAsync(path.join(VERSION, verTxt), vpath);
     } catch (error) {
         // handlerError(error, vpath);
-        return false;
+        return null;
     }
 }
 

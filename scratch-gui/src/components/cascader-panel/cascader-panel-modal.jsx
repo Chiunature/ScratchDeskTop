@@ -230,7 +230,7 @@ function CascaderPanelModalCom(props) {
                     }
                 </Box>
                 <Box className={styles.bottomArea}>
-                    <Box className={styles.alert}>注意: *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。</Box>
+                    <Box className={styles.alert}>注意: *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。(请勿重复点击强制更新按钮)</Box>
                     <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
                         <button className={classNames(styles.redButton, styles.connectionButton)} onClick={update} disabled={valList.length === 0}>
                             <FormattedMessage

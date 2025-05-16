@@ -29,6 +29,14 @@ const ModalComponent = (props) => (
     >
         <Box dir={props.isRtl ? "rtl" : "ltr"} direction="column" grow={1}>
             <div className={classNames(styles.header, props.headerClassName)}>
+                {props.headerExtendNode && <div
+                    className={classNames(
+                        styles.headerItem,
+                        styles.headerItemHelp
+                    )}
+                >
+                    {props.headerExtendNode}
+                </div>}
                 {props.onHelp ? (
                     <div
                         className={classNames(

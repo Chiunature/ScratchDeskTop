@@ -1,12 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './ble-list-modal.css';
-import bleIcon from '../connection-modal/icons/bluetooth.svg';
 import Modal from '../../containers/modal.jsx';
 import ButtonComponent from '../button/button.jsx';
+import BleCacheList from './ble-cahce-list.jsx';
+import bleIcon from '../connection-modal/icons/bluetooth.svg';
 import radarIcon from '../connection-modal/icons/searching.png';
 
-export default function BleListModal({ onCancel, messages, intl, bleList, selectedBle, handleSelectPort, handleBleDisconnect }) {
+export default function BleListModal({ onCancel, messages, intl, bleList, selectedBle, handleSelectPort, handleBleDisconnect, bleCacheList, handleSelectCache, deleteSelectCache }) {
 
     const btnStatus = (device) => {
         return device.state === 'connected' ? intl.formatMessage(messages.connectedBtn) : intl.formatMessage(messages.connectBtn);
@@ -27,6 +28,7 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
             contentLabel={intl.formatMessage(messages.bluetooth)}
             onRequestClose={onCancel}
             intl={intl}
+            headerExtendNode={<BleCacheList bleCacheList={bleCacheList} handleSelectCache={handleSelectCache} deleteSelectCache={deleteSelectCache} />}
         >
             <div className={styles.bleList}>
                 <div className={styles.bleItem}>
@@ -34,54 +36,51 @@ export default function BleListModal({ onCancel, messages, intl, bleList, select
                     {(!selectedBle || !selectedBle.id) && <img className={classNames(styles.radarSmall, styles.radarSpin)} src={radarIcon} alt='' />}
                 </div>
                 {
-                    (selectedBle && selectedBle.id) && (
-                        <>
-                            <div className={styles.bleItem}>
+                    (selectedBle?.id) && (<div className={styles.bleItem}>
+                        <img src={bleIcon} alt='' />
+                        <div className={styles.bleListItem}>
+                            <span>{selectedBle?.localName || intl.formatMessage(messages.unsupportedDevice)}</span>
+                            <span className={styles.text}>{selectedBle.address || selectedBle.id}</span>
+                        </div>
+                        <ButtonComponent
+                            className={classNames(styles.bleConnectBtn, btnCSSStatus(selectedBle))}
+                        >
+                            {btnStatus(selectedBle)}
+                        </ButtonComponent>
+                        {
+                            selectedBle.state === 'connected' &&
+                            <ButtonComponent
+                                className={classNames(styles.bleConnectBtn, styles.disconnect)}
+                                onClick={() => handleBleDisconnect(selectedBle)}
+                            >
+                                {intl.formatMessage(messages.disconnectBtn)}
+                            </ButtonComponent>
+                        }
+                    </div>)
+                }
+                <br />
+                {
+                    bleList
+                        .sort((a, b) => (b.localName.length - a.localName.length))
+                        .map((device) => (
+                            <div className={styles.bleItem} key={device.id}>
                                 <img src={bleIcon} alt='' />
                                 <div className={styles.bleListItem}>
-                                    <span>{selectedBle?.localName || intl.formatMessage(messages.unsupportedDevice)}</span>
-                                    <span className={styles.text}>{selectedBle.address || selectedBle.id}</span>
+                                    <span>{bleName(device)}</span>
+                                    <span className={styles.text}>{device.address || device.id}</span>
                                 </div>
-                                <ButtonComponent
-                                    className={classNames(styles.bleConnectBtn, btnCSSStatus(selectedBle))}
-                                >
-                                    {btnStatus(selectedBle)}
-                                </ButtonComponent>
                                 {
-                                    selectedBle.state === 'connected' &&
+                                    device.localName === 'EST_BLUE' &&
                                     <ButtonComponent
-                                        className={classNames(styles.bleConnectBtn, styles.disconnect)}
-                                        onClick={() => handleBleDisconnect(selectedBle)}
+                                        className={classNames(styles.bleConnectBtn, btnCSSStatus(device))}
+                                        onClick={() => handleSelectPort(device)}
                                     >
-                                        {intl.formatMessage(messages.disconnectBtn)}
+                                        {btnStatus(device)}
                                     </ButtonComponent>
                                 }
                             </div>
-                            <br />
-                        </>
-                    )
+                        ))
                 }
-                {bleList.sort((a, b) => (b.localName.length - a.localName.length)).map((device) => {
-                    return (
-                        <div className={styles.bleItem} key={device.id}>
-                            <img src={bleIcon} alt='' />
-                            <div className={styles.bleListItem}>
-                                <span>{bleName(device)}</span>
-                                <span className={styles.text}>{device.address || device.id}</span>
-                            </div>
-                            {
-                                device.localName !== 'unkown' &&
-                                <ButtonComponent
-                                    className={classNames(styles.bleConnectBtn, btnCSSStatus(device))}
-                                    onClick={() => handleSelectPort(device)}
-                                >
-                                    {btnStatus(device)}
-                                </ButtonComponent>
-                            }
-                        </div>
-                    )
-                }
-                )}
             </div>
         </Modal>
     )
