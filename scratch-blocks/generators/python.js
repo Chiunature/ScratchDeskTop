@@ -102,6 +102,7 @@ Blockly.Python.LIST_TYPE = 'userlist';
 Blockly.Python.CAM_TYPE = 'camera';
 Blockly.Python.TIMER_TYPE = 'timer';
 Blockly.Python.MSG_TYPE = 'msg';
+Blockly.Python.STR_TYPE = 'str';
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -590,6 +591,12 @@ Blockly.Python.handleResult = function (code, type) {
         Blockly.Python.setups_[type] = 'MyMsg = APIMessage.box()';
       }
       result = 'MyMsg.' + result;
+      break;
+    case Blockly.Python.STR_TYPE:
+      if (!Blockly.Python.setups_[type]) {
+        Blockly.Python.setups_[type] = 'Mystr = APIStr.StrPyToC()';
+      }
+      result = 'Mystr.' + result;
       break;
     default:
       break;

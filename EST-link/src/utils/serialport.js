@@ -72,7 +72,7 @@ export class Serialport extends Common {
 
             const success = await this.linkToSerial(this.currentPort, event);
 
-            event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, { currentPort: success ? this.currentPort : null });
+            success && event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, { currentPort: this.currentPort });
         });
     }
 

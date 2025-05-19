@@ -192,15 +192,23 @@ class BleListModal extends PureComponent {
     }
 
     deleteSelectCache() {
-        if (selectedCache === this.props.currentMAC) {
+        if (this.state.selectedCache === this.props.currentMAC) {
             alert("当前设备已连接，无法删除");
             return;
         }
-        const cacheList = this.state.bleCacheList.filter(item => item.id !== selectedCache);
+
+        const isDel = confirm('确定要删除该条记录吗?');
+        if (!isDel) {
+            return;
+        }
+
+        const cacheList = this.state.bleCacheList.filter(id => id !== this.state.selectedCache);
+
         this.setState({
             bleCacheList: cacheList,
-            selectedCache: cacheList[0]
+            selectedCache: cacheList[0] || null
         });
+        
         localStorage.setItem('MAClist', JSON.stringify(cacheList));
     }
 

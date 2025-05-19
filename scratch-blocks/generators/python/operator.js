@@ -155,8 +155,8 @@ Blockly.Python['operator_mod'] = function(block) {
 Blockly.Python['operator_round'] = function(block) {
   var order = Blockly.Python.ORDER_UNARY_POSTFIX;
   var arg0 = Blockly.Python.valueToCode(block, 'NUM', order) || '0';
-  var code = 'round(' + arg0 + ')';
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  var code = 'roundf(' + arg0 + ')';
+  return [Blockly.Python.handleResult(code, Blockly.Python.STR_TYPE), Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python['operator_mathop'] = function(block) {
