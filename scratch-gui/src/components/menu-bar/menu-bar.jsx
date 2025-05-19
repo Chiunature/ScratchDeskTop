@@ -267,7 +267,7 @@ class MenuBar extends React.Component {
                 return;
             }
             this.handleConnection();
-        }, 2000);
+        }, 3000);
     }
 
     async handleConnection() {
@@ -349,7 +349,7 @@ class MenuBar extends React.Component {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
                             this.handleDisconnect(args.msg);
                             this.scanConnection();
-                        }, 2000);
+                        }, 3000);
                     } else {
                         this.handleDisconnect(args.msg);
                     }

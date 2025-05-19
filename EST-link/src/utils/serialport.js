@@ -33,8 +33,6 @@ export class Serialport extends Common {
         super(...args);
         this._type = 'serialport';
         this.port = null;
-        this.portList = [];
-        this.isConnectedPortList = [];
         this.chunkBuffer = [];
         this.chunkBufferSize = 0;
         this.sign = null;
@@ -58,21 +56,20 @@ export class Serialport extends Common {
             const result = await this.serialport.SerialPort.list();
 
             const newArr = result.reduce((pre, cur) => {
-                if (cur.friendlyName && this.checkSerialName(cur.friendlyName) && !cur.isOpen) {
+                if (cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
                     pre.push(cur);
                 }
                 return pre;
             }, []);
 
             for (const item of newArr) {
-                !this.isConnectedPortList.includes(item.pnpId) && this.portList.push(item);
+                const success = await this.linkToSerial(item, event);
+
+                if (success) {
+                    event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, { currentPort: item });
+                    break;
+                }
             }
-
-            this.currentPort = this.portList.shift();
-
-            const success = await this.linkToSerial(this.currentPort, event);
-
-            success && event.reply(ipc_Main.RETURN.CONNECTION.GETLIST, { currentPort: this.currentPort });
         });
     }
 
@@ -96,11 +93,14 @@ export class Serialport extends Common {
     async linkToSerial(serial, event) {
         try {
             this.port = new this.serialport.SerialPort({ path: serial.path, baudRate: 115200, autoOpen: false });
-            return await this.OpenPort(event);
+            const open = await this.OpenPort();
+            open ? event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: true, msg: "successfullyConnected", serial, type: this._type }) :
+                this.port = null;
+            return open;
         } catch (error) {
             return false;
         } finally {
-            if (!this.port && !this.port.isOpen) {
+            if (!this.port && !this.port?.isOpen) {
                 return false;
             }
             //开启断开连接监听
@@ -131,19 +131,13 @@ export class Serialport extends Common {
 
     /**
    * 串口打开
-   * @param {*} event
    */
-    OpenPort(event) {
+    OpenPort() {
         return new Promise((resolve) => {
             this.port.open((err) => {
                 if (err) {
-                    this.isConnectedPortList.push(this.currentPort.pnpId);
-                    // event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: false, msg: "" });
                     resolve(false);
                 } else {
-                    event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, { connectSuccess: true, msg: "successfullyConnected", serial: this.currentPort, type: this._type });
-                    this.portList.splice(0, this.portList.length);
-                    this.isConnectedPortList.splice(0, this.isConnectedPortList.length);
                     resolve(true);
                 }
             });
