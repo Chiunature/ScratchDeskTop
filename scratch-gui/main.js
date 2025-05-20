@@ -30,7 +30,7 @@ const watchLaunchFromATC = require("./scripts/watchLaunchFromATC.js");
 const getRandomString = require("./scripts/getRandomString.js");
 
 const electron = require("electron");
-const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain } = electron;
+const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, Tray } = electron;
 
 //设置通知标题上面的 英文 electron.app.Electron 
 const pg = require("./package.json");
@@ -191,8 +191,36 @@ function getStaticPath() {
     let resourcesRoot = path.resolve(app.getAppPath());
     if (app.isPackaged) {
         resourcesRoot = path.dirname(resourcesRoot);
+    } else {
+        resourcesRoot += '/resources';
     }
     return resourcesRoot;
+}
+
+function createTray() {
+  const tray = new Tray(path.join(__dirname, 'favicon.ico'));
+
+  const trayMenuTemplate = [
+    {
+      label: 'Show',
+      click: () => {
+        mainWindow.show();
+      },
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ];
+
+  const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
+  tray.setContextMenu(trayMenu);
+
+  tray.on('click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+  });
 }
 
 function createWindow(loadingWindow) {
@@ -353,6 +381,7 @@ function createWindow(loadingWindow) {
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on("ready", () => {
     showLoading(createWindow);
+    createTray();
 });
 
 // GPU进程崩溃

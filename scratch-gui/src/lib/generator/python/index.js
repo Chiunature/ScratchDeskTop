@@ -2,7 +2,7 @@ import { ipc as ipc_Renderer } from 'est-link'
 import { DIR } from '../../../config/json/LB_USER.json'
 export async function handleUploadPython(options, static_path = '') {
     return new Promise(async (resolve, reject) => {
-        const { verifyType, selectedExe, codeStr, codeType } = options;
+        const { selectedExe, codeStr } = options;
 
         if (!selectedExe) {
             reject(false);
@@ -22,11 +22,8 @@ export async function handleUploadPython(options, static_path = '') {
                     window.myAPI.ipcRender({
                         sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                         sendParams: {
-                            verifyType,
-                            selectedExe,
-                            codeType,
+                            ...options,
                             codeStr: result,
-                            isRun: options.isRun,
                         }
                     });
                 }
@@ -37,15 +34,13 @@ export async function handleUploadPython(options, static_path = '') {
             /* window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                 sendParams: {
-                    verifyType,
-                    selectedExe,
-                    codeType,
+                    ...options,
                     codeStr: new Uint8Array(stringToArrayBuffer(codeStr)),
-                    isRun: options.isRun,
                 }
             });
             resolve(true); */
         } catch (error) {
+            console.error(error.message)
             reject(false);
         }
 

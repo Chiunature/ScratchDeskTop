@@ -29,7 +29,6 @@ import { setConnectionModalExtensionId } from '../reducers/connection-modal';
 import { setWorkspace, updateMetrics } from '../reducers/workspace-metrics';
 import { activateTab, SOUNDS_TAB_INDEX } from '../reducers/editor-tab';
 import { getCode, setBufferList, setCompileList, setMatchMsgTaskBlock, setMatchMyBlock } from '../reducers/mode';
-import { ipc } from 'est-link';
 import { convert, pinyin } from "../utils/pingyin-pro";
 
 const addFunctionListener = (object, property, callback) => {
@@ -82,7 +81,6 @@ class Blocks extends React.Component {
             'setBlocks',
             'setLocale',
             'workspaceToCode',
-            'getStaticPath'
         ]);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.statusButtonCallback = this.handleConnectionModalStart;
@@ -99,8 +97,6 @@ class Blocks extends React.Component {
         this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
         this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
-
-        window.resourcesPath =  await this.getStaticPath();
 
         const workspaceConfig = defaultsDeep({},
             Blocks.defaultOptions,
@@ -149,14 +145,6 @@ class Blocks extends React.Component {
         }, { timeout: 500 })
     }
 
-    async getStaticPath() {
-        let static_path = localStorage.getItem('static_path');
-        if (!static_path) {
-            static_path = await window.myAPI.ipcInvoke(ipc.SEND_OR_ON.SET_STATIC_PATH);
-            localStorage.setItem('static_path', static_path);
-        }
-        return static_path;
-    }
 
     workspaceToCode(type) {
         if (type === 'move' || type === 'change' || type === 'delete') {

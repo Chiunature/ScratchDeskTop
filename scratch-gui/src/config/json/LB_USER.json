@@ -1,5 +1,5 @@
 {
-    "DIR": "./resources/ByteCode",
+    "DIR": "./ByteCode",
     "USER": "./resources/gcc-arm-none-eabi/bin/LB_USER",
     "SRC": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER",
     "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/Core/Src/Aplication.c",

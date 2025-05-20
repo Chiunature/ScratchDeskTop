@@ -239,7 +239,8 @@
             "loadWin.js",
             "preload.js",
             "update.js",
-            "main-with-cache.js"
+            "main-with-cache.js",
+            "favicon.ico"
         ],
         "fileAssociations": [
             {

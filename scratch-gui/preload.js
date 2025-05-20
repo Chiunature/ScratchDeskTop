@@ -188,18 +188,17 @@ function commendMake(pathCWD = cwd()) {
             errStr += err.toString();
         });
 
-        /* process.on('error', (err) => {
+        process.on('error', (err) => {
             if (err) {
                 handlerError(err.message, pathCWD);
                 reject(err.message);
             }
-        }) */
+        })
 
         process.on('close', (code) => {
             if (code === 0) {
                 resolve(true);
             } else {
-                handlerError(errStr, pathCWD);
                 reject(false);
             }
         });
@@ -274,7 +273,7 @@ function getCurrentTime() {
 async function handlerError(error, resourcePath = cwd()) {
     if (!ArrayBuffer.isView(error) && typeof error !== 'string') return;
     const time = getCurrentTime();
-    const filepath = `./Error/error_${time}.txt`;
+    const filepath = `/error_${time}.txt`;
     await writeFileWithDirectory(resourcePath + '/Error', filepath, error);
 }
 

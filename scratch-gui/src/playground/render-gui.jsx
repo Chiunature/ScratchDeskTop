@@ -6,7 +6,7 @@ import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
 import HashParserHOC from '../lib/hash-parser-hoc.jsx';
 import log from '../lib/log.js';
-// import {ipc as ipc_Renderer} from 'est-link';
+import { ipc as ipc_Render } from 'est-link';
 
 const onClickLogo = () => {
     window.location = '#';
@@ -33,10 +33,22 @@ const getModalStorage = () => {
     return modal ? modal : 'hsla(215, 100%, 65%, .7)';
 }
 
+ async function getStaticPath() {
+    let static_path = localStorage.getItem('static_path');
+    if (!static_path) {
+        static_path = await window.myAPI.ipcInvoke(ipc_Render.SEND_OR_ON.SET_STATIC_PATH);
+        localStorage.setItem('static_path', static_path);
+    }
+    return static_path;
+}
+
 requestIdleCallback(() => {
+    getStaticPath().then((path) => {
+        window.resourcesPath = path;
+    });
     document.body.style.setProperty('--motion-primary', getThemeStorage());
     document.body.style.setProperty('--modal-overlay', getModalStorage());
-}, {timeout:500})
+})
 /*
  * Render the GUI playground. This is a separate function because importing anything
  * that instantiates the VM causes unsupported browsers to crash
