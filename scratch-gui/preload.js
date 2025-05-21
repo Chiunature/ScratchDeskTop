@@ -363,6 +363,20 @@ function openCacheDir() {
     shell.openPath(dir);
 }
 
+function compareSize(file, size, pathCWD = cwd()) {
+    try {
+        const stats = fs.statSync(path.join(pathCWD, DIR, file));
+        if (stats.size > size * 1024) { // 16KB = 16 * 1024 bytes
+            // console.log('文件大小超过16KB');
+            return true;
+        } else {
+            // console.log('文件大小未超过16KB');
+            return false;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
@@ -390,5 +404,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     sleep,
     openExternal: (url) => shell.openExternal(url),
     getHomeDir,
-    openCacheDir
+    openCacheDir,
+    compareSize
 });

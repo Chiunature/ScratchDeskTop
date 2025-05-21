@@ -1,6 +1,10 @@
 import { ipc as ipc_Renderer } from 'est-link'
 import { DIR } from '../../../config/json/LB_USER.json'
 export async function handleUploadPython(options, static_path = '') {
+
+    let isError = false;
+    const alertMsg = isError ? "uploadError" : "fileIsTooBig";
+
     return new Promise(async (resolve, reject) => {
         const { selectedExe, codeStr } = options;
 
@@ -12,10 +16,20 @@ export async function handleUploadPython(options, static_path = '') {
             const pyPath = `${DIR}/${selectedExe.num}.py`;
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
+            const tooBigOfPy = window.myAPI.compareSize(pyPath, 16, static_path);
+            if (tooBigOfPy) {
+                reject(alertMsg);
+            }
 
             const res = await window.myAPI.commendMake(static_path);
             if (res) {
                 const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
+
+                const tooBigOfPyo = window.myAPI.compareSize(pyPath, 8, static_path);
+                if (tooBigOfPyo) {
+                    reject(alertMsg);
+                }
+
                 const result = await window.myAPI.readFiles(pyoPath, static_path, {});
 
                 if (result) {
@@ -29,7 +43,7 @@ export async function handleUploadPython(options, static_path = '') {
                 }
                 resolve(true);
             } else {
-                reject(false);
+                reject(alertMsg);
             }
             /* window.myAPI.ipcRender({
                 sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
@@ -40,8 +54,7 @@ export async function handleUploadPython(options, static_path = '') {
             });
             resolve(true); */
         } catch (error) {
-            console.error(error.message)
-            reject(false);
+            reject(alertMsg);
         }
 
     })

@@ -662,6 +662,28 @@ const alerts = [
         level: AlertLevels.WARN,
         maxDisplaySecs: 3,
     },
+    {
+        alertId: "fileIsTooBig",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibration"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="The file exceeds the limit range, please try reducing the number of building blocks"
+                description="The file exceeds the limit range, please try reducing the number of building blocks"
+                id="gui.alerts.fileIsTooBig"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
 ];
 
 export { alerts as default, AlertLevels, AlertTypes };

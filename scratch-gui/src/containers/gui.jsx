@@ -350,7 +350,7 @@ class GUI extends React.Component {
                     break;
             }
         } catch (error) {
-            this.props.onShowCompletedAlert("uploadError");
+            this.props.onShowCompletedAlert(error);
             this.props.onSetCompleted(false);
             this.props.onSetSourceCompleted(false);
         }
