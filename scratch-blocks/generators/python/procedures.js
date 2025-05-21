@@ -94,7 +94,7 @@ Blockly.Python['procedures_prototype'] = function (block) {
   funcName = funcName.replace(/ /g, '_');
   for (var i = 0; i < argName.length; i++) {
     var ch = funcName.charAt(funcName.search(/%[nsb]/g) + 1);
-    var safeArgName = Blockly.Python.variableDB_.getName(argName[i], Blockly.Procedures.NAME_TYPE);
+    var safeArgName = Blockly.Python.variableDB_.getName(argName[i]);
     Blockly.Python.customFunctionsArgName_[argName[i]] = safeArgName;
 
     if (ch === 'n') {

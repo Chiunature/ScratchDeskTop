@@ -33,13 +33,13 @@ const getModalStorage = () => {
     return modal ? modal : 'hsla(215, 100%, 65%, .7)';
 }
 
- async function getStaticPath() {
-    let static_path = localStorage.getItem('static_path');
-    if (!static_path) {
-        static_path = await window.myAPI.ipcInvoke(ipc_Render.SEND_OR_ON.SET_STATIC_PATH);
-        localStorage.setItem('static_path', static_path);
+async function getStaticPath() {
+    let oldPath = localStorage.getItem('static_path');
+    const newPath = await window.myAPI.ipcInvoke(ipc_Render.SEND_OR_ON.SET_STATIC_PATH);
+    if (!oldPath || (oldPath?.length > 0 && oldPath !== newPath)) {
+        localStorage.setItem('static_path', newPath);
     }
-    return static_path;
+    return oldPath;
 }
 
 requestIdleCallback(() => {

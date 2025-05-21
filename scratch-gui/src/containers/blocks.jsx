@@ -1,6 +1,7 @@
 import bindAll from 'lodash.bindall';
 import debounce from 'lodash.debounce';
 import defaultsDeep from 'lodash.defaultsdeep';
+import throttle from 'lodash.throttle';
 import makeToolboxXML from '../lib/make-toolbox-xml';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -151,126 +152,10 @@ class Blocks extends React.Component {
             const code = this.ScratchBlocks[this.props.generatorName].workspaceToCode(this.workspace);
             this.props.getCode(code);
             // this.parserTask(this.workspace, [])
-            // const list = this.workspace.getTopBlocks();
-            // let newList = list.filter(el => el.startHat_);
-            // if (newList.length > 0) {
-            // this.checkStartHat(newList, this.props.code);
-            // this.disableCombinedMotor(newList);
-            // this.disableEventBlocks();
-            // }
-            // this.props.onSetSoundsList(this.ScratchBlocks[generatorName].soundslist);
         } else if (type === 'endDrag' || type === 'change') {
             this.props.setAutoSaveByBlockType(type);
         }
     }
-
-    /* disableEventBlocks() {
-        const list = this.workspace.getTopBlocks();
-        let newList = list.filter(el => el.type === 'event_whenbroadcastreceived');
-        if (newList.length > 0) {
-            let map = new Map();
-            for (let i = 0; i < newList.length; i++) {
-                const element = newList[i];
-                if (map.has(element.inputList[0].fieldRow[1].text_)) {
-                    const index = map.get(element.inputList[0].fieldRow[1].text_);
-                    newList[index].setDisabled(true);
-                }
-                map.set(element.inputList[0].fieldRow[1].text_, i);
-            }
-        }
-    } */
-
-    /* disableCombinedMotor(list) {
-        const allBlocks = this.workspace.getAllBlocks();
-        const hasCombined = allBlocks.find(el => el.category_ === 'combined_motor');
-        if (!hasCombined) { 
-            return;
-        }
-        for (let i = 0; i < list.length; i++) {
-            let disableBlocksList = [];
-            this.getDisableCombinedMotor(list[i], disableBlocksList, 'combined_motor');
-            this.disableBlocks('combined_motor_starting', disableBlocksList);
-        }
-    } */
-
-    /* getDisableCombinedMotor(item, disableBlocksList, category_) {
-        const children = item.childBlocks_;
-        if (children && children.length > 0) {
-            for (let i = 0; i < children.length; i++) {
-                const element = children[i];
-                if (element.category_ === category_ && !element.isShadow_) {
-                    disableBlocksList.push(element);
-                }
-                if (element.childBlocks_.length > 0) {
-                    this.getDisableCombinedMotor(element, disableBlocksList);
-                }
-            }
-        }
-    } */
-
-    /* disableBlocks(type, list) {
-        let current;
-        for (let i = 0; i < list.length; i++) {
-            const element = list[i];
-            if (element.type === type) {
-                current = i;
-            }
-        }
-        this.turnToDisable(list, 'combined_motor', 'combined', current);
-    } */
-
-    /* turnToDisable(list, category_, typeId, current) {
-        for (let i = 0; i < list.length; i++) {
-            const el = list[i];
-            const isSameCategory = _isSameCategory(el);
-            const isSameType = _isSameType(el);
-            if (isSameCategory && isSameType) {
-                const isDisabled = i < current;
-                el.setDisabled(isDisabled);
-            }
-        }
-        function _isSameCategory(element) {
-            return element?.category_?.indexOf(category_) !== -1 ||
-                (!element.category_ && element?.parentBlock_?.category_?.indexOf(category_) !== -1);
-        }
-
-        function _isSameType(element) {
-            return (element.category_ && element?.type?.indexOf(typeId) !== -1) ||
-                (!element.category_ && element?.parentBlock_?.type?.indexOf(typeId) !== -1);
-        }
-    } */
-
-    //检查是不是开始事件头
-    /* checkStartHat(list, code) {
-        const hasStart = list.some(el => el.startHat_);
-        if (!hasStart) return;
-
-        let matchMyBlock = code.match(regexForMyBlock);
-        let matchMyBlockRes = matchMyBlock ? matchMyBlock : '';
-        const variable = code.match(regVariable);
-        if (variable) {
-            if (matchMyBlockRes.length > 0) {
-                matchMyBlockRes[0] = variable.join('\n') + '\n' + matchMyBlockRes[0];
-            } else {
-                matchMyBlockRes = variable.join('\n');
-            }
-        }
-        this.props.setMatchMyBlock(matchMyBlockRes);
-
-        const msgBlock = code.match(regexForMsgBlock);
-        this.props.onSetMatchMsgBlock(msgBlock);
-
-        const match = code.match(regex);
-        if (match) {
-            const arr = match[1].match(regexForThread);
-            let newArr = [];
-            if (arr) {
-                newArr = arr.filter(item => /[^ \n]/.test(item));
-            }
-            this.props.setCompileList(newArr);
-            this.parserTask(this.workspace, newArr);
-        }
-    } */
 
 
     //解析任务
@@ -289,9 +174,6 @@ class Blocks extends React.Component {
             }
             i++;
         }
-        /* if (newList.length > 0) {
-            this.props.setBufferList(newList);
-        } */
     }
 
     disableAllNoEventsBlocks(element, disable) {
@@ -417,12 +299,12 @@ class Blocks extends React.Component {
     }
 
     attachVM() {
-        this.workspace.addChangeListener((event) => {
-            requestIdleCallback(() => {
-                this.workspaceToCode(event.type);
-                this.props.vm.blockListener(event);
-            });
-        });
+        const throttleFunc = throttle((event) => {
+            this.workspaceToCode(event.type);
+            this.props.vm.blockListener(event);
+        }, 60);
+
+        this.workspace.addChangeListener(throttleFunc);
         this.flyoutWorkspace = this.workspace
             .getFlyout()
             .getWorkspace();

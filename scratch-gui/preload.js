@@ -365,7 +365,7 @@ function openCacheDir() {
 
 function compareSize(file, size, pathCWD = cwd()) {
     try {
-        const stats = fs.statSync(path.join(pathCWD, DIR, file));
+        const stats = fs.statSync(path.join(pathCWD, file));
         if (stats.size > size * 1024) { // 16KB = 16 * 1024 bytes
             // console.log('文件大小超过16KB');
             return true;

@@ -198,29 +198,29 @@ function getStaticPath() {
 }
 
 function createTray() {
-  const tray = new Tray(path.join(__dirname, 'favicon.ico'));
+    const tray = new Tray(path.join(__dirname, 'favicon.ico'));
 
-  const trayMenuTemplate = [
-    {
-      label: 'Show',
-      click: () => {
-        mainWindow.show();
-      },
-    },
-    {
-      label: 'Quit',
-      click: () => {
-        app.quit();
-      },
-    },
-  ];
+    const trayMenuTemplate = [
+        {
+            label: 'Show',
+            click: () => {
+                mainWindow.show();
+            },
+        },
+        {
+            label: 'Quit',
+            click: () => {
+                app.quit();
+            },
+        },
+    ];
 
-  const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
-  tray.setContextMenu(trayMenu);
+    const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
+    tray.setContextMenu(trayMenu);
 
-  tray.on('click', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
-  });
+    tray.on('click', () => {
+        mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+    });
 }
 
 function createWindow(loadingWindow) {
@@ -288,7 +288,7 @@ function createWindow(loadingWindow) {
 
 
     // 设置静态资源路径
-    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, () => getStaticPath());
+    ipcHandle(ipc.SEND_OR_ON.SET_STATIC_PATH, getStaticPath);
     ipcHandle(ipc.SEND_OR_ON.GETMAINMSG, (event, args) => {
         if (!mainMsg && args.msg) {
             mainMsg = { ...args.msg };

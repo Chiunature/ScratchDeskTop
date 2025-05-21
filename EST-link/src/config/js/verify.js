@@ -52,11 +52,11 @@ function getAllFiles(fs, path, dir) {
  */
 export function verifyBinType(options, event) {
     const { verifyType } = options;
-    const { path, fs, staticPath, isPackaged } = this;
+    const { path, fs, staticPath } = this;
     //根据类型判断是哪种通信
     switch (verifyType) {
         case SOURCE:
-            const fileSourcePath = isPackaged ? path.join(staticPath, LB_FWLIB) : path.join(staticPath, "/resources", LB_FWLIB);
+            const fileSourcePath = path.join(staticPath, LB_FWLIB);
             const allFiles = getAllFiles(fs, path, fileSourcePath);
             event.reply(ipc_Main.RETURN.COMMUNICATION.SOURCE.LENGTH, allFiles.length);
             return allFiles;
