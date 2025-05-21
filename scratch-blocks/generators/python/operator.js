@@ -148,7 +148,7 @@ Blockly.Python['operator_mod'] = function(block) {
   var order = Blockly.Python.ORDER_MULTIPLICATIVE;
   var arg0 = Blockly.Python.valueToCode(block, 'NUM1', order) || '0';
   var arg1 = Blockly.Python.valueToCode(block, 'NUM2', order) || '0';
-  var code = arg0 + ' % ' + arg1;
+  var code = `_math.fmod(${arg0}, ${arg1})`;
   return [code, order];
 };
 
