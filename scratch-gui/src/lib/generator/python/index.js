@@ -16,16 +16,16 @@ export async function handleUploadPython(options, static_path = '') {
             const pyPath = `${DIR}/${selectedExe.num}.py`;
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
-            const tooBigOfPy = window.myAPI.compareSize(pyPath, 16, static_path);
-            if (tooBigOfPy) {
-                reject(alertMsg);
-            }
+            // const tooBigOfPy = window.myAPI.compareSize(pyPath, 16, static_path);
+            // if (tooBigOfPy) {
+            //     reject(alertMsg);
+            // }
 
             const res = await window.myAPI.commendMake(static_path);
             if (res) {
                 const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
 
-                const tooBigOfPyo = window.myAPI.compareSize(pyPath, 8, static_path);
+                const tooBigOfPyo = window.myAPI.compareSize(pyPath, 32, static_path);
                 if (tooBigOfPyo) {
                     reject(alertMsg);
                 }
