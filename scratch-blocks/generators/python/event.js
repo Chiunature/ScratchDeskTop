@@ -187,8 +187,8 @@ Blockly.Python['event_whenbroadcastreceived'] = function (block) {
   } else {
     code = Blockly.Python.scrub_(block, code);
   }
-  
-  Blockly.Python.msg_[broadcast + ''] = `def messagbox${broadcast}():\n` + 
+
+  Blockly.Python.msg_[broadcast + ''] = `def messagbox${broadcast}():\n` +
     Blockly.Python.INDENT + Blockly.Python.INDENT +
     'while True:\n' +
     Blockly.Python.INDENT + Blockly.Python.INDENT +
@@ -201,7 +201,11 @@ Blockly.Python['event_whenbroadcastreceived'] = function (block) {
     Blockly.Python.INDENT + Blockly.Python.INDENT +
     Blockly.Python.INDENT + Blockly.Python.INDENT +
     `MyMsg.FlashMessageBox(${broadcast})\n`;
-  
+
+  if (!Blockly.Python.setups_[Blockly.Python.MSG_TYPE]) {
+    Blockly.Python.setups_[Blockly.Python.MSG_TYPE] = 'MyMsg = APIMessage.box()';
+  }
+
   Blockly.Python.tasks_[`messagbox${broadcast}`] = '';
   return null;
 };
@@ -221,6 +225,6 @@ Blockly.Python['event_broadcastandwait'] = function (block) {
 Blockly.Python['event_broadcast_menu'] = function (block) {
   // TODO: Assemble Python into code variable.
   const varName = Blockly.Python.variableDB_.getName(block.getFieldValue('BROADCAST_OPTION'),
-      Blockly.Variables.NAME_TYPE);
+    Blockly.Variables.NAME_TYPE);
   return [varName, Blockly.Python.ORDER_ATOMIC];
 };
