@@ -790,3 +790,48 @@ Blockly.Blocks['combined_linepatrol'] = {
         });
     }
 }
+
+Blockly.Blocks['combined_linepatrol_ltr'] = {
+    init: function () {
+        this.jsonInit({
+            "type": "combined_linepatrol_ltr",
+            "message0": Blockly.Msg.SENSING_LINEPATROL_LTR,
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "PORT_ONE"
+                },
+                {
+                    "type": "input_value",
+                    "name": "PORT_TWO"
+                },
+                {
+                    "type": "input_value",
+                    "name": "LEFT"
+                },
+                {
+                    "type": "input_value",
+                    "name": "RIGHT"
+                },
+                {
+                    "type": "input_value",
+                    "name": "KP"
+                },
+                {
+                    "type": "input_value",
+                    "name": "KI"
+                },
+                {
+                    "type": "input_value",
+                    "name": "KD"
+                },
+                {
+                    "type": "input_value",
+                    "name": "SPIN_PARAMS"
+                }
+            ],
+            "category": Blockly.Categories.combined_motor,
+            "extensions": ["colours_combined_motor", "shape_statement"]
+        });
+    }
+}

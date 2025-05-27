@@ -25,14 +25,14 @@ Blockly.Python['combined_motorTwo_menu'] = function (block) {
 Blockly.Python['combined_motor_starting'] = function (block) {
     const port = Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE);
     let newPort;
-    if(typeof port === 'string') {
+    if (typeof port === 'string') {
         newPort = port.split('+');
-    }else {
+    } else {
         newPort = port;
     }
-    if(newPort.length > 1) {
+    if (newPort.length > 1) {
         newPort = newPort.join('+');
-    }else {
+    } else {
         newPort = newPort[0];
     }
     // TODO: Assemble Python into code variable.
@@ -63,14 +63,14 @@ Blockly.Python['combined_motor_turn'] = function (block) {
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE);
     const distance = block.getFieldValue('distance');
     const unit = block.getFieldValue('unit');
-    const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
+    const { one, two } = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
     // TODO: Assemble Python into code variable.
-    const code = `motor_combined_turn(`+`${Blockly.Python.toStr(one) ? one : '"' + one + '"'},`+ 
-    `${Blockly.Python.toStr(two) ? two : '"' + two + '"'},`+
-    `${Blockly.Python.toStr(spin) ? spin : '"' + spin + '"'},`+
-    `${Blockly.Python.toStr(angle) ? angle : '"' + angle + '"'},`+ 
-    `${Blockly.Python.toStr(distance) ? distance : '"' + distance + '"'},`+
-    `${Blockly.Python.toStr(unit) ? unit : '"' + unit + '"'})\n`;
+    const code = `motor_combined_turn(` + `${Blockly.Python.toStr(one) ? one : '"' + one + '"'},` +
+        `${Blockly.Python.toStr(two) ? two : '"' + two + '"'},` +
+        `${Blockly.Python.toStr(spin) ? spin : '"' + spin + '"'},` +
+        `${Blockly.Python.toStr(angle) ? angle : '"' + angle + '"'},` +
+        `${Blockly.Python.toStr(distance) ? distance : '"' + distance + '"'},` +
+        `${Blockly.Python.toStr(unit) ? unit : '"' + unit + '"'})\n`;
     return '\n';
 };
 
@@ -154,7 +154,7 @@ Blockly.Python['combined_motor_moveByYawAngle'] = function (block) {
     direction = direction[0].toLowerCase() + direction.slice(1);
     const code = `DoubleMotorLine("${direction}", ${count}, "${unit}")\n`;
     return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-}; 
+};
 
 Blockly.Python['combined_motor_spinByYawAngle'] = function (block) {
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE);
@@ -183,4 +183,16 @@ Blockly.Python['combined_linepatrol'] = function (block) {
     const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
     const sp = Blockly.Python.valueToCode(block, "SPIN_PARAMS", Blockly.Python.ORDER_NONE);
     return Blockly.Python.handleResult(`linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd}, ${sp})\n`, Blockly.Python.GRAY_TYPE);
+};
+
+Blockly.Python['combined_linepatrol_ltr'] = function (block) {
+    const portOne = Blockly.Python.valueToCode(block, "PORT_ONE", Blockly.Python.ORDER_NONE);
+    const portTwo = Blockly.Python.valueToCode(block, "PORT_TWO", Blockly.Python.ORDER_NONE);
+    const left = Blockly.Python.valueToCode(block, "LEFT", Blockly.Python.ORDER_NONE);
+    const right = Blockly.Python.valueToCode(block, "RIGHT", Blockly.Python.ORDER_NONE);
+    const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
+    const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
+    const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
+    const sp = Blockly.Python.valueToCode(block, "SPIN_PARAMS", Blockly.Python.ORDER_NONE);
+    return Blockly.Python.handleResult(`linepatrolPower(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${ki}, ${kd}, ${sp})\n`, Blockly.Python.GRAY_TYPE);
 };

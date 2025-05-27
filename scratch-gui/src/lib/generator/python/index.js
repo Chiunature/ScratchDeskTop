@@ -23,14 +23,14 @@ export async function handleUploadPython(options, static_path = '') {
 
             const res = await window.myAPI.commendMake(static_path);
             if (res) {
-                const pyoPath = `${DIR}/${selectedExe.num}.py.o`;
+                const oPath = `${DIR}/${selectedExe.num}.py.o`;
 
-                const tooBigOfPyo = window.myAPI.compareSize(pyPath, 32, static_path);
+                const tooBigOfPyo = window.myAPI.compareSize(oPath, 32, static_path);
                 if (tooBigOfPyo) {
                     reject(alertMsg);
                 }
 
-                const result = await window.myAPI.readFiles(pyoPath, static_path, {});
+                const result = await window.myAPI.readFiles(oPath, static_path, {});
 
                 if (result) {
                     window.myAPI.ipcRender({

@@ -378,6 +378,7 @@ Blockly.Msg.SENSING_GET_GRAY_LINE = '%1 Obtain grayscale sensor values %2';
 Blockly.Msg.SENSING_GET_GRAY_LINESTATE = '%1 Is it Obtain grayscale sensor values %2 ?';
 Blockly.Msg.SENSING_LINEPATROLINIT = 'Initialize the linepatrol';
 Blockly.Msg.SENSING_LINEPATROL = 'The linepatrol %1 %2 power is %3 KP %4 KI %5 KD %6 deflection factor %7';
+Blockly.Msg.SENSING_LINEPATROL_LTR = 'The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KI %6 KD %7 deflection factor %8';
 Blockly.Msg.SENSING_JUDGELINESTATE = 'Determine %1 the current grayscale %2 status';
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK = '%1 search for color blocks R %2 G %3 B %4 tolerance %5';
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_STATE = '%1 Get the current search status of the color block';
