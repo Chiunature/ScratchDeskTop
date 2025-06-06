@@ -235,7 +235,7 @@ class GUI extends React.Component {
         const MAClist = localStorage.getItem('MAClist');
         if (!MAClist || MAClist === '[]') {
             localStorage.setItem('MAClist', JSON.stringify([newObj?.MAC]));
-        } else if (oldObj?.MAC !== newObj?.MAC && MAClist) {
+        } else if (oldObj.MAC?.length > 0 && oldObj?.MAC !== newObj?.MAC && MAClist) {
             const newMAClist = JSON.parse(MAClist);
             !newMAClist.includes(newObj.MAC) && localStorage.setItem('MAClist', JSON.stringify([...newMAClist, newObj.MAC]));
         }
