@@ -205,10 +205,11 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                if (!newDeviceObj || this.props.completed || this.props.dragging) {
+                const { deviceObj, version, completed, dragging, deviceType, currentMAC, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
+
+                if (!newDeviceObj || completed || dragging) {
                     return;
                 }
-                const { deviceObj, version, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
 
                 if (deviceObj?.NewAiState === newDeviceObj?.NewAiState) {
                     onSetDeviceStatus(newDeviceObj.NewAiState);
@@ -218,31 +219,32 @@ class GUI extends React.Component {
                     onSetVersion(newDeviceObj.version);
                 }
 
-                onSetDeviceObj(newDeviceObj);
+                if (deviceType === 'serialport' && !currentMAC && newDeviceObj?.MAC) {
+                    this.storageMAC(currentMAC, newDeviceObj.MAC);
+                }
 
                 requestIdleCallback(() => {
                     this.initSensingList();
                     this.blocksMotorCheck();
-                    this.props.deviceType === 'serialport' && this.storageMAC(deviceObj, newDeviceObj);
-                    // sessionStorage.getItem('run-app') === verifyTypeConfig.RUN_APP && this.handleRunApp();
-                    // sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING && sessionStorage.setItem('update-sensing', verifyTypeConfig.DONE);
+                    onSetDeviceObj(newDeviceObj);
                 });
             }
         });
     }
 
-    storageMAC(oldObj, newObj) {
+    storageMAC(oldMac, newMac) {
         const MAClist = localStorage.getItem('MAClist');
+
         if (!MAClist || MAClist === '[]') {
-            localStorage.setItem('MAClist', JSON.stringify([newObj?.MAC]));
-        } else if (oldObj.MAC?.length > 0 && oldObj?.MAC !== newObj?.MAC && MAClist) {
-            const newMAClist = JSON.parse(MAClist);
-            !newMAClist.includes(newObj.MAC) && localStorage.setItem('MAClist', JSON.stringify([...newMAClist, newObj.MAC]));
+            localStorage.setItem('MAClist', JSON.stringify([newMac]));
         }
 
-        if (this.props.currentMAC !== newObj.MAC) {
-            this.props.onSetCurrentMAC(newObj.MAC);
+        if (oldMac !== newMac && MAClist) {
+            const newMAClist = JSON.parse(MAClist);
+            !newMAClist.includes(newMac) && localStorage.setItem('MAClist', JSON.stringify([...newMAClist, newMac]));
         }
+
+        this.props.onSetCurrentMAC(newMac);
     }
 
     checkUpdateFirmware(resourcesPath) {
