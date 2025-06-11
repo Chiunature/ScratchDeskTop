@@ -16,14 +16,10 @@ export async function handleUploadPython(options, static_path = '') {
             const pyPath = `${DIR}/${selectedExe.num}.py`;
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
-            // const tooBigOfPy = window.myAPI.compareSize(pyPath, 16, static_path);
-            // if (tooBigOfPy) {
-            //     reject(alertMsg);
-            // }
-
             const res = await window.myAPI.commendMake(static_path);
             if (res) {
-                const oPath = `${DIR}/${selectedExe.num}.py.o`;
+                const fileName = `${selectedExe.num}.py.o`;
+                const oPath = `${DIR}/${fileName}`;
 
                 const tooBigOfPyo = window.myAPI.compareSize(oPath, 32, static_path);
                 if (tooBigOfPyo) {
@@ -38,6 +34,7 @@ export async function handleUploadPython(options, static_path = '') {
                         sendParams: {
                             ...options,
                             codeStr: result,
+                            fileName: fileName.replace('.py', '')
                         }
                     });
                 }
@@ -50,6 +47,7 @@ export async function handleUploadPython(options, static_path = '') {
                 sendParams: {
                     ...options,
                     codeStr: new Uint8Array(stringToArrayBuffer(codeStr)),
+                    fileName: `${selectedExe.num}.py`
                 }
             });
             resolve(true); */

@@ -68,7 +68,7 @@ export function verifyBinType(options, event) {
 }
 
 function getResultByCodeType(options, codeOptions) {
-    const { selectedExe, codeType } = options;
+    const { selectedExe, codeType, fileName } = options;
     const { path, fs, root } = codeOptions;
     switch (codeType) {
         case CAKE:
@@ -85,7 +85,7 @@ function getResultByCodeType(options, codeOptions) {
             return [
                 {
                     verifyType: BOOTBIN,
-                    fileName: `${selectedExe.num}.o`,
+                    fileName: fileName,
                     fileData: options.codeStr
                 }
             ]
