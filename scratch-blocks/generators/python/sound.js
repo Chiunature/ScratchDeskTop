@@ -30,7 +30,7 @@ Blockly.Python['sound_play'] = function (block) {
     if (!Blockly.Python.soundslist.includes(soundItem)) {
         Blockly.Python.soundslist.push(soundItem);
     }
-    const code = `play("${sound}.wav")\n`
+    const code = `sound_play("${sound}.wav")\n`
     return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE);
 }
 

@@ -80,7 +80,7 @@ Blockly.Python['data_addtolist'] = function(block) {
     return '';
   }
 
-  const code = `pushdata(${Blockly.Python.toStr(item) ? item : '"' + item + '"'})\n`;
+  const code = `pushdata(${item})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
@@ -117,7 +117,7 @@ Blockly.Python['data_insertatlist'] = function(block) {
     return '';
   }
 
-  const code = `Puldata(${index}, ${item})\n`;
+  const code = `puldata(${index}, ${item})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
