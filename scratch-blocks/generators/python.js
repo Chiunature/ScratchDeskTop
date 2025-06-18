@@ -307,7 +307,7 @@ Blockly.Python.finish = function (code) {
 Blockly.Python.splitCodeByTask = function (code) {
   let result = '\n';
   const regexForThread = /\s{1}\/\* Start \*\/[\s\S]*?\/\* End \*\/\s{1}/g;
-  const task = Object.keys(Blockly.Python.tasks_);
+  const _task = Object.keys(Blockly.Python.tasks_).filter(el => el.includes('task'));
   const arr = code.match(regexForThread);
 
   if (!arr) {
@@ -317,10 +317,10 @@ Blockly.Python.splitCodeByTask = function (code) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i].replace(/\s{1}\/\* Start \*\/\s{1}/, '').replace(/\s{1}\/\* End \*\/\s{1}/, '');
     result = result +
-      `\ndef ${task[i]}():\n` +
-      `${Blockly.Python.INDENT}  global ${task[i]}_finished\n` +
+      `\ndef ${_task[i]}():\n` +
+      `${Blockly.Python.INDENT}  global ${_task[i]}_finished\n` +
       `${Blockly.Python.addIndent(item)}` +
-      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${task[i]}_finished = True\n`;
+      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${_task[i]}_finished = True\n`;
   }
 
   return result;

@@ -181,7 +181,7 @@ function deleteFiles(link, resourcePath = cwd()) {
  */
 function commendMake(pathCWD = cwd()) {
     return new Promise((resolve, reject) => {
-        const process = execFile(path.join(pathCWD, DIR, "ByteCode.exe"), [], { cwd: path.join(pathCWD, DIR) });
+        const process = execFile("ByteCode.exe", [], { cwd: path.join(pathCWD, DIR) });
 
         let errStr = '';
         process.stderr.on('data', (err) => {
@@ -366,7 +366,7 @@ function openCacheDir() {
 function compareSize(file, size, pathCWD = cwd()) {
     try {
         const stats = fs.statSync(path.join(pathCWD, file));
-        if (stats.size > size * 1024) {
+        if (typeof stats.size === 'number' && stats.size >= size * 1024) {
             // console.log('文件大小超过16KB');
             return true;
         } else {
@@ -374,7 +374,7 @@ function compareSize(file, size, pathCWD = cwd()) {
             return false;
         }
     } catch (err) {
-        return true;
+        return false;
     }
 }
 

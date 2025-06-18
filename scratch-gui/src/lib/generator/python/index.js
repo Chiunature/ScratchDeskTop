@@ -2,7 +2,7 @@ import { ipc as ipc_Renderer } from 'est-link'
 import { DIR } from '../../../config/json/LB_USER.json'
 export async function handleUploadPython(options, static_path = '') {
 
-    let isError = false;
+    let isError = true;
     const alertMsg = isError ? "uploadError" : "fileIsTooBig";
 
     return new Promise(async (resolve, reject) => {
@@ -23,6 +23,7 @@ export async function handleUploadPython(options, static_path = '') {
 
                 const tooBigOfPyo = window.myAPI.compareSize(oPath, 32, static_path);
                 if (tooBigOfPyo) {
+                    isError = false;
                     reject(alertMsg);
                 }
 
