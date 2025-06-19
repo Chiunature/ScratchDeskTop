@@ -108,7 +108,7 @@ function CascaderPanelModalCom(props) {
     }
 
     function update() {
-        if (valList.length === 0 || !props.peripheralName || props.completed || sessionStorage.getItem('update-sensing') === verifyTypeConfig.DOING) {
+        if (valList.length === 0 || !props.peripheralName || props.completed) {
             return;
         }
         const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
@@ -133,7 +133,6 @@ function CascaderPanelModalCom(props) {
             }
         }
         window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
-        sessionStorage.setItem('update-sensing', verifyTypeConfig.DOING);
     }
 
     /* function calibration() {
