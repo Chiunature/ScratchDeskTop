@@ -24,31 +24,31 @@ import { setSelectedExe } from '../../reducers/mode';
 const UploadBtn = (props) => {
     const { completed, exeList, isRtl, handleCompile, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl, generatorName } = props;
 
-    let [openUpload, setOpenUpload] = useState(true);
-    let [text, setText] = useState('');
+    // let [openUpload, setOpenUpload] = useState(true);
+    // let [text, setText] = useState('');
     const selectedExe = useSelector((state) => state.scratchGui.mode.selectedExe);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    /* useEffect(() => {
         checkIsOpenUpload();
-    }, []);
+    }, []); */
 
     const onSetSelectedExe = (exe) => {
         return dispatch(setSelectedExe(exe));
     }
     const compile = (isRun) => {
-        if (!openUpload) {
+        /* if (!openUpload) {
             alert(text);
             window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
             return;
-        }
+        } */
         if (completed) {
             return;
         }
         handleCompile(isRun);
     }
 
-    const checkIsOpenUpload = async () => {
+    /* const checkIsOpenUpload = async () => {
         try {
             const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", { cache: "no-cache" });
             const obj = await res.json();
@@ -62,7 +62,7 @@ const UploadBtn = (props) => {
         } catch (error) {
             setOpenUpload(true);
         }
-    }
+    } */
 
     return (
         <div className={classNames(styles.btnCon)}>

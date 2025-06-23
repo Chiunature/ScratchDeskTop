@@ -219,7 +219,7 @@ class GUI extends React.Component {
                     onSetVersion(newDeviceObj.version);
                 }
 
-                if (deviceType === 'serialport' && !currentMAC && newDeviceObj.MAC) {
+                if (deviceType === 'serialport' && !currentMAC && newDeviceObj?.MAC) {
                     this.storageMAC(currentMAC, newDeviceObj.MAC);
                 }
 
@@ -235,15 +235,15 @@ class GUI extends React.Component {
     storageMAC(oldMac, newMac) {
         if (newMac === '') return;
 
-        const MAClist = localStorage.getItem('MAClist');
+        const MAClist = localStorage.getItem('MAClist') || [];
 
-        if (!MAClist || MAClist === '[]') {
-            localStorage.setItem('MAClist', JSON.stringify([newMac]));
-        }
-
-        if (oldMac !== newMac && MAClist) {
-            const newMAClist = JSON.parse(MAClist);
-            !newMAClist.includes(newMac) && localStorage.setItem('MAClist', JSON.stringify([...newMAClist, newMac]));
+        if (Array.isArray(MAClist)) {
+            localStorage.setItem('MAClist', JSON.stringify([...MAClist, newMac]));
+        } else if (typeof MAClist === 'string' && MAClist !== '[]') {
+            if (oldMac !== newMac) {
+                const newMAClist = [...JSON.parse(MAClist), newMac];
+                localStorage.setItem('MAClist', JSON.stringify([...new Set(newMAClist)]));
+            }
         }
 
         this.props.onSetCurrentMAC(newMac);

@@ -209,7 +209,11 @@ class BleListModal extends PureComponent {
             selectedCache: cacheList[0] || null
         });
         
-        localStorage.setItem('MAClist', JSON.stringify(cacheList));
+        if (cacheList.length === 0) {
+            localStorage.removeItem('MAClist');
+        } else {
+            localStorage.setItem('MAClist', JSON.stringify(cacheList));
+        }
     }
 
     handleSelectCache(e) {

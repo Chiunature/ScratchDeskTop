@@ -26,7 +26,7 @@ const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
                         <span>{intl.formatMessage(messages['version'])}</span>
                         <span>{version}</span>
                     </li>}
-                    {bat && <li>
+                    {typeof bat === 'number' && <li>
                         <span>{intl.formatMessage(messages['electricity'])}</span>
                         <span>{bat >= 100 ? '100' : bat}%</span>
                     </li>}
