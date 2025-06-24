@@ -3,26 +3,18 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import React, { useCallback, useMemo, useRef, useState, useEffect } from "react";
 import Box from "../box/box.jsx";
-// import Dots from "./dots.jsx";
 import styles from "./connection-modal.css";
-// import Input from "../forms/input.jsx";
 import { verifyTypeConfig, ipc as ipc_Renderer } from "est-link";
-// import Filter from "../filter/filter.jsx";
+// import ButtonComponent from "../button/button.jsx";
 
-/* const filterPlaceholder = {
-    id: 'gui.library.filterPlaceholder',
-    defaultMessage: 'Search',
-    description: 'Placeholder text for library search field'
-} */
 
 const SerialportList = (props) => {
 
-    let [filterQuery, setFilterQuery] = useState('');
     let [fileList, setFileList] = useState([]);
     const [total, setTotal] = useState(0);
     const [isShow, setIsShow] = useState(false);
     const [isScroll, setIsScroll] = useState(true);
-    // let inputRef = useRef();
+
     let boxRef = useRef();
 
     useEffect(() => {
@@ -58,9 +50,9 @@ const SerialportList = (props) => {
         }
     }
 
-    let portList = useMemo(() => props.serialList.filter(el => el?.advertisement?.localName.indexOf(filterQuery) !== -1), [props.serialList, filterQuery]);
+    let portList = useMemo(() => props.serialList, [props.serialList]);
     let deviceType = useMemo(() => props.deviceType, [props.deviceType]);
-    let select = useCallback((port, index) => props.onSelectport(port, index), [props.onSelectport]);
+    // let select = useCallback((port, index) => props.onSelectport(port, index), [props.onSelectport]);
 
     function getFileName() {
         let fileName;
@@ -84,19 +76,6 @@ const SerialportList = (props) => {
         })
     }
 
-    /* function handleFilterChange() {
-        const value = inputRef.current.value;
-        if (value.length === 0) {
-            handleFilterClear();
-        } else {
-            setFilterQuery(value);
-        }
-    } */
-
-    /* function handleFilterClear() {
-        setFilterQuery('');
-    } */
-
     function lookRecord() {
         setIsShow(!isShow);
     }
@@ -108,17 +87,6 @@ const SerialportList = (props) => {
 
     return (
         <Box className={styles.body}>
-            {/* {deviceType !== verifyTypeConfig.SERIALPORT && <Box className={styles.headArea}>
-                <Filter
-                    className={classNames(styles.filterBarItem, styles.filter)}
-                    inputRef={inputRef}
-                    filterQuery={filterQuery}
-                    inputClassName={styles.filterInput}
-                    placeholderText={props.intl.formatMessage(filterPlaceholder)}
-                    onChange={handleFilterChange}
-                    onClear={handleFilterClear}
-                />
-            </Box>} */}
             <Box className={styles.activityArea} componentRef={boxRef} onScroll={handleScroll}>
                 <Box className={styles.linkHelp} style={{
                     justifyContent: (isShow || deviceType === verifyTypeConfig.BLUETOOTH) ? "flex-start" : "center",
@@ -152,7 +120,6 @@ const SerialportList = (props) => {
                                             <div
                                                 className={styles.linkHelpStep}
                                                 key={index}
-                                                onClick={() => select(port, index)}
                                             >
                                                 <div className={styles.helpStepText}>
                                                     {getPortName(port)}

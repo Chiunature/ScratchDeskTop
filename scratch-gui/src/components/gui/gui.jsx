@@ -341,6 +341,7 @@ const GUIComponent = (props) => {
                                 handleRunApp={handleRunApp}
                             />) : null}
                         <MenuBar
+                            bleListVisible={bleListVisible}
                             completed={completed}
                             accountNavOpen={accountNavOpen}
                             authorId={authorId}

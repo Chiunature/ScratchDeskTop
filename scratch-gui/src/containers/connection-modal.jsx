@@ -74,12 +74,6 @@ class ConnectionModal extends React.PureComponent {
         );
     }
 
-    componentDidUpdate(preProps) {
-        if (preProps.sourceCompleted !== this.props.sourceCompleted) {
-            document.body.removeAttribute("style");
-        }
-    }
-
     handleScanning() {
         this.setState({
             phase: PHASES.scanning,
@@ -105,7 +99,6 @@ class ConnectionModal extends React.PureComponent {
 
     handleCancel() {
         if (this.props.sourceCompleted) {
-            document.body.setAttribute("style", "cursor: wait");
             return;
         }
         try {

@@ -171,6 +171,7 @@ class MenuBar extends React.Component {
             "handleHelp",
             "saveSvg",
             "downloadProject",
+            "reConnect"
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -189,7 +190,7 @@ class MenuBar extends React.Component {
         document.removeEventListener("keydown", this.keyPress);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.deviceType === verifyTypeConfig.BLUETOOTH && prevProps.deviceType !== this.props.deviceType) {
             this.scanConnection();
         }
@@ -347,15 +348,19 @@ class MenuBar extends React.Component {
                 } else {
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
                         this.closeTimer = !this.closeTimer && setTimeout(() => {
-                            this.handleDisconnect(args.msg);
-                            this.scanConnection();
-                        }, 3000);
+                            this.reConnect(args.msg);
+                        }, 2000);
                     } else {
-                        this.handleDisconnect(args.msg);
+                        this.reConnect(args.msg);
                     }
                 }
             },
         });
+    }
+
+    reConnect(msg) {
+        this.handleDisconnect(msg);
+        !this.props.bleListVisible && this.scanConnection();
     }
 
     showDeviceCards() {
