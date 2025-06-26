@@ -24,7 +24,7 @@ import { verifyBinType } from "../config/js/verify.js";
 import { SOURCE, EST_RUN, RESET_FWLIB, BOOTBIN } from "../config/json/verifyTypeConfig.json";
 import ipc_Main from "../config/json/ipc.json";
 import signType from "../config/json/sign.json";
-import { instructions, reg } from "../config/js/instructions.js";
+import { instructions, reg, nameList } from "../config/js/instructions.js";
 
 
 export class Serialport extends Common {
@@ -55,12 +55,7 @@ export class Serialport extends Common {
         this.ipcMain(ipc_Main.SEND_OR_ON.CONNECTION.GETLIST, async (event) => {
             const result = await this.serialport.SerialPort.list();
 
-            const newArr = result.reduce((pre, cur) => {
-                if (cur.friendlyName && this.checkSerialName(cur.friendlyName)) {
-                    pre.push(cur);
-                }
-                return pre;
-            }, []);
+            const newArr = result.filter(el => nameList.find(name => (el.friendlyName && el.friendlyName.includes(name))));
 
             for (const item of newArr) {
                 const success = await this.linkToSerial(item, event);

@@ -30,6 +30,8 @@ export const reg = {
     deBug: /->NEW AI DownLoad Debug[\s\S]*?Error\./
 }
 
+export const nameList = ['LBS', 'EST', 'STMicroelectronics Virtual', 'USB 串行设备', 'USB Serial Device', 'Communications', 'USB 序列裝置', '序列埠'];
+
 // module.exports = {
 //     reg,
 //     instruct,
