@@ -6763,6 +6763,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   "CONTROL_CLEARCOUNTER": "clear counter",
   "CONTROL_ALLATONCE": "all at once",
   "CONTROL_BREAK": "break",
+  "DATA_SETVARIABLETO": "set %1 to %2",
   "DATA_CHANGEVARIABLEBY": "change %1 by %2",
   "DATA_SHOWVARIABLE": "show variable %1",
   "DATA_HIDEVARIABLE": "hide variable %1",
