@@ -96,7 +96,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
                     this.removeFileObjects();
                 });
-                window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         // step 1: this is where the upload process begins
         handleStartSelectingFileUpload() {
@@ -181,38 +181,33 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         // step 6: attached as a handler on our FileReader object; called when
         // file upload raw data is available in the reader
-        async onload() {
-            try {
-                if (this.fileReader) {
-                    this.props.onLoadingStarted();
-                    // const currentContent = await this.props.vm.saveProjectSb3();
-                    const filename = this.fileToUpload && this.fileToUpload.name;
-                    let loadingSuccess = false;
-                    this.props.vm.loadProject(this.fileReader.result)
-                        .then(() => {
-                            if (filename) {
-                                const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
-                                this.props.onSetProjectTitle(uploadedProjectTitle);
-                            }
-                            loadingSuccess = true;
-                        })
-                        .catch(error => {
-                            log.warn(error);
-                            alert(this.props.intl.formatMessage(messages.loadError)); // eslint-disable-line no-alert
-                        })
-                        .then(async () => {
-                            this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
-                            sessionStorage.setItem('openPath', this.fileToUpload.path);
-                            // await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result, currentContent);
-                            // go back to step 7: whether project loading succeeded
-                            // or failed, reset file objects
-                            this.removeFileObjects();
-                        });
-                }
-            } catch (error) {
-                alert(this.props.intl.formatMessage(messages.loadError));
+        onload() {
+            if (this.fileReader) {
+                this.props.onLoadingStarted();
+                // const currentContent = await this.props.vm.saveProjectSb3();
+                const filename = this.fileToUpload && this.fileToUpload.name;
+                let loadingSuccess = false;
+                this.props.vm.loadProject(this.fileReader.result)
+                    .then(() => {
+                        if (filename) {
+                            const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
+                            this.props.onSetProjectTitle(uploadedProjectTitle);
+                        }
+                        loadingSuccess = true;
+                    })
+                    .catch(error => {
+                        log.warn(error);
+                        alert(this.props.intl.formatMessage(messages.loadError)); // eslint-disable-line no-alert
+                    })
+                    .then(() => {
+                        this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
+                        sessionStorage.setItem('openPath', this.fileToUpload.path);
+                        // await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result, currentContent);
+                        // go back to step 7: whether project loading succeeded
+                        // or failed, reset file objects
+                        this.removeFileObjects();
+                    });
             }
-            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
         }
         // step 7: remove the <input> element from the DOM and clear reader and
         // fileToUpload reference, so those objects can be garbage collected

@@ -41,15 +41,19 @@ export class Bluetooth extends Common {
             if (!eventList.includes('stateChange')) {
                 this.noble.on('stateChange', (state) => {
                     this.bleState = state;
-                    if (state !== 'poweredOn') {
-                        this.noble.stopScanning();
-                        event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
-                    } else {
-                        this.noble.startScanning([], true);
+                    switch (state) {
+                        case 'poweredOn':
+                            break;
+                        case 'poweredOff':
+                            this.noble.stopScanning();
+                            event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
+                            break;
+                        default:
+                            break;
                     }
                 });
             } else {
-                this.noble.startScanning([], true);
+                this.bleState === 'poweredOn' ? this.noble.startScanning([], true) : event.reply(ipc_Main.RETURN.BLE.SCANNING, { msg: 'bleISNotSupported' });
             }
         } else {
             this.noble.stopScanning();
