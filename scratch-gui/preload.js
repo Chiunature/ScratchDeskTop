@@ -378,6 +378,15 @@ function compareSize(file, size, pathCWD = cwd()) {
     }
 }
 
+function getFileSize(file, pathCWD = cwd()) {
+    try {
+        const stats = fs.statSync(path.join(pathCWD, file));
+        return stats.size;
+    } catch (err) {
+        return false;
+    }
+}
+
 contextBridge.exposeInMainWorld('myAPI', {
     readFiles,
     writeFiles,
@@ -405,5 +414,6 @@ contextBridge.exposeInMainWorld('myAPI', {
     openExternal: (url) => shell.openExternal(url),
     getHomeDir,
     openCacheDir,
-    compareSize
+    compareSize,
+    getFileSize
 });

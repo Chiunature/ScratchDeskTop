@@ -21,6 +21,11 @@ export async function handleUploadPython(options, static_path = '') {
                 const fileName = `${selectedExe.num}.py.o`;
                 const oPath = `${DIR}/${fileName}`;
 
+                const size = window.myAPI.getFileSize(oPath, static_path);
+                if (size === 0) {
+                    reject(alertMsg);
+                }
+
                 const tooBigOfPyo = window.myAPI.compareSize(oPath, 32, static_path);
                 if (tooBigOfPyo) {
                     isError = false;
