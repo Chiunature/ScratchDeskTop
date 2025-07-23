@@ -3,7 +3,7 @@ import { DIR } from '../../../config/json/LB_USER.json'
 export async function handleUploadPython(options, static_path = '') {
 
     let isError = true;
-    const alertMsg = isError ? "uploadError" : "fileIsTooBig";
+    const alertMsg = isError ? "compileError" : "fileIsTooBig";
 
     return new Promise(async (resolve, reject) => {
         const { selectedExe, codeStr } = options;

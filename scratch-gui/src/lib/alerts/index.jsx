@@ -373,6 +373,28 @@ const alerts = [
         maxDisplaySecs: 1,
     },
     {
+        alertId: "compileError",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "calibration"
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Compilation failed, please check the program"
+                description="Compilation failed, please check the program"
+                id="gui.alerts.compileError"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 1,
+    },
+    {
         alertId: "uploadError",
         alertType: AlertTypes.STANDARD,
         clearList: [

@@ -266,6 +266,7 @@
   "gui.alerts.selectADeviceFirst": "Plese select a device first",
   "gui.alerts.successfullyConnected": "Successfully connected",
   "gui.alerts.failedConnected": "Failed connected",
+  "gui.alerts.compileError": "Compilation failed, please check the program",
   "gui.alerts.uploadError": "Failed sent",
   "gui.alerts.uploading": "Uploading...",
   "gui.alerts.uploadSuccess": "Successfully sent",

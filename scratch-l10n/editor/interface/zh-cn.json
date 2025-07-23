@@ -295,6 +295,7 @@
   "gui.alerts.selectADeviceFirst": "请连接一个设备",
   "gui.alerts.successfullyConnected": "连接成功",
   "gui.alerts.failedConnected": "连接失败",
+  "gui.alerts.compileError": "编译失败,请检查程序",
   "gui.alerts.uploadError": "发送失败",
   "gui.alerts.uploading": "发送中...",
   "gui.alerts.uploadSuccess": "发送成功",
