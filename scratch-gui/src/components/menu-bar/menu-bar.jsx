@@ -79,7 +79,7 @@ import downloadBlob from '../../lib/download-blob';
 import { setDeviceCards, setProgramSel, viewDeviceCards } from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
 import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
-import { HELP_SOFT_PDF, HELP_FIRM_PDF } from "../../config/json/LB_USER.json";
+import { HELP_SOFT_PDF, HELP_FIRM_PDF, HELP_SOFT_EN_PDF } from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
@@ -395,7 +395,7 @@ class MenuBar extends React.Component {
                 window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF, 'pdf');
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(spath, HELP_SOFT_PDF, 'pdf');
+                window.myAPI.getDocxUrl(spath, this.props.locale === 'en' ? HELP_SOFT_EN_PDF : HELP_SOFT_PDF, 'pdf');
                 break;
             default:
                 break;

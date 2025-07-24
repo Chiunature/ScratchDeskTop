@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, defineMessages} from 'react-intl';
+import { FormattedMessage, defineMessages } from 'react-intl';
 // import { ipc } from "est-link";
 import LanguageMenu from './language-menu.jsx';
 import MenuBarMenu from './menu-bar-menu.jsx';
@@ -36,7 +36,6 @@ const SettingsMenu = ({
     onRequestClose,
     onRequestOpen,
     settingsMenuOpen,
-    reUpdateDriver,
     getMainMessage,
     handleHelp,
     onShowQrcode,
@@ -65,34 +64,34 @@ const SettingsMenu = ({
     }
 
     return (
-    <div
-        className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
-            [menuBarStyles.active]: settingsMenuOpen
-        })}
-        onMouseUp={onRequestOpen}
-    >
-        <img
-            src={settingsIcon}
-        />
-        <span className={styles.dropdownLabel}>
-            <FormattedMessage
-                defaultMessage="Settings"
-                description="Settings menu"
-                id="gui.menuBar.settings"
-            />
-        </span>
-        <img src={dropdownCaret} alt="" />
-        <MenuBarMenu
-            className={menuBarStyles.menuBarMenu}
-            open={settingsMenuOpen}
-            place={isRtl ? 'left' : 'right'}
-            onRequestClose={onRequestClose}
+        <div
+            className={classNames(menuBarStyles.menuBarItem, menuBarStyles.hoverable, menuBarStyles.themeMenu, {
+                [menuBarStyles.active]: settingsMenuOpen
+            })}
+            onMouseUp={onRequestOpen}
         >
-            <MenuSection>
-                {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
-                {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
-                {canChangeHelp && <HelpMenu handleHelp={handleHelp} onRequestCloseSettings={onRequestClose} />}
-                {/* <MenuItem onClick={reUpdateDriver}>
+            <img
+                src={settingsIcon}
+            />
+            <span className={styles.dropdownLabel}>
+                <FormattedMessage
+                    defaultMessage="Settings"
+                    description="Settings menu"
+                    id="gui.menuBar.settings"
+                />
+            </span>
+            <img src={dropdownCaret} alt="" />
+            <MenuBarMenu
+                className={menuBarStyles.menuBarMenu}
+                open={settingsMenuOpen}
+                place={isRtl ? 'left' : 'right'}
+                onRequestClose={onRequestClose}
+            >
+                <MenuSection>
+                    {canChangeLanguage && <LanguageMenu onRequestCloseSettings={onRequestClose} getMainMessage={getMainMessage} />}
+                    {canChangeTheme && <ThemeMenu onRequestCloseSettings={onRequestClose} />}
+                    {canChangeHelp && <HelpMenu handleHelp={handleHelp} onRequestCloseSettings={onRequestClose} />}
+                    {/* <MenuItem onClick={reUpdateDriver}>
                     <span className={styles.dropdownLabel}>
                         <FormattedMessage
                             defaultMessage="Reinstall driver"
@@ -101,27 +100,27 @@ const SettingsMenu = ({
                         />
                     </span>
                 </MenuItem> */}
-                <MenuItem onClick={onShowQrcode}>
-                    <span className={styles.dropdownLabel}>
-                        <FormattedMessage
-                            defaultMessage="Problem feedback"
-                            description="Problem feedback"
-                            id="gui.menuBar.problemFeedback"
-                        />
-                    </span>
-                </MenuItem>
-                <MenuItem onClick={handleCheckUpdate}>
-                    <span className={styles.dropdownLabel}>
-                        <FormattedMessage
-                            defaultMessage="Check for updates..."
-                            description="Check for updates..."
-                            id="gui.main.checkUpdate"
-                        />
-                    </span>
-                </MenuItem>
-            </MenuSection>
-        </MenuBarMenu>
-    </div>
+                    <MenuItem onClick={onShowQrcode}>
+                        <span className={styles.dropdownLabel}>
+                            <FormattedMessage
+                                defaultMessage="Problem feedback"
+                                description="Problem feedback"
+                                id="gui.menuBar.problemFeedback"
+                            />
+                        </span>
+                    </MenuItem>
+                    <MenuItem onClick={handleCheckUpdate}>
+                        <span className={styles.dropdownLabel}>
+                            <FormattedMessage
+                                defaultMessage="Check for updates..."
+                                description="Check for updates..."
+                                id="gui.main.checkUpdate"
+                            />
+                        </span>
+                    </MenuItem>
+                </MenuSection>
+            </MenuBarMenu>
+        </div>
     )
 };
 

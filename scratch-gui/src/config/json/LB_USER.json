@@ -5,5 +5,6 @@
     "APLICATION": "./resources/gcc-arm-none-eabi/bin/LB_USER/Core/Src/Aplication.c",
     "PROGRAMMERTASKS": "./resources/gcc-arm-none-eabi/bin/LB_USER/BSP_DRIVER/ProgrammerTasks.c",
     "HELP_SOFT_PDF": "./NEW-AI极睿模块说明-V1.3.2.pdf",
+    "HELP_SOFT_EN_PDF": "./NEW-AI-Description.pdf",
     "HELP_FIRM_PDF": "./NEW-AI极睿智能编程套装说明书.pdf"
 }
