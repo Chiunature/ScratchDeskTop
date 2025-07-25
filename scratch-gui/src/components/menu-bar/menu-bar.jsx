@@ -395,7 +395,7 @@ class MenuBar extends React.Component {
                 window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF);
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(spath, this.props.locale === 'en' ? HELP_SOFT_EN_PDF : HELP_SOFT_PDF);
+                window.myAPI.getDocxUrl(spath, this.props.locale === 'zh-cn' ? HELP_SOFT_PDF : HELP_SOFT_EN_PDF);
                 break;
             default:
                 break;

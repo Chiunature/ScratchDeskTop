@@ -278,7 +278,7 @@ async function handlerError(error, resourcePath = cwd()) {
 }
 
 async function getDocxUrl(static_path  = cwd(), link, type = 'pdf') {
-    const href = path.join(static_path.replace('/resources', ''), link);
+    const href = path.join(static_path, link);
     if (type === 'pdf') {
         ipcRenderer.send('pdf', { href, type });
     } else {

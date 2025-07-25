@@ -210,16 +210,8 @@
                 "to": "app.asar.unpacked"
             },
             {
-                "from": "NEW-AI极睿智能编程套装说明书.pdf",
-                "to": "../"
-            },
-            {
-                "from": "NEW-AI极睿模块说明-V1.3.2.pdf",
-                "to": "../"
-            },
-            {
-                "from": "README.md",
-                "to": "README.md"
+                "from": "./resources/Description",
+                "to": "./Description"
             },
             {
                 "from": "scripts",
