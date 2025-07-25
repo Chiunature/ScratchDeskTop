@@ -392,10 +392,10 @@ class MenuBar extends React.Component {
         const spath = localStorage.getItem('static_path') || window.resourcesPath;
         switch (type) {
             case HARDWARE:
-                window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF, 'pdf');
+                window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF);
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(spath, this.props.locale === 'en' ? HELP_SOFT_EN_PDF : HELP_SOFT_PDF, 'pdf');
+                window.myAPI.getDocxUrl(spath, this.props.locale === 'en' ? HELP_SOFT_EN_PDF : HELP_SOFT_PDF);
                 break;
             default:
                 break;

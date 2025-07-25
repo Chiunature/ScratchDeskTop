@@ -277,8 +277,8 @@ async function handlerError(error, resourcePath = cwd()) {
     await writeFileWithDirectory(resourcePath + '/Error', filepath, error);
 }
 
-async function getDocxUrl(static_path, link, type) {
-    const href = path.join(static_path, link);
+async function getDocxUrl(static_path  = cwd(), link, type = 'pdf') {
+    const href = path.join(static_path.replace('/resources', ''), link);
     if (type === 'pdf') {
         ipcRenderer.send('pdf', { href, type });
     } else {
