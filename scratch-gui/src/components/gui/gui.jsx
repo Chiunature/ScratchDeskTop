@@ -38,7 +38,7 @@ import TelemetryModal from "../telemetry-modal/telemetry-modal.jsx";
 
 import layout, { STAGE_SIZE_MODES } from "../../lib/layout-constants";
 import { resolveStageSize } from "../../lib/screen-utils";
-import { themeMap } from '../../lib/themes';
+import { themeMap } from "../../lib/themes";
 import styles from "./gui.css";
 import addExtensionIcon from "./icon--extensions.svg";
 import codeIcon from "./icon--code.svg";
@@ -90,14 +90,14 @@ const codeEditorOptions = {
     selectionClipboard: false, // 选择剪切板
     automaticLayout: true, // 自动布局
     minimap: {
-        enabled: false //开启小地图
+        enabled: false, //开启小地图
     },
     scrollbar: {
         // 滚动条
         horizontalScrollbarSize: 6,
         verticalScrollbarSize: 6,
     },
-}
+};
 
 const GUIComponent = (props) => {
     const {
@@ -214,6 +214,7 @@ const GUIComponent = (props) => {
         onSetCompleted,
         autoSaveByBlockType,
         onAutoSaveByBlockType,
+        deviceType,
         ...componentProps
     } = omit(props, "dispatch");
 
@@ -238,7 +239,6 @@ const GUIComponent = (props) => {
     if (isRendererSupported === null) {
         isRendererSupported = Renderer.isSupported();
     }
-
 
     return (
         <MediaQuery minWidth={layout.fullSizeMinWidth}>
@@ -265,7 +265,9 @@ const GUIComponent = (props) => {
                         {...componentProps}
                     >
                         {/* {upinVisible && <UpdateInformation onRequestClose={onShowUpin} upinMsg={upinMsg} />} */}
-                        {QrcodeVisible && <Qrcode onShowQrcode={onShowQrcode} />}
+                        {QrcodeVisible && (
+                            <Qrcode onShowQrcode={onShowQrcode} />
+                        )}
                         {telemetryModalVisible ? (
                             <TelemetryModal
                                 isRtl={isRtl}
@@ -284,33 +286,61 @@ const GUIComponent = (props) => {
                         {isRendererSupported ? null : (
                             <WebGlModal isRtl={isRtl} />
                         )}
-                        {tipsLibraryVisible ? <TipsLibrary onActivateDeck={onActivateDeck} /> : null}
+                        {tipsLibraryVisible ? (
+                            <TipsLibrary onActivateDeck={onActivateDeck} />
+                        ) : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible && <DeviceCards
-                            intl={intl}
-                            handleCompile={handleCompile}
-                            completed={completed}
-                            exeList={exeList}
-                            onSetSelectedExe={onSetSelectedExe}
-                            onSetExelist={onSetExelist}
-                            peripheralName={peripheralName}
-                            onRequestClose={onViewDeviceCards}
-                        />}
-                        {programSel && <DeviceModal
-                            intl={intl}
-                            deviceObj={deviceObj}
-                            completed={completed}
-                            peripheralName={peripheralName}
-                            onRequestClose={onSetProgramSel}
-                        />}
+                        {deviceVisible && (
+                            <DeviceCards
+                                intl={intl}
+                                handleCompile={handleCompile}
+                                completed={completed}
+                                exeList={exeList}
+                                onSetSelectedExe={onSetSelectedExe}
+                                onSetExelist={onSetExelist}
+                                peripheralName={peripheralName}
+                                onRequestClose={onViewDeviceCards}
+                            />
+                        )}
+                        {programSel && (
+                            <DeviceModal
+                                intl={intl}
+                                deviceObj={deviceObj}
+                                completed={completed}
+                                peripheralName={peripheralName}
+                                onRequestClose={onSetProgramSel}
+                            />
+                        )}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}
                         {connectionModalVisible ? (
-                            <ConnectionModal peripheralName={peripheralName} intl={intl} onSetCompleted={onSetCompleted} completed={completed} vm={vm} compile={compile} onSetSourceCompleted={onSetSourceCompleted} />
+                            <ConnectionModal
+                                peripheralName={peripheralName}
+                                intl={intl}
+                                onSetCompleted={onSetCompleted}
+                                completed={completed}
+                                vm={vm}
+                                compile={compile}
+                                onSetSourceCompleted={onSetSourceCompleted}
+                            />
                         ) : null}
-                        {cascarderPanelVisible && <CascaderPanelModal peripheralName={peripheralName} intl={intl} completed={completed} vm={vm} deviceObj={deviceObj} />}
-                        {bleListVisible && <BleListModal intl={intl} vm={vm} peripheralName={peripheralName} />}
+                        {cascarderPanelVisible && (
+                            <CascaderPanelModal
+                                peripheralName={peripheralName}
+                                intl={intl}
+                                completed={completed}
+                                vm={vm}
+                                deviceObj={deviceObj}
+                            />
+                        )}
+                        {bleListVisible && (
+                            <BleListModal
+                                intl={intl}
+                                vm={vm}
+                                peripheralName={peripheralName}
+                            />
+                        )}
                         {costumeLibraryVisible ? (
                             <CostumeLibrary
                                 vm={vm}
@@ -323,8 +353,21 @@ const GUIComponent = (props) => {
                                 onRequestClose={onRequestCloseBackdropLibrary}
                             />
                         ) : null}
-                        {showFileStytem && (<ProjectManagementHoc vm={vm} intl={intl} name={messages.projectManagement} canSave={canSave} canCreateNew={canCreateNew} onStartSelectingFileUpload={onStartSelectingFileUpload} />)}
-                        {peripheralName && <DeviceSensing deviceObj={deviceObj} intl={intl} />}
+                        {showFileStytem && (
+                            <ProjectManagementHoc
+                                vm={vm}
+                                intl={intl}
+                                name={messages.projectManagement}
+                                canSave={canSave}
+                                canCreateNew={canCreateNew}
+                                onStartSelectingFileUpload={
+                                    onStartSelectingFileUpload
+                                }
+                            />
+                        )}
+                        {peripheralName && (
+                            <DeviceSensing deviceObj={deviceObj} intl={intl} />
+                        )}
                         {peripheralName && !soundsTabVisible ? (
                             <UploadBtn
                                 generatorName={generatorName}
@@ -339,7 +382,8 @@ const GUIComponent = (props) => {
                                 exeList={exeList}
                                 selectedExe={selectedExe}
                                 handleRunApp={handleRunApp}
-                            />) : null}
+                            />
+                        ) : null}
                         <MenuBar
                             bleListVisible={bleListVisible}
                             completed={completed}
@@ -461,13 +505,15 @@ const GUIComponent = (props) => {
                                                     grow={1}
                                                     isVisible={blocksTabVisible}
                                                     options={{
-                                                        media: `${basePath}static/${themeMap[theme]?.blocksMediaFolder}/`
+                                                        media: `${basePath}static/${themeMap[theme]?.blocksMediaFolder}/`,
                                                     }}
                                                     stageSize={stageSize}
                                                     theme={theme}
                                                     vm={vm}
                                                     compile={compile}
-                                                    setAutoSaveByBlockType={onAutoSaveByBlockType}
+                                                    setAutoSaveByBlockType={
+                                                        onAutoSaveByBlockType
+                                                    }
                                                 />
                                             </Box>
                                             <Box
@@ -485,7 +531,12 @@ const GUIComponent = (props) => {
                                                     onClick={
                                                         onExtensionButtonClick
                                                     }
-                                                    disabled={extensionLibraryContent.length > 0 ? false : true}
+                                                    disabled={
+                                                        extensionLibraryContent.length >
+                                                        0
+                                                            ? false
+                                                            : true
+                                                    }
                                                 >
                                                     <img
                                                         className={
@@ -622,13 +673,14 @@ GUIComponent.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired,
     compile: PropTypes.object,
     selectedExe: PropTypes.object,
-    onOpenConnectionModal: PropTypes.func
+    onOpenConnectionModal: PropTypes.func,
+    deviceType: PropTypes.string,
 };
 GUIComponent.defaultProps = {
     backpackHost: null,
     backpackVisible: false,
     basePath: "./",
-    blocksId: 'original',
+    blocksId: "original",
     canChangeLanguage: true,
     canChangeTheme: true,
     canChangeHelp: true,
@@ -658,7 +710,8 @@ const mapStateToProps = (state) => ({
     autoSaveByBlockType: state.scratchGui.alerts.autoSaveByBlockType,
 });
 const mapDispatchToProps = (dispatch) => ({
-    onAutoSaveByBlockType: (autoSaveByBlockType) => dispatch(onAutoSaveByBlockType(autoSaveByBlockType))
+    onAutoSaveByBlockType: (autoSaveByBlockType) =>
+        dispatch(onAutoSaveByBlockType(autoSaveByBlockType)),
 });
 export default errorBoundaryHOC("GUI")(
     injectIntl(connect(mapStateToProps, mapDispatchToProps)(GUIComponent))
