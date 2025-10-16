@@ -1,64 +1,64 @@
-const SET_ID = 'scratch-gui/device/setId';
-const CLEAR_ID = 'scratch-gui/device/clearId';
-const SET_NAME = 'scratch-gui/device/setName';
-const CLEAR_NAME = 'scratch-gui/device/clearName';
-const SET_TYPE = 'scratch-gui/device/setType';
-const CLEAR_TYPE = 'scratch-gui/device/clearType';
-const SET_DEVICEOBJ = 'scratch-gui/device/deviceObj';
-const SET_DEVICESTATUS = 'scratch-gui/device/deviceStatus';
-const SET_CURRENTMAC = 'scratch-gui/device/currentMAC';
+const SET_ID = "scratch-gui/device/setId";
+const CLEAR_ID = "scratch-gui/device/clearId";
+const SET_NAME = "scratch-gui/device/setName";
+const CLEAR_NAME = "scratch-gui/device/clearName";
+const SET_TYPE = "scratch-gui/device/setType";
+const CLEAR_TYPE = "scratch-gui/device/clearType";
+const SET_DEVICEOBJ = "scratch-gui/device/deviceObj";
+const SET_DEVICESTATUS = "scratch-gui/device/deviceStatus";
+const SET_CURRENTMAC = "scratch-gui/device/currentMAC";
 
 const initialState = {
     deviceId: null,
     deviceName: null,
-    deviceType: 'serialport',
+    deviceType: "serialport",
     deviceStatus: null,
     currentMAC: null,
     deviceObj: {
         deviceList: [],
         mem: {},
         flashlist: {},
-    }
+    },
 };
 
 const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
+    if (typeof state === "undefined") state = initialState;
     switch (action.type) {
         case SET_ID:
             return Object.assign({}, state, {
-                deviceId: action.deviceId
+                deviceId: action.deviceId,
             });
         case CLEAR_ID:
             return Object.assign({}, state, {
-                deviceId: null
+                deviceId: null,
             });
         case SET_NAME:
             return Object.assign({}, state, {
-                deviceName: action.deviceName
+                deviceName: action.deviceName,
             });
         case CLEAR_NAME:
             return Object.assign({}, state, {
-                deviceName: null
+                deviceName: null,
             });
         case SET_TYPE:
             return Object.assign({}, state, {
-                deviceType: action.deviceType
+                deviceType: action.deviceType,
             });
         case CLEAR_TYPE:
             return Object.assign({}, state, {
-                deviceType: null
+                deviceType: null,
             });
         case SET_DEVICEOBJ:
             return Object.assign({}, state, {
-                deviceObj: action.deviceObj
+                deviceObj: action.deviceObj,
             });
         case SET_DEVICESTATUS:
             return Object.assign({}, state, {
-                deviceStatus: action.deviceStatus
+                deviceStatus: action.deviceStatus,
             });
         case SET_CURRENTMAC:
             return Object.assign({}, state, {
-                currentMAC: action.currentMAC
+                currentMAC: action.currentMAC,
             });
         default:
             return state;
@@ -68,62 +68,62 @@ const reducer = function (state, action) {
 const setDeviceId = function (deviceId) {
     return {
         type: SET_ID,
-        deviceId: deviceId
+        deviceId: deviceId,
     };
 };
 
 const clearDeviceId = function () {
     return {
-        type: CLEAR_ID
+        type: CLEAR_ID,
     };
 };
 
 const setDeviceName = function (deviceName) {
     return {
         type: SET_NAME,
-        deviceName: deviceName
+        deviceName: deviceName,
     };
 };
 
 const clearDeviceName = function () {
     return {
-        type: CLEAR_NAME
+        type: CLEAR_NAME,
     };
 };
 
 const setDeviceType = function (deviceType) {
     return {
         type: SET_TYPE,
-        deviceType: deviceType
+        deviceType: deviceType,
     };
 };
 
 const clearDeviceType = function () {
     return {
-        type: CLEAR_TYPE
+        type: CLEAR_TYPE,
     };
 };
 
 const setDeviceObj = function (obj) {
     return {
         type: SET_DEVICEOBJ,
-        deviceObj: obj
+        deviceObj: obj,
     };
 };
 
 const setDeviceStatus = function (status) {
     return {
         type: SET_DEVICESTATUS,
-        deviceStatus: status
-    }
-}
+        deviceStatus: status,
+    };
+};
 
 const setCurrentMAC = function (mac) {
     return {
         type: SET_CURRENTMAC,
-        currentMAC: mac
-    }
-}
+        currentMAC: mac,
+    };
+};
 
 export {
     reducer as default,
@@ -136,5 +136,5 @@ export {
     clearDeviceType,
     setDeviceObj,
     setDeviceStatus,
-    setCurrentMAC
+    setCurrentMAC,
 };

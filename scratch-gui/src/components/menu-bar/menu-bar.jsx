@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { FormattedMessage, injectIntl, intlShape, } from "react-intl";
+import { FormattedMessage, injectIntl, intlShape } from "react-intl";
 import PropTypes from "prop-types";
 import bindAll from "lodash.bindall";
 import debounce from "lodash.debounce";
@@ -9,7 +9,7 @@ import bowser from "bowser";
 import React from "react";
 
 import VM from "scratch-vm";
-import SettingsMenu from './settings-menu.jsx';
+import SettingsMenu from "./settings-menu.jsx";
 import Box from "../box/box.jsx";
 import Button from "../button/button.jsx";
 import { ComingSoonTooltip } from "../coming-soon/coming-soon.jsx";
@@ -22,8 +22,19 @@ import {
     setConnectionModalPeripheralName,
     setPort,
 } from "../../reducers/connection-modal";
-import { closeBleListModal, openBleListModal, openCascaderPanelModal, openConnectionModal, openTipsLibrary } from "../../reducers/modals";
-import { getCode, setGen, setGeneratorName, setPlayer } from "../../reducers/mode";
+import {
+    closeBleListModal,
+    openBleListModal,
+    openCascaderPanelModal,
+    openConnectionModal,
+    openTipsLibrary,
+} from "../../reducers/modals";
+import {
+    getCode,
+    setGen,
+    setGeneratorName,
+    setPlayer,
+} from "../../reducers/mode";
 import {
     autoUpdateProject,
     getIsShowingProject,
@@ -60,7 +71,7 @@ import {
     openGenMenu,
     genMenuOpen,
     openDeviceMenu,
-    deviceMenuOpen
+    deviceMenuOpen,
 } from "../../reducers/menus";
 
 import collectMetadata from "../../lib/collect-metadata";
@@ -70,16 +81,31 @@ import styles from "./menu-bar.css";
 import aboutIcon from "./icon--about.svg";
 import unconnectedIcon from "./icon--unconnected.svg";
 import photoIcon from "./icon--photo.svg";
-import { ipc as ipc_Renderer, verifyTypeConfig } from 'est-link';
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 import connectedIcon from "./icon--connected.svg";
 import foucsUpdateIcon from "./icon--foucsupdate.svg";
 import sharedMessages from "../../lib/shared-messages";
-import { openAutoSave, showAlertWithTimeout, showFileNotify } from "../../reducers/alerts";
-import downloadBlob from '../../lib/download-blob';
-import { setDeviceCards, setProgramSel, viewDeviceCards } from "../../reducers/cards.js";
+import {
+    openAutoSave,
+    showAlertWithTimeout,
+    showFileNotify,
+} from "../../reducers/alerts";
+import downloadBlob from "../../lib/download-blob";
+import {
+    setDeviceCards,
+    setProgramSel,
+    viewDeviceCards,
+} from "../../reducers/cards.js";
 import { showFileStytem } from "../../reducers/file-stytem.js";
-import { projectTitleInitialState, setProjectTitle } from '../../reducers/project-title';
-import { HELP_SOFT_PDF, HELP_FIRM_PDF, HELP_SOFT_EN_PDF } from "../../config/json/LB_USER.json";
+import {
+    projectTitleInitialState,
+    setProjectTitle,
+} from "../../reducers/project-title";
+import {
+    HELP_SOFT_PDF,
+    HELP_FIRM_PDF,
+    HELP_SOFT_EN_PDF,
+} from "../../config/json/LB_USER.json";
 import { HARDWARE, SOFTWARE } from "../../lib/helps/index.js";
 import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
@@ -87,7 +113,6 @@ import FilesSaveNotify from "../alerts/files-save-notify.jsx";
 import GeneratorsMenu from "./generators-menu.jsx";
 import DeviceMenu from "./device-menu.jsx";
 import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
-
 
 const MenuBarItemTooltip = ({
     children,
@@ -171,7 +196,7 @@ class MenuBar extends React.Component {
             "handleHelp",
             "saveSvg",
             "downloadProject",
-            "reConnect"
+            "reConnect",
         ]);
         this.timer = null;
         this.closeTimer = null;
@@ -191,11 +216,13 @@ class MenuBar extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.deviceType === verifyTypeConfig.BLUETOOTH && prevProps.deviceType !== this.props.deviceType) {
+        if (
+            prevProps.deviceType === verifyTypeConfig.BLUETOOTH &&
+            prevProps.deviceType !== this.props.deviceType
+        ) {
             this.scanConnection();
         }
     }
-
 
     handleClickHome() {
         this.props.onRequestCloseFile();
@@ -213,18 +240,25 @@ class MenuBar extends React.Component {
         );
         this.props.onRequestCloseFile();
         if (readyToReplaceProject) {
-            this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
-            sessionStorage.removeItem('setDefaultStartBlock');
+            this.props.onClickNew(
+                this.props.canSave && this.props.canCreateNew
+            );
+            sessionStorage.removeItem("setDefaultStartBlock");
         }
     }
 
     handleClickSave(isAutoSave) {
-        const openPath = sessionStorage.getItem('openPath');
-        const onlySave = openPath && openPath !== 'null' && openPath !== 'undefined';
-        this.getSaveToComputerHandler(() => this.downloadProject(onlySave, isAutoSave))();
+        const openPath = sessionStorage.getItem("openPath");
+        const onlySave =
+            openPath && openPath !== "null" && openPath !== "undefined";
+        this.getSaveToComputerHandler(() =>
+            this.downloadProject(onlySave, isAutoSave)
+        )();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
-        (this.props.openAutoSave && this.props.showFileNotify) && this.props.onShowFileNotify(false);
+        this.props.openAutoSave &&
+            this.props.showFileNotify &&
+            this.props.onShowFileNotify(false);
     }
 
     handleClickSaveAsCopy() {
@@ -259,23 +293,27 @@ class MenuBar extends React.Component {
         };
     }
 
-
     scanConnection() {
-        this.timer = !this.timer && setInterval(() => {
-            if (this.props.deviceType && this.props.deviceType === verifyTypeConfig.BLUETOOTH) {
-                clearInterval(this.timer);
-                this.timer = null;
-                return;
-            }
-            this.handleConnection();
-        }, 3000);
+        this.timer =
+            !this.timer &&
+            setInterval(() => {
+                if (
+                    this.props.deviceType &&
+                    this.props.deviceType === verifyTypeConfig.BLUETOOTH
+                ) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    return;
+                }
+                this.handleConnection();
+            }, 3000);
     }
 
     async handleConnection() {
         let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(" electron/") > -1) {
             window.myAPI.ipcRender({
-                sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST, 
+                sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.GETLIST,
                 eventName: ipc_Renderer.RETURN.CONNECTION.GETLIST,
                 callback: (event, data) => {
                     const { currentPort } = data;
@@ -283,8 +321,8 @@ class MenuBar extends React.Component {
                         clearInterval(this.timer);
                         this.timer = null;
                     }
-                }
-             });
+                },
+            });
         }
     }
 
@@ -297,14 +335,13 @@ class MenuBar extends React.Component {
 
     handleConnectionMouseUp(deviceType) {
         if (!this.props.peripheralName) {
-
             this.props.onSetDeviceType(deviceType);
 
-            deviceType === verifyTypeConfig.BLUETOOTH ? this.props.onOpenBleListModal() : this.props.onOpenConnectionModal();
-
+            deviceType === verifyTypeConfig.BLUETOOTH
+                ? this.props.onOpenBleListModal()
+                : this.props.onOpenConnectionModal();
         } else {
             if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
-
                 if (deviceType === verifyTypeConfig.BLUETOOTH) {
                     this.props.onShowCompletedAlert("deviceISConnected");
                     return;
@@ -312,12 +349,10 @@ class MenuBar extends React.Component {
 
                 this.props.onOpenConnectionModal();
             } else {
-
                 this.props.onOpenBleListModal();
             }
         }
     }
-
 
     handleDisconnect(msg) {
         this.props.onSetPort(null);
@@ -329,7 +364,9 @@ class MenuBar extends React.Component {
         this.props.onClearConnectionModalPeripheralName();
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
         this.props.onSetDeviceStatus(verifyTypeConfig.NO_RUN_APP);
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED });
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.CONNECTION.DISCONNECTED,
+        });
     }
 
     disconnectListen() {
@@ -347,9 +384,11 @@ class MenuBar extends React.Component {
                     }
                 } else {
                     if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
-                        this.closeTimer = !this.closeTimer && setTimeout(() => {
-                            this.reConnect(args.msg);
-                        }, 2000);
+                        this.closeTimer =
+                            !this.closeTimer &&
+                            setTimeout(() => {
+                                this.reConnect(args.msg);
+                            }, 2000);
                     } else {
                         this.reConnect(args.msg);
                     }
@@ -359,7 +398,16 @@ class MenuBar extends React.Component {
     }
 
     reConnect(msg) {
-        this.handleDisconnect(msg);
+        // 重新连接时保持 deviceObj 数据，避免设备信息在连接过程中丢失
+        this.props.onSetPort(null);
+        this.props.onGetSerialList([]);
+        // 注意：不清空 deviceObj，保持设备数据连续性
+        this.props.onSetCompleted(false);
+        this.props.onSetProgramSel(false);
+        this.props.onViewDeviceCards(false);
+        this.props.onClearConnectionModalPeripheralName();
+        msg.length > 0 && this.props.onShowDisonnectAlert(msg);
+
         !this.props.bleListVisible && this.scanConnection();
     }
 
@@ -367,7 +415,11 @@ class MenuBar extends React.Component {
         if (!this.props.peripheralName) {
             this.props.onShowCompletedAlert("selectADeviceFirst");
         } else {
-            if (!this.props.completed) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } })
+            if (!this.props.completed)
+                window.myAPI.ipcRender({
+                    sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
+                    sendParams: { type: "FILE" },
+                });
             this.props.onViewDeviceCards();
         }
     }
@@ -389,13 +441,19 @@ class MenuBar extends React.Component {
     }
 
     handleHelp(type) {
-        const spath = localStorage.getItem('static_path') || window.resourcesPath;
+        const spath =
+            localStorage.getItem("static_path") || window.resourcesPath;
         switch (type) {
             case HARDWARE:
                 window.myAPI.getDocxUrl(spath, HELP_FIRM_PDF);
                 break;
             case SOFTWARE:
-                window.myAPI.getDocxUrl(spath, this.props.locale === 'zh-cn' ? HELP_SOFT_PDF : HELP_SOFT_EN_PDF);
+                window.myAPI.getDocxUrl(
+                    spath,
+                    this.props.locale === "zh-cn"
+                        ? HELP_SOFT_PDF
+                        : HELP_SOFT_EN_PDF
+                );
                 break;
             default:
                 break;
@@ -403,41 +461,58 @@ class MenuBar extends React.Component {
     }
 
     saveSvg() {
-        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        const blocks = document.querySelector(
+            ".blocklyWorkspace .blocklyBlockCanvas"
+        );
         if (blocks.getBBox().height === 0) {
             this.props.onShowCompletedAlert("workspaceEmpty");
         } else {
-            const transform = blocks.getAttribute('transform');
-            const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
-            const name = this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf("."));
+            const transform = blocks.getAttribute("transform");
+            const scale = parseFloat(
+                transform.substring(
+                    transform.indexOf("scale") + 6,
+                    transform.length - 1
+                )
+            );
+            const name = this.props.projectFilename.slice(
+                0,
+                this.props.projectFilename.lastIndexOf(".")
+            );
             saveSvgAsPng(blocks, `${name}.png`, {
                 left: blocks.getBBox().x * scale,
                 top: blocks.getBBox().y * scale,
                 height: blocks.getBBox().height * scale,
                 width: blocks.getBBox().width * scale,
                 scale: 2 / scale,
-                encoderOptions: 1
+                encoderOptions: 1,
             });
         }
     }
 
     async screenPrintWorkspace() {
-        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
-        const transform = blocks.getAttribute('transform');
-        const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
+        const blocks = document.querySelector(
+            ".blocklyWorkspace .blocklyBlockCanvas"
+        );
+        const transform = blocks.getAttribute("transform");
+        const scale = parseFloat(
+            transform.substring(
+                transform.indexOf("scale") + 6,
+                transform.length - 1
+            )
+        );
         return await svgAsDataUri(blocks, {
-            backgroundColor: '#ffffff',
+            backgroundColor: "#ffffff",
             left: blocks.getBBox().x * scale,
             top: blocks.getBBox().y * scale,
             height: blocks.getBBox().height * scale,
             width: blocks.getBBox().width * scale,
             scale: 2 / scale,
-            encoderOptions: 1
+            encoderOptions: 1,
         });
     }
 
     downloadProject(onlySave, isAutoSave) {
-        this.props.saveProjectSb3().then(async content => {
+        this.props.saveProjectSb3().then(async (content) => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
@@ -445,9 +520,12 @@ class MenuBar extends React.Component {
             // 有保存过
             if (onlySave) {
                 downloadBlob(this.props.projectFilename, content, onlySave);
-                const filePath = isAutoSave ? sessionStorage.getItem('open-auto-save-path') : sessionStorage.getItem('openPath');
-                filePath && await this.setCacheForSave(filePath);
-                (filePath || isAutoSave) && this.props.onShowCompletedAlert("saveNowSuccess");
+                const filePath = isAutoSave
+                    ? sessionStorage.getItem("open-auto-save-path")
+                    : sessionStorage.getItem("openPath");
+                filePath && (await this.setCacheForSave(filePath));
+                (filePath || isAutoSave) &&
+                    this.props.onShowCompletedAlert("saveNowSuccess");
                 //await setProgramList(this.props.projectFilename, filePath, null, content);
                 return;
             }
@@ -457,20 +535,23 @@ class MenuBar extends React.Component {
             if (isAutoSave) {
                 const { homedir } = await window.myAPI.getHomeDir();
                 const path = `${homedir}\\${this.props.projectFilename}`;
-                sessionStorage.setItem('open-auto-save-path', path);
-                await window.myAPI.writeFiles(path, Buffer.from(res), '');
+                sessionStorage.setItem("open-auto-save-path", path);
+                await window.myAPI.writeFiles(path, Buffer.from(res), "");
                 this.props.onShowCompletedAlert("saveNowSuccess");
                 return;
             }
 
-            const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
-                file: Buffer.from(res),
-                filename: this.props.projectFilename
-            });
+            const filePath = await window.myAPI.ipcInvoke(
+                ipc_Renderer.FILE.SAVE,
+                {
+                    file: Buffer.from(res),
+                    filename: this.props.projectFilename,
+                }
+            );
             if (filePath) {
-                sessionStorage.setItem('openPath', filePath);
-                const newName = filePath.slice(filePath.lastIndexOf('\\') + 1);
-                const resultName = newName.slice(0, newName.lastIndexOf('.'));
+                sessionStorage.setItem("openPath", filePath);
+                const newName = filePath.slice(filePath.lastIndexOf("\\") + 1);
+                const resultName = newName.slice(0, newName.lastIndexOf("."));
                 this.props.onSetProjectTitle(resultName);
                 // await setProgramList(resultName, filePath, null, content);
                 await this.setCacheForSave(filePath);
@@ -481,70 +562,103 @@ class MenuBar extends React.Component {
     async setCacheForSave(filePath) {
         const imgUrl = await this.screenPrintWorkspace();
         let list = [];
-        const data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
+        const data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "get",
+            key: "files",
+        });
         if (data) {
             list = [...data];
         }
         let time = window.myAPI.getCurrentTime();
-        let timeList = time.split('_');
-        timeList[1] = timeList[1].replaceAll('-', ':');
+        let timeList = time.split("_");
+        timeList[1] = timeList[1].replaceAll("-", ":");
         const obj = {
-            fileName: this.props.projectFilename.slice(0, this.props.projectFilename.lastIndexOf('.')),
+            fileName: this.props.projectFilename.slice(
+                0,
+                this.props.projectFilename.lastIndexOf(".")
+            ),
             filePath: filePath,
-            alterTime: timeList.join(' '),
+            alterTime: timeList.join(" "),
             editable: false,
             checked: false,
-            pic_url: imgUrl
-        }
+            pic_url: imgUrl,
+        };
         const newList = [obj, ...list];
         let que = {};
         const result = newList.reduce((pre, cur) => {
-            que[cur.filePath] ? null : que[cur.filePath] = pre.push(cur);
+            que[cur.filePath] ? null : (que[cur.filePath] = pre.push(cur));
             return pre;
         }, []);
-        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: result });
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "set",
+            key: "files",
+            value: result,
+        });
     }
 
     render() {
         return (
             <>
-                <Box className={classNames(this.props.className, styles.menuBar)}>
+                <Box
+                    className={classNames(this.props.className, styles.menuBar)}
+                >
                     <Box className={styles.mainMenu}>
                         <Box className={styles.fileGroup}>
-                            {(this.props.canChangeTheme || this.props.canChangeLanguage || this.props.canChangeHelp) && (
+                            {(this.props.canChangeTheme ||
+                                this.props.canChangeLanguage ||
+                                this.props.canChangeHelp) && (
                                 <SettingsMenu
                                     reUpdateDriver={this.reUpdateDriver}
                                     handleHelp={this.handleHelp}
                                     onShowQrcode={this.props.onShowQrcode}
-                                    canChangeLanguage={this.props.canChangeLanguage}
+                                    canChangeLanguage={
+                                        this.props.canChangeLanguage
+                                    }
                                     canChangeTheme={this.props.canChangeTheme}
                                     canChangeHelp={this.props.canChangeHelp}
                                     isRtl={this.props.isRtl}
-                                    onRequestClose={this.props.onRequestCloseSettings}
+                                    onRequestClose={
+                                        this.props.onRequestCloseSettings
+                                    }
                                     onRequestOpen={this.props.onClickSettings}
-                                    settingsMenuOpen={this.props.settingsMenuOpen}
+                                    settingsMenuOpen={
+                                        this.props.settingsMenuOpen
+                                    }
                                     getMainMessage={this.props.getMainMessage}
                                     intl={this.props.intl}
-                                />)}
+                                />
+                            )}
                             {this.props.canManageFiles && (
                                 <FilesMenu
                                     ref={this.filesMenuRef}
                                     fileMenuOpen={this.props.fileMenuOpen}
                                     onClickFile={this.props.onClickFile}
                                     isRtl={this.props.isRtl}
-                                    onRequestClose={this.props.onRequestCloseFile}
-                                    onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
+                                    onRequestClose={
+                                        this.props.onRequestCloseFile
+                                    }
+                                    onStartSelectingFileUpload={
+                                        this.props.onStartSelectingFileUpload
+                                    }
                                     intl={this.props.intl}
-                                    autoSaveByBlockType={this.props.autoSaveByBlockType}
+                                    autoSaveByBlockType={
+                                        this.props.autoSaveByBlockType
+                                    }
                                     openAutoSave={this.props.openAutoSave}
                                     onOpenAutoSave={this.props.onOpenAutoSave}
                                     handleClickHome={this.handleClickHome}
                                     handleClickNew={this.handleClickNew}
                                     handleClickSave={this.handleClickSave}
-                                    getSaveToComputerHandler={this.getSaveToComputerHandler}
+                                    getSaveToComputerHandler={
+                                        this.getSaveToComputerHandler
+                                    }
                                     downloadProject={this.downloadProject}
-                                    handleSetAutoSaveByBlockType={this.props.handleSetAutoSaveByBlockType}
-                                    onShowFileNotify={this.props.onShowFileNotify}
+                                    handleSetAutoSaveByBlockType={
+                                        this.props.handleSetAutoSaveByBlockType
+                                    }
+                                    onShowFileNotify={
+                                        this.props.onShowFileNotify
+                                    }
                                     showFileNotify={this.props.showFileNotify}
                                 />
                             )}
@@ -556,16 +670,34 @@ class MenuBar extends React.Component {
                                 styles.hoverable,
                                 styles.generator
                             )}
-                            onMouseUp={() => this.handleConnectionMouseUp(verifyTypeConfig.SERIALPORT)}
+                            onMouseUp={() =>
+                                this.handleConnectionMouseUp(
+                                    verifyTypeConfig.SERIALPORT
+                                )
+                            }
                         >
-                            <img className={styles.unconnectedIcon} src={this.props.peripheralName ? connectedIcon : unconnectedIcon} alt="" />
+                            <img
+                                className={styles.unconnectedIcon}
+                                src={
+                                    this.props.peripheralName
+                                        ? connectedIcon
+                                        : unconnectedIcon
+                                }
+                                alt=""
+                            />
                             <span className={styles.collapsibleLabel}>
-                                {this.props.peripheralName ? this.props.peripheralName.slice(0, this.props.peripheralName.indexOf('(')) :
+                                {this.props.peripheralName ? (
+                                    this.props.peripheralName.slice(
+                                        0,
+                                        this.props.peripheralName.indexOf("(")
+                                    )
+                                ) : (
                                     <FormattedMessage
                                         defaultMessage="Unconnected"
                                         description="Text for menubar unconnected button"
                                         id="gui.menuBar.noConnection"
-                                    />}
+                                    />
+                                )}
                             </span>
                         </Box>
                         <Box
@@ -577,14 +709,24 @@ class MenuBar extends React.Component {
                                     [styles.active]: "",
                                 }
                             )}
-                            onMouseUp={() => this.handleConnectionMouseUp(verifyTypeConfig.BLUETOOTH)}
+                            onMouseUp={() =>
+                                this.handleConnectionMouseUp(
+                                    verifyTypeConfig.BLUETOOTH
+                                )
+                            }
                         >
-                            <img className={styles.screenShotLogo} src={blueToothIcon} alt="" />
-                            <span className={styles.collapsibleLabel}><FormattedMessage
-                                defaultMessage="Bluetooth"
-                                description="Bluetooth"
-                                id="gui.connection.bluetooth"
-                            /></span>
+                            <img
+                                className={styles.screenShotLogo}
+                                src={blueToothIcon}
+                                alt=""
+                            />
+                            <span className={styles.collapsibleLabel}>
+                                <FormattedMessage
+                                    defaultMessage="Bluetooth"
+                                    description="Bluetooth"
+                                    id="gui.connection.bluetooth"
+                                />
+                            </span>
                         </Box>
                     </Box>
                     <Box className={classNames(styles.mainMenuInp)}>
@@ -611,13 +753,19 @@ class MenuBar extends React.Component {
                             )}
                             onClick={this.saveSvg}
                         >
-                            <img className={styles.screenShotLogo} src={photoIcon} alt="" />
+                            <img
+                                className={styles.screenShotLogo}
+                                src={photoIcon}
+                                alt=""
+                            />
                         </div>
                         <Divider className={classNames(styles.divider)} />
                         <DeviceMenu
                             peripheralName={this.props.peripheralName}
                             onClickDevice={this.props.onClickDevice}
-                            onRequestCloseDevice={this.props.onRequestCloseDevice}
+                            onRequestCloseDevice={
+                                this.props.onRequestCloseDevice
+                            }
                             isRtl={this.props.isRtl}
                             deviceMenuOpen={this.props.deviceMenuOpen}
                             showDeviceCards={this.showDeviceCards}
@@ -632,9 +780,15 @@ class MenuBar extends React.Component {
                                     [styles.active]: "",
                                 }
                             )}
-                            onMouseUp={() => this.props.onOpenCascaderPanelModal()}
+                            onMouseUp={() =>
+                                this.props.onOpenCascaderPanelModal()
+                            }
                         >
-                            <img className={styles.unconnectedIcon} src={foucsUpdateIcon} alt="" />
+                            <img
+                                className={styles.unconnectedIcon}
+                                src={foucsUpdateIcon}
+                                alt=""
+                            />
                             <span className={styles.collapsibleLabel}>
                                 <FormattedMessage
                                     defaultMessage="Force updates"
@@ -657,7 +811,10 @@ class MenuBar extends React.Component {
                         />
                     </Box>
                 </Box>
-                <FilesSaveNotify showFileNotify={this.props.showFileNotify} onShowFileNotify={this.props.onShowFileNotify} />
+                <FilesSaveNotify
+                    showFileNotify={this.props.showFileNotify}
+                    onShowFileNotify={this.props.onShowFileNotify}
+                />
             </>
         );
     }
@@ -742,13 +899,12 @@ MenuBar.propTypes = {
     userOwnsProject: PropTypes.bool,
     username: PropTypes.string,
     vm: PropTypes.instanceOf(VM).isRequired,
-    onShowFileSystem: PropTypes.func
+    onShowFileSystem: PropTypes.func,
 };
 
 MenuBar.defaultProps = {
-    logo: '',
-    onShare: () => {
-    },
+    logo: "",
+    onShare: () => {},
 };
 
 const getProjectFilename = (curTitle, defaultTitle) => {
@@ -792,13 +948,18 @@ const mapStateToProps = (state, ownProps) => {
         deviceName: state.scratchGui.device.deviceName,
         deviceType: state.scratchGui.device.deviceType,
         serialList: state.scratchGui.connectionModal.serialList,
-        saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(state.scratchGui.vm),
-        projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
+        saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
+            state.scratchGui.vm
+        ),
+        projectFilename: getProjectFilename(
+            state.scratchGui.projectTitle,
+            projectTitleInitialState
+        ),
         workspace: state.scratchGui.workspaceMetrics.workspace,
         port: state.scratchGui.connectionModal.port,
         generatorName: state.scratchGui.mode.generatorName,
         openAutoSave: state.scratchGui.alerts.openAutoSave,
-        showFileNotify: state.scratchGui.alerts.showFileNotify
+        showFileNotify: state.scratchGui.alerts.showFileNotify,
     };
 };
 
@@ -848,8 +1009,9 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseGen: () => dispatch(closeGenMenu()),
     onClickDevice: () => dispatch(openDeviceMenu()),
     onRequestCloseDevice: () => dispatch(closeDeviceMenu()),
-    onSetGeneratorName: (generatorName) => dispatch(setGeneratorName(generatorName)),
-    onGetCode: code => dispatch(getCode(code)),
+    onSetGeneratorName: (generatorName) =>
+        dispatch(setGeneratorName(generatorName)),
+    onGetCode: (code) => dispatch(getCode(code)),
     onOpenAutoSave: (autoSave) => dispatch(openAutoSave(autoSave)),
     onShowFileNotify: (fileNotify) => dispatch(showFileNotify(fileNotify)),
     onCloseBleListModal: () => dispatch(closeBleListModal()),

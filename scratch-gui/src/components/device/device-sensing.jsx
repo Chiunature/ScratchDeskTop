@@ -1,23 +1,30 @@
-import React, { Fragment } from 'react';
-import styles from './device.css';
-import colorSensingIcon from 'scratch-blocks/media/color_sensing.svg';
-import motorSensingIcon from 'scratch-blocks/media/motor_sensing.svg';
-import smallMotorSensingIcon from 'scratch-blocks/media/small_motor_sensing.svg';
-import superSoundIcon from 'scratch-blocks/media/super_sound.svg';
-import touchPressIcon from 'scratch-blocks/media/touch_press.svg';
-import messages from './deviceMsg';
-import DeviceSensingItem from './device-sensing-item.jsx';
+import React, { Fragment } from "react";
+import styles from "./device.css";
+import colorSensingIcon from "scratch-blocks/media/color_sensing.svg";
+import motorSensingIcon from "scratch-blocks/media/motor_sensing.svg";
+import smallMotorSensingIcon from "scratch-blocks/media/small_motor_sensing.svg";
+import superSoundIcon from "scratch-blocks/media/super_sound.svg";
+import touchPressIcon from "scratch-blocks/media/touch_press.svg";
+import messages from "./deviceMsg";
+import DeviceSensingItem from "./device-sensing-item.jsx";
 
 const DeviceSensing = ({ deviceObj, intl }) => {
-
     function changeUnitList(unit, index, deviceId) {
-        let list = window.myAPI.getStoreValue('sensing-unit-list');
+        let list = window.myAPI.getStoreValue("sensing-unit-list");
         if (list) {
             let newList = JSON.parse(list);
-            if (newList.length === 0 || (newList[index]?.deviceId === deviceId && newList[index]?.unit === unit)) return;
-            newList[index]['unit'] = unit;
-            newList[index]['deviceId'] = deviceId;
-            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(newList));
+            if (
+                newList.length === 0 ||
+                (newList[index]?.deviceId === deviceId &&
+                    newList[index]?.unit === unit)
+            )
+                return;
+            newList[index]["unit"] = unit;
+            newList[index]["deviceId"] = deviceId;
+            window.myAPI.setStoreValue(
+                "sensing-unit-list",
+                JSON.stringify(newList)
+            );
         }
     }
 
@@ -26,21 +33,21 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         if (isNaN(num)) return;
         switch (num) {
             case 0:
-                return 'A';
+                return "A";
             case 1:
-                return 'B';
+                return "B";
             case 2:
-                return 'C';
+                return "C";
             case 3:
-                return 'D';
+                return "D";
             case 4:
-                return 'E';
+                return "E";
             case 5:
-                return 'F';
+                return "F";
             case 6:
-                return 'G';
+                return "G";
             case 7:
-                return 'H';
+                return "H";
             default:
                 break;
         }
@@ -99,9 +106,9 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 2:
                 return colorData(unitIndex);
             case 3:
-                return intl.formatMessage(messages['distance']);
+                return intl.formatMessage(messages["distance"]);
             case 4:
-                return intl.formatMessage(messages['key']);
+                return intl.formatMessage(messages["key"]);
             case 7:
                 return grayData(unitIndex, keyName);
             default:
@@ -115,20 +122,20 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 1:
                 return keyName;
             default:
-                return intl.formatMessage(messages['version']);
+                return intl.formatMessage(messages["version"]);
         }
     }
 
     function motorData(num) {
         switch (num) {
             case 0:
-                return intl.formatMessage(messages['circly']);
+                return intl.formatMessage(messages["circly"]);
             case 1:
-                return intl.formatMessage(messages['angle']);
+                return intl.formatMessage(messages["angle"]);
             case 2:
-                return intl.formatMessage(messages['actualSpeed']);
+                return intl.formatMessage(messages["actualSpeed"]);
             case 3:
-                return intl.formatMessage(messages['version']);
+                return intl.formatMessage(messages["version"]);
             default:
                 return;
         }
@@ -137,41 +144,51 @@ const DeviceSensing = ({ deviceObj, intl }) => {
     function colorData(num) {
         switch (num) {
             case 0:
-                return intl.formatMessage(messages['lightIntensity']);
+                return intl.formatMessage(messages["lightIntensity"]);
             case 1:
-                return 'R';
+                return "R";
             case 2:
-                return 'G';
+                return "G";
             case 3:
-                return 'B';
+                return "B";
             case 4:
-                return 'H';
+                return "H";
             case 5:
-                return intl.formatMessage(messages['version']);
+                return intl.formatMessage(messages["version"]);
             default:
                 return;
         }
     }
 
     function _checkTypeIs(currentType, target) {
-        return {}.toString.call(currentType) === '[object ' + target + ']';
+        return {}.toString.call(currentType) === "[object " + target + "]";
     }
 
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
-                {(deviceObj?.deviceList) && deviceObj.deviceList.map((item, index) => {
-                    return (
-                        <Fragment key={index}>
-                            {
-                                item?.deviceId !== '0' && <DeviceSensingItem _checkTypeIs={_checkTypeIs} changeUnitList={changeUnitList} index={index} item={item} getPort={getPort} getSensing={getSensing} getType={getType} DistinguishTypes={DistinguishTypes} />
-                            }
-                        </Fragment>
-                    )
-                })}
+                {deviceObj?.deviceList &&
+                    deviceObj.deviceList.map((item, index) => {
+                        return (
+                            <Fragment key={index}>
+                                {item?.deviceId !== "0" && (
+                                    <DeviceSensingItem
+                                        _checkTypeIs={_checkTypeIs}
+                                        changeUnitList={changeUnitList}
+                                        index={index}
+                                        item={item}
+                                        getPort={getPort}
+                                        getSensing={getSensing}
+                                        getType={getType}
+                                        DistinguishTypes={DistinguishTypes}
+                                    />
+                                )}
+                            </Fragment>
+                        );
+                    })}
             </ul>
         </div>
-    )
-}
+    );
+};
 
 export default DeviceSensing;

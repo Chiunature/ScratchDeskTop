@@ -4,9 +4,9 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import VM from "scratch-vm";
-import ScratchBlocks from 'scratch-blocks';
+import ScratchBlocks from "scratch-blocks";
 import { injectIntl, intlShape } from "react-intl";
-import extensionLibraryContent from '../lib/libraries/extensions/index.jsx';
+import extensionLibraryContent from "../lib/libraries/extensions/index.jsx";
 import ErrorBoundaryHOC from "../lib/error-boundary-hoc.jsx";
 import { getIsError, getIsShowingProject } from "../reducers/project-state";
 import {
@@ -40,24 +40,39 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
 import Compile from "../lib/generator/cake/compileGcc.js";
-import { setCompleted, setSourceCompleted, setVersion } from "../reducers/connection-modal.js";
+import {
+    setCompleted,
+    setSourceCompleted,
+    setVersion,
+} from "../reducers/connection-modal.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
-import { activateDeck, setProgramSel, viewDeviceCards } from "../reducers/cards.js";
+import {
+    activateDeck,
+    setProgramSel,
+    viewDeviceCards,
+} from "../reducers/cards.js";
 import bindAll from "lodash.bindall";
-import { setCurrentMAC, setDeviceObj, setDeviceStatus } from "../reducers/device.js";
+import {
+    setCurrentMAC,
+    setDeviceObj,
+    setDeviceStatus,
+} from "../reducers/device.js";
 import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
-import { CAKE, PYTHON } from "../config/json/generators.json"
+import { CAKE, PYTHON } from "../config/json/generators.json";
 import { handleUploadPython } from "../lib/generator/python/index.js";
 import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        bindAll(this, ['handleCompile', 'handleRunApp', 'getMainMessage']);
+        bindAll(this, ["handleCompile", "handleRunApp", "getMainMessage"]);
         this.compile = new Compile();
-        this.handleUploadClick = debounce(this.handleCompile, 300, { leading: false, trailing: true });
+        this.handleUploadClick = debounce(this.handleCompile, 300, {
+            leading: false,
+            trailing: true,
+        });
         this.mainMsg = getMainMsg(props.intl);
     }
 
@@ -67,15 +82,18 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         const userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("electron/") > -1) {
-            requestIdleCallback(() => {
-                this.getMainMessage();
-                this.downloadSuccess();
-                this.downloadSource();
-                this.getFirmwareFiles();
-                this.watchDevice();
-                // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
-                // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
-            }, { timeout: 500 })
+            requestIdleCallback(
+                () => {
+                    this.getMainMessage();
+                    this.downloadSuccess();
+                    this.downloadSource();
+                    this.getFirmwareFiles();
+                    this.watchDevice();
+                    // window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.SET_STATIC_PATH).then(window.myAPI.commendMake);
+                    // window.myAPI.onUpdate((_event, info) => this.props.onSetTipsUpdate(info));
+                },
+                { timeout: 500 }
+            );
         }
     }
     componentDidUpdate(prevProps) {
@@ -90,7 +108,10 @@ class GUI extends React.Component {
             // At this time the project view in www doesn't need to know when a project is unloaded
             this.props.onProjectLoaded();
         }
-        if (!this.props.peripheralName && this.props.peripheralName !== prevProps.peripheralName) {
+        if (
+            !this.props.peripheralName &&
+            this.props.peripheralName !== prevProps.peripheralName
+        ) {
             this.props.onSetCurrentMAC(null);
         }
     }
@@ -99,15 +120,26 @@ class GUI extends React.Component {
     }
 
     async getMainMessage() {
-        await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.GETMAINMSG, { msg: this.mainMsg, autoUpdate: false });
+        await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.GETMAINMSG, {
+            msg: this.mainMsg,
+            autoUpdate: false,
+        });
     }
 
     blocksMotorCheck() {
         if (!this.props.deviceObj) return;
         // 电机模块设备显示监听
         let FieldMotor, FieldCombinedMotor;
-        this.proxyMotor(FieldMotor, 'FieldMotor', this.props.deviceObj.deviceList);
-        this.proxyMotor(FieldCombinedMotor, 'FieldCombinedMotor', this.props.deviceObj.deviceList);
+        this.proxyMotor(
+            FieldMotor,
+            "FieldMotor",
+            this.props.deviceObj.deviceList
+        );
+        this.proxyMotor(
+            FieldCombinedMotor,
+            "FieldCombinedMotor",
+            this.props.deviceObj.deviceList
+        );
     }
 
     getFirmwareFiles() {
@@ -115,36 +147,45 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.EXE.FILES,
             callback: (event, arg) => {
-                const list = arg.split('/').filter(item => /(\.py|\.bin|\.o)/.test(item));
+                const list = arg
+                    .split("/")
+                    .filter((item) => /(\.py|\.bin|\.o)/.test(item));
                 const exeList = list.map((el, index) => {
-                    const current = el.indexOf('.');
+                    const current = el.indexOf(".");
                     return {
                         path: el,
-                        name: el.replace(/(\.py|\.bin|\.o)/, ''),
+                        name: el.replace(/(\.py|\.bin|\.o)/, ""),
                         num: el.slice(0, current),
                         checked: index === 0,
-                        index
-                    }
+                        index,
+                    };
                 });
-                const oldList = window.myAPI.getStoreValue('exeList');
+                const oldList = window.myAPI.getStoreValue("exeList");
                 const newList = _compareOldList(oldList, [...exeList]);
                 this.props.onSetExelist(newList);
-            }
+            },
         });
         function _compareOldList(oldList, newList) {
             if (!oldList) return newList;
-            let list = [], i = 0;
+            let list = [],
+                i = 0;
             let oldQue = JSON.parse(JSON.stringify(JSON.parse(oldList)));
             if (oldQue.length === 0) return newList;
             while (newList.length > i) {
                 const newItem = newList[i];
                 if (oldQue.length > 0) {
                     const oldItem = oldQue.shift();
-                    if (oldItem.num === newItem.num && oldItem.name === newItem.name) {
+                    if (
+                        oldItem.num === newItem.num &&
+                        oldItem.name === newItem.name
+                    ) {
                         list.push(newItem);
                         i++;
                         continue;
-                    } else if (oldItem.num === newItem.num && oldItem.name !== newItem.name) {
+                    } else if (
+                        oldItem.num === newItem.num &&
+                        oldItem.name !== newItem.name
+                    ) {
                         list.push(oldItem);
                         i++;
                         continue;
@@ -157,7 +198,6 @@ class GUI extends React.Component {
         }
     }
 
-
     //下载资源监听
     downloadSource() {
         window.myAPI.ipcRender({
@@ -169,15 +209,15 @@ class GUI extends React.Component {
         });
     }
 
-
     //下载成功监听
     downloadSuccess() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.COMMUNICATION.BIN.CONPLETED,
             callback: (event, arg) => {
-
                 if (arg.errMsg) {
-                    const spath = localStorage.getItem('static_path') || window.resourcesPath;
+                    const spath =
+                        localStorage.getItem("static_path") ||
+                        window.resourcesPath;
                     window.myAPI.handlerError(arg.errMsg, spath);
                 }
 
@@ -188,15 +228,14 @@ class GUI extends React.Component {
                     this.props.onSetSourceCompleted(false);
                     // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
                 }
-            }
+            },
         });
     }
-
 
     proxyMotor(proxyVal, type, data) {
         if (!ScratchBlocks[type].proxy) return;
         proxyVal = ScratchBlocks[type].proxy();
-        const newList = data.map(el => el.sensing_device);
+        const newList = data.map((el) => el.sensing_device);
         proxyVal.portList = [...newList];
     }
 
@@ -205,8 +244,17 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                const { deviceObj, version, completed, dragging, deviceType, currentMAC, onSetDeviceStatus, onSetVersion, onSetDeviceObj } = this.props;
-
+                const {
+                    deviceObj,
+                    version,
+                    completed,
+                    dragging,
+                    deviceType,
+                    currentMAC,
+                    onSetDeviceStatus,
+                    onSetVersion,
+                    onSetDeviceObj,
+                } = this.props;
                 if (!newDeviceObj || completed || dragging) {
                     return;
                 }
@@ -219,7 +267,11 @@ class GUI extends React.Component {
                     onSetVersion(newDeviceObj.version);
                 }
 
-                if (deviceType === 'serialport' && !currentMAC && newDeviceObj?.MAC) {
+                if (
+                    deviceType === "serialport" &&
+                    !currentMAC &&
+                    newDeviceObj?.MAC
+                ) {
                     this.storageMAC(currentMAC, newDeviceObj.MAC);
                 }
 
@@ -228,21 +280,27 @@ class GUI extends React.Component {
                     this.blocksMotorCheck();
                     onSetDeviceObj(newDeviceObj);
                 });
-            }
+            },
         });
     }
 
     storageMAC(oldMac, newMac) {
-        if (newMac === '') return;
+        if (newMac === "") return;
 
-        const MAClist = localStorage.getItem('MAClist') || [];
+        const MAClist = localStorage.getItem("MAClist") || [];
 
         if (Array.isArray(MAClist)) {
-            localStorage.setItem('MAClist', JSON.stringify([...MAClist, newMac]));
-        } else if (typeof MAClist === 'string' && MAClist !== '[]') {
+            localStorage.setItem(
+                "MAClist",
+                JSON.stringify([...MAClist, newMac])
+            );
+        } else if (typeof MAClist === "string" && MAClist !== "[]") {
             if (oldMac !== newMac) {
                 const newMAClist = [...JSON.parse(MAClist), newMac];
-                localStorage.setItem('MAClist', JSON.stringify([...new Set(newMAClist)]));
+                localStorage.setItem(
+                    "MAClist",
+                    JSON.stringify([...new Set(newMAClist)])
+                );
             }
         }
 
@@ -250,7 +308,8 @@ class GUI extends React.Component {
     }
 
     checkUpdateFirmware(resourcesPath) {
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
+        const firmwareVersion =
+            window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
         const currentVer = this.props?.deviceObj?.version;
 
         if (firmwareVersion && currentVer !== Number(firmwareVersion)) {
@@ -259,7 +318,9 @@ class GUI extends React.Component {
                 return false;
             }
 
-            this.compile.sendSerial({ verifyType: verifyTypeConfig.RESET_FWLIB });
+            this.compile.sendSerial({
+                verifyType: verifyTypeConfig.RESET_FWLIB,
+            });
 
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
@@ -273,35 +334,47 @@ class GUI extends React.Component {
     checkUpdateSensing(resourcesPath) {
         const _type = (deviceItem) => {
             switch (deviceItem) {
-                case 'big_motor':
-                    return 0xA1;
-                case 'small_motor':
-                    return 0xA6;
-                case 'color':
-                    return 0xA2;
+                case "big_motor":
+                    return 0xa1;
+                case "small_motor":
+                    return 0xa6;
+                case "color":
+                    return 0xa2;
                 default:
                     return 0xff;
             }
-        }
+        };
 
-        const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-        const firmwareVersion = window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
+        const dataList = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff];
+        const firmwareVersion =
+            window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
 
-        if (this.props?.deviceObj?.deviceList.length > 0 && this.props?.deviceObj?.version === Number(firmwareVersion)) {
+        if (
+            this.props?.deviceObj?.deviceList.length > 0 &&
+            this.props?.deviceObj?.version === Number(firmwareVersion)
+        ) {
             for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
                 const item = this.props?.deviceObj?.deviceList[i];
-                const index = parseInt(item['port']);
+                const index = parseInt(item["port"]);
                 const deviceItem = deviceIdMap[item.deviceId];
-                if (parseInt(item.deviceId) !== 0 && item[deviceItem]?.version !== item[deviceItem]?.SoftwareVersion) {
+                if (
+                    parseInt(item.deviceId) !== 0 &&
+                    item[deviceItem]?.version !==
+                        item[deviceItem]?.SoftwareVersion
+                ) {
                     dataList[index] = _type(deviceItem);
                 }
             }
 
-            const isDiff = dataList.find(item => item !== 0xff);
+            const isDiff = dataList.find((item) => item !== 0xff);
 
             if (isDiff) {
                 const supdate = confirm(this.mainMsg.sensing_update);
-                supdate && window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+                supdate &&
+                    window.myAPI.ipcRender({
+                        sendName: ipc_Renderer.SEND_OR_ON.SENSING_UPDATE,
+                        sendParams: [...dataList],
+                    });
                 // window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
                 return false;
             }
@@ -311,9 +384,11 @@ class GUI extends React.Component {
     }
 
     checkWorkspace() {
-        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+        const blocks = document.querySelector(
+            ".blocklyWorkspace .blocklyBlockCanvas"
+        );
         const list = this.props.workspace.getTopBlocks();
-        const hasStart = list.some(el => el.startHat_);
+        const hasStart = list.some((el) => el.startHat_);
         if (!hasStart || blocks.getBBox().height === 0) {
             this.props.onShowCompletedAlert("workspaceEmpty");
             return false;
@@ -321,12 +396,14 @@ class GUI extends React.Component {
         return true;
     }
 
-
     async onClickUploadCode(isRun) {
-        const static_path = localStorage.getItem('static_path') || window.resourcesPath;
+        const static_path =
+            localStorage.getItem("static_path") || window.resourcesPath;
         try {
-            const selItem = await window.myAPI.getStoreValue('selItem');
-            const selectedExe = selItem ? JSON.parse(selItem) : this.props.selectedExe;
+            const selItem = await window.myAPI.getStoreValue("selItem");
+            const selectedExe = selItem
+                ? JSON.parse(selItem)
+                : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
 
             switch (this.props.generatorName) {
@@ -338,17 +415,20 @@ class GUI extends React.Component {
                         myBlockList: this.props.matchMyBlock,
                         msgTaskBlockList: this.props.msgTaskBlock,
                         soundsList: this.props.soundslist,
-                        codeType: this.props.generatorName
+                        codeType: this.props.generatorName,
                     });
                     break;
                 case PYTHON:
-                    await handleUploadPython({
-                        verifyType,
-                        selectedExe,
-                        codeStr: this.props.code,
-                        codeType: this.props.generatorName,
-                        isRun
-                    }, static_path);
+                    await handleUploadPython(
+                        {
+                            verifyType,
+                            selectedExe,
+                            codeStr: this.props.code,
+                            codeType: this.props.generatorName,
+                            isRun,
+                        },
+                        static_path
+                    );
                     break;
                 default:
                     break;
@@ -360,10 +440,10 @@ class GUI extends React.Component {
         }
     }
 
-
     async handleCompile(isRun) {
         try {
-            const static_path = localStorage.getItem('static_path') || window.resourcesPath;
+            const static_path =
+                localStorage.getItem("static_path") || window.resourcesPath;
 
             // 检查固件版本
             const firmwareRes = this.checkUpdateFirmware(static_path);
@@ -387,7 +467,9 @@ class GUI extends React.Component {
             this.props.onShowCompletedAlert("uploading");
 
             // 检查是否需要运行APP
-            if (this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN) {
+            if (
+                this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN
+            ) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);
             }
@@ -401,16 +483,18 @@ class GUI extends React.Component {
 
     handleRunApp(status) {
         // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
-        window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'APP', status } });
+        window.myAPI.ipcRender({
+            sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
+            sendParams: { type: "APP", status },
+        });
     }
-
 
     // 初始化传感器显示列表缓存
     initSensingList() {
-        if (sessionStorage.getItem('sensing-unit-list')) {
+        if (sessionStorage.getItem("sensing-unit-list")) {
             return;
         }
-        const unitList = window.myAPI.getStoreValue('sensing-unit-list');
+        const unitList = window.myAPI.getStoreValue("sensing-unit-list");
         if (!unitList) {
             let list = [];
             for (let i = 0; i < this.props.deviceObj.deviceList.length; i++) {
@@ -418,14 +502,16 @@ class GUI extends React.Component {
                 list.push({
                     port: item.port,
                     deviceId: item.deviceId,
-                    unit: null
+                    unit: null,
                 });
             }
-            sessionStorage.setItem('sensing-unit-list', 'done');
-            window.myAPI.setStoreValue('sensing-unit-list', JSON.stringify(list));
+            sessionStorage.setItem("sensing-unit-list", "done");
+            window.myAPI.setStoreValue(
+                "sensing-unit-list",
+                JSON.stringify(list)
+            );
         }
     }
-
 
     render() {
         if (this.props.isError) {
@@ -465,7 +551,9 @@ class GUI extends React.Component {
             <>
                 <GUIComponent
                     extensionLibraryContent={extensionLibraryContent}
-                    loading={fetchingProject || isLoading || loadingStateVisible}
+                    loading={
+                        fetchingProject || isLoading || loadingStateVisible
+                    }
                     {...componentProps}
                     handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
@@ -509,16 +597,16 @@ GUI.propTypes = {
     compile: PropTypes.object,
     onSetProgress: PropTypes.func,
     onActivateDeck: PropTypes.func,
-    onOpenConnectionModal: PropTypes.func
+    onOpenConnectionModal: PropTypes.func,
 };
 
 GUI.defaultProps = {
     isScratchDesktop: false,
     onStorageInit: (storageInstance) =>
         storageInstance.addOfficialScratchWebStores(),
-    onProjectLoaded: () => { },
-    onUpdateProjectId: () => { },
-    onVmInit: (/* vm */) => { },
+    onProjectLoaded: () => {},
+    onUpdateProjectId: () => {},
+    onVmInit: (/* vm */) => {},
 };
 
 const mapStateToProps = (state) => {
@@ -550,7 +638,7 @@ const mapStateToProps = (state) => {
         targetIsStage:
             state.scratchGui.targets.stage &&
             state.scratchGui.targets.stage.id ===
-            state.scratchGui.targets.editingTarget,
+                state.scratchGui.targets.editingTarget,
         telemetryModalVisible: state.scratchGui.modals.telemetryModal,
         tipsLibraryVisible: state.scratchGui.modals.tipsLibrary,
         vm: state.scratchGui.vm,
@@ -600,10 +688,11 @@ const mapDispatchToProps = (dispatch) => ({
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
-    onSetSourceCompleted: (sourceCompleted) => dispatch(setSourceCompleted(sourceCompleted)),
+    onSetSourceCompleted: (sourceCompleted) =>
+        dispatch(setSourceCompleted(sourceCompleted)),
     onSetExelist: (exeList) => dispatch(setExelist(exeList)),
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
-    onActivateDeck: id => dispatch(activateDeck(id)),
+    onActivateDeck: (id) => dispatch(activateDeck(id)),
     onSetVersion: (version) => dispatch(setVersion(version)),
     onSetGen: (gen) => dispatch(setGen(gen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
