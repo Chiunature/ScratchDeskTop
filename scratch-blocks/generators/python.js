@@ -16,18 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Python');
+goog.provide("Blockly.Python");
 
-goog.require('Blockly.Generator');
-
+goog.require("Blockly.Generator");
 
 /**
  * Python code generator.
  * @type {!Blockly.Generator}
  */
-Blockly.Python = new Blockly.Generator('Python');
+Blockly.Python = new Blockly.Generator("Python");
 
 /**
  * List of illegal variable names.
@@ -40,69 +39,69 @@ Blockly.Python.addReservedWords(
   // import keyword
   // print ','.join(keyword.kwlist)
   // http://docs.python.org/reference/lexical_analysis.html#keywords
-  'and,as,assert,break,class,continue,def,del,elif,else,except,exec,' +
-  'finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,' +
-  'return,try,while,with,yield,' +
-  //http://docs.python.org/library/constants.html
-  'True,False,None,NotImplemented,Ellipsis,__debug__,quit,exit,copyright,' +
-  'license,credits,' +
-  // http://docs.python.org/library/functions.html
-  'abs,divmod,input,open,staticmethod,all,enumerate,int,ord,str,any,eval,' +
-  'isinstance,pow,sum,basestring,execfile,issubclass,print,super,bin,file,' +
-  'iter,property,tuple,bool,filter,len,range,type,bytearray,float,list,' +
-  'raw_input,unichr,callable,format,locals,reduce,unicode,chr,frozenset,' +
-  'long,reload,vars,classmethod,getattr,map,repr,xrange,cmp,globals,max,' +
-  'reversed,zip,compile,hasattr,memoryview,round,__import__,complex,hash,' +
-  'min,set,apply,delattr,help,next,setattr,buffer,dict,hex,object,slice,' +
-  'coerce,dir,id,oct,sorted,intern,' +
-  // Used by code generator
-  'count'
+  "and,as,assert,break,class,continue,def,del,elif,else,except,exec," +
+    "finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise," +
+    "return,try,while,with,yield," +
+    //http://docs.python.org/library/constants.html
+    "True,False,None,NotImplemented,Ellipsis,__debug__,quit,exit,copyright," +
+    "license,credits," +
+    // http://docs.python.org/library/functions.html
+    "abs,divmod,input,open,staticmethod,all,enumerate,int,ord,str,any,eval," +
+    "isinstance,pow,sum,basestring,execfile,issubclass,print,super,bin,file," +
+    "iter,property,tuple,bool,filter,len,range,type,bytearray,float,list," +
+    "raw_input,unichr,callable,format,locals,reduce,unicode,chr,frozenset," +
+    "long,reload,vars,classmethod,getattr,map,repr,xrange,cmp,globals,max," +
+    "reversed,zip,compile,hasattr,memoryview,round,__import__,complex,hash," +
+    "min,set,apply,delattr,help,next,setattr,buffer,dict,hex,object,slice," +
+    "coerce,dir,id,oct,sorted,intern," +
+    // Used by code generator
+    "count"
 );
 
 /**
  * Order of operation ENUMs.
  */
-Blockly.Python.ORDER_ATOMIC = 0;            // 0 "" ...
-Blockly.Python.ORDER_COLLECTION = 1;        // tuples, lists, dictionaries
+Blockly.Python.ORDER_ATOMIC = 0; // 0 "" ...
+Blockly.Python.ORDER_COLLECTION = 1; // tuples, lists, dictionaries
 Blockly.Python.ORDER_STRING_CONVERSION = 1; // `expression...`
-Blockly.Python.ORDER_MEMBER = 2.1;          // . []
-Blockly.Python.ORDER_FUNCTION_CALL = 2.2;   // ()
-Blockly.Python.ORDER_EXPONENTIATION = 3;    // **
-Blockly.Python.ORDER_UNARY_SIGN = 4;        // + -
-Blockly.Python.ORDER_BITWISE_NOT = 4;       // ~
-Blockly.Python.ORDER_MULTIPLICATIVE = 5;    // * / // %
-Blockly.Python.ORDER_ADDITIVE = 6;          // + -
-Blockly.Python.ORDER_BITWISE_SHIFT = 7;     // << >>
-Blockly.Python.ORDER_BITWISE_AND = 8;       // &
-Blockly.Python.ORDER_BITWISE_XOR = 9;       // ^
-Blockly.Python.ORDER_BITWISE_OR = 10;       // |
-Blockly.Python.ORDER_RELATIONAL = 11;       // in, not in, is, is not,
+Blockly.Python.ORDER_MEMBER = 2.1; // . []
+Blockly.Python.ORDER_FUNCTION_CALL = 2.2; // ()
+Blockly.Python.ORDER_EXPONENTIATION = 3; // **
+Blockly.Python.ORDER_UNARY_SIGN = 4; // + -
+Blockly.Python.ORDER_BITWISE_NOT = 4; // ~
+Blockly.Python.ORDER_MULTIPLICATIVE = 5; // * / // %
+Blockly.Python.ORDER_ADDITIVE = 6; // + -
+Blockly.Python.ORDER_BITWISE_SHIFT = 7; // << >>
+Blockly.Python.ORDER_BITWISE_AND = 8; // &
+Blockly.Python.ORDER_BITWISE_XOR = 9; // ^
+Blockly.Python.ORDER_BITWISE_OR = 10; // |
+Blockly.Python.ORDER_RELATIONAL = 11; // in, not in, is, is not,
 //     <, <=, >, >=, <>, !=, ==
-Blockly.Python.ORDER_LOGICAL_NOT = 12;      // not
-Blockly.Python.ORDER_LOGICAL_AND = 13;      // and
-Blockly.Python.ORDER_LOGICAL_OR = 14;       // or
-Blockly.Python.ORDER_CONDITIONAL = 15;      // if else
-Blockly.Python.ORDER_LAMBDA = 16;           // lambda
-Blockly.Python.ORDER_NONE = 99;             // (...)
+Blockly.Python.ORDER_LOGICAL_NOT = 12; // not
+Blockly.Python.ORDER_LOGICAL_AND = 13; // and
+Blockly.Python.ORDER_LOGICAL_OR = 14; // or
+Blockly.Python.ORDER_CONDITIONAL = 15; // if else
+Blockly.Python.ORDER_LAMBDA = 16; // lambda
+Blockly.Python.ORDER_NONE = 99; // (...)
 
 /**
  * define indent
  */
-Blockly.Python.INDENT = '  ';
-Blockly.Python.MEM_TYPE = 'MEM';
-Blockly.Python.COLOR_TYPE = 'COLOR';
-Blockly.Python.MATRIX_TYPE = 'matrix';
-Blockly.Python.SOUND_TYPE = 'sound';
-Blockly.Python.MOTOR_TYPE = 'motor';
-Blockly.Python.ULTRASIONIC_TYPE = 'ultrasionic';
-Blockly.Python.TOUCH_TYPE = 'touch';
-Blockly.Python.KEY_TYPE = 'key';
-Blockly.Python.GRAY_TYPE = 'gray';
-Blockly.Python.LIST_TYPE = 'userlist';
-Blockly.Python.CAM_TYPE = 'camera';
-Blockly.Python.TIMER_TYPE = 'timer';
-Blockly.Python.MSG_TYPE = 'msg';
-Blockly.Python.STR_TYPE = 'str';
+Blockly.Python.INDENT = "  ";
+Blockly.Python.MEM_TYPE = "MEM";
+Blockly.Python.COLOR_TYPE = "COLOR";
+Blockly.Python.MATRIX_TYPE = "matrix";
+Blockly.Python.SOUND_TYPE = "sound";
+Blockly.Python.MOTOR_TYPE = "motor";
+Blockly.Python.ULTRASIONIC_TYPE = "ultrasionic";
+Blockly.Python.TOUCH_TYPE = "touch";
+Blockly.Python.KEY_TYPE = "key";
+Blockly.Python.GRAY_TYPE = "gray";
+Blockly.Python.LIST_TYPE = "userlist";
+Blockly.Python.CAM_TYPE = "camera";
+Blockly.Python.TIMER_TYPE = "timer";
+Blockly.Python.MSG_TYPE = "msg";
+Blockly.Python.STR_TYPE = "str";
 
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -132,8 +131,9 @@ Blockly.Python.init = function (workspace) {
   Blockly.Python.definitions_ = Object.create(null);
 
   if (!Blockly.Python.variableDB_) {
-    Blockly.Python.variableDB_ =
-      new Blockly.Names(Blockly.Python.RESERVED_WORDS_);
+    Blockly.Python.variableDB_ = new Blockly.Names(
+      Blockly.Python.RESERVED_WORDS_
+    );
   } else {
     Blockly.Python.variableDB_.reset();
   }
@@ -151,11 +151,13 @@ Blockly.Python.init = function (workspace) {
       } */
       if (variables[x].type !== Blockly.LIST_VARIABLE_TYPE) {
         Blockly.Python.variables_[x] =
-          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
+          Blockly.Python.variableDB_.getName(
+            variables[x].name,
+            Blockly.Variables.NAME_TYPE
+          ) + " = 0";
       }
     }
   }
-
 };
 
 /**
@@ -165,7 +167,7 @@ Blockly.Python.init = function (workspace) {
  */
 Blockly.Python.finish = function (code) {
   // Convert the imports dictionary into a list.
-  var imports = [`MyOSysTem = APIOSTimer.osTimer()\n`];
+  var imports = []; //首行代码生成，现在为空
   for (var name in Blockly.Python.imports_) {
     imports.push(Blockly.Python.imports_[name]);
   }
@@ -209,63 +211,68 @@ Blockly.Python.finish = function (code) {
   var ret = "\n";
   // imports
   if (imports.length !== 0) {
-    ret += imports.join('\n') + "\n\n";
+    ret += imports.join("\n") + "\n\n";
   }
 
   // variables
   if (variables.length !== 0) {
-    ret += variables.join('\n') + "\n\n";
+    ret += variables.join("\n") + "\n\n";
   }
 
   // setups
   if (setups.length !== 0) {
-    ret += setups.join('\n') + "\n\n";
+    ret += setups.join("\n") + "\n\n";
   }
 
   // msgs
   if (msgs.length !== 0) {
-    ret += msgs.join('\n') + "\n\n";
+    ret += msgs.join("\n") + "\n\n";
   }
 
   // custom function definitions
   if (customFunctions.length !== 0) {
-    ret += customFunctions.join('\n') + "\n";
+    ret += customFunctions.join("\n") + "\n";
   }
   // libraries
   if (libraries.length !== 0) {
-    ret += libraries.join('\n') + "\n\n";
+    ret += libraries.join("\n") + "\n\n";
   }
   // def repeat
   if (loops.length !== 0) {
     ret += "def repeat():\n" + Blockly.Python.INDENT;
-    ret += loops.join('\n' + Blockly.Python.INDENT) + "\n\n";
+    ret += loops.join("\n" + Blockly.Python.INDENT) + "\n\n";
   }
 
   // tasks
   if (tasks.length !== 0) {
-    ret += tasks.join('\n') + "\n\n";
+    ret += tasks.join("\n") + "\n\n";
   }
 
-
-  let taskFinishedStr = '', threadStr = '';
+  let taskFinishedStr = "",
+    threadStr = "";
   const _task = Object.keys(Blockly.Python.tasks_);
 
   if (_task.length > 0) {
-    const _taskFilter = _task.filter(el => el.includes('task'));
+    const _taskFilter = _task.filter((el) => el.includes("task"));
     if (_taskFilter.length > 0) {
       _taskFilter.forEach((key, index) => {
         const t = `${key}_finished`;
-        taskFinishedStr += (index === _taskFilter.length - 1 ? 'not ' + t : 'not ' + t + ' or ');
-      })
+        taskFinishedStr +=
+          index === _taskFilter.length - 1 ? "not " + t : "not " + t + " or ";
+      });
     }
 
     _task.forEach((key) => {
       threadStr += `_thread.start_new_thread(${key}, ())\n`;
-    })
+    });
 
-    const whileEnd = `while ${taskFinishedStr}:\n` + Blockly.Python.INDENT + Blockly.Python.INDENT + 'MyOSysTem.osTaskYIELD()';
+    const whileEnd =
+      `while ${taskFinishedStr}:\n` +
+      Blockly.Python.INDENT +
+      Blockly.Python.INDENT +
+      "os.delay_s(0.1)";
 
-    ret += this.splitCodeByTask(code) + "\n" + threadStr + '\n' + whileEnd + '\n' + 'MyOSysTem.KillThisTask()';
+    ret += this.splitCodeByTask(code) + "\n" + threadStr + "\n" + whileEnd;
   } else {
     ret += code;
   }
@@ -275,7 +282,7 @@ Blockly.Python.finish = function (code) {
     if (Blockly.Python.firstLoop) {
       ret += "while True:\n" + Blockly.Python.INDENT + "repeat()\n\n";
       // replace the useless pass.
-      ret = ret.replace(/\npass\n/g, '');
+      ret = ret.replace(/\npass\n/g, "");
     }
   } else {
     // if no repeat delet all repeat() call in code.
@@ -283,10 +290,13 @@ Blockly.Python.finish = function (code) {
 
     for (var func in repeatFunctions) {
       var spaceLength = repeatFunctions[func].match(/\s+/g)[0].length;
-      ret = ret.replace(/:\n *repeat\(\)\n/, ':\n' + ' '.repeat(spaceLength) + 'pass\n');
+      ret = ret.replace(
+        /:\n *repeat\(\)\n/,
+        ":\n" + " ".repeat(spaceLength) + "pass\n"
+      );
     }
 
-    ret = ret.replace(/ *repeat\(\)\n/g, '');
+    ret = ret.replace(/ *repeat\(\)\n/g, "");
   }
 
   // Clean up temporary data.
@@ -305,9 +315,11 @@ Blockly.Python.finish = function (code) {
 };
 
 Blockly.Python.splitCodeByTask = function (code) {
-  let result = '\n';
+  let result = "\n";
   const regexForThread = /\s{1}\/\* Start \*\/[\s\S]*?\/\* End \*\/\s{1}/g;
-  const _task = Object.keys(Blockly.Python.tasks_).filter(el => el.includes('task'));
+  const _task = Object.keys(Blockly.Python.tasks_).filter((el) =>
+    el.includes("task")
+  );
   const arr = code.match(regexForThread);
 
   if (!arr) {
@@ -315,16 +327,21 @@ Blockly.Python.splitCodeByTask = function (code) {
   }
 
   for (let i = 0; i < arr.length; i++) {
-    const item = arr[i].replace(/\s{1}\/\* Start \*\/\s{1}/, '').replace(/\s{1}\/\* End \*\/\s{1}/, '');
-    result = result +
+    const item = arr[i]
+      .replace(/\s{1}\/\* Start \*\/\s{1}/, "")
+      .replace(/\s{1}\/\* End \*\/\s{1}/, "");
+    result =
+      result +
       `\ndef ${_task[i]}():\n` +
       `${Blockly.Python.INDENT}  global ${_task[i]}_finished\n` +
       `${Blockly.Python.addIndent(item)}` +
-      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${_task[i]}_finished = True\n`;
+      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${
+        _task[i]
+      }_finished = True\n`;
   }
 
   return result;
-}
+};
 
 /**
  * Common tasks for generating Python from blocks.
@@ -338,17 +355,17 @@ Blockly.Python.splitCodeByTask = function (code) {
  * @private
  */
 Blockly.Python.scrub_ = function (block, code) {
-  if ((code === null) || (!Blockly.Python.check_(block))) {
+  if (code === null || !Blockly.Python.check_(block)) {
     // Block has handled code generation itself.
-    return '';
+    return "";
   }
-  var commentCode = '';
+  var commentCode = "";
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
     // Collect comment for this block.
     var comment = block.getCommentText();
     if (comment) {
-      commentCode += Blockly.Python.prefixLines(comment, '# ') + '\n';
+      commentCode += Blockly.Python.prefixLines(comment, "# ") + "\n";
     }
     // Collect comments for all value arguments.
     // Don't collect comments for nested statements.
@@ -358,7 +375,7 @@ Blockly.Python.scrub_ = function (block, code) {
         if (childBlock) {
           var comment = Blockly.Python.allNestedComments(childBlock);
           if (comment) {
-            commentCode += Blockly.Python.prefixLines(comment, '# ');
+            commentCode += Blockly.Python.prefixLines(comment, "# ");
           }
         }
       }
@@ -370,17 +387,26 @@ Blockly.Python.scrub_ = function (block, code) {
   // and it is a hat block, and it is not 'event_whenmicrobitbegin' block.
   // mean's it is in a function or it is custom function, add indent
   // at start of every line.
-  if (block.getSurroundParent() === null && code !== "" && block.previousConnection !== null
-    && block.getTopStackBlock().type !== 'event_whenmicrobitbegin') {
+  if (
+    block.getSurroundParent() === null &&
+    code !== "" &&
+    block.previousConnection !== null &&
+    block.getTopStackBlock().type !== "event_whenmicrobitbegin"
+  ) {
     // Add indent at start except custom function
-    if (block.type !== 'procedures_definition'
-      && block.type !== 'procedures_prototype') {
+    if (
+      block.type !== "procedures_definition" &&
+      block.type !== "procedures_prototype"
+    ) {
       codeWithIndent = Blockly.Python.INDENT + codeWithIndent;
-      if (commentCode !== '') {
+      if (commentCode !== "") {
         commentCode = Blockly.Python.INDENT + commentCode;
       }
     }
-    codeWithIndent = codeWithIndent.replace(/\n/g, "\n" + Blockly.Python.INDENT);
+    codeWithIndent = codeWithIndent.replace(
+      /\n/g,
+      "\n" + Blockly.Python.INDENT
+    );
     // Delet final indent
     codeWithIndent = codeWithIndent.slice(0, codeWithIndent.length - 2);
   }
@@ -397,7 +423,7 @@ Blockly.Python.scrub_ = function (block, code) {
  * @return {string} Legal line of code.
  */
 Blockly.Python.scrubNakedValue = function (line) {
-  return line + ';\n';
+  return line + ";\n";
 };
 
 /**
@@ -408,11 +434,12 @@ Blockly.Python.scrubNakedValue = function (line) {
  */
 Blockly.Python.quote_ = function (string) {
   // Can't use goog.string.quote since % must also be escaped.
-  string = string.replace(/\\/g, '\\\\')
-    .replace(/\n/g, '\\\n')
-    .replace(/%/g, '\\%')
-    .replace(/'/g, '\\\'');
-  return '\'' + string + '\'';
+  string = string
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\\n")
+    .replace(/%/g, "\\%")
+    .replace(/'/g, "\\'");
+  return "'" + string + "'";
 };
 
 /**
@@ -430,8 +457,11 @@ Blockly.Python.check_ = function (block) {
   // is not connected to a hat block's tree or it's output shap is
   // round or sharp mean's it is not a program tree block. Skip it.
   if (block.getSurroundParent() === null) {
-    if ((block.previousConnection !== null && block.getTopStackBlock().previousConnection !== null)
-      || block.getOutputShape() === 2 || block.getOutputShape() === 1
+    if (
+      (block.previousConnection !== null &&
+        block.getTopStackBlock().previousConnection !== null) ||
+      block.getOutputShape() === 2 ||
+      block.getOutputShape() === 1
     ) {
       return false;
     }
@@ -445,14 +475,14 @@ Blockly.Python.stringToHex = function (matrix) {
   // 定义存储16进制数的数组
   const hexArr = [];
   // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
-  matrixArr.map(element => {
+  matrixArr.map((element) => {
     const decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
-    const hexNum = '0x' + decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+    const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0"); // 将十进制数转换为16进制数
     hexArr.push(hexNum);
   });
 
   return hexArr;
-}
+};
 
 // 将hex格式颜色转换为rgb格式
 Blockly.Python.hexToRgb = function (hex) {
@@ -460,7 +490,7 @@ Blockly.Python.hexToRgb = function (hex) {
     return;
   }
   // 去除 # 号
-  hex = hex.replace(/#/, "").replace(/'/g, '');
+  hex = hex.replace(/#/, "").replace(/'/g, "");
 
   // 将hex字符串拆分为R、G、B分量
   const r = parseInt(hex.substring(0, 2), 16);
@@ -471,7 +501,7 @@ Blockly.Python.hexToRgb = function (hex) {
   }
   // 返回rgb格式
   return "rgb(" + r + ", " + g + ", " + b + ")";
-}
+};
 
 // 将grb格式颜色转换为hex格式
 Blockly.Python.grbToHex = function (grb) {
@@ -495,128 +525,148 @@ Blockly.Python.grbToHex = function (grb) {
 
   // 返回hex格式
   return "0x" + hexR + hexG + hexB;
-}
+};
 
 Blockly.Python.toStr = function (val) {
   if (!val) return;
-  const arr = ['up_abs', 'down_abs', '_abs_', 'sqrt_abs', 'sin_abs', 'cos_abs', 'tan_abs', 'asin_abs', 'acos_abs', 'atan_abs', 'ln_abs', 'e_abs', '10_abs'];
+  const arr = [
+    "up_abs",
+    "down_abs",
+    "_abs_",
+    "sqrt_abs",
+    "sin_abs",
+    "cos_abs",
+    "tan_abs",
+    "asin_abs",
+    "acos_abs",
+    "atan_abs",
+    "ln_abs",
+    "e_abs",
+    "10_abs",
+  ];
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
-    if (typeof val === 'string' && val === item) {
+    if (typeof val === "string" && val === item) {
       return false;
     }
   }
   const regex = /[()\[\]_]/g;
   const matches = val.match(regex);
   return matches && matches.length > 0;
-}
+};
 
 Blockly.Python.handleResult = function (code, type) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyLed = APIMatrix.showLed()';
+        Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
       }
-      result = 'MyLed.' + result;
+      result = "MyLed." + result;
       break;
     case Blockly.Python.SOUND_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyMusic = APIMusic.playMusic()';
+        Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
       }
-      result = 'MyMusic.' + result;
+      result = "MyMusic." + result;
       break;
     case Blockly.Python.MEM_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyMem = APIMem.mem()';
+        Blockly.Python.setups_[type] = "MyMem = APIMem.mem()";
       }
-      result = 'MyMem.' + result;
+      result = "MyMem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyColor = APIColor.color()';
+        Blockly.Python.setups_[type] = "MyColor = APIColor.color()";
       }
-      result = 'MyColor.' + result;
+      result = "MyColor." + result;
       break;
     case Blockly.Python.MOTOR_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyMotor = APIMotor.motor()';
-      }
-      result = 'MyMotor.' + result;
+      //新版Python不添加新对象
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyMotor = APIMotor.motor()";
+      // }
+      result = "_motor." + result;
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyUltrasion = APIUltrasion.ultrasionic()';
+        Blockly.Python.setups_[type] =
+          "MyUltrasion = APIUltrasion.ultrasionic()";
       }
-      result = 'MyUltrasion.' + result;
+      result = "MyUltrasion." + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyTouch = APITouch.Touch()';
+        Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
       }
-      result = 'MyTouch.' + result;
+      result = "MyTouch." + result;
       break;
     case Blockly.Python.KEY_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyRemote = APIKey.Key()';
+        Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
       }
-      result = 'MyRemote.' + result;
+      result = "MyRemote." + result;
       break;
     case Blockly.Python.GRAY_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyGray = APIGray.gray()';
+        Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
       }
-      result = 'MyGray.' + result;
+      result = "MyGray." + result;
       break;
     case Blockly.Python.LIST_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyList = APIList.userlist()';
+        Blockly.Python.setups_[type] = "MyList = APIList.userlist()";
       }
-      result = 'MyList.' + result;
+      result = "MyList." + result;
       break;
     case Blockly.Python.CAM_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyCam = APICam.cam()';
+        Blockly.Python.setups_[type] = "MyCam = APICam.cam()";
       }
-      result = 'MyCam.' + result;
+      result = "MyCam." + result;
       break;
     case Blockly.Python.TIMER_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyTimer = APIOSTimer.osTimer()';
+        Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
       }
-      result = 'MyTimer.' + result;
+      result = "MyTimer." + result;
       break;
     case Blockly.Python.MSG_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'MyMsg = APIMessage.box()';
+        Blockly.Python.setups_[type] = "MyMsg = APIMessage.box()";
       }
-      result = 'MyMsg.' + result;
+      result = "MyMsg." + result;
       break;
     case Blockly.Python.STR_TYPE:
       if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = 'Mystr = APIStr.StrPyToC()';
+        Blockly.Python.setups_[type] = "Mystr = APIStr.StrPyToC()";
       }
-      result = 'Mystr.' + result;
+      result = "Mystr." + result;
       break;
     default:
       break;
   }
-  return result
-}
+  return result;
+};
 
 Blockly.Python.addIndent = function (code, indent = Blockly.Python.INDENT) {
-  const arr = code.split('\n');
-  return arr.map(item => {
-    if (item.trim().length > 0) {
-      item = indent + item;
-    }
-    return item;
-  }).join('\n');
-}
+  const arr = code.split("\n");
+  return arr
+    .map((item) => {
+      if (item.trim().length > 0) {
+        item = indent + item;
+      }
+      return item;
+    })
+    .join("\n");
+};
 
 Blockly.Python.checkVar = function (varName) {
-  if (!Blockly.Python.definitions_['defineVariable_' + varName]) {
-    Blockly.Python.definitions_['defineVariable_' + varName] = `${Blockly.Python.INDENT}global ${varName}`;
+  if (!Blockly.Python.definitions_["defineVariable_" + varName]) {
+    Blockly.Python.definitions_[
+      "defineVariable_" + varName
+    ] = `${Blockly.Python.INDENT}global ${varName}`;
   }
   return varName;
-}
+};
