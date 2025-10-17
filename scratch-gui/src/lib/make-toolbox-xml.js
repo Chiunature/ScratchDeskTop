@@ -1,9 +1,8 @@
 // import ScratchBlocks from "scratch-blocks";
-import { defaultColors } from './themes';
+import { defaultColors } from "./themes";
 const categorySeparator = '<sep gap="36"/>';
 
 const blockSeparator = '<sep gap="24"/>'; // At default scale, about 28px
-
 
 const xmlEscape = function (unsafe) {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -146,7 +145,8 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
             `;
 };
 
-{/* <block type="combined_motor_move">
+{
+    /* <block type="combined_motor_move">
                     <value name="left">
                         <shadow type="math_-100to100_number"></shadow>
                     </value>
@@ -170,8 +170,14 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                         <shadow type="math_angle"></shadow>
                     </value>
                 </block>
-        */}
-const combined_motor = function ({ isInitialSetup, isStage, targetId, colors }) {
+        */
+}
+const combined_motor = function ({
+    isInitialSetup,
+    isStage,
+    targetId,
+    colors,
+}) {
     /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         "MOTOR_STAGE_SELECTED",
         "Stage selected: no combined_motor blocks"
@@ -242,7 +248,13 @@ const combined_motor = function ({ isInitialSetup, isStage, targetId, colors }) 
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                     <value name="KP">
-                        <shadow type="math_-50to50_number"><field name="NUM">0</field></shadow>
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                    <value name="KI">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                    <value name="KD">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
@@ -380,7 +392,8 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
             `;
 };
 
-{/*
+{
+    /*
     <block type="sound_cleareffects"/>
     <block type="sound_changeeffectby">
                 <value name="VALUE">
@@ -411,8 +424,15 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </shadow>
             </value>
         </block>
-*/}
-const sound = function ({ isInitialSetup, isStage, targetId, soundName, colors }) {
+*/
+}
+const sound = function ({
+    isInitialSetup,
+    isStage,
+    targetId,
+    soundName,
+    colors,
+}) {
     return `
     <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="${colors.primary}"
     secondaryColour="${colors.tertiary}">
@@ -453,7 +473,8 @@ const sound = function ({ isInitialSetup, isStage, targetId, soundName, colors }
     `;
 };
 
-{/* <block type="event_checkcolor">
+{
+    /* <block type="event_checkcolor">
             <value name="COLOR">
                 <shadow type="colour_picker"/>
             </value>
@@ -477,7 +498,8 @@ const sound = function ({ isInitialSetup, isStage, targetId, soundName, colors }
                     <shadow type="event_broadcast_menu"></shadow>
                 </value>
         ${categorySeparator}
-*/}
+*/
+}
 const events = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
             <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
@@ -531,7 +553,8 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
     </category>
     `;
 };
-{/*
+{
+    /*
     <block type="sensing_line_inspection_judgment"></block>
     <block type="sensing_magnetic_calibration"></block>
     <block type="sensing_compass"></block>
@@ -567,7 +590,8 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
         </block>
         ${blockSeparator}
-    */}
+    */
+}
 const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
     /* const name = ScratchBlocks.ScratchMsgs.translate(
         "SENSING_ASK_TEXT",
@@ -1201,7 +1225,7 @@ const sensing_camera = function ({ colors }) {
         ${categorySeparator}
     </category>
     `;
-}
+};
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -1252,29 +1276,44 @@ const makeToolboxXML = function (
         // return `undefined`
     };
     const motorXML =
-        moveCategory("motor") || motor({ isInitialSetup, isStage, targetId, colors: colors.motor });
+        moveCategory("motor") ||
+        motor({ isInitialSetup, isStage, targetId, colors: colors.motor });
     const combined_motorXML =
         moveCategory("combined_motor") ||
-        combined_motor({ isInitialSetup, isStage, targetId, colors: colors.combined_motor });
+        combined_motor({
+            isInitialSetup,
+            isStage,
+            targetId,
+            colors: colors.combined_motor,
+        });
     const matrixXML =
-        moveCategory("matrix") || matrix({ isInitialSetup, isStage, targetId, colors: colors.matrix });
+        moveCategory("matrix") ||
+        matrix({ isInitialSetup, isStage, targetId, colors: colors.matrix });
     const soundXML =
         moveCategory("sound") ||
-        sound({ isInitialSetup, isStage, targetId, soundName, colors: colors.sounds });
+        sound({
+            isInitialSetup,
+            isStage,
+            targetId,
+            soundName,
+            colors: colors.sounds,
+        });
     const eventsXML =
-        moveCategory("event") || events({ isInitialSetup, isStage, targetId, colors: colors.event });
+        moveCategory("event") ||
+        events({ isInitialSetup, isStage, targetId, colors: colors.event });
     const controlXML =
-        moveCategory("control") || control({ isInitialSetup, isStage, targetId, colors: colors.control });
+        moveCategory("control") ||
+        control({ isInitialSetup, isStage, targetId, colors: colors.control });
     const sensingXML =
-        moveCategory("sensing") || sensing({ isInitialSetup, isStage, targetId, colors: colors.sensing });
+        moveCategory("sensing") ||
+        sensing({ isInitialSetup, isStage, targetId, colors: colors.sensing });
     const operatorsXML =
         moveCategory("operators") ||
         operators({ isInitialSetup, colors: colors.operators });
     const variablesXML =
         moveCategory("data") || variables({ colors: colors.data });
     const myBlocksXML =
-        moveCategory("procedures") ||
-        myBlocks({ colors: colors.more });
+        moveCategory("procedures") || myBlocks({ colors: colors.more });
     // const sensing_cameraXML = moveCategory("sensing_camera") || sensing_camera({ colors: colors.sensing_camera });
     const everything = [
         xmlOpen,

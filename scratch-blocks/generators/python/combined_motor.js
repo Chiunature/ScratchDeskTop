@@ -187,7 +187,7 @@ Blockly.Python["combined_motor_startWithPower"] = function (block) {
     "POWER_TWO",
     Blockly.Python.ORDER_NONE
   );
-  const code = `DoubleMotorPowerStart(${one}, ${two})\n`;
+  const code = `mov_power(${one}, ${two})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -208,7 +208,7 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const unit = block.getFieldValue("unit");
-  const code = `DoubleMotorPowerObj(${one}, ${two}, ${count}, "${unit}")\n`;
+  const code = `mov_for_power_degrees(${one}, ${two}, ${count}, "${unit}")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -219,10 +219,12 @@ Blockly.Python["combined_motor_moveByYawAngle"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const KP = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
+  const KI = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
+  const KD = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
   const unit = block.getFieldValue("unit");
   let direction = block.getFieldValue("direction");
   direction = direction[0].toLowerCase() + direction.slice(1);
-  const code = `DoubleMotorLine("${direction}", ${count}, "${unit}")\n`;
+  const code = `mov_yaw_line("${direction}", ${count}, "${unit},${KP},${KI},${KD}")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

@@ -662,10 +662,22 @@ Blockly.Blocks["combined_motor_moveByYawAngle"] = {
           type: "field_dropdown",
           name: "unit",
           options: [
-            [Blockly.Msg.CIRCLE, "circle"],
+            [Blockly.Msg.CIRCLE, "circly"],
             [Blockly.Msg.ANGLE, "angle"],
             [Blockly.Msg.SECONDS, "seconds"],
           ],
+        },
+        {
+          type: "input_value",
+          name: "KP",
+        },
+        {
+          type: "input_value",
+          name: "KI",
+        },
+        {
+          type: "input_value",
+          name: "KD",
         },
       ],
       category: Blockly.Categories.combined_motor,
