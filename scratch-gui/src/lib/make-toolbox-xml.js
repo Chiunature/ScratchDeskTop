@@ -279,14 +279,8 @@ const combined_motor = function ({
                     <value name="KP">
                         <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                     </value>
-                    <value name="KI">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
                     <value name="KD">
                         <shadow type="math_number"><field name="NUM">0.6</field></shadow>
-                    </value>
-                    <value name="SPIN_PARAMS">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
@@ -306,14 +300,8 @@ const combined_motor = function ({
                     <value name="KP">
                         <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                     </value>
-                    <value name="KI">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
                     <value name="KD">
                         <shadow type="math_number"><field name="NUM">0.6</field></shadow>
-                    </value>
-                    <value name="SPIN_PARAMS">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                 </block>
                 ${categorySeparator}

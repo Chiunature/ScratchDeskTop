@@ -782,16 +782,12 @@ Blockly.Blocks["combined_linepatrol"] = {
         },
         {
           type: "input_value",
-          name: "KI",
-        },
-        {
-          type: "input_value",
           name: "KD",
         },
-        {
-          type: "input_value",
-          name: "SPIN_PARAMS",
-        },
+        // {
+        //   type: "input_value",
+        //   name: "SPIN_PARAMS",
+        // },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
@@ -827,16 +823,12 @@ Blockly.Blocks["combined_linepatrol_ltr"] = {
         },
         {
           type: "input_value",
-          name: "KI",
-        },
-        {
-          type: "input_value",
           name: "KD",
         },
-        {
-          type: "input_value",
-          name: "SPIN_PARAMS",
-        },
+        // {
+        //   type: "input_value",
+        //   name: "SPIN_PARAMS",
+        // },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],

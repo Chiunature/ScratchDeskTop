@@ -234,7 +234,7 @@ Blockly.Python["combined_motor_spinByYawAngle"] = function (block) {
     "ANGLE",
     Blockly.Python.ORDER_NONE
   );
-  const code = `DoubleMotorRangerAngle(${angle})\n`;
+  const code = `mov_yaw_angle(${angle})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -256,7 +256,7 @@ Blockly.Python["combined_motor_pwm"] = function (block) {
 
 Blockly.Python["combined_linepatrolInit"] = function (block) {
   return Blockly.Python.handleResult(
-    `linepatrolInit()\n`,
+    `movfind_line_init()\n`,
     Blockly.Python.GRAY_TYPE
   );
 };
@@ -278,15 +278,14 @@ Blockly.Python["combined_linepatrol"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
   const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-  const sp = Blockly.Python.valueToCode(
-    block,
-    "SPIN_PARAMS",
-    Blockly.Python.ORDER_NONE
-  );
+  // const sp = Blockly.Python.valueToCode(
+  //   block,
+  //   "SPIN_PARAMS",
+  //   Blockly.Python.ORDER_NONE
+  // );
   return Blockly.Python.handleResult(
-    `linepatrol(${portOne}, ${portTwo}, ${speed}, ${kp}, ${ki}, ${kd}, ${sp})\n`,
+    `movfind_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd}})\n`,
     Blockly.Python.GRAY_TYPE
   );
 };
@@ -313,15 +312,14 @@ Blockly.Python["combined_linepatrol_ltr"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const ki = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
   const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-  const sp = Blockly.Python.valueToCode(
-    block,
-    "SPIN_PARAMS",
-    Blockly.Python.ORDER_NONE
-  );
+  // const sp = Blockly.Python.valueToCode(
+  //   block,
+  //   "SPIN_PARAMS",
+  //   Blockly.Python.ORDER_NONE
+  // );
   return Blockly.Python.handleResult(
-    `linepatrolPower(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${ki}, ${kd}, ${sp})\n`,
+    `movfind_line_power_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
     Blockly.Python.GRAY_TYPE
   );
 };

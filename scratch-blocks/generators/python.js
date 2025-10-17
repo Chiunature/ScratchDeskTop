@@ -609,10 +609,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "MyRemote." + result;
       break;
     case Blockly.Python.GRAY_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
-      }
-      result = "MyGray." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
+      // }
+      result = "_motor." + result;
       break;
     case Blockly.Python.LIST_TYPE:
       if (!Blockly.Python.setups_[type]) {

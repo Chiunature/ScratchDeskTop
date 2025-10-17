@@ -7197,10 +7197,9 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_GET_GRAY_LINE: "%1 Obtain grayscale sensor values %2",
   SENSING_GET_GRAY_LINESTATE: "%1 Is it Obtain grayscale sensor values %2 ?",
   SENSING_LINEPATROLINIT: "Initialize the linepatrol",
-  SENSING_LINEPATROL:
-    "The linepatrol %1 %2 power is %3 KP %4 KI %5 KD %6 deflection factor %7",
+  SENSING_LINEPATROL: "The linepatrol %1 %2 power is %3 KP %4 KD %5 ",
   SENSING_LINEPATROL_LTR:
-    "The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KI %6 KD %7 deflection factor %8",
+    "The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "Determine %1 the current grayscale %2 status",
   SENSING_CAMERA_FIND_COLOR_BLOCK:
     "%1 %2 search for color blocks R %3 G %4 B %5 tolerance %6",
@@ -29493,10 +29492,9 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GET_GRAY_LINE: "%1 获取循迹卡传感器值 %2",
   SENSING_GET_GRAY_LINESTATE: "%1 循迹卡传感器 %2 号的状态是否为1",
   SENSING_LINEPATROLINIT: "巡线参数初始化",
-  SENSING_LINEPATROL:
-    "双巡线 左传感器 %1 右传感器 %2 功率 %3 KP %4 KI %5 KD %6 偏转系数 %7",
+  SENSING_LINEPATROL: "双巡线 左传感器 %1 右传感器 %2 功率 %3 KP %4 KD %5 ",
   SENSING_LINEPATROL_LTR:
-    "双巡线 左传感器 %1 右传感器 %2 左功率 %3 右功率 %4 KP %5 KI %6 KD %7 偏转系数 %8",
+    "双巡线 左传感器 %1 右传感器 %2 左功率 %3 右功率 %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "判断 %1 当前循迹卡 %2 状态",
   SENSING_CAMERA_FIND_COLOR_BLOCK: "%1 %2 搜索色块 R %3 G %4 B %5 容差 %6",
   SENSING_CAMERA_FIND_COLOR_STATE: "%1 获取色块当前查找的状态",
