@@ -1,9 +1,9 @@
 // This file was automatically generated.  Do not modify.
 
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Msg.en');
-goog.require('Blockly.Msg');
+goog.provide("Blockly.Msg.en");
+goog.require("Blockly.Msg");
 
 Blockly.Msg["CONTROL_FOREVER"] = "forever";
 Blockly.Msg["CONTROL_REPEAT"] = "repeat %1";
@@ -187,7 +187,8 @@ Blockly.Msg["SPECIFIEDUNIT_MOTOR"] = "%1 %2 %3 run %4 %5";
 Blockly.Msg["SPEED_MOTOR"] = "%1 %2 set speed to %3 %%";
 Blockly.Msg["STOP_MOTOR"] = "%1 %2 stop motor";
 Blockly.Msg["STARTING_MOTOR"] = "%1 %2 %3 starting motor";
-Blockly.Msg["RELATIVE_POSITION"] = "%1 %2 Set the relative position of the motor %3";
+Blockly.Msg["RELATIVE_POSITION"] =
+  "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg["SPECIFIED_MANNER"] = "%1 %2 When setting the motor to stop %3";
 Blockly.Msg["COMBINED_MOTOR_STARTING"] = "%1 set the running motor to %2 %3";
 Blockly.Msg["DIRECTION_MOTOR"] = "%1 %2 %3 start moving %4";
@@ -195,14 +196,18 @@ Blockly.Msg["COMBINED_MOTOR_TURN"] = "%1 %2 %3 move %4 %5";
 Blockly.Msg["COMBINED_MOTOR_LINE"] = "%1 %2 move %3 %4";
 Blockly.Msg["COMBINED_MOTOR_SPEED"] = "%1 Combined motor speed is set to %2 %%";
 Blockly.Msg["COMBINED_MOTOR_STOP"] = "%1 stop motion";
-Blockly.Msg["COMBINED_MOTOR_MOVE"] = "%1 at a speed of %2 and %3 %%to move %4 %5";
+Blockly.Msg["COMBINED_MOTOR_MOVE"] =
+  "%1 at a speed of %2 and %3 %%to move %4 %5";
 Blockly.Msg["COMBINED_MOTOR_MOVESTEP"] = "%1 at a speed of %2 and %3 %%to move";
-Blockly.Msg["COMBINED_MOTOR_MOVEPOWER"] = "%1 Starting at %2 %%power for %3 %4 movement";
-Blockly.Msg["COMBINED_MOTOR_STOPPING"] = "%1 When setting the running motor to stop %2";
+Blockly.Msg["COMBINED_MOTOR_MOVEPOWER"] =
+  "%1 Starting at %2 %%power for %3 %4 movement";
+Blockly.Msg["COMBINED_MOTOR_STOPPING"] =
+  "%1 When setting the running motor to stop %2";
 Blockly.Msg["MATRIX_LAMP"] = "%1 light %2 the color is %3";
 Blockly.Msg["STOP_MATRIX_LAMP"] = "%1 turn off pixel lights";
-Blockly.Msg["SET_MATRIX_LAMP"] = "%1 set the brightness of the pixel light to %2 %%";
-Blockly.Msg["SINGLE_MATRIX_LAMP"] = "%1 Set Pixels x %2 y %3 %4";
+Blockly.Msg["SET_MATRIX_LAMP"] =
+  "%1 set the brightness of the pixel light to %2 %%";
+Blockly.Msg["SINGLE_MATRIX_LAMP"] = "%1 Set Pixels x %2 y %3 brightness %4 %%";
 Blockly.Msg["TEXT_MATRIX_LAMP"] = "%1 text display %2";
 Blockly.Msg["SETRGB_MATRIX_LAMP"] = "%1 light serial number %2 color %3";
 Blockly.Msg["USERGB_MATRIX_LAMP"] = "%1 %2 light";
@@ -290,11 +295,14 @@ Blockly.Msg["SENSING_USERID"] = "user id";
 Blockly.Msg["SENSING_COLOR_JUDGMENT"] = "Is %1 color %2";
 Blockly.Msg["SENSING_COLOR_DETECTION"] = "%1 Color";
 Blockly.Msg["SENSING_COLOR_DETECTIONRGB"] = "%1 original %2";
-Blockly.Msg["SENSING_REFLECTED_LIGHT_JUDGMENT"] = "%1 reflected light judgment %2 %3";
+Blockly.Msg["SENSING_REFLECTED_LIGHT_JUDGMENT"] =
+  "%1 reflected light judgment %2 %3";
 Blockly.Msg["SENSING_REFLECTED_LIGHT_DETECTION"] = "%1 reflected light";
 Blockly.Msg["SENSING_LINE_INSPECTION_JUDGMENT"] = "Line inspection %1 saw %2";
-Blockly.Msg["SENSING_ULTRASONIC_JUDGMENT"] = "%1 ultrasonic judgment is %2 %3 CM";
-Blockly.Msg["SENSING_ULTRASONIC_DETECTION"] = "Ultrasonic %1 get distance value";
+Blockly.Msg["SENSING_ULTRASONIC_JUDGMENT"] =
+  "%1 ultrasonic judgment is %2 %3 CM";
+Blockly.Msg["SENSING_ULTRASONIC_DETECTION"] =
+  "Ultrasonic %1 get distance value";
 Blockly.Msg["SENSING_SOUND_INTENSITY"] = "Get sound intensity";
 Blockly.Msg["SENSING_KEY_JUDGMENT"] = "Key %1 %2";
 Blockly.Msg["SENSING_KEY_PRESS"] = "%1 key %2";
@@ -352,28 +360,34 @@ Blockly.Msg["COLOUR_SATURATION_LABEL"] = "Saturation";
 Blockly.Msg["COLOUR_BRIGHTNESS_LABEL"] = "Brightness";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Change value:";
 Blockly.Msg["RENAME_VARIABLE"] = "Rename variable";
-Blockly.Msg["RENAME_VARIABLE_TITLE"] = "Rename all \"%1\" variables to:";
+Blockly.Msg["RENAME_VARIABLE_TITLE"] = 'Rename all "%1" variables to:';
 Blockly.Msg["RENAME_VARIABLE_MODAL_TITLE"] = "Rename Variable";
 Blockly.Msg["NEW_VARIABLE"] = "Make a Variable";
 Blockly.Msg["NEW_VARIABLE_TITLE"] = "New variable name:";
 Blockly.Msg["VARIABLE_MODAL_TITLE"] = "New Variable";
-Blockly.Msg["VARIABLE_ALREADY_EXISTS"] = "A variable named \"%1\" already exists.";
-Blockly.Msg["VARIABLE_ALREADY_EXISTS_FOR_ANOTHER_TYPE"] = "A variable named \"%1\" already exists for another variable of type \"%2\".";
-Blockly.Msg["DELETE_VARIABLE_CONFIRMATION"] = "Delete %1 uses of the \"%2\" variable?";
-Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable \"%1\" because it's part of the definition of the function \"%2\"";
-Blockly.Msg["DELETE_VARIABLE"] = "Delete the \"%1\" variable";
+Blockly.Msg["VARIABLE_ALREADY_EXISTS"] =
+  'A variable named "%1" already exists.';
+Blockly.Msg["VARIABLE_ALREADY_EXISTS_FOR_ANOTHER_TYPE"] =
+  'A variable named "%1" already exists for another variable of type "%2".';
+Blockly.Msg["DELETE_VARIABLE_CONFIRMATION"] =
+  'Delete %1 uses of the "%2" variable?';
+Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] =
+  'Can\'t delete the variable "%1" because it\'s part of the definition of the function "%2"';
+Blockly.Msg["DELETE_VARIABLE"] = 'Delete the "%1" variable';
 Blockly.Msg["NEW_PROCEDURE"] = "Make a Block";
-Blockly.Msg["PROCEDURE_ALREADY_EXISTS"] = "A procedure named \"%1\" already exists.";
+Blockly.Msg["PROCEDURE_ALREADY_EXISTS"] =
+  'A procedure named "%1" already exists.';
 Blockly.Msg["PROCEDURE_DEFAULT_NAME"] = "block name";
-Blockly.Msg["PROCEDURE_USED"] = "To delete a block definition, first remove all uses of the block";
+Blockly.Msg["PROCEDURE_USED"] =
+  "To delete a block definition, first remove all uses of the block";
 Blockly.Msg["NEW_LIST"] = "Make a List";
 Blockly.Msg["NEW_LIST_TITLE"] = "New list name:";
 Blockly.Msg["LIST_MODAL_TITLE"] = "New List";
-Blockly.Msg["LIST_ALREADY_EXISTS"] = "A list named \"%1\" already exists.";
-Blockly.Msg["RENAME_LIST_TITLE"] = "Rename all \"%1\" lists to:";
+Blockly.Msg["LIST_ALREADY_EXISTS"] = 'A list named "%1" already exists.';
+Blockly.Msg["RENAME_LIST_TITLE"] = 'Rename all "%1" lists to:';
 Blockly.Msg["RENAME_LIST_MODAL_TITLE"] = "Rename List";
 Blockly.Msg["DEFAULT_LIST_ITEM"] = "thing";
-Blockly.Msg["DELETE_LIST"] = "Delete the \"%1\" list";
+Blockly.Msg["DELETE_LIST"] = 'Delete the "%1" list';
 Blockly.Msg["RENAME_LIST"] = "Rename list";
 Blockly.Msg["NEW_BROADCAST_MESSAGE"] = "New message";
 Blockly.Msg["NEW_BROADCAST_MESSAGE_TITLE"] = "New message name:";

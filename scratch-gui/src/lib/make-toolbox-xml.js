@@ -365,6 +365,9 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <value name="y">
                         <shadow type="matrix_y"></shadow>
                     </value>
+                    <value name="brightness">
+                        <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                    </value>
                 </block>
                 ${categorySeparator}
             </category>

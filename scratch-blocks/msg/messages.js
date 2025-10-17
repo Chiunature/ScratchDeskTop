@@ -492,7 +492,7 @@ Blockly.Msg.MATRIX_LAMP = "%1 light %2 the color is %3";
 Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";
 Blockly.Msg.SET_MATRIX_LAMP =
   "%1 set the brightness of the pixel light to %2 %%";
-Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 turn on Pixels x %2 y %3";
+Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 turn on Pixels x %2 y %3 brightness %4 %%";
 Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
 Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";

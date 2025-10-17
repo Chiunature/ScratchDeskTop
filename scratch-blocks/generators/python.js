@@ -559,10 +559,10 @@ Blockly.Python.handleResult = function (code, type) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
-      }
-      result = "MyLed." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
+      // }
+      result = "_matrix." + result;
       break;
     case Blockly.Python.SOUND_TYPE:
       if (!Blockly.Python.setups_[type]) {
