@@ -211,15 +211,6 @@ const combined_motor = function ({
                 ${blockSeparator}
                 <block type="combined_motor_stop"></block>
                 ${blockSeparator}
-                <block type="combined_motor_movestep">
-                    <value name="left">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                    <value name="right">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="combined_motor_stopping"></block>
                 ${blockSeparator}
                 <block type="combined_motor_startWithPower">

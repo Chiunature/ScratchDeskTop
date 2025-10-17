@@ -443,38 +443,6 @@ Blockly.Blocks["combined_motor_move"] = {
   },
 };
 
-Blockly.Blocks["combined_motor_movestep"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.COMBINED_MOTOR_MOVESTEP,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 20,
-          height: 20,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "left",
-        },
-        {
-          type: "input_value",
-          name: "right",
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
 Blockly.Blocks["combined_motor_angle"] = {
   /**
    * Block to move steps.
