@@ -14,7 +14,6 @@ const store_lf = new UseLocalForage();*/
 const Store = require("electron-store");
 const store = new Store();
 
-
 function setStoreValue(key, value) {
     if (store.has(key)) store.delete(key);
     store.set(key, value);
@@ -44,7 +43,6 @@ async function removeForage(key) {
     await store_lf.removeForage(key);
 }*/
 
-
 /**
  * 异步通信
  * @param {String} sendName
@@ -52,7 +50,7 @@ async function removeForage(key) {
  * @returns {Promise}
  */
 async function ipcInvoke(sendName, sendParams) {
-    return await ipcRenderer.invoke(sendName, sendParams)
+    return await ipcRenderer.invoke(sendName, sendParams);
 }
 
 /**
@@ -64,7 +62,11 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
         ipcRenderer.send(sendName, sendParams);
     }
     const eventList = ipcRenderer.eventNames();
-    if (eventName && !eventList.includes(eventName) && typeof callback === "function") {
+    if (
+        eventName &&
+        !eventList.includes(eventName) &&
+        typeof callback === "function"
+    ) {
         ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
     }
 }
@@ -76,12 +78,12 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
 function delEvents(eventName) {
     if (!eventName) {
         const eventList = ipcRenderer.eventNames();
-        eventList.forEach(item => {
+        eventList.forEach((item) => {
             ipcRenderer.removeAllListeners([item]);
         });
         return;
     } else if (Array.isArray(eventName)) {
-        eventName.forEach(item => {
+        eventName.forEach((item) => {
             ipcRenderer.removeAllListeners([item]);
         });
         return;
@@ -96,16 +98,24 @@ function delEvents(eventName) {
  * @param resourcePath
  * @param options
  */
-function readFiles(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
+function readFiles(link, resourcePath = cwd(), options = { encoding: "utf8" }) {
     return new Promise((resolve) => {
-        fs.readFile(path.join(resourcePath, link), options.encoding, (err, data) => {
-            if (err) handlerError(err, resourcePath);
-            resolve(err ? false : data);
-        })
-    })
+        fs.readFile(
+            path.join(resourcePath, link),
+            options.encoding,
+            (err, data) => {
+                if (err) handlerError(err, resourcePath);
+                resolve(err ? false : data);
+            }
+        );
+    });
 }
 
-function readFilesAsync(link, resourcePath = cwd(), options = { encoding: 'utf8' }) {
+function readFilesAsync(
+    link,
+    resourcePath = cwd(),
+    options = { encoding: "utf8" }
+) {
     try {
         const res = fs.readFileSync(path.join(resourcePath, link), options);
         return res;
@@ -127,9 +137,9 @@ function writeFiles(link, data, resourcePath = cwd(), options = {}) {
     return new Promise((resolve) => {
         fs.writeFile(path.join(resourcePath, link), data, options, (err) => {
             if (err) handlerError(err, resourcePath);
-            resolve(!err)
-        })
-    })
+            resolve(!err);
+        });
+    });
 }
 
 function replaceFiles(oldFilePath, newFilePath, content) {
@@ -138,7 +148,7 @@ function replaceFiles(oldFilePath, newFilePath, content) {
         if (err) {
             if (err) handlerError(err);
         } else {
-            console.log('Old file deleted successfully.');
+            console.log("Old file deleted successfully.");
 
             // 将新文件移动到旧文件的位置
             /*fs.rename(newFilePath, oldFilePath, (err) => {
@@ -151,9 +161,9 @@ function replaceFiles(oldFilePath, newFilePath, content) {
             // 创建新文件
             fs.writeFile(newFilePath, content, (err) => {
                 if (err) {
-                    console.error('Error creating new file:', err);
+                    console.error("Error creating new file:", err);
                 } else {
-                    console.log('New file created successfully.');
+                    console.log("New file created successfully.");
                 }
             });
         }
@@ -172,7 +182,7 @@ function deleteFiles(link, resourcePath = cwd()) {
             if (err) handlerError(err, resourcePath);
             resolve(!err);
         });
-    })
+    });
 }
 
 /**
@@ -181,21 +191,23 @@ function deleteFiles(link, resourcePath = cwd()) {
  */
 function commendMake(pathCWD = cwd()) {
     return new Promise((resolve, reject) => {
-        const process = execFile("ByteCode.exe", [], { cwd: path.join(pathCWD, DIR) });
+        const process = execFile("ByteCode.exe", [], {
+            cwd: path.join(pathCWD, DIR),
+        });
 
-        let errStr = '';
-        process.stderr.on('data', (err) => {
+        let errStr = "";
+        process.stderr.on("data", (err) => {
             errStr += err.toString();
         });
 
-        process.on('error', (err) => {
+        process.on("error", (err) => {
             if (err) {
                 handlerError(err.message, pathCWD);
                 reject(err.message);
             }
-        })
+        });
 
-        process.on('close', (code) => {
+        process.on("close", (code) => {
             if (code === 0) {
                 resolve(true);
             } else {
@@ -205,13 +217,12 @@ function commendMake(pathCWD = cwd()) {
     });
 }
 
-
 /**
  * 获取硬件版本
  * @returns
  * @param vpath
  */
-function getVersion(vpath, verTxt = '/Version.txt') {
+function getVersion(vpath, verTxt = "/Version.txt") {
     try {
         return readFilesAsync(path.join(VERSION, verTxt), vpath);
     } catch (error) {
@@ -245,9 +256,9 @@ function writeFileWithDirectory(directory = cwd(), filepath, data) {
         function _writeErr(filepath, data) {
             fs.writeFile(filepath, data, (err) => {
                 if (err) throw err;
-            })
+            });
         }
-    })
+    });
 }
 
 /**
@@ -257,11 +268,11 @@ function writeFileWithDirectory(directory = cwd(), filepath, data) {
 function getCurrentTime() {
     const now = new Date();
     const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
     return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 }
 
@@ -271,16 +282,16 @@ function getCurrentTime() {
  * @param resourcePath
  */
 async function handlerError(error, resourcePath = cwd()) {
-    if (!ArrayBuffer.isView(error) && typeof error !== 'string') return;
+    if (!ArrayBuffer.isView(error) && typeof error !== "string") return;
     const time = getCurrentTime();
     const filepath = `/error_${time}.txt`;
-    await writeFileWithDirectory(resourcePath + '/Error', filepath, error);
+    await writeFileWithDirectory(resourcePath + "/Error", filepath, error);
 }
 
-async function getDocxUrl(static_path  = cwd(), link, type = 'pdf') {
+async function getDocxUrl(static_path = cwd(), link, type = "pdf") {
     const href = path.join(static_path, link);
-    if (type === 'pdf') {
-        ipcRenderer.send('pdf', { href, type });
+    if (type === "pdf") {
+        ipcRenderer.send("pdf", { href, type });
     } else {
         const res = await shell.openPath(href);
         if (res.length > 0) {
@@ -289,10 +300,9 @@ async function getDocxUrl(static_path  = cwd(), link, type = 'pdf') {
     }
 }
 
-
-function getMediaPath(link = '') {
+function getMediaPath(link = "") {
     return url.format({
-        pathname: path.join(link, './resources/static/blocks-media/'),
+        pathname: path.join(link, "./resources/static/blocks-media/"),
         protocol: "file:",
         slashes: true,
     });
@@ -301,9 +311,9 @@ function getMediaPath(link = '') {
 async function changeFileName(oldPath, newPath) {
     fs.cp(oldPath, newPath, (err) => {
         if (err) {
-            console.error('Error creating new file:', err);
+            console.error("Error creating new file:", err);
         } else {
-            console.log('New file created successfully.');
+            console.log("New file created successfully.");
             /* fs.rename(oldPath, newPath, (err) => {
                 if (err) {
                     console.error(err);
@@ -318,17 +328,16 @@ async function changeFileName(oldPath, newPath) {
 function FileIsExists(filePath) {
     return new Promise((resolve) => {
         fs.access(filePath, fs.constants.F_OK, (err) => {
-            resolve(!err)
+            resolve(!err);
         });
-    })
+    });
 }
 
 async function sleep(time) {
-
     await sleepFunc(time).next().value;
 
     function* sleepFunc(timer) {
-        yield new Promise(resolve => setTimeout(resolve, timer));
+        yield new Promise((resolve) => setTimeout(resolve, timer));
     }
 }
 
@@ -336,12 +345,12 @@ function getHomeDir() {
     return new Promise((resolve) => {
         const now = new Date();
         const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
 
         const rsName = `${year}${month}${day}`;
-        const homedir = path.join(os.homedir(), 'Documents');
-        const dir = homedir + '\\NEW-AI\\' + rsName;
+        const homedir = path.join(os.homedir(), "Documents");
+        const dir = homedir + "\\NEW-AI\\" + rsName;
 
         try {
             if (fs.existsSync(dir)) {
@@ -354,19 +363,19 @@ function getHomeDir() {
         } catch (err) {
             console.error(err);
         }
-    })
+    });
 }
 
 function openCacheDir() {
-    const homedir = path.join(os.homedir(), 'Documents');
-    const dir = homedir + '\\NEW-AI\\';
+    const homedir = path.join(os.homedir(), "Documents");
+    const dir = homedir + "\\NEW-AI\\";
     shell.openPath(dir);
 }
 
 function compareSize(file, size, pathCWD = cwd()) {
     try {
         const stats = fs.statSync(path.join(pathCWD, file));
-        if (typeof stats.size === 'number' && stats.size >= size * 1024) {
+        if (typeof stats.size === "number" && stats.size >= size * 1024) {
             // console.log('文件大小超过16KB');
             return true;
         } else {
@@ -387,7 +396,7 @@ function getFileSize(file, pathCWD = cwd()) {
     }
 }
 
-contextBridge.exposeInMainWorld('myAPI', {
+contextBridge.exposeInMainWorld("myAPI", {
     readFiles,
     writeFiles,
     deleteFiles,
@@ -408,12 +417,12 @@ contextBridge.exposeInMainWorld('myAPI', {
     changeFileName,
     FileIsExists,
     readFilesAsync,
-    onUpdate: (callback) => ipcRenderer.on('update', callback),
-    onGetVersion: async () => await ipcInvoke('app-version'),
+    onUpdate: (callback) => ipcRenderer.on("update", callback),
+    onGetVersion: async () => await ipcInvoke("app-version"),
     sleep,
     openExternal: (url) => shell.openExternal(url),
     getHomeDir,
     openCacheDir,
     compareSize,
-    getFileSize
+    getFileSize,
 });

@@ -1,7 +1,6 @@
-import { ipc as ipc_Renderer } from 'est-link'
-import { DIR } from '../../../config/json/LB_USER.json'
-export async function handleUploadPython(options, static_path = '') {
-
+import { ipc as ipc_Renderer } from "est-link";
+import { DIR } from "../../../config/json/LB_USER.json";
+export async function handleUploadPython(options, static_path = "") {
     let isError = true;
     const alertMsg = isError ? "compileError" : "fileIsTooBig";
 
@@ -14,34 +13,44 @@ export async function handleUploadPython(options, static_path = '') {
 
         try {
             const pyPath = `${DIR}/${selectedExe.num}.py`;
+            //把代码写入文件里
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
             const res = await window.myAPI.commendMake(static_path);
             if (res) {
                 const fileName = `${selectedExe.num}.py.o`;
                 const oPath = `${DIR}/${fileName}`;
-
                 const size = window.myAPI.getFileSize(oPath, static_path);
                 if (size === 0) {
                     reject(alertMsg);
                 }
 
-                const tooBigOfPyo = window.myAPI.compareSize(oPath, 32, static_path);
+                const tooBigOfPyo = window.myAPI.compareSize(
+                    oPath,
+                    32,
+                    static_path
+                );
+
                 if (tooBigOfPyo) {
                     isError = false;
                     reject(alertMsg);
                 }
 
-                const result = await window.myAPI.readFiles(oPath, static_path, {});
+                const result = await window.myAPI.readFiles(
+                    oPath,
+                    static_path,
+                    {}
+                );
 
                 if (result) {
                     window.myAPI.ipcRender({
-                        sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
+                        sendName:
+                            ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
                         sendParams: {
                             ...options,
                             codeStr: result,
-                            fileName: fileName.replace('.py', '')
-                        }
+                            fileName: fileName.replace(".py", ""),
+                        },
                     });
                 }
                 resolve(true);
@@ -60,8 +69,7 @@ export async function handleUploadPython(options, static_path = '') {
         } catch (error) {
             reject(alertMsg);
         }
-
-    })
+    });
 }
 
 /* function stringToArrayBuffer(str) {

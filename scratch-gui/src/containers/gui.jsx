@@ -312,6 +312,8 @@ class GUI extends React.Component {
     }
 
     checkUpdateFirmware(resourcesPath) {
+        //从文件资源中读取固件版本，如果读取失败那就使用写死的版本号
+        //TODO: 从文件资源路径读取固件版本,读取失败
         const firmwareVersion =
             window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
         const currentVer = this.props?.deviceObj?.version;
@@ -409,7 +411,6 @@ class GUI extends React.Component {
                 ? JSON.parse(selItem)
                 : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
-
             switch (this.props.generatorName) {
                 case CAKE:
                     this.compile.sendSerial({

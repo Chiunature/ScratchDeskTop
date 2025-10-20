@@ -27,7 +27,7 @@ export const deviceIdMap = {
 
 export const reg = {
   devicesData:
-    /\{\s*\"deviceList\"\:\s*\[[\s\S]*?\]\,\s*\"flash\"\:\s*\{[\s\S]*?\}\,\s*\"version\"\:\s*\d+\,\s*\"mem\"\:\s*\{[\s\S]*?\}\,\s*\"heap\"\:\s*\"[\s\S]*?\"\,\s*\"bat\"\:\s*\"[\s\S]*?\"\,\s*\"voic\"\:\s*\"[\s\S]*?\"\,\s*\"MAC\"\:\s*\"[\s\S]*?\"\s*\}/i,
+    /\{\s*"deviceList"\s*:\s*\[[\s\S]*?\]\s*,\s*"flash"\s*:\s*\{[\s\S]*?\}\s*,\s*"version"\s*:\s*\d+\s*,\s*"mem"\s*:\s*\{[\s\S]*?\}\s*,(?:\s*"heap"\s*:\s*"[^"]*"\s*,)?(?:\s*"bat"\s*:\s*"[^"]*"\s*,)?(?:\s*"voic"\s*:\s*"[^"]*"\s*,)?(?:\s*"MAC"\s*:\s*"[^"]*"\s*,)?(?:\s*"ram\d:"\s*:\s*"[^"]*"\s*,?)*\s*\}/i,
   deBug: /->NEW AI DownLoad Debug[\s\S]*?Error\./,
 };
 

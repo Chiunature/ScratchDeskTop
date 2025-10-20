@@ -218,7 +218,10 @@ Blockly.Python.finish = function (code) {
   if (variables.length !== 0) {
     ret += variables.join("\n") + "\n\n";
   }
-
+  //tasks往前移动
+  if (tasks.length !== 0) {
+    ret += tasks.join("\n") + "\n\n";
+  }
   // setups
   if (setups.length !== 0) {
     ret += setups.join("\n") + "\n\n";
@@ -243,11 +246,6 @@ Blockly.Python.finish = function (code) {
     ret += loops.join("\n" + Blockly.Python.INDENT) + "\n\n";
   }
 
-  // tasks
-  if (tasks.length !== 0) {
-    ret += tasks.join("\n") + "\n\n";
-  }
-
   let taskFinishedStr = "",
     threadStr = "";
   const _task = Object.keys(Blockly.Python.tasks_);
@@ -270,7 +268,7 @@ Blockly.Python.finish = function (code) {
       `while ${taskFinishedStr}:\n` +
       Blockly.Python.INDENT +
       Blockly.Python.INDENT +
-      "os.delay_s(0.1)";
+      "_os.sleep_s(0.1)";
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + "\n" + whileEnd;
   } else {
@@ -627,16 +625,16 @@ Blockly.Python.handleResult = function (code, type) {
       result = "MyCam." + result;
       break;
     case Blockly.Python.TIMER_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
-      }
-      result = "MyTimer." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
+      // }
+      result = "_os." + result;
       break;
     case Blockly.Python.MSG_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyMsg = APIMessage.box()";
-      }
-      result = "MyMsg." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyMsg = APIMessage.box()";
+      // }
+      result = "_message." + result;
       break;
     case Blockly.Python.STR_TYPE:
       if (!Blockly.Python.setups_[type]) {

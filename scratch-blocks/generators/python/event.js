@@ -16,14 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Python.event');
+goog.provide("Blockly.Python.event");
 
-goog.require('Blockly.Python');
+goog.require("Blockly.Python");
 
-
-Blockly.Python['event_whenmicrobitbegin'] = function (block) {
+Blockly.Python["event_whenmicrobitbegin"] = function (block) {
   Blockly.Python.imports_["microbit"] = "from microbit import *";
 
   var code = "";
@@ -35,22 +34,30 @@ Blockly.Python['event_whenmicrobitbegin'] = function (block) {
   return code;
 };
 
-Blockly.Python['event_whenmicrobitbuttonpressed'] = function (block) {
+Blockly.Python["event_whenmicrobitbuttonpressed"] = function (block) {
   Blockly.Python.imports_["microbit"] = "from microbit import *";
 
-  var key = block.getFieldValue('KEY_OPTION');
+  var key = block.getFieldValue("KEY_OPTION");
 
-  var i = '';
+  var i = "";
   while (Blockly.Python.loops_["event_whenmicrobitbegin" + key + i]) {
-    if (i === '') {
+    if (i === "") {
       i = 1;
     } else {
       i++;
     }
   }
 
-  Blockly.Python.loops_["event_whenmicrobitbegin" + key + i] = "if button_" + key + ".is_pressed():\n" +
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "on_button_" + key + i + "()";
+  Blockly.Python.loops_["event_whenmicrobitbegin" + key + i] =
+    "if button_" +
+    key +
+    ".is_pressed():\n" +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "on_button_" +
+    key +
+    i +
+    "()";
 
   var code = "def on_button_" + key + i + "():\n";
 
@@ -60,10 +67,16 @@ Blockly.Python['event_whenmicrobitbuttonpressed'] = function (block) {
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
-      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+      variablesName.push(
+        Blockly.Python.variables_[x].slice(
+          0,
+          Blockly.Python.variables_[x].indexOf("=") - 1
+        )
+      );
     }
     if (variablesName.length !== 0) {
-      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+      code +=
+        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
 
     code = Blockly.Python.scrub_(block, code);
@@ -73,22 +86,30 @@ Blockly.Python['event_whenmicrobitbuttonpressed'] = function (block) {
   return null;
 };
 
-Blockly.Python['event_whenmicrobitpinbeingtouched'] = function (block) {
+Blockly.Python["event_whenmicrobitpinbeingtouched"] = function (block) {
   Blockly.Python.imports_["microbit"] = "from microbit import *";
 
-  var pin = block.getFieldValue('PIN_OPTION');
+  var pin = block.getFieldValue("PIN_OPTION");
 
-  var i = '';
+  var i = "";
   while (Blockly.Python.loops_["event_whenmicrobitpinbeingtouched" + pin + i]) {
-    if (i === '') {
+    if (i === "") {
       i = 1;
     } else {
       i++;
     }
   }
 
-  Blockly.Python.loops_["event_whenmicrobitpinbeingtouched" + pin + i] = "if pin" + pin + ".is_pressed():\n" +
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "on_pin" + pin + i + "()";
+  Blockly.Python.loops_["event_whenmicrobitpinbeingtouched" + pin + i] =
+    "if pin" +
+    pin +
+    ".is_pressed():\n" +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "on_pin" +
+    pin +
+    i +
+    "()";
 
   var code = "def on_pin" + pin + i + "():\n";
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
@@ -97,10 +118,16 @@ Blockly.Python['event_whenmicrobitpinbeingtouched'] = function (block) {
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
-      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+      variablesName.push(
+        Blockly.Python.variables_[x].slice(
+          0,
+          Blockly.Python.variables_[x].indexOf("=") - 1
+        )
+      );
     }
     if (variablesName.length !== 0) {
-      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+      code +=
+        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
 
     code = Blockly.Python.scrub_(block, code);
@@ -110,22 +137,30 @@ Blockly.Python['event_whenmicrobitpinbeingtouched'] = function (block) {
   return null;
 };
 
-Blockly.Python['event_whenmicrobitgesture'] = function (block) {
+Blockly.Python["event_whenmicrobitgesture"] = function (block) {
   Blockly.Python.imports_["microbit"] = "from microbit import *";
 
-  var sta = block.getFieldValue('GESTURE_OPTION');
+  var sta = block.getFieldValue("GESTURE_OPTION");
 
-  var i = '';
+  var i = "";
   while (Blockly.Python.loops_["event_whenmicrobitgesture" + sta + i]) {
-    if (i === '') {
+    if (i === "") {
       i = 1;
     } else {
       i++;
     }
   }
 
-  Blockly.Python.loops_["event_whenmicrobitgesture" + sta + i] = "if accelerometer.was_gesture('" + sta + "'):\n" +
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "on_" + sta + i + "()";
+  Blockly.Python.loops_["event_whenmicrobitgesture" + sta + i] =
+    "if accelerometer.was_gesture('" +
+    sta +
+    "'):\n" +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "on_" +
+    sta +
+    i +
+    "()";
 
   var code = "def on_" + sta + i + "():\n";
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
@@ -134,10 +169,16 @@ Blockly.Python['event_whenmicrobitgesture'] = function (block) {
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
-      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+      variablesName.push(
+        Blockly.Python.variables_[x].slice(
+          0,
+          Blockly.Python.variables_[x].indexOf("=") - 1
+        )
+      );
     }
     if (variablesName.length !== 0) {
-      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+      code +=
+        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
 
     code = Blockly.Python.scrub_(block, code);
@@ -147,40 +188,45 @@ Blockly.Python['event_whenmicrobitgesture'] = function (block) {
   return null;
 };
 
-Blockly.Python['event_whenflagclicked'] = function (block) {
-
+Blockly.Python["event_whenflagclicked"] = function (block) {
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 
   const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
-  Blockly.Python.tasks_[task] = `${task}_finished = False`
+  Blockly.Python.tasks_[task] = `${task}_finished = False`;
 
-  var code = '\n/* Start */\n';
+  var code = "\n/* Start */\n";
   if (!nextBlock) {
     code += Blockly.Python.INDENT + "\n";
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
-      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+      variablesName.push(
+        Blockly.Python.variables_[x].slice(
+          0,
+          Blockly.Python.variables_[x].indexOf("=") - 1
+        )
+      );
     }
     if (variablesName.length !== 0) {
-      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+      code +=
+        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
 
     code = Blockly.Python.scrub_(block, code);
   }
 
-  code += '\n/* End */\n';
+  code += "\n/* End */\n";
 
   return code;
 };
 
 //暂不支持中文
-Blockly.Python['event_whenbroadcastreceived'] = function (block) {
+Blockly.Python["event_whenbroadcastreceived"] = function (block) {
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 
-  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+  const broadcast = block.getFieldValue("BROADCAST_INPUT");
 
-  let code = '';
+  let code = "";
 
   if (!nextBlock) {
     code += Blockly.Python.INDENT + "\n";
@@ -188,43 +234,63 @@ Blockly.Python['event_whenbroadcastreceived'] = function (block) {
     code = Blockly.Python.scrub_(block, code);
   }
 
-  Blockly.Python.msg_[broadcast + ''] = `def messagbox${broadcast}():\n` +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    'while True:\n' +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    `MyMsg.waiteMessageBox(${broadcast})\n` +
-    Blockly.Python.addIndent(code, Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT) +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    'MyOSysTem.osTaskYIELD()\n' +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    Blockly.Python.INDENT + Blockly.Python.INDENT +
-    `MyMsg.FlashMessageBox(${broadcast})\n`;
+  Blockly.Python.msg_[broadcast + ""] =
+    `def message${broadcast}Task():\n` +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "while True:\n" +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    `_message.waiteMessageBox(${broadcast})\n` +
+    Blockly.Python.addIndent(
+      code,
+      Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT
+    ) +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "_os.sleep_s(0.001)\n" +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    `_message.FlashMessageBox(${broadcast})\n`;
 
-  if (!Blockly.Python.setups_[Blockly.Python.MSG_TYPE]) {
-    Blockly.Python.setups_[Blockly.Python.MSG_TYPE] = 'MyMsg = APIMessage.box()';
-  }
+  //不用生成消息对象
+  // if (!Blockly.Python.setups_[Blockly.Python.MSG_TYPE]) {
+  //   Blockly.Python.setups_[Blockly.Python.MSG_TYPE] = 'MyMsg = APIMessage.box()';
+  // }
 
-  Blockly.Python.tasks_[`messagbox${broadcast}`] = '';
+  Blockly.Python.tasks_[`message${broadcast}Task`] = "";
   return null;
 };
 
-Blockly.Python['event_broadcast'] = function (block) {
-  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+Blockly.Python["event_broadcast"] = function (block) {
+  const broadcast = block.getFieldValue("BROADCAST_INPUT");
   // TODO: Assemble Python into code variable.
-  return Blockly.Python.handleResult(`setMessageBox(${broadcast})\n`, Blockly.Python.MSG_TYPE);
+  return Blockly.Python.handleResult(
+    `setMessageBox(${broadcast})\n`,
+    Blockly.Python.MSG_TYPE
+  );
 };
 
-Blockly.Python['event_broadcastandwait'] = function (block) {
-  const broadcast = block.getFieldValue('BROADCAST_INPUT');
+Blockly.Python["event_broadcastandwait"] = function (block) {
+  const broadcast = block.getFieldValue("BROADCAST_INPUT");
   // TODO: Assemble Python into code variable.
-  return Blockly.Python.handleResult(`setMessageBoxWaite(${broadcast})\n`, Blockly.Python.MSG_TYPE);
+  return Blockly.Python.handleResult(
+    `setMessageBoxWaite(${broadcast})\n`,
+    Blockly.Python.MSG_TYPE
+  );
 };
 
-Blockly.Python['event_broadcast_menu'] = function (block) {
+Blockly.Python["event_broadcast_menu"] = function (block) {
   // TODO: Assemble Python into code variable.
-  const varName = Blockly.Python.variableDB_.getName(block.getFieldValue('BROADCAST_OPTION'),
-    Blockly.Variables.NAME_TYPE);
+  const varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("BROADCAST_OPTION"),
+    Blockly.Variables.NAME_TYPE
+  );
   return [varName, Blockly.Python.ORDER_ATOMIC];
 };
