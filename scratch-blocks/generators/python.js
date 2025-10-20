@@ -565,10 +565,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_matrix." + result;
       break;
     case Blockly.Python.SOUND_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
-      }
-      result = "MyMusic." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
+      // }
+      result = "_music." + result;
       break;
     case Blockly.Python.MEM_TYPE:
       if (!Blockly.Python.setups_[type]) {
