@@ -569,10 +569,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_os." + result;
       break;
     case Blockly.Python.MEM_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyMem = APIMem.mem()";
-      }
-      result = "MyMem." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyMem = APIMem.mem()";
+      // }
+      result = "_mem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
       // if (!Blockly.Python.setups_[type]) {
@@ -588,11 +588,11 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_motor." + result;
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] =
-          "MyUltrasion = APIUltrasion.ultrasionic()";
-      }
-      result = "MyUltrasion." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] =
+      //     "MyUltrasion = APIUltrasion.ultrasionic()";
+      // }
+      result = "_ultrasion." + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
       if (!Blockly.Python.setups_[type]) {

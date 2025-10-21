@@ -18,9 +18,9 @@ Blockly.Python["sensing_set_yaw_angle"] = function (block) {
 
 Blockly.Python["sensing_gyroscope_acceleration"] = function (block) {
   const directiion = block.getFieldValue("directiion");
-  // TODO: Assemble Python into code variable.
+  const directionValue = parseInt(directiion, 10);
   const code = Blockly.Python.handleResult(
-    `acceleration("${directiion}")`,
+    `acc(${directiion})`,
     Blockly.Python.MEM_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -39,9 +39,9 @@ Blockly.Python["sensing_gyroscope_attitude"] = function (block) {
 Blockly.Python["sensing_gyroscope_angle"] = function (block) {
   let port = block.getFieldValue("PORT");
   port = port[0].toLowerCase() + port.slice(1);
-  // TODO: Assemble Python into code variable.
+  const portValue = parseInt(port, 10);
   const code = Blockly.Python.handleResult(
-    `angleofattitude("${port}")`,
+    `gencory(${portValue})`,
     Blockly.Python.MEM_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -239,7 +239,7 @@ Blockly.Python["sensing_ultrasonic_judgment"] = function (block) {
   );
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `sensing_ultrasionic_judgment(${port}, "${judgment}", ${inp})`,
+    `cmp_value(${port}, "${judgment}", ${inp})`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -253,7 +253,7 @@ Blockly.Python["sensing_ultrasonic_detection"] = function (block) {
   );
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `sensing_ultrasionic_detection(${port})`,
+    `value(${port})`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
