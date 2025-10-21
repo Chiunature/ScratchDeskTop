@@ -4,6 +4,15 @@ goog.provide("Blockly.Python.sensing");
 
 goog.require("Blockly.Python");
 
+//转端口为数字函数
+Blockly.Python["sensing_port_to_number"] = function (port) {
+  const portMap = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7 };
+  // 清理引号和其他非字母字符
+  const UpperPort = port.toUpperCase().replace(/["']/g, "").trim();
+  if (typeof UpperPort !== "string") return port;
+  return portMap[UpperPort] !== undefined ? portMap[UpperPort] : UpperPort;
+};
+
 Blockly.Python["sensing_menu"] = function (block) {
   const menu = block.getFieldValue("SENSING_MENU");
   // TODO: Assemble Python into code variable.
@@ -83,10 +92,10 @@ Blockly.Python["sensing_color_range"] = function (block) {
     "BMax",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const str =
     "cmp_hsv(" +
-    `${port}` +
+    `${portValue}` +
     ", " +
     `${rmin}` +
     ", " +
@@ -132,8 +141,9 @@ Blockly.Python["sensing_color_judgment"] = function (block) {
       index = i + 1 + "";
     }
   }
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `cmp_color(${port}, ${index})`,
+    `cmp_color(${portValue}, ${index})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -145,9 +155,9 @@ Blockly.Python["sensing_color_detection"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `dectection(${port})`,
+    `dectection(${portValue})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -177,9 +187,9 @@ Blockly.Python["sensing_color_detectionRGB"] = function (block) {
     default:
       break;
   }
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `rgb(${port}, ${rgb})`,
+    `rgb(${portValue}, ${rgb})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -197,9 +207,9 @@ Blockly.Python["sensing_reflected_light_judgment"] = function (block) {
     "value",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `cmp_lux(${port}, "${judgment}", ${inp})`,
+    `cmp_lux(${portValue}, "${judgment}", ${inp})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -211,9 +221,9 @@ Blockly.Python["sensing_reflected_light_detection"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `lux(${port})`,
+    `lux(${portValue})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -237,9 +247,9 @@ Blockly.Python["sensing_ultrasonic_judgment"] = function (block) {
     "value",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `cmp_value(${port}, "${judgment}", ${inp})`,
+    `cmp_value(${portValue}, "${judgment}", ${inp})`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -251,9 +261,9 @@ Blockly.Python["sensing_ultrasonic_detection"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `value(${port})`,
+    `value(${portValue})`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -265,9 +275,9 @@ Blockly.Python["sensing_key_judgment"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `DetectingTouch(${port})`,
+    `state(${portValue})`,
     Blockly.Python.TOUCH_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -278,7 +288,7 @@ Blockly.Python["sensing_mainIsPress"] = function (block) {
   const btn = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `Sensing_key_judment("${keys}", ${btn})`,
+    `key_mast("${keys}", ${btn})`,
     Blockly.Python.TOUCH_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -294,24 +304,24 @@ Blockly.Python["sensing_key_press"] = function (block) {
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
-
+//查看遥控器是否按下
 Blockly.Python["sensing_isHandling"] = function (block) {
   const keys = block.getFieldValue("KEYS");
   const button = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `isHandling("${button}", "${keys}")`,
+    `key_reomte("${button}", "${keys}")`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
+//遥控器获取坐标
 Blockly.Python["sensing_Handling"] = function (block) {
   const keys = block.getFieldValue("KEYS");
   const button = block.getFieldValue("BUTTON");
-  // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `Handling("${keys}", "${button}")`,
+    `key_remote("${keys}", "${button}")`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];

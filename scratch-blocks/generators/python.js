@@ -595,16 +595,16 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_ultrasion." + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
-      }
-      result = "MyTouch." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
+      // }
+      result = "_touch." + result;
       break;
     case Blockly.Python.KEY_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
-      }
-      result = "MyRemote." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
+      // }
+      result = "_key." + result;
       break;
     case Blockly.Python.GRAY_TYPE:
       // if (!Blockly.Python.setups_[type]) {
