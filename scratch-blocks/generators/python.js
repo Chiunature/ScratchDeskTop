@@ -566,7 +566,7 @@ Blockly.Python.handleResult = function (code, type) {
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
       // }
-      result = "_music." + result;
+      result = "_os." + result;
       break;
     case Blockly.Python.MEM_TYPE:
       if (!Blockly.Python.setups_[type]) {
@@ -575,10 +575,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "MyMem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyColor = APIColor.color()";
-      }
-      result = "MyColor." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyColor = APIColor.color()";
+      // }
+      result = "_color." + result;
       break;
     case Blockly.Python.MOTOR_TYPE:
       //新版Python不添加新对象
@@ -637,10 +637,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_message." + result;
       break;
     case Blockly.Python.STR_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "Mystr = APIStr.StrPyToC()";
-      }
-      result = "Mystr." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "Mystr = APIStr.StrPyToC()";
+      // }
+      result = "os." + result;
       break;
     default:
       break;
