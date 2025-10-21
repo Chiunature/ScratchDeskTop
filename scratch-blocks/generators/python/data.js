@@ -16,160 +16,205 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Python.data');
+goog.provide("Blockly.Python.data");
 
-goog.require('Blockly.Python');
+goog.require("Blockly.Python");
 
-
-Blockly.Python['data_variable'] = function(block) {
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VARIABLE'),
-      Blockly.Variables.NAME_TYPE);
+Blockly.Python["data_variable"] = function (block) {
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("VARIABLE"),
+    Blockly.Variables.NAME_TYPE
+  );
   return [varName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_setvariableto'] = function(block) {
-  var arg0 = Blockly.Python.valueToCode(block, 'VALUE',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VARIABLE'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_setvariableto"] = function (block) {
+  var arg0 =
+    Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("VARIABLE"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
 
   // Arg is a number
   if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
     arg0 = parseFloat(arg0.slice(1, -1)).toString();
   }
-  return varName + ' = ' + arg0 + '\n';
+  return varName + " = " + arg0 + "\n";
 };
 
-Blockly.Python['data_changevariableby'] = function(block) {
-  var arg0 = Blockly.Python.valueToCode(block, 'VALUE',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VARIABLE'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_changevariableby"] = function (block) {
+  var arg0 =
+    Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("VARIABLE"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
 
-  return varName + ' += ' + arg0 + '\n';
+  return varName + " += " + arg0 + "\n";
 };
 
-Blockly.Python['data_showvariable'] = function() {
-  return '';
+Blockly.Python["data_showvariable"] = function () {
+  return "";
 };
 
-Blockly.Python['data_hidevariable'] = function() {
-  return '';
+Blockly.Python["data_hidevariable"] = function () {
+  return "";
 };
 
-Blockly.Python['data_listcontents'] = function(block) {
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
+Blockly.Python["data_listcontents"] = function (block) {
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
   return [varName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_addtolist'] = function(block) {
-  var item = Blockly.Python.valueToCode(block, 'ITEM',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_addtolist"] = function (block) {
+  var item =
+    Blockly.Python.valueToCode(block, "ITEM", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
 
-  const code = `pushdata(${item})\n`;
+  const code = `push(${item})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
-Blockly.Python['data_deleteoflist'] = function(block) {
-  var index = Blockly.Python.valueToCode(block, 'INDEX',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_deleteoflist"] = function (block) {
+  var index =
+    Blockly.Python.valueToCode(block, "INDEX", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
-  const code = `deletindex(${index})\n`;
+  const code = `delet_index(${index})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
-Blockly.Python['data_deletealloflist'] = function(block) {
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_deletealloflist"] = function (block) {
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
-  const code = `deletAll()\n`;
+  const code = `delet_all()\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
-Blockly.Python['data_insertatlist'] = function(block) {
-  var item = Blockly.Python.valueToCode(block, 'ITEM',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var index = Blockly.Python.valueToCode(block, 'INDEX',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_insertatlist"] = function (block) {
+  var item =
+    Blockly.Python.valueToCode(block, "ITEM", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var index =
+    Blockly.Python.valueToCode(block, "INDEX", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
 
-  const code = `puldata(${index}, ${item})\n`;
+  const code = `pull(${index}, ${item})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
-Blockly.Python['data_replaceitemoflist'] = function(block) {
-  var item = Blockly.Python.valueToCode(block, 'ITEM',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var index = Blockly.Python.valueToCode(block, 'INDEX',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  if (varName === 'unnamed') {
-    return '';
+Blockly.Python["data_replaceitemoflist"] = function (block) {
+  var item =
+    Blockly.Python.valueToCode(block, "ITEM", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var index =
+    Blockly.Python.valueToCode(block, "INDEX", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  if (varName === "unnamed") {
+    return "";
   }
 
-  const code = `LB_ListIndexChangerData(${index}, ${item})\n`;
+  const code = `changer_data(${index}, ${item})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.LIST_TYPE);
 };
 
-Blockly.Python['data_itemoflist'] = function(block) {
-  var index = Blockly.Python.valueToCode(block, 'INDEX',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  
-  const code = Blockly.Python.handleResult(`getIndexdata(${index})`, Blockly.Python.LIST_TYPE);
+Blockly.Python["data_itemoflist"] = function (block) {
+  var index =
+    Blockly.Python.valueToCode(block, "INDEX", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+
+  const code = Blockly.Python.handleResult(
+    `index_data(${index})`,
+    Blockly.Python.LIST_TYPE
+  );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_itemnumoflist'] = function(block) {
-  var item = Blockly.Python.valueToCode(block, 'ITEM',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  
-  const code = Blockly.Python.handleResult(`getIndexdata(${item})`, Blockly.Python.LIST_TYPE);
+Blockly.Python["data_itemnumoflist"] = function (block) {
+  var item =
+    Blockly.Python.valueToCode(block, "ITEM", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+
+  const code = Blockly.Python.handleResult(
+    `data_index(${item})`,
+    Blockly.Python.LIST_TYPE
+  );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_lengthoflist'] = function(block) {
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  const code = Blockly.Python.handleResult(`getNumber()`, Blockly.Python.LIST_TYPE);
+Blockly.Python["data_lengthoflist"] = function (block) {
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+  const code = Blockly.Python.handleResult(`num()`, Blockly.Python.LIST_TYPE);
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['data_listcontainsitem'] = function(block) {
-  var item = Blockly.Python.valueToCode(block, 'ITEM',
-      Blockly.Python.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('LIST'),
-      Blockly.Variables.NAME_TYPE);
-  
-  const code = Blockly.Python.handleResult(`cmpdata(${item})`, Blockly.Python.LIST_TYPE);
+Blockly.Python["data_listcontainsitem"] = function (block) {
+  var item =
+    Blockly.Python.valueToCode(block, "ITEM", Blockly.Python.ORDER_ADDITIVE) ||
+    "0";
+  var varName = Blockly.Python.variableDB_.getName(
+    block.getFieldValue("LIST"),
+    Blockly.Variables.NAME_TYPE
+  );
+
+  const code = Blockly.Python.handleResult(
+    `cmp_data(${item})`,
+    Blockly.Python.LIST_TYPE
+  );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -180,4 +225,3 @@ Blockly.Python['data_listcontainsitem'] = function(block) {
 Blockly.Python['data_hidelist'] = function() {
   return '';
 }; */
-

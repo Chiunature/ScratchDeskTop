@@ -613,10 +613,10 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_gray." + result;
       break;
     case Blockly.Python.LIST_TYPE:
-      if (!Blockly.Python.setups_[type]) {
-        Blockly.Python.setups_[type] = "MyList = APIList.userlist()";
-      }
-      result = "MyList." + result;
+      // if (!Blockly.Python.setups_[type]) {
+      //   Blockly.Python.setups_[type] = "MyList = APIList.userlist()";
+      // }
+      result = "_list." + result;
       break;
     case Blockly.Python.CAM_TYPE:
       if (!Blockly.Python.setups_[type]) {
