@@ -610,7 +610,7 @@ Blockly.Python.handleResult = function (code, type) {
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
       // }
-      result = "_motor." + result;
+      result = "_gray." + result;
       break;
     case Blockly.Python.LIST_TYPE:
       if (!Blockly.Python.setups_[type]) {

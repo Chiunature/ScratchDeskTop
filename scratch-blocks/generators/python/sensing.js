@@ -334,8 +334,9 @@ Blockly.Python["sensing_get_gray_line"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const value = block.getFieldValue("VALUES");
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `line(${port}, "${value}")`,
+    `line(${portValue}, ${value})`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -348,8 +349,9 @@ Blockly.Python["sensing_get_gray_lineState"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const value = block.getFieldValue("VALUES");
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `lineSingleState(${port}, "${value}")`,
+    `singe_line_state(${portValue}, ${value})`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -362,8 +364,9 @@ Blockly.Python["sensing_judgelineState"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const status = block.getFieldValue("STATEUS");
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `judgelineState(${port}, ${status})`,
+    `cmp_state(${portValue}, ${status})`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
