@@ -470,35 +470,11 @@ Blockly.DataCategory.addCreateButton = function (xmlList, workspace, type) {
     msg = Blockly.Msg.NEW_LIST;
     callbackKey = "CREATE_LIST";
     callback = function (button) {
-      // 直接创建默认列表,不弹出对话框
-      var workspace = button.getTargetWorkspace();
-      // 检查是否已经存在列表变量
-      var existingLists = workspace.getVariablesOfType(
+      Blockly.Variables.createVariable(
+        button.getTargetWorkspace(),
+        null,
         Blockly.LIST_VARIABLE_TYPE
       );
-      if (existingLists.length > 0) {
-        // 如果已经存在列表，不创建新列表，可以选择：
-        // 1. 什么都不做（静默失败）
-        // 2. 提示用户（可选）
-        console.log("只能创建一个列表，列表已存在");
-        return;
-      }
-
-      // 创建唯一的列表变量，命名为"列表"
-      var variable = workspace.createVariable(
-        "列表",
-        Blockly.LIST_VARIABLE_TYPE,
-        null,
-        false,
-        false
-      );
-
-      // 设置飞出菜单复选框状态
-      var flyout = workspace.isFlyout ? workspace : workspace.getFlyout();
-      var variableBlockId = variable.getId();
-      if (flyout.setCheckboxState) {
-        flyout.setCheckboxState(variableBlockId, true);
-      }
     };
   }
   button.setAttribute("text", msg);
