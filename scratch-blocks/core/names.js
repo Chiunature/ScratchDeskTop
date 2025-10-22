@@ -22,10 +22,9 @@
  * @fileoverview Utility functions for handling variables and procedure names.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Names');
-
+goog.provide("Blockly.Names");
 
 /**
  * Class for a database of entity names (variables, functions, etc).
@@ -36,10 +35,10 @@ goog.provide('Blockly.Names');
  * @constructor
  */
 Blockly.Names = function (reservedWords, opt_variablePrefix) {
-  this.variablePrefix_ = opt_variablePrefix || '';
+  this.variablePrefix_ = opt_variablePrefix || "";
   this.reservedDict_ = Object.create(null);
   if (reservedWords) {
-    var splitWords = reservedWords.split(',');
+    var splitWords = reservedWords.split(",");
     for (var i = 0; i < splitWords.length; i++) {
       this.reservedDict_[splitWords[i]] = true;
     }
@@ -54,7 +53,7 @@ Blockly.Names = function (reservedWords, opt_variablePrefix) {
  * will never be shown to the user in the workspace or stored in the variable
  * map.
  */
-Blockly.Names.DEVELOPER_VARIABLE_TYPE = 'DEVELOPER_VARIABLE';
+Blockly.Names.DEVELOPER_VARIABLE_TYPE = "DEVELOPER_VARIABLE";
 Blockly.Names.pingyin_pro = null;
 Blockly.Names.customFuncs = Object.create(null);
 /**
@@ -94,11 +93,13 @@ Blockly.Names.prototype.setVariableMap = function (map) {
  */
 Blockly.Names.prototype.getNameForUserVariable_ = function (id) {
   if (!this.variableMap_) {
-    console.log('Deprecated call to Blockly.Names.prototype.getName without ' +
-      'defining a variable map. To fix, add the folowing code in your ' +
-      'generator\'s init() function:\n' +
-      'Blockly.YourGeneratorName.variableDB_.setVariableMap(' +
-      'workspace.getVariableMap());');
+    console.log(
+      "Deprecated call to Blockly.Names.prototype.getName without " +
+        "defining a variable map. To fix, add the folowing code in your " +
+        "generator's init() function:\n" +
+        "Blockly.YourGeneratorName.variableDB_.setVariableMap(" +
+        "workspace.getVariableMap());"
+    );
     return null;
   }
   var variable = this.variableMap_.getVariableById(id);
@@ -123,30 +124,32 @@ Blockly.Names.prototype.getName = function (name, type) {
       name = varName;
     }
   }
-  var normalized = name ? name.toLowerCase() : '' + '_' + type;
+  var normalized = name ? name.toLowerCase() : "" + "_" + type;
 
-  var isVarType = type == Blockly.Variables.NAME_TYPE ||
+  var isVarType =
+    type == Blockly.Variables.NAME_TYPE ||
     type == Blockly.Names.DEVELOPER_VARIABLE_TYPE;
 
-  var prefix = isVarType ? this.variablePrefix_ : '';
+  var prefix = isVarType ? this.variablePrefix_ : "";
   if (normalized in this.db_) {
     return prefix + this.db_[normalized];
   }
 
   for (const key in Blockly.Names.customFuncs) {
     const v = Blockly.Names.customFuncs[key];
-    if (!Object.values(this.db_).includes(v)) { 
+    if (!Object.values(this.db_).includes(v)) {
       delete Blockly.Names.customFuncs[key];
     }
   }
 
   var safeName = this.getDistinctName(name, type);
 
-  if (type == Blockly.PROCEDURE_CATEGORY_NAME && safeName.includes('_')) {
-     if (!Blockly.Names.customFuncs[safeName]) {
-      Blockly.Names.customFuncs[safeName] = 'customFunc' + Object.keys(Blockly.Names.customFuncs).length;
+  if (type == Blockly.PROCEDURE_CATEGORY_NAME && safeName.includes("_")) {
+    if (!Blockly.Names.customFuncs[safeName]) {
+      Blockly.Names.customFuncs[safeName] =
+        "customFunc" + Object.keys(Blockly.Names.customFuncs).length;
     }
-    
+
     safeName = Blockly.Names.customFuncs[safeName];
   }
 
@@ -166,17 +169,17 @@ Blockly.Names.prototype.getName = function (name, type) {
  */
 Blockly.Names.prototype.getDistinctName = function (name, type) {
   var safeName = this.safeName_(name);
-  var i = '';
-  while (this.dbReverse_[safeName + i] ||
-    (safeName + i) in this.reservedDict_) {
+  var i = "";
+  while (this.dbReverse_[safeName + i] || safeName + i in this.reservedDict_) {
     // Collision with existing name.  Create a unique name.
     i = i ? i + 1 : 2;
   }
   safeName += i;
   this.dbReverse_[safeName] = true;
-  var isVarType = type == Blockly.Variables.NAME_TYPE ||
+  var isVarType =
+    type == Blockly.Variables.NAME_TYPE ||
     type == Blockly.Names.DEVELOPER_VARIABLE_TYPE;
-  var prefix = isVarType ? this.variablePrefix_ : '';
+  var prefix = isVarType ? this.variablePrefix_ : "";
   return prefix + safeName;
 };
 
@@ -190,14 +193,14 @@ Blockly.Names.prototype.getDistinctName = function (name, type) {
  */
 Blockly.Names.prototype.safeName_ = function (name) {
   if (!name) {
-    name = 'unnamed';
+    name = "unnamed";
   } else {
     if (Blockly.Names.pingyin_pro) {
       const { pinyin, convert } = Blockly.Names.pingyin_pro;
       let str = /[\u4e00-\u9fa5]/.test(name);
       if (str) {
-        str = convert(pinyin(name), { format: 'toneNone' });
-        const list = str.split(' ');
+        str = convert(pinyin(name), { format: "toneNone" });
+        const list = str.split(" ");
         for (let i = 0; i < list.length; i++) {
           if (list[i] && list[i].length > 1) {
             list[i] = list[i].replace(list[i][0], list[i][0].toUpperCase());
@@ -205,27 +208,27 @@ Blockly.Names.prototype.safeName_ = function (name) {
           }
         }
 
-        name = list.join('');
+        name = list.join("");
         let newName = _convertToValidCVariable(name);
         if (newName.length > 99) {
           newName = newName.slice(0, 99);
         }
-        return newName + '_';
+        return newName + "_";
       }
     }
     // Unfortunately names in non-latin characters will look like
     // _E9_9F_B3_E4_B9_90 which is pretty meaningless.
     // https://github.com/google/blockly/issues/1654
-    name = encodeURI(name.replace(/ /g, '_')).replace(/[^\w]/g, '_');
+    name = encodeURI(name.replace(/ /g, "_")).replace(/[^\w]/g, "_");
     // Most languages don't allow names with leading numbers.
-    if ('0123456789'.indexOf(name[0]) != -1) {
-      name = 'my_' + name;
+    if ("0123456789".indexOf(name[0]) != -1) {
+      name = "my_" + name;
     }
   }
   return name;
   function _convertToValidCVariable(str) {
     // 使用正则表达式替换非法字符
-    return str.replace(/[^\w]|^(?=\d)/g, '').replace(/\s+/g, '');
+    return str.replace(/[^\w]|^(?=\d)/g, "").replace(/\s+/g, "");
   }
 };
 

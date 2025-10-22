@@ -51,7 +51,7 @@ Blockly.Python["control_repeat"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "MyOSysTem.osTaskYIELD()\n"
+    "_os.sleep_s(0.001)\n"
   );
 };
 
@@ -75,7 +75,7 @@ Blockly.Python["control_forever"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "MyOSysTem.osTaskYIELD()\n"
+    "_os.sleep_s(0.001)\n"
   );
 };
 
@@ -129,7 +129,7 @@ Blockly.Python["control_wait_until"] = function (block) {
 
   let code = "while not (" + argument + "):\n";
   code +=
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "MyOSysTem.osTaskYIELD()\n";
+    Blockly.Python.INDENT + Blockly.Python.INDENT + "_os.sleep_s(0.001)\n";
 
   if (block.getRootBlock().type === "event_whenmicrobitbegin") {
     code += Blockly.Python.INDENT + "repeat()\n";
@@ -163,7 +163,7 @@ Blockly.Python["control_repeat_until"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "MyOSysTem.osTaskYIELD()\n"
+    "_os.sleep_s(0.001)\n"
   );
 };
 

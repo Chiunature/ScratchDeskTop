@@ -142,14 +142,14 @@ Blockly.Python.init = function (workspace) {
   var variables = Blockly.Variables.allVariables(workspace);
   if (variables) {
     for (var x = 0; x < variables.length; x++) {
-      /* if (variables[x].type === Blockly.LIST_VARIABLE_TYPE) {
-        Blockly.Python.variables_[x] =
-          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = []';
+      if (variables[x].type === Blockly.LIST_VARIABLE_TYPE) {
+        // 为每个列表变量创建独立的PikaStdData.list()实例
+        var varName = Blockly.Python.variableDB_.getName(
+          variables[x].name,
+          Blockly.Variables.NAME_TYPE
+        );
+        Blockly.Python.variables_[x] = varName + " = PikaStdData.List()";
       } else {
-        Blockly.Python.variables_[x] =
-          Blockly.Python.variableDB_.getName(variables[x].name, Blockly.Variables.NAME_TYPE) + ' = 0';
-      } */
-      if (variables[x].type !== Blockly.LIST_VARIABLE_TYPE) {
         Blockly.Python.variables_[x] =
           Blockly.Python.variableDB_.getName(
             variables[x].name,
@@ -613,10 +613,8 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_gray." + result;
       break;
     case Blockly.Python.LIST_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyList = APIList.userlist()";
-      // }
-      result = "_list." + result;
+      // 列表变量现在在init函数中单独初始化，不需要在这里处理
+      // result保持原样，不添加前缀
       break;
     case Blockly.Python.CAM_TYPE:
       if (!Blockly.Python.setups_[type]) {
