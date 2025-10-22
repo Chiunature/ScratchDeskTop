@@ -283,7 +283,7 @@ Blockly.Blocks["data_addtolist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -312,7 +312,7 @@ Blockly.Blocks["data_deleteoflist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -337,7 +337,7 @@ Blockly.Blocks["data_deletealloflist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -370,7 +370,7 @@ Blockly.Blocks["data_insertatlist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -403,7 +403,7 @@ Blockly.Blocks["data_replaceitemoflist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -430,7 +430,7 @@ Blockly.Blocks["data_itemoflist"] = {
       ],
       output: null,
       category: Blockly.Categories.dataLists,
-      extensions: ["colours_data_lists", "disable_list_field_dropdown"],
+      extensions: ["colours_data_lists", "hide_list_field_arrow"],
       outputShape: Blockly.OUTPUT_SHAPE_ROUND,
     });
   },
@@ -457,7 +457,7 @@ Blockly.Blocks["data_itemnumoflist"] = {
       ],
       output: null,
       category: Blockly.Categories.dataLists,
-      extensions: ["colours_data_lists", "disable_list_field_dropdown"],
+      extensions: ["colours_data_lists", "hide_list_field_arrow"],
       outputShape: Blockly.OUTPUT_SHAPE_ROUND,
     });
   },
@@ -482,7 +482,7 @@ Blockly.Blocks["data_lengthoflist"] = {
       extensions: [
         "colours_data_lists",
         "output_number",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -511,7 +511,7 @@ Blockly.Blocks["data_listcontainsitem"] = {
       extensions: [
         "colours_data_lists",
         "output_boolean",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -536,7 +536,7 @@ Blockly.Blocks["data_showlist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -561,7 +561,7 @@ Blockly.Blocks["data_hidelist"] = {
       extensions: [
         "colours_data_lists",
         "shape_statement",
-        "disable_list_field_dropdown",
+        "hide_list_field_arrow",
       ],
     });
   },
@@ -719,18 +719,42 @@ Blockly.Constants.Data.DELETE_OPTION_CALLBACK_FACTORY = function (
   };
 };
 
-/**
- * Extension to disable the dropdown for list fields.
- * This makes the list field non-clickable and prevents users from
- * selecting, renaming, or deleting lists through the dropdown.
- */
-Blockly.Extensions.register("disable_list_field_dropdown", function () {
-  // 'this' refers to the block instance
+// 禁用列表字段的下拉箭头和下拉列表
+Blockly.Extensions.register("hide_list_field_arrow", function () {
   var listField = this.getField("LIST");
-  if (listField) {
-    // 禁用字段的下拉菜单,使其不可点击
-    listField.showEditor_ = function () {
-      // 什么也不做,禁用下拉菜单
-    };
+  if (!listField) {
+    return;
   }
+  // 方法1: 直接禁用下拉功能
+  listField.showEditor_ = function () {
+    return; // 空函数，禁用下拉
+  };
+  // 方法2: 修改渲染过程隐藏视觉元素
+  var originalRender = listField.render_;
+  listField.render_ = function () {
+    // 调用原始渲染
+    originalRender.call(this);
+    // 隐藏箭头
+    if (this.arrow_) {
+      this.arrow_.style.display = "none";
+      this.arrow_.style.visibility = "hidden";
+    }
+    // 隐藏背景框
+    if (this.box_) {
+      this.box_.style.display = "none";
+    }
+    // 修改鼠标样式，表明不可点击
+    if (this.fieldGroup_) {
+      this.fieldGroup_.style.cursor = "default";
+    }
+  };
+  // 方法3: 确保初始化时就隐藏
+  setTimeout(() => {
+    if (listField.arrow_) {
+      listField.arrow_.style.display = "none";
+    }
+    if (listField.box_) {
+      listField.box_.style.display = "none";
+    }
+  }, 100);
 });
