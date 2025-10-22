@@ -154,7 +154,7 @@ Blockly.Python["combined_motor_angle"] = function (block) {
 Blockly.Python["combined_motor_stopping"] = function (block) {
   const style = block.getFieldValue("status");
   const stopValue = parseInt(style, 10);
-  const code = `mov_set_stop_mode(${stopValue})\n`;
+  const code = `mov_set_stop_module(${stopValue})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -206,7 +206,7 @@ Blockly.Python["combined_motor_moveByYawAngle"] = function (block) {
   const unit = block.getFieldValue("unit");
   let direction = block.getFieldValue("direction");
   direction = direction[0].toLowerCase() + direction.slice(1);
-  const code = `mov_yaw_line("${direction}", ${count}, "${unit},${KP},${KI},${KD}")\n`;
+  const code = `mov_yaw_line("${direction}", ${count}, "${unit}",${KP},${KI},${KD})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -267,7 +267,7 @@ Blockly.Python["combined_linepatrol"] = function (block) {
   //   Blockly.Python.ORDER_NONE
   // );
   return Blockly.Python.handleResult(
-    `movfind_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd}})\n`,
+    `movfind_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };

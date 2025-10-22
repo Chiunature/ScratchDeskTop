@@ -231,7 +231,7 @@ Blockly.Python["sensing_reflected_light_detection"] = function (block) {
 
 Blockly.Python["sensing_sound_intensity"] = function (block) {
   // TODO: Assemble Python into code variable.
-  const code = Blockly.Python.handleResult(`voic()`, Blockly.Python.SOUND_TYPE);
+  const code = Blockly.Python.handleResult(`voic()`, Blockly.Python.TIMER_TYPE);
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 

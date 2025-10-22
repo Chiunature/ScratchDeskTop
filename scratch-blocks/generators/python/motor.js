@@ -155,6 +155,6 @@ Blockly.Python["motor_reset_operating_degree"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   // TODO: Assemble Python into code variable.
-  let code = `resert_relative_position(${port})\n`;
+  let code = `reset_relative_position(${port})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };

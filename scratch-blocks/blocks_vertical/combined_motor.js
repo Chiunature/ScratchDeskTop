@@ -359,7 +359,7 @@ Blockly.Blocks["combined_motor_line"] = {
           type: "field_dropdown",
           name: "unit",
           options: [
-            [Blockly.Msg.CIRCLE, "circle"],
+            [Blockly.Msg.CIRCLE, "circly"],
             [Blockly.Msg.ANGLE, "angle"],
             [Blockly.Msg.SECONDS, "seconds"],
           ],
