@@ -244,10 +244,10 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                // console.log(
-                //     "📥 GUI接收设备数据:",
-                //     JSON.stringify(newDeviceObj, null, 2)
-                // );
+                console.log(
+                    "📥 GUI接收设备数据:",
+                    JSON.stringify(newDeviceObj, null, 2)
+                );
                 const {
                     deviceObj,
                     version,
@@ -359,10 +359,10 @@ class GUI extends React.Component {
             this.props?.deviceObj?.version === Number(firmwareVersion)
         ) {
             for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
-                console.log(
-                    `目标设备对象${i}`,
-                    this.props?.deviceObj.deviceList[i]
-                );
+                // console.log(
+                //     `目标设备对象${i}`,
+                //     this.props?.deviceObj.deviceList[i]
+                // );
                 //获取每个目标设备对象
                 const item = this.props?.deviceObj?.deviceList[i];
                 //获取设备索引(0..)
@@ -384,7 +384,6 @@ class GUI extends React.Component {
             console.log("dataList", dataList);
             const isDiff = dataList.find((item) => item !== 0xff);
             //如果isdiff不为0xff，则需要更新
-            console.log("isDiff", isDiff);
             if (isDiff) {
                 const supdate = confirm(this.mainMsg.sensing_update);
                 supdate &&
