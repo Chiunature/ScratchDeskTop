@@ -341,6 +341,7 @@ export class Common {
           };
         }
       } else if (item.big_motor || item.small_motor) {
+        // 当检测到设备有 big_motor 或 small_motor 时,会额外添加一个 motor 字段:统一将 big_motor 或 small_motor 的数据也复制到 motor 字段中,方便渲染进程统一处理电机数据。
         item.motor = item.big_motor || item.small_motor;
         item.sensing_device = item.big_motor
           ? deviceIdMap[this.deviceIdList[5]]
