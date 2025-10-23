@@ -354,26 +354,37 @@ class GUI extends React.Component {
         const dataList = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff];
         const firmwareVersion =
             window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
-
         if (
             this.props?.deviceObj?.deviceList.length > 0 &&
             this.props?.deviceObj?.version === Number(firmwareVersion)
         ) {
             for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
+                console.log(
+                    `目标设备对象${i}`,
+                    this.props?.deviceObj.deviceList[i]
+                );
+                //获取每个目标设备对象
                 const item = this.props?.deviceObj?.deviceList[i];
+                //获取设备索引(0..)
                 const index = parseInt(item["port"]);
+                //获取设备类型(motor...)
                 const deviceItem = deviceIdMap[item.deviceId];
                 if (
+                    // 如果不是为0（应该判断字符串），且版本不对的话（会存在版本不在设备对象中）,这个是设备内部对版本号
+                    //就是说，判断有设备，且版本不对的话，会覆盖掉0xff(如果存在内部没有版本的情况下就默认不用更新)
                     parseInt(item.deviceId) !== 0 &&
+                    item[deviceItem]?.version && // 确保 version 存在
+                    item[deviceItem]?.SoftwareVersion && // 确保 SoftwareVersion 存在
                     item[deviceItem]?.version !==
                         item[deviceItem]?.SoftwareVersion
                 ) {
                     dataList[index] = _type(deviceItem);
                 }
             }
-
+            console.log("dataList", dataList);
             const isDiff = dataList.find((item) => item !== 0xff);
-
+            //如果isdiff不为0xff，则需要更新
+            console.log("isDiff", isDiff);
             if (isDiff) {
                 const supdate = confirm(this.mainMsg.sensing_update);
                 supdate &&

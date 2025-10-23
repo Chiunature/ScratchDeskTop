@@ -224,9 +224,16 @@ function commendMake(pathCWD = cwd()) {
  */
 function getVersion(vpath, verTxt = "/Version.txt") {
     try {
-        return readFilesAsync(path.join(VERSION, verTxt), vpath);
+        // 直接使用正确的相对路径
+        const fileRelativePath = "LB_FWLIB/version/Version.txt";
+        const fullPath = path.join(vpath, fileRelativePath);
+        if (!fs.existsSync(fullPath)) {
+            console.error("版本文件不存在:", fullPath);
+            return null;
+        }
+        const version = readFilesAsync(fileRelativePath, vpath);
+        return version;
     } catch (error) {
-        // handlerError(error, vpath);
         return null;
     }
 }
