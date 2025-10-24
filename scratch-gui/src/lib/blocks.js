@@ -1,6 +1,6 @@
-import ScratchBlocks from 'scratch-blocks';
+import ScratchBlocks from "scratch-blocks";
 // import 'scratch-blocks/cake_compressed';
-import 'scratch-blocks/python_compressed';
+import "scratch-blocks/python_compressed";
 /**
  * Connect scratch blocks with the vm
  * @param {VirtualMachine} vm - The scratch vm
@@ -9,40 +9,49 @@ import 'scratch-blocks/python_compressed';
 export default function (vm) {
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
-            message0: '%1',
-            args0: [{
-                type: 'field_dropdown',
-                name: name,
-                options: function () {
-                    return start.concat(menuOptionsFn());
-                }
-            }],
+            message0: "%1",
+            args0: [
+                {
+                    type: "field_dropdown",
+                    name: name,
+                    options: function () {
+                        return start.concat(menuOptionsFn());
+                    },
+                },
+            ],
             inputsInline: true,
-            output: 'String',
+            output: "String",
             colour: colors.secondary,
             colourSecondary: colors.secondary,
             colourTertiary: colors.tertiary,
-            outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND
+            outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
         };
     };
 
-    const jsonForHatBlockMenu = function (hatName, name, menuOptionsFn, colors, start) {
+    const jsonForHatBlockMenu = function (
+        hatName,
+        name,
+        menuOptionsFn,
+        colors,
+        start
+    ) {
         return {
             message0: hatName,
-            args0: [{
-                type: 'field_dropdown',
-                name: name,
-                options: function () {
-                    return start.concat(menuOptionsFn());
-                }
-            }],
+            args0: [
+                {
+                    type: "field_dropdown",
+                    name: name,
+                    options: function () {
+                        return start.concat(menuOptionsFn());
+                    },
+                },
+            ],
             colour: colors.primary,
             colourSecondary: colors.secondary,
             colourTertiary: colors.tertiary,
-            extensions: ['shape_hat']
+            extensions: ["shape_hat"],
         };
     };
-
 
     /* const jsonForSensingMenus = function (menuOptionsFn) {
         return {
@@ -69,11 +78,12 @@ export default function (vm) {
     }; */
 
     const soundsMenu = function () {
-        let menu = [
-            ['', '']
-        ];
+        let menu = [["", ""]];
         if (vm.editingTarget && vm.editingTarget.sprite.sounds.length > 0) {
-            menu = vm.editingTarget.sprite.sounds.map(sound => [sound.name, sound.name]);
+            menu = vm.editingTarget.sprite.sounds.map((sound) => [
+                sound.name,
+                sound.name,
+            ]);
         }
         // menu.push([
         //     ScratchBlocks.ScratchMsgs.translate('SOUND_RECORD', 'record...'),
@@ -111,11 +121,11 @@ export default function (vm) {
     const backdropNamesMenu = function () {
         const stage = vm.runtime.getTargetForStage();
         if (stage && stage.getCostumes().length > 0) {
-            return stage.getCostumes().map(costume => [costume.name, costume.name]);
+            return stage
+                .getCostumes()
+                .map((costume) => [costume.name, costume.name]);
         }
-        return [
-            ['', '']
-        ];
+        return [["", ""]];
     };
 
     const spriteMenu = function () {
@@ -127,7 +137,10 @@ export default function (vm) {
                     if (vm.runtime.targets[targetId] === vm.editingTarget) {
                         continue;
                     }
-                    sprites.push([vm.runtime.targets[targetId].sprite.name, vm.runtime.targets[targetId].sprite.name]);
+                    sprites.push([
+                        vm.runtime.targets[targetId].sprite.name,
+                        vm.runtime.targets[targetId].sprite.name,
+                    ]);
                 }
             }
         }
@@ -138,16 +151,15 @@ export default function (vm) {
         if (vm.editingTarget && vm.editingTarget.isStage) {
             const menu = spriteMenu();
             if (menu.length === 0) {
-                return [
-                    ['', '']
-                ]; // Empty menu matches Scratch 2 behavior
+                return [["", ""]]; // Empty menu matches Scratch 2 behavior
             }
             return menu;
         }
-        const myself = ScratchBlocks.ScratchMsgs.translate('CONTROL_CREATECLONEOF_MYSELF', 'myself');
-        return [
-            [myself, '_myself_']
-        ].concat(spriteMenu());
+        const myself = ScratchBlocks.ScratchMsgs.translate(
+            "CONTROL_CREATECLONEOF_MYSELF",
+            "myself"
+        );
+        return [[myself, "_myself_"]].concat(spriteMenu());
     };
 
     const soundColors = ScratchBlocks.Colours.sounds;
@@ -163,7 +175,12 @@ export default function (vm) {
     const eventColors = ScratchBlocks.Colours.event;
 
     ScratchBlocks.Blocks.sound_sounds_menu.init = function () {
-        const json = jsonForMenuBlock('SOUND_MENU', soundsMenu, soundColors, []);
+        const json = jsonForMenuBlock(
+            "SOUND_MENU",
+            soundsMenu,
+            soundColors,
+            []
+        );
         this.jsonInit(json);
     };
 
@@ -180,7 +197,11 @@ export default function (vm) {
     ScratchBlocks.Blocks.event_whenbackdropswitchesto.init = function () {
         const json = jsonForHatBlockMenu(
             ScratchBlocks.Msg.EVENT_WHENBACKDROPSWITCHESTO,
-            'BACKDROP', backdropNamesMenu, eventColors, []);
+            "BACKDROP",
+            backdropNamesMenu,
+            eventColors,
+            []
+        );
         this.jsonInit(json);
     };
 
@@ -325,7 +346,12 @@ export default function (vm) {
     }; */
 
     ScratchBlocks.Blocks.control_create_clone_of_menu.init = function () {
-        const json = jsonForMenuBlock('CLONE_OPTION', cloneMenu, controlColors, []);
+        const json = jsonForMenuBlock(
+            "CLONE_OPTION",
+            cloneMenu,
+            controlColors,
+            []
+        );
         this.jsonInit(json);
     };
 
@@ -334,7 +360,9 @@ export default function (vm) {
         return monitoredBlock ? monitoredBlock.isMonitored : false;
     };
 
-    ScratchBlocks.FlyoutExtensionCategoryHeader.getExtensionState = function (extensionId) {
+    ScratchBlocks.FlyoutExtensionCategoryHeader.getExtensionState = function (
+        extensionId
+    ) {
         if (vm.getPeripheralIsConnected(extensionId)) {
             return ScratchBlocks.StatusButtonState.READY;
         }
@@ -342,15 +370,15 @@ export default function (vm) {
     };
 
     ScratchBlocks.FieldNote.playNote_ = function (noteNum, extensionId) {
-        vm.runtime.emit('PLAY_NOTE', noteNum, extensionId);
+        vm.runtime.emit("PLAY_NOTE", noteNum, extensionId);
     };
 
     // Use a collator's compare instead of localeCompare which internally
     // creates a collator. Using this is a lot faster in browsers that create a
     // collator for every localeCompare call.
     const collator = new Intl.Collator([], {
-        sensitivity: 'base',
-        numeric: true
+        sensitivity: "base",
+        numeric: true,
     });
     ScratchBlocks.scratchBlocksUtils.compareStrings = function (str1, str2) {
         return collator.compare(str1, str2);
@@ -365,6 +393,7 @@ export default function (vm) {
     ScratchBlocks.utils.is3dSupported = function () {
         return true;
     };
-    ScratchBlocks.setDefaultStartBlock = (workspace) => ScratchBlocks.Procedures.setDefaultStartBlock_(workspace)();
+    ScratchBlocks.setDefaultStartBlock = (workspace) =>
+        ScratchBlocks.Procedures.setDefaultStartBlock_(workspace)();
     return ScratchBlocks;
 }

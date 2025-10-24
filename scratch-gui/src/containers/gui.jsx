@@ -244,10 +244,10 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                console.log(
-                    "📥 GUI接收设备数据:",
-                    JSON.stringify(newDeviceObj, null, 2)
-                );
+                // console.log(
+                //     "📥 GUI接收设备数据:",
+                //     JSON.stringify(newDeviceObj, null, 2)
+                // );
                 const {
                     deviceObj,
                     version,
@@ -313,7 +313,6 @@ class GUI extends React.Component {
 
     checkUpdateFirmware(resourcesPath) {
         //从文件资源中读取固件版本，如果读取失败那就使用写死的版本号
-        //TODO: 从文件资源路径读取固件版本,读取失败
         const firmwareVersion =
             window.myAPI.getVersion(resourcesPath) || FIREWARE_VERSION;
         const currentVer = this.props?.deviceObj?.version;
@@ -359,10 +358,10 @@ class GUI extends React.Component {
             this.props?.deviceObj?.version === Number(firmwareVersion)
         ) {
             for (let i = 0; i < this.props?.deviceObj?.deviceList.length; i++) {
-                // console.log(
-                //     `目标设备对象${i}`,
-                //     this.props?.deviceObj.deviceList[i]
-                // );
+                console.log(
+                    `目标设备对象${i}`,
+                    this.props?.deviceObj.deviceList[i]
+                );
                 //获取每个目标设备对象
                 const item = this.props?.deviceObj?.deviceList[i];
                 //获取设备索引(0..)
@@ -498,6 +497,7 @@ class GUI extends React.Component {
 
     handleRunApp(status) {
         // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
+        console.log("status", status);
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
             sendParams: { type: "APP", status },
