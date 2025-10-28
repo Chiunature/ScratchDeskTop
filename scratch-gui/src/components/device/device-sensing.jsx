@@ -131,9 +131,9 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 0:
                 return intl.formatMessage(messages["circly"]);
             case 1:
-                return intl.formatMessage(messages["angle"]);
-            case 2:
                 return intl.formatMessage(messages["actualSpeed"]);
+            case 2:
+                return intl.formatMessage(messages["angle"]);
             case 3:
                 return intl.formatMessage(messages["version"]);
             default:
