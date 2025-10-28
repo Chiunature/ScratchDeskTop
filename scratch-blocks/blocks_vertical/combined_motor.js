@@ -164,7 +164,7 @@ Blockly.Blocks["combined_motor_direction"] = {
                 height: 25,
                 alt: Blockly.Msg.TURNLEFT,
               },
-              "trueleft",
+              "left",
             ],
             [
               {
@@ -174,7 +174,7 @@ Blockly.Blocks["combined_motor_direction"] = {
                 height: 25,
                 alt: Blockly.Msg.TURNRIGHT,
               },
-              "trueright",
+              "right",
             ],
           ],
         },
@@ -337,7 +337,7 @@ Blockly.Blocks["combined_motor_line"] = {
                 height: 25,
                 alt: Blockly.Msg.TURNLEFT,
               },
-              "trueleft",
+              "left",
             ],
             [
               {
@@ -347,7 +347,7 @@ Blockly.Blocks["combined_motor_line"] = {
                 height: 25,
                 alt: Blockly.Msg.TURNRIGHT,
               },
-              "trueright",
+              "right",
             ],
           ],
         },

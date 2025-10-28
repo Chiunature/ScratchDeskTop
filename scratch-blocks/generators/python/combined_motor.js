@@ -238,7 +238,7 @@ Blockly.Python["combined_motor_pwm"] = function (block) {
 
 Blockly.Python["combined_linepatrolInit"] = function (block) {
   return Blockly.Python.handleResult(
-    `movfind_line_init()\n`,
+    `mov_find_line_init()\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };
@@ -267,7 +267,7 @@ Blockly.Python["combined_linepatrol"] = function (block) {
   //   Blockly.Python.ORDER_NONE
   // );
   return Blockly.Python.handleResult(
-    `movfind_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd})\n`,
+    `mov_find_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };
@@ -301,7 +301,7 @@ Blockly.Python["combined_linepatrol_ltr"] = function (block) {
   //   Blockly.Python.ORDER_NONE
   // );
   return Blockly.Python.handleResult(
-    `movfind_line_power_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
+    `mov_find_line_power_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };
