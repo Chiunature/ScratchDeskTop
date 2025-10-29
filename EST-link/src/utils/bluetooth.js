@@ -122,6 +122,8 @@ export class Bluetooth extends Common {
       this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
       //开启获取主机文件监听
       this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
+      //蓝牙传感器更新
+      this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
       //开启删除程序监听
       this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
       //开启设备断开监听

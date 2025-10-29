@@ -90,10 +90,13 @@ export class Common {
    */
   ipcMain(eventName, callback) {
     const eventList = this.electron.ipcMain.eventNames();
-    !eventList.includes(eventName) &&
+
+    // 避免重复监听同一个事件
+    if (!eventList.includes(eventName)) {
       this.electron.ipcMain.on(eventName, (event, arg) => {
         return callback(event, arg);
       });
+    }
   }
 
   /**
