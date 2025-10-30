@@ -417,7 +417,7 @@ Blockly.Blocks["motor_specified_manner"] = {
           name: "action",
           options: [
             [Blockly.Msg.RETARDATION, "1"],
-            [Blockly.Msg.STILL, "1"],
+            [Blockly.Msg.STILL, "2"],
             [Blockly.Msg.FLOAT, "0"],
           ],
         },

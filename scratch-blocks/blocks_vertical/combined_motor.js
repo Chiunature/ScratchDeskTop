@@ -493,7 +493,7 @@ Blockly.Blocks["combined_motor_stopping"] = {
           name: "status",
           options: [
             [Blockly.Msg.RETARDATION, "1"],
-            [Blockly.Msg.STILL, "1"],
+            [Blockly.Msg.STILL, "2"],
             [Blockly.Msg.FLOAT, "0"],
           ],
         },

@@ -239,7 +239,7 @@ const combined_motor = function ({
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                     <value name="KP">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                     <value name="KI">
                         <shadow type="math_number"><field name="NUM">0</field></shadow>

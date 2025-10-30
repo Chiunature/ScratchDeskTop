@@ -86,7 +86,6 @@ Blockly.Python["motor_specified_manner"] = function (block) {
   const action = block.getFieldValue("action");
   // 将字符串数值转换为整数
   const actionValue = parseInt(action, 10);
-  // TODO: Assemble Python into code variable.
   const code = `stop_module(${port}, ${actionValue})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
