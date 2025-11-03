@@ -289,7 +289,7 @@ Blockly.Python["sensing_mainIsPress"] = function (block) {
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
     `key_mast("${keys}", ${btn})`,
-    Blockly.Python.TOUCH_TYPE
+    Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -310,7 +310,7 @@ Blockly.Python["sensing_isHandling"] = function (block) {
   const button = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `key_reomte("${button}", "${keys}")`,
+    `key_remote("${button}", "${keys}")`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
