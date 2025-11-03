@@ -21,7 +21,7 @@ Blockly.Python["sensing_menu"] = function (block) {
 
 Blockly.Python["sensing_set_yaw_angle"] = function (block) {
   // TODO: Assemble Python into code variable.
-  const code = `resetyaw()\n`;
+  const code = `restyaw()\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MEM_TYPE);
 };
 

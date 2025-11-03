@@ -191,10 +191,18 @@ function deleteFiles(link, resourcePath = cwd()) {
  */
 function commendMake(pathCWD = cwd()) {
     return new Promise((resolve, reject) => {
+        const targetDir = path.join(pathCWD, DIR);
+        if (!fs.existsSync(targetDir)) {
+            const errorMsg = `目录不存在: ${targetDir}`;
+            handlerError(errorMsg, pathCWD);
+            reject(errorMsg);
+            return;
+        }
         const process = execFile("ByteCode.exe", [], {
-            cwd: path.join(pathCWD, DIR),
+            cwd: targetDir,
         });
-
+        console.log("ByteCode.exe路径", targetDir);
+        console.log("process结果", process);
         let errStr = "";
         process.stderr.on("data", (err) => {
             errStr += err.toString();
