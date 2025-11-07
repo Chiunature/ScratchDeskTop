@@ -220,6 +220,30 @@ Blockly.Blocks["event_whenflagclicked"] = {
       extensions: ["colours_event", "shape_hat"],
     });
   },
+
+  /**
+   * 检查工作区中是否已存在该积木
+   * @return {boolean} 如果已存在则返回 true
+   */
+  checkBlockExists: function () {
+    if (this.isInFlyout) {
+      return false; // 工具箱中的积木不检查
+    }
+
+    var workspace = this.workspace;
+    if (!workspace) {
+      return false;
+    }
+
+    var allBlocks = workspace.getAllBlocks();
+    for (var i = 0; i < allBlocks.length; i++) {
+      var block = allBlocks[i];
+      if (block.type === "event_whenflagclicked" && block.id !== this.id) {
+        return true; // 找到了另一个相同类型的积木
+      }
+    }
+    return false;
+  },
 };
 
 Blockly.Blocks["event_whenthisspriteclicked"] = {
