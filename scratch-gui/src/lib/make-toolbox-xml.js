@@ -241,12 +241,6 @@ const combined_motor = function ({
                     <value name="KP">
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
-                    <value name="KI">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
-                    <value name="KD">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
                 </block>
                 ${blockSeparator}
                 <block type="combined_motor_spinByYawAngle">

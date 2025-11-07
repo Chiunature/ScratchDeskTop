@@ -6877,7 +6877,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   CONTROL_STOP_ALL: "all",
   CONTROL_STOP_THIS: "this script",
   CONTROL_STOP_OTHER: "other scripts in sprite",
-  CONTROL_STOP_EXIT:"stop and exit",
+  CONTROL_STOP_EXIT: "stop and exit",
   CONTROL_WAIT: "wait %1 seconds",
   CONTROL_WAITUNTIL: "wait until %1",
   CONTROL_REPEATUNTIL: "repeat until %1",
@@ -7068,7 +7068,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
     "%1 combined motor started with %2 %3 %4 %5",
   COMBINED_MOTOR_MOVEBYYAWANGLE:
-    "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5 KI %6 KD %7",
+    "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5",
   COMBINED_MOTOR_SPINBYYAWANGLE:
     "%1 combination motor rotates %2 degrees according to yaw angle",
   COMBINED_MOTOR_PWM: "%1 Set the combined motor PWM to %2 %3",
@@ -29296,8 +29296,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   COMBINED_MOTOR_STARTWITHPOWER: "%1 组合电机以 %2 %% 和 %3 %%的功率移动",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
     "%1 组合电机以 %2 %% 和 %3 %%的功率 执行 %4 %5",
-  COMBINED_MOTOR_MOVEBYYAWANGLE:
-    "%1 组合电机根据偏航角直线 %2 %3 %4 KP %5 KI %6 KD %7",
+  COMBINED_MOTOR_MOVEBYYAWANGLE: "%1 组合电机根据偏航角直线 %2 %3 %4 KP %5",
   COMBINED_MOTOR_SPINBYYAWANGLE: "%1 组合电机根据偏航角旋转 %2 度",
   COMBINED_MOTOR_PWM: "%1 组合电机设置电机的PWM值为 %2 和 %3",
   MOTOR_STARTWITHPOWER: "%1 电机 %2 以 %3 %% 的功率启动",

@@ -201,12 +201,10 @@ Blockly.Python["combined_motor_moveByYawAngle"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const KP = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const KI = Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE);
-  const KD = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
   const unit = block.getFieldValue("unit");
   let direction = block.getFieldValue("direction");
   direction = direction[0].toLowerCase() + direction.slice(1);
-  const code = `mov_yaw_line("${direction}", ${count}, "${unit}",${KP},${KI},${KD})\n`;
+  const code = `mov_yaw_line("${direction}", ${count}, "${unit}", ${KP})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

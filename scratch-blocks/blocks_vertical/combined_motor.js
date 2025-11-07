@@ -639,14 +639,6 @@ Blockly.Blocks["combined_motor_moveByYawAngle"] = {
           type: "input_value",
           name: "KP",
         },
-        {
-          type: "input_value",
-          name: "KI",
-        },
-        {
-          type: "input_value",
-          name: "KD",
-        },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],

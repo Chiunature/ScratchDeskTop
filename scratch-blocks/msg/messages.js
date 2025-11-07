@@ -171,7 +171,7 @@ Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
   "%1 Combination motor executed at %2 %3 %4 %5";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
-  "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5 KI %6 KD %7";
+  "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE =
   "%1 combination motor rotates %2 degrees according to yaw angle";
 Blockly.Msg.COMBINED_MOTOR_PWM = "%1 Set the combined motor PWM to %2 %3";
