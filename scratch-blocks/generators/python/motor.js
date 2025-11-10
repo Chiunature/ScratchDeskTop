@@ -9,6 +9,11 @@ Blockly.Python["motor_box"] = function (block) {
   return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python["motor_box_abef"] = function (block) {
+  const menu = block.getFieldValue("MOTOR");
+  return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python["motor_acceleration_menu"] = function (block) {
   const menu = block.getFieldValue("MENU");
   // TODO: Assemble Python into code variable.
@@ -36,8 +41,8 @@ Blockly.Python["motor_stop"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   // TODO: Assemble Python into code variable.
-  const code = `stop(${port})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const code = `set_motor_run(${port})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["motor_speed"] = function (block) {
@@ -84,7 +89,7 @@ Blockly.Python["motor_specified_manner"] = function (block) {
   const action = block.getFieldValue("action");
   // 将字符串数值转换为整数
   const actionValue = parseInt(action, 10);
-  const code = `stop_module(${port}, ${actionValue})\n`;
+  const code = `set_stop_mode(${port}, ${actionValue})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -141,7 +146,7 @@ Blockly.Python["motor_startWithPower"] = function (block) {
     "POWER",
     Blockly.Python.ORDER_NONE
   );
-  const code = `run_power(${port}, ${power})\n`;
+  const code = `set_motor_speed(${port}, ${power})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

@@ -13,7 +13,8 @@ Blockly.FieldMotor = function (motorList, linepatrol, opt_validator) {
   this.leftList = motorList.slice(0, 4);
   // 找到第一个非 null 的端口作为默认值
   this.motor_ =
-    motorList.find((m) => m !== null && m !== "null") || motorList[0];
+    motorList.find((m) => m !== null && m !== "null" && m !== "NULL") ||
+    motorList[0];
   if (linepatrol) {
     this.linepatrolList = linepatrol;
     this.linepatrol_ = linepatrol[0];
@@ -122,7 +123,11 @@ Blockly.FieldMotor.prototype.init = function (block) {
   // 过滤掉禁用的按钮（对应 null 端口）
   this.btnList = [...left, ...right].filter((element, index) => {
     const allPorts = [...this.leftList, ...this.rightList];
-    return allPorts[index] !== null && allPorts[index] !== "null";
+    return (
+      allPorts[index] !== null &&
+      allPorts[index] !== "null" &&
+      allPorts[index] !== "NULL"
+    );
   });
 };
 
@@ -240,7 +245,7 @@ Blockly.FieldMotor.prototype.createMotorListDom_ = function (list, side) {
     btn.setAttribute("data-testid", "button-" + list[i]);
 
     // 检查是否为 null，如果是则禁用按钮
-    if (list[i] === null || list[i] === "null") {
+    if (list[i] === null || list[i] === "null" || list[i] === "NULL") {
       btn.classList.add("disabled");
       btn.setAttribute(
         "style",
