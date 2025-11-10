@@ -246,31 +246,11 @@ Blockly.Python.finish = function (code) {
     ret += loops.join("\n" + Blockly.Python.INDENT) + "\n\n";
   }
 
-  let taskFinishedStr = "",
-    threadStr = "";
   const _task = Object.keys(Blockly.Python.tasks_);
 
   if (_task.length > 0) {
-    const _taskFilter = _task.filter((el) => el.includes("task"));
-    if (_taskFilter.length > 0) {
-      _taskFilter.forEach((key, index) => {
-        const t = `${key}_finished`;
-        taskFinishedStr +=
-          index === _taskFilter.length - 1 ? "not " + t : "not " + t + " or ";
-      });
-    }
-
-    _task.forEach((key) => {
-      threadStr += `_thread.start_new_thread(${key}, ())\n`;
-    });
-
-    const whileEnd =
-      `while ${taskFinishedStr}:\n` +
-      Blockly.Python.INDENT +
-      Blockly.Python.INDENT +
-      "_os.sleep_s(0.1)";
-
-    ret += this.splitCodeByTask(code) + "\n" + threadStr + "\n" + whileEnd;
+    // 只生成 async def user() 函数，不生成线程和等待循环
+    ret += this.splitCodeByTask(code);
   } else {
     ret += code;
   }
@@ -315,27 +295,44 @@ Blockly.Python.finish = function (code) {
 Blockly.Python.splitCodeByTask = function (code) {
   let result = "\n";
   const regexForThread = /\s{1}\/\* Start \*\/[\s\S]*?\/\* End \*\/\s{1}/g;
-  const _task = Object.keys(Blockly.Python.tasks_).filter((el) =>
-    el.includes("task")
-  );
+  const _task = Object.keys(Blockly.Python.tasks_);
   const arr = code.match(regexForThread);
 
   if (!arr) {
     return code;
   }
 
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i]
+  // 只处理第一个匹配项（只有一个开始事件）
+  if (arr.length > 0) {
+    const item = arr[0]
       .replace(/\s{1}\/\* Start \*\/\s{1}/, "")
       .replace(/\s{1}\/\* End \*\/\s{1}/, "");
+
+    // 生成 async def user() 函数，使用 try-except 结构
     result =
       result +
-      `\ndef ${_task[i]}():\n` +
-      `${Blockly.Python.INDENT}  global ${_task[i]}_finished\n` +
-      `${Blockly.Python.addIndent(item)}` +
-      `${Blockly.Python.INDENT + Blockly.Python.INDENT}${
-        _task[i]
-      }_finished = True\n`;
+      `async def user():\n` +
+      `${Blockly.Python.INDENT + Blockly.Python.INDENT}global user_run_flag\n` +
+      `${Blockly.Python.INDENT + Blockly.Python.INDENT}try:\n` +
+      `${Blockly.Python.addIndent(
+        item,
+        Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT
+      )}` +
+      `${
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT
+      }user_run_flag = 0\n` +
+      `${
+        Blockly.Python.INDENT + Blockly.Python.INDENT
+      }except Exception as e:\n` +
+      `${
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT +
+        Blockly.Python.INDENT
+      }user_run_flag = 0\n`;
   }
 
   return result;

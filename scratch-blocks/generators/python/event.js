@@ -191,8 +191,9 @@ Blockly.Python["event_whenmicrobitgesture"] = function (block) {
 Blockly.Python["event_whenflagclicked"] = function (block) {
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 
-  const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
-  Blockly.Python.tasks_[task] = `${task}_finished = False`;
+  // 标记为 user 任务，用于生成 async def user() 函数
+  // 使用空字符串，避免在 tasks 部分输出变量声明
+  Blockly.Python.tasks_["user"] = "";
 
   var code = "\n/* Start */\n";
   if (!nextBlock) {
