@@ -43,6 +43,33 @@ Blockly.Blocks["motor_box"] = {
   },
 };
 
+Blockly.Blocks["motor_box_abef"] = {
+  /**
+   * Block for motor port selector (A, B, E, F only).
+   * @this Blockly.Block
+   */
+  init: function () {
+    // 专门为 motor_specified_manner 设计的端口列表
+    var motorList = ["A", "B", "null", "null", "E", "F", "null", "null"];
+
+    this.jsonInit({
+      message0: "%1",
+      args0: [
+        {
+          type: "field_motor",
+          name: "MOTOR",
+          motorList: motorList,
+        },
+      ],
+      category: Blockly.Categories.motor,
+      colour: Blockly.Colours.motor.primary,
+      colourSecondary: Blockly.Colours.motor.secondary,
+      colourTertiary: Blockly.Colours.motor.tertiary,
+      extensions: ["output_string"],
+    });
+  },
+};
+
 Blockly.Blocks["motor_menu"] = {
   /**
    * Block to move steps.
@@ -432,7 +459,6 @@ Blockly.Blocks["motor_specified_manner"] = {
         {
           type: "input_value",
           name: "PORT",
-          check: "String",
         },
         {
           type: "field_dropdown",

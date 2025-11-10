@@ -104,7 +104,7 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                 ${blockSeparator}
                 <block type="motor_specified_manner">
                     <value name="PORT">
-                        <shadow type="motor_box"></shadow>
+                        <shadow type="motor_box_abef"></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
