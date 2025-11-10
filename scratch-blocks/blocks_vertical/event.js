@@ -347,65 +347,6 @@ Blockly.Blocks["event_broadcast_menu"] = {
   },
 };
 
-Blockly.Blocks["event_broadcast"] = {
-  /**
-   * Block to send a broadcast.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      id: "event_broadcast",
-      message0: Blockly.Msg.EVENT_BROADCAST,
-      args0: [
-        // {
-        //   "type": "input_value",
-        //   "name": "BROADCAST_INPUT"
-        // }
-        {
-          type: "field_dropdown",
-          name: "BROADCAST_INPUT",
-          options: [
-            ["MSG1", "0"],
-            ["MSG2", "1"],
-            ["MSG3", "2"],
-            ["MSG4", "3"],
-            ["MSG5", "4"],
-            ["MSG6", "5"],
-            ["MSG7", "6"],
-            ["MSG8", "7"],
-            ["MSG9", "8"],
-            ["MSG10", "9"],
-            ["MSG11", "10"],
-            ["MSG12", "11"],
-            ["MSG13", "12"],
-            ["MSG14", "13"],
-            ["MSG15", "14"],
-            ["MSG16", "15"],
-            ["MSG17", "16"],
-            ["MSG18", "17"],
-            ["MSG19", "18"],
-            ["MSG20", "19"],
-            ["MSG21", "20"],
-            ["MSG22", "21"],
-            ["MSG23", "22"],
-            ["MSG24", "23"],
-            ["MSG25", "24"],
-            ["MSG26", "25"],
-            ["MSG27", "26"],
-            ["MSG28", "27"],
-            ["MSG29", "28"],
-            ["MSG30", "29"],
-            ["MSG31", "30"],
-            ["MSG32", "31"],
-          ],
-        },
-      ],
-      category: Blockly.Categories.event,
-      extensions: ["colours_event", "shape_statement"],
-    });
-  },
-};
-
 Blockly.Blocks["event_broadcastandwait"] = {
   /**
    * Block to send a broadcast.

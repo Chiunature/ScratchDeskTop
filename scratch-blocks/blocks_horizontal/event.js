@@ -208,38 +208,3 @@ Blockly.Blocks["dropdown_broadcast"] = {
     );
   },
 };
-
-Blockly.Blocks["event_broadcast"] = {
-  /**
-   * Block to send a broadcast.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      id: "event_broadcast",
-      message0: "%1 %2",
-      args0: [
-        {
-          type: "field_image",
-          src:
-            Blockly.mainWorkspace.options.pathToMedia +
-            "icons/event_broadcast_blue.svg",
-          width: 40,
-          height: 40,
-          alt: "Broadcast",
-        },
-        {
-          type: "input_value",
-          name: "CHOICE",
-        },
-      ],
-      inputsInline: true,
-      previousStatement: null,
-      nextStatement: null,
-      category: Blockly.Categories.event,
-      colour: Blockly.Colours.event.primary,
-      colourSecondary: Blockly.Colours.event.secondary,
-      colourTertiary: Blockly.Colours.event.tertiary,
-    });
-  },
-};

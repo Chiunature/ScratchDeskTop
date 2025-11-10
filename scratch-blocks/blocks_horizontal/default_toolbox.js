@@ -32,7 +32,6 @@ Blockly.Blocks.defaultToolbox =
   '<xml id="toolbox-categories" style="display: none">' +
   '<category name="Events">' +
   '<block type="event_whenflagclicked"></block>' +
-  '<block type="event_broadcast">' +
   '<value name="CHOICE">' +
   '<shadow type="dropdown_broadcast">' +
   '<field name="CHOICE">blue</field>' +
@@ -101,7 +100,6 @@ Blockly.Blocks.defaultToolbox =
 Blockly.Blocks.defaultToolboxSimple =
   '<xml id="toolbox-simple" style="display: none">' +
   '<block type="event_whenflagclicked"></block>' +
-  '<block type="event_broadcast">' +
   '<value name="CHOICE">' +
   '<shadow type="dropdown_broadcast">' +
   '<field name="CHOICE">blue</field>' +
