@@ -222,52 +222,6 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
 };
 
 //暂不支持中文
-Blockly.Python["event_whenbroadcastreceived"] = function (block) {
-  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-
-  const broadcast = block.getFieldValue("BROADCAST_INPUT");
-
-  let code = "";
-
-  if (!nextBlock) {
-    code += Blockly.Python.INDENT + "\n";
-  } else {
-    code = Blockly.Python.scrub_(block, code);
-  }
-
-  Blockly.Python.msg_[broadcast + ""] =
-    `def message${broadcast}Task():\n` +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    "while True:\n" +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    `_message.waiteMessageBox(${broadcast})\n` +
-    Blockly.Python.addIndent(
-      code,
-      Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT
-    ) +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    "_os.sleep_s(0.001)\n" +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    Blockly.Python.INDENT +
-    `_message.FlashMessageBox(${broadcast})\n`;
-
-  //不用生成消息对象
-  // if (!Blockly.Python.setups_[Blockly.Python.MSG_TYPE]) {
-  //   Blockly.Python.setups_[Blockly.Python.MSG_TYPE] = 'MyMsg = APIMessage.box()';
-  // }
-
-  Blockly.Python.tasks_[`message${broadcast}Task`] = "";
-  return null;
-};
 
 Blockly.Python["event_broadcast"] = function (block) {
   const broadcast = block.getFieldValue("BROADCAST_INPUT");
