@@ -6,10 +6,7 @@ goog.require("Blockly.Python");
 
 Blockly.Python["motor_box"] = function (block) {
   const menu = block.getFieldValue("MOTOR");
-  // 将端口字母转换为数字：A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7
-  const portMap = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7 };
-  const portNumber = portMap[menu] !== undefined ? portMap[menu] : 0;
-  return [portNumber, Blockly.Python.ORDER_ATOMIC];
+  return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python["motor_acceleration_menu"] = function (block) {
@@ -24,11 +21,12 @@ Blockly.Python["motor_starting"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
+  console.log(port);
   let spin = block.getFieldValue("SPIN");
   spin = spin[0].toLowerCase() + spin.slice(1);
-  // TODO: Assemble Python into code variable.
-  const code = `run(${port}, '${spin}')\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const spinValue = parseInt(spin, 10);
+  const code = `set_motor_run(${port}, ${spinValue})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["motor_stop"] = function (block) {

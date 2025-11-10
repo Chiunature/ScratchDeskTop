@@ -19,7 +19,7 @@ Blockly.Blocks["motor_box"] = {
         {
           type: "field_motor",
           name: "MOTOR",
-          motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          motorList: ["null", "null", "C", "D", "null", "null", "G", "H"],
         },
       ],
       category: Blockly.Categories.motor,
@@ -169,7 +169,7 @@ Blockly.Blocks["motor_starting"] = {
                 height: 20,
                 alt: Blockly.Msg.RIGHT,
               },
-              "Advance",
+              "1",
             ],
             [
               {
@@ -179,7 +179,16 @@ Blockly.Blocks["motor_starting"] = {
                 height: 20,
                 alt: Blockly.Msg.LEFT,
               },
-              "Retreat",
+              "2",
+            ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "pause.svg",
+                width: 20,
+                height: 20,
+                alt: Blockly.Msg.PAUSE,
+              },
+              "0",
             ],
           ],
         },

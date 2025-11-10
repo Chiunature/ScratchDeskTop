@@ -1,0 +1,10 @@
+<svg id="pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-3{fill:#fff;stroke:#3d79cc;stroke-width:1;}
+    </style>
+  </defs>
+  <title>pause</title>
+  <rect class="cls-3" x="5" y="3" width="5" height="18" rx="0.5"/>
+  <rect class="cls-3" x="15" y="3" width="5" height="18" rx="0.5"/>
+</svg>

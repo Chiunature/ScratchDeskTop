@@ -550,7 +550,7 @@ Blockly.Python.toStr = function (val) {
   return matches && matches.length > 0;
 };
 
-Blockly.Python.handleResult = function (code, type) {
+Blockly.Python.handleResult = function (code, type, isAwait = false) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
@@ -578,11 +578,11 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_color." + result;
       break;
     case Blockly.Python.MOTOR_TYPE:
-      //新版Python不添加新对象
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMotor = APIMotor.motor()";
-      // }
-      result = "_motor." + result;
+      if (isAwait) {
+        result = `await app.${result}`;
+      } else {
+        result = `app.${result}`;
+      }
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
       // if (!Blockly.Python.setups_[type]) {
