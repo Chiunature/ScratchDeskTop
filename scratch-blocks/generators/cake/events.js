@@ -257,13 +257,6 @@ Blockly.cake["event_whengreaterthan"] = function (block) {
   return code;
 };
 
-Blockly.cake["event_broadcastandwait"] = function (block) {
-  let broadcast = block.getFieldValue("BROADCAST_INPUT");
-  // TODO: Assemble cake into code variable.
-  let code = `send_userMeassgBoxWaite("${broadcast}");\n`;
-  return code;
-};
-
 Blockly.cake["event_broadcast_menu"] = function (block) {
   // TODO: Assemble cake into code variable.
   let varName = Blockly.cake.variableDB_.getName(

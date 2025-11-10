@@ -221,15 +221,6 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
   return code;
 };
 
-Blockly.Python["event_broadcastandwait"] = function (block) {
-  const broadcast = block.getFieldValue("BROADCAST_INPUT");
-  // TODO: Assemble Python into code variable.
-  return Blockly.Python.handleResult(
-    `setMessageBoxWaite(${broadcast})\n`,
-    Blockly.Python.MSG_TYPE
-  );
-};
-
 Blockly.Python["event_broadcast_menu"] = function (block) {
   // TODO: Assemble Python into code variable.
   const varName = Blockly.Python.variableDB_.getName(

@@ -482,8 +482,6 @@ const events = function ({ isInitialSetup, isStage, targetId, colors }) {
             secondaryColour="${colors.tertiary}">
                 <block type="event_whenflagclicked"/>
                 ${blockSeparator}
-                <block type="event_broadcastandwait"/>
-                ${categorySeparator}
             </category>
             `;
 };
