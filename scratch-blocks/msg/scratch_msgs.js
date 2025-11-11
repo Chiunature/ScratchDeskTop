@@ -7066,10 +7066,6 @@ Blockly.ScratchMsgs.locales["en"] = {
   COMBINED_MOTOR_STARTWITHPOWER: "%1 at a speed of %2 and %3 %% to move",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
     "%1 combined motor started with %2 %3 %4 %5",
-  COMBINED_MOTOR_MOVEBYYAWANGLE:
-    "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5",
-  COMBINED_MOTOR_SPINBYYAWANGLE:
-    "%1 combination motor rotates %2 degrees according to yaw angle",
   COMBINED_MOTOR_PWM: "%1 Set the combined motor PWM to %2 %3",
   MOTOR_STARTWITHPOWER: "%1 The Motor %2 starts at %3 power",
   BIG_MOTOR: "Big motor",
@@ -7196,10 +7192,6 @@ Blockly.ScratchMsgs.locales["en"] = {
     "The threshold for detecting black lines in %1 is around %2",
   SENSING_GET_GRAY_LINE: "%1 Obtain grayscale sensor values %2",
   SENSING_GET_GRAY_LINESTATE: "%1 Is it Obtain grayscale sensor values %2 ?",
-  SENSING_LINEPATROLINIT: "Initialize the linepatrol",
-  SENSING_LINEPATROL: "The linepatrol %1 %2 power is %3 KP %4 KD %5 ",
-  SENSING_LINEPATROL_LTR:
-    "The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "Determine %1 the current grayscale %2 status",
   SENSING_CAMERA_FIND_COLOR_BLOCK:
     "%1 %2 search for color blocks R %3 G %4 B %5 tolerance %6",
@@ -7351,6 +7343,8 @@ Blockly.ScratchMsgs.locales["en"] = {
   SMOOTH: "Smooth",
   SLOW: "SLOW",
   SLOWER: "Slower",
+  COMBINED_MOTOR_SPEED_TWO:
+    "%1 Combined speed of engine is set to %2 %% and %3 %%",
 };
 
 Blockly.ScratchMsgs.locales["es"] = {
@@ -29290,9 +29284,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   COMBINED_MOTOR_STARTING: "%1 将组合电机设置为 %2",
   COMBINED_MOTOR_STARTWITHPOWER: "%1 组合电机以 %2 %% 和 %3 %%的功率移动",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 组合电机以 %2 %% 和 %3 %%的功率 执行 %4 %5",
-  COMBINED_MOTOR_MOVEBYYAWANGLE: "%1 组合电机根据偏航角直线 %2 %3 %4 KP %5",
-  COMBINED_MOTOR_SPINBYYAWANGLE: "%1 组合电机根据偏航角旋转 %2 度",
+    "%1 组合电机以 %2 %% 和 %3 %%的功率 执行 %4 秒",
   COMBINED_MOTOR_PWM: "%1 组合电机设置电机的PWM值为 %2 和 %3",
   MOTOR_STARTWITHPOWER: "%1 电机 %2 以 %3 %% 的功率启动",
   ANGLE_MOTOR: "%1 电机 %2 角度",
@@ -29486,10 +29478,6 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_REFLECTED_LIGHT_BLACKLINE: "%1 检测黑线阈值在 %2 左右",
   SENSING_GET_GRAY_LINE: "%1 获取循迹卡传感器值 %2",
   SENSING_GET_GRAY_LINESTATE: "%1 循迹卡传感器 %2 号的状态是否为1",
-  SENSING_LINEPATROLINIT: "巡线参数初始化",
-  SENSING_LINEPATROL: "双巡线 左传感器 %1 右传感器 %2 功率 %3 KP %4 KD %5 ",
-  SENSING_LINEPATROL_LTR:
-    "双巡线 左传感器 %1 右传感器 %2 左功率 %3 右功率 %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "判断 %1 当前循迹卡 %2 状态",
   SENSING_CAMERA_FIND_COLOR_BLOCK: "%1 %2 搜索色块 R %3 G %4 B %5 容差 %6",
   SENSING_CAMERA_FIND_COLOR_STATE: "%1 获取色块当前查找的状态",
@@ -29632,6 +29620,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SMOOTH: "平滑",
   SLOW: "慢",
   SLOWER: "更慢",
+  COMBINED_MOTOR_SPEED_TWO: "%1 组合电机速率设置为 %2 %% 和 %3 %%",
 };
 
 Blockly.ScratchMsgs.locales["zh-tw"] = {
@@ -30016,7 +30005,7 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   COMBINED_MOTOR_STOPPING: "%1 將運轉馬達設定為停止時 %2",
   COMBINED_MOTOR_STARTING: "%1 將組合馬達設定為 %2",
   COMBINED_MOTOR_STARTWITHPOWER: "%1 組合馬達以 %2 %% 和 %3 %%的功率移動",
-  COMBINED_MOTOR_STARTWITHPOWEROBJ: "%1 組合電機以 %2 %3 執行 %4 %5",
+  COMBINED_MOTOR_STARTWITHPOWEROBJ: "%1 組合電機以 %2 %3 執行 %4 秒",
   MOTOR_STARTWITHPOWER: "%1 馬達 %2 以 %3 %% 的動力啟動",
   BIG_MOTOR: "大馬達",
   SMALL_MOTOR: "中馬達",

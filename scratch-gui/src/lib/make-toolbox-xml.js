@@ -179,6 +179,15 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${blockSeparator}
+                <block type="combined_motor_speed_two">
+                    <value name="SPEED_FIRST">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="SPEED_SECOND">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
                 <block type="combined_motor_line">
                     <value name="distance">
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
@@ -210,62 +219,6 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="combined_motor_moveByYawAngle">
-                    <value name="COUNT">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                    <value name="KP">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_motor_spinByYawAngle">
-                    <value name="ANGLE">
-                        <shadow type="math_number"><field name="NUM">90</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_linepatrolInit"></block>
-                ${blockSeparator}
-                <block type="combined_linepatrol">
-                    <value name="PORT_ONE">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="PORT_TWO">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="SPEED">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
-                    </value>
-                    <value name="KP">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="KD">
-                        <shadow type="math_number"><field name="NUM">0.6</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_linepatrol_ltr">
-                    <value name="PORT_ONE">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="PORT_TWO">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="LEFT">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
-                    </value>
-                    <value name="RIGHT">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
-                    </value>
-                    <value name="KP">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="KD">
-                        <shadow type="math_number"><field name="NUM">0.6</field></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
             </category>
             `;
 };

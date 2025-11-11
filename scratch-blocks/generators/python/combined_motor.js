@@ -47,9 +47,23 @@ Blockly.Python["combined_motor_speed"] = function (block) {
     "SPEED",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
-  // const code = `motor_combined_speed("${one}", "${two}", ${speed});\n`;
   const code = `set_combined_speed(${speed})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+};
+
+//新增设置两个速率选项
+Blockly.Python["combined_motor_speed_two"] = function (block) {
+  const speedFirst = Blockly.Python.valueToCode(
+    block,
+    "SPEED_FIRST",
+    Blockly.Python.ORDER_NONE
+  );
+  const speedSecond = Blockly.Python.valueToCode(
+    block,
+    "SPEED_SECOND",
+    Blockly.Python.ORDER_NONE
+  );
+  const code = `set_combined_speed(${speedFirst}, ${speedSecond})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -143,8 +157,8 @@ Blockly.Python["combined_motor_startWithPower"] = function (block) {
     "POWER_TWO",
     Blockly.Python.ORDER_NONE
   );
-  const code = `mov_power(${one}, ${two})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const code = `combined_motor(${one}, ${two})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
@@ -163,33 +177,8 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const unit = block.getFieldValue("unit");
-  const code = `mov_for_power_degrees(${one}, ${two}, ${count}, "${unit}")\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
-Blockly.Python["combined_motor_moveByYawAngle"] = function (block) {
-  const count = Blockly.Python.valueToCode(
-    block,
-    "COUNT",
-    Blockly.Python.ORDER_NONE
-  );
-  const KP = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const unit = block.getFieldValue("unit");
-  let direction = block.getFieldValue("direction");
-  direction = direction[0].toLowerCase() + direction.slice(1);
-  const code = `mov_yaw_line("${direction}", ${count}, "${unit}", ${KP})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
-Blockly.Python["combined_motor_spinByYawAngle"] = function (block) {
-  const angle = Blockly.Python.valueToCode(
-    block,
-    "ANGLE",
-    Blockly.Python.ORDER_NONE
-  );
-  const code = `mov_yaw_angle(${angle})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const code = `combined_motor(${one}, ${two}, ${count})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["combined_motor_pwm"] = function (block) {
@@ -206,74 +195,4 @@ Blockly.Python["combined_motor_pwm"] = function (block) {
   // TODO: Assemble Python into code variable.
   const code = `\n`;
   return code;
-};
-
-Blockly.Python["combined_linepatrolInit"] = function (block) {
-  return Blockly.Python.handleResult(
-    `mov_find_line_init()\n`,
-    Blockly.Python.MOTOR_TYPE
-  );
-};
-
-Blockly.Python["combined_linepatrol"] = function (block) {
-  const portOne = Blockly.Python.valueToCode(
-    block,
-    "PORT_ONE",
-    Blockly.Python.ORDER_NONE
-  );
-  const portTwo = Blockly.Python.valueToCode(
-    block,
-    "PORT_TWO",
-    Blockly.Python.ORDER_NONE
-  );
-  const speed = Blockly.Python.valueToCode(
-    block,
-    "SPEED",
-    Blockly.Python.ORDER_NONE
-  );
-  const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-  // const sp = Blockly.Python.valueToCode(
-  //   block,
-  //   "SPIN_PARAMS",
-  //   Blockly.Python.ORDER_NONE
-  // );
-  return Blockly.Python.handleResult(
-    `mov_find_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd})\n`,
-    Blockly.Python.MOTOR_TYPE
-  );
-};
-
-Blockly.Python["combined_linepatrol_ltr"] = function (block) {
-  const portOne = Blockly.Python.valueToCode(
-    block,
-    "PORT_ONE",
-    Blockly.Python.ORDER_NONE
-  );
-  const portTwo = Blockly.Python.valueToCode(
-    block,
-    "PORT_TWO",
-    Blockly.Python.ORDER_NONE
-  );
-  const left = Blockly.Python.valueToCode(
-    block,
-    "LEFT",
-    Blockly.Python.ORDER_NONE
-  );
-  const right = Blockly.Python.valueToCode(
-    block,
-    "RIGHT",
-    Blockly.Python.ORDER_NONE
-  );
-  const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-  // const sp = Blockly.Python.valueToCode(
-  //   block,
-  //   "SPIN_PARAMS",
-  //   Blockly.Python.ORDER_NONE
-  // );
-  return Blockly.Python.handleResult(
-    `mov_find_line_power_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
-    Blockly.Python.MOTOR_TYPE
-  );
 };

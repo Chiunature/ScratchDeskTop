@@ -151,6 +151,8 @@ Blockly.Msg.DIRECTION_MOTOR = "%1 start moving %2";
 Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 moving %3 seconds";
 Blockly.Msg.COMBINED_MOTOR_SPEED =
   "%1 Combined speed of engine is set to %2 %%";
+Blockly.Msg.COMBINED_MOTOR_SPEED_TWO =
+  "%1 Combined speed of engine is set to %2 %% and %3 %%";
 Blockly.Msg.COMBINED_MOTOR_TURN = "%1 combined motor %2 %3 %4 %5 moving %6 %7";
 Blockly.Msg.COMBINED_MOTOR_STOP = "%1 stop motion";
 Blockly.Msg.COMBINED_MOTOR_MOVESTEP = "%1 at a speed of %2 and %3 %% to move";
@@ -169,7 +171,7 @@ Blockly.Msg.STOPPING_COMBINED_MOTOR =
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
   "%1 at a speed of %2 and %3 %% to move";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
-  "%1 Combination motor executed at %2 %3 %4 %5";
+  "%1 Combination motor executed at %2 %3 %4 seconds";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
   "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE =
@@ -389,11 +391,6 @@ Blockly.Msg.SENSING_REFLECTED_LIGHT_BLACKLINE =
 Blockly.Msg.SENSING_GET_GRAY_LINE = "%1 Obtain grayscale sensor values %2";
 Blockly.Msg.SENSING_GET_GRAY_LINESTATE =
   "%1 Is it Obtain grayscale sensor values %2 ?";
-Blockly.Msg.SENSING_LINEPATROLINIT = "Initialize the linepatrol";
-Blockly.Msg.SENSING_LINEPATROL =
-  "The linepatrol %1 %2 power is %3 KP %4 KD %5 ";
-Blockly.Msg.SENSING_LINEPATROL_LTR =
-  "The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KD %6 ";
 Blockly.Msg.SENSING_JUDGELINESTATE =
   "Determine %1 the current grayscale %2 status";
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK =
