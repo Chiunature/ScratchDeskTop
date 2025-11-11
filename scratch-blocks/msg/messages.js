@@ -182,6 +182,7 @@ Blockly.Msg.LEFT = "turnleft";
 Blockly.Msg.RIGHT = "turnright";
 Blockly.Msg.TURNLEFT = "turnleft";
 Blockly.Msg.TURNRIGHT = "turnright";
+Blockly.Msg.STOP = "stop";
 Blockly.Msg.CENTIMETRE = "centimetre";
 Blockly.Msg.INCH = "inch";
 Blockly.Msg.CIRCLE = "circle";

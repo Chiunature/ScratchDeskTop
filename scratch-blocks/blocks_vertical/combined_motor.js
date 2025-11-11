@@ -176,6 +176,15 @@ Blockly.Blocks["combined_motor_direction"] = {
               },
               "right",
             ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "stop.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.STOP,
+              },
+              "stop",
+            ],
           ],
         },
       ],

@@ -36,10 +36,8 @@ Blockly.Python["combined_motor_starting"] = function (block) {
 Blockly.Python["combined_motor_direction"] = function (block) {
   let direction = block.getFieldValue("direction");
   direction = direction[0].toLowerCase() + direction.slice(1);
-  // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
-  // TODO: Assemble Python into code variable.
-  const code = `mov("${direction}")\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const code = `combined_motor("${direction}")\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["combined_motor_speed"] = function (block) {

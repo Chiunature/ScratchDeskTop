@@ -29314,6 +29314,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   TURNRIGHT: "向右转",
   LEFT: "反转",
   RIGHT: "正转",
+  STOP: "停止",
   PAUSE: "停止",
   INCH: "英寸",
   CENTIMETRE: "厘米",
