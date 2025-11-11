@@ -68,6 +68,6 @@ Blockly.Python["sound_PlayMusic"] = function (block) {
     "BEATS",
     Blockly.Python.ORDER_ATOMIC
   );
-  const code = `soundPianomusic("${note}.wav", ${beats})\n`;
+  const code = `asyncio.create_task(note_play("${note}.wav", ${beats}))\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE);
 };

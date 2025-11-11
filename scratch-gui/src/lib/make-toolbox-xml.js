@@ -261,12 +261,6 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                 ${blockSeparator}
                 <block type="matrix_lamp_stop"></block>
                 ${blockSeparator}
-                <block type="matrix_lamp_set">
-                    <value name="brightness">
-                        <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="matrix_lamp_text">
                     <value name="matrix_text">
                         <shadow type="text">
@@ -275,24 +269,6 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="matrix_color">
-                    <value name="COLOR">
-                        <shadow type="colour_picker"/>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="matrix_lamp_single">
-                    <value name="x">
-                        <shadow type="matrix_x"></shadow>
-                    </value>
-                    <value name="y">
-                        <shadow type="matrix_y"></shadow>
-                    </value>
-                    <value name="brightness">
-                        <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
             </category>
             `;
 };

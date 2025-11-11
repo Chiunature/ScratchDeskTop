@@ -46,7 +46,7 @@ Blockly.Python["matrix_y"] = function (block) {
 Blockly.Python["matrix_lamp"] = function (block) {
   let lamp = block.getFieldValue("lamp");
   let lp = Blockly.Python.stringToHex(lamp);
-  let code = `display(${lp})\n`;
+  let code = `display(b'${lp}')\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
@@ -59,73 +59,12 @@ Blockly.Python["matrix_lamp_text"] = function (block) {
   // const regex = /^[A-Za-z0-9]+$/;
   // const match = regex.exec(text);
   // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `scroll_text(${text})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
-};
-
-Blockly.Python["matrix_lamp_set"] = function (block) {
-  let brightness = Blockly.Python.valueToCode(
-    block,
-    "brightness",
-    Blockly.Python.ORDER_NONE
-  );
-  if (brightness.indexOf("(") === -1 && !isNaN(brightness / 10)) {
-    brightness = parseInt(brightness) + "";
-  }
-  // TODO: Assemble Python into code variable.
-  let code = `set_brightness(${brightness})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
-};
-
-Blockly.Python["matrix_lamp_single"] = function (block) {
-  let x = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
-  let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
-  let brightness = Blockly.Python.valueToCode(
-    block,
-    "brightness",
-    Blockly.Python.ORDER_ATOMIC
-  );
-
-  // 确保亮度值在 0-100 范围内
-  if (brightness && !isNaN(brightness)) {
-    brightness = Math.max(0, Math.min(100, parseInt(brightness)));
-  }
-
-  // TODO: Assemble Python into code variable.
-  let code = `set_pixel_brightness(${x},${y},${brightness})\n`;
+  let code = `asyncio.create_task(scroll_text(${text}))\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python["matrix_lamp_stop"] = function (block) {
   //清除内容
   let code = `display()\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
-};
-
-Blockly.Python["matrix_color"] = function (block) {
-  let color = Blockly.Python.valueToCode(
-    block,
-    "COLOR",
-    Blockly.Python.ORDER_ATOMIC
-  );
-  Blockly.Python.oldColor = color;
-  let newColor;
-  if (
-    typeof color === "string" &&
-    color.indexOf("(") === -1 &&
-    color.indexOf("#") !== -1
-  ) {
-    const pre = Blockly.Python.hexToRgb(color);
-    // const target = Blockly.Python.rgbToGrb(pre);
-    const last = Blockly.Python.grbToHex(pre);
-    if (!last) {
-      return;
-    }
-    newColor = last.replace(/\'/g, "");
-  } else {
-    newColor = color;
-  }
-  // TODO: Assemble Python into code variable.
-  let code = `set_color(${newColor})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };

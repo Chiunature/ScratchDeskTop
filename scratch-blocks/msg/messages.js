@@ -483,13 +483,9 @@ Blockly.Msg.SOUND_PLAYMUSIC = "Play note %1 for %2 beats";
 //Matrix blocks
 Blockly.Msg.MATRIX_LAMP = "%1 light %2 ";
 Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";
-Blockly.Msg.SET_MATRIX_LAMP =
-  "%1 set the brightness of the pixel light to %2 %%";
-Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 turn on Pixels x %2 y %3 brightness %4 %%";
 Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
 Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";
-Blockly.Msg.MATRIX_COLOR = "%1 set the light's color is %2";
 Blockly.Msg.SET_MATRIX_SATURATION =
   "%1 set the saturation of the pixel light to %2 %%";
 Blockly.Msg.SET_COLOR_RGB_MATRIX_LAMP =

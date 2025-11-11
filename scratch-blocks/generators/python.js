@@ -469,20 +469,20 @@ Blockly.Python.stringToHex = function (matrix) {
   const matrixArr = matrix.match(/.{1,5}/g) || [];
   // 定义存储16进制数的数组（按列转换）
   const hexArr = [];
-  
+
   // 需要按列转换：遍历5列
   for (let col = 0; col < 5; col++) {
-    let columnBits = '';
+    let columnBits = "";
     // 遍历7行，从第一行到第七行（正序，第一行对应bit 0最低位）
     for (let row = 0; row < 7; row++) {
       if (matrixArr[row] && matrixArr[row][col]) {
         columnBits += matrixArr[row][col];
       } else {
-        columnBits += '0';
+        columnBits += "0";
       }
     }
     // 反转位序，使第一行对应最低位
-    columnBits = columnBits.split('').reverse().join('');
+    columnBits = columnBits.split("").reverse().join("");
     // 转换为十进制数（1代表亮，0代表不亮）
     const decimalNum = parseInt(columnBits, 2);
     const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0");
@@ -570,13 +570,13 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
       // }
-      result = "_matrix." + result;
+      result = "" + result;
       break;
     case Blockly.Python.SOUND_TYPE:
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
       // }
-      result = "_music." + result;
+      result = "" + result;
       break;
     case Blockly.Python.MEM_TYPE:
       // if (!Blockly.Python.setups_[type]) {
