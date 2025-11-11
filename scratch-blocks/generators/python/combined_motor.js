@@ -49,7 +49,7 @@ Blockly.Python["combined_motor_speed"] = function (block) {
   );
   // TODO: Assemble Python into code variable.
   // const code = `motor_combined_speed("${one}", "${two}", ${speed});\n`;
-  const code = `mov_set_duty(${speed})\n`;
+  const code = `set_combined_speed(${speed})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -92,8 +92,8 @@ Blockly.Python["combined_motor_stop"] = function (block) {
   // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
   // TODO: Assemble Python into code variable.
   // const code = `motor_combined_stop("${one}", "${two}");\n`;
-  const code = `mov_stop()\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  const code = `combined_motor("stop")\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["combined_motor_move"] = function (block) {
@@ -128,7 +128,7 @@ Blockly.Python["combined_motor_angle"] = function (block) {
 Blockly.Python["combined_motor_stopping"] = function (block) {
   const style = block.getFieldValue("status");
   const stopValue = parseInt(style, 10);
-  const code = `mov_set_stop_module(${stopValue})\n`;
+  const code = `set_combined_stopmode(${stopValue})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
