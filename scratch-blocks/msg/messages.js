@@ -193,11 +193,8 @@ Blockly.Msg.ANTICLOCKWISE = "anticlockwise";
 Blockly.Msg.RETARDATION = "retardation";
 Blockly.Msg.STILL = "still";
 Blockly.Msg.FLOAT = "float";
-Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
-Blockly.Msg.ANGLE_MOTOR = "%1 %2 angle";
-Blockly.Msg.MOTOR_POSITION = "%1 %2 position";
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
-Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 %5";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 second";
 Blockly.Msg.SPEED_MOTOR = "%1 %2 set speed to %3 %%";
 Blockly.Msg.STOP_MOTOR = "%1 %2 stop motor";
 Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
@@ -209,8 +206,6 @@ Blockly.Msg.MOTOR_ACCELERATION =
   "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL =
   "%1 Set the retention coefficient of %2 to P %3, I %4, D %5";
-Blockly.Msg.MOTOR_RESET_OPERATING_DEGREE =
-  "%1 Reset the %2 motor's running degree";
 Blockly.Msg.MOTOR_SINGLE_PWM = "%1 Set the %2 motor's PWM to %3";
 Blockly.Msg.BIG_MOTOR = "Big motor";
 Blockly.Msg.SMALL_MOTOR = "Middle motor";

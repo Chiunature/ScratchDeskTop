@@ -117,30 +117,6 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
-                 <block type="motor_reset_operating_degree">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
-                <block type="motor_rate">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_position">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_angle">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
             </category>
             `;
 };

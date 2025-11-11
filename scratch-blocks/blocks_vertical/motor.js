@@ -325,6 +325,15 @@ Blockly.Blocks["motor_specifiedunit"] = {
           options: [
             [
               {
+                src: Blockly.mainWorkspace.options.pathToMedia + "pause.svg",
+                width: 20,
+                height: 20,
+                alt: Blockly.Msg.PAUSE,
+              },
+              "0",
+            ],
+            [
+              {
                 src:
                   Blockly.mainWorkspace.options.pathToMedia +
                   "rotate-right.svg",
@@ -332,7 +341,7 @@ Blockly.Blocks["motor_specifiedunit"] = {
                 height: 20,
                 alt: Blockly.Msg.RIGHT,
               },
-              "Advance",
+              "1",
             ],
             [
               {
@@ -342,22 +351,13 @@ Blockly.Blocks["motor_specifiedunit"] = {
                 height: 20,
                 alt: Blockly.Msg.LEFT,
               },
-              "Retreat",
+              "2",
             ],
           ],
         },
         {
           type: "input_value",
           name: "COUNT",
-        },
-        {
-          type: "field_dropdown",
-          name: "unit",
-          options: [
-            [Blockly.Msg.CIRCLE, "circly"],
-            [Blockly.Msg.ANGLE, "angle"],
-            [Blockly.Msg.SECONDS, "seconds"],
-          ],
         },
       ],
       category: Blockly.Categories.motor,
@@ -475,90 +475,6 @@ Blockly.Blocks["motor_specified_manner"] = {
   },
 };
 
-Blockly.Blocks["motor_rate"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.RATE_MOTOR,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "output_number"],
-    });
-  },
-};
-
-Blockly.Blocks["motor_angle"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.ANGLE_MOTOR,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "output_number"],
-    });
-  },
-};
-
-Blockly.Blocks["motor_position"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.MOTOR_POSITION,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "output_number"],
-    });
-  },
-};
-
 Blockly.Blocks["motor_startWithPower"] = {
   /**
    * Block to move steps.
@@ -630,35 +546,6 @@ Blockly.Blocks["motor_setStill"] = {
     });
   },
 };
-
-Blockly.Blocks["motor_reset_operating_degree"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.MOTOR_RESET_OPERATING_DEGREE,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "shape_statement"],
-    });
-  },
-};
-
 Blockly.Blocks["motor_single_pwm"] = {
   /**
    * Block to move steps.
