@@ -148,7 +148,7 @@ Blockly.Msg.LOOKS_RANDOMBACKDROP = "random backdrop";
 // combined motor blocks
 Blockly.Msg.STARTING_COMBINED_MOTOR = "%1 set the running motor to %2 %3";
 Blockly.Msg.DIRECTION_MOTOR = "%1 start moving %2";
-Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 moving %3 %4";
+Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 moving %3 seconds";
 Blockly.Msg.COMBINED_MOTOR_SPEED =
   "%1 Combined speed of engine is set to %2 %%";
 Blockly.Msg.COMBINED_MOTOR_TURN = "%1 combined motor %2 %3 %4 %5 moving %6 %7";

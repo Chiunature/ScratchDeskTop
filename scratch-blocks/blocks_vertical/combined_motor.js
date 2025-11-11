@@ -145,7 +145,7 @@ Blockly.Blocks["combined_motor_direction"] = {
                 height: 25,
                 alt: Blockly.Msg.ADVANCE,
               },
-              "Advance",
+              "forward",
             ],
             [
               {
@@ -154,7 +154,7 @@ Blockly.Blocks["combined_motor_direction"] = {
                 height: 25,
                 alt: Blockly.Msg.BACK,
               },
-              "Retreat",
+              "backward",
             ],
             [
               {
@@ -327,7 +327,7 @@ Blockly.Blocks["combined_motor_line"] = {
                 height: 25,
                 alt: Blockly.Msg.ADVANCE,
               },
-              "Advance",
+              "forward",
             ],
             [
               {
@@ -336,7 +336,7 @@ Blockly.Blocks["combined_motor_line"] = {
                 height: 25,
                 alt: Blockly.Msg.BACK,
               },
-              "Retreat",
+              "backward",
             ],
             [
               {
@@ -358,20 +358,20 @@ Blockly.Blocks["combined_motor_line"] = {
               },
               "right",
             ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "stop.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.STOP,
+              },
+              "stop",
+            ],
           ],
         },
         {
           type: "input_value",
           name: "distance",
-        },
-        {
-          type: "field_dropdown",
-          name: "unit",
-          options: [
-            [Blockly.Msg.CIRCLE, "circly"],
-            [Blockly.Msg.ANGLE, "angle"],
-            [Blockly.Msg.SECONDS, "seconds"],
-          ],
         },
       ],
       category: Blockly.Categories.combined_motor,

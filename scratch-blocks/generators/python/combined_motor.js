@@ -83,12 +83,9 @@ Blockly.Python["combined_motor_line"] = function (block) {
     "distance",
     Blockly.Python.ORDER_NONE
   );
-  const unit = block.getFieldValue("unit");
-  // const {one, two} = Blockly.Python.combinedMotor(block, "PORT1", "PORT2");
-  // TODO: Assemble Python into code variable.
-  // const code = `motor_combined_line("${one}", "${two}", "${line}", ${distance}, "${unit}");\n`;
-  const code = `mov_for_degrees("${line}", ${distance}, "${unit}")\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+  //xxx移动xx秒
+  const code = `combined_motor("${line}", time=${distance})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
 Blockly.Python["combined_motor_stop"] = function (block) {

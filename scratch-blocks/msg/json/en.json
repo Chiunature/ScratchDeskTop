@@ -187,7 +187,7 @@
   "COMBINED_MOTOR_STARTING": "%1 set the running motor to %2 %3",
   "DIRECTION_MOTOR": "%1 %2 %3 start moving %4",
   "COMBINED_MOTOR_TURN": "%1 %2 %3 move %4 %5",
-  "COMBINED_MOTOR_LINE": "%1 %2 move %3 %4",
+  "COMBINED_MOTOR_LINE": "%1 %2 move %3 seconds",
   "COMBINED_MOTOR_SPEED": "%1 Combined motor speed is set to %2 %%",
   "COMBINED_MOTOR_STOP": "%1 stop motion",
   "COMBINED_MOTOR_MOVE": "%1 at a speed of %2 and %3 %%to move %4 %5",
