@@ -4,24 +4,6 @@ goog.provide("Blockly.Python.combined_motor");
 
 goog.require("Blockly.Python");
 
-// 字母转换数字
-Blockly.Python["combined_letter_to_number"] = function (port) {
-  // 接收一个字母或者数字，如果字母是单个字母直接转，如果不是拆开再转
-  const portMap = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7 };
-  const cleanPort = port.replace(/['"]/g, "");
-  if (cleanPort.includes("+")) {
-    const ports = cleanPort.split("+");
-    const numbers = ports.map((item) => {
-      return portMap[item.trim()] !== undefined
-        ? portMap[item.trim()]
-        : item.trim();
-    });
-    return numbers.join(",");
-  } else {
-    return portMap[cleanPort] !== undefined ? portMap[cleanPort] : cleanPort;
-  }
-};
-
 Blockly.Python["combined_motor_box"] = function (block) {
   const menu = block.getFieldValue("MOTOR");
   // TODO: Assemble Python into code variable.
@@ -45,12 +27,9 @@ Blockly.Python["combined_motor_starting"] = function (block) {
     block,
     "PORT",
     Blockly.Python.ORDER_NONE
-  );
-
-  // 使用转换函数将字母端口转换为数字
-  const convertedPort = Blockly.Python["combined_letter_to_number"](port);
-
-  const code = `pair(${convertedPort})\n`;
+  ).split("+");
+  const [port1, port2] = port;
+  const code = `set_combined_motor("${port1}","${port2}")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

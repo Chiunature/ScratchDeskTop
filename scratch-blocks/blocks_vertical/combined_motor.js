@@ -15,7 +15,7 @@ Blockly.Blocks["combined_motor_box"] = {
         {
           type: "field_combined_motor",
           name: "MOTOR",
-          motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          motorList: ["null", "null", "C", "D", "null", "null", "G", "H"],
         },
       ],
       category: Blockly.Categories.combined_motor,
