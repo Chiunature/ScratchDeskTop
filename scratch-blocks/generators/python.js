@@ -465,16 +465,29 @@ Blockly.Python.check_ = function (block) {
 };
 
 Blockly.Python.stringToHex = function (matrix) {
-  // 将字符串按照每9个字符分割成数组
-  const matrixArr = matrix.match(/.{1,7}/g);
-  // 定义存储16进制数的数组
+  // 将字符串按照每5个字符分割成数组（7行x5列）
+  const matrixArr = matrix.match(/.{1,5}/g) || [];
+  // 定义存储16进制数的数组（按列转换）
   const hexArr = [];
-  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
-  matrixArr.map((element) => {
-    const decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
-    const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0"); // 将十进制数转换为16进制数
+  
+  // 需要按列转换：遍历5列
+  for (let col = 0; col < 5; col++) {
+    let columnBits = '';
+    // 遍历7行，从第一行到第七行（正序，第一行对应bit 0最低位）
+    for (let row = 0; row < 7; row++) {
+      if (matrixArr[row] && matrixArr[row][col]) {
+        columnBits += matrixArr[row][col];
+      } else {
+        columnBits += '0';
+      }
+    }
+    // 反转位序，使第一行对应最低位
+    columnBits = columnBits.split('').reverse().join('');
+    // 转换为十进制数（1代表亮，0代表不亮）
+    const decimalNum = parseInt(columnBits, 2);
+    const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0");
     hexArr.push(hexNum);
-  });
+  }
 
   return hexArr;
 };

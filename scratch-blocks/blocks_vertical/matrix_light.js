@@ -28,11 +28,7 @@ Blockly.Blocks["matrix_lamp"] = {
           type: "field_matrix",
           name: "lamp",
           matrix:
-            "111111111111111111111111111111111111111111111111111111111111111",
-        },
-        {
-          type: "input_value",
-          name: "COLOR",
+            "11111111111111111111111111111111111",
         },
       ],
       category: Blockly.Categories.matrix,

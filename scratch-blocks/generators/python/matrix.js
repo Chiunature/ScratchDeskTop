@@ -45,40 +45,8 @@ Blockly.Python["matrix_y"] = function (block) {
 
 Blockly.Python["matrix_lamp"] = function (block) {
   let lamp = block.getFieldValue("lamp");
-  let no,
-    id = block.id,
-    blockDB_ = block.workspace.blockDB_;
-  Object.keys(blockDB_).map((el, index) => {
-    if (el == id) {
-      if (index > 0) no = index - 1;
-      else no = index;
-    }
-  });
-  let color = Blockly.Python.valueToCode(
-    block,
-    "COLOR",
-    Blockly.Python.ORDER_ATOMIC
-  );
   let lp = Blockly.Python.stringToHex(lamp);
-  let newColor;
-  if (
-    typeof color === "string" &&
-    color.indexOf("(") === -1 &&
-    color.indexOf("#") !== -1
-  ) {
-    const pre = Blockly.Python.hexToRgb(color);
-    // const target = Blockly.Python.rgbToGrb(pre);
-    const last = Blockly.Python.grbToHex(pre);
-    if (!pre) {
-      return;
-    }
-    newColor = last.replace(/\'/g, "");
-  } else {
-    newColor = color;
-  }
-
-  // TODO: Assemble Python into code variable.
-  let code = `show(${newColor}, ${lp})\n`;
+  let code = `display(${lp})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
@@ -91,7 +59,7 @@ Blockly.Python["matrix_lamp_text"] = function (block) {
   // const regex = /^[A-Za-z0-9]+$/;
   // const match = regex.exec(text);
   // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `show_roll(str(${text}))\n`;
+  let code = `scroll_text(${text})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
@@ -129,8 +97,8 @@ Blockly.Python["matrix_lamp_single"] = function (block) {
 };
 
 Blockly.Python["matrix_lamp_stop"] = function (block) {
-  // TODO: Assemble Python into code variable.
-  let code = `clear()\n`;
+  //清除内容
+  let code = `display()\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 

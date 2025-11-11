@@ -181,20 +181,20 @@ Blockly.FieldMatrix.MATRIX_NODE_RADIUS = 4;
 Blockly.FieldMatrix.MATRIX_NODE_PAD = 7;
 Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO = 9;
 /**
- * String with 25 '0' chars.
+ * String with 35 '0' chars (7 rows x 5 columns).
  * Used for clearing a matrix or filling an LED node array.
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ZEROS = '000000000000000000000000000000000000000000000000000000000000000';
+Blockly.FieldMatrix.ZEROS = '00000000000000000000000000000000000';
 
 /**
- * String with 25 '1' chars.
+ * String with 35 '1' chars (7 rows x 5 columns).
  * Used for filling a matrix.
  * @type {string}
  * @const
  */
-Blockly.FieldMatrix.ONES = '111111111111111111111111111111111111111111111111111111111111111';
+Blockly.FieldMatrix.ONES = '11111111111111111111111111111111111';
 
 Blockly.FieldMatrix.timer = null;
 Blockly.FieldMatrix.callback = null;
@@ -232,8 +232,8 @@ Blockly.FieldMatrix.prototype.init = function () {
   this.ledThumbNodes_ = [];
   var nodeSize = Blockly.FieldMatrix.THUMBNAIL_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.THUMBNAIL_NODE_PAD;
-  for (var i = 0; i < 9; i++) {
-    for (var n = 0; n < 7; n++) {
+  for (var i = 0; i < 7; i++) {
+    for (var n = 0; n < 5; n++) {
       var attr = {
         'x': ((nodeSize + nodePad) * n) + nodePad,
         'y': ((nodeSize + nodePad) * i) + nodePad,
@@ -281,23 +281,35 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
     Blockly.Events.fire(new Blockly.Events.Change(
       this.sourceBlock_, 'field', this.name, this.matrix_, matrix));
   }
-  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 63 - matrix.length);
+  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 35 - matrix.length);
   this.matrix_ = matrix;
   this.updateMatrix_();
 };
 
 
 Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
-  // 将字符串按照每9个字符分割成数组
-  var matrixArr = matrix.match(/.{1,7}/g);
-  // 定义存储16进制数的数组
+  // 将字符串按照每5个字符分割成数组（7行x5列）
+  var matrixArr = matrix.match(/.{1,5}/g) || [];
+  // 定义存储16进制数的数组（按列转换）
   var hexArr = [];
-  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
-  matrixArr.map(element => {
-    var decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
-    // var hexNum = decimalNum.toString(16).padStart(2, '0'); // 将十进制数转换为16进制数
+  
+  // 需要按列转换：遍历5列
+  for (var col = 0; col < 5; col++) {
+    var columnBits = '';
+    // 遍历7行，从第一行到第七行（正序，第一行对应bit 0最低位）
+    for (var row = 0; row < 7; row++) {
+      if (matrixArr[row] && matrixArr[row][col]) {
+        columnBits += matrixArr[row][col];
+      } else {
+        columnBits += '0';
+      }
+    }
+    // 反转位序，使第一行对应最低位
+    columnBits = columnBits.split('').reverse().join('');
+    // 转换为十进制数（1代表亮，0代表不亮）
+    var decimalNum = parseInt(columnBits, 2);
     hexArr.push(decimalNum);
-  });
+  }
 
   return hexArr;
 }
@@ -321,8 +333,8 @@ Blockly.FieldMatrix.prototype.showEditor_ = function () {
   Blockly.DropDownDiv.clearContent();
   var div = Blockly.DropDownDiv.getContentDiv();
   // Build the SVG DOM.
-  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 7) +
-    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 8);
+  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 5) +
+    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 6);
   this.matrixStage_ = Blockly.utils.createSvgElement('svg', {
     'xmlns': 'http://www.w3.org/2000/svg',
     'xmlns:html': 'http://www.w3.org/1999/xhtml',
@@ -333,8 +345,8 @@ Blockly.FieldMatrix.prototype.showEditor_ = function () {
   }, div);
   // Create the 5x5 matrix
   this.ledButtons_ = [];
-  for (var i = 0; i < 9; i++) {
-    for (var n = 0; n < 7; n++) {
+  for (var i = 0; i < 7; i++) {
+    for (var n = 0; n < 5; n++) {
       var x = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * n) +
         (Blockly.FieldMatrix.MATRIX_NODE_PAD * (n + 1));
       var y = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * i) +
@@ -485,24 +497,24 @@ Blockly.FieldMatrix.prototype.fillMatrixNode_ = function (node, index, fill) {
 };
 
 Blockly.FieldMatrix.prototype.setLEDNode_ = function (led, state) {
-  if (led < 0 || led > 62) return;
+  if (led < 0 || led > 34) return;
   var matrix = this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
   this.setValue(matrix);
   this.changeMatrix('change');
 };
 
 Blockly.FieldMatrix.prototype.fillLEDNode_ = function (led) {
-  if (led < 0 || led > 62) return;
+  if (led < 0 || led > 34) return;
   this.setLEDNode_(led, '1');
 };
 
 Blockly.FieldMatrix.prototype.clearLEDNode_ = function (led) {
-  if (led < 0 || led > 62) return;
+  if (led < 0 || led > 34) return;
   this.setLEDNode_(led, '0');
 };
 
 Blockly.FieldMatrix.prototype.toggleLEDNode_ = function (led) {
-  if (led < 0 || led > 62) return;
+  if (led < 0 || led > 34) return;
   if (this.matrix_.charAt(led) === '0') {
     this.setLEDNode_(led, '1');
   } else {
@@ -579,7 +591,7 @@ Blockly.FieldMatrix.prototype.checkForLED_ = function (e) {
   }
   var xDiv = Math.trunc((dx - nodePad / 2) / (nodeSize + nodePad));
   var yDiv = Math.trunc((dy - nodePadTwo / 2) / (nodeSize + nodePadTwo));
-  return xDiv + (yDiv * nodePad);
+  return xDiv + (yDiv * 5);
 };
 
 /**
