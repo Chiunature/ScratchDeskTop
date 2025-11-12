@@ -207,10 +207,9 @@ Blockly.Python["sensing_reflected_light_judgment"] = function (block) {
     "value",
     Blockly.Python.ORDER_NONE
   );
-  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `cmp_lux(${portValue}, "${judgment}", ${inp})`,
-    Blockly.Python.COLOR_TYPE
+    `get_sensor_data(${port},2)${judgment}${inp}`,
+    Blockly.Python.LIGHT_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -221,10 +220,9 @@ Blockly.Python["sensing_reflected_light_detection"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `lux(${portValue})`,
-    Blockly.Python.COLOR_TYPE
+    `get_sensor_data(${port},2)`,
+    Blockly.Python.LIGHT_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -275,9 +273,8 @@ Blockly.Python["sensing_key_judgment"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `state(${portValue})`,
+    `get_sensor_data(${port},1)==1`,
     Blockly.Python.TOUCH_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -288,7 +285,7 @@ Blockly.Python["sensing_mainIsPress"] = function (block) {
   const btn = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `key_mast("${keys}", ${btn})`,
+    `keys["${keys}"].value()==${btn}`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];

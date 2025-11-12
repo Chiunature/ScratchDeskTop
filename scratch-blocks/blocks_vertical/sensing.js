@@ -80,7 +80,7 @@ Blockly.Blocks["sensing_menu"] = {
         {
           type: "field_motor",
           name: "SENSING_MENU",
-          motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          motorList: ["A", "B", null, null, "E", "F", null, null],
         },
       ],
       category: Blockly.Categories.sensing,
@@ -339,20 +339,6 @@ Blockly.Blocks["sensing_key_judgment"] = {
       type: "sensing_key_judgment",
       message0: Blockly.Msg.SENSING_KEY_JUDGMENT,
       args0: [
-        // {
-        //   "type": "field_dropdown",
-        //   "name": "PORT",
-        //   "options": [
-        //     [
-        //       Blockly.Msg.PLEFT,
-        //       "left"
-        //     ],
-        //     [
-        //       Blockly.Msg.PRIGHT,
-        //       "right"
-        //     ]
-        //   ]
-        // },
         {
           type: "input_value",
           name: "PORT",
@@ -593,16 +579,16 @@ Blockly.Blocks["sensing_mainIsPress"] = {
           type: "field_dropdown",
           name: "KEYS",
           options: [
-            [Blockly.Msg.PLEFT, "left"],
-            [Blockly.Msg.PRIGHT, "right"],
+            [Blockly.Msg.PLEFT, "K2"],
+            [Blockly.Msg.PRIGHT, "K3"],
           ],
         },
         {
           type: "field_dropdown",
           name: "BUTTON",
           options: [
-            [Blockly.Msg.PRESS, "1"],
-            [Blockly.Msg.UNPRESS, "0"],
+            [Blockly.Msg.PRESS, "0"],
+            [Blockly.Msg.UNPRESS, "1"],
           ],
         },
       ],

@@ -102,7 +102,7 @@ Blockly.Python.CAM_TYPE = "camera";
 Blockly.Python.TIMER_TYPE = "timer";
 Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.STR_TYPE = "str";
-
+Blockly.Python.LIGHT_TYPE = "lightSensing";
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
 /**
@@ -590,6 +590,9 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       // }
       result = "_color." + result;
       break;
+    case Blockly.Python.LIGHT_TYPE:
+      result = "" + result;
+      break;
     case Blockly.Python.MOTOR_TYPE:
       if (isAwait) {
         result = `await app.${result}`;
@@ -608,13 +611,13 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
       // }
-      result = "_touch." + result;
+      result = "" + result;
       break;
     case Blockly.Python.KEY_TYPE:
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
       // }
-      result = "_key." + result;
+      result = "" + result;
       break;
     case Blockly.Python.GRAY_TYPE:
       // if (!Blockly.Python.setups_[type]) {
