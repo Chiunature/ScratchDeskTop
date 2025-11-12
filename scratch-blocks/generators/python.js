@@ -636,7 +636,11 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       // if (!Blockly.Python.setups_[type]) {
       //   Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
       // }
-      result = "_os." + result;
+      if (isAwait) {
+        result = "await asyncio." + result;
+      } else {
+        result = "asyncio." + result;
+      }
       break;
     case Blockly.Python.MSG_TYPE:
       // if (!Blockly.Python.setups_[type]) {

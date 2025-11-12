@@ -28,8 +28,8 @@ Blockly.Python["control_wait"] = function (block) {
     "DURATION",
     Blockly.Python.ORDER_FUNCTION_CALL
   );
-  const code = "sleep_s(" + arg0 + ")\n";
-  return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
+  const code = `sleep(${arg0})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE, true);
 };
 
 Blockly.Python["control_repeat"] = function (block) {
@@ -40,18 +40,13 @@ Blockly.Python["control_repeat"] = function (block) {
   );
   let branch = Blockly.Python.statementToCode(block, "SUBSTACK");
   branch = Blockly.Python.addLoopTrap(branch, block.id);
-
-  let code = "for count in range(" + repeats + "):\n";
-  if (branch) {
-    code += Blockly.Python.addIndent(branch);
-  } else {
-    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
-  }
+  let code = "for _ in range(" + repeats + "):\n";
   return (
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "_os.sleep_s(0.001)\n"
+    "await asyncio.sleep(0)\n" +
+    Blockly.Python.addIndent(branch)
   );
 };
 
@@ -60,11 +55,6 @@ Blockly.Python["control_forever"] = function (block) {
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
   let code = "while True:\n";
-  if (branch) {
-    code += Blockly.Python.addIndent(branch);
-  } else {
-    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
-  }
 
   if (block.getRootBlock().type === "event_whenmicrobitbegin") {
     Blockly.Python.firstLoop = false;
@@ -75,7 +65,8 @@ Blockly.Python["control_forever"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "_os.sleep_s(0.001)\n"
+    "await asyncio.sleep(0)\n" +
+    Blockly.Python.addIndent(branch)
   );
 };
 
@@ -88,8 +79,10 @@ Blockly.Python["control_if"] = function (block) {
 
   let code = "if " + argument + ":\n";
   if (branch) {
+    //有代码拼接
     code += Blockly.Python.addIndent(branch);
   } else {
+    //没有代码拼接直接pass
     code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
   }
   return code;
@@ -129,7 +122,7 @@ Blockly.Python["control_wait_until"] = function (block) {
 
   let code = "while not (" + argument + "):\n";
   code +=
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "_os.sleep_s(0.001)\n";
+    Blockly.Python.INDENT + Blockly.Python.INDENT + "await asyncio.sleep(0)\n";
 
   if (block.getRootBlock().type === "event_whenmicrobitbegin") {
     code += Blockly.Python.INDENT + "repeat()\n";
@@ -150,11 +143,6 @@ Blockly.Python["control_repeat_until"] = function (block) {
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
   let code = "while not (" + argument + "):\n";
-  if (branch) {
-    code += Blockly.Python.addIndent(branch);
-  } else {
-    // code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n"
-  }
 
   if (block.getRootBlock().type === "event_whenmicrobitbegin") {
     code += Blockly.Python.INDENT + "repeat()\n";
@@ -163,7 +151,8 @@ Blockly.Python["control_repeat_until"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "_os.sleep_s(0.001)\n"
+    "await asyncio.sleep(0)\n" +
+    Blockly.Python.addIndent(branch)
   );
 };
 
@@ -172,30 +161,9 @@ Blockly.Python["control_break"] = function (block) {
 };
 
 Blockly.Python["control_stop"] = function (block) {
-  const ALL_SCRIPTS = "all";
-  const THIS_SCRIPT = "single";
-  const OTHER_SCRIPTS = "other";
-  const EXIT = "exit";
-
-  let stop_options = "";
-  switch (block.getFieldValue("STOP_OPTION")) {
-    case ALL_SCRIPTS:
-      stop_options = "stopAllTask";
-      break;
-    case THIS_SCRIPT:
-      stop_options = "stopThisTask";
-      break;
-    case OTHER_SCRIPTS:
-      stop_options = "stopOtherTask";
-      break;
-    case EXIT:
-      stop_options = "stopAndExit";
-      break;
-    default:
-      break;
-  }
-  return Blockly.Python.handleResult(
-    `stop("${stop_options}")\n`,
-    Blockly.Python.TIMER_TYPE
+  const core = "user_run_flag=0\n";
+  return (
+    core +
+    Blockly.Python.handleResult(`sleep(1)\n`, Blockly.Python.TIMER_TYPE, true)
   );
 };
