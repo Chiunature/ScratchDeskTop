@@ -1,98 +1,99 @@
 {
-    "WORKER": "WORKER",
-    "LINK": "LINK",
-    "SEND_OR_ON": {
-        "LAUCHFROMATC": "launchFromATC",
-        "SET_STATIC_PATH": "set_static_path",
-        "LOGO": {
-            "OPEN": "open-url"
-        },
-        "EXE": {
-            "DELETE": "delete-exe",
-            "FILES": "getFilesOfApp"
-        },
-        "CONNECTION": {
-            "GETLIST": "getConnectList",
-            "CONNECTED": "connect",
-            "DISCONNECTED": "disconnected"
-        },
-        "COMMUNICATION": {
-            "GETFILES": "getFilesAndCommunication"
-        },
-        "DEVICE": {
-            "WATCH": "watchDevice",
-            "CHECK": "checkDriver",
-            "PORT": "getPortDevice"
-        },
-        "ERROR": {
-            "TRANSMISSION": "transmission-error"
-        },
-        "FILE": {
-            "DELETE": "delRecord",
-            "NAME": "fileName"
-        },
-        "BLE": {
-            "GETBlELIST": "getBleList",
-            "CONNECTION": "ble-connection",
-            "DISCONNECTED": "ble-disconnected",
-            "SCANNING": "ble-scanning"
-        },
-        "VERSION": {
-            "GETVERSION": "getVersion",
-            "UPDATE": "update",
-            "REUPDATE": "reupdate"
-        },
-        "MATRIX": "MATRIX",
-        "RESTART": "restart",
-        "SENSING_UPDATE": "sensing_update",
-        "GETMAINMSG": "get_main_msg",
-        "CALIBRATION": "calibration"
+  "WORKER": "WORKER",
+  "LINK": "LINK",
+  "SEND_OR_ON": {
+    "LAUCHFROMATC": "launchFromATC",
+    "SET_STATIC_PATH": "set_static_path",
+    "LOGO": {
+      "OPEN": "open-url"
     },
-    "RETURN": {
-        "EXE": {
-            "DELETE": "return_delExe",
-            "FILES": "return_getFilesOfApp"
-        },
-        "CONNECTION": {
-            "GETLIST": "return_connectList",
-            "CONNECTED": "return_connected"
-        },
-        "DEVICE": {
-            "WATCH": "return_watchDevice",
-            "CHECK": "return_installDriver",
-            "PORT": "return_getPortDevice"
-        },
-        "COMMUNICATION": {
-            "BIN": {
-                "CONPLETED": "return_completed",
-                "PROGRESS": "return_progress"
-            },
-            "SOURCE": {
-                "CONPLETED": "return_sourceCompleted",
-                "NEXTFILE": "nextFile",
-                "LENGTH": "return_sourceLength"
-            }
-        },
-        "VERSION": "return_version",
-        "BLE": {
-            "SCANNING": "return_bleScanning",
-            "GETBlELIST": "return_getBleList",
-            "CONNECTION": "ble-connection",
-            "DISCONNECTED": "ble-disconnected"
-        },
-        "FILE": {
-            "DELETE": "delRecord",
-            "NAME": "fileName"
-        }
+    "EXE": {
+      "DELETE": "delete-exe",
+      "FILES": "getFilesOfApp"
     },
-    "DRIVER": {
-        "INSTALL": "install",
-        "REUPDATE": "reupdate"
+    "CONNECTION": {
+      "GETLIST": "getConnectList",
+      "CONNECTED": "connect",
+      "DISCONNECTED": "disconnected"
     },
-    "FILE":  {
-      "SAVE": "save-file"
+    "COMMUNICATION": {
+      "GETFILES": "getFilesAndCommunication",
+      "UPLOAD_PYTHON": "uploadPythonFile"
     },
-    "PROGRESSBAR": "progressBar",
-    "UPDATE": "update",
-    "LOAD_PROGRESS": "load_progress"
+    "DEVICE": {
+      "WATCH": "watchDevice",
+      "CHECK": "checkDriver",
+      "PORT": "getPortDevice"
+    },
+    "ERROR": {
+      "TRANSMISSION": "transmission-error"
+    },
+    "FILE": {
+      "DELETE": "delRecord",
+      "NAME": "fileName"
+    },
+    "BLE": {
+      "GETBlELIST": "getBleList",
+      "CONNECTION": "ble-connection",
+      "DISCONNECTED": "ble-disconnected",
+      "SCANNING": "ble-scanning"
+    },
+    "VERSION": {
+      "GETVERSION": "getVersion",
+      "UPDATE": "update",
+      "REUPDATE": "reupdate"
+    },
+    "MATRIX": "MATRIX",
+    "RESTART": "restart",
+    "SENSING_UPDATE": "sensing_update",
+    "GETMAINMSG": "get_main_msg",
+    "CALIBRATION": "calibration"
+  },
+  "RETURN": {
+    "EXE": {
+      "DELETE": "return_delExe",
+      "FILES": "return_getFilesOfApp"
+    },
+    "CONNECTION": {
+      "GETLIST": "return_connectList",
+      "CONNECTED": "return_connected"
+    },
+    "DEVICE": {
+      "WATCH": "return_watchDevice",
+      "CHECK": "return_installDriver",
+      "PORT": "return_getPortDevice"
+    },
+    "COMMUNICATION": {
+      "BIN": {
+        "CONPLETED": "return_completed",
+        "PROGRESS": "return_progress"
+      },
+      "SOURCE": {
+        "CONPLETED": "return_sourceCompleted",
+        "NEXTFILE": "nextFile",
+        "LENGTH": "return_sourceLength"
+      }
+    },
+    "VERSION": "return_version",
+    "BLE": {
+      "SCANNING": "return_bleScanning",
+      "GETBlELIST": "return_getBleList",
+      "CONNECTION": "ble-connection",
+      "DISCONNECTED": "ble-disconnected"
+    },
+    "FILE": {
+      "DELETE": "delRecord",
+      "NAME": "fileName"
+    }
+  },
+  "DRIVER": {
+    "INSTALL": "install",
+    "REUPDATE": "reupdate"
+  },
+  "FILE": {
+    "SAVE": "save-file"
+  },
+  "PROGRESSBAR": "progressBar",
+  "UPDATE": "update",
+  "LOAD_PROGRESS": "load_progress"
 }

@@ -26,7 +26,6 @@ Blockly.Python["motor_starting"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  console.log(port);
   let spin = block.getFieldValue("SPIN");
   spin = spin[0].toLowerCase() + spin.slice(1);
   const spinValue = parseInt(spin, 10);

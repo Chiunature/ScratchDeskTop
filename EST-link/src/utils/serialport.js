@@ -59,7 +59,7 @@ export class Serialport extends Common {
       console.log("\n=== 开始扫描串口设备 ===");
       const result = await this.serialport.SerialPort.list();
       console.log(`发现 ${result.length} 个串口设备`);
-
+      console.log("result", result);
       const newArr = result.filter((el) =>
         nameList.find(
           (name) => el.friendlyName && el.friendlyName.includes(name)
@@ -136,6 +136,21 @@ export class Serialport extends Common {
         this.getAppExe(ipc_Main.SEND_OR_ON.EXE.FILES);
         //传感器更新
         this.updateSensing(ipc_Main.SEND_OR_ON.SENSING_UPDATE);
+        //新的python文件上传监听
+        console.log("═══════════════════════════════════════");
+        console.log("🔵 [linkToSerial] 准备注册 Python 文件上传监听器...");
+        console.log(
+          "🔵 [linkToSerial] uploadPythonFile 方法存在:",
+          typeof this.uploadPythonFile === "function"
+        );
+        console.log(
+          "🔵 [linkToSerial] uploadPythonFileWithNewProtocol 方法存在:",
+          typeof this.uploadPythonFileWithNewProtocol === "function"
+        );
+        console.log("🔵 [linkToSerial] 即将调用 this.uploadPythonFile()");
+        this.uploadPythonFile();
+        console.log("🔵 [linkToSerial] this.uploadPythonFile() 调用完成");
+        console.log("═══════════════════════════════════════");
       } else {
         console.log(`  串口打开失败`);
         this.port = null;
@@ -603,6 +618,239 @@ export class Serialport extends Common {
       this.writeData(instructions.matrix.clear, null, event);
     const list = this.matrixChange(obj);
     this.writeData(list, null, event);
+  }
+  /**
+   * 使用新协议上传Python文件
+   * @param {Object} fileData - { fileName: string, fileData: Buffer/Uint8Array }
+   * @param {*} event - IPC事件对象
+   */
+  async uploadPythonFileWithNewProtocol(fileData, event) {
+    //如果串口对象没有或者串口通信未打开则，主进程发给渲染进程错误信息
+    if (!this.port || !this.port.isOpen) {
+      event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+        result: false,
+        msg: "portNotOpen",
+      });
+      return;
+    }
+    try {
+      // 从传入的文件数据中提取文件内容和文件名
+      const data = fileData.fileData; //Buffer或Uint8Array 格式的二进制数据
+      const fileName = fileData.fileName; //文件名
+
+      //计算校验和（所有字节累加，取低16位）
+      let checksum = 0;
+      for (let i = 0; i < data.length; i++) {
+        checksum += data[i]; //累加每个字节的值
+      }
+      checksum = checksum & 0xffff; //取低16位作为校验和
+      console.log(`开始传输文件：${fileName}，文件大小：${data.length}字节`);
+
+      //发送开始标记
+      await this.writeAsync(Buffer.from("##START##\n"));
+      console.log("发送开始标记 ##START##");
+
+      //分块发送数据
+      const chunkSize = 256;
+      const totalChunks = Math.ceil(data.length / chunkSize); //求分包次数
+
+      for (let i = 0; i < data.length; i += chunkSize) {
+        const chunk = data.slice(i, i + chunkSize);
+        await this.writeAsync(chunk);
+
+        //计算进度
+        const progress = Math.ceil(((i + chunkSize) / data.length) * 100);
+        event.reply(
+          ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS,
+          Math.min(progress, 100)
+        );
+
+        // 5ms延时，避免接收端缓冲区溢出
+        await this.sleep(5);
+
+        if ((i / chunkSize) % 10 === 0) {
+          // 每10块打印一次
+          console.log(`进度: ${Math.min(progress, 100)}%`);
+        }
+      }
+
+      //发送结束标记和校验和
+      const endMarker = Buffer.from(`##END##SUM=${checksum}\n`);
+      await this.writeAsync(endMarker);
+      console.log(`发送结束标记 ##END##SUM=${checksum}`);
+
+      //等待下位机响应（可选，5秒超时）
+      const success = await this.waitForResponse(5000);
+
+      if (success) {
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: true,
+          msg: "uploadSuccess",
+          fileName: fileName,
+        });
+        console.log("文件传输成功！");
+      } else {
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: false,
+          msg: "uploadTimeout",
+        });
+        console.log("文件传输超时");
+      }
+    } catch (err) {
+      console.log("传输出错:", err);
+      event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+        result: false,
+        msg: "uploadError",
+        errMsg: err.message,
+      });
+    }
+  }
+  /**
+   * 异步写入数据到串口
+   * @param {Buffer} data - 要写入的数据
+   * @returns {Promise}
+   */
+  writeAsync(data) {
+    return new Promise((resolve, reject) => {
+      if (!this.port || !this.port.isOpen) {
+        reject(new Error("串口未打开"));
+        return;
+      }
+
+      this.port.write(data, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  /**
+   * 延时函数
+   * @param {number} ms - 延时毫秒数
+   * @returns {Promise}
+   */
+  sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  /**
+   * 等待下位机响应
+   * @param {number} timeout - 超时时间（毫秒）
+   * @returns {Promise<boolean>}
+   */
+  waitForResponse(timeout) {
+    return new Promise((resolve) => {
+      let responseReceived = false;
+
+      //设置超时定时器
+      const timer = setTimeout(() => {
+        if (!responseReceived) {
+          this.port.removeListener("data", onData);
+          resolve(false);
+        }
+      }, timeout);
+
+      //监听下位机返回的确认数据
+      const onData = (data) => {
+        const text = data.toString();
+        // 检查是否包含成功标记（可根据实际协议调整）
+        if (text.includes("OK") || text.includes("SUCCESS")) {
+          responseReceived = true;
+          clearTimeout(timer);
+          this.port.removeListener("data", onData);
+          resolve(true);
+        }
+      };
+
+      this.port.on("data", onData);
+    });
+  }
+
+  /**
+   * 监听Python文件上传请求
+   */
+  // uploadPythonFile() {
+  //   const self = this; // 保存 this 引用
+  //   console.log("注册 Python 文件上传监听器");
+  //   this.ipcMain(
+  //     ipc_Main.SEND_OR_ON.COMMUNICATION.UPLOAD_PYTHON,
+  //     async function(event, data) {
+  //       console.log("收到 Python 文件上传请求:", {
+  //         fileName: data?.fileName,
+  //         fileDataLength: data?.fileData?.length,
+  //         hasMethod: !!self.uploadPythonFileWithNewProtocol,
+  //       });
+
+  //       // data 格式: { fileName: "test.py", fileData: Buffer/Uint8Array }
+  //       // 使用 self 确保 this 上下文正确
+  //       if (self.uploadPythonFileWithNewProtocol) {
+  //         await self.uploadPythonFileWithNewProtocol(data, event);
+  //       } else {
+  //         console.error("uploadPythonFileWithNewProtocol 方法不存在");
+  //         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+  //           result: false,
+  //           msg: "methodNotFound",
+  //           errMsg: "uploadPythonFileWithNewProtocol is not a function",
+  //         });
+  //       }
+  //     }
+  //   );
+  // }
+  uploadPythonFile() {
+    console.log("🟢 [uploadPythonFile] ========== 方法开始执行 ==========");
+    console.log("🟢 [uploadPythonFile] uploadPythonFile() 方法被调用");
+    // console.log("this 对象:", this);
+    // console.log(
+    //   "this.uploadPythonFileWithNewProtocol:",
+    //   this.uploadPythonFileWithNewProtocol
+    // );
+    // console.log(
+    //   "typeof this.uploadPythonFileWithNewProtocol:",
+    //   typeof this.uploadPythonFileWithNewProtocol
+    // );
+
+    // 在注册监听器前检查方法是否存在
+    if (typeof this.uploadPythonFileWithNewProtocol !== "function") {
+      console.error(
+        "❌ uploadPythonFileWithNewProtocol 不是函数，无法注册监听器"
+      );
+      console.error(
+        "当前 this 对象的方法列表:",
+        Object.getOwnPropertyNames(Object.getPrototypeOf(this))
+      );
+      return;
+    }
+
+    console.log("✅ 方法检查通过，准备注册 IPC 监听器");
+    const eventName = ipc_Main.SEND_OR_ON.COMMUNICATION.UPLOAD_PYTHON;
+    console.log("IPC 事件名:", eventName);
+
+    // 检查事件是否已经注册
+    const eventList = this.electron.ipcMain.eventNames();
+    const alreadyRegistered = eventList.includes(eventName);
+    console.log("事件是否已注册:", alreadyRegistered);
+
+    if (alreadyRegistered) {
+      console.log(
+        "⚠️ 事件已注册，跳过重复注册（这是正常的，因为 ipcMain 会避免重复）"
+      );
+    }
+
+    this.ipcMain(eventName, async (event, data) => {
+      console.log("📥 IPC 回调被触发，收到数据:", {
+        fileName: data?.fileName,
+        fileDataType: data?.fileData?.constructor?.name,
+        fileDataLength: data?.fileData?.length,
+      });
+      // data 格式: { fileName: "test.py", fileData: Buffer }
+      await this.uploadPythonFileWithNewProtocol(data, event);
+    });
+
+    console.log("🟢 [uploadPythonFile] ✅ IPC 监听器注册调用完成");
+    console.log("🟢 [uploadPythonFile] ========== 方法执行结束 ==========");
   }
 }
 

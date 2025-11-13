@@ -458,18 +458,18 @@ class GUI extends React.Component {
         try {
             const static_path =
                 localStorage.getItem("static_path") || window.resourcesPath;
-
+            //todo: 先不检查固件版本和传感器版本
             // 检查固件版本
-            const firmwareRes = this.checkUpdateFirmware(static_path);
-            if (!firmwareRes) {
-                return;
-            }
+            // const firmwareRes = this.checkUpdateFirmware(static_path);
+            // if (!firmwareRes) {
+            //     return;
+            // }
 
             // 检查传感器版本
-            const sensingRes = this.checkUpdateSensing(static_path);
-            if (!sensingRes) {
-                return;
-            }
+            // const sensingRes = this.checkUpdateSensing(static_path);
+            // if (!sensingRes) {
+            //     return;
+            // }
 
             // 检查工作区是否为空
             const workspaceRes = this.checkWorkspace();
