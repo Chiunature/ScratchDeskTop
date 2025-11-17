@@ -47,15 +47,12 @@ import soundsIcon from "./icon--sounds.svg";
 // import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
-
-import DeviceCards from "../../containers/deviceCards.jsx";
 import UploadBtn from "../button/uploadBtn.jsx";
 // import FileSystemHoc from "../../containers/file-system-hoc.jsx";
 import DeviceSensing from "../device/device-sensing.jsx";
 import Qrcode from "../code-editor/qrcode.jsx";
 import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
-import CascaderPanelModal from "../../containers/cascader-panel-modal.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
 import DeviceModal from "../connection-modal/deviceModal.jsx";
 import BleListModal from "../../containers/ble-list-modal.jsx";
@@ -132,7 +129,6 @@ const GUIComponent = (props) => {
         connectionModalVisible,
         costumeLibraryVisible,
         costumesTabVisible,
-        cascarderPanelVisible,
         peripheralName,
         enableCommunity,
         intl,
@@ -290,18 +286,6 @@ const GUIComponent = (props) => {
                             <TipsLibrary onActivateDeck={onActivateDeck} />
                         ) : null}
                         {cardsVisible ? <Cards /> : null}
-                        {deviceVisible && (
-                            <DeviceCards
-                                intl={intl}
-                                handleCompile={handleCompile}
-                                completed={completed}
-                                exeList={exeList}
-                                onSetSelectedExe={onSetSelectedExe}
-                                onSetExelist={onSetExelist}
-                                peripheralName={peripheralName}
-                                onRequestClose={onViewDeviceCards}
-                            />
-                        )}
                         {programSel && (
                             <DeviceModal
                                 intl={intl}
@@ -325,15 +309,6 @@ const GUIComponent = (props) => {
                                 onSetSourceCompleted={onSetSourceCompleted}
                             />
                         ) : null}
-                        {cascarderPanelVisible && (
-                            <CascaderPanelModal
-                                peripheralName={peripheralName}
-                                intl={intl}
-                                completed={completed}
-                                vm={vm}
-                                deviceObj={deviceObj}
-                            />
-                        )}
                         {bleListVisible && (
                             <BleListModal
                                 intl={intl}

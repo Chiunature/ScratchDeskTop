@@ -25,7 +25,6 @@ import {
 import {
     closeBleListModal,
     openBleListModal,
-    openCascaderPanelModal,
     openConnectionModal,
     openTipsLibrary,
 } from "../../reducers/modals";
@@ -189,7 +188,6 @@ class MenuBar extends React.Component {
             "handleConnection",
             "handleDisconnect",
             "scanConnection",
-            "showDeviceCards",
             "showProgramCards",
             "handleClickHome",
             "reUpdateDriver",
@@ -409,19 +407,6 @@ class MenuBar extends React.Component {
         msg.length > 0 && this.props.onShowDisonnectAlert(msg);
 
         !this.props.bleListVisible && this.scanConnection();
-    }
-
-    showDeviceCards() {
-        if (!this.props.peripheralName) {
-            this.props.onShowCompletedAlert("selectADeviceFirst");
-        } else {
-            if (!this.props.completed)
-                window.myAPI.ipcRender({
-                    sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
-                    sendParams: { type: "FILE" },
-                });
-            this.props.onViewDeviceCards();
-        }
     }
 
     showProgramCards() {
@@ -762,41 +747,8 @@ class MenuBar extends React.Component {
                         <Divider className={classNames(styles.divider)} />
                         <DeviceMenu
                             peripheralName={this.props.peripheralName}
-                            onClickDevice={this.props.onClickDevice}
-                            onRequestCloseDevice={
-                                this.props.onRequestCloseDevice
-                            }
-                            isRtl={this.props.isRtl}
-                            deviceMenuOpen={this.props.deviceMenuOpen}
-                            showDeviceCards={this.showDeviceCards}
                             showProgramCards={this.showProgramCards}
                         />
-                        <div
-                            className={classNames(
-                                styles.menuBarItem,
-                                styles.hoverable,
-                                styles.generator,
-                                {
-                                    [styles.active]: "",
-                                }
-                            )}
-                            onMouseUp={() =>
-                                this.props.onOpenCascaderPanelModal()
-                            }
-                        >
-                            <img
-                                className={styles.unconnectedIcon}
-                                src={foucsUpdateIcon}
-                                alt=""
-                            />
-                            <span className={styles.collapsibleLabel}>
-                                <FormattedMessage
-                                    defaultMessage="Force updates"
-                                    description="Force updates"
-                                    id="gui.device.updateSensing"
-                                />
-                            </span>
-                        </div>
                         <GeneratorsMenu
                             onClickGen={this.props.onClickGen}
                             onRequestCloseGen={this.props.onRequestCloseGen}
@@ -1004,7 +956,6 @@ const mapDispatchToProps = (dispatch) => ({
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
     onSetProjectTitle: (name) => dispatch(setProjectTitle(name)),
-    onOpenCascaderPanelModal: () => dispatch(openCascaderPanelModal()),
     onClickGen: () => dispatch(openGenMenu()),
     onRequestCloseGen: () => dispatch(closeGenMenu()),
     onClickDevice: () => dispatch(openDeviceMenu()),

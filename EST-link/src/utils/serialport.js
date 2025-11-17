@@ -59,7 +59,6 @@ export class Serialport extends Common {
       console.log("\n=== 开始扫描串口设备 ===");
       const result = await this.serialport.SerialPort.list();
       console.log(`发现 ${result.length} 个串口设备`);
-      console.log("result", result);
       const newArr = result.filter((el) =>
         nameList.find(
           (name) => el.friendlyName && el.friendlyName.includes(name)
