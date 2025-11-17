@@ -466,16 +466,12 @@ Blockly.Msg.SENSING_CAMERA_CHARACTERISTIC_MATCHINE =
 Blockly.Msg.SENSING_CAMERA_CHARACTERISTIC_ROLL =
   "%1 Obtain the rotation angle for feature detection";
 // Sound blocks
-Blockly.Msg.SOUND_PLAY = "start sound %1";
-Blockly.Msg.SOUND_PLAYUNTILDONE = "play sound %1 until done";
-Blockly.Msg.SOUND_STOPALLSOUNDS = "stop all sounds";
 Blockly.Msg.SOUND_SETEFFECTO = "set %1 effect to %2";
 Blockly.Msg.SOUND_CHANGEEFFECTBY = "change %1 effect by %2";
 Blockly.Msg.SOUND_CLEAREFFECTS = "clear sound effects";
 Blockly.Msg.SOUND_EFFECTS_PITCH = "pitch";
 Blockly.Msg.SOUND_EFFECTS_PAN = "pan left/right";
 Blockly.Msg.SOUND_CHANGEVOLUMEBY = "change volume by %1";
-Blockly.Msg.SOUND_SETVOLUMETO = "set volume to %1%";
 Blockly.Msg.SOUND_VOLUME = "volume";
 Blockly.Msg.SOUND_RECORD = "record...";
 Blockly.Msg.SOUND_SETPLAYSPEED = "Set performance speed to %1";
