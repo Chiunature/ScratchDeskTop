@@ -341,7 +341,9 @@ const sound = function ({
         ${blockSeparator}
         <block type="sound_PlayMusic">
             <value name="NOTE">
-                <shadow type="piano"></shadow>
+                <shadow type="text">
+                    <field name="TEXT">C4</field>
+                </shadow>
             </value>
             <value name="BEATS">
                 <shadow type="math_number">
