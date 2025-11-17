@@ -46,8 +46,8 @@
     border-right: 1px solid $ui-black-transparent;
     border-bottom: 1px solid $ui-black-transparent;
     box-sizing: content-box;
-    height: calc(100% - 3.25rem) !important;
-    /* height: 100% !important; */
+    /* height: calc(100% - 3.25rem) !important; */
+    height: 100% !important;
     /*
         For now, the layout cannot support scrollbars in the category menu.
         The line below works for Edge, the `::-webkit-scrollbar` line
@@ -85,7 +85,7 @@
     border-left: 1px solid hsla(0, 0%, 0%, 0.15);
     min-width: 300px;
     /* right: 130px; */
-    transition: all .2s;
+    transition: all 0.2s;
 }
 
 [dir="rtl"] .blocks :global(.blocklyToolboxTriggerIcon) {
@@ -117,14 +117,13 @@
 }
 
 .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
-    transition: all .2s;
+    transition: all 0.2s;
     transform: translate(345px, 2.5px) !important;
 }
 
 /* .blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
     width: 350px !important;
 } */
-
 
 [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     display: none !important;

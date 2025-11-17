@@ -491,37 +491,6 @@ const GUIComponent = (props) => {
                                                     }
                                                 />
                                             </Box>
-                                            <Box
-                                                className={
-                                                    styles.extensionButtonContainer
-                                                }
-                                            >
-                                                <button
-                                                    className={
-                                                        styles.extensionButton
-                                                    }
-                                                    title={intl.formatMessage(
-                                                        messages.addExtension
-                                                    )}
-                                                    onClick={
-                                                        onExtensionButtonClick
-                                                    }
-                                                    disabled={
-                                                        extensionLibraryContent.length >
-                                                        0
-                                                            ? false
-                                                            : true
-                                                    }
-                                                >
-                                                    <img
-                                                        className={
-                                                            styles.extensionButtonIcon
-                                                        }
-                                                        draggable={false}
-                                                        src={addExtensionIcon}
-                                                    />
-                                                </button>
-                                            </Box>
                                             {/* <Box className={styles.watermark}>
                                                 <Watermark />
                                             </Box> */}
