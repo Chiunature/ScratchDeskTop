@@ -194,7 +194,7 @@
 }
 
 .upload-btn,
-.select-exe-btn-con,
+.upload-btn,
 .stop-btn {
     width: 80px;
     height: 80px;
@@ -382,4 +382,13 @@
 
 .stop-disable {
     background-color: #9e9fa1;
+}
+.load {
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    /* filter: brightness(0.5); */
+    right: 5%;
+    bottom: 5%;
+    cursor: pointer;
 }

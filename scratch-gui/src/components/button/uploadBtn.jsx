@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import styles from './button.css';
+import React from "react";
+import classNames from "classnames";
+import styles from "./button.css";
 import stopIcon from "./icon--stop.svg";
 import ButtonComponent from "./button.jsx";
-import SelectExeBtn from "./selectExeBtn.jsx";
-import RunExeBtn from './runExeBtn.jsx';
-import { verifyTypeConfig } from 'est-link';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedExe } from '../../reducers/mode';
-
+import RunExeBtn from "./runExeBtn.jsx";
+import { verifyTypeConfig } from "est-link";
+import upload from "../button/icon--upload.svg";
 
 // import { defineMessages } from 'react-intl';
 
@@ -20,22 +17,24 @@ import { setSelectedExe } from '../../reducers/mode';
     },
 }) */
 
-
 const UploadBtn = (props) => {
-    const { completed, exeList, isRtl, handleCompile, onSetExelist, handleRunApp, deviceStatus, onSetCompleted, intl, generatorName } = props;
+    const {
+        completed,
+        handleCompile,
+        onSetExelist,
+        handleRunApp,
+        deviceStatus,
+        onSetCompleted,
+        intl,
+        generatorName,
+    } = props;
 
     // let [openUpload, setOpenUpload] = useState(true);
     // let [text, setText] = useState('');
-    const selectedExe = useSelector((state) => state.scratchGui.mode.selectedExe);
-    const dispatch = useDispatch();
 
     /* useEffect(() => {
         checkIsOpenUpload();
     }, []); */
-
-    const onSetSelectedExe = (exe) => {
-        return dispatch(setSelectedExe(exe));
-    }
     const compile = (isRun) => {
         /* if (!openUpload) {
             alert(text);
@@ -46,7 +45,7 @@ const UploadBtn = (props) => {
             return;
         }
         handleCompile(isRun);
-    }
+    };
 
     /* const checkIsOpenUpload = async () => {
         try {
@@ -67,13 +66,14 @@ const UploadBtn = (props) => {
     return (
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
-                <SelectExeBtn
-                    compile={compile}
-                    isRtl={isRtl}
-                    exeList={exeList}
-                    selectedExe={selectedExe}
-                    onSetSelectedExe={onSetSelectedExe}
-                />
+                <div className={styles.uploadBtn}>
+                    <img
+                        className={styles.load}
+                        src={upload}
+                        alt=""
+                        onClick={() => handleCompile(false)}
+                    />
+                </div>
                 <RunExeBtn
                     generatorName={generatorName}
                     deviceStatus={deviceStatus}
@@ -85,13 +85,18 @@ const UploadBtn = (props) => {
                 />
                 <ButtonComponent
                     onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}
-                    className={classNames(styles.stopBtn, deviceStatus !== verifyTypeConfig.EST_RUN ? styles.stopDisable : '')}
+                    className={classNames(
+                        styles.stopBtn,
+                        deviceStatus !== verifyTypeConfig.EST_RUN
+                            ? styles.stopDisable
+                            : ""
+                    )}
                     disabled={deviceStatus !== verifyTypeConfig.EST_RUN}
                     iconSrc={stopIcon}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default React.memo(UploadBtn);
