@@ -16,19 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.Python.procedures');
+goog.provide("Blockly.Python.procedures");
 
-goog.require('Blockly.Python');
+goog.require("Blockly.Python");
 
-
-Blockly.Python['procedures_definition'] = function (block) {
-  var func = Blockly.Python.statementToCode(block, 'custom_block');
+Blockly.Python["procedures_definition"] = function (block) {
+  var func = Blockly.Python.statementToCode(block, "custom_block");
 
   // Delet first indent.
   func = func.slice(2);
-  var code = func + ':\n';
+  var code = func + ":\n";
 
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (!nextBlock) {
@@ -36,36 +35,48 @@ Blockly.Python['procedures_definition'] = function (block) {
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
-      variablesName.push(Blockly.Python.variables_[x].slice(0, Blockly.Python.variables_[x].indexOf('=') - 1));
+      variablesName.push(
+        Blockly.Python.variables_[x].slice(
+          0,
+          Blockly.Python.variables_[x].indexOf("=") - 1
+        )
+      );
     }
     if (variablesName.length !== 0) {
-      code += Blockly.Python.INDENT + "global " + variablesName.join(', ') + "\n";
+      code +=
+        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
 
     code = Blockly.Python.scrub_(block, code);
   }
 
-  const arr = code.split('\n');
-  code = arr.map((item, index) => {
-    if (item.trim().length > 0 && index > 0 && !item.includes('def')) {
-      item = Blockly.Python.INDENT + item;
-    }
-    return item;
-  }).join('\n');
+  const arr = code.split("\n");
+  code = arr
+    .map((item, index) => {
+      if (item.trim().length > 0 && index > 0 && !item.includes("def")) {
+        item = Blockly.Python.INDENT + item;
+      }
+      return item;
+    })
+    .join("\n");
 
   Blockly.Python.customFunctions_[func] = code;
   return null;
 };
 
-Blockly.Python['procedures_call'] = function (block) {
+Blockly.Python["procedures_call"] = function (block) {
   // Generators can not automatic handle indefinite parameters. We should get
   // block.inputList and handle
   var funcName = block.getProcCode();
-  funcName = funcName.replace(/ /g, '_');
-  funcName = funcName.replace(/%n/g, 'N');
-  funcName = funcName.replace(/%s/g, 'S');
-  funcName = funcName.replace(/%b/g, 'B');
-  funcName = Blockly.Python.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
+  funcName = funcName
+    .replace(/ /g, "_")
+    .replace(/%n/g, "N")
+    .replace(/%s/g, "S")
+    .replace(/%b/g, "B");
+  funcName = Blockly.Python.variableDB_.getName(
+    funcName,
+    Blockly.Procedures.NAME_TYPE
+  );
 
   var argCode = [];
   for (var x = 0; x < block.inputList.length; x++) {
@@ -77,34 +88,32 @@ Blockly.Python['procedures_call'] = function (block) {
       }
       // If empty mean's it's a boolean
       else {
-        argCode.push('false');
+        argCode.push("false");
       }
     }
   }
 
-  var code = funcName + '(' + argCode.join(', ') + ')\n';
+  var code = "async " + funcName + "(" + argCode.join(", ") + ")\n";
   return code;
 };
 
-Blockly.Python['procedures_prototype'] = function (block) {
+Blockly.Python["procedures_prototype"] = function (block) {
   var funcName = block.getProcCode();
   var argName = block.displayNames_;
   var argCode = [];
 
-  funcName = funcName.replace(/ /g, '_');
+  funcName = funcName.replace(/ /g, "_");
   for (var i = 0; i < argName.length; i++) {
     var ch = funcName.charAt(funcName.search(/%[nsb]/g) + 1);
     var safeArgName = Blockly.Python.variableDB_.getName(argName[i]);
     Blockly.Python.customFunctionsArgName_[argName[i]] = safeArgName;
 
-    if (ch === 'n') {
-      funcName = funcName.replace('%n', 'N');
-    }
-    else if (ch === 's') {
-      funcName = funcName.replace('%s', 'S');
-    }
-    else {
-      funcName = funcName.replace('%b', 'B');
+    if (ch === "n") {
+      funcName = funcName.replace("%n", "N");
+    } else if (ch === "s") {
+      funcName = funcName.replace("%s", "S");
+    } else {
+      funcName = funcName.replace("%b", "B");
     }
     let sum = 0;
     for (let j = 0; j < argCode.length; j++) {
@@ -114,26 +123,29 @@ Blockly.Python['procedures_prototype'] = function (block) {
     }
     argCode.push(sum > 0 ? safeArgName + sum : safeArgName);
   }
-  funcName = Blockly.Python.variableDB_.getName(funcName, Blockly.Procedures.NAME_TYPE);
+  funcName = Blockly.Python.variableDB_.getName(
+    funcName,
+    Blockly.Procedures.NAME_TYPE
+  );
 
-  var code = 'def ' + funcName + '(' + argCode.join(', ') + ')';
+  var code = "async def " + funcName + "(" + argCode.join(", ") + ")";
   return code;
 };
 
-Blockly.Python['argument_reporter_boolean'] = function (block) {
-  var argName = block.getFieldValue('VALUE');
+Blockly.Python["argument_reporter_boolean"] = function (block) {
+  var argName = block.getFieldValue("VALUE");
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['argument_reporter_number'] = function (block) {
-  var argName = block.getFieldValue('VALUE');
+Blockly.Python["argument_reporter_number"] = function (block) {
+  var argName = block.getFieldValue("VALUE");
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['argument_reporter_string'] = function (block) {
-  var argName = block.getFieldValue('VALUE');
+Blockly.Python["argument_reporter_string"] = function (block) {
+  var argName = block.getFieldValue("VALUE");
   var safeArgName = Blockly.Python.customFunctionsArgName_[argName];
   return [safeArgName, Blockly.Python.ORDER_ATOMIC];
 };
