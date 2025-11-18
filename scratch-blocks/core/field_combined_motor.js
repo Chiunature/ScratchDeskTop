@@ -11,13 +11,15 @@ Blockly.FieldCombinedMotor = function (motorList, opt_validator) {
   this.motorList = motorList;
   this.rightList = motorList.slice(4);
   this.leftList = motorList.slice(0, 4);
-  // 找到左右两侧第一个非 null 的端口作为默认值
-  const leftPort =
-    this.leftList.find((m) => m !== null && m !== "null" && m !== "NULL") || "";
-  const rightPort =
+  // 找到右边两侧第一个和第二非 null 的端口作为默认值
+  const rightFristPort =
     this.rightList.find((m) => m !== null && m !== "null" && m !== "NULL") ||
     "";
-  this.motor_ = [leftPort, rightPort];
+  const rightLastPort =
+    this.rightList.filter(
+      (m) => m !== null && m !== "null" && m !== "NULL"
+    )[1] || "";
+  this.motor_ = [rightFristPort, rightLastPort];
   this.combined_motor = this.motor_.join("+");
   Blockly.FieldCombinedMotor.superClass_.constructor.call(
     this,

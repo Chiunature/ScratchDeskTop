@@ -103,6 +103,6 @@ Blockly.Python["motor_startWithPower"] = function (block) {
     "POWER",
     Blockly.Python.ORDER_NONE
   );
-  const code = `set_motor_run(${port}, speed=${power})\n`;
+  const code = `set_motor_run(${port},1,speed=${power})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
