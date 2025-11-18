@@ -488,8 +488,8 @@ Blockly.Python.stringToHex = function (matrix) {
     const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0");
     hexArr.push(hexNum);
   }
-
-  return hexArr;
+  const result = hexArr.map((hex) => "\\x" + hex.substring(2)).join("");
+  return result;
 };
 
 // 将hex格式颜色转换为rgb格式
