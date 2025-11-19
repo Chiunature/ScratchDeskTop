@@ -249,6 +249,11 @@ class MenuBar extends React.Component {
         const openPath = sessionStorage.getItem("openPath");
         const onlySave =
             openPath && openPath !== "null" && openPath !== "undefined";
+        console.log("保存模式", {
+            open: openPath,
+            only: onlySave,
+            isAutoSave: isAutoSave,
+        });
         this.getSaveToComputerHandler(() =>
             this.downloadProject(onlySave, isAutoSave)
         )();
@@ -497,32 +502,55 @@ class MenuBar extends React.Component {
     }
 
     downloadProject(onlySave, isAutoSave) {
+        console.log("[downloadProject] 开始保存", {
+            onlySave,
+            isAutoSave,
+            filename: this.props.projectFilename,
+        });
         this.props.saveProjectSb3().then(async (content) => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
             }
 
-            // 有保存过
             if (onlySave) {
                 downloadBlob(this.props.projectFilename, content, onlySave);
                 const filePath = isAutoSave
                     ? sessionStorage.getItem("open-auto-save-path")
                     : sessionStorage.getItem("openPath");
+                console.log("[downloadProject] 保存到已有路径", {
+                    filePath,
+                    isAutoSave,
+                    storageKey: isAutoSave ? "open-auto-save-path" : "openPath",
+                });
                 filePath && (await this.setCacheForSave(filePath));
-                (filePath || isAutoSave) &&
-                    this.props.onShowCompletedAlert("saveNowSuccess");
-                //await setProgramList(this.props.projectFilename, filePath, null, content);
+                if (filePath || isAutoSave) {
+                    const displayPath =
+                        filePath ||
+                        sessionStorage.getItem("open-auto-save-path");
+                    const successMessage = displayPath
+                        ? `保存成功！\n保存位置：${displayPath}`
+                        : "保存成功！";
+                    this.props.onShowCompletedAlert("saveNowSuccess", {
+                        message: successMessage,
+                    });
+                }
                 return;
             }
 
-            // 没有保存过
             const res = await content.arrayBuffer();
             if (isAutoSave) {
                 const { homedir } = await window.myAPI.getHomeDir();
                 const path = `${homedir}\\${this.props.projectFilename}`;
+                console.log("[downloadProject] 自动保存到主目录", {
+                    path,
+                    homedir,
+                    filename: this.props.projectFilename,
+                });
                 sessionStorage.setItem("open-auto-save-path", path);
                 await window.myAPI.writeFiles(path, Buffer.from(res), "");
-                this.props.onShowCompletedAlert("saveNowSuccess");
+                this.props.onShowCompletedAlert("saveNowSuccess", {
+                    message: `保存成功！\n保存位置：${path}`,
+                });
                 return;
             }
 
@@ -533,13 +561,25 @@ class MenuBar extends React.Component {
                     filename: this.props.projectFilename,
                 }
             );
+            console.log("[downloadProject] 用户选择保存路径", {
+                filePath,
+                filename: this.props.projectFilename,
+                canceled: !filePath,
+            });
             if (filePath) {
                 sessionStorage.setItem("openPath", filePath);
                 const newName = filePath.slice(filePath.lastIndexOf("\\") + 1);
                 const resultName = newName.slice(0, newName.lastIndexOf("."));
+                console.log("[downloadProject] ✅ 保存成功", {
+                    filePath,
+                    newName,
+                    resultName,
+                });
                 this.props.onSetProjectTitle(resultName);
-                // await setProgramList(resultName, filePath, null, content);
                 await this.setCacheForSave(filePath);
+                this.props.onShowCompletedAlert("saveNowSuccess", {
+                    message: `保存成功！\n保存位置：${filePath}`,
+                });
             }
         });
     }
@@ -951,7 +991,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(clearConnectionModalPeripheralName()),
     onViewDeviceCards: (flag) => dispatch(viewDeviceCards(flag)),
     onSetProgramSel: (flag) => dispatch(setProgramSel(flag)),
-    onShowCompletedAlert: (item) => showAlertWithTimeout(dispatch, item),
+    onShowCompletedAlert: (item, data) =>
+        showAlertWithTimeout(dispatch, item, data),
     onSetDeviceCards: (deviceCards) => dispatch(setDeviceCards(deviceCards)),
     onSetCompleted: (completed) => dispatch(setCompleted(completed)),
     onShowFileSystem: () => dispatch(showFileStytem()),
