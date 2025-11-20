@@ -688,12 +688,26 @@ Blockly.Gesture.prototype.cancel = function () {
  */
 Blockly.Gesture.prototype.handleRightClick = function (e) {
   if (this.targetBlock_) {
+    // 获取被右键点击的积木块信息
+    var block = this.targetBlock_;
+    // console.log("目标块右键点击了", {
+    //   blockId: block.id, // 积木块的唯一ID
+    //   blockType: block.type, // 积木块的类型（如 "event_whenflagclicked"）
+    //   block: block, // 完整的积木块对象
+    //   isShadow: block.isShadow(), // 是否是阴影块
+    //   isDeletable: block.isDeletable(), // 是否可删除
+    //   isMovable: block.isMovable(), // 是否可移动
+    //   isLocked: block.isLocked(), // 是否被锁定
+    //   parentBlock: block.getParent(), // 父积木块
+    //   rootBlock: block.getRootBlock(), // 根积木块
+    // });
     this.bringBlockToFront_();
     Blockly.hideChaff(this.flyout_);
     this.targetBlock_.showContextMenu_(e);
   } else if (this.startBubble_) {
     this.startBubble_.showContextMenu_(e);
   } else if (this.startWorkspace_ && !this.flyout_) {
+    console.log("工作区右键点击了");
     Blockly.hideChaff();
     this.startWorkspace_.showContextMenu_(e);
   }

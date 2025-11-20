@@ -249,11 +249,6 @@ class MenuBar extends React.Component {
         const openPath = sessionStorage.getItem("openPath");
         const onlySave =
             openPath && openPath !== "null" && openPath !== "undefined";
-        console.log("保存模式", {
-            open: openPath,
-            only: onlySave,
-            isAutoSave: isAutoSave,
-        });
         this.getSaveToComputerHandler(() =>
             this.downloadProject(onlySave, isAutoSave)
         )();
@@ -502,11 +497,6 @@ class MenuBar extends React.Component {
     }
 
     downloadProject(onlySave, isAutoSave) {
-        console.log("[downloadProject] 开始保存", {
-            onlySave,
-            isAutoSave,
-            filename: this.props.projectFilename,
-        });
         this.props.saveProjectSb3().then(async (content) => {
             if (this.props.onSaveFinished) {
                 this.props.onSaveFinished();
@@ -517,11 +507,7 @@ class MenuBar extends React.Component {
                 const filePath = isAutoSave
                     ? sessionStorage.getItem("open-auto-save-path")
                     : sessionStorage.getItem("openPath");
-                console.log("[downloadProject] 保存到已有路径", {
-                    filePath,
-                    isAutoSave,
-                    storageKey: isAutoSave ? "open-auto-save-path" : "openPath",
-                });
+
                 filePath && (await this.setCacheForSave(filePath));
                 if (filePath || isAutoSave) {
                     const displayPath =
@@ -541,11 +527,7 @@ class MenuBar extends React.Component {
             if (isAutoSave) {
                 const { homedir } = await window.myAPI.getHomeDir();
                 const path = `${homedir}\\${this.props.projectFilename}`;
-                console.log("[downloadProject] 自动保存到主目录", {
-                    path,
-                    homedir,
-                    filename: this.props.projectFilename,
-                });
+
                 sessionStorage.setItem("open-auto-save-path", path);
                 await window.myAPI.writeFiles(path, Buffer.from(res), "");
                 this.props.onShowCompletedAlert("saveNowSuccess", {
@@ -561,20 +543,10 @@ class MenuBar extends React.Component {
                     filename: this.props.projectFilename,
                 }
             );
-            console.log("[downloadProject] 用户选择保存路径", {
-                filePath,
-                filename: this.props.projectFilename,
-                canceled: !filePath,
-            });
             if (filePath) {
                 sessionStorage.setItem("openPath", filePath);
                 const newName = filePath.slice(filePath.lastIndexOf("\\") + 1);
                 const resultName = newName.slice(0, newName.lastIndexOf("."));
-                console.log("[downloadProject] ✅ 保存成功", {
-                    filePath,
-                    newName,
-                    resultName,
-                });
                 this.props.onSetProjectTitle(resultName);
                 await this.setCacheForSave(filePath);
                 this.props.onShowCompletedAlert("saveNowSuccess", {

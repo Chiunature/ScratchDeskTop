@@ -32,7 +32,6 @@ function ProjectMenu({
 
     let handelSave = useCallback(
         debounce((event) => {
-            console.log("[ProjectMenu] 点击保存按钮，触发保存");
             handleClickSave(false);
         }, 1000),
         [handleClickSave]
