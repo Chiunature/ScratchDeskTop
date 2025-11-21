@@ -63,7 +63,7 @@ Blockly.Python["combined_motor_speed_two"] = function (block) {
     "SPEED_SECOND",
     Blockly.Python.ORDER_NONE
   );
-  const code = `set_combined_speed(${speedFirst}, ${speedSecond})\n`;
+  const code = `set_combined_speed(${speedFirst},${speedSecond})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -157,7 +157,7 @@ Blockly.Python["combined_motor_startWithPower"] = function (block) {
     "POWER_TWO",
     Blockly.Python.ORDER_NONE
   );
-  const code = `combined_motor(${one}, ${two})\n`;
+  const code = `combined_motor(${one},${two})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
@@ -177,7 +177,7 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const code = `combined_motor(${one}, ${two}, ${count})\n`;
+  const code = `combined_motor(${one},${two},${count})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
 };
 
