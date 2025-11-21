@@ -22,5 +22,5 @@ Blockly.Python["sound_PlayMusic"] = function (block) {
     Blockly.Python.ORDER_ATOMIC
   );
   const code = `note_play(${note}, ${beats})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE);
+  return Blockly.Python.handleResult(code, Blockly.Python.SOUND_TYPE, true);
 };

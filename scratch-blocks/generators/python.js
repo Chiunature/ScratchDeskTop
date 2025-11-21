@@ -170,7 +170,7 @@ Blockly.Python.init = function (workspace) {
           variables[x].name,
           Blockly.Variables.NAME_TYPE
         );
-        Blockly.Python.variables_[x] = varName + " = PikaStdData.List()";
+        Blockly.Python.variables_[x] = varName + " = []";
       } else {
         Blockly.Python.variables_[x] =
           Blockly.Python.variableDB_.getName(
@@ -597,27 +597,19 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
-      // }
       result = "" + result;
       break;
     case Blockly.Python.SOUND_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
-      // }
-      result = "" + result;
+      if (isAwait) {
+        result = "await " + result;
+      } else {
+        result = "" + result;
+      }
       break;
     case Blockly.Python.MEM_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMem = APIMem.mem()";
-      // }
       result = "_mem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyColor = APIColor.color()";
-      // }
       result = "_color." + result;
       break;
     case Blockly.Python.LIGHT_TYPE:

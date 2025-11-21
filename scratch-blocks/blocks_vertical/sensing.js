@@ -80,7 +80,7 @@ Blockly.Blocks["sensing_menu"] = {
         {
           type: "field_motor",
           name: "SENSING_MENU",
-          motorList: ["A", "B", null, null, "E", "F", null, null],
+          motorList: ["A", "B", "C", "D", null, null, null, null],
         },
       ],
       category: Blockly.Categories.sensing,
