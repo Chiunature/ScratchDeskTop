@@ -161,9 +161,6 @@ Blockly.Python["control_break"] = function (block) {
 };
 
 Blockly.Python["control_stop"] = function (block) {
-  const core = "user_run_flag=0\n";
-  return (
-    core +
-    Blockly.Python.handleResult(`sleep(1)\n`, Blockly.Python.TIMER_TYPE, true)
-  );
+  const core = "return\n";
+  return core;
 };

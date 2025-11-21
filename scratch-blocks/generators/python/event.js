@@ -191,11 +191,15 @@ Blockly.Python["event_whenmicrobitgesture"] = function (block) {
 Blockly.Python["event_whenflagclicked"] = function (block) {
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 
-  // 标记为 user 任务，用于生成 async def user() 函数
-  // 使用空字符串，避免在 tasks 部分输出变量声明
-  Blockly.Python.tasks_["user"] = "";
+  // 使用积木的 userName 属性（user1, user2等）作为任务名
+  // 如果没有 userName，则使用默认的 "user1"（从 user1 开始，不是 user）
+  var taskName = block.userName || "user1";
 
-  var code = "\n/* Start */\n";
+  // 标记任务，用于生成 async def user1(), async def user2() 等函数
+  // 使用空字符串，避免在 tasks 部分输出变量声明
+  Blockly.Python.tasks_[taskName] = "";
+
+  var code = "\n/* Start " + taskName + " */\n";
   if (!nextBlock) {
     code += Blockly.Python.INDENT + "\n";
   } else {
@@ -216,7 +220,7 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
     code = Blockly.Python.scrub_(block, code);
   }
 
-  code += "\n/* End */\n";
+  code += "\n/* End " + taskName + " */\n";
 
   return code;
 };

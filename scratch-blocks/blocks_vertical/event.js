@@ -223,25 +223,11 @@ Blockly.Blocks["event_whenflagclicked"] = {
 
   /**
    * 检查工作区中是否已存在该积木
-   * @return {boolean} 如果已存在则返回 true
+   * 注意：此函数已不再用于阻止多个积木的创建，现在允许创建多个 event_whenflagclicked 积木
+   * @return {boolean} 始终返回 false，允许创建多个积木
    */
   checkBlockExists: function () {
-    if (this.isInFlyout) {
-      return false; // 工具箱中的积木不检查
-    }
-
-    var workspace = this.workspace;
-    if (!workspace) {
-      return false;
-    }
-
-    var allBlocks = workspace.getAllBlocks();
-    for (var i = 0; i < allBlocks.length; i++) {
-      var block = allBlocks[i];
-      if (block.type === "event_whenflagclicked" && block.id !== this.id) {
-        return true; // 找到了另一个相同类型的积木
-      }
-    }
+    // 现在允许创建多个 event_whenflagclicked 积木，每个积木会自动分配唯一的用户名（user1, user2等）
     return false;
   },
 };

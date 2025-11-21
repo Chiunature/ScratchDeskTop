@@ -319,6 +319,53 @@ Blockly.Gesture.prototype.updateDragDelta_ = function (currentXY) {
 };
 
 /**
+ * 为 event_whenflagclicked 积木生成下一个可用的用户名（静态方法）
+ * @param {!Blockly.Workspace} workspace 工作区
+ * @return {string} 下一个可用的用户名，如 "user1", "user2" 等（从 user1 开始）
+ */
+Blockly.Gesture.getNextUserName = function (workspace) {
+  var allBlocks = workspace.getAllBlocks();
+  var existingNames = [];
+
+  // 收集所有已存在的用户名
+  for (var i = 0; i < allBlocks.length; i++) {
+    var block = allBlocks[i];
+    if (block.type === "event_whenflagclicked" && block.userName) {
+      existingNames.push(block.userName);
+    }
+  }
+
+  // 找到下一个可用的用户名（从 user1 开始）
+  var index = 1;
+  while (existingNames.indexOf("user" + index) !== -1) {
+    index++;
+  }
+
+  return "user" + index;
+};
+
+/**
+ * 为 event_whenflagclicked 积木分配用户名（全局函数，可在其他地方调用）
+ * @param {!Blockly.Block} block 积木对象
+ * @param {!Blockly.Workspace} workspace 工作区
+ */
+Blockly.Gesture.assignUserNameToBlock = function (block, workspace) {
+  if (block.type === "event_whenflagclicked") {
+    block.userName = Blockly.Gesture.getNextUserName(workspace);
+  }
+};
+
+/**
+ * 为 event_whenflagclicked 积木生成下一个可用的用户名（实例方法，内部使用）
+ * @param {!Blockly.Workspace} workspace 工作区
+ * @return {string} 下一个可用的用户名，如 "user1", "user2" 等（从 user1 开始）
+ * @private
+ */
+Blockly.Gesture.prototype.getNextUserName_ = function (workspace) {
+  return Blockly.Gesture.getNextUserName(workspace);
+};
+
+/**
  * Update this gesture to record whether a block is being dragged from the
  * flyout.
  * This function should be called on a mouse/touch move event the first time the
@@ -332,28 +379,6 @@ Blockly.Gesture.prototype.updateIsDraggingFromFlyout_ = function () {
   // Disabled blocks may not be dragged from the flyout.
   if (this.targetBlock_.disabled) {
     return false;
-  }
-
-  // 检查 event_whenflagclicked 积木是否已存在
-  if (this.targetBlock_.type === "event_whenflagclicked") {
-    var targetWorkspace = this.flyout_.targetWorkspace_;
-    var allBlocks = targetWorkspace.getAllBlocks();
-    for (var i = 0; i < allBlocks.length; i++) {
-      if (allBlocks[i].type === "event_whenflagclicked") {
-        // 已存在该积木，不允许拖拽
-        // 先取消手势，清理事件状态，避免鼠标状态异常
-        var self = this;
-
-        requestAnimationFrame(function () {
-          alert(
-            '工作区只能存在一个"开始"积木！\n如需添加，请先删除现有的开始积木。'
-          );
-        });
-        // 取消手势并返回 false
-        this.cancel();
-        return false;
-      }
-    }
   }
 
   if (
@@ -370,6 +395,12 @@ Blockly.Gesture.prototype.updateIsDraggingFromFlyout_ = function () {
     // The start block is no longer relevant, because this is a drag.
     this.startBlock_ = null;
     this.targetBlock_ = this.flyout_.createBlock(this.targetBlock_);
+
+    // 如果是 event_whenflagclicked 积木，为其分配唯一的用户名
+    if (this.targetBlock_.type === "event_whenflagclicked") {
+      this.targetBlock_.userName = this.getNextUserName_(this.startWorkspace_);
+    }
+
     this.targetBlock_.select();
     return true;
   }
@@ -707,7 +738,6 @@ Blockly.Gesture.prototype.handleRightClick = function (e) {
   } else if (this.startBubble_) {
     this.startBubble_.showContextMenu_(e);
   } else if (this.startWorkspace_ && !this.flyout_) {
-    console.log("工作区右键点击了");
     Blockly.hideChaff();
     this.startWorkspace_.showContextMenu_(e);
   }
@@ -816,30 +846,17 @@ Blockly.Gesture.prototype.doBlockClick_ = function () {
   // Block click in an autoclosing flyout.
   if (this.flyout_ && this.flyout_.autoClose) {
     if (!this.targetBlock_.disabled) {
-      // 检查 event_whenflagclicked 积木是否已存在
-      if (this.targetBlock_.type === "event_whenflagclicked") {
-        var targetWorkspace = this.flyout_.targetWorkspace_;
-        var allBlocks = targetWorkspace.getAllBlocks();
-        for (var i = 0; i < allBlocks.length; i++) {
-          if (allBlocks[i].type === "event_whenflagclicked") {
-            // 已存在该积木，不允许创建
-            // 先取消手势，清理事件状态，避免鼠标状态异常
-            requestAnimationFrame(function () {
-              alert(
-                '工作区只能存在一个"开始"积木！\n如需添加，请先删除现有的开始积木。'
-              );
-            });
-            // 取消手势并返回
-            this.cancel();
-            return;
-          }
-        }
-      }
-
       if (!Blockly.Events.getGroup()) {
         Blockly.Events.setGroup(true);
       }
       var newBlock = this.flyout_.createBlock(this.targetBlock_);
+
+      // 如果是 event_whenflagclicked 积木，为其分配唯一的用户名
+      if (newBlock.type === "event_whenflagclicked") {
+        var targetWorkspace = this.flyout_.targetWorkspace_;
+        newBlock.userName = this.getNextUserName_(targetWorkspace);
+      }
+
       newBlock.scheduleSnapAndBump();
     }
   } else {

@@ -200,6 +200,10 @@ Blockly.scratchBlocksUtils.duplicateAndDragCallback = function(oldBlock, event) 
 
         // Scratch-specific: Give shadow dom new IDs to prevent duplicating on paste
         Blockly.scratchBlocksUtils.changeObscuredShadowIds(newBlock);
+        // 如果是 event_whenflagclicked 积木，分配新的用户名
+        if (newBlock.type === "event_whenflagclicked") {
+          Blockly.Gesture.assignUserNameToBlock(newBlock, ws);
+        }
 
         var svgRootNew = newBlock.getSvgRoot();
         if (!svgRootNew) {

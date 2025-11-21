@@ -1031,6 +1031,10 @@ Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock, e) {
     var block = Blockly.Xml.domToBlock(xmlBlock, this);
     // Scratch-specific: Give shadow dom new IDs to prevent duplicating on paste
     Blockly.scratchBlocksUtils.changeObscuredShadowIds(block);
+    // 如果是 event_whenflagclicked 积木，分配新的用户名
+    if (block.type === "event_whenflagclicked") {
+      Blockly.Gesture.assignUserNameToBlock(block, this);
+    }
     // Move the duplicate to original position.
     var blockX = parseInt(xmlBlock.getAttribute('x'), 10);
     var blockY = parseInt(xmlBlock.getAttribute('y'), 10);

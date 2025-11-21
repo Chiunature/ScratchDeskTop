@@ -139,6 +139,28 @@ Blockly.Python.init = function (workspace) {
   }
   Blockly.Python.variableDB_.setVariableMap(workspace.getVariableMap());
 
+  // 在代码生成之前，为所有 event_whenflagclicked 积木分配唯一的用户名
+  // 这样可以确保即使积木没有 userName，也能生成唯一的函数名
+  // 需要按顺序分配，确保每个积木都获得唯一的用户名
+  var allBlocks = workspace.getAllBlocks();
+  var eventBlocks = [];
+
+  // 先收集所有 event_whenflagclicked 积木
+  for (var i = 0; i < allBlocks.length; i++) {
+    var block = allBlocks[i];
+    if (block.type === "event_whenflagclicked") {
+      eventBlocks.push(block);
+    }
+  }
+
+  // 按顺序为没有 userName 的积木分配唯一的用户名
+  for (var j = 0; j < eventBlocks.length; j++) {
+    var eventBlock = eventBlocks[j];
+    if (!eventBlock.userName) {
+      Blockly.Gesture.assignUserNameToBlock(eventBlock, workspace);
+    }
+  }
+
   var variables = Blockly.Variables.allVariables(workspace);
   if (variables) {
     for (var x = 0; x < variables.length; x++) {
@@ -294,45 +316,53 @@ Blockly.Python.finish = function (code) {
 
 Blockly.Python.splitCodeByTask = function (code) {
   let result = "\n";
-  const regexForThread = /\s{1}\/\* Start \*\/[\s\S]*?\/\* End \*\/\s{1}/g;
+  // 修改正则表达式以匹配带任务名的注释：/* Start user1 */ ... /* End user1 */
+  // 使用 exec() 来正确获取捕获组
+  const regexForThread =
+    /\s{1}\/\* Start (\w+) \*\/[\s\S]*?\/\* End \1 \*\/\s{1}/g;
   const _task = Object.keys(Blockly.Python.tasks_);
-  const arr = code.match(regexForThread);
 
-  if (!arr) {
+  let match;
+  const matches = [];
+
+  // 使用 exec() 循环获取所有匹配项和捕获组
+  while ((match = regexForThread.exec(code)) !== null) {
+    matches.push({
+      fullMatch: match[0],
+      taskName: match[1],
+    });
+  }
+
+  if (matches.length === 0) {
     return code;
   }
 
-  // 只处理第一个匹配项（只有一个开始事件）
-  if (arr.length > 0) {
-    const item = arr[0]
-      .replace(/\s{1}\/\* Start \*\/\s{1}/, "")
-      .replace(/\s{1}\/\* End \*\/\s{1}/, "");
+  // 收集所有任务名，用于生成 __tasks__ 列表
+  const taskNames = [];
 
-    // 生成 async def user() 函数，使用 try-except 结构
+  // 处理所有匹配项，为每个任务生成独立的函数
+  for (let i = 0; i < matches.length; i++) {
+    const matchData = matches[i];
+    const taskName = matchData.taskName || "user";
+
+    // 收集任务名
+    taskNames.push(taskName);
+
+    // 提取代码内容（移除注释标记）
+    const item = matchData.fullMatch
+      .replace(/\s{1}\/\* Start \w+ \*\/\s{1}/, "")
+      .replace(/\s{1}\/\* End \w+ \*\/\s{1}/, "");
+
+    // 生成 async def user1(), async def user2() 等函数，使用 try-except 结构
     result =
       result +
-      `async def user():\n` +
-      `${Blockly.Python.INDENT + Blockly.Python.INDENT}global user_run_flag\n` +
-      `${Blockly.Python.INDENT + Blockly.Python.INDENT}try:\n` +
-      `${Blockly.Python.addIndent(
-        item,
-        Blockly.Python.INDENT + Blockly.Python.INDENT + Blockly.Python.INDENT
-      )}` +
-      `${
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT
-      }user_run_flag = 0\n` +
-      `${
-        Blockly.Python.INDENT + Blockly.Python.INDENT
-      }except Exception as e:\n` +
-      `${
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT +
-        Blockly.Python.INDENT
-      }user_run_flag = 0\n`;
+      `\nasync def ${taskName}():\n` +
+      `${Blockly.Python.addIndent(item, Blockly.Python.INDENT)}`;
+  }
+
+  // 在最后添加 __tasks__ 列表，包含所有任务函数
+  if (taskNames.length > 0) {
+    result += `\n__tasks__ = [${taskNames.join(", ")}]\n`;
   }
 
   return result;
