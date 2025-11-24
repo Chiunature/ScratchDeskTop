@@ -7,16 +7,6 @@ import RunExeBtn from "./runExeBtn.jsx";
 import { verifyTypeConfig } from "est-link";
 import upload from "../button/icon--upload.svg";
 
-// import { defineMessages } from 'react-intl';
-
-/* const messages = defineMessages({
-    "openUpload": {
-        "id": "gui.main.openUpload",
-        "description": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily",
-        "defaultMessage": "Detected that the firmware version is not the latest and has entered maintenance. It cannot be downloaded temporarily"
-    },
-}) */
-
 const UploadBtn = (props) => {
     const {
         completed,
@@ -29,39 +19,12 @@ const UploadBtn = (props) => {
         generatorName,
     } = props;
 
-    // let [openUpload, setOpenUpload] = useState(true);
-    // let [text, setText] = useState('');
-
-    /* useEffect(() => {
-        checkIsOpenUpload();
-    }, []); */
     const compile = (isRun) => {
-        /* if (!openUpload) {
-            alert(text);
-            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
-            return;
-        } */
         if (completed) {
             return;
         }
         handleCompile(isRun);
     };
-
-    /* const checkIsOpenUpload = async () => {
-        try {
-            const res = await fetch("https://zsff.drluck.club/ATC/openUpload.json", { cache: "no-cache" });
-            const obj = await res.json();
-            const sversion = await window.myAPI.onGetVersion();
-            if (Array.isArray(obj['version']) && obj['version'].includes(sversion)) {
-                setOpenUpload(obj['openUpload']);
-                setText(obj['text']);
-            } else {
-                setOpenUpload(true);
-            }
-        } catch (error) {
-            setOpenUpload(true);
-        }
-    } */
 
     return (
         <div className={classNames(styles.btnCon)}>

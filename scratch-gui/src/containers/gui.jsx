@@ -455,9 +455,10 @@ class GUI extends React.Component {
     }
 
     async handleCompile(isRun) {
+        // console.log("容器组件接收到的isRun值", isRun);
         try {
-            const static_path =
-                localStorage.getItem("static_path") || window.resourcesPath;
+            // const static_path =
+            //     localStorage.getItem("static_path") || window.resourcesPath;
             //todo: 先不检查固件版本和传感器版本
             // 检查固件版本
             // const firmwareRes = this.checkUpdateFirmware(static_path);

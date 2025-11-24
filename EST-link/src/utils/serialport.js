@@ -673,10 +673,17 @@ export class Serialport extends Common {
         }
       }
 
-      //发送结束标记和校验和
-      const endMarker = Buffer.from(`##END##SUM=${checksum}\n`);
+      //根据不同点击事件发送不同结束标记和校验和
+      // 如果 isRun 为 true，使用 ##END##RUN#SUM= 格式
+      // 如果 isRun 为 false，使用 ##END##SUM= 格式
+      const isRun = fileData.isRun || false;
+      const endMarker = isRun
+        ? Buffer.from(`##END##RUN#SUM=${checksum}\n`)
+        : Buffer.from(`##END##SUM=${checksum}\n`);
       await this.writeAsync(endMarker);
-      console.log(`发送结束标记 ##END##SUM=${checksum}`);
+      console.log(
+        `发送结束标记 ${isRun ? "##END##RUN#SUM=" : "##END##SUM="}${checksum}`
+      );
 
       //等待下位机响应（可选，5秒超时）
       const success = await this.waitForResponse(5000);
