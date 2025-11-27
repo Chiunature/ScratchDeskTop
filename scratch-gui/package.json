@@ -1,7 +1,7 @@
 {
     "name": "new-ai",
-    "version": "2.1.11",
-    "description": "NEW-AI极睿",
+    "version": "0.1.0",
+    "description": "摄像头",
     "main": "main-with-cache.js",
     "scripts": {
         "build": "npm run clean && webpack --colors --bail",
@@ -184,7 +184,7 @@
         }
     },
     "build": {
-        "productName": "NEW-AI极睿",
+        "productName": "摄像头",
         "appId": "com.NEW-AI.eletest",
         "copyright": "cd©20211209",
         "directories": {
@@ -250,7 +250,7 @@
             "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "NEW-AI极睿",
+            "shortcutName": "摄像头",
             "runAfterFinish": false,
             "perMachine": false,
             "deleteAppDataOnUninstall": true

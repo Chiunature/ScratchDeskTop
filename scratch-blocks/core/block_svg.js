@@ -726,7 +726,6 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
           block.setLocked(true);
         },
       };
-      menuOptions.push(lockOption);
       // 其他各种操作选项
       menuOptions.push(Blockly.ContextMenu.blockDuplicateOption(block, e));
       menuOptions.push(Blockly.ContextMenu.blockCopyOption(block));
@@ -734,6 +733,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
         menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
       }
       menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+      menuOptions.push(lockOption);
     }
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);

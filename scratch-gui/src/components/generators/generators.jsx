@@ -1,8 +1,8 @@
-import styles from './generators.css';
+import styles from "./generators.css";
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import classNames from "classnames";
-import CodeEditor from '../../containers/code-editor.jsx';
-import showIcon from 'scratch-blocks/media/show.svg';
+import CodeEditor from "../../containers/code-editor.jsx";
+import showIcon from "scratch-blocks/media/show.svg";
 
 const GenComponent = ({
     codeEditorLanguage,
@@ -12,7 +12,6 @@ const GenComponent = ({
     onSetGen,
     isGen,
 }) => {
-
     let genRef = useRef();
     let showImgRef = useRef();
     let [isDrag, setIsDrag] = useState(false);
@@ -20,10 +19,10 @@ const GenComponent = ({
 
     useEffect(() => {
         if (containerWidth === 0) {
-            document.removeEventListener('mouseup', handleClick);
+            document.removeEventListener("mouseup", handleClick);
         }
-        if(containerWidth > 0 && !isDrag) {
-            document.addEventListener('mouseup', handleClick);
+        if (containerWidth > 0 && !isDrag) {
+            document.addEventListener("mouseup", handleClick);
         }
     }, [containerWidth, isDrag]);
 
@@ -44,6 +43,7 @@ const GenComponent = ({
             if (menuBarGen.contains(e.target)) {
                 return;
             }
+            //一直显示代码区
             onSetGen(false);
         }
     }
@@ -55,11 +55,13 @@ const GenComponent = ({
         }
         document.onmouseup = handleDragEnd;
         document.onmousemove = (e) => {
-            const width = Math.min(Math.max(window.innerWidth - e.pageX, 0), window.innerWidth / 2);
+            const width = Math.min(
+                Math.max(window.innerWidth - e.pageX, 0),
+                window.innerWidth / 2
+            );
             setContainerWidth(width);
-        }
+        };
     }
-
 
     function handleDragEnd(e) {
         if (window.innerWidth - e.pageX < 450) {
@@ -76,7 +78,14 @@ const GenComponent = ({
 
     return (
         <div className={styles.gen}>
-            <div ref={genRef} className={classNames(styles.genTxt, isDrag ? styles.genWid : '')} style={{ width: containerWidth + 'px' }}>
+            <div
+                ref={genRef}
+                className={classNames(
+                    styles.genTxt,
+                    isDrag ? styles.genWid : ""
+                )}
+                style={{ width: containerWidth + "px" }}
+            >
                 <CodeEditor
                     value={code}
                     language={codeEditorLanguage}
@@ -89,10 +98,10 @@ const GenComponent = ({
                     src={showIcon}
                     draggable={false}
                     onMouseDown={handleDragStart}
-                    alt=''
+                    alt=""
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 export default GenComponent;

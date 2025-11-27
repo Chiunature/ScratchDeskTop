@@ -31,7 +31,7 @@ Blockly.Python["procedures_definition"] = function (block) {
 
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (!nextBlock) {
-    code += Blockly.Python.INDENT + "pass\n";
+    code += Blockly.Python.INDENT + "\n";
   } else {
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
@@ -93,10 +93,10 @@ Blockly.Python["procedures_call"] = function (block) {
     }
   }
 
-  var code = "async " + funcName + "(" + argCode.join(", ") + ")\n";
+  var code = "await " + funcName + "(" + argCode.join(", ") + ")\n";
   return code;
 };
-
+//自制积木
 Blockly.Python["procedures_prototype"] = function (block) {
   var funcName = block.getProcCode();
   var argName = block.displayNames_;
