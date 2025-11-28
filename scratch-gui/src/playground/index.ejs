@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google" value="notranslate">
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google" value="notranslate" />
+        <link rel="shortcut icon" href="static/favicon.ico" />
+        <title><%= htmlWebpackPlugin.options.title %></title>
+    </head>
+    <body>
+        <!-- 用于查看浏览器下是否正常 -->
+        <!-- <script>
+            if (typeof window.myAPI === "undefined") {
+                window.myAPI = {
+                    ipcRender: function () {
+                        return Promise.resolve();
+                    },
+                    ipcInvoke: function () {
+                        return Promise.resolve();
+                    },
+                    getStoreValue: function () {
+                        return null;
+                    },
+                    setStoreValue: function () {},
+                    delEvents: function () {},
+                    sleep: function (ms) {
+                        return new Promise((resolve) =>
+                            setTimeout(resolve, ms)
+                        );
+                    },
+                };
+                window.resourcesPath = "";
+            }
+        </script> -->
+    </body>
 </html>
