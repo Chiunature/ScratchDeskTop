@@ -1205,6 +1205,19 @@ const sensing_camera = function ({ colors }) {
     </category>
     `;
 };
+
+const cameraRecognition = function ({ colors }) {
+    return `
+    <category name="%{BKY_CATEGORY_CAMERA_RECOGNITION}" id="cameraRecognition" colour="${colors.primary}"
+        secondaryColour="${colors.tertiary}">
+        ${categorySeparator}
+        ${blockSeparator}
+        <!-- 这里可以添加摄像头识别相关的积木块 -->
+        ${categorySeparator}
+    </category>
+    `;
+};
+
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -1283,6 +1296,10 @@ const makeToolboxXML = function (
     const controlXML =
         moveCategory("control") ||
         control({ isInitialSetup, isStage, targetId, colors: colors.control });
+    // 在 sensing_cameraXML 之后添加
+    const cameraRecognitionXML =
+        moveCategory("cameraRecognition") ||
+        cameraRecognition({ colors: colors.cameraRecognition });
     const sensingXML =
         moveCategory("sensing") ||
         sensing({ isInitialSetup, isStage, targetId, colors: colors.sensing });
@@ -1293,7 +1310,6 @@ const makeToolboxXML = function (
         moveCategory("data") || variables({ colors: colors.data });
     const myBlocksXML =
         moveCategory("procedures") || myBlocks({ colors: colors.more });
-    // const sensing_cameraXML = moveCategory("sensing_camera") || sensing_camera({ colors: colors.sensing_camera });
     const everything = [
         xmlOpen,
         motorXML,
@@ -1310,8 +1326,8 @@ const makeToolboxXML = function (
         gap,
         sensingXML,
         gap,
-        // sensing_cameraXML,
-        // gap,
+        cameraRecognitionXML, // 添加这一行
+        gap,
         operatorsXML,
         gap,
         variablesXML,

@@ -535,7 +535,7 @@ Blockly.Msg.REDO = "Redo";
 Blockly.Msg.EDIT_PROCEDURE = "Edit";
 Blockly.Msg.SHOW_PROCEDURE_DEFINITION = "Go to definition";
 Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = "Say something...";
-
+Blockly.Msg.CATEGORY_CAMERA_RECOGNITION = "Camera Recognition";
 // Color
 Blockly.Msg.COLOUR_HUE_LABEL = "Color";
 Blockly.Msg.COLOUR_SATURATION_LABEL = "Saturation";
