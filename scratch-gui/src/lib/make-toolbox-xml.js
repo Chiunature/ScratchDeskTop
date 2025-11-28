@@ -238,9 +238,6 @@ const combined_motor = function ({
                     <value name="COUNT">
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
-                    <value name="KP">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
                 </block>
                 ${blockSeparator}
                 <block type="combined_motor_spinByYawAngle">
@@ -259,7 +256,7 @@ const combined_motor = function ({
                         <shadow type="math_number" />
                     </value>
                     <value name="SPEED">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
+                        <shadow type="math_number"><field name="NUM">80</field></shadow>
                     </value>
                     <value name="KP">
                         <shadow type="math_number"><field name="NUM">0.1</field></shadow>
@@ -277,10 +274,10 @@ const combined_motor = function ({
                         <shadow type="math_number" />
                     </value>
                     <value name="LEFT">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
+                        <shadow type="math_number"><field name="NUM">80</field></shadow>
                     </value>
                     <value name="RIGHT">
-                        <shadow type="math_number"><field name="NUM">50</field></shadow>
+                        <shadow type="math_number"><field name="NUM">80</field></shadow>
                     </value>
                     <value name="KP">
                         <shadow type="math_number"><field name="NUM">0.1</field></shadow>
