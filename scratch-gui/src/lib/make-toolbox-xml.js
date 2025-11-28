@@ -695,6 +695,12 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${categorySeparator}
+            <block type="sensing_nfc_read">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${categorySeparator}
         </category>
     `;
 };

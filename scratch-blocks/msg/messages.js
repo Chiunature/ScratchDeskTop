@@ -329,6 +329,7 @@ Blockly.Msg.SENSING_KEY_JUDGMENT = "Is the %1 touch button pressed";
 Blockly.Msg.SENSING_SOUND_INTENSITY = "Obtain sound intensity";
 Blockly.Msg.SENSING_ULTRASONIC_DETECTION =
   "Ultrasonic %1 obtain distance value";
+Blockly.Msg.SENSING_NFC_READ = "NFC %1 read";
 Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT = "%1 Ultrasonic judgment %2 %3 %%?";
 Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = "line %1 looks %2";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION = "%1 Reflected light";

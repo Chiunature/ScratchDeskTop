@@ -29468,6 +29468,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_LINE_INSPECTION_JUDGMENT: "巡线 %1 看到 %2",
   SENSING_ULTRASONIC_JUDGMENT: "%1 超声波判断 %2 %3 CM",
   SENSING_ULTRASONIC_DETECTION: "超声波 %1 获取距离值",
+  SENSING_NFC_READ: "NFC %1 读取",
   SENSING_SOUND_INTENSITY: "获取声音强度",
   SENSING_KEY_JUDGMENT: "%1 触碰是否被按下",
   SENSING_KEY_PRESS: "导航键 %1 按键是否 %2",

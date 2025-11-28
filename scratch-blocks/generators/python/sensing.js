@@ -386,3 +386,18 @@ Blockly.Python["sensing_reset_timer"] = function (block) {
   let code = `resetTimer()\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
 };
+
+//新增nfc读取
+Blockly.Python["sensing_nfc_read"] = function (block) {
+  const port = Blockly.Python.valueToCode(
+    block,
+    "PORT",
+    Blockly.Python.ORDER_NONE
+  );
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `read_car(${portValue})`,
+    Blockly.Python.NFC_TYPE
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};

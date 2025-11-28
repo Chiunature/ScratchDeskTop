@@ -102,7 +102,7 @@ Blockly.Python.CAM_TYPE = "camera";
 Blockly.Python.TIMER_TYPE = "timer";
 Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.STR_TYPE = "str";
-
+Blockly.Python.NFC_TYPE = "nfc";
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
 /**
@@ -557,59 +557,30 @@ Blockly.Python.handleResult = function (code, type) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyLed = APIMatrix.showLed()";
-      // }
       result = "_matrix." + result;
       break;
     case Blockly.Python.SOUND_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMusic = APIMusic.playMusic()";
-      // }
       result = "_music." + result;
       break;
     case Blockly.Python.MEM_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMem = APIMem.mem()";
-      // }
       result = "_mem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyColor = APIColor.color()";
-      // }
       result = "_color." + result;
       break;
     case Blockly.Python.MOTOR_TYPE:
-      //新版Python不添加新对象
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMotor = APIMotor.motor()";
-      // }
       result = "_motor." + result;
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] =
-      //     "MyUltrasion = APIUltrasion.ultrasionic()";
-      // }
       result = "_ultrasion." + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
-      // }
       result = "_touch." + result;
       break;
     case Blockly.Python.KEY_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
-      // }
       result = "_key." + result;
       break;
     case Blockly.Python.GRAY_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
-      // }
       result = "_gray." + result;
       break;
     case Blockly.Python.LIST_TYPE:
@@ -623,22 +594,16 @@ Blockly.Python.handleResult = function (code, type) {
       result = "MyCam." + result;
       break;
     case Blockly.Python.TIMER_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
-      // }
       result = "_os." + result;
       break;
     case Blockly.Python.MSG_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMsg = APIMessage.box()";
-      // }
       result = "_message." + result;
       break;
     case Blockly.Python.STR_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "Mystr = APIStr.StrPyToC()";
-      // }
       result = "_os." + result;
+      break;
+    case Blockly.Python.NFC_TYPE:
+      result = "_gray." + result;
       break;
     default:
       break;

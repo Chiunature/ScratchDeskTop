@@ -766,3 +766,21 @@ Blockly.Blocks["sensing_judgelineState"] = {
     });
   },
 };
+
+//增加nfc读取
+Blockly.Blocks["sensing_nfc_read"] = {
+  init: function () {
+    this.jsonInit({
+      type: "sensing_nfc_read",
+      message0: Blockly.Msg.SENSING_NFC_READ,
+      args0: [
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "output_number"],
+    });
+  },
+};
