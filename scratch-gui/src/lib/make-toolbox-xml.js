@@ -1212,7 +1212,11 @@ const cameraRecognition = function ({ colors }) {
         secondaryColour="${colors.tertiary}">
         ${categorySeparator}
         ${blockSeparator}
-        <!-- 这里可以添加摄像头识别相关的积木块 -->
+        <block type="cameraRecognition_discerrn_aprltag_lab">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
         ${categorySeparator}
     </category>
     `;

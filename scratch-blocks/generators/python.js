@@ -103,6 +103,7 @@ Blockly.Python.TIMER_TYPE = "timer";
 Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.STR_TYPE = "str";
 Blockly.Python.NFC_TYPE = "nfc";
+Blockly.Python.CAMERA_RECOGNITION_TYPE = "cameraRecognition";
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
 /**
@@ -604,6 +605,9 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.NFC_TYPE:
       result = "_gray." + result;
+      break;
+    case Blockly.Python.CAMERA_RECOGNITION_TYPE:
+      result = "_camer." + result;
       break;
     default:
       break;

@@ -541,6 +541,9 @@ Blockly.Msg.COLOUR_HUE_LABEL = "Color";
 Blockly.Msg.COLOUR_SATURATION_LABEL = "Saturation";
 Blockly.Msg.COLOUR_BRIGHTNESS_LABEL = "Brightness";
 Blockly.Msg.SILDER = "Rate/Speed";
+//camera recognition blocks
+Blockly.Msg.CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB = "%1 标签识别";
+
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = "Change value:";

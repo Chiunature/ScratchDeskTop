@@ -29639,6 +29639,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SMOOTH: "平滑",
   SLOW: "慢",
   SLOWER: "更慢",
+  CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB:"%1 标签识别",
 };
 
 Blockly.ScratchMsgs.locales["zh-tw"] = {
