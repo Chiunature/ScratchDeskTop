@@ -1218,6 +1218,162 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="cameraRecognition_apriltaglab_id">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_apriltaglab_x_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_apriltaglab_y_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_apriltaglab_angle">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_apriltaglab_cm">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_find_match_target">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_match_target">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_target_angle">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_discern_face">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_face_x_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_face_y_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_find_black_line">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_line_offset_angle">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_line_offset_cm">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_line_segment_promient">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_follow_block">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_follow_block_size">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_follow_x_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_follow_y_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_color_blue">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}        
+        <block type="cameraRecognition_color_gread">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_color_read">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_set_mode">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_set_color_block_mode">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+            <value name="COLOR_R">
+                <shadow type="math_number" />
+            </value>
+            <value name="COLOR_G">
+                <shadow type="math_number" />
+            </value>
+            <value name="COLOR_B">
+                <shadow type="math_number" />
+            </value>
+            <value name="COLOR_PRECENT">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
     </category>
     `;
 };

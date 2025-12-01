@@ -542,8 +542,37 @@ Blockly.Msg.COLOUR_SATURATION_LABEL = "Saturation";
 Blockly.Msg.COLOUR_BRIGHTNESS_LABEL = "Brightness";
 Blockly.Msg.SILDER = "Rate/Speed";
 //camera recognition blocks
-Blockly.Msg.CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB = "%1 标签识别";
-
+Blockly.Msg.CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB = "%1 标签是否存在";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_ID = "返回%1 标签ID";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_X_POINT = "返回%1 标签X坐标";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_Y_POINT = "返回%1 标签Y坐标";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_ANGLE = "返回%1 标签旋转角度";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_CM = "返回%1 标签距离";
+Blockly.Msg.CAMERA_RECOGNITION_FIND_MATCH_TARGET = "%1 特征点是否存在";
+Blockly.Msg.CAMERA_RECOGNITION_MATCH_TARGET = "返回%1 特征点匹配度";
+Blockly.Msg.CAMERA_RECOGNITION_TARGET_ANGLE = "返回%1 特征点旋转角度";
+Blockly.Msg.CAMERA_RECOGNITION_DISCERN_FACE = "%1 是否找到人脸";
+Blockly.Msg.CAMERA_RECOGNITION_FACE_X_POINT = "返回%1 人脸X坐标";
+Blockly.Msg.CAMERA_RECOGNITION_FACE_Y_POINT = "返回%1 人脸Y坐标";
+Blockly.Msg.CAMERA_RECOGNITION_FIND_BLACK_LINE = "%1 是否找到黑线";
+Blockly.Msg.CAMERA_RECOGNITION_LINE_OFFSET_ANGLE = "返回%1 线段角度";
+Blockly.Msg.CAMERA_RECOGNITION_LINE_OFFSET_CM = "返回%1 线段垂距";
+Blockly.Msg.CAMERA_RECOGNITION_LINE_SEGMENT_PROMIENT = "返回%1 线段显著性";
+Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_BLOCK = "%1 是否找到色块";
+Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_BLOCK_SIZE = "返回%1 色块大小";
+Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_X_POINT = "返回%1 色块X坐标";
+Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_Y_POINT = "返回%1 色块Y坐标";
+Blockly.Msg.CAMERA_RECOGNITION_COLOR_BLUE = "返回%1 颜色blue值";
+Blockly.Msg.CAMERA_RECOGNITION_COLOR_GREAD = "返回%1 颜色gread值";
+Blockly.Msg.CAMERA_RECOGNITION_COLOR_READ = "返回%1 颜色read值";
+Blockly.Msg.CAMERA_RECOGNITION_SET_MODE = "设置%1 模式为%2";
+Blockly.Msg.CAMERA_RECOGNITION_GL_COLOR_DETECTION = "全局颜色检测";
+Blockly.Msg.CAMERA_RECOGNITION_LINE_PATROL = "巡线";
+Blockly.Msg.CAMERA_RECOGNITION_FACE_RECOGNITION = "人脸识别";
+Blockly.Msg.CAMERA_RECOGNITION_FEATUREPOINT_DETECTION = "特征点检测";
+Blockly.Msg.CAMERA_RECOGNITION_APRILTAGTAG_MODE = "AprilTag模式";
+Blockly.Msg.CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE =
+  "设置%1 颜色为%2 %3 %4 百分比为 %5";
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = "Change value:";
