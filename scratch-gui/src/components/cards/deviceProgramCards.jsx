@@ -1,16 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import classNames from 'classnames';
-import { FormattedMessage } from 'react-intl';
-import Draggable from 'react-draggable';
-import { ipc as ipc_Renderer } from 'est-link';
-import styles from './card.css';
-import shrinkIcon from './icon--shrink.svg';
-import expandIcon from './icon--expand.svg';
+import PropTypes from "prop-types";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
+import classNames from "classnames";
+import { FormattedMessage } from "react-intl";
+import Draggable from "react-draggable";
+import { ipc as ipc_Renderer } from "est-link";
+import styles from "./card.css";
+import shrinkIcon from "./icon--shrink.svg";
+import expandIcon from "./icon--expand.svg";
 import connectedIcon from "../menu-bar/icon--connected.svg";
-import closeIcon from './icon--close.svg';
+import closeIcon from "./icon--close.svg";
 // import tabStyles from "react-tabs/style/react-tabs.css";
-import SelectExe from '../device/selectExe.jsx';
+import SelectExe from "../device/selectExe.jsx";
 import Box from "../box/box.jsx";
 // import DataViewCom from '../device/data-view.jsx';
 
@@ -29,42 +35,21 @@ import Box from "../box/box.jsx";
 }; */
 
 const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
-    <div className={expanded ? styles.headerButtons : classNames(styles.headerButtons, styles.headerButtonsHidden)}>
-        <div
-            className={styles.deviceButton}
-        >
+    <div
+        className={
+            expanded
+                ? styles.headerButtons
+                : classNames(styles.headerButtons, styles.headerButtonsHidden)
+        }
+    >
+        <div className={styles.deviceButton}>
             <img className={styles.connectedIcon} src={connectedIcon} />
             <FormattedMessage
-                        defaultMessage="Program Selection"
-                        description="Program selection"
-                        id="gui.menuBar.select-exe"
-                    />
+                defaultMessage="Program Selection"
+                description="Program selection"
+                id="gui.menuBar.select-exe"
+            />
         </div>
-        {/* <div className={tabClassNames.tabs}>
-            <ul className={tabClassNames.tabList}>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 0 ? styles.isSelected : '')} onClick={() => handleSelect(0)}>
-                    <div><FormattedMessage
-                        defaultMessage="Port Data"
-                        description="Port data"
-                        id="gui.menuBar.port-data"
-                    /></div>
-                </li>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 1 ? styles.isSelected : '')} onClick={() => handleSelect(1)}>
-                    <div><FormattedMessage
-                        defaultMessage="Program Selection"
-                        description="Program selection"
-                        id="gui.menuBar.select-exe"
-                    /></div>
-                </li>
-                <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 2 ? styles.isSelected : '')} onClick={() => handleSelect(2)}>
-                    <div><FormattedMessage
-                        defaultMessage="Data View"
-                        description="Data View"
-                        id="gui.menuBar.data-view"
-                    /></div>
-                </li>
-            </ul>
-        </div> */}
         <div className={styles.headerButtonsRight}>
             <div
                 className={styles.shrinkExpandButton}
@@ -74,27 +59,22 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
                     draggable={false}
                     src={expanded ? shrinkIcon : expandIcon}
                 />
-                {expanded ?
+                {expanded ? (
                     <FormattedMessage
                         defaultMessage="Shrink"
                         description="Title for button to shrink how-to card"
                         id="gui.cards.shrink"
-                    /> :
+                    />
+                ) : (
                     <FormattedMessage
                         defaultMessage="Expand"
                         description="Title for button to expand how-to card"
                         id="gui.cards.expand"
                     />
-                }
+                )}
             </div>
-            <div
-                className={styles.removeButton}
-                onClick={onCloseCards}
-            >
-                <img
-                    className={styles.closeIcon}
-                    src={closeIcon}
-                />
+            <div className={styles.removeButton} onClick={onCloseCards}>
+                <img className={styles.closeIcon} src={closeIcon} />
                 <FormattedMessage
                     defaultMessage="Close"
                     description="Title for button to close how-to card"
@@ -106,7 +86,7 @@ const DeviecCardHeader = ({ onCloseCards, onShrinkExpandCards, expanded }) => (
 );
 
 let top = -30;
-const DeviceProgramCards = props => {
+const DeviceProgramCards = (props) => {
     const {
         isRtl,
         onSetDeviceCards,
@@ -114,13 +94,13 @@ const DeviceProgramCards = props => {
         exeList,
         onSetSelectedExe,
         onSetExelist,
-        onShowDelExeAlert
+        onShowDelExeAlert,
     } = props;
     let { x, y, expanded } = deviceCards;
     let screenRef = useRef(null);
     let [scale, setScale] = useState(`scale(0.9)`);
 
-   /*useEffect(() => {
+    /*useEffect(() => {
        handleScreenAuto();
         window.onresize = () => handleScreenAuto();
         return () => {
@@ -128,11 +108,27 @@ const DeviceProgramCards = props => {
         } 
     }, []);*/
 
-    const onCloseCards = useCallback(() => onSetDeviceCards({ ...deviceCards, deviceVisible: false }), [deviceCards]);
-    const onShrinkExpandCards = useCallback(() => onSetDeviceCards({ ...deviceCards, expanded: !expanded }), [deviceCards]);
-    const onStartDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: true }), [deviceCards]);
-    const onEndDrag = useCallback(() => onSetDeviceCards({ ...deviceCards, dragging: false }), [deviceCards]);
-    const onDrag = useCallback((e_, data) => onSetDeviceCards({ ...deviceCards, x: data.x, y: data.y }), [deviceCards]);
+    const onCloseCards = useCallback(
+        () => onSetDeviceCards({ ...deviceCards, deviceVisible: false }),
+        [deviceCards]
+    );
+    const onShrinkExpandCards = useCallback(
+        () => onSetDeviceCards({ ...deviceCards, expanded: !expanded }),
+        [deviceCards]
+    );
+    const onStartDrag = useCallback(
+        () => onSetDeviceCards({ ...deviceCards, dragging: true }),
+        [deviceCards]
+    );
+    const onEndDrag = useCallback(
+        () => onSetDeviceCards({ ...deviceCards, dragging: false }),
+        [deviceCards]
+    );
+    const onDrag = useCallback(
+        (e_, data) =>
+            onSetDeviceCards({ ...deviceCards, x: data.x, y: data.y }),
+        [deviceCards]
+    );
     // Tutorial cards need to calculate their own dragging bounds
     // to allow for dragging the cards off the left, right and bottom
     // edges of the workspace.
@@ -143,7 +139,7 @@ const DeviceProgramCards = props => {
 
     if (x === 0 && y === 0) {
         // initialize positions
-        x = isRtl ? (-190 - wideCardWidth - cardHorizontalDragOffset) : 292;
+        x = isRtl ? -190 - wideCardWidth - cardHorizontalDragOffset : 292;
         x += cardHorizontalDragOffset;
         // The tallest cards are about 320px high, and the default position is pinned
         // to near the bottom of the blocks palette to allow room to work above.
@@ -151,7 +147,6 @@ const DeviceProgramCards = props => {
         // const bottomMargin = 60; // To avoid overlapping the backpack region
         // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight;
     }
-
 
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
@@ -165,7 +160,7 @@ const DeviceProgramCards = props => {
         });
         onSetExelist(newList);
         onSetSelectedExe(item);
-    }
+    };
     const handleDelExe = (item, e) => {
         e.stopPropagation();
         window.myAPI.ipcRender({
@@ -173,11 +168,14 @@ const DeviceProgramCards = props => {
             sendParams: { fileName: item.path, verifyType: "DELETE_EXE" },
         });
         onShowDelExeAlert("delExeSuccess");
-        
+
         setTimeout(() => {
-             window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES, sendParams: { type: 'FILE' } });
+            window.myAPI.ipcRender({
+                sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
+                sendParams: { type: "FILE" },
+            });
         }, 1000);
-    }
+    };
 
     /* const handleScreenAuto = () => {
         const designDraftWidth = 1920;
@@ -215,9 +213,9 @@ const DeviceProgramCards = props => {
             left: -20,
             top: top,
             right: originalWidth * scaleX,
-            bottom: originalHeight * scaleY
-        }
-    }
+            bottom: originalHeight * scaleY,
+        };
+    };
 
     const changeBounds = useMemo(() => handleScale(), [scale]);
 
@@ -225,12 +223,14 @@ const DeviceProgramCards = props => {
         // Custom overlay to act as the bounding parent for the draggable, using values from above
         <div
             className={styles.cardContainerOverlay}
-            id='screen'
+            id="screen"
             style={{
-                width: `${window.innerWidth + (2 * cardHorizontalDragOffset)}px`,
-                height: `${window.innerHeight - menuBarHeight + cardVerticalDragOffset}px`,
+                width: `${window.innerWidth + 2 * cardHorizontalDragOffset}px`,
+                height: `${
+                    window.innerHeight - menuBarHeight + cardVerticalDragOffset
+                }px`,
                 top: `${menuBarHeight}px`,
-                left: `${-cardHorizontalDragOffset}px`
+                left: `${-cardHorizontalDragOffset}px`,
             }}
         >
             <Box className={styles.cardBox}>
@@ -250,8 +250,20 @@ const DeviceProgramCards = props => {
                                     onCloseCards={onCloseCards}
                                     onShrinkExpandCards={onShrinkExpandCards}
                                 />
-                                <div className={classNames(expanded ? styles.stepBody : styles.hidden, styles.stepDeviceBody, 'input-wrapper')}>
-                                    <SelectExe {...props} handleSelectExe={handleSelectExe} handleDelExe={handleDelExe} />
+                                <div
+                                    className={classNames(
+                                        expanded
+                                            ? styles.stepBody
+                                            : styles.hidden,
+                                        styles.stepDeviceBody,
+                                        "input-wrapper"
+                                    )}
+                                >
+                                    <SelectExe
+                                        {...props}
+                                        handleSelectExe={handleSelectExe}
+                                        handleDelExe={handleDelExe}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -267,7 +279,4 @@ DeviceProgramCards.propTypes = {
     locale: PropTypes.string.isRequired,
 };
 
-
-export {
-    DeviceProgramCards as default
-};
+export { DeviceProgramCards as default };

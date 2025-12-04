@@ -2,6 +2,7 @@ import React, { Fragment, useMemo } from "react";
 import styles from "./device.css";
 
 const DeviceBox = ({ list, intl, messages }) => {
+    console.log("list", list);
     let newList = useMemo(() => list, [list]);
 
     function getPort(index) {
@@ -66,6 +67,110 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
+    function cameraData(keyName, camera) {
+        // 根据 camera 的 mode 和 keyName 返回对应的显示文本
+        if (!camera || !camera.mode) return keyName;
+
+        switch (camera.mode) {
+            case 1:
+                // mode 1: {"mode":1,"state":1,"x":185,"y":33,"pixel":27392}
+                switch (keyName) {
+                    case "mode":
+                        return "Mode";
+                    case "state":
+                        return "是否找到";
+                    case "x":
+                        return "X坐标";
+                    case "y":
+                        return "Y坐标";
+                    case "pixel":
+                        return "像素点";
+                    default:
+                        return keyName;
+                }
+            case 3:
+                //颜色检测
+                switch (keyName) {
+                    case "mode":
+                        return "颜色检测";
+                    case "r":
+                        return "红色值";
+                    case "g":
+                        return "绿色值";
+                    case "b":
+                        return "蓝色值";
+                    default:
+                        return keyName;
+                }
+            case 4:
+                //巡线
+                switch (keyName) {
+                    case "mode":
+                        return "巡线";
+                    case "state":
+                        return "是否找到";
+                    case "sig":
+                        return "显著性";
+                    case "cm":
+                        return "垂度";
+                    case "theta":
+                        return "角度";
+                    default:
+                        return keyName;
+                }
+            case 6:
+                //人脸识别
+                switch (keyName) {
+                    case "mode":
+                        return "人脸识别";
+                    case "state":
+                        return "是否找到";
+                    case "x":
+                        return "X坐标";
+                    case "y":
+                        return "Y坐标";
+                    default:
+                        return keyName;
+                }
+            case 16:
+                // 特征点检测
+                switch (keyName) {
+                    case "mode":
+                        return "特征点检测";
+                    case "state":
+                        return "是否找到";
+                    case "matchine":
+                        return "匹配度";
+                    case "angle":
+                        return "角度";
+                    default:
+                        return keyName;
+                }
+            case 12:
+                // Apriltag模式
+                switch (keyName) {
+                    case "mode":
+                        return "Apriltag模式";
+                    case "state":
+                        return "是否找到";
+                    case "id":
+                        return "标签ID";
+                    case "x":
+                        return "X坐标";
+                    case "y":
+                        return "Y坐标";
+                    case "angle":
+                        return "角度";
+                    case "cm":
+                        return "距离";
+                    default:
+                        return keyName;
+                }
+            default:
+                return keyName;
+        }
+    }
+
     return (
         <>
             {newList.map((el, index) => {
@@ -74,7 +179,11 @@ const DeviceBox = ({ list, intl, messages }) => {
                         <p>
                             {intl.formatMessage(messages["port"])}:{" "}
                             {getPort(el.port)}-
-                            {intl.formatMessage(messages[el.sensing_device])}
+                            {messages[el.sensing_device]
+                                ? intl.formatMessage(
+                                      messages[el.sensing_device]
+                                  )
+                                : el.sensing_device || "Unknown"}
                         </p>
                         {el.motor && Object.keys(el.motor).length > 0 && (
                             <ul className={styles.midUl}>
@@ -174,6 +283,33 @@ const DeviceBox = ({ list, intl, messages }) => {
                                 })}
                             </ul>
                         )}
+                        {(el.camer || el.camera) &&
+                            Object.keys(el.camer || el.camera).length > 0 && (
+                                <ul className={styles.midUl}>
+                                    {Object.keys(el.camer || el.camera).map(
+                                        (keyName, index) => {
+                                            const camera =
+                                                el.camer || el.camera;
+                                            // 跳过 mode 字段，因为它已经在标题中显示了
+                                            if (keyName === "mode") return null;
+                                            return (
+                                                <li key={index}>
+                                                    <span>
+                                                        {cameraData(
+                                                            keyName,
+                                                            camera
+                                                        )}
+                                                    </span>
+                                                    <span>
+                                                        {/* 10214654{keyName} */}
+                                                        {camera[keyName]}
+                                                    </span>
+                                                </li>
+                                            );
+                                        }
+                                    )}
+                                </ul>
+                            )}
                     </div>
                 );
             })}

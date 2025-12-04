@@ -28,9 +28,9 @@ const DeviceSensingItem = ({
     }, [item.deviceId]);
 
     let data = useMemo(() => {
-        const type = DistinguishTypes(newDeviceId, unitIndex, unit);
+        const type = DistinguishTypes(newDeviceId, unitIndex, unit, item);
         return type ? type + ": " + showData : showData;
-    }, [showData, newDeviceId, unitIndex]);
+    }, [showData, newDeviceId, unitIndex, unit, item]);
 
     function initUnit(obj) {
         if (!unit) {
@@ -124,7 +124,8 @@ const DeviceSensingItem = ({
                                         {DistinguishTypes(
                                             item.deviceId,
                                             unIndex,
-                                            el
+                                            el,
+                                            item
                                         ) && (
                                             <span
                                                 onClick={() =>
@@ -134,7 +135,8 @@ const DeviceSensingItem = ({
                                                 {DistinguishTypes(
                                                     item.deviceId,
                                                     unIndex,
-                                                    el
+                                                    el,
+                                                    item
                                                 )}
                                             </span>
                                         )}

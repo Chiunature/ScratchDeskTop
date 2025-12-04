@@ -32,8 +32,8 @@ export class Common {
       });
     });
     this.watchDeviceList = [];
-    this.deviceIdList = Object.keys(deviceIdMap);
     this.upload_sources_status = null;
+    this.deviceIdList = Object.keys(deviceIdMap);
     this.isRunAfterUploaded = false;
   }
 
@@ -322,67 +322,127 @@ export class Common {
   }
 
   /**
+   * 设置设备信息
+   * @param {Object} item - 设备项
+   * @param {String|Number} deviceIdIndex - 设备ID在deviceIdList中的索引
+   */
+  _setDeviceInfo(item, deviceIdIndex) {
+    item.sensing_device = deviceIdMap[this.deviceIdList[deviceIdIndex]];
+    item.deviceId = this.deviceIdList[deviceIdIndex];
+  }
+
+  /**
+   * 处理颜色传感器数据
+   * @param {Object} item - 设备项
+   */
+  _processColorSensor(item) {
+    this._setDeviceInfo(item, 2);
+    if (!("Not_Run" in item.color)) {
+      const { r, g, b } = item.color;
+      item.color = {
+        l: item.color.l,
+        ...item.color,
+        rgb: `rgb(${r >= 255 ? "255" : r}, ${g >= 255 ? "255" : g}, ${
+          b >= 255 ? "255" : b
+        })`,
+      };
+    }
+  }
+
+  /**
+   * 处理电机数据
+   * @param {Object} item - 设备项
+   */
+  _processMotor(item) {
+    // 统一将 big_motor 或 small_motor 的数据也复制到 motor 字段中,方便渲染进程统一处理电机数据
+    item.motor = item.big_motor || item.small_motor;
+    const deviceIdIndex = item.big_motor ? 5 : item.small_motor ? 6 : 1;
+    this._setDeviceInfo(item, deviceIdIndex);
+  }
+
+  /**
+   * 处理灰度传感器数据
+   * @param {Object} item - 设备项
+   */
+  _processGraySensor(item) {
+    this._setDeviceInfo(item, 7);
+    const obj = { n: [], b: [], ...item.gray };
+
+    for (let key in obj) {
+      if (/^\d{1}/.test(key)) {
+        obj["n"].push(` ${key}:${obj[key]} `);
+        delete obj[key];
+      } else if (/b[\d+?]/.test(key)) {
+        obj["b"].push(` ${key}:${obj[key]} `);
+        delete obj[key];
+      }
+    }
+
+    if (obj["n"] && obj["b"]) {
+      obj["n"] = obj["n"].join("|");
+      obj["b"] = obj["b"].join("|");
+    }
+
+    item.gray = { ...obj };
+  }
+
+  /**
+   * 处理摄像头数据
+   * @param {Object} item - 设备项
+   */
+  _processCamera(item) {
+    this._setDeviceInfo(item, 8);
+    const camera = item.camer || item.camera;
+
+    if (camera && camera.mode) {
+      // 根据不同的 mode 处理数据
+      switch (camera.mode) {
+        case 1:
+          // 数据已完整，无需额外处理
+          break;
+        case 3:
+          //颜色检测
+          break;
+        case 4:
+          //巡线
+          break;
+        case 6:
+          //人脸识别
+          break;
+        case 16:
+          //特征点检测
+          break;
+        case 12:
+          //Apriltag模式
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  /**
    * 根据获取到的功能码判断设备类型
    * @param {Object} watchDeviceData
    * @returns
    */
   distinguishDevice(watchDeviceData) {
-    for (let i = 0; i < watchDeviceData.deviceList.length; i++) {
-      const item = watchDeviceData.deviceList[i];
-      item.sensing_device = deviceIdMap[this.deviceIdList[0]];
-      item.deviceId = this.deviceIdList[0];
+    for (const item of watchDeviceData.deviceList) {
       if (item.color) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[2]];
-        item.deviceId = this.deviceIdList[2];
-        if (!("Not_Run" in item.color)) {
-          item.color = {
-            l: item.color.l,
-            ...item.color,
-            rgb: `rgb(${item.color.r >= 255 ? "255" : item.color.r}, ${
-              item.color.g >= 255 ? "255" : item.color.g
-            }, ${item.color.b >= 255 ? "255" : item.color.b})`,
-          };
-        }
+        this._processColorSensor(item);
       } else if (item.big_motor || item.small_motor) {
-        // 当检测到设备有 big_motor 或 small_motor 时,会额外添加一个 motor 字段:统一将 big_motor 或 small_motor 的数据也复制到 motor 字段中,方便渲染进程统一处理电机数据。
-        item.motor = item.big_motor || item.small_motor;
-        item.sensing_device = item.big_motor
-          ? deviceIdMap[this.deviceIdList[5]]
-          : item.small_motor
-          ? deviceIdMap[this.deviceIdList[6]]
-          : deviceIdMap[this.deviceIdList[1]];
-        item.deviceId = item.big_motor
-          ? this.deviceIdList[5]
-          : item.small_motor
-          ? this.deviceIdList[6]
-          : this.deviceIdList[1];
+        this._processMotor(item);
       } else if (item.ultrasion) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[3]];
-        item.deviceId = this.deviceIdList[3];
+        this._setDeviceInfo(item, 3);
       } else if (item.touch) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[4]];
-        item.deviceId = this.deviceIdList[4];
+        this._setDeviceInfo(item, 4);
       } else if (item.gray) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[7]];
-        item.deviceId = this.deviceIdList[7];
-
-        const obj = { n: [], b: [], ...item.gray };
-        for (let key in obj) {
-          if (/^\d{1}/.test(key)) {
-            obj["n"].push(` ${key}:${obj[key]} `);
-            delete obj[key];
-          } else if (/b[\d+?]/.test(key)) {
-            obj["b"].push(` ${key}:${obj[key]} `);
-            delete obj[key];
-          }
-        }
-
-        if (obj["n"] && obj["b"]) {
-          obj["n"] = obj["n"].join("|");
-          obj["b"] = obj["b"].join("|");
-        }
-
-        item.gray = { ...obj };
+        this._processGraySensor(item);
+      } else if (item.camer || item.camera) {
+        this._processCamera(item);
+      } else {
+        // 如果所有条件都不满足，设置默认值为 "noDevice"
+        this._setDeviceInfo(item, 0);
       }
     }
 
@@ -570,17 +630,45 @@ export class Common {
     }
     return arr;
   }
-
-  checkIsDeviceData(data, reg) {
+  /**
+   * 解析设备数据
+   * @param {String} data - JSON字符串格式的设备数据
+   * @returns {Object|false} - 解析后的设备数据对象，或false
+   */
+  parseDeviceData(data) {
     try {
-      const result = data.match(reg);
-      if (result && result[0].length > 0) {
-        return JSON.parse(result[0]);
-      } else {
-        return null;
+      if (!data) {
+        return false;
       }
+      // 如果是字符串，尝试解析为JSON
+      let parsedData;
+      if (typeof data === "string") {
+        try {
+          parsedData = JSON.parse(data.trim());
+        } catch (parseError) {
+          // 如果不是有效的JSON，返回false
+          return false;
+        }
+      } else {
+        parsedData = data;
+      }
+
+      // 验证解析后的数据格式
+      if (
+        !parsedData ||
+        !parsedData.deviceList ||
+        !(
+          Array.isArray(parsedData.deviceList) &&
+          parsedData.deviceList.length !== 0
+        )
+      ) {
+        return false;
+      }
+
+      return parsedData;
     } catch (error) {
-      return null;
+      console.error("解析数据失败", error);
+      return false;
     }
   }
 

@@ -402,10 +402,7 @@ export class Bluetooth extends Common {
             buffer = buffer.slice(completePacketIndex + 1);
 
             // 开启设备数据监控监听
-            this.watchDeviceData = this.checkIsDeviceData(
-              completePacket,
-              reg.devicesData
-            );
+            this.watchDeviceData = this.parseDeviceData(completePacket);
             if (this.watchDeviceData) {
               buffer = "";
               let t = setTimeout(() => {

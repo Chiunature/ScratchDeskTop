@@ -447,10 +447,8 @@ export class Serialport extends Common {
         buffer = buffer.slice(completePacketIndex + 1);
 
         // 开启设备数据监控监听
-        this.watchDeviceData = this.checkIsDeviceData(
-          completePacket,
-          reg.devicesData
-        );
+        this.watchDeviceData = this.parseDeviceData(completePacket);
+        // console.log("this.watchDeviceData", this.watchDeviceData);
         if (this.watchDeviceData) {
           // 第一次接收到设备监控数据时打印日志
           if (!isFirstDataReceived) {

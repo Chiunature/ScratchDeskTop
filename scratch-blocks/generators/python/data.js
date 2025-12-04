@@ -41,7 +41,6 @@ Blockly.Python["data_setvariableto"] = function (block) {
   if (varName === "unnamed") {
     return "";
   }
-  console.log("arg0", { arg0: arg0, varName: varName, type: typeof arg0 });
   // Arg is a number
   if (parseFloat(arg0.slice(1, -1)) == arg0.slice(1, -1)) {
     arg0 = parseFloat(arg0.slice(1, -1)).toString();
@@ -60,7 +59,6 @@ Blockly.Python["data_changevariableby"] = function (block) {
   if (varName === "unnamed") {
     return "";
   }
-  console.log("arg02", { arg0: arg0, varName: varName, type: typeof arg0 });
   return varName + " += " + arg0 + "\n";
 };
 
