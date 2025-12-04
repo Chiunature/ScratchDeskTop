@@ -6,6 +6,7 @@ import smallMotorSensingIcon from "scratch-blocks/media/small_motor_sensing.svg"
 import superSoundIcon from "scratch-blocks/media/super_sound.svg";
 import touchPressIcon from "scratch-blocks/media/touch_press.svg";
 import cameraSensingIcon from "scratch-blocks/media/camera.svg";
+import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
@@ -72,6 +73,8 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return touchPressIcon;
             case 8:
                 return cameraSensingIcon;
+            case 9:
+                return nfcSensingIcon;
             default:
                 break;
         }
@@ -95,6 +98,8 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 return item.gray;
             case 8:
                 return item.camer;
+            case 9:
+                return item.nfc;
             default:
                 return null;
         }
@@ -120,6 +125,8 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                 // 获取 camera 对象
                 const camera = item?.camer || item?.camera;
                 return cameraData(keyName, camera);
+            case 9:
+                return nfcData(keyName);
             default:
                 return keyName;
         }
@@ -273,6 +280,16 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         }
     }
 
+    function nfcData(keyName) {
+        switch (keyName) {
+            case "id":
+                return "标签ID";
+            case "version":
+                return "版本";
+            default:
+                return keyName;
+        }
+    }
     function _checkTypeIs(currentType, target) {
         return {}.toString.call(currentType) === "[object " + target + "]";
     }

@@ -2,7 +2,6 @@ import React, { Fragment, useMemo } from "react";
 import styles from "./device.css";
 
 const DeviceBox = ({ list, intl, messages }) => {
-    console.log("list", list);
     let newList = useMemo(() => list, [list]);
 
     function getPort(index) {
@@ -171,6 +170,16 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
+    function nfcData(keyName, nfc) {
+        switch (keyName) {
+            case "id":
+                return "标签ID";
+            case "version":
+                return "版本";
+            default:
+                return keyName;
+        }
+    }
     return (
         <>
             {newList.map((el, index) => {
@@ -310,6 +319,20 @@ const DeviceBox = ({ list, intl, messages }) => {
                                     )}
                                 </ul>
                             )}
+                        {el.nfc && Object.keys(el.nfc).length > 0 && (
+                            <ul className={styles.midUl}>
+                                {Object.keys(el.nfc).map((keyName, index) => {
+                                    return (
+                                        <Fragment key={index}>
+                                            <li>
+                                                <span>{nfcData(keyName)}</span>
+                                                <span>{el.nfc[keyName]}</span>
+                                            </li>
+                                        </Fragment>
+                                    );
+                                })}
+                            </ul>
+                        )}
                     </div>
                 );
             })}

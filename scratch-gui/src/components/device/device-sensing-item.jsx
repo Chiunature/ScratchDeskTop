@@ -19,6 +19,14 @@ const DeviceSensingItem = ({
     useEffect(() => {
         const obj = getType(item);
         if (!obj) return;
+
+        // 检查当前 unit 是否在新的 obj 中存在
+        // 当 camera mode 变化时，obj 的键可能会变化（比如 mode 1 有 x,y,pixel，mode 3 有 r,g,b）
+        if (unit && !obj.hasOwnProperty(unit)) {
+            // 如果当前 unit 不存在于新的 obj 中，重置 unit 让 initUnit 重新选择
+            setUnit(null);
+        }
+
         initUnit(obj);
     }, [item]);
 
@@ -76,12 +84,15 @@ const DeviceSensingItem = ({
             }
         }
 
+        // 无论 unit 是否变化，都要更新 showData
+        // 这样当 camera mode 变化时，即使 unit 不变，showData 也会更新为最新的值
         if (
+            unit &&
+            obj.hasOwnProperty(unit) &&
             !_checkTypeIs(obj[unit], "Undefined") &&
             !_checkTypeIs(obj[unit], "Null")
         ) {
             setShowData(obj[unit]);
-        } else {
         }
     }
 
@@ -117,27 +128,23 @@ const DeviceSensingItem = ({
                     <div>
                         {getType(item) &&
                             Object.keys(getType(item)).map((el, unIndex) => {
+                                const displayText = DistinguishTypes(
+                                    item.deviceId,
+                                    unIndex,
+                                    el,
+                                    item
+                                );
                                 return el === "Not_Run" ? (
                                     <span key={unIndex}>Error</span>
                                 ) : (
                                     <Fragment key={unIndex}>
-                                        {DistinguishTypes(
-                                            item.deviceId,
-                                            unIndex,
-                                            el,
-                                            item
-                                        ) && (
+                                        {displayText && (
                                             <span
                                                 onClick={() =>
                                                     selectUnit(el, unIndex)
                                                 }
                                             >
-                                                {DistinguishTypes(
-                                                    item.deviceId,
-                                                    unIndex,
-                                                    el,
-                                                    item
-                                                )}
+                                                {displayText}
                                             </span>
                                         )}
                                     </Fragment>

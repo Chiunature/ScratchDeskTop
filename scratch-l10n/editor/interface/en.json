@@ -568,6 +568,7 @@
 	"gui.device.gyroscopeCalibration": "Gyroscope calibration",
 	"gui.device.gray": "Gray",
 	"gui.device.camer": "Camera",
+	"gui.device.nfc": "NFC",
 	"gui.main.Exit": "The changes you made may not be saved!",
 	"gui.main.reupdateFireware": "The firmware is already the latest version, do you want to update it again?",
 	"gui.main.updateFireware": "It has been detected that the firmware version is not the latest. Do you want to update it?",

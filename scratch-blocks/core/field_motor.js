@@ -34,6 +34,7 @@ Blockly.FieldMotor.color_sensing_svg = "color_sensing.svg";
 Blockly.FieldMotor.sound_sensing_svg = "super_sound.svg";
 Blockly.FieldMotor.touch_sensing_svg = "touch_press.svg";
 Blockly.FieldMotor.camera_sensing_svg = "camera.svg";
+Blockly.FieldMotor.nfc_sensing_svg = "nfc.svg";
 /**
  * Construct a FieldMotor from a JSON arg object.
  * @param {!Object} options A JSON object with options (colour).
@@ -299,6 +300,9 @@ Blockly.FieldMotor.prototype.checkType = function (type) {
       break;
     case "camer":
       img.src = str + Blockly.FieldMotor.camera_sensing_svg;
+      break;
+    case "nfc":
+      img.src = str + Blockly.FieldMotor.nfc_sensing_svg;
       break;
     default:
       return false;

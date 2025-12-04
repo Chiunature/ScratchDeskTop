@@ -170,6 +170,11 @@ const messages = defineMessages({
         description: "Camera",
         defaultMessage: "Camera",
     },
+    nfc: {
+        id: "gui.device.nfc",
+        description: "NFC",
+        defaultMessage: "NFC",
+    },
 });
 
 export default messages;

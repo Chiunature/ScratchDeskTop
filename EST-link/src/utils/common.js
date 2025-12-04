@@ -387,7 +387,7 @@ export class Common {
   }
 
   /**
-   * 处理摄像头数据
+   * 处理nfc数据
    * @param {Object} item - 设备项
    */
   _processCamera(item) {
@@ -420,6 +420,13 @@ export class Common {
       }
     }
   }
+  /**
+   * 处理摄像头数据
+   * @param {Object} item - 设备项
+   */
+  _processNfc(item) {
+    this._setDeviceInfo(item, 9);
+  }
 
   /**
    * 根据获取到的功能码判断设备类型
@@ -440,6 +447,8 @@ export class Common {
         this._processGraySensor(item);
       } else if (item.camer || item.camera) {
         this._processCamera(item);
+      } else if (item.nfc) {
+        this._processNfc(item);
       } else {
         // 如果所有条件都不满足，设置默认值为 "noDevice"
         this._setDeviceInfo(item, 0);
