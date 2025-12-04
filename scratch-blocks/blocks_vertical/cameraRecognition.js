@@ -64,6 +64,14 @@ Blockly.Blocks["cameraRecognition_discerrn_aprltag_lab"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -80,6 +88,14 @@ Blockly.Blocks["cameraRecognition_apriltaglab_id"] = {
       type: "cameraRecognition_apriltaglab_id",
       message0: Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_ID,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -98,6 +114,14 @@ Blockly.Blocks["cameraRecognition_apriltaglab_x_point"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_X_POINT,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -114,6 +138,14 @@ Blockly.Blocks["cameraRecognition_apriltaglab_y_point"] = {
       type: "cameraRecognition_apriltaglab_y_point",
       message0: Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_Y_POINT,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -132,6 +164,14 @@ Blockly.Blocks["cameraRecognition_apriltaglab_angle"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_ANGLE,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -148,6 +188,14 @@ Blockly.Blocks["cameraRecognition_apriltaglab_cm"] = {
       type: "cameraRecognition_apriltaglab_cm",
       message0: Blockly.Msg.CAMERA_RECOGNITION_APRILTAGLAB_CM,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -166,6 +214,14 @@ Blockly.Blocks["cameraRecognition_find_match_target"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_FIND_MATCH_TARGET,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -182,6 +238,14 @@ Blockly.Blocks["cameraRecognition_match_target"] = {
       type: "cameraRecognition_match_target",
       message0: Blockly.Msg.CAMERA_RECOGNITION_MATCH_TARGET,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -200,6 +264,14 @@ Blockly.Blocks["cameraRecognition_target_angle"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_TARGET_ANGLE,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -216,6 +288,14 @@ Blockly.Blocks["cameraRecognition_discern_face"] = {
       type: "cameraRecognition_discern_face",
       message0: Blockly.Msg.CAMERA_RECOGNITION_DISCERN_FACE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -234,6 +314,14 @@ Blockly.Blocks["cameraRecognition_face_x_point"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_FACE_X_POINT,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -250,6 +338,14 @@ Blockly.Blocks["cameraRecognition_face_y_point"] = {
       type: "cameraRecognition_face_y_point",
       message0: Blockly.Msg.CAMERA_RECOGNITION_FACE_Y_POINT,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -268,6 +364,14 @@ Blockly.Blocks["cameraRecognition_find_black_line"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_FIND_BLACK_LINE,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -284,6 +388,14 @@ Blockly.Blocks["cameraRecognition_line_offset_angle"] = {
       type: "cameraRecognition_line_offset_angle",
       message0: Blockly.Msg.CAMERA_RECOGNITION_LINE_OFFSET_ANGLE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -302,6 +414,14 @@ Blockly.Blocks["cameraRecognition_line_offset_cm"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_LINE_OFFSET_CM,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -318,6 +438,14 @@ Blockly.Blocks["cameraRecognition_line_segment_promient"] = {
       type: "cameraRecognition_line_segment_promient",
       message0: Blockly.Msg.CAMERA_RECOGNITION_LINE_SEGMENT_PROMIENT,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -336,6 +464,14 @@ Blockly.Blocks["cameraRecognition_follow_block"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_BLOCK,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -352,6 +488,14 @@ Blockly.Blocks["cameraRecognition_follow_block_size"] = {
       type: "cameraRecognition_follow_block_size",
       message0: Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_BLOCK_SIZE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -370,6 +514,14 @@ Blockly.Blocks["cameraRecognition_follow_x_point"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_X_POINT,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -386,6 +538,14 @@ Blockly.Blocks["cameraRecognition_follow_y_point"] = {
       type: "cameraRecognition_follow_y_point",
       message0: Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_Y_POINT,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -404,6 +564,14 @@ Blockly.Blocks["cameraRecognition_color_blue"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_COLOR_BLUE,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -420,6 +588,14 @@ Blockly.Blocks["cameraRecognition_color_gread"] = {
       type: "cameraRecognition_color_gread",
       message0: Blockly.Msg.CAMERA_RECOGNITION_COLOR_GREAD,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -438,6 +614,14 @@ Blockly.Blocks["cameraRecognition_color_read"] = {
       message0: Blockly.Msg.CAMERA_RECOGNITION_COLOR_READ,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -454,6 +638,14 @@ Blockly.Blocks["cameraRecognition_set_mode"] = {
       type: "cameraRecognition_set_mode",
       message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -482,6 +674,14 @@ Blockly.Blocks["cameraRecognition_set_color_block_mode"] = {
       type: "cameraRecognition_set_color_block_mode",
       message0: Blockly.Msg.CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 20,
+          height: 20,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",

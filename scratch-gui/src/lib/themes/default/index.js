@@ -72,10 +72,10 @@ const blockColors = {
         quaternary: "#389438",
     },
     cameraRecognition: {
-        primary: "#d4a362",
-        secondary: "#e2b57c",
-        tertiary: "#f0c796",
-        quaternary: "#f0c796",
+        primary: "#8698eb",
+        secondary: "#8192e0",
+        tertiary: "#707fc1",
+        quaternary: "#5e6ba3",
     },
     data: {
         primary: "#FF8C1A",
