@@ -610,7 +610,7 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       result = "_mem." + result;
       break;
     case Blockly.Python.COLOR_TYPE:
-      result = "_color." + result;
+      result = "" + result;
       break;
     case Blockly.Python.LIGHT_TYPE:
       result = "" + result;
@@ -623,29 +623,16 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       }
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] =
-      //     "MyUltrasion = APIUltrasion.ultrasionic()";
-      // }
-      result = "_ultrasion." + result;
+      result = "" + result;
       break;
     case Blockly.Python.TOUCH_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyTouch = APITouch.Touch()";
-      // }
       result = "" + result;
       break;
     case Blockly.Python.KEY_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyRemote = APIKey.Key()";
-      // }
       result = "" + result;
       break;
     case Blockly.Python.GRAY_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyGray = APIGray.gray()";
-      // }
-      result = "_gray." + result;
+      result = "" + result;
       break;
     case Blockly.Python.LIST_TYPE:
       // 列表变量现在在init函数中单独初始化，不需要在这里处理
@@ -658,9 +645,6 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       result = "MyCam." + result;
       break;
     case Blockly.Python.TIMER_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyTimer = APIOSTimer.osTimer()";
-      // }
       if (isAwait) {
         result = "await asyncio." + result;
       } else {
@@ -668,15 +652,9 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       }
       break;
     case Blockly.Python.MSG_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "MyMsg = APIMessage.box()";
-      // }
       result = "_message." + result;
       break;
     case Blockly.Python.STR_TYPE:
-      // if (!Blockly.Python.setups_[type]) {
-      //   Blockly.Python.setups_[type] = "Mystr = APIStr.StrPyToC()";
-      // }
       result = "_os." + result;
       break;
     default:

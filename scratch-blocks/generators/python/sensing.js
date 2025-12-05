@@ -83,22 +83,7 @@ Blockly.Python["sensing_color_range"] = function (block) {
     "BMax",
     Blockly.Python.ORDER_NONE
   );
-  const str =
-    "cmp_hsv(" +
-    `${port}` +
-    ", " +
-    `${rmin}` +
-    ", " +
-    `${rmax}` +
-    ", " +
-    `${gmin}` +
-    ", " +
-    `${gmax}` +
-    ", " +
-    `${bmin}` +
-    ", " +
-    `${bmax}` +
-    ")";
+  const str = `${rmin} < get_color(${port},1) < ${rmax} and ${gmin} < get_color(${port},2) < ${gmax} and ${bmin} < get_color(${port},3) < ${bmax}`;
   const code = Blockly.Python.handleResult(str, Blockly.Python.COLOR_TYPE);
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -132,7 +117,7 @@ Blockly.Python["sensing_color_judgment"] = function (block) {
     }
   }
   const code = Blockly.Python.handleResult(
-    `cmp_color(${port}, ${index})`,
+    `get_color(${port},4)==${index}`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -145,7 +130,7 @@ Blockly.Python["sensing_color_detection"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const code = Blockly.Python.handleResult(
-    `dectection(${port})`,
+    `get_color(${port},4)`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -176,7 +161,7 @@ Blockly.Python["sensing_color_detectionRGB"] = function (block) {
       break;
   }
   const code = Blockly.Python.handleResult(
-    `rgb(${port}, ${rgb})`,
+    `get_color(${port}, ${rgb})`,
     Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -233,7 +218,7 @@ Blockly.Python["sensing_ultrasonic_judgment"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const code = Blockly.Python.handleResult(
-    `cmp_value(${port}, "${judgment}", ${inp})`,
+    `get_ul(${port}) ${judgment} ${inp}`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -246,7 +231,7 @@ Blockly.Python["sensing_ultrasonic_detection"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const code = Blockly.Python.handleResult(
-    `value(${port})`,
+    `get_ul(${port})`,
     Blockly.Python.ULTRASIONIC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -317,7 +302,7 @@ Blockly.Python["sensing_get_gray_line"] = function (block) {
   );
   const value = block.getFieldValue("VALUES");
   const code = Blockly.Python.handleResult(
-    `line(${port}, ${value})`,
+    `get_line_value(${port}, ${value})`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -331,7 +316,7 @@ Blockly.Python["sensing_get_gray_lineState"] = function (block) {
   );
   const value = block.getFieldValue("VALUES");
   const code = Blockly.Python.handleResult(
-    `singe_line_state(${port}, ${value})`,
+    `get_line_state(${port}, ${value}) == 1`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -345,7 +330,7 @@ Blockly.Python["sensing_judgelineState"] = function (block) {
   );
   const status = block.getFieldValue("STATEUS");
   const code = Blockly.Python.handleResult(
-    `cmp_state(${port}, ${status})`,
+    `get_line_state(${port}, ${status})`,
     Blockly.Python.GRAY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
