@@ -631,18 +631,18 @@ Blockly.Blocks["cameraRecognition_color_read"] = {
     });
   },
 };
-
-Blockly.Blocks["cameraRecognition_set_mode"] = {
+//全局颜色检测模式设置
+Blockly.Blocks["cameraRecognition_set_mode_color_detection"] = {
   init: function () {
     this.jsonInit({
-      type: "cameraRecognition_set_mode",
-      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE,
+      type: "cameraRecognition_set_mode_color_detection",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_COLOR_DETECTION,
       args0: [
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -650,16 +650,105 @@ Blockly.Blocks["cameraRecognition_set_mode"] = {
           type: "input_value",
           name: "PORT",
         },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+//巡线
+Blockly.Blocks["cameraRecognition_set_mode_line_patrol"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_set_mode_line_patrol",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_LINE_PATROL,
+      args0: [
         {
-          type: "field_dropdown",
-          name: "MODE",
-          options: [
-            [Blockly.Msg.CAMERA_RECOGNITION_GL_COLOR_DETECTION, "0x03"],
-            [Blockly.Msg.CAMERA_RECOGNITION_LINE_PATROL, "0x04"],
-            [Blockly.Msg.CAMERA_RECOGNITION_FACE_RECOGNITION, "0x06"],
-            [Blockly.Msg.CAMERA_RECOGNITION_FEATUREPOINT_DETECTION, "0x10"],
-            [Blockly.Msg.CAMERA_RECOGNITION_APRILTAGTAG_MODE, "0x0C"],
-          ],
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+//人脸识别
+Blockly.Blocks["cameraRecognition_set_mode_face_recognition"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_set_mode_face_recognition",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_FACE_RECOGNITION,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+//特征点
+Blockly.Blocks["cameraRecognition_set_mode_featurepoint_detection"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_set_mode_featurepoint_detection",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_FEATUREPOINT_DETECTION,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+//AprilTag模式
+Blockly.Blocks["cameraRecognition_set_mode_apriltagtag_mode"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_set_mode_apriltagtag_mode",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
         },
       ],
       category: Blockly.Categories.cameraRecognition,

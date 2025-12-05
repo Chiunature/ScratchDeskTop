@@ -1212,6 +1212,12 @@ const cameraRecognition = function ({ colors }) {
         secondaryColour="${colors.tertiary}">
         ${categorySeparator}
         ${blockSeparator}
+        <block type="cameraRecognition_set_mode_apriltagtag_mode">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
         <block type="cameraRecognition_discerrn_aprltag_lab">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
@@ -1248,6 +1254,12 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="cameraRecognition_set_mode_featurepoint_detection">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
         <block type="cameraRecognition_find_match_target">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
@@ -1266,6 +1278,12 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="cameraRecognition_set_mode_face_recognition">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
         <block type="cameraRecognition_discern_face">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
@@ -1279,6 +1297,12 @@ const cameraRecognition = function ({ colors }) {
         </block>
         ${categorySeparator}
         <block type="cameraRecognition_face_y_point">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_set_mode_line_patrol">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
             </value>
@@ -1303,6 +1327,12 @@ const cameraRecognition = function ({ colors }) {
         </block>
         ${categorySeparator}
         <block type="cameraRecognition_line_segment_promient">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_set_mode_color_detection">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
             </value>
@@ -1345,12 +1375,6 @@ const cameraRecognition = function ({ colors }) {
         </block>
         ${categorySeparator}
         <block type="cameraRecognition_color_read">
-            <value name="PORT">
-                <shadow type="cameraRecognition_menu" />
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="cameraRecognition_set_mode">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
             </value>

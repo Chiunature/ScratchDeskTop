@@ -3,7 +3,6 @@ import styles from "./device.css";
 
 const DeviceBox = ({ list, intl, messages }) => {
     let newList = useMemo(() => list, [list]);
-
     function getPort(index) {
         const num = parseInt(index);
         if (isNaN(num)) return;
@@ -37,7 +36,7 @@ const DeviceBox = ({ list, intl, messages }) => {
                 return intl.formatMessage(messages["actualSpeed"]);
             case 2:
                 return intl.formatMessage(messages["angle"]);
-            case 3:
+            case 5:
                 return intl.formatMessage(messages["version"]);
             default:
                 return;
@@ -61,6 +60,8 @@ const DeviceBox = ({ list, intl, messages }) => {
         switch (keyName) {
             case "version":
                 return intl.formatMessage(messages["version"]);
+            case "Softwareversion":
+                return "软件版本";
             default:
                 return keyName;
         }
@@ -197,6 +198,12 @@ const DeviceBox = ({ list, intl, messages }) => {
                         {el.motor && Object.keys(el.motor).length > 0 && (
                             <ul className={styles.midUl}>
                                 {Object.keys(el.motor).map((keyName, index) => {
+                                    console.log("keyName", keyName);
+                                    console.log("index", index);
+                                    console.log(
+                                        "el.motor",
+                                        Object.keys(el.motor)
+                                    );
                                     return (
                                         <Fragment key={index}>
                                             {motorData(index) && (

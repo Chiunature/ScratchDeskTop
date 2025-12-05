@@ -324,15 +324,73 @@ Blockly.Python["cameraRecognition_color_read"] = function (block) {
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
-
-Blockly.Python["cameraRecognition_set_mode"] = function (block) {
+//全局颜色检测模式设置
+Blockly.Python["cameraRecognition_set_mode_color_detection"] = function (
+  block
+) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||
     '"A"';
   const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
-  const mode = block.getFieldValue("MODE");
   const code = Blockly.Python.handleResult(
-    `set_mode(${portValue}, ${mode})\n`,
+    `set_mode(${portValue},0x03)\n`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE
+  );
+  return code;
+};
+//巡线
+Blockly.Python["cameraRecognition_set_mode_line_patrol"] = function (block) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||
+    '"A"';
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `set_mode(${portValue},0x04)\n`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE
+  );
+  return code;
+};
+
+//人脸识别模式设置
+Blockly.Python["cameraRecognition_set_mode_face_recognition"] = function (
+  block
+) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||
+    '"A"';
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `set_mode(${portValue},0x06)\n`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE
+  );
+  return code;
+};
+
+//特征点检测模式设置
+Blockly.Python["cameraRecognition_set_mode_featurepoint_detection"] = function (
+  block
+) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||
+    '"A"';
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `set_mode(${portValue},0x10)\n`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE
+  );
+  return code;
+};
+
+//AprilTag模式设置
+Blockly.Python["cameraRecognition_set_mode_apriltagtag_mode"] = function (
+  block
+) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||
+    '"A"';
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `set_mode(${portValue},0x0C)\n`,
     Blockly.Python.CAMERA_RECOGNITION_TYPE
   );
   return code;
