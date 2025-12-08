@@ -99,7 +99,6 @@ Blockly.Python["sensing_color_judgment"] = function (block) {
     "COLOR",
     Blockly.Python.ORDER_NONE
   );
-  console.log("颜色", color);
   let index = "0";
   const list = [
     "#8b4513",
@@ -125,7 +124,6 @@ Blockly.Python["sensing_color_judgment"] = function (block) {
       break; // 找到匹配后立即退出循环
     }
   }
-  console.log("颜色索引", index);
   const code = Blockly.Python.handleResult(
     `get_color(${port},4)==${index}`,
     Blockly.Python.COLOR_TYPE
