@@ -99,23 +99,33 @@ Blockly.Python["sensing_color_judgment"] = function (block) {
     "COLOR",
     Blockly.Python.ORDER_NONE
   );
+  console.log("颜色", color);
   let index = "0";
   const list = [
-    "#ff000c",
-    "#ffe360",
-    "#0090f5",
-    "#00cb54",
-    "#914800",
-    "#ad0000",
-    "#000000",
+    "#8b4513",
+    "#ff3030",
+    "#ff9300",
+    "#fffb0d",
+    "#00f91a",
+    "#E1FFFF",
+    "#0532ff",
+    "#9370DB",
+    "#686868",
     "#ffffff",
+    "#000000",
   ];
+
+  // 清理颜色值：移除引号（单引号和双引号）、空格，转换为小写进行匹配
+  const cleanColor = color.replace(/['"]/g, "").trim().toLowerCase();
+
   for (let i = 0; i < list.length; i++) {
-    const item = list[i];
-    if (item == color.replace(/'/g, "")) {
+    const item = list[i].toLowerCase();
+    if (item === cleanColor) {
       index = i + 1 + "";
+      break; // 找到匹配后立即退出循环
     }
   }
+  console.log("颜色索引", index);
   const code = Blockly.Python.handleResult(
     `get_color(${port},4)==${index}`,
     Blockly.Python.COLOR_TYPE
@@ -151,7 +161,7 @@ Blockly.Python["sensing_color_detectionRGB"] = function (block) {
       break;
     case "green":
       // rgb = '0x00FF00';
-      rgb = "4";
+      rgb = "2";
       break;
     case "blue":
       // rgb = '0x0000FF';
