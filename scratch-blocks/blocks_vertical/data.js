@@ -56,22 +56,6 @@ Blockly.Blocks["data_variable"] = {
   },
 };
 
-/* Blockly.Blocks['data_definevariable'] = {
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.DATA_DEFINEVAR,
-      "args0": [
-        {
-          "type": "field_variable",
-          "name": "VARIABLE"
-        }
-      ],
-      "category": Blockly.Categories.data,
-      "extensions": ["colours_data", "shape_statement"]
-    });
-  }
-}; */
-
 Blockly.Blocks["data_setvariableto"] = {
   /**
    * Block to set variable to a certain value

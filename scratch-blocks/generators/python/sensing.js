@@ -320,7 +320,7 @@ Blockly.Python["sensing_Handling"] = function (block) {
   const keys = block.getFieldValue("KEYS");
   const button = block.getFieldValue("BUTTON");
   const code = Blockly.Python.handleResult(
-    `key_remote("${button}","${keys}")`,
+    `key_remote("${keys}","${button}")`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
