@@ -41,7 +41,7 @@ Blockly.Python["cameraRecognition_port_to_number"] = function (port) {
  * @param {!Blockly.Block} block - 积木块对象
  * @return {Array} - [代码字符串, 操作符优先级]
  */
-Blockly.Python[""] = function (block) {
+Blockly.Python["cameraRecognition_discerrn_aprltag_lab"] = function (block) {
   // 获取端口输入值，ORDER_NONE 表示不需要考虑操作符优先级
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) ||

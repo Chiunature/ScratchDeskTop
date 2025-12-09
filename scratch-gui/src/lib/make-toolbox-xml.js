@@ -262,7 +262,7 @@ const combined_motor = function ({
                         <shadow type="math_number"><field name="NUM">0.1</field></shadow>
                     </value>
                     <value name="KD">
-                        <shadow type="math_number"><field name="NUM">0.6</field></shadow>
+                        <shadow type="math_number"><field name="NUM">0.0075</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}

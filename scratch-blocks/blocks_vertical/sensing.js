@@ -568,8 +568,8 @@ Blockly.Blocks["sensing_Handling"] = {
           type: "field_dropdown",
           name: "BUTTON",
           options: [
-            [Blockly.Msg.MOTION_XPOSITION, "X"],
-            [Blockly.Msg.MOTION_YPOSITION, "Y"],
+            [Blockly.Msg.MOTION_XPOSITION, "x"],
+            [Blockly.Msg.MOTION_YPOSITION, "y"],
           ],
         },
       ],

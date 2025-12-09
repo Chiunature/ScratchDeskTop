@@ -91,7 +91,11 @@ Blockly.Blocks["data_setvariableto"] = {
         },
       ],
       category: Blockly.Categories.data,
-      extensions: ["colours_data", "shape_statement"],
+      extensions: [
+        "colours_data",
+        "shape_statement",
+        "variable_dropdown_scrollable",
+      ],
     });
   },
 };
@@ -167,42 +171,6 @@ Blockly.Blocks["data_hidevariable"] = {
     });
   },
 };
-
-/* Blockly.Blocks['data_listcontents'] = {
-  init: function() {
-    this.jsonInit({
-      "message0": "%1",
-      "args0": [
-        {
-          "type": "field_variable_getter",
-          "text": "",
-          "name": "LIST",
-          "variableType": Blockly.LIST_VARIABLE_TYPE
-        }
-      ],
-      "category": Blockly.Categories.dataLists,
-      "extensions": ["contextMenu_getListBlock", "colours_data_lists", "output_string"],
-      "checkboxInFlyout": true
-    });
-  }
-}; */
-
-/* Blockly.Blocks['data_definelist'] = {
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.DATA_DEFINELIST,
-      "args0": [
-        {
-          "type": "field_variable",
-          "name": "LIST",
-          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
-        }
-      ],
-      "category": Blockly.Categories.data,
-      "extensions": ["colours_data_lists", "shape_statement"]
-    });
-  }
-}; */
 
 Blockly.Blocks["data_listindexall"] = {
   /**
@@ -721,4 +689,35 @@ Blockly.Extensions.register("hide_list_field_arrow", function () {
       listField.box_.style.display = "none";
     }
   }, 100);
+});
+
+// 为 data_setvariableto 积木块的变量下拉菜单添加滚动条
+Blockly.Extensions.register("variable_dropdown_scrollable", function () {
+  var variableField = this.getField("VARIABLE");
+  if (!variableField) {
+    return;
+  }
+  // 保存原始的 showEditor_ 方法
+  var originalShowEditor = variableField.showEditor_;
+  // 重写 showEditor_ 方法
+  variableField.showEditor_ = function () {
+    // 调用原始方法显示下拉菜单
+    originalShowEditor.call(this);
+    // 在下拉菜单渲染后添加滚动条样式
+    setTimeout(
+      function () {
+        var contentDiv = Blockly.DropDownDiv.getContentDiv();
+        if (
+          contentDiv &&
+          this.sourceBlock_ &&
+          this.sourceBlock_.type === "data_setvariableto"
+        ) {
+          contentDiv.style.maxHeight = "300px";
+          contentDiv.style.overflowY = "auto";
+          contentDiv.style.overflowX = "hidden";
+        }
+      }.bind(this),
+      10
+    );
+  };
 });
