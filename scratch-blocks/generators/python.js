@@ -604,7 +604,7 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_os." + result;
       break;
     case Blockly.Python.NFC_TYPE:
-      result = "_gray." + result;
+      result = "_nfc." + result;
       break;
     case Blockly.Python.CAMERA_RECOGNITION_TYPE:
       result = "_camer." + result;
