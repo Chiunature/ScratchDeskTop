@@ -621,5 +621,8 @@
 	"gui.main.checkUpdate": "检查更新...",
 	"gui.main.foundUpdate": "发现新版本，是否前往下载?",
 	"gui.main.isNew": "目前已是最新版本!",
-	"gui.main.noSave": "未保存"
+	"gui.main.noSave": "未保存",
+	"gui.theme.default": "原始",
+	"gui.theme.dark": "深色",
+	"gui.theme.highContrast": "高对比度"
 }

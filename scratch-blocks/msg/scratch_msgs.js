@@ -7078,7 +7078,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   MATRIX_LAMP: "%1 light %2 the color is %3",
   STOP_MATRIX_LAMP: "%1 turn off pixel lights",
   SET_MATRIX_LAMP: "%1 set the brightness of the pixel light to %2 %%",
-  SINGLE_MATRIX_LAMP: "%1 Set Pixels x %2 y %3",
+  SINGLE_MATRIX_LAMP: "%1 Set Pixels x %2 y %3 brightness %4 %%",
   TEXT_MATRIX_LAMP: "%1 text display %2",
   SETRGB_MATRIX_LAMP: "%1 light serial number %2 color %3",
   USERGB_MATRIX_LAMP: "%1 %2 light",
@@ -7353,6 +7353,41 @@ Blockly.ScratchMsgs.locales["en"] = {
   SMOOTH: "Smooth",
   SLOW: "SLOW",
   SLOWER: "Slower",
+  CAMERA_RECOGNITION_DISCERRN_APRLTAG_LAB: "%1 does %2 tag exist",
+  CAMERA_RECOGNITION_APRILTAGLAB_ID: "%1 return %2 tag ID",
+  CAMERA_RECOGNITION_APRILTAGLAB_X_POINT: "%1 return %2 tag X coordinate",
+  CAMERA_RECOGNITION_APRILTAGLAB_Y_POINT: "%1 return %2 tag Y coordinate",
+  CAMERA_RECOGNITION_APRILTAGLAB_ANGLE: "%1 return %2 tag rotation angle",
+  CAMERA_RECOGNITION_APRILTAGLAB_CM: "%1 return %2 tag distance",
+  CAMERA_RECOGNITION_FIND_MATCH_TARGET: "%1 does %2 feature point exist",
+  CAMERA_RECOGNITION_MATCH_TARGET: "%1 return %2 feature point matching degree",
+  CAMERA_RECOGNITION_TARGET_ANGLE: "%1 return %2 feature point rotation angle",
+  CAMERA_RECOGNITION_DISCERN_FACE: "%1 is %2 face found",
+  CAMERA_RECOGNITION_FACE_X_POINT: "%1 return %2 face X coordinate",
+  CAMERA_RECOGNITION_FACE_Y_POINT: "%1 return %2 face Y coordinate",
+  CAMERA_RECOGNITION_FIND_BLACK_LINE: "%1 is %2 black line found",
+  CAMERA_RECOGNITION_LINE_OFFSET_ANGLE: "%1 return %2 line segment angle",
+  CAMERA_RECOGNITION_LINE_OFFSET_CM:
+    "%1 return %2 line segment perpendicular distance",
+  CAMERA_RECOGNITION_LINE_SEGMENT_PROMIENT:
+    "%1 return %2 line segment prominence",
+  CAMERA_RECOGNITION_FOLLOW_BLOCK: "%1 is %2 color block found",
+  CAMERA_RECOGNITION_FOLLOW_BLOCK_SIZE: "%1 return %2 color block size",
+  CAMERA_RECOGNITION_FOLLOW_X_POINT: "%1 return %2 color block X coordinate",
+  CAMERA_RECOGNITION_FOLLOW_Y_POINT: "%1 return %2 color block Y coordinate",
+  CAMERA_RECOGNITION_COLOR_BLUE: "%1 return %2 color block blue value",
+  CAMERA_RECOGNITION_COLOR_GREAD: "%1 return %2 color green value",
+  CAMERA_RECOGNITION_COLOR_READ: "%1 return %2 color red value",
+  CAMERA_RECOGNITION_SET_MODE_COLOR_DETECTION:
+    "%1 set %2 global color detection mode",
+  CAMERA_RECOGNITION_SET_MODE_LINE_PATROL: "%1 set %2 line patrol mode",
+  CAMERA_RECOGNITION_SET_MODE_FACE_RECOGNITION:
+    "%1 set %2 face recognition mode",
+  CAMERA_RECOGNITION_SET_MODE_FEATUREPOINT_DETECTION:
+    "%1 set %2 feature point detection mode",
+  CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE: "%1 set %2 AprilTag mode",
+  CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE:
+    "%1 set %2 color to %3 %4 %5 percentage to %6",
 };
 
 Blockly.ScratchMsgs.locales["es"] = {
