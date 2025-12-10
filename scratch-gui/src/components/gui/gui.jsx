@@ -54,7 +54,7 @@ import Qrcode from "../code-editor/qrcode.jsx";
 import ProjectManagementHoc from "../../containers/project-management-hoc.jsx";
 // import UpdateInformation from "../alerts/update-information.jsx";
 import { onAutoSaveByBlockType } from "../../reducers/alerts.js";
-import DeviceModal from "../connection-modal/deviceModal.jsx";
+// import DeviceModal from "../connection-modal/deviceModal.jsx"; // 已删除端口数据功能
 import BleListModal from "../../containers/ble-list-modal.jsx";
 
 const messages = defineMessages({
@@ -286,15 +286,7 @@ const GUIComponent = (props) => {
                             <TipsLibrary onActivateDeck={onActivateDeck} />
                         ) : null}
                         {cardsVisible ? <Cards /> : null}
-                        {programSel && (
-                            <DeviceModal
-                                intl={intl}
-                                deviceObj={deviceObj}
-                                completed={completed}
-                                peripheralName={peripheralName}
-                                onRequestClose={onSetProgramSel}
-                            />
-                        )}
+                        {/* programSel 和 DeviceModal 已删除，端口数据功能已移除 */}
                         {alertsVisible ? (
                             <Alerts className={styles.alertsContainer} />
                         ) : null}

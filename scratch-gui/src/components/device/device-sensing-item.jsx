@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect, Fragment } from "react";
+import React, { useMemo, Fragment } from "react";
 import styles from "./device.css";
-import dropdownCaret from "../menu-bar/dropdown-caret.svg";
 
 const DeviceSensingItem = ({
     item,
@@ -9,140 +8,54 @@ const DeviceSensingItem = ({
     getType,
     DistinguishTypes,
     index,
-    changeUnitList,
     _checkTypeIs,
 }) => {
-    let [showData, setShowData] = useState(0);
-    let [unit, setUnit] = useState(null);
-    let [unitIndex, setUnitIndex] = useState(0);
+    // 获取传感器数据对象
+    const sensorData = useMemo(() => {
+        return getType(item);
+    }, [item, getType]);
 
-    useEffect(() => {
-        const obj = getType(item);
-        if (!obj) return;
-        initUnit(obj);
-    }, [item]);
+    // 渲染所有数据项
+    const renderDataItems = () => {
+        if (!sensorData) return null;
 
-    let newDeviceId = useMemo(() => {
-        setUnit(null);
-        return item.deviceId;
-    }, [item.deviceId]);
-
-    let data = useMemo(() => {
-        const type = DistinguishTypes(newDeviceId, unitIndex, unit);
-        return type ? type + ": " + showData : showData;
-    }, [showData, newDeviceId, unitIndex]);
-
-    function initUnit(obj) {
-        if (!unit) {
-            const arr = window.myAPI.getStoreValue("sensing-unit-list");
-            let sensingUnitList, unitListItem;
-            if (arr) {
-                sensingUnitList = JSON.parse(arr);
+        return Object.keys(sensorData).map((key, unIndex) => {
+            // 跳过 Not_Run 和无效值
+            if (key === "Not_Run") {
+                return (
+                    <div key={unIndex} className={styles.dataItem}>
+                        <span className={styles.dataLabel}>Error</span>
+                    </div>
+                );
             }
-            if (sensingUnitList) {
-                unitListItem = sensingUnitList[index];
-            }
-            if (!newDeviceId) {
-                return;
-            }
-            const num = parseInt(newDeviceId.slice(-1));
-            const isSameDevice = unitListItem?.deviceId === newDeviceId;
-            if (isSameDevice) {
-                switch (num) {
-                    case 1:
-                    case 5:
-                    case 6:
-                        const motorUnit =
-                            isSameDevice && unitListItem?.unit
-                                ? unitListItem["unit"]
-                                : Object.keys(obj)[2];
-                        setUnit(motorUnit);
-                        initUnitIndex(obj, motorUnit);
-                        break;
-                    default:
-                        const newUnit =
-                            isSameDevice && unitListItem?.unit
-                                ? unitListItem["unit"]
-                                : Object.keys(obj)[0];
-                        setUnit(newUnit);
-                        initUnitIndex(obj, newUnit);
-                        break;
-                }
-            } else {
-                const defaultUnit = Object.keys(obj)[0];
-                setUnit(defaultUnit);
-                initUnitIndex(obj, defaultUnit);
-                changeUnitList(defaultUnit, index, newDeviceId);
-            }
-        }
 
-        if (
-            !_checkTypeIs(obj[unit], "Undefined") &&
-            !_checkTypeIs(obj[unit], "Null")
-        ) {
-            setShowData(obj[unit]);
-        } else {
-        }
-    }
+            const value = sensorData[key];
+            // 过滤 Undefined 和 Null
+            if (
+                _checkTypeIs(value, "Undefined") ||
+                _checkTypeIs(value, "Null")
+            ) {
+                return null;
+            }
 
-    function initUnitIndex(obj, unit) {
-        if (!unit || !obj) return;
-        const arr = Object.keys(obj);
-        setUnitIndex(arr.indexOf(unit));
-    }
+            // 获取显示名称（只需要 deviceId 和 keyName）
+            const displayName = DistinguishTypes(item.deviceId, key) || key;
 
-    function selectUnit(el, unIndex) {
-        if (unit === el || unIndex === unitIndex) {
-            return;
-        }
-        setUnit(el);
-        setUnitIndex(unIndex);
-        changeUnitList(el, index, newDeviceId);
-    }
+            return (
+                <div key={unIndex} className={styles.dataItem}>
+                    <span className={styles.dataLabel}>{displayName}</span>
+                    <span className={styles.dataValue}>{value}</span>
+                </div>
+            );
+        });
+    };
 
     return (
         <li>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
-                <img src={getSensing(item.deviceId)} />
-                <div className={styles.showUnit}>
-                    <label>{data}</label>
-                    <img
-                        className={styles.dropdownCaret}
-                        src={dropdownCaret}
-                        alt=""
-                    />
-                </div>
-                <div className={styles.deviceSensingUnit}>
-                    <div>
-                        {getType(item) &&
-                            Object.keys(getType(item)).map((el, unIndex) => {
-                                return el === "Not_Run" ? (
-                                    <span key={unIndex}>Error</span>
-                                ) : (
-                                    <Fragment key={unIndex}>
-                                        {DistinguishTypes(
-                                            item.deviceId,
-                                            unIndex,
-                                            el
-                                        ) && (
-                                            <span
-                                                onClick={() =>
-                                                    selectUnit(el, unIndex)
-                                                }
-                                            >
-                                                {DistinguishTypes(
-                                                    item.deviceId,
-                                                    unIndex,
-                                                    el
-                                                )}
-                                            </span>
-                                        )}
-                                    </Fragment>
-                                );
-                            })}
-                    </div>
-                </div>
+                <img src={getSensing(item.deviceId)} alt="sensor icon" />
+                <div className={styles.showAllData}>{renderDataItems()}</div>
             </div>
         </li>
     );

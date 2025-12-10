@@ -110,7 +110,7 @@ import ProjectMenu from "./project-menu.jsx";
 import FilesMenu from "./files-menu.jsx";
 import FilesSaveNotify from "../alerts/files-save-notify.jsx";
 import GeneratorsMenu from "./generators-menu.jsx";
-import DeviceMenu from "./device-menu.jsx";
+// import DeviceMenu from "./device-menu.jsx"; // 已删除端口数据功能
 import blueToothIcon from "../connection-modal/icons/bluetooth-white.svg";
 
 const MenuBarItemTooltip = ({
@@ -188,7 +188,7 @@ class MenuBar extends React.Component {
             "handleConnection",
             "handleDisconnect",
             "scanConnection",
-            "showProgramCards",
+            // "showProgramCards", // 已删除端口数据功能
             "handleClickHome",
             "reUpdateDriver",
             "handleHelp",
@@ -409,13 +409,14 @@ class MenuBar extends React.Component {
         !this.props.bleListVisible && this.scanConnection();
     }
 
-    showProgramCards() {
-        if (!this.props.peripheralName) {
-            this.props.onShowCompletedAlert("selectADeviceFirst");
-        } else {
-            this.props.onSetProgramSel(true);
-        }
-    }
+    // showProgramCards() {
+    //     if (!this.props.peripheralName) {
+    //         this.props.onShowCompletedAlert("selectADeviceFirst");
+    //     } else {
+    //         this.props.onSetProgramSel(true);
+    //     }
+    // }
+    // 已删除端口数据功能，不再需要此方法
 
     async reUpdateDriver() {
         /* const res = await window.myAPI.ipcInvoke(ipc_Renderer.SEND_OR_ON.DEVICE.CHECK, ipc_Renderer.DRIVER.REUPDATE);
@@ -757,10 +758,6 @@ class MenuBar extends React.Component {
                             />
                         </div>
                         <Divider className={classNames(styles.divider)} />
-                        <DeviceMenu
-                            peripheralName={this.props.peripheralName}
-                            showProgramCards={this.showProgramCards}
-                        />
                         <GeneratorsMenu
                             onClickGen={this.props.onClickGen}
                             onRequestCloseGen={this.props.onRequestCloseGen}

@@ -457,19 +457,26 @@ export class Serialport extends Common {
 
       if (completePacketIndex !== -1) {
         // 处理完整的数据包
-        const completePacket = buffer.slice(0, completePacketIndex + 1);
+        const completePacket = buffer.slice(0, completePacketIndex + 1).trim();
         buffer = buffer.slice(completePacketIndex + 1);
+        let parsedData = null;
+
+        // 解析JSON字符串为数组格式 [[0,0],[0,0],[0,0],[0,0]]
+        try {
+          parsedData = JSON.parse(completePacket);
+        } catch (error) {
+          console.error("解析设备数据失败:", error, completePacket);
+          return;
+        }
 
         // 开启设备数据监控监听
-        this.watchDeviceData = this.checkIsDeviceData(
-          completePacket,
-          reg.devicesData
-        );
+        this.watchDeviceData = this.checkIsDeviceData(parsedData);
+
         if (this.watchDeviceData) {
           // 第一次接收到设备监控数据时打印日志
           if (!isFirstDataReceived) {
             console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
-            console.log(`监控数据示例: ${completePacket.trim()}`);
+            console.log(`监控数据示例:`, parsedData);
             console.log(`===========================================\n`);
             isFirstDataReceived = true;
           }

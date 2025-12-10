@@ -326,67 +326,101 @@ export class Common {
    * @param {Object} watchDeviceData
    * @returns
    */
+  /**
+   * 将数组格式的设备数据转换为设备对象格式
+   * 输入格式：[[0,0],[0,0],[0,0],[0,0]] - 索引0-3分别代表A、B、C、D端口
+   * 传感器类型：
+   *   [1,0,0,0] - 按键传感器
+   *   [0,0] - 没有传感器
+   *   [2,0,0,0,0] - 颜色光感传感器
+   *   [3,0,0,0,0] - 超声波传感器
+   *   [4,0,0,0,0] - 巡线卡传感器
+   * @param {Array} watchDeviceData 设备数据数组 [[portA], [portB], [portC], [portD]]
+   * @returns {Object} 转换后的设备对象，包含deviceList数组
+   */
   distinguishDevice(watchDeviceData) {
-    for (let i = 0; i < watchDeviceData.deviceList.length; i++) {
-      const item = watchDeviceData.deviceList[i];
-      item.sensing_device = deviceIdMap[this.deviceIdList[0]];
-      item.deviceId = this.deviceIdList[0];
-      if (item.color) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[2]];
-        item.deviceId = this.deviceIdList[2];
-        if (!("Not_Run" in item.color)) {
-          item.color = {
-            l: item.color.l,
-            ...item.color,
-            rgb: `rgb(${item.color.r >= 255 ? "255" : item.color.r}, ${
-              item.color.g >= 255 ? "255" : item.color.g
-            }, ${item.color.b >= 255 ? "255" : item.color.b})`,
-          };
-        }
-      } else if (item.big_motor || item.small_motor) {
-        // 当检测到设备有 big_motor 或 small_motor 时,会额外添加一个 motor 字段:统一将 big_motor 或 small_motor 的数据也复制到 motor 字段中,方便渲染进程统一处理电机数据。
-        item.motor = item.big_motor || item.small_motor;
-        item.sensing_device = item.big_motor
-          ? deviceIdMap[this.deviceIdList[5]]
-          : item.small_motor
-          ? deviceIdMap[this.deviceIdList[6]]
-          : deviceIdMap[this.deviceIdList[1]];
-        item.deviceId = item.big_motor
-          ? this.deviceIdList[5]
-          : item.small_motor
-          ? this.deviceIdList[6]
-          : this.deviceIdList[1];
-      } else if (item.ultrasion) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[3]];
-        item.deviceId = this.deviceIdList[3];
-      } else if (item.touch) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[4]];
-        item.deviceId = this.deviceIdList[4];
-      } else if (item.gray) {
-        item.sensing_device = deviceIdMap[this.deviceIdList[7]];
-        item.deviceId = this.deviceIdList[7];
+    const deviceList = [];
+    const portNames = ["A", "B", "C", "D"]; // 端口名称映射
 
-        const obj = { n: [], b: [], ...item.gray };
-        for (let key in obj) {
-          if (/^\d{1}/.test(key)) {
-            obj["n"].push(` ${key}:${obj[key]} `);
-            delete obj[key];
-          } else if (/b[\d+?]/.test(key)) {
-            obj["b"].push(` ${key}:${obj[key]} `);
-            delete obj[key];
-          }
-        }
+    // 遍历4个端口（A、B、C、D）
+    for (let i = 0; i < watchDeviceData.length; i++) {
+      const portData = watchDeviceData[i];
+      const port = portNames[i];
 
-        if (obj["n"] && obj["b"]) {
-          obj["n"] = obj["n"].join("|");
-          obj["b"] = obj["b"].join("|");
-        }
-
-        item.gray = { ...obj };
+      // 如果没有数据或数据长度为0，跳过
+      if (!portData || portData.length === 0) {
+        continue;
       }
+
+      // 判断传感器类型：第一个元素表示传感器类型
+      const sensorType = portData[0];
+
+      // [0,0] 表示没有传感器接入，跳过
+      if (sensorType === 0 && portData.length === 2) {
+        continue;
+      }
+
+      // 创建设备对象
+      const deviceItem = {
+        port: port,
+        deviceId: null,
+        sensing_device: null,
+      };
+      // console.log("sensorType", sensorType);
+      // console.log("portData", portData);
+      // 根据传感器类型设置设备信息
+      switch (sensorType) {
+        case 1: // 按键传感器 [1,0,0,0]
+          deviceItem.deviceId = this.deviceIdList[4]; // touch
+          deviceItem.sensing_device = deviceIdMap[this.deviceIdList[4]];
+          deviceItem.touch = {
+            value: portData[1][0] || 0,
+          };
+          break;
+        case 2: // 颜色光感传感器 [2,0,0,0,0]
+          deviceItem.deviceId = this.deviceIdList[2]; // color
+          deviceItem.sensing_device = deviceIdMap[this.deviceIdList[2]];
+          deviceItem.color = {
+            reflectedLight: portData[1][0] || 0,
+            r: portData[1][1] || 0,
+            g: portData[1][2] || 0,
+            b: portData[1][3] || 0,
+            colorType: portData[1][4] || 0,
+          };
+          break;
+
+        case 3: // 超声波传感器 [3,0,0,0,0]
+          deviceItem.deviceId = this.deviceIdList[3]; // ultrasion
+          deviceItem.sensing_device = deviceIdMap[this.deviceIdList[3]];
+          deviceItem.ultrasion = {
+            value: portData[1][0] || 0,
+          };
+          break;
+
+        case 4: // 巡线卡传感器 [4,0,0,0,0]
+          deviceItem.deviceId = this.deviceIdList[7]; // gray
+          deviceItem.sensing_device = deviceIdMap[this.deviceIdList[7]];
+          deviceItem.LineCard = {
+            BWNumber: portData[1][0] || 0,
+            thoroughfare1: portData[1][1] || 0,
+            thoroughfare2: portData[1][2] || 0,
+            thoroughfare3: portData[1][3] || 0,
+            thoroughfare4: portData[1][4] || 0,
+          };
+          break;
+      }
+
+      deviceList.push(deviceItem);
     }
 
-    return { ...watchDeviceData };
+    // 返回符合原有格式的对象结构
+    return {
+      deviceList: deviceList,
+      // 保留其他可能的字段（如果有的话）
+      version: watchDeviceData.version || null,
+      MAC: watchDeviceData.MAC || null,
+      NewAiState: watchDeviceData.NewAiState || null,
+    };
   }
 
   /**
@@ -571,17 +605,20 @@ export class Common {
     return arr;
   }
 
-  checkIsDeviceData(data, reg) {
-    try {
-      const result = data.match(reg);
-      if (result && result[0].length > 0) {
-        return JSON.parse(result[0]);
-      } else {
-        return null;
-      }
-    } catch (error) {
-      return null;
+  /**
+   * 检查是否是有效的设备数据
+   * 新格式：[[0,0],[0,0],[0,0],[0,0]] - 4个端口（A、B、C、D）的数据数组
+   * @param {Array} data 设备数据数组
+   * @returns {boolean|Array} 如果是有效数据返回数据本身，否则返回false
+   */
+  checkIsDeviceData(data) {
+    // 检查是否是数组格式，且长度为4（代表A、B、C、D四个端口）
+    if (Array.isArray(data) && data.length === 4) {
+      // 验证每个端口的数据也是数组
+      const isValid = data.every((port) => Array.isArray(port));
+      return isValid ? data : false;
     }
+    return false;
   }
 
   throttle(fn, delay, isImmediate = true) {

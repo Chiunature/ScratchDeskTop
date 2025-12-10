@@ -9,25 +9,6 @@ import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
 const DeviceSensing = ({ deviceObj, intl }) => {
-    function changeUnitList(unit, index, deviceId) {
-        let list = window.myAPI.getStoreValue("sensing-unit-list");
-        if (list) {
-            let newList = JSON.parse(list);
-            if (
-                newList.length === 0 ||
-                (newList[index]?.deviceId === deviceId &&
-                    newList[index]?.unit === unit)
-            )
-                return;
-            newList[index]["unit"] = unit;
-            newList[index]["deviceId"] = deviceId;
-            window.myAPI.setStoreValue(
-                "sensing-unit-list",
-                JSON.stringify(newList)
-            );
-        }
-    }
-
     function getPort(index) {
         const num = parseInt(index);
         if (isNaN(num)) return;
@@ -74,90 +55,78 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         }
     }
 
+    /**
+     * 根据设备ID获取对应的传感器数据对象
+     * @param {object} item - 设备项，包含 deviceId 和传感器数据
+     * @returns {object|null} 传感器数据对象
+     */
     function getType(item) {
-        if (!item.deviceId) return;
-        const num = parseInt(item.deviceId.slice(-1));
-        switch (num) {
-            case 1:
-            case 5:
-            case 6:
-                return item.motor;
-            case 2:
-                return item.color;
-            case 3:
-                return item.ultrasion;
-            case 4:
-                return item.touch;
-            case 7:
-                return item.gray;
-            default:
-                return null;
-        }
+        if (!item?.deviceId) return null;
+
+        // 设备类型映射表：deviceId最后一位数字 -> 数据字段名
+        const deviceTypeMap = {
+            1: "motor", // 电机设备
+            2: "color", // 颜色传感器
+            3: "ultrasion", // 超声波传感器
+            4: "touch", // 按键传感器
+            5: "motor", // 电机设备
+            6: "motor", // 小电机设备
+            7: "LineCard", // 巡线卡传感器（注意：实际字段名是 LineCard，不是 gray）
+        };
+
+        const deviceType = parseInt(item.deviceId.slice(-1));
+        const dataField = deviceTypeMap[deviceType];
+
+        return dataField ? item[dataField] : null;
     }
 
-    function DistinguishTypes(deviceId, unitIndex, keyName) {
-        if (!deviceId) return;
-        const num = parseInt(deviceId.slice(-1));
-        switch (num) {
-            case 1:
-            case 5:
-            case 6:
-                return motorData(unitIndex);
-            case 2:
-                return colorData(unitIndex);
-            case 3:
-                return intl.formatMessage(messages["distance"]);
-            case 4:
-                return intl.formatMessage(messages["key"]);
-            case 7:
-                return grayData(unitIndex, keyName);
-            default:
-                return keyName;
-        }
-    }
+    /**
+     * 根据设备类型和键名获取显示名称（简化版）
+     * @param {string} deviceId - 设备ID（必传），用于判断设备类型
+     * @param {string} keyName - 数据键名（必传），如 "reflectedLight", "r", "value" 等
+     * @returns {string} 显示名称，如果无法映射则返回 keyName
+     */
+    function DistinguishTypes(deviceId, keyName) {
+        if (!keyName) return "";
 
-    function grayData(num, keyName) {
-        switch (num) {
-            case 0:
-            case 1:
-                return keyName;
-            default:
-                return intl.formatMessage(messages["version"]);
-        }
-    }
+        const deviceType = deviceId ? parseInt(deviceId.slice(-1)) : null;
 
-    function motorData(num) {
-        switch (num) {
-            case 0:
-                return intl.formatMessage(messages["circly"]);
-            case 1:
-                return intl.formatMessage(messages["actualSpeed"]);
-            case 2:
-                return intl.formatMessage(messages["angle"]);
-            case 3:
-                return intl.formatMessage(messages["version"]);
-            default:
-                return;
-        }
-    }
+        // 统一的键名到显示名称映射表
+        const keyNameMap = {
+            // 电机设备字段
+            circly: intl.formatMessage(messages["circly"]),
+            actualSpeed: intl.formatMessage(messages["actualSpeed"]),
+            angle: intl.formatMessage(messages["angle"]),
 
-    function colorData(num) {
-        switch (num) {
-            case 0:
-                return intl.formatMessage(messages["lightIntensity"]);
-            case 1:
-                return "R";
-            case 2:
-                return "G";
-            case 3:
-                return "B";
-            case 4:
-                return "H";
-            case 5:
-                return intl.formatMessage(messages["version"]);
-            default:
-                return;
+            // 颜色传感器字段
+            reflectedLight: intl.formatMessage(messages["lightIntensity"]),
+            r: "R",
+            g: "G",
+            b: "B",
+            colorType: "颜色种类",
+
+            // 巡线卡传感器字段
+            BWNumber: "黑白线数",
+            thoroughfare1: "通道1",
+            thoroughfare2: "通道2",
+            thoroughfare3: "通道3",
+            thoroughfare4: "通道4",
+
+            // 通用版本字段
+            version: intl.formatMessage(messages["version"]),
+        };
+
+        // 特殊处理：value 字段根据设备类型显示不同名称
+        if (keyName === "value") {
+            if (deviceType === 3) {
+                return intl.formatMessage(messages["distance"]); // 超声波传感器
+            } else if (deviceType === 4) {
+                return intl.formatMessage(messages["key"]); // 按键传感器
+            }
         }
+
+        // 返回映射值，如果没有映射则返回原始键名
+        return keyNameMap[keyName] || keyName;
     }
 
     function _checkTypeIs(currentType, target) {
@@ -174,7 +143,6 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                                 {item?.deviceId !== "0" && (
                                     <DeviceSensingItem
                                         _checkTypeIs={_checkTypeIs}
-                                        changeUnitList={changeUnitList}
                                         index={index}
                                         item={item}
                                         getPort={getPort}

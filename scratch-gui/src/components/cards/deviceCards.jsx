@@ -15,7 +15,7 @@ import shrinkIcon from "./icon--shrink.svg";
 import expandIcon from "./icon--expand.svg";
 import connectedIcon from "../menu-bar/icon--connected.svg";
 import closeIcon from "./icon--close.svg";
-import Device from "../device/device.jsx";
+// import Device from "../device/device.jsx"; // 已删除端口数据功能
 import tabStyles from "react-tabs/style/react-tabs.css";
 import SelectExe from "../device/selectExe.jsx";
 import Box from "../box/box.jsx";
@@ -35,8 +35,6 @@ const DeviecCardHeader = ({
     onCloseCards,
     onShrinkExpandCards,
     expanded,
-    index,
-    handleSelect,
 }) => (
     <div
         className={
@@ -59,25 +57,8 @@ const DeviecCardHeader = ({
                     className={classNames(
                         tabStyles.reactTabsTab,
                         styles.tab,
-                        index === 0 ? styles.isSelected : ""
+                        styles.isSelected
                     )}
-                    onClick={() => handleSelect(0)}
-                >
-                    <div>
-                        <FormattedMessage
-                            defaultMessage="Port Data"
-                            description="Port data"
-                            id="gui.menuBar.port-data"
-                        />
-                    </div>
-                </li>
-                <li
-                    className={classNames(
-                        tabStyles.reactTabsTab,
-                        styles.tab,
-                        index === 1 ? styles.isSelected : ""
-                    )}
-                    onClick={() => handleSelect(1)}
                 >
                     <div>
                         <FormattedMessage
@@ -87,13 +68,6 @@ const DeviecCardHeader = ({
                         />
                     </div>
                 </li>
-                {/* <li className={classNames(tabStyles.reactTabsTab, styles.tab, index === 2 ? styles.isSelected : '')} onClick={() => handleSelect(2)}>
-                    <div><FormattedMessage
-                        defaultMessage="Data View"
-                        description="Data View"
-                        id="gui.menuBar.data-view"
-                    /></div>
-                </li> */}
             </ul>
         </div>
         <div
@@ -148,7 +122,8 @@ const DeviceCards = (props) => {
     } = props;
     let { x, y, expanded } = deviceCards;
     let screenRef = useRef(null);
-    let [index, setIndex] = useState(0);
+    // 移除了端口数据标签页，默认只显示程序选择（原index=1）
+    // let [index, setIndex] = useState(0);
     let [scale, setScale] = useState(`scale(0.9)`);
 
     useEffect(() => {
@@ -199,16 +174,15 @@ const DeviceCards = (props) => {
         // y = window.innerHeight - tallCardHeight - bottomMargin - menuBarHeight;
     }
 
-    const handleSelect = (i) => {
-        setIndex(i);
+    // 移除了标签页切换功能，始终显示程序选择
+    useEffect(() => {
         if (!completed) {
-            if (i === 1)
-                window.myAPI.ipcRender({
-                    sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
-                    sendParams: { type: "FILE" },
-                });
+            window.myAPI.ipcRender({
+                sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
+                sendParams: { type: "FILE" },
+            });
         }
-    };
+    }, [completed]);
 
     const handleSelectExe = (item, index) => {
         const newList = exeList.map((item, i) => {
@@ -269,7 +243,7 @@ const DeviceCards = (props) => {
     };
 
     const handleScale = () => {
-        if (!screenRef || !screenRef.current || index > 0) return;
+        if (!screenRef || !screenRef.current) return;
         const box = screenRef.current;
         const originalWidth = box.offsetWidth;
         const originalHeight = box.offsetHeight;
@@ -316,11 +290,9 @@ const DeviceCards = (props) => {
                         <div className={styles.cardContainer} ref={screenRef}>
                             <div className={styles.card}>
                                 <DeviecCardHeader
-                                    index={index}
                                     expanded={expanded}
                                     onCloseCards={onCloseCards}
                                     onShrinkExpandCards={onShrinkExpandCards}
-                                    handleSelect={handleSelect}
                                 />
                                 <div
                                     className={classNames(
@@ -331,15 +303,11 @@ const DeviceCards = (props) => {
                                         "input-wrapper"
                                     )}
                                 >
-                                    {index === 0 ? (
-                                        <Device {...props} />
-                                    ) : (
-                                        <SelectExe
-                                            {...props}
-                                            handleSelectExe={handleSelectExe}
-                                            handleDelExe={handleDelExe}
-                                        />
-                                    )}
+                                    <SelectExe
+                                        {...props}
+                                        handleSelectExe={handleSelectExe}
+                                        handleDelExe={handleDelExe}
+                                    />
                                 </div>
                             </div>
                         </div>

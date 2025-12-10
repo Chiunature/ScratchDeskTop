@@ -398,14 +398,22 @@ export class Bluetooth extends Common {
 
           if (completePacketIndex !== -1) {
             // 处理完整的数据包
-            const completePacket = buffer.slice(0, completePacketIndex + 1);
+            const completePacket = buffer
+              .slice(0, completePacketIndex + 1)
+              .trim();
             buffer = buffer.slice(completePacketIndex + 1);
 
+            // 解析JSON字符串为数组格式 [[0,0],[0,0],[0,0],[0,0]]
+            let parsedData = null;
+            try {
+              parsedData = JSON.parse(completePacket);
+            } catch (error) {
+              console.error("解析设备数据失败:", error, completePacket);
+              return;
+            }
+
             // 开启设备数据监控监听
-            this.watchDeviceData = this.checkIsDeviceData(
-              completePacket,
-              reg.devicesData
-            );
+            this.watchDeviceData = this.checkIsDeviceData(parsedData);
             if (this.watchDeviceData) {
               buffer = "";
               let t = setTimeout(() => {
