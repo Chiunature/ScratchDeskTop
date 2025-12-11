@@ -169,7 +169,8 @@ Blockly.Python["combined_motor_startWithPower"] = function (block) {
     "POWER_TWO",
     Blockly.Python.ORDER_NONE
   );
-  const code = `mov_power(${one}, ${two})\n`;
+  const mode = block.getFieldValue("MODE");
+  const code = `mov_power(${one}, ${two}, ${mode})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

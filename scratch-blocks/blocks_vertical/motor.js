@@ -534,6 +534,14 @@ Blockly.Blocks["motor_startWithPower"] = {
           name: "PORT",
         },
         {
+          type: "field_dropdown",
+          name: "MODE",
+          options: [
+            [Blockly.Msg.POWER, "0"],
+            [Blockly.Msg.SPEED, "1"],
+          ],
+        },
+        {
           type: "input_value",
           name: "POWER",
         },

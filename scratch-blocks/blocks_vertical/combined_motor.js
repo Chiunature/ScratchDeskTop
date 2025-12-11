@@ -529,6 +529,14 @@ Blockly.Blocks["combined_motor_startWithPower"] = {
           type: "input_value",
           name: "POWER_TWO",
         },
+        {
+          type: "field_dropdown",
+          name: "MODE",
+          options: [
+            [Blockly.Msg.POWER, "0"],
+            [Blockly.Msg.SPEED, "1"],
+          ],
+        },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],

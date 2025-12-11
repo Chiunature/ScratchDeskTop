@@ -33,6 +33,10 @@ goog.provide("Blockly.Msg.en");
 
 goog.require("Blockly.Msg");
 
+//commonly used
+Blockly.Msg.POWER = "power";
+Blockly.Msg.SPEED = "speed";
+
 // Control blocks
 Blockly.Msg.CONTROL_FOREVER = "forever";
 Blockly.Msg.CONTROL_REPEAT = "repeat %1";
@@ -167,7 +171,7 @@ Blockly.Msg.MOVEPOWER_COMBINED_MOTOR =
 Blockly.Msg.STOPPING_COMBINED_MOTOR =
   "%1 When setting the running motor to stop %2";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
-  "%1 at a speed of %2 and %3 %% to move";
+  "%1 combined motor move with %2 %% and %3 %% %4";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
   "%1 Combination motor executed at %2 %3 %4 %5";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
@@ -204,7 +208,7 @@ Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
 Blockly.Msg.RELATIVE_POSITION =
   "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
-Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 The Motor %2 starts at %3 power";
+Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 Set the motor %2 %3 to %4 %%";
 Blockly.Msg.MOTOR_ACCELERATION =
   "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL =
