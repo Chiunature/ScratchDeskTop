@@ -46,9 +46,11 @@ export class Serialport extends Common {
     this.watchDeviceData = null;
     this.selectedExe = null;
     this.sourceFiles = [];
-    this.uploadingFile = null;
     this.receiveData = [];
     this.currentPort = null;
+    // 文件传输状态标志，用于避免数据竞争
+    this.isWaitingRecReady = false; // 是否正在等待 rec_ready
+    this.isWaitingTransferResult = false; // 是否正在等待传输结果
   }
 
   /**
@@ -380,22 +382,6 @@ export class Serialport extends Common {
     }
   }
 
-  /* checkIsCalibration(receiveData, event) {
-        const text = new TextDecoder();
-        const res = text.decode(receiveData.slice(4, -2));
-        const num = res.replace(/[^0-9]/ig, '');
-
-        if (num.length > 2) {
-            return
-        }
-
-        event.reply(ipc_Main.PROGRESSBAR, num);
-
-        if (parseInt(num) === 99) {
-            this.sign = null;
-        }
-    } */
-
   /**
    * FlowMode读取串口数据
    * @param {*} event
@@ -449,45 +435,84 @@ export class Serialport extends Common {
 
         return;
       }
-
+      //收到数据后，将数据拼接到buffer中
+      // 由于主机返回数据是一次性传过来的，所以接收数据后可以一次性解析JSON字符串
       buffer += text.decode(data);
 
-      // 判断缓冲区中是否存在完整的数据包
-      const completePacketIndex = buffer.indexOf("\n");
+      // 尝试解析整个buffer（去除首尾空白字符）
+      const trimmedBuffer = buffer.trim();
+      if (trimmedBuffer.length === 0) {
+        return; // 如果buffer为空，直接返回
+      }
 
-      if (completePacketIndex !== -1) {
-        // 处理完整的数据包
-        const completePacket = buffer.slice(0, completePacketIndex + 1).trim();
-        buffer = buffer.slice(completePacketIndex + 1);
-        let parsedData = null;
+      let parsedData = null;
 
-        // 解析JSON字符串为数组格式 [[0,0],[0,0],[0,0],[0,0]]
-        try {
-          parsedData = JSON.parse(completePacket);
-        } catch (error) {
-          console.error("解析设备数据失败:", error, completePacket);
+      // 直接解析JSON字符串（数据是一次性传过来的）
+      try {
+        parsedData = JSON.parse(trimmedBuffer);
+        console.log("解析成功 - parsedData:", parsedData);
+
+        // 解析成功后，清空buffer，准备接收下一个数据包
+        buffer = "";
+      } catch (error) {
+        // JSON解析失败，可能是数据格式错误
+        console.warn("⚠️ JSON解析失败:", {
+          错误: error.message,
+          // 数据包: trimmedBuffer.substring (0, 100),
+          数据包: trimmedBuffer,
+          数据包长度: trimmedBuffer.length,
+        });
+        // 清空buffer，避免重复处理错误数据
+        buffer = "";
+        return;
+      }
+
+      // 检查是否是文件传输响应（这些响应由专门的监听器处理，这里忽略）
+      if (
+        parsedData &&
+        typeof parsedData === "object" &&
+        parsedData.msg &&
+        (parsedData.msg === "rec_ready" ||
+          parsedData.msg === "rec_done" ||
+          parsedData.msg === "chk_error" ||
+          parsedData.msg === "timeout")
+      ) {
+        // 如果正在等待传输响应，让专门的监听器处理，这里不处理
+        if (this.isWaitingRecReady || this.isWaitingTransferResult) {
+          console.log(
+            `📋 handleRead: 检测到文件传输响应 ${parsedData.msg}，交由专门的处理函数处理（避免数据竞争）`
+          );
           return;
         }
+        // 如果没有在等待，说明可能是意外的响应，记录警告
+        console.warn(
+          `⚠️ handleRead: 收到文件传输响应 ${parsedData.msg}，但没有在等待传输响应`
+        );
+        return;
+      }
 
+      // 检查是否是设备监控数据（数组格式 [[0,0],[0,0],[0,0],[0,0]]）
+      const deviceData = this.checkIsDeviceData(parsedData);
+      if (deviceData) {
         // 开启设备数据监控监听
-        this.watchDeviceData = this.checkIsDeviceData(parsedData);
+        this.watchDeviceData = deviceData;
 
-        if (this.watchDeviceData) {
-          // 第一次接收到设备监控数据时打印日志
-          if (!isFirstDataReceived) {
-            console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
-            console.log(`监控数据示例:`, parsedData);
-            console.log(`===========================================\n`);
-            isFirstDataReceived = true;
-          }
-
-          buffer = "";
-          let t = setTimeout(() => {
-            watch(event);
-            clearTimeout(t);
-            t = null;
-          });
+        // 第一次接收到设备监控数据时打印日志
+        if (!isFirstDataReceived) {
+          console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
+          console.log(`监控数据示例:`, parsedData);
+          console.log(`===========================================\n`);
+          isFirstDataReceived = true;
         }
+
+        let t = setTimeout(() => {
+          watch(event);
+          clearTimeout(t);
+          t = null;
+        });
+      } else {
+        // 既不是文件传输响应，也不是设备监控数据，记录警告
+        console.warn(`⚠️ handleRead: 收到未知格式的数据:`, parsedData);
       }
     });
     //本身不是哭脸的时候，发重置会断开，连上后发送文件
@@ -656,6 +681,22 @@ export class Serialport extends Common {
       await this.writeAsync(Buffer.from("##START##\n"));
       console.log("发送开始标记 ##START##");
 
+      // 等待设备回复 rec_ready（10秒超时）
+      console.log("等待设备回复 rec_ready");
+      const recReadyResult = await this.waitForRecReady(30000);
+      console.log("rec_ready回复结果:", recReadyResult);
+
+      if (!recReadyResult) {
+        console.error("❌ 未收到设备 rec_ready 回复，可能设备未准备好");
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: false,
+          msg: "recReadyTimeout",
+          errMsg: "设备未准备好",
+        });
+        return;
+      }
+      console.log("✅ 收到设备 rec_ready 回复，开始传输数据");
+
       //分块发送数据
       const chunkSize = 256;
       const totalChunks = Math.ceil(data.length / chunkSize); //求分包次数
@@ -665,11 +706,9 @@ export class Serialport extends Common {
         await this.writeAsync(chunk);
 
         //计算进度
-        const progress = Math.ceil(((i + chunkSize) / data.length) * 100);
-        event.reply(
-          ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS,
-          Math.min(progress, 100)
-        );
+        const currentBytes = Math.min(i + chunkSize, data.length);
+        const progress = Math.ceil((currentBytes / data.length) * 100);
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.PROGRESS, progress);
 
         // 5ms延时，避免接收端缓冲区溢出
         await this.sleep(5);
@@ -692,22 +731,41 @@ export class Serialport extends Common {
         `发送结束标记 ${isRun ? "##END##RUN#SUM=" : "##END##SUM="}${checksum}`
       );
 
-      //等待下位机响应（可选，5秒超时）
-      const success = await this.waitForResponse(5000);
+      // 等待设备回复传输结果（rec_done, chk_error, timeout）
+      console.log("等待设备回复传输结果");
+      const transferResult = await this.waitForTransferResult(10000); // 10秒超时
+      console.log("transferResult结果:", transferResult);
 
-      if (success) {
+      // 根据设备回复的结果进行处理
+      if (transferResult.status === "success") {
         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
           result: true,
           msg: "uploadSuccess",
           fileName: fileName,
         });
-        console.log("文件传输成功！");
+        console.log("✅ 文件传输成功！设备已确认接收完成");
+      } else if (transferResult.status === "chk_error") {
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: false,
+          msg: "chkError",
+          errMsg: "设备校验失败",
+        });
+        console.error("❌ 文件传输失败：设备校验错误（chk_error）");
+      } else if (transferResult.status === "timeout") {
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: false,
+          msg: "deviceTimeout",
+          errMsg: "设备接收超时",
+        });
+        console.error("❌ 文件传输失败：设备接收超时（timeout）");
       } else {
+        // 等待超时（未收到任何回复）
         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
           result: false,
           msg: "uploadTimeout",
+          errMsg: "未收到设备回复",
         });
-        console.log("文件传输超时");
+        console.error("❌ 文件传输失败：等待设备回复超时");
       }
     } catch (err) {
       console.log("传输出错:", err);
@@ -716,6 +774,9 @@ export class Serialport extends Common {
         msg: "uploadError",
         errMsg: err.message,
       });
+    } finally {
+      // 确保清理标志位，避免影响后续传输
+      this.isWaitingTransferResult = false;
     }
   }
   /**
@@ -750,7 +811,207 @@ export class Serialport extends Common {
   }
 
   /**
-   * 等待下位机响应
+   * 等待设备回复 rec_ready（握手阶段）
+   * @param {number} timeout - 超时时间（毫秒），默认10000ms
+   * @returns {Promise<boolean>} 是否收到正确的 rec_ready 回复
+   */
+  waitForRecReady(timeout = 10000) {
+    return new Promise((resolve) => {
+      if (!this.port || !this.port.isOpen) {
+        console.error("串口未打开，无法等待 rec_ready");
+        resolve(false);
+        return;
+      }
+
+      // 设置标志位，避免 handleRead 处理相关数据
+      this.isWaitingRecReady = true;
+
+      let responseReceived = false;
+      let buffer = "";
+      const text = new TextDecoder();
+
+      // 清理函数
+      const cleanup = () => {
+        this.isWaitingRecReady = false;
+        this.port.removeListener("data", onData);
+      };
+
+      // 设置超时定时器
+      const timer = setTimeout(() => {
+        if (!responseReceived) {
+          cleanup();
+          console.error(`⏱️ 等待 rec_ready 超时（${timeout}ms）`);
+          resolve(false);
+        }
+      }, timeout);
+
+      // 监听下位机返回的数据
+      const onData = (data) => {
+        if (responseReceived) return;
+
+        buffer += text.decode(data);
+        console.log(`📥 收到数据: ${buffer.trim()}`);
+
+        const trimmedBuffer = buffer.trim();
+        if (trimmedBuffer.length === 0) {
+          return;
+        }
+
+        try {
+          const parsedData = JSON.parse(trimmedBuffer);
+          console.log(`📦 解析 JSON 成功:`, parsedData);
+
+          // 检查是否是对象格式（rec_ready 是对象格式，设备监控数据是数组格式）
+          if (
+            !parsedData ||
+            typeof parsedData !== "object" ||
+            Array.isArray(parsedData)
+          ) {
+            // 如果是数组格式（设备监控数据），清空buffer并忽略
+            buffer = "";
+            return;
+          }
+
+          // 验证是否为 rec_ready
+          if (parsedData.msg === "rec_ready") {
+            responseReceived = true;
+            clearTimeout(timer);
+            cleanup();
+            console.log("✅ 验证成功：收到 rec_ready 回复");
+            resolve(true);
+          } else {
+            // 如果是对象但不是 rec_ready，清空buffer继续等待
+            buffer = "";
+          }
+        } catch (error) {
+          console.log(`⚠️ 不是有效的 JSON 数据: ${trimmedBuffer}`);
+          buffer = "";
+        }
+      };
+
+      this.port.on("data", onData);
+    });
+  }
+
+  /**
+   * 等待文件传输完成后的设备回复（传输结果阶段）
+   * @param {number} timeout - 超时时间（毫秒），默认10000ms
+   * @returns {Promise<{status: string, msg?: string}>}
+   *   - status: "success" | "chk_error" | "timeout" | "wait_timeout"
+   *   - msg: 设备返回的原始消息（如果有）
+   */
+  waitForTransferResult(timeout = 10000) {
+    return new Promise((resolve) => {
+      if (!this.port || !this.port.isOpen) {
+        console.error("串口未打开，无法等待传输结果");
+        resolve({ status: "wait_timeout" });
+        return;
+      }
+
+      // 设置标志位，避免 handleRead 处理相关数据
+      this.isWaitingTransferResult = true;
+
+      let responseReceived = false;
+      let buffer = "";
+      const text = new TextDecoder();
+
+      // 清理函数
+      const cleanup = () => {
+        this.isWaitingTransferResult = false;
+        this.port.removeListener("data", onData);
+        if (timer) clearTimeout(timer);
+      };
+
+      // 设置超时定时器
+      let timer = setTimeout(() => {
+        if (!responseReceived) {
+          cleanup();
+          console.error(`⏱️ 等待传输结果超时（${timeout}ms）`);
+          resolve({ status: "wait_timeout" });
+        }
+      }, timeout);
+
+      // 监听下位机返回的数据
+      // 由于主机返回数据是一次性传过来的，所以接收数据后可以一次性解析JSON字符串
+      const onData = (data) => {
+        if (responseReceived) return; // 已经收到回复，忽略后续数据
+
+        buffer += text.decode(data);
+        console.log(`📥 收到传输结果数据: ${buffer.trim()}`);
+
+        // 尝试解析整个buffer（去除首尾空白字符）
+        const trimmedBuffer = buffer.trim();
+        if (trimmedBuffer.length === 0) {
+          return; // 如果buffer为空，继续等待
+        }
+
+        try {
+          // 直接解析JSON字符串（数据是一次性传过来的）
+          const parsedData = JSON.parse(trimmedBuffer);
+          console.log(`📦 解析传输结果 JSON 成功:`, parsedData);
+
+          // 检查是否是对象格式（传输结果消息是对象格式，设备监控数据是数组格式）
+          if (
+            !parsedData ||
+            typeof parsedData !== "object" ||
+            Array.isArray(parsedData)
+          ) {
+            // 如果是数组格式（设备监控数据），清空buffer并忽略
+            // 数组不是我们要的响应，清空buffer继续等待下一个数据包
+            buffer = "";
+            return;
+          }
+
+          // 验证消息类型
+          if (parsedData.msg) {
+            const msgType = parsedData.msg;
+
+            if (msgType === "rec_done") {
+              responseReceived = true;
+              clearTimeout(timer);
+              cleanup();
+              console.log("✅ 文件传输成功：设备确认接收完成（rec_done）");
+              resolve({ status: "success", msg: msgType });
+              return;
+            } else if (msgType === "chk_error") {
+              responseReceived = true;
+              clearTimeout(timer);
+              cleanup();
+              console.error("❌ 文件传输失败：设备校验错误（chk_error）");
+              resolve({ status: "chk_error", msg: msgType });
+              return;
+            } else if (msgType === "timeout") {
+              responseReceived = true;
+              clearTimeout(timer);
+              cleanup();
+              console.error("❌ 文件传输失败：设备接收超时（timeout）");
+              resolve({ status: "timeout", msg: msgType });
+              return;
+            } else {
+              console.log(`⚠️ 收到未知的消息类型: ${msgType}，继续等待...`);
+              // 清空buffer，继续等待下一个数据包
+              buffer = "";
+            }
+          } else {
+            console.log(`⚠️ JSON 格式正确，但缺少 msg 字段:`, parsedData);
+            // 清空buffer，继续等待下一个数据包
+            buffer = "";
+          }
+        } catch (error) {
+          // JSON解析失败，可能是数据不完整或格式错误
+          // 由于数据是一次性传输的，如果解析失败可能是格式错误
+          console.log(`⚠️ 不是有效的 JSON 数据: ${trimmedBuffer}`);
+          // 清空buffer，继续等待下一个数据包
+          buffer = "";
+        }
+      };
+
+      this.port.on("data", onData);
+    });
+  }
+
+  /**
+   * 等待下位机响应（旧方法，保留兼容性）
    * @param {number} timeout - 超时时间（毫秒）
    * @returns {Promise<boolean>}
    */
@@ -782,36 +1043,6 @@ export class Serialport extends Common {
     });
   }
 
-  /**
-   * 监听Python文件上传请求
-   */
-  // uploadPythonFile() {
-  //   const self = this; // 保存 this 引用
-  //   console.log("注册 Python 文件上传监听器");
-  //   this.ipcMain(
-  //     ipc_Main.SEND_OR_ON.COMMUNICATION.UPLOAD_PYTHON,
-  //     async function(event, data) {
-  //       console.log("收到 Python 文件上传请求:", {
-  //         fileName: data?.fileName,
-  //         fileDataLength: data?.fileData?.length,
-  //         hasMethod: !!self.uploadPythonFileWithNewProtocol,
-  //       });
-
-  //       // data 格式: { fileName: "test.py", fileData: Buffer/Uint8Array }
-  //       // 使用 self 确保 this 上下文正确
-  //       if (self.uploadPythonFileWithNewProtocol) {
-  //         await self.uploadPythonFileWithNewProtocol(data, event);
-  //       } else {
-  //         console.error("uploadPythonFileWithNewProtocol 方法不存在");
-  //         event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
-  //           result: false,
-  //           msg: "methodNotFound",
-  //           errMsg: "uploadPythonFileWithNewProtocol is not a function",
-  //         });
-  //       }
-  //     }
-  //   );
-  // }
   uploadPythonFile() {
     console.log("🟢 [uploadPythonFile] ========== 方法开始执行 ==========");
     console.log("🟢 [uploadPythonFile] uploadPythonFile() 方法被调用");

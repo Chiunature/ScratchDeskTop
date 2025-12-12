@@ -343,7 +343,7 @@ Blockly.Python.splitCodeByTask = function (code) {
   // 处理所有匹配项，为每个任务生成独立的函数
   for (let i = 0; i < matches.length; i++) {
     const matchData = matches[i];
-    const taskName = matchData.taskName || "user";
+    const taskName = matchData.taskName + "()" || "user()";
 
     // 收集任务名
     taskNames.push(taskName);
@@ -356,7 +356,7 @@ Blockly.Python.splitCodeByTask = function (code) {
     // 生成 async def user1(), async def user2() 等函数，使用 try-except 结构
     result =
       result +
-      `\nasync def ${taskName}():\n` +
+      `\nasync def ${taskName}:\n` +
       `${Blockly.Python.addIndent(item, Blockly.Python.INDENT)}`;
   }
 

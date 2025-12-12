@@ -29,7 +29,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -54,7 +54,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -79,7 +79,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -104,7 +104,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -128,7 +128,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -152,7 +152,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -175,7 +175,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         closeButton: true,
         content: (
@@ -198,7 +198,7 @@ const alerts = [
             "creatingRemix",
             "saveSuccess",
             "saving",
-            "calibration"
+            "calibration",
         ],
         showDownload: true,
         showSaveNow: true,
@@ -222,7 +222,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -317,7 +317,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -339,7 +339,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -360,7 +360,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -382,7 +382,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -404,7 +404,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -426,7 +426,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -448,7 +448,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -471,7 +471,7 @@ const alerts = [
             "uploadError",
             "uploading",
             "uploadTimeout",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -494,7 +494,7 @@ const alerts = [
             "uploadError",
             "uploading",
             "uploadTimeout",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -517,7 +517,7 @@ const alerts = [
             "uploadError",
             "uploading",
             "uploadTimeout",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -539,7 +539,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -561,7 +561,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -583,7 +583,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -605,7 +605,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibrationSuccess"
+            "calibrationSuccess",
         ],
         content: (
             <FormattedMessage
@@ -628,7 +628,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -650,7 +650,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -672,7 +672,7 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
@@ -694,13 +694,82 @@ const alerts = [
             "uploadSuccess",
             "uploadError",
             "uploading",
-            "calibration"
+            "calibration",
         ],
         content: (
             <FormattedMessage
                 defaultMessage="The file exceeds the limit range, please try reducing the number of building blocks"
                 description="The file exceeds the limit range, please try reducing the number of building blocks"
                 id="gui.alerts.fileIsTooBig"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
+    {
+        alertId: "chkError",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "chkError",
+            "calibration",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Upload failed: File checksum error"
+                description="Message indicating that file checksum verification failed"
+                id="gui.alerts.chkError"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
+    {
+        alertId: "deviceTimeout",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "deviceTimeout",
+            "calibration",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Upload failed: Device receiving timeout"
+                description="Message indicating that device did not receive data in time"
+                id="gui.alerts.deviceTimeout"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 3,
+    },
+    {
+        alertId: "recReadyTimeout",
+        alertType: AlertTypes.STANDARD,
+        clearList: [
+            "disconnect",
+            "failedConnected",
+            "successfullyConnected",
+            "uploadSuccess",
+            "uploadError",
+            "uploading",
+            "recReadyTimeout",
+            "calibration",
+        ],
+        content: (
+            <FormattedMessage
+                defaultMessage="Upload failed: Device not ready"
+                description="Message indicating that device did not respond with rec_ready"
+                id="gui.alerts.recReadyTimeout"
             />
         ),
         level: AlertLevels.WARN,
