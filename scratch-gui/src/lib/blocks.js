@@ -1,5 +1,4 @@
 import ScratchBlocks from "scratch-blocks";
-// import 'scratch-blocks/cake_compressed';
 import "scratch-blocks/python_compressed";
 /**
  * Connect scratch blocks with the vm

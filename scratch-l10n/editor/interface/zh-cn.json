@@ -620,6 +620,8 @@
 	"gui.main.foundUpdate": "发现新版本，是否前往下载?",
 	"gui.main.isNew": "目前已是最新版本!",
 	"gui.main.noSave": "未保存",
+	"gui.theme.default": "默认主题",
+	"gui.theme.highContrast": "高对比主题",
 	"gui.alerts.chkError": "主机文件校验错误",
 	"gui.alerts.deviceTimeout": "主机接收超时",
 	"gui.alerts.recReadyTimeout": "设备未准备好"

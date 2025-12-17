@@ -39,7 +39,6 @@ import { ipc as ipc_Renderer, verifyTypeConfig, deviceIdMap } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
-import Compile from "../lib/generator/cake/compileGcc.js";
 import {
     setCompleted,
     setSourceCompleted,
@@ -61,14 +60,13 @@ import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
-import { CAKE, PYTHON } from "../config/json/generators.json";
+import { PYTHON } from "../config/json/generators.json";
 import { handleUploadPython } from "../lib/generator/python/index.js";
 import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
         bindAll(this, ["handleCompile", "handleRunApp", "getMainMessage"]);
-        this.compile = new Compile();
         this.handleUploadClick = debounce(this.handleCompile, 300, {
             leading: false,
             trailing: true,
@@ -149,12 +147,17 @@ class GUI extends React.Component {
             callback: (event, arg) => {
                 const list = arg
                     .split("/")
-                    .filter((item) => /(\.py|\.bin|\.o)/.test(item));
+                    .filter(
+                        (item) =>
+                            item.endsWith(".py") ||
+                            item.endsWith(".bin") ||
+                            item.endsWith(".o")
+                    );
                 const exeList = list.map((el, index) => {
-                    const current = el.indexOf(".");
+                    const current = el.lastIndexOf(".");
                     return {
                         path: el,
-                        name: el.replace(/(\.py|\.bin|\.o)/, ""),
+                        name: el.slice(0, current),
                         num: el.slice(0, current),
                         checked: index === 0,
                         index,
@@ -259,7 +262,7 @@ class GUI extends React.Component {
                     onSetVersion,
                     onSetDeviceObj,
                 } = this.props;
-                
+
                 if (!newDeviceObj) {
                     return;
                 }
@@ -268,8 +271,15 @@ class GUI extends React.Component {
                 // deviceStatus: "stop" - 程序没有在设备上运行
                 // deviceStatus: "run" - 程序正在设备上运行
                 // 注意：deviceStatus 应该始终更新，即使在 completed 或 dragging 状态下
-                if (newDeviceObj?.deviceStatus !== undefined && newDeviceObj?.deviceStatus !== null) {
-                    console.log("🔄 更新 deviceStatus:", newDeviceObj.deviceStatus, "-> Redux store");
+                if (
+                    newDeviceObj?.deviceStatus !== undefined &&
+                    newDeviceObj?.deviceStatus !== null
+                ) {
+                    console.log(
+                        "🔄 更新 deviceStatus:",
+                        newDeviceObj.deviceStatus,
+                        "-> Redux store"
+                    );
                     onSetDeviceStatus(newDeviceObj.deviceStatus);
                 }
 
@@ -334,9 +344,7 @@ class GUI extends React.Component {
                 return false;
             }
 
-            this.compile.sendSerial({
-                verifyType: verifyTypeConfig.RESET_FWLIB,
-            });
+            // Firmware update logic removed - only Python is supported now
 
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
@@ -431,32 +439,18 @@ class GUI extends React.Component {
                 ? JSON.parse(selItem)
                 : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
-            switch (this.props.generatorName) {
-                case CAKE:
-                    this.compile.sendSerial({
+            // Only Python is supported now
+            if (this.props.generatorName === PYTHON) {
+                await handleUploadPython(
+                    {
                         verifyType,
                         selectedExe,
-                        bufferList: this.props.bufferList,
-                        myBlockList: this.props.matchMyBlock,
-                        msgTaskBlockList: this.props.msgTaskBlock,
-                        soundsList: this.props.soundslist,
+                        codeStr: this.props.code,
                         codeType: this.props.generatorName,
-                    });
-                    break;
-                case PYTHON:
-                    await handleUploadPython(
-                        {
-                            verifyType,
-                            selectedExe,
-                            codeStr: this.props.code,
-                            codeType: this.props.generatorName,
-                            isRun,
-                        },
-                        static_path
-                    );
-                    break;
-                default:
-                    break;
+                        isRun,
+                    },
+                    static_path
+                );
             }
         } catch (error) {
             this.props.onShowCompletedAlert(error);
@@ -590,7 +584,6 @@ class GUI extends React.Component {
                     handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
-                    compile={this.compile}
                 >
                     {children}
                 </GUIComponent>
@@ -626,7 +619,6 @@ GUI.propTypes = {
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     telemetryModalVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    compile: PropTypes.object,
     onSetProgress: PropTypes.func,
     onActivateDeck: PropTypes.func,
     onOpenConnectionModal: PropTypes.func,

@@ -171,7 +171,7 @@ Blockly.Msg.STOPPING_COMBINED_MOTOR =
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
   "%1 at a speed of %2 and %3 %% to move";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
-  "%1 Combination motor executed at %2 %3 %4 seconds";
+  "%1 Combination motor operates at %2 %% and %3 %% power for %4 seconds";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
   "%1 combination motor based on yaw angle straight line %2 %3 %4 KP %5";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE =
