@@ -25,7 +25,12 @@ const UploadBtn = (props) => {
         }
         handleCompile(isRun);
     };
-
+    console.log(
+        "📊 UploadBtn deviceStatus:",
+        deviceStatus,
+        "type:",
+        typeof deviceStatus
+    );
     return (
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
@@ -47,7 +52,15 @@ const UploadBtn = (props) => {
                     handleRunApp={handleRunApp}
                 />
                 <ButtonComponent
-                    onClick={() => handleRunApp(verifyTypeConfig.EST_RUN)}
+                    onClick={() => {
+                        console.log("🛑 停止按钮被点击");
+                        console.log("当前 deviceStatus:", deviceStatus);
+                        console.log(
+                            "verifyTypeConfig.EST_RUN:",
+                            verifyTypeConfig.EST_RUN
+                        );
+                        handleRunApp(verifyTypeConfig.EST_RUN);
+                    }}
                     className={classNames(
                         styles.stopBtn,
                         deviceStatus !== verifyTypeConfig.EST_RUN
@@ -62,4 +75,5 @@ const UploadBtn = (props) => {
     );
 };
 
-export default React.memo(UploadBtn);
+// 移除 React.memo 以确保 deviceStatus 更新时组件能重新渲染
+export default UploadBtn;

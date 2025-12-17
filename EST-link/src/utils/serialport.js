@@ -24,6 +24,7 @@ import { verifyBinType } from "../config/js/verify.js";
 import {
   SOURCE,
   EST_RUN,
+  NO_RUN_APP,
   RESET_FWLIB,
   BOOTBIN,
 } from "../config/json/verifyTypeConfig.json";
@@ -35,6 +36,8 @@ export class Serialport extends Common {
   constructor(...args) {
     super(...args);
     this._type = "serialport";
+    // 用环境变量控制调试日志，避免生产环境串口高频数据刷屏/影响性能
+    this._debug = !!process?.env?.EST_LINK_DEBUG;
     this.port = null;
     this.chunkBuffer = [];
     this.chunkBufferSize = 0;
@@ -44,6 +47,7 @@ export class Serialport extends Common {
     this.verifyType = null;
     this.receiveObj = null;
     this.watchDeviceData = null;
+    this.deviceStatus = null; // 保存设备状态（deviceStatus 字段）
     this.selectedExe = null;
     this.sourceFiles = [];
     this.receiveData = [];
@@ -51,6 +55,12 @@ export class Serialport extends Common {
     // 文件传输状态标志，用于避免数据竞争
     this.isWaitingRecReady = false; // 是否正在等待 rec_ready
     this.isWaitingTransferResult = false; // 是否正在等待传输结果
+    // 缓存上一次的监控数据JSON字符串，用于去重（避免重复处理相同数据）
+    this.lastDeviceDataJson = null;
+  }
+
+  dlog(...args) {
+    if (this._debug) console.log(...args);
   }
 
   /**
@@ -97,6 +107,10 @@ export class Serialport extends Common {
       if (this.port && this.port.isOpen) {
         this.port.close();
       }
+      // 断开连接时清空缓存的监控数据和重置标志位
+      this.lastDeviceDataJson = null;
+      this.isWaitingRecReady = false;
+      this.isWaitingTransferResult = false;
     });
   }
 
@@ -299,26 +313,24 @@ export class Serialport extends Common {
       return;
     }
     try {
-      //修改标识符，根据标识符判断要发送的是文件还是文件名
+      //修改标识符，根据标识符判断要发送的是什么类型的数据
       this.sign = sign;
-      //写入数据
-      this.port.write(Buffer.from(data));
-
-      if (sign && sign.includes("Boot_")) {
-        this.checkOverTime(event);
-      }
-    } catch (e) {
-      event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
-        result: false,
-        msg: "uploadError",
-        errMsg: e,
+      //写入数据（兼容 Array/Buffer/string）
+      const buf = Buffer.isBuffer(data) ? data : Buffer.from(data);
+      this.port.write(buf, (err) => {
+        if (!err) return;
+        // 注意：port.write 的错误是异步回调，try/catch 捕获不到
+        console.error("串口写入失败:", err?.message || err);
       });
+    } catch (e) {
+      console.error("串口写入异常:", e?.message || e);
     }
   }
 
   /**
    * 检测是否超时
    * @param {*} event
+   * @deprecated 不再使用 - Python文件上传使用新协议，不再需要此超时检测
    */
   checkOverTime(event) {
     this.timeOutTimer = setTimeout(() => {
@@ -334,8 +346,7 @@ export class Serialport extends Common {
    * 清除所有定时器
    */
   clearTimer() {
-    if (!this.timeOutTimer || (this.sign && this.sign.indexOf("Boot_") === -1))
-      return;
+    if (!this.timeOutTimer) return;
     clearTimeout(this.timeOutTimer);
     this.timeOutTimer = null;
   }
@@ -349,10 +360,14 @@ export class Serialport extends Common {
     }
     this.chunkBuffer.splice(0, this.chunkBuffer.length);
     this.receiveData.splice(0, this.receiveData.length);
+    this.deviceStatus = null; // 重置设备状态
     clearTimeout(this.checkConnectTimer);
     this.checkConnectTimer = null;
     this.receiveObj = null;
     this.sign = null;
+    // 确保文件传输标志位被重置
+    this.isWaitingRecReady = false;
+    this.isWaitingTransferResult = false;
   }
 
   /**
@@ -362,6 +377,10 @@ export class Serialport extends Common {
   watchDevice(event) {
     if (!this.watchDeviceData) return;
     const result = this.distinguishDevice(this.watchDeviceData);
+    // 添加 deviceStatus 字段到返回结果中
+    if (this.deviceStatus !== null && this.deviceStatus !== undefined) {
+      result.deviceStatus = this.deviceStatus;
+    }
     event.reply(ipc_Main.RETURN.DEVICE.WATCH, result);
   }
 
@@ -393,14 +412,15 @@ export class Serialport extends Common {
     const text = new TextDecoder();
     const watch = this.throttle(this.watchDevice.bind(this), 100);
     let isFirstDataReceived = false; // 标记是否已接收到第一次监控数据
+    let bufferWarningCount = 0; // 记录 buffer 警告次数
+    let lastBufferLength = 0; // 上次 buffer 长度
+    let bufferGrowthCount = 0; // buffer 持续增长的次数
 
     this.port.on("data", (data) => {
       if (!data) {
         return;
       }
-
-      const isBoot = this.sign && this.sign.includes("Boot_");
-      if (isBoot || this.sign === signType.EXE.FILES) {
+      if (this.sign === signType.EXE.FILES) {
         this.receiveData = [...this.receiveData, ...data];
 
         //把数据放入处理函数校验是否是完整的一帧并获取数据对象
@@ -411,112 +431,232 @@ export class Serialport extends Common {
           this.receiveData.splice(0, this.receiveData.length);
         }
 
-        //清除超时检测
-        this.clearTimer();
-
         //根据标识符进行校验操作检验数据并返回结果
         const verify = this.verification(this.sign, this.receiveObj, event);
 
-        if (verify) {
-          //结果正确进入处理，函数会检测文件数据是否全部发送完毕
-          this.processReceivedData(event);
-        } else {
-          if (isBoot) {
-            event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
-              result: false,
-              msg: "uploadError",
-            });
-            this.clearCache();
-          } else {
-            // 重置标识符
-            this.sign = null;
-          }
-        }
+        // verification 方法会处理文件列表的解析和返回
+        // 重置标识符
+        this.sign = null;
 
         return;
       }
+
+      // 文件传输阶段（rec_ready/rec_done/chk_error/timeout）由专门的监听器处理
+      // 这里直接跳过，避免重复 JSON.parse + 日志刷屏 + 数据竞争
+      // 重要：在添加数据到 buffer 之前就检查，避免文件传输期间 buffer 无限增长
+      if (this.isWaitingRecReady || this.isWaitingTransferResult) {
+        return;
+      }
+
       //收到数据后，将数据拼接到buffer中
-      // 由于主机返回数据是一次性传过来的，所以接收数据后可以一次性解析JSON字符串
       buffer += text.decode(data);
 
-      // 尝试解析整个buffer（去除首尾空白字符）
-      const trimmedBuffer = buffer.trim();
-      if (trimmedBuffer.length === 0) {
-        return; // 如果buffer为空，直接返回
+      // 检测 buffer 是否持续增长（可能是数据解析问题）
+      if (buffer.length > lastBufferLength) {
+        bufferGrowthCount++;
+        lastBufferLength = buffer.length;
+      } else {
+        bufferGrowthCount = 0;
+        lastBufferLength = buffer.length;
       }
 
-      let parsedData = null;
+      // 如果 buffer 持续增长超过 100 次，可能存在问题
+      if (bufferGrowthCount > 100) {
+        console.warn(
+          "⚠️ handleRead: buffer 持续增长异常，可能存在数据解析问题",
+          {
+            bufferLength: buffer.length,
+            growthCount: bufferGrowthCount,
+            bufferPreview: buffer.substring(0, 300) + "...",
+            bufferEnd: "..." + buffer.substring(buffer.length - 100),
+          }
+        );
+        bufferGrowthCount = 0;
+      }
 
-      // 直接解析JSON字符串（数据是一次性传过来的）
-      try {
-        parsedData = JSON.parse(trimmedBuffer);
-        console.log("解析成功 - parsedData:", parsedData);
-
-        // 解析成功后，清空buffer，准备接收下一个数据包
+      // 防止异常数据导致 buffer 无限增长
+      // 正常情况下，buffer 只会暂存未完成的 JSON 片段，不会超过几KB
+      // 如果超过 64KB，说明出现了异常情况
+      if (buffer.length > 64 * 1024) {
+        bufferWarningCount++;
+        console.warn(
+          `⚠️ handleRead: buffer 过大，已重置（第 ${bufferWarningCount} 次，可能收到异常数据流）`,
+          {
+            bufferLength: buffer.length,
+            isWaitingRecReady: this.isWaitingRecReady,
+            isWaitingTransferResult: this.isWaitingTransferResult,
+            sign: this.sign,
+            warningCount: bufferWarningCount,
+            bufferPreview: buffer.substring(0, 300) + "...",
+            bufferEnd: "..." + buffer.substring(buffer.length - 300),
+          }
+        );
         buffer = "";
-      } catch (error) {
-        // JSON解析失败，可能是数据格式错误
-        console.warn("⚠️ JSON解析失败:", {
-          错误: error.message,
-          // 数据包: trimmedBuffer.substring (0, 100),
-          数据包: trimmedBuffer,
-          数据包长度: trimmedBuffer.length,
-        });
-        // 清空buffer，避免重复处理错误数据
-        buffer = "";
+        bufferGrowthCount = 0;
+        lastBufferLength = 0;
         return;
+      } // 设备数据是连续的JSON对象，没有换行符分隔
+      // 需要按JSON对象边界（{...}）来分割
+      const jsonObjects = [];
+      let currentIndex = 0;
+      let braceCount = 0;
+      let startIndex = -1;
+
+      // 遍历buffer，找到所有完整的JSON对象
+      for (let i = 0; i < buffer.length; i++) {
+        if (buffer[i] === "{") {
+          if (braceCount === 0) {
+            startIndex = i; // 记录JSON对象的开始位置
+          }
+          braceCount++;
+        } else if (buffer[i] === "}") {
+          braceCount--;
+          if (braceCount === 0 && startIndex !== -1) {
+            // 找到一个完整的JSON对象
+            const jsonStr = buffer.substring(startIndex, i + 1);
+            jsonObjects.push(jsonStr);
+            currentIndex = i + 1;
+            startIndex = -1;
+          }
+        }
       }
 
-      // 检查是否是文件传输响应（这些响应由专门的监听器处理，这里忽略）
+      // 保留未完成的部分到buffer中（可能还有未完成的JSON对象）
+      buffer = buffer.substring(currentIndex);
+
+      // 如果 buffer 中有未完成的 JSON，但已经超过 10KB，可能是垃圾数据
+      // 尝试清理：查找第一个 { 符号，丢弃之前的数据
+      if (buffer.length > 10 * 1024 && startIndex === -1) {
+        const firstBrace = buffer.indexOf("{");
+        if (firstBrace > 0) {
+          const discarded = buffer.substring(0, firstBrace);
+          console.warn(
+            `⚠️ handleRead: 检测到 buffer 中有大量无效数据，已清理 ${firstBrace} 字节`,
+            {
+              discardedPreview: discarded.substring(0, 200) + "...",
+              bufferLength: buffer.length,
+              newBufferLength: buffer.length - firstBrace,
+            }
+          );
+          buffer = buffer.substring(firstBrace);
+        } else if (firstBrace === -1) {
+          // 如果连 { 都找不到，说明整个 buffer 都是垃圾数据，清空
+          console.warn(
+            `⚠️ handleRead: buffer 中找不到有效的 JSON 起始符号，已清空`,
+            {
+              bufferLength: buffer.length,
+              bufferPreview: buffer.substring(0, 200) + "...",
+            }
+          );
+          buffer = "";
+        }
+      }
+
+      // 逐个解析JSON对象
+      for (const jsonStr of jsonObjects) {
+        const trimmedStr = jsonStr.trim();
+        if (trimmedStr.length === 0) {
+          continue;
+        }
+
+        // 数据去重优化：如果和上一次的JSON字符串完全相同，跳过解析和处理
+        // 设备监控数据大概100ms返回一次，相同数据不需要重复处理
+        if (this.lastDeviceDataJson === trimmedStr) {
+          this.dlog("📋 跳过重复数据（与上次完全相同）");
+          continue;
+        }
+
+        let parsedData = null;
+
+        try {
+          parsedData = JSON.parse(trimmedStr);
+          this.dlog("解析成功 - parsedData:", parsedData);
+        } catch (error) {
+          // JSON解析失败，可能是数据格式错误
+          console.warn("⚠️ JSON解析失败（格式错误）:", {
+            错误: error.message,
+            数据: trimmedStr.substring(0, 100),
+            数据长度: trimmedStr.length,
+          });
+          continue; // 跳过这个JSON对象，继续处理下一个
+        }
+
+        // 如果解析成功且是设备监控数据，缓存JSON字符串用于下次比较
+        if (parsedData && parsedData.deviceData) {
+          this.lastDeviceDataJson = trimmedStr;
+        }
+
+        // 处理解析成功的 JSON 数据
+        processJsonData(parsedData);
+      }
+    });
+
+    // 处理 JSON 数据的辅助函数（解决粘包后的数据处理）
+    const processJsonData = (parsedData) => {
+      // 新数据格式：{ deviceData: [[0,0],[0,0],[0,0],[0,0]], deviceResposne: null, deviceStatus: null }
+
+      // 检查是否是文件传输响应（deviceResposne 字段）
       if (
         parsedData &&
         typeof parsedData === "object" &&
-        parsedData.msg &&
-        (parsedData.msg === "rec_ready" ||
-          parsedData.msg === "rec_done" ||
-          parsedData.msg === "chk_error" ||
-          parsedData.msg === "timeout")
+        parsedData.deviceResposne &&
+        (parsedData.deviceResposne === "rec_ready" ||
+          parsedData.deviceResposne === "rec_done" ||
+          parsedData.deviceResposne === "chk_error" ||
+          parsedData.deviceResposne === "timeout")
       ) {
         // 如果正在等待传输响应，让专门的监听器处理，这里不处理
         if (this.isWaitingRecReady || this.isWaitingTransferResult) {
-          console.log(
-            `📋 handleRead: 检测到文件传输响应 ${parsedData.msg}，交由专门的处理函数处理（避免数据竞争）`
+          this.dlog(
+            `📋 handleRead: 检测到文件传输响应 ${parsedData.deviceResposne}，交由专门的处理函数处理（避免数据竞争）`
           );
           return;
         }
         // 如果没有在等待，说明可能是意外的响应，记录警告
         console.warn(
-          `⚠️ handleRead: 收到文件传输响应 ${parsedData.msg}，但没有在等待传输响应`
+          `⚠️ handleRead: 收到文件传输响应 ${parsedData.deviceResposne}，但没有在等待传输响应`
         );
         return;
       }
 
-      // 检查是否是设备监控数据（数组格式 [[0,0],[0,0],[0,0],[0,0]]）
-      const deviceData = this.checkIsDeviceData(parsedData);
-      if (deviceData) {
-        // 开启设备数据监控监听
-        this.watchDeviceData = deviceData;
+      // 检查是否是设备监控数据（deviceData 字段）
+      if (parsedData && parsedData.deviceData) {
+        const deviceData = this.checkIsDeviceData(parsedData.deviceData);
+        if (deviceData) {
+          // 开启设备数据监控监听
+          this.watchDeviceData = deviceData;
+          // 保存 deviceStatus 字段（如果存在）
+          if (parsedData.deviceStatus !== undefined) {
+            this.deviceStatus = parsedData.deviceStatus;
+          }
 
-        // 第一次接收到设备监控数据时打印日志
-        if (!isFirstDataReceived) {
-          console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
-          console.log(`监控数据示例:`, parsedData);
-          console.log(`===========================================\n`);
-          isFirstDataReceived = true;
+          // 第一次接收到设备监控数据时打印日志
+          if (!isFirstDataReceived) {
+            console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
+            console.log(`监控数据示例:`, parsedData);
+            console.log(`===========================================\n`);
+            isFirstDataReceived = true;
+          }
+
+          let t = setTimeout(() => {
+            watch(event);
+            clearTimeout(t);
+            t = null;
+          });
+        } else {
+          // deviceData 字段存在但格式不正确
+          console.warn(
+            `⚠️ handleRead: deviceData 格式不正确:`,
+            parsedData.deviceData
+          );
         }
-
-        let t = setTimeout(() => {
-          watch(event);
-          clearTimeout(t);
-          t = null;
-        });
       } else {
         // 既不是文件传输响应，也不是设备监控数据，记录警告
         console.warn(`⚠️ handleRead: 收到未知格式的数据:`, parsedData);
       }
-    });
-    //本身不是哭脸的时候，发重置会断开，连上后发送文件
-    this.checkConnected(event);
+    };
+    // 注意：checkConnected 用于 RESET_FWLIB 场景，如果不再使用固件重置功能可以移除
+    // this.checkConnected(event);
   }
 
   /**
@@ -579,10 +719,14 @@ export class Serialport extends Common {
    * @param eventName
    */
   getAppExe(eventName) {
+    console.log("🔧 正在注册 getAppExe 监听器，事件名:", eventName);
     this.ipcMain(eventName, (event, arg) => {
-      if (this.sign && this.sign.indexOf("Boot_") !== -1) {
-        return;
-      }
+      console.log("🔔 getAppExe 收到 IPC 消息:", {
+        eventName,
+        arg,
+        sign: this.sign,
+      });
+
       switch (arg.type) {
         case "FILE":
           this.writeData(instructions.files, signType.EXE.FILES, event);
@@ -591,13 +735,41 @@ export class Serialport extends Common {
           this.writeData(instructions.sensing_update, null, event);
           break;
         case "APP":
-          this.writeData(
-            arg.status === EST_RUN
-              ? instructions.app_stop
-              : instructions.app_run,
-            null,
-            event
-          );
+          // 约定：当 status === EST_RUN 时代表当前正在运行，需要下发"停止"指令
+          // 停止命令按需求严格下发：ser.write(b"##STOP##\n")
+          if (arg.status === EST_RUN) {
+            console.log("写入停止指令");
+            this.writeData("##STOP##\n", null, event);
+
+            // 更新本地保存的 deviceStatus
+            this.deviceStatus = "stop";
+
+            // 发送停止指令后，立即通知渲染进程更新设备状态
+            // deviceStatus 字段代替了原来的 NewAiState 字段
+            event.reply(ipc_Main.RETURN.DEVICE.WATCH, {
+              deviceList: [],
+              version: null,
+              MAC: null,
+              deviceStatus: "stop", // 程序没有在设备上运行
+            });
+            console.log("✓ 已发送停止指令并更新设备状态");
+          } else {
+            console.log("写入运行指令");
+            this.writeData(instructions.app_run, null, event);
+
+            // 更新本地保存的 deviceStatus
+            this.deviceStatus = "run";
+
+            // 发送运行指令后，立即通知渲染进程更新设备状态
+            // deviceStatus 字段代替了原来的 NewAiState 字段
+            event.reply(ipc_Main.RETURN.DEVICE.WATCH, {
+              deviceList: [],
+              version: null,
+              MAC: null,
+              deviceStatus: "run", // 程序正在设备上运行
+            });
+            console.log("✓ 已发送运行指令并更新设备状态");
+          }
           break;
         default:
           break;
@@ -683,7 +855,7 @@ export class Serialport extends Common {
 
       // 等待设备回复 rec_ready（10秒超时）
       console.log("等待设备回复 rec_ready");
-      const recReadyResult = await this.waitForRecReady(30000);
+      const recReadyResult = await this.waitForRecReady(3000);
       console.log("rec_ready回复结果:", recReadyResult);
 
       if (!recReadyResult) {
@@ -733,7 +905,7 @@ export class Serialport extends Common {
 
       // 等待设备回复传输结果（rec_done, chk_error, timeout）
       console.log("等待设备回复传输结果");
-      const transferResult = await this.waitForTransferResult(10000); // 10秒超时
+      const transferResult = await this.waitForTransferResult(3000); // 3秒超时
       console.log("transferResult结果:", transferResult);
 
       // 根据设备回复的结果进行处理
@@ -815,7 +987,7 @@ export class Serialport extends Common {
    * @param {number} timeout - 超时时间（毫秒），默认10000ms
    * @returns {Promise<boolean>} 是否收到正确的 rec_ready 回复
    */
-  waitForRecReady(timeout = 10000) {
+  waitForRecReady(timeout = 1000) {
     return new Promise((resolve) => {
       if (!this.port || !this.port.isOpen) {
         console.error("串口未打开，无法等待 rec_ready");
@@ -856,31 +1028,34 @@ export class Serialport extends Common {
         if (trimmedBuffer.length === 0) {
           return;
         }
-
+        console.log("RCready trimmedBuffer:", trimmedBuffer);
         try {
           const parsedData = JSON.parse(trimmedBuffer);
           console.log(`📦 解析 JSON 成功:`, parsedData);
 
-          // 检查是否是对象格式（rec_ready 是对象格式，设备监控数据是数组格式）
+          // 检查是否是对象格式
           if (
             !parsedData ||
             typeof parsedData !== "object" ||
             Array.isArray(parsedData)
           ) {
-            // 如果是数组格式（设备监控数据），清空buffer并忽略
+            // 如果是数组格式，清空buffer并忽略
             buffer = "";
             return;
           }
 
-          // 验证是否为 rec_ready
-          if (parsedData.msg === "rec_ready") {
+          // 新格式：检查 deviceResposne 字段
+          if (parsedData.deviceResposne === "rec_ready") {
             responseReceived = true;
             clearTimeout(timer);
             cleanup();
             console.log("✅ 验证成功：收到 rec_ready 回复");
             resolve(true);
+          } else if (parsedData.deviceData) {
+            // 如果是设备监控数据（包含 deviceData），清空buffer继续等待
+            buffer = "";
           } else {
-            // 如果是对象但不是 rec_ready，清空buffer继续等待
+            // 如果是对象但没有 rec_ready 或 deviceData，清空buffer继续等待
             buffer = "";
           }
         } catch (error) {
@@ -900,7 +1075,7 @@ export class Serialport extends Common {
    *   - status: "success" | "chk_error" | "timeout" | "wait_timeout"
    *   - msg: 设备返回的原始消息（如果有）
    */
-  waitForTransferResult(timeout = 10000) {
+  waitForTransferResult(timeout = 3000) {
     return new Promise((resolve) => {
       if (!this.port || !this.port.isOpen) {
         console.error("串口未打开，无法等待传输结果");
@@ -944,62 +1119,68 @@ export class Serialport extends Common {
         if (trimmedBuffer.length === 0) {
           return; // 如果buffer为空，继续等待
         }
-
+        console.log("TransferResult trimmedBuffer:", trimmedBuffer);
         try {
           // 直接解析JSON字符串（数据是一次性传过来的）
           const parsedData = JSON.parse(trimmedBuffer);
           console.log(`📦 解析传输结果 JSON 成功:`, parsedData);
 
-          // 检查是否是对象格式（传输结果消息是对象格式，设备监控数据是数组格式）
+          // 检查是否是对象格式
           if (
             !parsedData ||
             typeof parsedData !== "object" ||
             Array.isArray(parsedData)
           ) {
-            // 如果是数组格式（设备监控数据），清空buffer并忽略
-            // 数组不是我们要的响应，清空buffer继续等待下一个数据包
+            // 如果是数组格式，清空buffer并忽略
             buffer = "";
             return;
           }
 
-          // 验证消息类型
-          if (parsedData.msg) {
-            const msgType = parsedData.msg;
+          // 新格式：检查 deviceResposne 字段
+          if (parsedData.deviceResposne) {
+            const responseType = parsedData.deviceResposne;
 
-            if (msgType === "rec_done") {
+            if (responseType === "rec_done") {
               responseReceived = true;
               clearTimeout(timer);
               cleanup();
               console.log("✅ 文件传输成功：设备确认接收完成（rec_done）");
-              resolve({ status: "success", msg: msgType });
+              resolve({ status: "success", msg: responseType });
               return;
-            } else if (msgType === "chk_error") {
+            } else if (responseType === "chk_error") {
               responseReceived = true;
               clearTimeout(timer);
               cleanup();
               console.error("❌ 文件传输失败：设备校验错误（chk_error）");
-              resolve({ status: "chk_error", msg: msgType });
+              resolve({ status: "chk_error", msg: responseType });
               return;
-            } else if (msgType === "timeout") {
+            } else if (responseType === "timeout") {
               responseReceived = true;
               clearTimeout(timer);
               cleanup();
               console.error("❌ 文件传输失败：设备接收超时（timeout）");
-              resolve({ status: "timeout", msg: msgType });
+              resolve({ status: "timeout", msg: responseType });
               return;
             } else {
-              console.log(`⚠️ 收到未知的消息类型: ${msgType}，继续等待...`);
+              console.log(
+                `⚠️ 收到未知的响应类型: ${responseType}，继续等待...`
+              );
               // 清空buffer，继续等待下一个数据包
               buffer = "";
             }
+          } else if (parsedData.deviceData) {
+            // 如果是设备监控数据（包含 deviceData），清空buffer继续等待
+            buffer = "";
           } else {
-            console.log(`⚠️ JSON 格式正确，但缺少 msg 字段:`, parsedData);
+            console.log(
+              `⚠️ JSON 格式正确，但缺少 deviceResposne 或 deviceData 字段:`,
+              parsedData
+            );
             // 清空buffer，继续等待下一个数据包
             buffer = "";
           }
         } catch (error) {
           // JSON解析失败，可能是数据不完整或格式错误
-          // 由于数据是一次性传输的，如果解析失败可能是格式错误
           console.log(`⚠️ 不是有效的 JSON 数据: ${trimmedBuffer}`);
           // 清空buffer，继续等待下一个数据包
           buffer = "";

@@ -93,9 +93,13 @@ export class Common {
 
     // 避免重复监听同一个事件
     if (!eventList.includes(eventName)) {
+      console.log("✅ 注册主进程监听器:", eventName);
       this.electron.ipcMain.on(eventName, (event, arg) => {
+        console.log("📨 主进程收到 IPC 消息:", eventName, arg);
         return callback(event, arg);
       });
+    } else {
+      console.log("⚠️ 监听器已存在，跳过注册:", eventName);
     }
   }
 
@@ -419,7 +423,7 @@ export class Common {
       // 保留其他可能的字段（如果有的话）
       version: watchDeviceData.version || null,
       MAC: watchDeviceData.MAC || null,
-      NewAiState: watchDeviceData.NewAiState || null,
+      deviceStatus: watchDeviceData.deviceStatus || null, // deviceStatus 代替了原来的 NewAiState
     };
   }
 

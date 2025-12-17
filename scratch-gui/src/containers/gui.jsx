@@ -259,12 +259,23 @@ class GUI extends React.Component {
                     onSetVersion,
                     onSetDeviceObj,
                 } = this.props;
-                if (!newDeviceObj || completed || dragging) {
+                
+                if (!newDeviceObj) {
                     return;
                 }
 
-                if (deviceObj?.NewAiState === newDeviceObj?.NewAiState) {
-                    onSetDeviceStatus(newDeviceObj.NewAiState);
+                // deviceStatus 字段代替了原来的 NewAiState 字段
+                // deviceStatus: "stop" - 程序没有在设备上运行
+                // deviceStatus: "run" - 程序正在设备上运行
+                // 注意：deviceStatus 应该始终更新，即使在 completed 或 dragging 状态下
+                if (newDeviceObj?.deviceStatus !== undefined && newDeviceObj?.deviceStatus !== null) {
+                    console.log("🔄 更新 deviceStatus:", newDeviceObj.deviceStatus, "-> Redux store");
+                    onSetDeviceStatus(newDeviceObj.deviceStatus);
+                }
+
+                // 如果正在上传或拖拽，不更新设备列表等其他数据
+                if (completed || dragging) {
+                    return;
                 }
 
                 if (version !== newDeviceObj?.version) {
@@ -483,7 +494,7 @@ class GUI extends React.Component {
 
             // 检查是否需要运行APP
             if (
-                this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN
+                this.props?.deviceObj?.deviceStatus === verifyTypeConfig.EST_RUN
             ) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);
@@ -498,11 +509,16 @@ class GUI extends React.Component {
 
     handleRunApp(status) {
         // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
-        console.log("status", status);
+        console.log("🎯 handleRunApp 被调用, status:", status);
+        console.log("📤 准备发送 IPC 消息:", {
+            sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
+            sendParams: { type: "APP", status },
+        });
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
             sendParams: { type: "APP", status },
         });
+        console.log("✅ IPC 消息已发送");
     }
 
     // 初始化传感器显示列表缓存
