@@ -7,9 +7,9 @@ import { FormattedMessage } from 'react-intl';
 // import penIconURL from './pen/pen.png';
 // import penInsetIconURL from './pen/pen-small.svg';
 
-import videoSensingIconURL from './videoSensing/video-sensing.png';
+// import videoSensingIconURL from './videoSensing/video-sensing.png';
 // import videoSensingInsetIconURL from './videoSensing/video-sensing-small.svg';
-import cameraIconURL from './camera/camera.svg';
+// import cameraIconURL from './camera/camera.svg';
 
 // import text2speechIconURL from './text2speech/text2speech.png';
 // import text2speechInsetIconURL from './text2speech/text2speech-small.svg';
@@ -48,27 +48,6 @@ import cameraIconURL from './camera/camera.svg';
 // import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
 export default [
-    {
-        name: (
-            <FormattedMessage
-                defaultMessage="Video Sensing"
-                description="Name for the 'Video Sensing' extension"
-                id="gui.extension.videosensing.name"
-            />
-        ),
-        extensionId: 'camera',
-        iconURL: videoSensingIconURL,
-        insetIconURL: cameraIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="Sense motion with the camera."
-                description="Description for the 'Video Sensing' extension"
-                id="gui.extension.videosensing.description"
-            />
-        ),
-        featured: true
-    },
-    
     /* 
     {
         name: (

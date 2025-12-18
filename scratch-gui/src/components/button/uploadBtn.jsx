@@ -25,12 +25,6 @@ const UploadBtn = (props) => {
         }
         handleCompile(isRun);
     };
-    console.log(
-        "📊 UploadBtn deviceStatus:",
-        deviceStatus,
-        "type:",
-        typeof deviceStatus
-    );
     return (
         <div className={classNames(styles.btnCon)}>
             <div className={classNames(styles.btnBox)}>
@@ -53,12 +47,6 @@ const UploadBtn = (props) => {
                 />
                 <ButtonComponent
                     onClick={() => {
-                        console.log("🛑 停止按钮被点击");
-                        console.log("当前 deviceStatus:", deviceStatus);
-                        console.log(
-                            "verifyTypeConfig.EST_RUN:",
-                            verifyTypeConfig.EST_RUN
-                        );
                         handleRunApp(verifyTypeConfig.EST_RUN);
                     }}
                     className={classNames(

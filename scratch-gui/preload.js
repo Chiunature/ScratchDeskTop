@@ -59,9 +59,7 @@ async function ipcInvoke(sendName, sendParams) {
  */
 function ipcRender({ sendName, sendParams, eventName, callback }) {
     if (sendName) {
-        console.log("🚀 preload.js 发送 IPC 消息:", sendName, sendParams);
         ipcRenderer.send(sendName, sendParams);
-        console.log("✅ preload.js IPC 消息已发送");
     }
     const eventList = ipcRenderer.eventNames();
     if (
@@ -69,7 +67,6 @@ function ipcRender({ sendName, sendParams, eventName, callback }) {
         !eventList.includes(eventName) &&
         typeof callback === "function"
     ) {
-        console.log("📡 preload.js 注册渲染进程监听器:", eventName);
         ipcRenderer.on(eventName, (event, arg) => callback(event, arg));
     }
 }

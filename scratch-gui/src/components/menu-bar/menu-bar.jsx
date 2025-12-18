@@ -698,7 +698,7 @@ class MenuBar extends React.Component {
                                 )}
                             </span>
                         </Box>
-                        <Box
+                        {/* <Box
                             className={classNames(
                                 styles.menuBarItem,
                                 styles.hoverable,
@@ -725,7 +725,7 @@ class MenuBar extends React.Component {
                                     id="gui.connection.bluetooth"
                                 />
                             </span>
-                        </Box>
+                        </Box> */}
                     </Box>
                     <Box className={classNames(styles.mainMenuInp)}>
                         <ProjectMenu

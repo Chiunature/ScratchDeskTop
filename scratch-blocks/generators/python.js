@@ -98,7 +98,6 @@ Blockly.Python.TOUCH_TYPE = "touch";
 Blockly.Python.KEY_TYPE = "key";
 Blockly.Python.GRAY_TYPE = "gray";
 Blockly.Python.LIST_TYPE = "userlist";
-Blockly.Python.CAM_TYPE = "camera";
 Blockly.Python.TIMER_TYPE = "timer";
 Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.STR_TYPE = "str";

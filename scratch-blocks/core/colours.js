@@ -71,11 +71,6 @@ Blockly.Colours = {
     "secondary": "#f18e2f",
     "tertiary": "#d67214"
   },
-  "sensing_camera": {
-    "primary": "#0fbd8c",
-    "secondary": "#0fbd8c",
-    "tertiary": "#0fbd8c",
-  },
   "pen": {
     "primary": "#0fBD8C",
     "secondary": "#0DA57A",

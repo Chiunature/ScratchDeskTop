@@ -53,7 +53,6 @@ const reducer = function (state, action) {
                 deviceObj: action.deviceObj,
             });
         case SET_DEVICESTATUS:
-            console.log("📦 Redux reducer: SET_DEVICESTATUS", action.deviceStatus);
             return Object.assign({}, state, {
                 deviceStatus: action.deviceStatus,
             });
