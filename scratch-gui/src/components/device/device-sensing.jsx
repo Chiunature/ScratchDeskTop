@@ -9,29 +9,9 @@ import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
 const DeviceSensing = ({ deviceObj, intl }) => {
-    function getPort(index) {
-        const num = parseInt(index);
-        if (isNaN(num)) return;
-        switch (num) {
-            case 0:
-                return "A";
-            case 1:
-                return "B";
-            case 2:
-                return "C";
-            case 3:
-                return "D";
-            case 4:
-                return "E";
-            case 5:
-                return "F";
-            case 6:
-                return "G";
-            case 7:
-                return "H";
-            default:
-                break;
-        }
+    // 根据端口索引返回端口字母，若无端口信息则回退索引
+    function getPort(port) {
+        return port;
     }
 
     function getSensing(deviceId) {
@@ -143,9 +123,8 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                                 {item?.deviceId !== "0" && (
                                     <DeviceSensingItem
                                         _checkTypeIs={_checkTypeIs}
-                                        index={index}
                                         item={item}
-                                        getPort={getPort}
+                                        portText={getPort(item.port)}
                                         getSensing={getSensing}
                                         getType={getType}
                                         DistinguishTypes={DistinguishTypes}

@@ -3,11 +3,10 @@ import styles from "./device.css";
 
 const DeviceSensingItem = ({
     item,
-    getPort,
+    portText,
     getSensing,
     getType,
     DistinguishTypes,
-    index,
     _checkTypeIs,
 }) => {
     // 获取传感器数据对象
@@ -52,7 +51,7 @@ const DeviceSensingItem = ({
 
     return (
         <li>
-            <div className={styles.deviceSensingText}>{getPort(index)}</div>
+            <div className={styles.deviceSensingText}>{portText}</div>
             <div className={styles.deviceSensingContent}>
                 <img src={getSensing(item.deviceId)} alt="sensor icon" />
                 <div className={styles.showAllData}>{renderDataItems()}</div>

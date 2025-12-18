@@ -247,12 +247,11 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                console.log(
-                    "📥 GUI接收设备数据:",
-                    JSON.stringify(newDeviceObj, null, 2)
-                );
+                // console.log(
+                //     "📥 GUI接收设备数据:",
+                //     JSON.stringify(newDeviceObj, null, 2)
+                // );
                 const {
-                    deviceObj,
                     version,
                     completed,
                     dragging,
@@ -275,11 +274,6 @@ class GUI extends React.Component {
                     newDeviceObj?.deviceStatus !== undefined &&
                     newDeviceObj?.deviceStatus !== null
                 ) {
-                    console.log(
-                        "🔄 更新 deviceStatus:",
-                        newDeviceObj.deviceStatus,
-                        "-> Redux store"
-                    );
                     onSetDeviceStatus(newDeviceObj.deviceStatus);
                 }
 
