@@ -461,10 +461,11 @@ Blockly.Css.CONTENT = [
   "stroke: none;",
   "}",
 
+  // 积木块文本字体（在 Blockly.Css.CONTENT 数组中）
   ".blocklyText {",
   "fill: #fff;",
   'font-family: "Helvetica Neue", Helvetica, sans-serif;',
-  "font-size: 12pt;",
+  "font-size: 16pt;",
   "font-weight: 500;",
   "}",
 
@@ -529,10 +530,10 @@ Blockly.Css.CONTENT = [
   "fill: transparent;",
   "cursor: pointer;",
   "}",
-
+  // 工具栏标签文本
   ".blocklyFlyoutLabelText {",
   'font-family: "Helvetica Neue", Helvetica, sans-serif;',
-  "font-size: 14pt;",
+  "font-size: 16pt;",
   "fill: #575E75;",
   "font-weight: bold;",
   "}",
@@ -712,10 +713,11 @@ Blockly.Css.CONTENT = [
   "fill: transparent;",
   "}",
 
+  // 输入框文本
   ".blocklyHtmlInput {",
   "border: none;",
   'font-family: "Helvetica Neue", Helvetica, sans-serif;',
-  "font-size: 12pt;",
+  "font-size: 16pt;",
   "height: 100%;",
   "margin: 0;",
   "outline: none;",
@@ -1100,7 +1102,7 @@ Blockly.Css.CONTENT = [
 
   ".blocklyDropDownDiv .goog-menu {",
   "cursor: default;",
-  'font: normal 13px "Helvetica Neue", Helvetica, sans-serif;',
+  'font: normal 14px "Helvetica Neue", Helvetica, sans-serif;',
   "outline: none;",
   "z-index: 20000;" /* Arbitrary, but some apps depend on it... */,
   "}",
@@ -1146,7 +1148,7 @@ Blockly.Css.CONTENT = [
 
   ".blocklyDropDownDiv .goog-menuitem {",
   "color: #fff;",
-  'font: normal 13px "Helvetica Neue", Helvetica, sans-serif;',
+  'font: normal 14px "Helvetica Neue", Helvetica, sans-serif;',
   "font-weight: bold;",
   "list-style: none;",
   "margin: 0;",
@@ -1189,7 +1191,7 @@ Blockly.Css.CONTENT = [
   ".blocklyWidgetDiv .goog-menuitem-content ",
   ".blocklyDropDownDiv .goog-menuitem-content {",
   "color: #000;",
-  'font: normal 13px "Helvetica Neue", Helvetica, sans-serif;',
+  'font: normal 14px "Helvetica Neue", Helvetica, sans-serif;',
   "}",
 
   /* State: disabled. */

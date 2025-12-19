@@ -211,8 +211,8 @@ Blockly.Blocks["event_whenflagclicked"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "green-flag.svg",
-          width: 24,
-          height: 24,
+          width: 32,
+          height: 32,
           alt: "flag",
         },
       ],

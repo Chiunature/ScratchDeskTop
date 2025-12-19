@@ -107,8 +107,8 @@ Blockly.Blocks["motor_acceleration"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -147,8 +147,8 @@ Blockly.Blocks["motor_starting"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -165,8 +165,8 @@ Blockly.Blocks["motor_starting"] = {
                 src:
                   Blockly.mainWorkspace.options.pathToMedia +
                   "rotate-right.svg",
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 alt: Blockly.Msg.RIGHT,
               },
               "Advance",
@@ -175,8 +175,8 @@ Blockly.Blocks["motor_starting"] = {
               {
                 src:
                   Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 alt: Blockly.Msg.LEFT,
               },
               "Retreat",
@@ -202,8 +202,8 @@ Blockly.Blocks["motor_stop"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -230,8 +230,8 @@ Blockly.Blocks["motor_speed"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -262,8 +262,8 @@ Blockly.Blocks["motor_specifiedunit"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -280,8 +280,8 @@ Blockly.Blocks["motor_specifiedunit"] = {
                 src:
                   Blockly.mainWorkspace.options.pathToMedia +
                   "rotate-right.svg",
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 alt: Blockly.Msg.RIGHT,
               },
               "Advance",
@@ -290,8 +290,8 @@ Blockly.Blocks["motor_specifiedunit"] = {
               {
                 src:
                   Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 alt: Blockly.Msg.LEFT,
               },
               "Retreat",
@@ -330,8 +330,8 @@ Blockly.Blocks["motor_specifiedangle"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -370,8 +370,8 @@ Blockly.Blocks["motor_relative_position"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -403,8 +403,8 @@ Blockly.Blocks["motor_specified_manner"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -440,8 +440,8 @@ Blockly.Blocks["motor_rate"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -468,8 +468,8 @@ Blockly.Blocks["motor_angle"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -496,8 +496,8 @@ Blockly.Blocks["motor_position"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -524,8 +524,8 @@ Blockly.Blocks["motor_startWithPower"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -564,8 +564,8 @@ Blockly.Blocks["motor_setStill"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -604,8 +604,8 @@ Blockly.Blocks["motor_reset_operating_degree"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },
@@ -632,8 +632,8 @@ Blockly.Blocks["motor_single_pwm"] = {
         {
           type: "field_image",
           src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 20,
-          height: 20,
+          width: 32,
+          height: 32,
           alt: "*",
           flipRtl: false,
         },

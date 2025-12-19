@@ -41,14 +41,16 @@ Blockly.FLYOUT_DRAG_RADIUS = 10;
 
 /**
  * Maximum misalignment between connections for them to snap together.
+ * 当 GRID_UNIT 改变时，需要相应调整此值
  */
-Blockly.SNAP_RADIUS = 48;
+Blockly.SNAP_RADIUS = 60; // 从48调整为60，适应 GRID_UNIT=5 的情况
 
 /**
  * Maximum misalignment between connections for them to snap together,
  * when a connection is already highlighted.
+ * 当 GRID_UNIT 改变时，需要相应调整此值
  */
-Blockly.CONNECTING_SNAP_RADIUS = 68;
+Blockly.CONNECTING_SNAP_RADIUS = 85; // 从68调整为85，适应 GRID_UNIT=5 的情况
 
 /**
  * How much to prefer staying connected to the current connection over moving to

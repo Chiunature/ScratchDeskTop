@@ -68,7 +68,7 @@ Blockly.FieldMotor.prototype.init = function (block) {
   /** @type {Number} */
   this.arrowX_ = 0;
   /** @type {Number} */
-  this.arrowY_ = 11;
+  this.arrowY_ = (Blockly.BlockSvg.FIELD_HEIGHT - this.arrowSize_) / 2;
   this.arrow_ = Blockly.utils.createSvgElement("image", {
     height: this.arrowSize_ + "px",
     width: this.arrowSize_ + "px",
