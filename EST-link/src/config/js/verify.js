@@ -24,7 +24,7 @@
  */
 import { SOURCE, BOOTBIN } from "../json/verifyTypeConfig.json";
 import { BIN, LB_FWLIB } from "../json/LB_FWLIB.json";
-import { CAKE, PYTHON } from "../json/code_type.json";
+import { PYTHON } from "../json/code_type.json";
 import ipc_Main from "../json/ipc.json";
 
 
@@ -71,16 +71,6 @@ function getResultByCodeType(options, codeOptions) {
     const { selectedExe, codeType, fileName } = options;
     const { path, fs, root } = codeOptions;
     switch (codeType) {
-        case CAKE:
-            const pathname = path.join(root, BIN);
-            return [
-                {
-                    pathname,
-                    verifyType: BOOTBIN,
-                    fileName: `${selectedExe.num}_APP.bin`,
-                    fileData: fs.readFileSync(pathname)
-                }
-            ]
         case PYTHON:
             return [
                 {

@@ -39,7 +39,6 @@ import { ipc as ipc_Renderer, verifyTypeConfig, deviceIdMap } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { setGen, setExelist, setSelectedExe } from "../reducers/mode.js";
-import Compile from "../lib/generator/cake/compileGcc.js";
 import {
     setCompleted,
     setSourceCompleted,
@@ -61,14 +60,13 @@ import { setTipsUpdateObj } from "../reducers/tips.js";
 import TipsForUpdate from "../components/alerts/tipsForUpdate.jsx";
 import getMainMsg from "../lib/alerts/message.js";
 import debounce from "lodash.debounce";
-import { CAKE, PYTHON } from "../config/json/generators.json";
+import { PYTHON } from "../config/json/generators.json";
 import { handleUploadPython } from "../lib/generator/python/index.js";
 import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
 class GUI extends React.Component {
     constructor(props) {
         super(props);
         bindAll(this, ["handleCompile", "handleRunApp", "getMainMessage"]);
-        this.compile = new Compile();
         this.handleUploadClick = debounce(this.handleCompile, 300, {
             leading: false,
             trailing: true,
@@ -323,9 +321,7 @@ class GUI extends React.Component {
                 return false;
             }
 
-            this.compile.sendSerial({
-                verifyType: verifyTypeConfig.RESET_FWLIB,
-            });
+            // TODO: 处理固件更新逻辑（已移除cake相关代码）
 
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
@@ -421,17 +417,6 @@ class GUI extends React.Component {
                 : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
             switch (this.props.generatorName) {
-                case CAKE:
-                    this.compile.sendSerial({
-                        verifyType,
-                        selectedExe,
-                        bufferList: this.props.bufferList,
-                        myBlockList: this.props.matchMyBlock,
-                        msgTaskBlockList: this.props.msgTaskBlock,
-                        soundsList: this.props.soundslist,
-                        codeType: this.props.generatorName,
-                    });
-                    break;
                 case PYTHON:
                     await handleUploadPython(
                         {
@@ -573,7 +558,6 @@ class GUI extends React.Component {
                     handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
-                    compile={this.compile}
                 >
                     {children}
                 </GUIComponent>
@@ -609,7 +593,6 @@ GUI.propTypes = {
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     telemetryModalVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    compile: PropTypes.object,
     onSetProgress: PropTypes.func,
     onActivateDeck: PropTypes.func,
     onOpenConnectionModal: PropTypes.func,

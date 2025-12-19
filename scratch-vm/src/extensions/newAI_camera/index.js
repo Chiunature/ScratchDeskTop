@@ -6,16 +6,16 @@ const MathUtil = require('../../util/math-util');
 const RenderedTarget = require('../../sprites/rendered-target');
 const log = require('../../util/log');
 const StageLayering = require('../../engine/stage-layering');
-const cameraIcon = require('./camera.svg');
+const btoa = require('btoa');
+const cameraIconSvg = require('./camera.svg');
 const blocksObj = require('./blocks.js');
 
-/**
 /**
  * Icon svg to be displayed at the left edge of each extension block, encoded as a data URI.
  * @type {string}
  */
 // eslint-disable-next-line max-len
-const blockIconURI = cameraIcon;
+const blockIconURI = 'data:image/svg+xml;base64,' + btoa(cameraIconSvg);
 /**
  * Enum for camera color parameter values.
  * @readonly

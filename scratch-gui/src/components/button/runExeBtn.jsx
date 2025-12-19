@@ -6,7 +6,6 @@ import Cirle from "./cirle.jsx";
 import yesIcon from "./icon--yes.svg";
 import startIcon from "./icon--start.svg";
 import { ipc as ipc_Renderer } from "est-link";
-import { CAKE } from "../../config/json/generators.json"
 import SpinnerComponent from "../spinner/spinner.jsx";
 
 const RunExeBtn = (props) => {
@@ -54,9 +53,7 @@ const RunExeBtn = (props) => {
                         <div style={{ 'opacity': newProgress > 99 ? '0' : '1' }}>
                             {
                                 completed ?
-                                    (generatorName === CAKE ?
-                                        <p className={classNames(styles.uploadP)}>{newProgress}%</p> :
-                                        <SpinnerComponent/>) :
+                                    <SpinnerComponent/> :
                                 <ButtonComponent
                                     onClick={toggle}
                                     className={classNames(styles.uploadBtn)}
