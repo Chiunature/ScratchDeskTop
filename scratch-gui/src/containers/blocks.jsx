@@ -50,6 +50,7 @@ import {
     setMatchMyBlock,
 } from "../reducers/mode";
 import { convert, pinyin } from "../utils/pingyin-pro";
+import MinimapNavigator from "../lib/minimap-navigator";
 
 const addFunctionListener = (object, property, callback) => {
     const oldFn = object[property];
@@ -74,6 +75,7 @@ class Blocks extends React.Component {
     constructor(props) {
         super(props);
         this.ScratchBlocks = VMScratchBlocks(props.vm);
+        this.minimapNavigator = null;
         bindAll(this, [
             "attachVM",
             "detachVM",
@@ -101,6 +103,7 @@ class Blocks extends React.Component {
             "setBlocks",
             "setLocale",
             "workspaceToCode",
+            "toggleMinimap",
         ]);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.statusButtonCallback =
@@ -140,6 +143,20 @@ class Blocks extends React.Component {
                 this.props.setWorkspace(this.workspace);
                 // Register buttons under new callback keys for creating variables,
                 // lists, and procedures from extensions.
+                // 初始化迷你地图导航器（独立窗口，通过按钮控制）
+                if (this.workspace) {
+                    this.minimapNavigator = new MinimapNavigator(
+                        this.workspace,
+                        document.body,
+                        {
+                            x: 20, // 默认位置
+                            y: 80, // 默认位置
+                            width: 200, // 窗口宽度
+                            height: 150, // 窗口高度
+                        }
+                    );
+                }
+
                 const toolboxWorkspace = this.workspace
                     .getFlyout()
                     .getWorkspace();
@@ -312,6 +329,10 @@ class Blocks extends React.Component {
         }
     }
     componentWillUnmount() {
+        if (this.minimapNavigator) {
+            this.minimapNavigator.destroy();
+            this.minimapNavigator = null;
+        }
         this.detachVM();
         this.workspace.dispose();
         clearTimeout(this.toolboxUpdateTimeout);
@@ -735,6 +756,13 @@ class Blocks extends React.Component {
                 this.updateToolbox(); // To show new variables/custom blocks
             });
     }
+
+    toggleMinimap() {
+        if (this.minimapNavigator) {
+            this.minimapNavigator.toggle();
+        }
+    }
+
     render() {
         /* eslint-disable no-unused-vars */
         const {
@@ -772,6 +800,26 @@ class Blocks extends React.Component {
         /* eslint-enable no-unused-vars */
         return (
             <React.Fragment>
+                {/* 添加迷你地图按钮 */}
+                {/* <button
+                    onClick={this.toggleMinimap}
+                    style={{
+                        position: "fixed",
+                        bottom: "20px",
+                        right: "20px",
+                        zIndex: 9999,
+                        padding: "10px 20px",
+                        backgroundColor: "#4C97FF",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+                    }}
+                >
+                    显示缩略图
+                </button> */}
                 <DroppableBlocks
                     componentRef={this.setBlocks}
                     onDrop={this.handleDrop}

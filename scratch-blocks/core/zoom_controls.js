@@ -74,7 +74,7 @@ Blockly.ZoomControls.prototype.WIDTH_ = 36;
  * @type {number}
  * @private
  */
-Blockly.ZoomControls.prototype.HEIGHT_ = 124;
+Blockly.ZoomControls.prototype.HEIGHT_ = 160; // 增加高度以容纳缩略图按钮
 
 /**
  * Distance between each zoom control.
@@ -130,6 +130,7 @@ Blockly.ZoomControls.prototype.createDom = function () {
   this.createZoomOutSvg_();
   this.createZoomInSvg_();
   this.createZoomResetSvg_();
+  this.createMinimapToggleSvg_();
   return this.svgGroup_;
 };
 
@@ -352,5 +353,89 @@ Blockly.ZoomControls.prototype.createZoomResetSvg_ = function () {
     Blockly.Touch.clearTouchIdentifier();  // Don't block future drags.
     e.stopPropagation();  // Don't start a workspace scroll.
     e.preventDefault();  // Stop double-clicking from selecting text.
+  });
+};
+
+/**
+ * Create the minimap toggle icon and its event handler.
+ * @private
+ */
+Blockly.ZoomControls.prototype.createMinimapToggleSvg_ = function () {
+  var ws = this.workspace_;
+  
+  /**
+   * Minimap toggle control.
+   * @type {SVGElement}
+   */
+  var minimapToggleSvg = Blockly.utils.createSvgElement(
+    'rect',
+    {
+      'width': this.WIDTH_,
+      'height': this.WIDTH_,
+      'y': (this.WIDTH_ * 3) + (this.MARGIN_BETWEEN_ * 3),
+      'rx': 4,
+      'ry': 4,
+      'fill': '#4C97FF',
+      'stroke': '#4C97FF',
+      'stroke-width': 1,
+      'style': 'cursor: pointer;'
+    },
+    this.svgGroup_
+  );
+  
+  // 创建图标（简单的网格图标）
+  var iconGroup = Blockly.utils.createSvgElement('g', {}, this.svgGroup_);
+  var iconY = (this.WIDTH_ * 3) + (this.MARGIN_BETWEEN_ * 3) + this.WIDTH_ / 2;
+  
+  // 绘制网格图标
+  var gridSize = 4;
+  var gridSpacing = this.WIDTH_ / (gridSize + 1);
+  var startX = this.WIDTH_ / 2 - (gridSize - 1) * gridSpacing / 2;
+  var startY = iconY - (gridSize - 1) * gridSpacing / 2;
+  
+  // 绘制网格线
+  for (var i = 0; i < gridSize; i++) {
+    // 垂直线
+    Blockly.utils.createSvgElement('line', {
+      'x1': startX + i * gridSpacing,
+      'y1': startY,
+      'x2': startX + i * gridSpacing,
+      'y2': startY + (gridSize - 1) * gridSpacing,
+      'stroke': 'white',
+      'stroke-width': 1
+    }, iconGroup);
+    
+    // 水平线
+    Blockly.utils.createSvgElement('line', {
+      'x1': startX,
+      'y1': startY + i * gridSpacing,
+      'x2': startX + (gridSize - 1) * gridSpacing,
+      'y2': startY + i * gridSpacing,
+      'stroke': 'white',
+      'stroke-width': 1
+    }, iconGroup);
+  }
+  
+  // 添加点击事件
+  Blockly.bindEventWithChecks_(minimapToggleSvg, 'mousedown', null, function (e) {
+    ws.markFocused();
+    // 触发自定义事件来切换缩略图
+    if (ws.minimapNavigator) {
+      ws.minimapNavigator.toggle();
+    }
+    Blockly.Touch.clearTouchIdentifier();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+  
+  // 图标也添加点击事件
+  Blockly.bindEventWithChecks_(iconGroup, 'mousedown', null, function (e) {
+    ws.markFocused();
+    if (ws.minimapNavigator) {
+      ws.minimapNavigator.toggle();
+    }
+    Blockly.Touch.clearTouchIdentifier();
+    e.stopPropagation();
+    e.preventDefault();
   });
 };
