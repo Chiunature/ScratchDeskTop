@@ -41,19 +41,13 @@
 .blocks :global(.blocklyMainBackground) {
     stroke: none;
 }
-
+/* 积木种类的盒子样式 */
 .blocks :global(.blocklyToolboxDiv) {
     border-right: 1px solid $ui-black-transparent;
     border-bottom: 1px solid $ui-black-transparent;
     box-sizing: content-box;
     height: calc(100% - 3.25rem) !important;
     /* height: 100% !important; */
-    /*
-        For now, the layout cannot support scrollbars in the category menu.
-        The line below works for Edge, the `::-webkit-scrollbar` line
-        below that is for webkit browsers. It isn't possible to do the
-        same for Firefox, so a different solution may be needed for them.
-    */
     z-index: 30 !important;
     -ms-overflow-style: none;
 }
@@ -66,13 +60,14 @@
 .blocks :global(.blocklyToolboxDiv::-webkit-scrollbar) {
     display: none;
 }
-
+/* 积木块区域的盒子样式 */
 .blocks :global(.blocklyFlyout) {
     border-right: 1px solid $ui-black-transparent;
     box-sizing: content-box;
     min-width: 300px;
-    transform: translate(65px, 0px) !important;
+    transform: translate(135px, 0px) !important; /* 积木选择区域的位置 */
     /* transition: all .2s; */
+    box-shadow: 5px 5px 10px 0px rgba(77, 151, 255, 0.3);
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {
@@ -85,7 +80,7 @@
     border-left: 1px solid hsla(0, 0%, 0%, 0.15);
     min-width: 300px;
     /* right: 130px; */
-    transition: all .2s;
+    transition: all 0.2s;
 }
 
 [dir="rtl"] .blocks :global(.blocklyToolboxTriggerIcon) {
@@ -102,29 +97,23 @@
     /* make blocks match gui drag layer */
 }
 
-/*
-    Shrink category font to fit "My Blocks" for now.
-    Probably will need different solutions for language support later, so
-    make the change here instead of in scratch-blocks.
-*/
 .blocks :global(.scratchCategoryMenuItemLabel) {
-    font-size: 0.65rem;
+    font-size: 0.875rem;
 }
 
 .blocks :global(.blocklyMinimalBody) {
     min-width: auto;
     min-height: auto;
 }
-
+/* 滚动条位置 */
 .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
-    transition: all .2s;
-    transform: translate(345px, 2.5px) !important;
+    transition: all 0.2s;
+    transform: translate(435px, 2.5px) !important;
 }
 
 /* .blocks :global(.blocklyFlyout #blocklyBlockMenuClipPath #blocklyBlockMenuClipRect) {
     width: 350px !important;
 } */
-
 
 [dir="rtl"] .blocks :global(.blocklyScrollbarVertical.blocklyFlyoutScrollbar) {
     display: none !important;

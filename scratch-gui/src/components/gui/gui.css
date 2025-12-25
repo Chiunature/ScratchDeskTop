@@ -44,7 +44,9 @@
         much better ways to solve that (e.g. undo #2124, remove this flex-basis entirely). However, they run their own
         risks of breaking things, so let's just leave this as-is for the time being.
     */
-    flex-basis: calc(1024px - 408px - (($space + $stage-standard-border-width) * 2));
+    flex-basis: calc(
+        1024px - 408px - (($space + $stage-standard-border-width) * 2)
+    );
     flex-grow: 1;
     flex-shrink: 0;
     position: relative;
@@ -220,21 +222,12 @@
     display: flex;
     flex-grow: 1;
     flex-basis: 0;
-
     padding-top: $space;
     min-height: 0;
-    /* this makes it work in Firefox */
-
-    /*
-        For making the sprite-selector a scrollable pane
-        @todo: Not working in Safari
-    */
-    /* TODO this also breaks the thermometer menu */
-    /* overflow: hidden; */
 }
-
+/* 扩展按钮的盒子样式 */
 .extension-button-container {
-    width: 3.75rem;
+    width: 8.4375rem;
     height: 3.25rem;
     position: absolute;
     bottom: 0;
@@ -278,7 +271,7 @@ $fade-out-distance: 15px;
     transform: scaleX(-1);
 }
 
-.extension-button>div {
+.extension-button > div {
     margin-top: 0;
 }
 
@@ -323,4 +316,3 @@ $fade-out-distance: 15px;
 :global(.ReactModal__Body--open) {
     overflow: hidden;
 }
-

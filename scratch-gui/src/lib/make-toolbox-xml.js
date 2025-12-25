@@ -1,5 +1,18 @@
 // import ScratchBlocks from "scratch-blocks";
 import { defaultColors } from "./themes";
+// 使用运行时路径，而不是 import，避免 webpack 构建时解析错误
+const motorIcon = "static/LeftBuildingIcon/generator.svg";
+const combinedMotorIcon = "static/LeftBuildingIcon/combination.svg";
+const matrixIcon = "static/LeftBuildingIcon/lighting.svg";
+const cameraIcon = "static/LeftBuildingIcon/camera.svg";
+const voiceIcon = "static/LeftBuildingIcon/voice.svg";
+const controlIcon = "static/LeftBuildingIcon/control.svg";
+const eventIcon = "static/LeftBuildingIcon/event.svg";
+const sensingIcon = "static/LeftBuildingIcon/detect.svg";
+const operatorsIcon = "static/LeftBuildingIcon/operation.svg";
+const variablesIcon = "static/LeftBuildingIcon/variable.svg";
+const myBlocksIcon = "static/LeftBuildingIcon/HomemadeBlocks.svg";
+
 const categorySeparator = '<sep gap="36"/>';
 
 const blockSeparator = '<sep gap="24"/>'; // At default scale, about 28px
@@ -21,56 +34,14 @@ const xmlEscape = function (unsafe) {
     });
 };
 
-/*
-    <block type="motor_specifiedangle">
-            <value name="ANGLE">
-                <shadow type="math_angle"></shadow>
-            </value>
-        </block>
-        <block type="motor_relative_position"></block>
-        <block type="motor_acceleration">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="P">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                    <value name="I">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="D">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_setStill">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="P">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                    <value name="I">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="D">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-    */
-
 const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no motor blocks"
-    ); */
     return `
             <category
                 name="%{BKY_CATEGORY_MOTOR}"
                 id="motor"
                 colour="${colors.primary}"
-                secondaryColour="${colors.tertiary}">
+                secondaryColour="${colors.tertiary}"
+                iconURI="${motorIcon}">
                 ${blockSeparator}
                 <block type="motor_starting">
                     <value name="PORT">
@@ -145,49 +116,19 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
             `;
 };
 
-{
-    /* <block type="combined_motor_move">
-                    <value name="left">
-                        <shadow type="math_-100to100_number"></shadow>
-                    </value>
-                    <value name="right">
-                        <shadow type="math_-100to100_number"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_turn">
-                    <value name="PORT1">
-                        <shadow type="combined_motorOne_menu"></shadow>
-                    </value>
-                    <value name="PORT2">
-                        <shadow type="combined_motorTwo_menu"></shadow>
-                    </value>
-                    <value name="ANGLE">
-                        <shadow type="math_angle"></shadow>
-                    </value>
-                </block>
-                <block type="combined_motor_angle">
-                    <value name="ANGLE">
-                        <shadow type="math_angle"></shadow>
-                    </value>
-                </block>
-        */
-}
 const combined_motor = function ({
     isInitialSetup,
     isStage,
     targetId,
     colors,
 }) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no combined_motor blocks"
-    ); */
     return `
             <category
                 name="%{BKY_CATEGORY_COMBINED_MOTOR}"
                 id="combined_motor"
                 colour="${colors.primary}"
-                secondaryColour="${colors.tertiary}">
+                secondaryColour="${colors.tertiary}"
+                iconURI="${combinedMotorIcon}">
                 ${blockSeparator}
                 <block type="combined_motor_starting">
                     <value name="PORT">
@@ -291,35 +232,14 @@ const combined_motor = function ({
             `;
 };
 
-/*
-    <block type="matrix_lamp_setSaturation">
-            <value name="saturation">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        <block type="matrix_lamp_setColorRGB">
-            <value name="R">
-                <shadow type="math_0to255_number"/>
-            </value>
-            <value name="G">
-                <shadow type="math_0to255_number"/>
-            </value>
-            <value name="B">
-                <shadow type="math_0to255_number"/>
-            </value>
-        </block>
-*/
 const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
-    /* const stageSelected = ScratchBlocks.ScratchMsgs.translate(
-        "MOTOR_STAGE_SELECTED",
-        "Stage selected: no matrix blocks"
-    ); */
     return `
             <category
                 name="%{BKY_CATEGORY_MATRIX}"
                 id="matrix"
                 colour="${colors.primary}"
-                secondaryColour="${colors.tertiary}">
+                secondaryColour="${colors.tertiary}"
+                iconURI="${matrixIcon}">
                 ${blockSeparator}
                 <block type="matrix_lamp">
                     <value name="COLOR">
@@ -365,40 +285,6 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
             `;
 };
 
-{
-    /*
-    <block type="sound_cleareffects"/>
-    <block type="sound_changeeffectby">
-                <value name="VALUE">
-                    <shadow type="math_number">
-                        <field name="NUM">10</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="sound_seteffectto">
-                <value name="VALUE">
-                    <shadow type="math_number">
-                        <field name="NUM">100</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="sound_changevolumeby">
-            <value name="VOLUME">
-                <shadow type="math_number">
-                    <field name="NUM">-10</field>
-                </shadow>
-            </value>
-        </block>
-            ${blockSeparator}
-            <block type="sound_setPlaySpeed">
-            <value name="SPEED">
-                <shadow type="math_number">
-                    <field name="NUM">60</field>
-                </shadow>
-            </value>
-        </block>
-*/
-}
 const sound = function ({
     isInitialSetup,
     isStage,
@@ -408,7 +294,7 @@ const sound = function ({
 }) {
     return `
     <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
+    secondaryColour="${colors.tertiary}" iconURI="${voiceIcon}">
         <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
             <value name="SOUND_MENU">
                 <shadow type="sound_sounds_menu"></shadow>
@@ -446,37 +332,10 @@ const sound = function ({
     `;
 };
 
-{
-    /* <block type="event_checkcolor">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>
-        <block type="event_keyjudement" />
-        <block type="event_tilts" />
-        <block type="event_keypress" />
-        ${blockSeparator}
-
-        ${blockSeparator}
-        <block type="event_whengreaterthan">
-            <value name="VALUE">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="event_when"/>
-            <value name="BROADCAST_INPUT">
-                    <shadow type="event_broadcast_menu"></shadow>
-                </value>
-        ${categorySeparator}
-*/
-}
 const events = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
             <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="${colors.primary}"
-            secondaryColour="${colors.tertiary}">
+            secondaryColour="${colors.tertiary}" iconURI="${eventIcon}">
                 <block type="event_whenflagclicked"/>
                 ${blockSeparator}
                 <block type="event_whenbroadcastreceived"/>
@@ -492,7 +351,7 @@ const events = function ({ isInitialSetup, isStage, targetId, colors }) {
 const control = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
     <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
+    secondaryColour="${colors.tertiary}" iconURI="${controlIcon}">
         <block type="control_wait">
             <value name="DURATION">
                 <shadow type="math_positive_number">
@@ -526,53 +385,11 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
     </category>
     `;
 };
-{
-    /*
-    <block type="sensing_line_inspection_judgment"></block>
-    <block type="sensing_magnetic_calibration"></block>
-    <block type="sensing_compass"></block>
-    <block type="sensing_timer"></block>
-    <block type="sensing_reset_timer"></block>
-    ${blockSeparator}
-    <block id="loudness" type="sensing_loudness"/>
-    ${blockSeparator}
-    <block id="current" type="sensing_current"/>
-    <block type="sensing_dayssince2000"/>
-    <block type="sensing_magnetism"></block>
-    <block type="sensing_key_press"></block>
-            <block type="sensing_HSVColor">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="COLOR">
-                    <shadow type="colour_card" />
-                </value>
-                <value name="Min">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                 <value name="Max">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-            </block>
-        <block type="sensing_reflected_light_blackLine">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="THRESHOLD">
-                    <shadow type="math_number"><field name="NUM">100</field></shadow>
-                </value>
-        </block>
-        ${blockSeparator}
-    */
-}
+
 const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
-    /* const name = ScratchBlocks.ScratchMsgs.translate(
-        "SENSING_ASK_TEXT",
-        "What's your name?"
-    ); */
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
+        secondaryColour="${colors.tertiary}" iconURI="${sensingIcon}">
             <block type="sensing_color_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -711,7 +528,7 @@ const operators = function ({ isInitialSetup, colors }) {
     const letter = "a";
     return `
     <category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="${colors.primary}"
-    secondaryColour="${colors.tertiary}">
+    secondaryColour="${colors.tertiary}" iconURI="${operatorsIcon}">
         <block type="operator_add">
             <value name="NUM1">
                 <shadow type="math_number">
@@ -909,7 +726,8 @@ const variables = function ({ colors }) {
         id="variables"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}"
-        custom="VARIABLE">
+        custom="VARIABLE"
+        iconURI="${variablesIcon}">
     </category>
     `;
 };
@@ -921,295 +739,296 @@ const myBlocks = function ({ colors }) {
         id="myBlocks"
         colour="${colors.primary}"
         secondaryColour="${colors.tertiary}"
-        custom="PROCEDURE">
+        custom="PROCEDURE"
+        iconURI="${myBlocksIcon}">
     </category>
     `;
 };
 
-const sensing_camera = function ({ colors }) {
-    return `
-    <category name="%{BKY_CATEGORY_SENSING_CAMERA}" id="sensing_camera" colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
-        ${categorySeparator}
-            ${blockSeparator}
-             <block type="sensing_camera_find_color_block">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-                <value name="R">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="G">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="TOLERANCE">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_color_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_color_block_x">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_color_block_y">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_color_pixel">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_middle_find">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-                <value name="RADIUS">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="R">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="G">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number"><field name="NUM">50</field></shadow>
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_middle_find_red">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_middle_find_green">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_middle_find_blue">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value></block>
-            ${blockSeparator}
-            <block type="sensing_camera_extern_color">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_extern_red">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_extern_green">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_extern_blue">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_line">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_line_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_line_showsex">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_line_rho">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_find_line_theta">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_number_check">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_number_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_get_number">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_check">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_x">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_y">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_trace">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_trace_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_trace_x">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_face_trace_y">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_qr_check">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_qr_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_id">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_x">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_y">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_roll">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_apriltag_distance">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_characteristic">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_characteristic_state">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_characteristic_matchine">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_camera_characteristic_roll">
-                <value name="PORT">
-                    <shadow type="sensing_camera_menu" />
-                </value>
-            </block>
-        ${categorySeparator}
-    </category>
-    `;
-};
+// const sensing_camera = function ({ colors }) {
+//     return `
+//     <category name="%{BKY_CATEGORY_SENSING_CAMERA}" id="sensing_camera" colour="${colors.primary}"
+//         secondaryColour="${colors.tertiary}">
+//         ${categorySeparator}
+//             ${blockSeparator}
+//              <block type="sensing_camera_find_color_block">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//                 <value name="R">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="G">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="B">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="TOLERANCE">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_color_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_color_block_x">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_color_block_y">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_color_pixel">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_middle_find">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//                 <value name="RADIUS">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="R">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="G">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//                 <value name="B">
+//                     <shadow type="math_number"><field name="NUM">50</field></shadow>
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_middle_find_red">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_middle_find_green">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_middle_find_blue">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value></block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_extern_color">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_extern_red">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_extern_green">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_extern_blue">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_line">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_line_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_line_showsex">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_line_rho">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_find_line_theta">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_number_check">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_number_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_get_number">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_check">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_x">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_y">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_trace">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_trace_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_trace_x">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_face_trace_y">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_qr_check">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_qr_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_id">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_x">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_y">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_roll">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_apriltag_distance">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_characteristic">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_characteristic_state">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_characteristic_matchine">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//             ${blockSeparator}
+//             <block type="sensing_camera_characteristic_roll">
+//                 <value name="PORT">
+//                     <shadow type="sensing_camera_menu" />
+//                 </value>
+//             </block>
+//         ${categorySeparator}
+//     </category>
+//     `;
+// };
 
 const cameraRecognition = function ({ colors }) {
     return `
     <category name="%{BKY_CATEGORY_CAMERA_RECOGNITION}" id="cameraRecognition" colour="${colors.primary}"
-        secondaryColour="${colors.tertiary}">
+        secondaryColour="${colors.tertiary}" iconURI="${cameraIcon}">
         ${categorySeparator}
         ${blockSeparator}
         <block type="cameraRecognition_set_mode_apriltagtag_mode">
