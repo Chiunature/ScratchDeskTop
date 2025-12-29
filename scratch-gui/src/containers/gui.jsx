@@ -323,7 +323,9 @@ class GUI extends React.Component {
                 return false;
             }
 
-            // TODO: 处理固件更新逻辑（已移除cake相关代码）
+            this.compile.sendSerial({
+                verifyType: verifyTypeConfig.RESET_FWLIB,
+            });
 
             this.props.onSetSourceCompleted(true);
             this.props.onOpenConnectionModal();
