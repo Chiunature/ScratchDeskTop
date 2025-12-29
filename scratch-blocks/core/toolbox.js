@@ -959,7 +959,7 @@ Blockly.Toolbox.Category.prototype.createDom = function () {
     //   }
     // }
     this.bubble_.style.backgroundImage = "url(" + iconPath + ")";
-    this.bubble_.style.backgroundColo·r = "transparent"; // 使用透明背景以显示图片
+    this.bubble_.style.backgroundColor = "transparent"; // 使用透明背景以显示图片
   } else {
     this.bubble_ = goog.dom.createDom("div", {
       class: "scratchCategoryItemBubble",

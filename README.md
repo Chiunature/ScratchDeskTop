@@ -10,14 +10,14 @@
 
 ### 当前固件版本
 
-- **固件版本**: v305 (LB_FWLIB/version/Version.txt)
+- **固件版本**: v306 (LB_FWLIB/version/Version.txt)
 - **配置版本**: v1.3.1 (hotVersion.json)
 - **ATC 版本**: v179
 - **LB 版本**: v227
 
 ### 固件资源组件
 
-- **LB_FWLIB**: 固件库 (v305)
+- **LB_FWLIB**: 固件库 (v306)
   - 包含各种传感器和执行器固件
   - 位置: `scratch-gui/resources/LB_FWLIB/`
 - **ByteCode**: 字节码工具

@@ -269,7 +269,8 @@ Blockly.Python.finish = function (code) {
       `while ${taskFinishedStr}:\n` +
       Blockly.Python.INDENT +
       Blockly.Python.INDENT +
-      "_os.sleep_s(0.1)";
+      "_os.sleep_s(0.1)\n\n" +
+      "_os.clear_thread()";
 
     ret += this.splitCodeByTask(code) + "\n" + threadStr + "\n" + whileEnd;
   } else {

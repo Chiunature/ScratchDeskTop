@@ -44,6 +44,7 @@ import {
     setSourceCompleted,
     setVersion,
 } from "../reducers/connection-modal.js";
+import Compile from "../utils/compileGcc.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
 import {
     activateDeck,
@@ -72,6 +73,7 @@ class GUI extends React.Component {
             trailing: true,
         });
         this.mainMsg = getMainMsg(props.intl);
+        this.compile = new Compile();
     }
 
     componentDidMount() {
@@ -558,6 +560,7 @@ class GUI extends React.Component {
                     handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
                     getMainMessage={this.getMainMessage}
+                    compile={this.compile}
                 >
                     {children}
                 </GUIComponent>
