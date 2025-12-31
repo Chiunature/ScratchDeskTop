@@ -1199,6 +1199,24 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="cameraRecognition_set_find_color_mode">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_find_color">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_cmp_color">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
         <block type="cameraRecognition_set_color_block_mode">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />

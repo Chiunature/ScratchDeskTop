@@ -757,6 +757,91 @@ Blockly.Blocks["cameraRecognition_set_mode_apriltagtag_mode"] = {
   },
 };
 
+//查找颜色模式
+Blockly.Blocks["cameraRecognition_set_find_color_mode"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_set_find_color_mode",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_SET_FIND_COLOR_MODE,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["cameraRecognition_find_color"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_find_color",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_FIND_COLOR,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "output_string"],
+    });
+  },
+};
+
+Blockly.Blocks["cameraRecognition_cmp_color"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_cmp_color",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_CMP_COLOR,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "field_dropdown",
+          name: "COLOR",
+          options: [
+            [Blockly.Msg.RED, "1"],
+            [Blockly.Msg.YELLOW, "2"],
+            [Blockly.Msg.GREEN, "3"],
+            [Blockly.Msg.BLUE, "4"],
+          ],
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "output_boolean"],
+    });
+  },
+};
 Blockly.Blocks["cameraRecognition_set_color_block_mode"] = {
   init: function () {
     this.jsonInit({

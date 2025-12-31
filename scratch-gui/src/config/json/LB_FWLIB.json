@@ -5,5 +5,5 @@
     "APP": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/app",
     "VERSION": "./resources/LB_FWLIB/version",
     "CONFIG": "./resources/gcc-arm-none-eabi/bin/LB_FWLIB/config",
-    "FIREWARE_VERSION": "306"
+    "FIREWARE_VERSION": "307"
 }
