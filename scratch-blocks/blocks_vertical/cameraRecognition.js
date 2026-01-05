@@ -832,8 +832,8 @@ Blockly.Blocks["cameraRecognition_cmp_color"] = {
           options: [
             [Blockly.Msg.RED, "1"],
             [Blockly.Msg.YELLOW, "2"],
-            [Blockly.Msg.GREEN, "3"],
-            [Blockly.Msg.BLUE, "4"],
+            [Blockly.Msg.BLUE, "3"],
+            [Blockly.Msg.GREEN, "4"],
           ],
         },
       ],

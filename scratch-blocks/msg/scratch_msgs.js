@@ -7388,7 +7388,7 @@ Blockly.ScratchMsgs.locales["en"] = {
     "%1 set %2 face recognition mode",
   CAMERA_RECOGNITION_SET_MODE_FEATUREPOINT_DETECTION:
     "%1 set %2 feature point detection mode",
-  CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE: "%1 set %2 AprilTag mode",
+  CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE: "%1 set %2 QR code label mode",
   CAMERA_RECOGNITION_SET_FIND_COLOR_MODE: "%1 set %2 find color mode",
   CAMERA_RECOGNITION_FIND_COLOR: "%1 find %2 color",
   CAMERA_RECOGNITION_CMP_COLOR: "%1 %2 color is %3",
@@ -29710,7 +29710,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   CAMERA_RECOGNITION_SET_MODE_FACE_RECOGNITION: "%1 设置%2 人脸识别模式",
   CAMERA_RECOGNITION_SET_MODE_FEATUREPOINT_DETECTION:
     "%1 设置%2 特征点检测模式",
-  CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE: "%1 设置%2 AprilTag模式",
+  CAMERA_RECOGNITION_SET_MODE_APRILTAGTAG_MODE: "%1 设置%2 二维码标签模式",
   CAMERA_RECOGNITION_SET_FIND_COLOR_MODE: "%1 设置%2 查找颜色模式",
   CAMERA_RECOGNITION_FIND_COLOR: "%1 查找%2 颜色",
   CAMERA_RECOGNITION_CMP_COLOR: "%1 %2 颜色是否为 %3",

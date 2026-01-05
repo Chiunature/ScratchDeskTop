@@ -586,7 +586,7 @@
 	"gui.device.key": "按键",
 	"gui.device.gyroscope": "陀螺仪",
 	"gui.device.yaw": "偏航",
-	"gui.device.pitch": "浮仰",
+	"gui.device.pitch": "俯仰",
 	"gui.device.roll": "横滚",
 	"gui.device.memory": "内存",
 	"gui.device.memoryTotal": "总容量",
