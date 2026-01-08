@@ -176,6 +176,15 @@ Blockly.Blocks["combined_motor_direction"] = {
               },
               "right",
             ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "stop.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.STOP,
+              },
+              "stop",
+            ],
           ],
         },
       ],
@@ -493,7 +502,6 @@ Blockly.Blocks["combined_motor_stopping"] = {
           name: "status",
           options: [
             [Blockly.Msg.RETARDATION, "1"],
-            [Blockly.Msg.STILL, "2"],
             [Blockly.Msg.FLOAT, "0"],
           ],
         },
@@ -528,14 +536,6 @@ Blockly.Blocks["combined_motor_startWithPower"] = {
         {
           type: "input_value",
           name: "POWER_TWO",
-        },
-        {
-          type: "field_dropdown",
-          name: "MODE",
-          options: [
-            [Blockly.Msg.POWER, "0"],
-            [Blockly.Msg.SPEED, "1"],
-          ],
         },
       ],
       category: Blockly.Categories.combined_motor,
@@ -572,15 +572,6 @@ Blockly.Blocks["combined_motor_startWithPowerObj"] = {
         {
           type: "input_value",
           name: "COUNT",
-        },
-        {
-          type: "field_dropdown",
-          name: "unit",
-          options: [
-            [Blockly.Msg.CIRCLE, "circly"],
-            [Blockly.Msg.ANGLE, "angle"],
-            [Blockly.Msg.SECONDS, "seconds"],
-          ],
         },
       ],
       category: Blockly.Categories.combined_motor,

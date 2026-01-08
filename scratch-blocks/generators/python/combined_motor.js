@@ -169,8 +169,7 @@ Blockly.Python["combined_motor_startWithPower"] = function (block) {
     "POWER_TWO",
     Blockly.Python.ORDER_NONE
   );
-  const mode = block.getFieldValue("MODE");
-  const code = `mov_power(${one}, ${two}, ${mode})\n`;
+  const code = `mov_power(${one}, ${two})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -190,8 +189,7 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const unit = block.getFieldValue("unit");
-  const code = `mov_for_power_degrees(${one}, ${two}, ${count}, "${unit}")\n`;
+  const code = `mov_for_power_degrees(${one}, ${two}, ${count}, "seconds")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

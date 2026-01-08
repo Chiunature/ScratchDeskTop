@@ -1,0 +1,10 @@
+<svg id="stop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-3{fill:#fff;}
+    </style>
+  </defs>
+  <title>pause</title>
+  <rect class="cls-3" x="35" y="15" width="8" height="70" />
+  <rect class="cls-3" x="55" y="15" width="8" height="70"/>
+</svg>
