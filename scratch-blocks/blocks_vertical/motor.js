@@ -19,7 +19,7 @@ Blockly.Blocks["motor_box"] = {
         {
           type: "field_motor",
           name: "MOTOR",
-          motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          motorList: ["null", "null", "null", "null", "E", "F", "G", "H"],
         },
       ],
       category: Blockly.Categories.motor,
@@ -301,15 +301,6 @@ Blockly.Blocks["motor_specifiedunit"] = {
         {
           type: "input_value",
           name: "COUNT",
-        },
-        {
-          type: "field_dropdown",
-          name: "unit",
-          options: [
-            [Blockly.Msg.CIRCLE, "circly"],
-            [Blockly.Msg.ANGLE, "angle"],
-            [Blockly.Msg.SECONDS, "seconds"],
-          ],
         },
       ],
       category: Blockly.Categories.motor,

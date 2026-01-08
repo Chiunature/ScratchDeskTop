@@ -11,7 +11,10 @@ Blockly.FieldMotor = function (motorList, linepatrol, opt_validator) {
   this.motorList = motorList;
   this.rightList = motorList.slice(4);
   this.leftList = motorList.slice(0, 4);
-  this.motor_ = motorList[0];
+  // 找到第一个非 null 的端口作为默认值
+  this.motor_ =
+    motorList.find((m) => m !== null && m !== "null" && m !== "NULL") ||
+    motorList[0];
   if (linepatrol) {
     this.linepatrolList = linepatrol;
     this.linepatrol_ = linepatrol[0];
@@ -119,7 +122,15 @@ Blockly.FieldMotor.prototype.init = function (block) {
   this.rightDom = this.createMotorListDom_(this.rightList, "right");
   const right = [...this.rightDom.childNodes];
   const left = [...this.leftDom.childNodes];
-  this.btnList = [...left, ...right];
+  // 过滤掉禁用的按钮（对应 null 端口）
+  this.btnList = [...left, ...right].filter((element, index) => {
+    const allPorts = [...this.leftList, ...this.rightList];
+    return (
+      allPorts[index] !== null &&
+      allPorts[index] !== "null" &&
+      allPorts[index] !== "NULL"
+    );
+  });
 };
 
 Blockly.FieldMotor.prototype.getValue = function () {
@@ -234,11 +245,23 @@ Blockly.FieldMotor.prototype.createMotorListDom_ = function (list, side) {
     btn.setAttribute("class", "button sensor-port-pair__port-button");
     btn.setAttribute("role", "button");
     btn.setAttribute("data-testid", "button-" + list[i]);
-    if (this.motor_ === list[i]) {
-      btn.classList.add("selected");
-      btn.setAttribute("style", `color: ${this.sourceBlock_.getColour()}`);
+
+    // 检查是否为 null，如果是则禁用按钮
+    if (list[i] === null || list[i] === "null" || list[i] === "NULL") {
+      btn.classList.add("disabled");
+      btn.setAttribute(
+        "style",
+        "opacity: 0.3; cursor: not-allowed; pointer-events: none;"
+      );
+      btn.innerHTML = ""; // 空白显示
+    } else {
+      if (this.motor_ === list[i]) {
+        btn.classList.add("selected");
+        btn.setAttribute("style", `color: ${this.sourceBlock_.getColour()}`);
+      }
+      btn.innerHTML = list[i];
     }
-    btn.innerHTML = list[i];
+
     motor.appendChild(btn);
     box.appendChild(motor);
   }
@@ -359,17 +382,31 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
       set(target, key, value) {
         target[key] = value;
         if (key === "portList") {
+          // 创建索引映射：portList 索引 -> btnList 索引
+          let btnListIndex = 0;
           for (let i = 0; i < value.length; i++) {
             const item = value[i];
-            const element = that.btnList[i];
-            const lastChild = that.checkType(item);
-            if (lastChild) {
-              if (element.childNodes.length > 1) continue;
-              element.appendChild(lastChild);
-            } else {
-              if (element.childNodes.length > 1)
-                element.lastElementChild.remove();
+            // 跳过 null 端口
+            if (
+              that.motorList[i] === "null" ||
+              that.motorList[i] === null ||
+              that.motorList[i] === "NULL"
+            ) {
               continue;
+            }
+            // 使用映射后的索引访问 btnList
+            if (btnListIndex < that.btnList.length) {
+              const element = that.btnList[btnListIndex];
+              const lastChild = that.checkType(item);
+              if (lastChild) {
+                if (element.childNodes.length > 1) continue;
+                element.appendChild(lastChild);
+              } else {
+                if (element.childNodes.length > 1)
+                  element.lastElementChild.remove();
+                continue;
+              }
+              btnListIndex++;
             }
           }
         }

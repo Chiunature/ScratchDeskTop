@@ -11,7 +11,15 @@ Blockly.FieldCombinedMotor = function (motorList, opt_validator) {
   this.motorList = motorList;
   this.rightList = motorList.slice(4);
   this.leftList = motorList.slice(0, 4);
-  this.motor_ = [motorList[0], motorList[1]];
+  // 只从右侧端口选择：找到第一个和第二个非 null 的端口作为默认值
+  const rightFristPort =
+    this.rightList.find((m) => m !== null && m !== "null" && m !== "NULL") ||
+    "";
+  const rightLastPort =
+    this.rightList.filter(
+      (m) => m !== null && m !== "null" && m !== "NULL"
+    )[1] || "";
+  this.motor_ = [rightFristPort, rightLastPort];
   this.combined_motor = this.motor_.join("+");
   Blockly.FieldCombinedMotor.superClass_.constructor.call(
     this,
@@ -24,10 +32,6 @@ goog.inherits(Blockly.FieldCombinedMotor, Blockly.Field);
 
 Blockly.FieldCombinedMotor.portList = [];
 Blockly.FieldCombinedMotor.proxy = null;
-// Blockly.FieldCombinedMotor.motor_svg = 'motor_sensing.svg';
-// Blockly.FieldCombinedMotor.color_sensing_svg = 'color_sensing_svg';
-// Blockly.FieldCombinedMotor.sound_sensing_svg = 'super_sound.svg';
-// Blockly.FieldCombinedMotor.touch_sensing_svg = 'touch_press.svg';
 
 /**
  * Construct a FieldCombinedMotor from a JSON arg object.
@@ -106,7 +110,15 @@ Blockly.FieldCombinedMotor.prototype.init = function (block) {
   this.rightDom = this.createMotorListDom_(this.rightList, "right");
   const right = [...this.rightDom.childNodes];
   const left = [...this.leftDom.childNodes];
-  this.btnList = [...left, ...right];
+  // 过滤掉禁用的按钮（对应 null 端口）
+  this.btnList = [...left, ...right].filter((element, index) => {
+    const allPorts = [...this.leftList, ...this.rightList];
+    return (
+      allPorts[index] !== null &&
+      allPorts[index] !== "null" &&
+      allPorts[index] !== "NULL"
+    );
+  });
 };
 
 Blockly.FieldCombinedMotor.prototype.getValue = function () {
@@ -196,11 +208,23 @@ Blockly.FieldCombinedMotor.prototype.createMotorListDom_ = function (
     btn.setAttribute("class", "button sensor-port-pair__port-button");
     btn.setAttribute("role", "button");
     btn.setAttribute("data-testid", "button-" + list[i]);
-    if (this.motor_.includes(list[i])) {
-      btn.classList.add("selected");
-      btn.setAttribute("style", `color: ${this.sourceBlock_.getColour()}`);
+
+    // 检查是否为 null，如果是则禁用按钮
+    if (list[i] === null || list[i] === "null" || list[i] === "NULL") {
+      btn.classList.add("disabled");
+      btn.setAttribute(
+        "style",
+        "opacity: 0.3; cursor: not-allowed; pointer-events: none;"
+      );
+      btn.innerHTML = ""; // 空白显示
+    } else {
+      if (this.motor_.includes(list[i])) {
+        btn.classList.add("selected");
+        btn.setAttribute("style", `color: ${this.sourceBlock_.getColour()}`);
+      }
+      btn.innerHTML = list[i];
     }
-    btn.innerHTML = list[i];
+
     motor.appendChild(btn);
     box.appendChild(motor);
   }
@@ -337,17 +361,31 @@ Blockly.FieldCombinedMotor.prototype.createMototDom_ = function () {
       set(target, key, value) {
         target[key] = value;
         if (key === "portList") {
+          // 创建索引映射：portList 索引 -> btnList 索引
+          let btnListIndex = 0;
           for (let i = 0; i < value.length; i++) {
             const item = value[i];
-            const element = that.btnList[i];
-            const lastChild = that.checkType(item);
-            if (lastChild) {
-              if (element.childNodes.length > 1) continue;
-              element.appendChild(lastChild);
-            } else {
-              if (element.childNodes.length > 1)
-                element.lastElementChild.remove();
+            // 跳过 null 端口
+            if (
+              that.motorList[i] === "null" ||
+              that.motorList[i] === null ||
+              that.motorList[i] === "NULL"
+            ) {
               continue;
+            }
+            // 使用映射后的索引访问 btnList
+            if (btnListIndex < that.btnList.length) {
+              const element = that.btnList[btnListIndex];
+              const lastChild = that.checkType(item);
+              if (lastChild) {
+                if (element.childNodes.length > 1) continue;
+                element.appendChild(lastChild);
+              } else {
+                if (element.childNodes.length > 1)
+                  element.lastElementChild.remove();
+                continue;
+              }
+              btnListIndex++;
             }
           }
         }

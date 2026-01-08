@@ -71,9 +71,8 @@ Blockly.Python["motor_specifiedunit"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const unit = block.getFieldValue("unit");
   // TODO: Assemble Python into code variable.
-  const code = `run_for_degrees(${port}, "${spin}", ${count}, "${unit}")\n`;
+  const code = `run_for_degrees(${port}, "${spin}", ${count}, "seconds")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
