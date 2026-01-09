@@ -80,6 +80,26 @@ Blockly.Blocks["sensing_menu"] = {
         {
           type: "field_motor",
           name: "SENSING_MENU",
+          motorList: ["A", "B", "C", "D", "null", "null", "null", "null"],
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      colour: Blockly.Colours.sensing.primary,
+      colourSecondary: Blockly.Colours.sensing.secondary,
+      colourTertiary: Blockly.Colours.sensing.tertiary,
+      extensions: ["output_string"],
+    });
+  },
+};
+//专门触碰的端口选择
+Blockly.Blocks["touching_menu"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "%1",
+      args0: [
+        {
+          type: "field_motor",
+          name: "TOUCHING_MENU",
           motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
         },
       ],
@@ -339,20 +359,6 @@ Blockly.Blocks["sensing_key_judgment"] = {
       type: "sensing_key_judgment",
       message0: Blockly.Msg.SENSING_KEY_JUDGMENT,
       args0: [
-        // {
-        //   "type": "field_dropdown",
-        //   "name": "PORT",
-        //   "options": [
-        //     [
-        //       Blockly.Msg.PLEFT,
-        //       "left"
-        //     ],
-        //     [
-        //       Blockly.Msg.PRIGHT,
-        //       "right"
-        //     ]
-        //   ]
-        // },
         {
           type: "input_value",
           name: "PORT",

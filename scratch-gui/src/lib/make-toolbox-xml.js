@@ -473,7 +473,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             ${categorySeparator}
             <block type="sensing_key_judgment">
                 <value name="PORT">
-                    <shadow type="sensing_menu" />
+                    <shadow type="touching_menu" />
                 </value>
             </block>
             ${blockSeparator}
