@@ -470,15 +470,31 @@ Blockly.Python.check_ = function (block) {
 };
 
 Blockly.Python.stringToHex = function (matrix) {
-  // 将字符串按照每9个字符分割成数组
-  const matrixArr = matrix.match(/.{1,7}/g);
+  // 将字符串按照每5个字符分割成数组（7行，每行5列）
+  var matrixArr = matrix.match(/.{1,5}/g) || [];
   // 定义存储16进制数的数组
-  const hexArr = [];
-  // 遍历矩阵数组，将每个元素转换为16进制数并存入hexArr数组
-  matrixArr.map((element) => {
-    const decimalNum = parseInt(element, 2) << 1; // 将二进制数转换为十进制数
-    const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0"); // 将十进制数转换为16进制数
-    hexArr.push(hexNum);
+  var hexArr = [];
+  // 遍历矩阵数组，将每行5个灯转换为16进制数
+  matrixArr.forEach((element) => {
+    // 确保每行有5个字符，不足的补0
+    var row = (element + "00000").substr(0, 5);
+
+    // 根据编码规则转换：
+    // 权重从左到右：1, 2, 4, 8, 1
+    // 00001 (最右边第一个灯亮,权重1=0x01) -> 0x10
+    // 00010 (右边第二个灯亮,权重8=0x08) -> 0x08
+    // 11111 (满灯,权重和16=0x10) -> 0x1F
+    // 规则：将5位二进制数反转即可得到正确的输出值
+    // 反转5位二进制数（从右到左变为从左到右）
+    var reversed = row.split("").reverse().join("");
+    // 转换为十进制数（这就是最终输出值）
+    var decimalNum = parseInt(reversed, 2);
+    // 确保两位16进制，前面补0
+    var hexStr = decimalNum.toString(16).toUpperCase();
+    if (hexStr.length === 1) {
+      hexStr = "0" + hexStr;
+    }
+    hexArr.push("0x" + hexStr);
   });
 
   return hexArr;

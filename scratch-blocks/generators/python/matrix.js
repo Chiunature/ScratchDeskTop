@@ -59,6 +59,7 @@ Blockly.Python["matrix_lamp"] = function (block) {
     "COLOR",
     Blockly.Python.ORDER_ATOMIC
   );
+  console.log("灯", lamp);
   let lp = Blockly.Python.stringToHex(lamp);
   let newColor;
   if (
@@ -91,7 +92,7 @@ Blockly.Python["matrix_lamp_text"] = function (block) {
   // const regex = /^[A-Za-z0-9]+$/;
   // const match = regex.exec(text);
   // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `show_roll(str(${text}))\n`;
+  let code = `show_roll(${text})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
