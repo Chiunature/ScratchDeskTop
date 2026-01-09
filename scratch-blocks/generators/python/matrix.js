@@ -113,19 +113,9 @@ Blockly.Python["matrix_lamp_set"] = function (block) {
 Blockly.Python["matrix_lamp_single"] = function (block) {
   let x = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
   let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
-  let brightness = Blockly.Python.valueToCode(
-    block,
-    "brightness",
-    Blockly.Python.ORDER_ATOMIC
-  );
-
-  // 确保亮度值在 0-100 范围内
-  if (brightness && !isNaN(brightness)) {
-    brightness = Math.max(0, Math.min(100, parseInt(brightness)));
-  }
-
-  // TODO: Assemble Python into code variable.
-  let code = `set_pixel_brightness(${x},${y},${brightness})\n`;
+  const switchOnOff = block.getFieldValue("switchOnOff");
+  console.log("switchOnOff", switchOnOff);
+  let code = `set_pixel_brightness(${x},${y},${switchOnOff})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 

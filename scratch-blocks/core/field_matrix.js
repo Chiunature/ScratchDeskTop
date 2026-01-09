@@ -314,29 +314,15 @@ Blockly.FieldMatrix.prototype.setValue = function (matrix) {
 };
 
 Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
-  // 将字符串按照每5个字符分割成数组（7行，每行5列）
-  var matrixArr = matrix.match(/.{1,5}/g) || [];
-  // 定义存储16进制数的数组
-  var hexArr = [];
-  // 遍历矩阵数组，将每行5个灯转换为16进制数
-  matrixArr.forEach((element) => {
-    // 确保每行有5个字符，不足的补0
-    var row = (element + "00000").substr(0, 5);
+  return (matrix.match(/.{1,5}/g) || []).map((row) => {
+    // 补齐5位并反转二进制
+    const paddedRow = row.padEnd(5, "0");
+    const reversed = [...paddedRow].reverse().join("");
 
-    // 根据编码规则转换：
-    // 权重从左到右：1, 2, 4, 8, 1
-    // 00001 (最右边第一个灯亮,权重1=0x01) -> 0x10
-    // 00010 (右边第二个灯亮,权重8=0x08) -> 0x08
-    // 11111 (满灯,权重和16=0x10) -> 0x1F
-    // 规则：将5位二进制数反转即可得到正确的输出值
-    // 反转5位二进制数（从右到左变为从左到右）
-    var reversed = row.split("").reverse().join("");
-    // 转换为十进制数（这就是最终输出值）
-    var decimalNum = parseInt(reversed, 2);
-    hexArr.push(decimalNum);
+    // 转换为16进制
+    const decimalNum = parseInt(reversed, 2);
+    return `0x${decimalNum.toString(16).toUpperCase().padStart(2, "0")}`;
   });
-
-  return hexArr;
 };
 
 /**
