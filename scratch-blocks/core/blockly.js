@@ -222,6 +222,16 @@ Blockly.onKeyDown_ = function (e) {
     }
     if (Blockly.selected &&
       Blockly.selected.isDeletable() && Blockly.selected.isMovable()) {
+      // 开始积木块不允许复制
+      if (Blockly.selected.type === 'event_whenflagclicked') {
+        if (e.keyCode == 67 || e.keyCode == 88) {
+          // 'c' for copy or 'x' for cut.
+          requestAnimationFrame(function () {
+            alert('"开始"积木块不能被复制！');
+          });
+          return;
+        }
+      }
       // Don't allow copying immovable or undeletable blocks. The next step
       // would be to paste, which would create additional undeletable/immovable
       // blocks on the workspace.
@@ -292,6 +302,14 @@ Blockly.copy_ = function (toCopy) {
  * @private
  */
 Blockly.duplicate_ = function (toDuplicate) {
+  // 检查是否是开始积木块，开始积木块不允许复制
+  if (!toDuplicate.isComment && toDuplicate.type === "event_whenflagclicked") {
+    requestAnimationFrame(function () {
+      alert('"开始"积木块不能被复制！');
+    });
+    return;
+  }
+
   // Save the clipboard.
   var clipboardXml = Blockly.clipboardXml_;
   var clipboardSource = Blockly.clipboardSource_;

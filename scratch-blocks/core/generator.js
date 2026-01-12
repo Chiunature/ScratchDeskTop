@@ -165,18 +165,27 @@ Blockly.Generator.prototype.allNestedComments = function(block) {
  *     operator order value.  Returns '' if block is null.
  */
 Blockly.Generator.prototype.blockToCode = function(block) {
-  if (!block || !this.check_(block)) {
+  console.log("[blockToCode] block:", block ? block.type : "null", "id:", block ? block.id : "null");
+  if (!block) {
+    console.log("[blockToCode] RETURN: block is null");
+    return '';
+  }
+  if (!this.check_(block)) {
+    console.log("[blockToCode] RETURN: check_ returned false");
     return '';
   }
   if (block.disabled) {
+    console.log("[blockToCode] block is disabled, skipping to next");
     // Skip past this block if it is disabled.
     return this.blockToCode(block.getNextBlock());
   }
 
   var func = this[block.type];
+  console.log("[blockToCode] func:", func ? "exists" : "null");
  
   if (!func) { 
     block.setEnabled(true);
+    console.log("[blockToCode] RETURN: no func for block type");
     return '';
   }
   goog.asserts.assertFunction(func,
@@ -187,19 +196,25 @@ Blockly.Generator.prototype.blockToCode = function(block) {
   // The current prefered method of accessing the block is through the second
   // argument to func.call, which becomes the first parameter to the generator.
   var code = func.call(block, block);
+  console.log("[blockToCode] func returned code:", code, "type:", typeof code);
   if (goog.isArray(code)) {
     // Value blocks return tuples of code and operator order.
     goog.asserts.assert(block.outputConnection,
         'Expecting string from statement block "%s".', block.type);
-    return [this.scrub_(block, code[0]), code[1]];
+    var scrubbed = this.scrub_(block, code[0]);
+    console.log("[blockToCode] RETURN array, scrubbed:", scrubbed);
+    return [scrubbed, code[1]];
   } else if (goog.isString(code)) {
     var id = block.id.replace(/\$/g, '$$$$');  // Issue 251.
     if (this.STATEMENT_PREFIX) {
       code = this.STATEMENT_PREFIX.replace(/%1/g, '\'' + id + '\'') +
           code;
     }
-    return this.scrub_(block, code);
+    var scrubbed = this.scrub_(block, code);
+    console.log("[blockToCode] RETURN string, scrubbed:", scrubbed);
+    return scrubbed;
   } else if (code === null) {
+    console.log("[blockToCode] RETURN: code is null");
     // Block has handled code generation itself.
     return '';
   } else {

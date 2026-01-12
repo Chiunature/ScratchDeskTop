@@ -1025,6 +1025,22 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock, e) {
  * @param {!Event} e Mouse event or touch event
  */
 Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock, e) {
+  // 检查粘贴的是否是开始积木块
+  var blockType = xmlBlock.getAttribute('type');
+  if (blockType === 'event_whenflagclicked') {
+    // 检查工作区是否已存在开始积木块
+    var allBlocks = this.getAllBlocks();
+    for (var i = 0; i < allBlocks.length; i++) {
+      if (allBlocks[i].type === 'event_whenflagclicked') {
+        // 已存在开始积木块，不允许粘贴
+        requestAnimationFrame(function () {
+          alert('工作区只能存在一个"开始"积木！\n如需添加，请先删除现有的开始积木。');
+        });
+        return;
+      }
+    }
+  }
+
   var isMouseEvent = Blockly.Touch.getTouchIdentifierFromEvent(e) === 'mouse';
   Blockly.Events.disable();
   try {

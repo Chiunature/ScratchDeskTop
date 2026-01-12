@@ -175,6 +175,14 @@ Blockly.scratchBlocksUtils.blockIsRecyclable = function(block) {
 Blockly.scratchBlocksUtils.duplicateAndDragCallback = function(oldBlock, event) {
   var isMouseEvent = Blockly.Touch.getTouchIdentifierFromEvent(event) === 'mouse';
   return function(e) {
+    // 检查是否是开始积木块，开始积木块不允许复制
+    if (oldBlock.type === 'event_whenflagclicked') {
+      requestAnimationFrame(function () {
+        alert('"开始"积木块不能被复制！');
+      });
+      return;
+    }
+
     // Give the context menu a chance to close.
     setTimeout(function() {
       var ws = oldBlock.workspace;

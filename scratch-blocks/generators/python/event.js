@@ -189,15 +189,19 @@ Blockly.Python["event_whenmicrobitgesture"] = function (block) {
 };
 
 Blockly.Python["event_whenflagclicked"] = function (block) {
+  console.log("[event_whenflagclicked] called");
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+  console.log(
+    "[event_whenflagclicked] nextBlock:",
+    nextBlock ? nextBlock.type : "null"
+  );
 
-  const task = `task${Object.keys(Blockly.Python.tasks_).length}`;
-  Blockly.Python.tasks_[task] = `${task}_finished = False`;
-
-  var code = "\n/* Start */\n";
+  var code = "";
   if (!nextBlock) {
     code += Blockly.Python.INDENT + "\n";
+    console.log("[event_whenflagclicked] no nextBlock, code:", code);
   } else {
+    // 只需要添加 global 变量声明（如果有的话）
     var variablesName = [];
     for (var x in Blockly.Python.variables_) {
       variablesName.push(
@@ -211,12 +215,10 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
       code +=
         Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
     }
-
-    code = Blockly.Python.scrub_(block, code);
+    // 不要在这里调用 scrub_，blockToCode 会自动调用 scrub_ 处理后续块
   }
 
-  code += "\n/* End */\n";
-
+  console.log("[event_whenflagclicked] RETURN code:", code);
   return code;
 };
 
@@ -264,7 +266,6 @@ Blockly.Python["event_whenbroadcastreceived"] = function (block) {
   //   Blockly.Python.setups_[Blockly.Python.MSG_TYPE] = 'MyMsg = APIMessage.box()';
   // }
 
-  Blockly.Python.tasks_[`message${broadcast}Task`] = "";
   return null;
 };
 
