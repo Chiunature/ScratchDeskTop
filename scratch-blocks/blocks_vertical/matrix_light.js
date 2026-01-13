@@ -29,10 +29,10 @@ Blockly.Blocks["matrix_lamp"] = {
           name: "lamp",
           matrix: "11111111111111111111111111111111111",
         },
-        {
-          type: "input_value",
-          name: "COLOR",
-        },
+        // {
+        //   type: "input_value",
+        //   name: "COLOR",
+        // },
       ],
       category: Blockly.Categories.matrix,
       extensions: ["colours_matrix", "shape_statement"],

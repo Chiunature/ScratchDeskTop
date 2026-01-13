@@ -493,7 +493,7 @@ Blockly.Msg.SOUND_RECORD = "record...";
 Blockly.Msg.SOUND_SETPLAYSPEED = "Set performance speed to %1";
 Blockly.Msg.SOUND_PLAYMUSIC = "Play note %1 for %2 beats";
 //Matrix blocks
-Blockly.Msg.MATRIX_LAMP = "%1 light %2 the color is %3";
+Blockly.Msg.MATRIX_LAMP = "%1 light %2";
 Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";
 Blockly.Msg.SET_MATRIX_LAMP =
   "%1 set the brightness of the pixel light to %2 %%";

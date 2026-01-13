@@ -263,8 +263,8 @@ class GUI extends React.Component {
                     return;
                 }
 
-                if (deviceObj?.NewAiState === newDeviceObj?.NewAiState) {
-                    onSetDeviceStatus(newDeviceObj.NewAiState);
+                if (deviceObj?.WillAiState === newDeviceObj?.WillAiState) {
+                    onSetDeviceStatus(newDeviceObj.WillAiState);
                 }
 
                 if (version !== newDeviceObj?.version) {
@@ -471,7 +471,7 @@ class GUI extends React.Component {
 
             // 检查是否需要运行APP
             if (
-                this.props?.deviceObj?.NewAiState === verifyTypeConfig.EST_RUN
+                this.props?.deviceObj?.WillAiState === verifyTypeConfig.EST_RUN
             ) {
                 this.handleRunApp(verifyTypeConfig.EST_RUN);
                 await window.myAPI.sleep(2000);

@@ -212,8 +212,7 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
       );
     }
     if (variablesName.length !== 0) {
-      code +=
-        Blockly.Python.INDENT + "global " + variablesName.join(", ") + "\n";
+      code += "global " + variablesName.join(", ") + "\n";
     }
     // 不要在这里调用 scrub_，blockToCode 会自动调用 scrub_ 处理后续块
   }

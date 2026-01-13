@@ -242,9 +242,6 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                 iconURI="${matrixIcon}">
                 ${blockSeparator}
                 <block type="matrix_lamp">
-                    <value name="COLOR">
-                        <shadow type="colour_picker"/>
-                    </value>
                 </block>
                 ${blockSeparator}
                 <block type="matrix_lamp_stop"></block>

@@ -383,7 +383,8 @@ Blockly.Python.scrub_ = function (block, code, skipCheck) {
     block.getSurroundParent() === null &&
     code !== "" &&
     block.previousConnection !== null &&
-    block.getTopStackBlock().type !== "event_whenmicrobitbegin"
+    block.getTopStackBlock().type !== "event_whenmicrobitbegin" &&
+    block.getTopStackBlock().type !== "event_whenflagclicked"
   ) {
     // Add indent at start except custom function
     if (
