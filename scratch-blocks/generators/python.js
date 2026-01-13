@@ -167,7 +167,6 @@ Blockly.Python.init = function (workspace) {
  * @return {string} Completed code.
  */
 Blockly.Python.finish = function (code) {
-  console.log("[finish] called with code:", code);
   // Convert the imports dictionary into a list.
   var imports = []; //首行代码生成，现在为空
   for (var name in Blockly.Python.imports_) {
@@ -205,17 +204,6 @@ Blockly.Python.finish = function (code) {
     loops.push(Blockly.Python.loops_[name]);
   }
 
-  console.log(
-    "[finish] imports:",
-    imports.length,
-    "variables:",
-    variables.length,
-    "setups:",
-    setups.length,
-    "loops:",
-    loops.length
-  );
-
   var ret = "\n";
   // imports
   if (imports.length !== 0) {
@@ -251,9 +239,7 @@ Blockly.Python.finish = function (code) {
   }
 
   // 直接添加代码，不再进行多任务处理
-  console.log("[finish] before adding code, ret:", ret);
   ret += code;
-  console.log("[finish] after adding code, ret:", ret);
   // repeat
   if (loops.length !== 0) {
     // if there is no loop add a empty loop function.
@@ -333,21 +319,11 @@ Blockly.Python.splitCodeByTask = function (code) {
  * @private
  */
 Blockly.Python.scrub_ = function (block, code, skipCheck) {
-  console.log(
-    "[scrub_] block type:",
-    block ? block.type : "null",
-    "code:",
-    code,
-    "skipCheck:",
-    skipCheck
-  );
   if (code === null) {
-    console.log("[scrub_] RETURN: code is null");
     return "";
   }
   // 如果 skipCheck 为 true，说明这是递归调用，跳过 check_
   if (!skipCheck && !Blockly.Python.check_(block)) {
-    console.log("[scrub_] RETURN: check_ returned false");
     // Block has handled code generation itself.
     return "";
   }
@@ -409,18 +385,11 @@ Blockly.Python.scrub_ = function (block, code, skipCheck) {
   // 因为这是递归处理，不是顶层遍历
   var nextCode = "";
   if (nextBlock) {
-    console.log("[scrub_] processing nextBlock:", nextBlock.type);
     // 直接调用生成函数，跳过 check_ 检查（因为 check_ 会拒绝已连接的块）
     if (!nextBlock.disabled) {
       var func = Blockly.Python[nextBlock.type];
       if (func) {
         var code = func.call(nextBlock, nextBlock);
-        console.log(
-          "[scrub_] nextBlock func returned:",
-          code,
-          "type:",
-          typeof code
-        );
         if (Array.isArray(code)) {
           // 值块：递归调用 scrub_ 处理代码和后续块，skipCheck=true 跳过 check_
           nextCode = Blockly.Python.scrub_(nextBlock, code[0], true);
@@ -499,7 +468,6 @@ Blockly.Python.scrub_ = function (block, code, skipCheck) {
       }
     }
   }
-  console.log("[scrub_] RETURN with nextCode:", nextCode);
   return commentCode + codeWithIndent + nextCode;
 };
 
@@ -538,11 +506,8 @@ Blockly.Python.quote_ = function (string) {
  */
 Blockly.Python.check_ = function (block) {
   if (!block) {
-    console.log("[check_] block is null");
     return false;
   }
-
-  console.log("[check_] block type:", block.type, "id:", block.id);
 
   // If a block has no previousConnection means it is a hat block
   // or a string/nubmer block or a bool block.
@@ -551,33 +516,22 @@ Blockly.Python.check_ = function (block) {
   // is not connected to a hat block's tree or it's output shap is
   // round or sharp mean's it is not a program tree block. Skip it.
   var surroundParent = block.getSurroundParent();
-  console.log(
-    "[check_] surroundParent:",
-    surroundParent ? surroundParent.type : "null"
-  );
 
   if (surroundParent === null) {
     var hasPrevious = block.previousConnection !== null;
-    console.log("[check_] has previousConnection:", hasPrevious);
 
     // 如果一个块有 previousConnection，说明它是普通积木（不是 Hat 块）
     // 普通积木只能通过 scrub_ 递归处理，不应该被 workspaceToCode 直接处理
     if (hasPrevious) {
-      console.log(
-        "[check_] RETURN FALSE: block has previousConnection (not a hat block)"
-      );
       return false;
     }
 
     // 跳过值块（输出形状为圆形或六边形）
     var outputShape = block.getOutputShape();
-    console.log("[check_] outputShape:", outputShape);
     if (outputShape === 2 || outputShape === 1) {
-      console.log("[check_] RETURN FALSE: output shape is round or hexagonal");
       return false;
     }
   }
-  console.log("[check_] RETURN TRUE: block passed check (it's a hat block)");
   return true;
 };
 

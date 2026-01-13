@@ -189,17 +189,11 @@ Blockly.Python["event_whenmicrobitgesture"] = function (block) {
 };
 
 Blockly.Python["event_whenflagclicked"] = function (block) {
-  console.log("[event_whenflagclicked] called");
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  console.log(
-    "[event_whenflagclicked] nextBlock:",
-    nextBlock ? nextBlock.type : "null"
-  );
 
   var code = "";
   if (!nextBlock) {
     code += Blockly.Python.INDENT + "\n";
-    console.log("[event_whenflagclicked] no nextBlock, code:", code);
   } else {
     // 只需要添加 global 变量声明（如果有的话）
     var variablesName = [];
@@ -217,7 +211,6 @@ Blockly.Python["event_whenflagclicked"] = function (block) {
     // 不要在这里调用 scrub_，blockToCode 会自动调用 scrub_ 处理后续块
   }
 
-  console.log("[event_whenflagclicked] RETURN code:", code);
   return code;
 };
 
