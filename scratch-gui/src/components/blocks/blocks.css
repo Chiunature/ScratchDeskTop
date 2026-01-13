@@ -46,8 +46,8 @@
     border-right: 1px solid $ui-black-transparent;
     border-bottom: 1px solid $ui-black-transparent;
     box-sizing: content-box;
-    height: calc(100% - 3.25rem) !important;
-    /* height: 100% !important; */
+    /* height: calc(100% - 3.25rem) !important; */
+    height: 100% !important;
     z-index: 30 !important;
     -ms-overflow-style: none;
 }

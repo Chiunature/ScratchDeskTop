@@ -800,26 +800,6 @@ class Blocks extends React.Component {
         /* eslint-enable no-unused-vars */
         return (
             <React.Fragment>
-                {/* 添加迷你地图按钮 */}
-                {/* <button
-                    onClick={this.toggleMinimap}
-                    style={{
-                        position: "fixed",
-                        bottom: "20px",
-                        right: "20px",
-                        zIndex: 9999,
-                        padding: "10px 20px",
-                        backgroundColor: "#4C97FF",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-                    }}
-                >
-                    显示缩略图
-                </button> */}
                 <DroppableBlocks
                     componentRef={this.setBlocks}
                     onDrop={this.handleDrop}

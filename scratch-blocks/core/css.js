@@ -1370,7 +1370,7 @@ Blockly.Css.CONTENT = [
   "stroke-linecap: round;",
   "stroke-linejoin: round;",
   "}",
-
+  /* 左侧积木种类盒子样式 */
   ".scratchCategoryMenu {",
   "width: 135px;",
   "background: $colour_toolbox;",

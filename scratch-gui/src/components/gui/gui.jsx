@@ -459,28 +459,6 @@ const GUIComponent = (props) => {
                                                     id="gui.gui.codeTab"
                                                 />
                                             </Tab>
-                                            {/* <Tab
-                                        className={tabClassNames.tab}
-                                        onClick={onActivateCostumesTab}
-                                    >
-                                        <img
-                                            draggable={false}
-                                            src={costumesIcon}
-                                        />
-                                        {targetIsStage ? (
-                                            <FormattedMessage
-                                                defaultMessage="Backdrops"
-                                                description="Button to get to the backdrops panel"
-                                                id="gui.gui.backdropsTab"
-                                            />
-                                        ) : (
-                                            <FormattedMessage
-                                                defaultMessage="Costumes"
-                                                description="Button to get to the costumes panel"
-                                                id="gui.gui.costumesTab"
-                                            />
-                                        )}
-                                    </Tab> */}
                                             <Tab className={tabClassNames.tab}>
                                                 <img
                                                     draggable={false}
@@ -516,7 +494,8 @@ const GUIComponent = (props) => {
                                                     }
                                                 />
                                             </Box>
-                                            <Box
+                                            {/* 取消掉点击扩展按钮的功能 */}
+                                            {/* <Box
                                                 className={
                                                     styles.extensionButtonContainer
                                                 }
@@ -529,7 +508,7 @@ const GUIComponent = (props) => {
                                                         messages.addExtension
                                                     )}
                                                     onClick={
-                                                        onExtensionButtonClick
+                                                        // onExtensionButtonClick
                                                     }
                                                     disabled={
                                                         extensionLibraryContent.length >
@@ -546,14 +525,8 @@ const GUIComponent = (props) => {
                                                         src={addExtensionIcon}
                                                     />
                                                 </button>
-                                            </Box>
-                                            {/* <Box className={styles.watermark}>
-                                                <Watermark />
                                             </Box> */}
                                         </TabPanel>
-                                        {/* <TabPanel className={tabClassNames.tabPanel}>
-                                    {costumesTabVisible ? <CostumeTab vm={vm} /> : null}
-                                </TabPanel> */}
                                         <TabPanel
                                             className={tabClassNames.tabPanel}
                                         >
@@ -563,9 +536,6 @@ const GUIComponent = (props) => {
                                         </TabPanel>
                                     </Tabs>
                                     <br />
-                                    {/* {backpackVisible ? (
-                                <Backpack host={backpackHost} />
-                            ) : null} */}
                                 </Box>
 
                                 <Box
@@ -582,18 +552,6 @@ const GUIComponent = (props) => {
                                         codeEditorOptions={codeEditorOptions}
                                         codeEditorTheme="vs"
                                     />
-                                    {/* <StageWrapper
-                                        isFullScreen={isFullScreen}
-                                        isRendererSupported={isRendererSupported}
-                                        isRtl={isRtl}
-                                        stageSize={stageSize}
-                                        vm={vm}
-                                    /> <Box className={styles.targetWrapper}>
-                                        <TargetPane
-                                            stageSize={stageSize}
-                                            vm={vm}
-                                        />
-                                    </Box> */}
                                 </Box>
                             </Box>
                         </Box>
