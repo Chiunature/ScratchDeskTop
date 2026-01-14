@@ -25,6 +25,8 @@ const builtinExtensions = {
     boost: () => require('../extensions/scratch3_boost'),
     gdxfor: () => require('../extensions/scratch3_gdx_for'),
     camera: () => require('../extensions/newAI_camera'),
+    // 添加 cameraRecognition 别名，指向同一个摄像头扩展
+    cameraRecognition: () => require('../extensions/newAI_camera'),
 };
 
 /**

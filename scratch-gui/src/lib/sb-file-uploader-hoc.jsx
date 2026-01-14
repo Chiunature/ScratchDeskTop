@@ -1,34 +1,30 @@
-import bindAll from 'lodash.bindall';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { defineMessages, intlShape, injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import log from '../lib/log';
-import sharedMessages from './shared-messages';
-import { ipc } from 'est-link';
+import bindAll from "lodash.bindall";
+import React from "react";
+import PropTypes from "prop-types";
+import { defineMessages, intlShape, injectIntl } from "react-intl";
+import { connect } from "react-redux";
+import log from "../lib/log";
+import sharedMessages from "./shared-messages";
+import { ipc } from "est-link";
 import {
     LoadingStates,
     getIsLoadingUpload,
     getIsShowingWithoutId,
     onLoadedProject,
-    requestProjectUpload
-} from '../reducers/project-state';
-import { setProjectTitle } from '../reducers/project-title';
-import {
-    openLoadingProject,
-    closeLoadingProject
-} from '../reducers/modals';
-import {
-    closeFileMenu
-} from '../reducers/menus';
+    requestProjectUpload,
+} from "../reducers/project-state";
+import { setProjectTitle } from "../reducers/project-title";
+import { openLoadingProject, closeLoadingProject } from "../reducers/modals";
+import { closeFileMenu } from "../reducers/menus";
 // import setProgramList from './setProgramList';
 
 const messages = defineMessages({
     loadError: {
-        id: 'gui.projectLoader.loadError',
-        defaultMessage: 'The project file that was selected failed to load.',
-        description: 'An error that displays when a local project file fails to load.'
-    }
+        id: "gui.projectLoader.loadError",
+        defaultMessage: "The project file that was selected failed to load.",
+        description:
+            "An error that displays when a local project file fails to load.",
+    },
 });
 
 /**
@@ -45,14 +41,14 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         constructor(props) {
             super(props);
             bindAll(this, [
-                'createFileObjects',
-                'getProjectTitleFromFilename',
-                'handleFinishedLoadingUpload',
-                'handleStartSelectingFileUpload',
-                'handleChange',
-                'onload',
-                'removeFileObjects',
-                'handleOpenFileFromOS'
+                "createFileObjects",
+                "getProjectTitleFromFilename",
+                "handleFinishedLoadingUpload",
+                "handleStartSelectingFileUpload",
+                "handleChange",
+                "onload",
+                "removeFileObjects",
+                "handleOpenFileFromOS",
             ]);
         }
         componentDidMount() {
@@ -60,9 +56,9 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             window.myAPI.ipcRender({
                 eventName: ipc.SEND_OR_ON.LAUCHFROMATC,
                 callback: (event, filePath) => {
-                    sessionStorage.setItem('openPath', filePath);
+                    sessionStorage.setItem("openPath", filePath);
                     this.handleOpenFileFromOS(filePath);
-                }
+                },
             });
         }
         componentDidUpdate(prevProps) {
@@ -77,26 +73,74 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             this.removeFileObjects();
             this.props.onLoadingStarted();
             let loadingSuccess = false;
-            const filename = filePath.slice(filePath.lastIndexOf('\\') + 1);
-            const fileContent = await window.myAPI.readFiles(filePath, '', {});
-            const arrayBuffer = fileContent.buffer.slice(fileContent.byteOffset, fileContent.byteOffset + fileContent.byteLength);
-            this.props.vm.loadProject(arrayBuffer)
-                .then(() => {
-                    if (filename) {
-                        const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
-                        this.props.onSetProjectTitle(uploadedProjectTitle);
-                    }
-                    loadingSuccess = true;
-                })
-                .catch(error => {
-                    log.warn(error);
-                    alert(this.props.intl.formatMessage(messages.loadError));
-                })
-                .then(() => {
-                    this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
-                    this.removeFileObjects();
-                });
-            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+            try {
+                const filename = filePath.slice(filePath.lastIndexOf("\\") + 1);
+
+                const fileContent = await window.myAPI.readFiles(
+                    filePath,
+                    "",
+                    {}
+                );
+
+                if (!fileContent) {
+                    throw new Error(
+                        "读取文件失败: fileContent 为 null 或 undefined"
+                    );
+                }
+
+                if (!fileContent.buffer) {
+                    throw new Error("文件内容无效: 缺少 buffer 属性");
+                }
+
+                const arrayBuffer = fileContent.buffer.slice(
+                    fileContent.byteOffset,
+                    fileContent.byteOffset + fileContent.byteLength
+                );
+
+                await this.props.vm
+                    .loadProject(arrayBuffer)
+                    .then(() => {
+                        if (filename) {
+                            const uploadedProjectTitle =
+                                this.getProjectTitleFromFilename(filename);
+                            this.props.onSetProjectTitle(uploadedProjectTitle);
+                        }
+                        loadingSuccess = true;
+                    })
+                    .catch((error) => {
+                        log.warn("[SBFileUploader] VM 加载项目失败", error);
+                        const errorMsg =
+                            error?.message ||
+                            error?.toString() ||
+                            String(error);
+                        alert(
+                            this.props.intl.formatMessage(messages.loadError) +
+                                "\n错误详情: " +
+                                errorMsg
+                        );
+                    })
+                    .then(() => {
+                        this.props.onLoadingFinished(
+                            "LOADING_VM_FILE_UPLOAD",
+                            loadingSuccess
+                        );
+                        this.removeFileObjects();
+                    });
+            } catch (error) {
+                log.warn(
+                    "[SBFileUploader] handleOpenFileFromOS 执行失败",
+                    error
+                );
+                alert(
+                    this.props.intl.formatMessage(messages.loadError) +
+                        "\n错误详情: " +
+                        (error?.message || String(error))
+                );
+                this.props.onLoadingFinished("LOADING_VM_FILE_UPLOAD", false);
+                this.removeFileObjects();
+            } finally {
+                window.myAPI.ipcRender({ sendName: "mainOnFocus" });
+            }
         }
         // step 1: this is where the upload process begins
         handleStartSelectingFileUpload() {
@@ -112,10 +156,10 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             this.fileReader = new FileReader();
             this.fileReader.onload = this.onload;
             // create <input> element and add it to DOM
-            this.inputElement = document.createElement('input');
-            this.inputElement.accept = '.lbs,.sb,.sb2,.sb3';
-            this.inputElement.style = 'display: none;';
-            this.inputElement.type = 'file';
+            this.inputElement = document.createElement("input");
+            this.inputElement.accept = ".lbs,.sb,.sb2,.sb3";
+            this.inputElement.style = "display: none;";
+            this.inputElement.type = "file";
             this.inputElement.onchange = this.handleChange; // connects to step 3
             document.body.appendChild(this.inputElement);
             // simulate a click to open file chooser dialog
@@ -129,10 +173,11 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 isShowingWithoutId,
                 loadingState,
                 projectChanged,
-                userOwnsProject
+                userOwnsProject,
             } = this.props;
             const thisFileInput = e.target;
-            if (thisFileInput.files) { // Don't attempt to load if no file was selected
+            if (thisFileInput.files) {
+                // Don't attempt to load if no file was selected
                 this.fileToUpload = thisFileInput.files[0];
                 // If user owns the project, or user has changed the project,
                 // we must confirm with the user that they really intend to
@@ -140,7 +185,8 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 // changed it, no need to confirm.)
                 let uploadAllowed = true;
                 if (userOwnsProject || (projectChanged && isShowingWithoutId)) {
-                    uploadAllowed = confirm( // eslint-disable-line no-alert
+                    uploadAllowed = confirm(
+                        // eslint-disable-line no-alert
                         intl.formatMessage(sharedMessages.replaceProjectWarning)
                     );
                 }
@@ -152,7 +198,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     this.removeFileObjects();
                 }
                 this.props.closeFileMenu();
-                window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+                window.myAPI.ipcRender({ sendName: "mainOnFocus" });
             }
         }
         // step 4 is below, in mapDispatchToProps
@@ -172,11 +218,13 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         // used in step 6 below
         getProjectTitleFromFilename(fileInputFilename) {
-            if (!fileInputFilename) return '';
+            if (!fileInputFilename) return "";
             // only parse title with valid scratch project extensions
             // (.sb, .sb2, and .sb3)
-            const matches = fileInputFilename.match(/^(.*)\.((lbs)|(sb[23]))?$/);
-            if (!matches) return '';
+            const matches = fileInputFilename.match(
+                /^(.*)\.((lbs)|(sb[23]))?$/
+            );
+            if (!matches) return "";
             return matches[1].substring(0, 100); // truncate project title to max 100 chars
         }
         // step 6: attached as a handler on our FileReader object; called when
@@ -187,26 +235,56 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 // const currentContent = await this.props.vm.saveProjectSb3();
                 const filename = this.fileToUpload && this.fileToUpload.name;
                 let loadingSuccess = false;
-                this.props.vm.loadProject(this.fileReader.result)
+
+                this.props.vm
+                    .loadProject(this.fileReader.result)
                     .then(() => {
+                        console.log(
+                            "[SBFileUploader] VM 加载项目成功 (onload):",
+                            filename
+                        );
                         if (filename) {
-                            const uploadedProjectTitle = this.getProjectTitleFromFilename(filename);
+                            const uploadedProjectTitle =
+                                this.getProjectTitleFromFilename(filename);
                             this.props.onSetProjectTitle(uploadedProjectTitle);
                         }
                         loadingSuccess = true;
                     })
-                    .catch(error => {
-                        log.warn(error);
-                        alert(this.props.intl.formatMessage(messages.loadError)); // eslint-disable-line no-alert
+                    .catch((error) => {
+                        log.warn(
+                            "[SBFileUploader] VM 加载项目失败 (onload)",
+                            error
+                        );
+                        const errorMsg =
+                            error?.message ||
+                            error?.toString() ||
+                            String(error);
+                        alert(
+                            this.props.intl.formatMessage(messages.loadError) +
+                                "\n错误详情: " +
+                                errorMsg
+                        ); // eslint-disable-line no-alert
                     })
                     .then(() => {
-                        this.props.onLoadingFinished(this.props.loadingState, loadingSuccess);
-                        sessionStorage.setItem('openPath', this.fileToUpload.path);
+                        this.props.onLoadingFinished(
+                            this.props.loadingState,
+                            loadingSuccess
+                        );
+                        if (this.fileToUpload?.path) {
+                            sessionStorage.setItem(
+                                "openPath",
+                                this.fileToUpload.path
+                            );
+                        }
                         // await setProgramList(filename.slice(0, filename.lastIndexOf('.')), this.fileToUpload.path, this.fileReader.result, currentContent);
                         // go back to step 7: whether project loading succeeded
                         // or failed, reset file objects
                         this.removeFileObjects();
                     });
+            } else {
+                console.warn(
+                    "[SBFileUploader] onload 被调用但 fileReader 为 null"
+                );
             }
         }
         // step 7: remove the <input> element from the DOM and clear reader and
@@ -240,7 +318,9 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             return (
                 <React.Fragment>
                     <WrappedComponent
-                        onStartSelectingFileUpload={this.handleStartSelectingFileUpload}
+                        onStartSelectingFileUpload={
+                            this.handleStartSelectingFileUpload
+                        }
                         {...componentProps}
                     />
                 </React.Fragment>
@@ -263,24 +343,30 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         requestProjectUpload: PropTypes.func,
         userOwnsProject: PropTypes.bool,
         vm: PropTypes.shape({
-            loadProject: PropTypes.func
-        })
+            loadProject: PropTypes.func,
+        }),
     };
     const mapStateToProps = (state, ownProps) => {
         const loadingState = state.scratchGui.projectState.loadingState;
-        const user = state.session && state.session.session && state.session.session.user;
+        const user =
+            state.session &&
+            state.session.session &&
+            state.session.session.user;
         return {
             isLoadingUpload: getIsLoadingUpload(loadingState),
             isShowingWithoutId: getIsShowingWithoutId(loadingState),
             loadingState: loadingState,
             projectChanged: state.scratchGui.projectChanged,
-            userOwnsProject: ownProps.authorUsername && user &&
-                (ownProps.authorUsername === user.username),
-            vm: state.scratchGui.vm
+            userOwnsProject:
+                ownProps.authorUsername &&
+                user &&
+                ownProps.authorUsername === user.username,
+            vm: state.scratchGui.vm,
         };
     };
     const mapDispatchToProps = (dispatch, ownProps) => ({
-        cancelFileUpload: loadingState => dispatch(onLoadedProject(loadingState, false, false)),
+        cancelFileUpload: (loadingState) =>
+            dispatch(onLoadedProject(loadingState, false, false)),
         closeFileMenu: () => dispatch(closeFileMenu()),
         // transition project state from loading to regular, and close
         // loading screen and file menu
@@ -291,23 +377,23 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         },
         // show project loading screen
         onLoadingStarted: () => dispatch(openLoadingProject()),
-        onSetProjectTitle: title => dispatch(setProjectTitle(title)),
+        onSetProjectTitle: (title) => dispatch(setProjectTitle(title)),
         // step 4: transition the project state so we're ready to handle the new
         // project data. When this is done, the project state transition will be
         // noticed by componentDidUpdate()
-        requestProjectUpload: loadingState => dispatch(requestProjectUpload(loadingState))
+        requestProjectUpload: (loadingState) =>
+            dispatch(requestProjectUpload(loadingState)),
     });
     // Allow incoming props to override redux-provided props. Used to mock in tests.
-    const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
-        {}, stateProps, dispatchProps, ownProps
+    const mergeProps = (stateProps, dispatchProps, ownProps) =>
+        Object.assign({}, stateProps, dispatchProps, ownProps);
+    return injectIntl(
+        connect(
+            mapStateToProps,
+            mapDispatchToProps,
+            mergeProps
+        )(SBFileUploaderComponent)
     );
-    return injectIntl(connect(
-        mapStateToProps,
-        mapDispatchToProps,
-        mergeProps
-    )(SBFileUploaderComponent));
 };
 
-export {
-    SBFileUploaderHOC as default
-};
+export { SBFileUploaderHOC as default };
