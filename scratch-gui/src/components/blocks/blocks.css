@@ -67,7 +67,7 @@
     min-width: 300px;
     transform: translate(135px, 0px) !important; /* 积木选择区域的位置 */
     /* transition: all .2s; */
-    box-shadow: 5px 5px 10px 0px rgba(77, 151, 255, 0.3);
+    box-shadow: 5px 5px 10px 0px hsla(279, 100%, 63%, 0.18);
 }
 
 [dir="rtl"] .blocks :global(.blocklyFlyout) {

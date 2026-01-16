@@ -125,7 +125,7 @@
 }
 
 .file-group .menu-bar-item {
-    margin: 0 .25rem;
+    margin: 0 0.25rem;
     padding: 0 0.75rem;
 }
 
@@ -170,7 +170,7 @@
     height: 1.25rem;
 }
 
-.coming-soon> :not(.coming-soon-tooltip) {
+.coming-soon > :not(.coming-soon-tooltip) {
     opacity: 0.5;
 }
 
@@ -238,7 +238,7 @@
     opacity: 0.5;
 }
 
-.mystuff>a {
+.mystuff > a {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 45%;
@@ -250,11 +250,11 @@
     white-space: nowrap;
 }
 
-.mystuff>a:hover {
+.mystuff > a:hover {
     background-size: 50%;
 }
 
-.mystuff>a {
+.mystuff > a {
     background-image: url("/images/mystuff.png");
 }
 
@@ -269,12 +269,12 @@
 }
 
 .generator {
-    margin: 0 .25rem;
+    margin: 0 0.25rem;
     padding: 0 0.75rem;
 }
 
 .collapsible-label {
-    margin: 0 .5rem 0 .25rem;
+    margin: 0 0.5rem 0 0.25rem;
 }
 
 [dir="rtl"] .collapsible-label {
@@ -282,7 +282,6 @@
 }
 
 @media only screen and (max-width: 1024px) {
-
     .tutorials-label,
     .collapsible-label {
         display: none;

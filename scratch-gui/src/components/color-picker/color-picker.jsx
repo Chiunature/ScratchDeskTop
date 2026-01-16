@@ -5,7 +5,7 @@ import styles from "./color-picker.css";
 import "../../css/colors.css";
 let initColor = window.myAPI.getStoreValue("themeColor")
     ? window.myAPI.getStoreValue("themeColor")
-    : "#4c97ff";
+    : "#883ec9";
 const ColorPicker = (props) => {
     let [color, setColor] = useState(initColor);
     const handleChangeComplete = (color) => {
