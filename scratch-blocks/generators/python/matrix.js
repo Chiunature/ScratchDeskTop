@@ -92,21 +92,14 @@ Blockly.Python["matrix_lamp_text"] = function (block) {
   // const regex = /^[A-Za-z0-9]+$/;
   // const match = regex.exec(text);
   // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `show_roll(${text})\n`;
+  let code = `show_roll(str(${text}))\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
 Blockly.Python["matrix_lamp_set"] = function (block) {
-  let brightness = Blockly.Python.valueToCode(
-    block,
-    "brightness",
-    Blockly.Python.ORDER_NONE
-  );
-  if (brightness.indexOf("(") === -1 && !isNaN(brightness / 10)) {
-    brightness = parseInt(brightness) + "";
-  }
-  // TODO: Assemble Python into code variable.
-  let code = `set_brightness(${brightness})\n`;
+  let brightness = block.getFieldValue("brightness");
+  const brightnessValue = parseInt(brightness, 10);
+  let code = `set_brightness(${brightnessValue})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
@@ -115,6 +108,13 @@ Blockly.Python["matrix_lamp_single"] = function (block) {
   let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
   const switchOnOff = block.getFieldValue("switchOnOff");
   let code = `set_pixel_brightness(${x},${y},${switchOnOff})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
+};
+
+Blockly.Python["matrix_lamp_set_pixel"] = function (block) {
+  let x = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
+  let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
+  let code = `set_pixel(${x},${y})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 

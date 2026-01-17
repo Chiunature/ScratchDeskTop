@@ -84,8 +84,18 @@ Blockly.Blocks["matrix_lamp_set"] = {
           flipRtl: false,
         },
         {
-          type: "input_value",
+          type: "field_dropdown",
           name: "brightness",
+          options: [
+            ["0", "0"],
+            ["1", "1"],
+            ["2", "2"],
+            ["3", "3"],
+            ["4", "4"],
+            ["5", "5"],
+            ["6", "6"],
+            ["7", "7"],
+          ],
         },
       ],
       category: Blockly.Categories.matrix,
@@ -226,6 +236,40 @@ Blockly.Blocks["matrix_lamp_single"] = {
             [Blockly.Msg.OPEN, "1"],
             [Blockly.Msg.CLOSE, "0"],
           ],
+        },
+      ],
+      category: Blockly.Categories.matrix,
+      colour: "#9966FF",
+      secondaryColour: "#774DCB",
+      extensions: ["colours_matrix", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["matrix_lamp_set_pixel"] = {
+  /**
+   * Block to move steps.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.SET_PIXEL_MATRIX_LAMP,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "matrix.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "x",
+        },
+        {
+          type: "input_value",
+          name: "y",
         },
       ],
       category: Blockly.Categories.matrix,

@@ -201,7 +201,7 @@ Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
 Blockly.Msg.ANGLE_MOTOR = "%1 %2 angle";
 Blockly.Msg.MOTOR_POSITION = "%1 %2 position";
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
-Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 seconds";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 power run %4 seconds";
 Blockly.Msg.SPEED_MOTOR = "%1 %2 set speed to %3 %%";
 Blockly.Msg.STOP_MOTOR = "%1 %2 stop motor";
 Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
@@ -337,6 +337,8 @@ Blockly.Msg.SENSING_NFC_READ = "NFC %1 read";
 Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT = "%1 Ultrasonic judgment %2 %3 %%?";
 Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = "line %1 looks %2";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION = "%1 Reflected light";
+Blockly.Msg.SENSING_GRAYSCALE_STATE = "%1 Grayscale state";
+Blockly.Msg.SENSING_CALIBRATE = "%1 and %2 Calibrate";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT =
   "%1 Reflected light judgment %2 %3 %%?";
 Blockly.Msg.SENSING_COLOR_DETECTIONRGB = "%1 color is %2";
@@ -495,9 +497,9 @@ Blockly.Msg.SOUND_PLAYMUSIC = "Play note %1 for %2 beats";
 //Matrix blocks
 Blockly.Msg.MATRIX_LAMP = "%1 light %2";
 Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";
-Blockly.Msg.SET_MATRIX_LAMP =
-  "%1 set the brightness of the pixel light to %2 %%";
+Blockly.Msg.SET_MATRIX_LAMP = "%1 set the brightness of the pixel light to %2";
 Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 turn on Pixels x %2 y %3 %4";
+Blockly.Msg.SET_PIXEL_MATRIX_LAMP = "%1 Turn on the small light %2 x %3 y";
 Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
 Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";

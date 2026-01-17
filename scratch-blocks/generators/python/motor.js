@@ -64,15 +64,17 @@ Blockly.Python["motor_specifiedunit"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  let spin = block.getFieldValue("SPIN");
-  spin = spin[0].toLowerCase() + spin.slice(1);
+  const power = Blockly.Python.valueToCode(
+    block,
+    "POWER",
+    Blockly.Python.ORDER_NONE
+  );
   const count = Blockly.Python.valueToCode(
     block,
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  // TODO: Assemble Python into code variable.
-  const code = `run_for_degrees(${port}, "${spin}", ${count}, "seconds")\n`;
+  const code = `run_for_power_degrees(${port}, ${power}, ${count}, "seconds")\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

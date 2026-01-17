@@ -272,31 +272,8 @@ Blockly.Blocks["motor_specifiedunit"] = {
           name: "PORT",
         },
         {
-          type: "field_dropdown",
-          name: "SPIN",
-          options: [
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia +
-                  "rotate-right.svg",
-                width: 32,
-                height: 32,
-                alt: Blockly.Msg.RIGHT,
-              },
-              "Advance",
-            ],
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                width: 32,
-                height: 32,
-                alt: Blockly.Msg.LEFT,
-              },
-              "Retreat",
-            ],
-          ],
+          type: "input_value",
+          name: "POWER",
         },
         {
           type: "input_value",

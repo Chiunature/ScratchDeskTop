@@ -19,6 +19,12 @@ Blockly.Python["sensing_menu"] = function (block) {
   return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python["touching_menu"] = function (block) {
+  const menu = block.getFieldValue("TOUCHING_MENU");
+  // TODO: Assemble Python into code variable.
+  return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python["sensing_set_yaw_angle"] = function (block) {
   // TODO: Assemble Python into code variable.
   const code = `restyaw()\n`;
@@ -275,6 +281,7 @@ Blockly.Python["sensing_key_judgment"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
+  console.log("按下的是", port);
   const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
     `state(${portValue})`,
@@ -397,6 +404,40 @@ Blockly.Python["sensing_nfc_read"] = function (block) {
   const code = Blockly.Python.handleResult(
     `read_car(${portValue})`,
     Blockly.Python.NFC_TYPE
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["sensing_grayscale_state"] = function (block) {
+  const port = Blockly.Python.valueToCode(
+    block,
+    "PORT",
+    Blockly.Python.ORDER_NONE
+  );
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
+  const code = Blockly.Python.handleResult(
+    `lux_state(${portValue})`,
+    Blockly.Python.COLOR_TYPE
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["sensing_calibrate"] = function (block) {
+  const port1 = Blockly.Python.valueToCode(
+    block,
+    "PORT1",
+    Blockly.Python.ORDER_NONE
+  );
+  const port1Value = Blockly.Python["sensing_port_to_number"](port1);
+  const port2 = Blockly.Python.valueToCode(
+    block,
+    "PORT2",
+    Blockly.Python.ORDER_NONE
+  );
+  const port2Value = Blockly.Python["sensing_port_to_number"](port2);
+  const code = Blockly.Python.handleResult(
+    `calibrate(${port1Value}, ${port2Value})`,
+    Blockly.Python.COLOR_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };

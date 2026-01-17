@@ -129,6 +129,7 @@ export class Serialport extends Common {
         //开启串口关闭监听
         this.listenPortClosed(event);
         //开启获取bin文件或固件下载监听
+        console.log("开启获取bin文件或固件下载监听");
         this.getBinOrHareWare(ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES);
         //开启删除程序监听
         this.deleteExe(ipc_Main.SEND_OR_ON.EXE.DELETE);
@@ -185,24 +186,35 @@ export class Serialport extends Common {
    * @param {String} eventName
    */
   getBinOrHareWare(eventName) {
+    console.log("bin文件或固件下载监听准备调用");
     this.ipcMain(eventName, (event, data) => {
+      console.log("bin文件或固件下载监听准备开始", {
+        eventname: eventName,
+        event: event,
+        data: data,
+      });
       if (data.selectedExe) {
         this.selectedExe = data.selectedExe;
       }
-
+      console.log("this.selectedExe", this.selectedExe);
       // 是否需要下载完成后执行程序
       this.isRunAfterUploaded = data.isRun;
-
+      console.log("this.isRunAfterUploaded", this.isRunAfterUploaded);
       //本身是哭脸的时候，发重置不会断开，正常发送文件
       if (data.verifyType === RESET_FWLIB) {
         this.upload_sources_status = data.verifyType;
         const { binArr } = this.checkFileName(RESET_FWLIB, 0x6f);
+
+        console.log("binArr", binArr);
         this.writeData(binArr, null, event);
+        console.log("写入数据完成");
         this.checkConnected(event);
+        console.log("检查连接完成");
         return;
       }
-
+      console.log("准备上传");
       this.readyToUpload(data, event);
+      console.log("上传完成");
     });
   }
 
@@ -211,12 +223,13 @@ export class Serialport extends Common {
       this.checkConnectTimer = setTimeout(() => {
         this.readyToUpload({ verifyType: SOURCE }, event);
         this.upload_sources_status = null;
-      }, 3000);
+      }, 5000);
     }
   }
 
   readyToUpload(data, event) {
     //处理渲染进程发送过来的通信需要的数据
+    console.log("进入准备上传");
     const result = verifyBinType.call(
       this,
       {
@@ -228,12 +241,15 @@ export class Serialport extends Common {
 
     if (Array.isArray(result) && result.length > 0) {
       this.sourceFiles = [...result];
+      console.log("this.sourceFiles", this.sourceFiles);
       this.upload(event);
     }
   }
 
   upload(event) {
+    console.log("上传文件开始");
     this.uploadingFile = this.sourceFiles.shift();
+    console.log("this.uploadingFile", this.uploadingFile);
 
     this.verifyType = this.uploadingFile.verifyType;
 
@@ -279,6 +295,7 @@ export class Serialport extends Common {
    * @returns
    */
   writeData(data, sign, event) {
+    console.log("写入数据开始", { data: data, sign: sign, event: event });
     if (!this.port || !data) {
       return;
     }
@@ -289,7 +306,9 @@ export class Serialport extends Common {
       this.port.write(Buffer.from(data));
 
       if (sign && sign.includes("Boot_")) {
+        console.log("检测是否超时");
         this.checkOverTime(event);
+        console.log("检测是否超时完成");
       }
     } catch (e) {
       event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
@@ -402,9 +421,10 @@ export class Serialport extends Common {
       const isBoot = this.sign && this.sign.includes("Boot_");
       if (isBoot || this.sign === signType.EXE.FILES) {
         this.receiveData = [...this.receiveData, ...data];
-
+        console.log("this.receiveData", this.receiveData);
         //把数据放入处理函数校验是否是完整的一帧并获取数据对象
         this.receiveObj = this.catchData(this.receiveData);
+        console.log("this.receiveObj", this.receiveObj);
         if (!this.receiveObj) {
           return;
         } else {

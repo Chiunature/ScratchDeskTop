@@ -100,7 +100,7 @@ Blockly.Blocks["touching_menu"] = {
         {
           type: "field_motor",
           name: "TOUCHING_MENU",
-          motorList: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          motorList: ["A", "B", "C", "D", "null", "null", "null", "null"],
         },
       ],
       category: Blockly.Categories.sensing,
@@ -239,6 +239,52 @@ Blockly.Blocks["sensing_reflected_light_detection"] = {
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
+    });
+  },
+};
+
+Blockly.Blocks["sensing_grayscale_state"] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      type: "sensing_grayscale_state",
+      message0: Blockly.Msg.SENSING_GRAYSCALE_STATE,
+      args0: [
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "output_number"],
+    });
+  },
+};
+
+Blockly.Blocks["sensing_calibrate"] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      type: "sensing_calibrate",
+      message0: Blockly.Msg.SENSING_CALIBRATE,
+      args0: [
+        {
+          type: "input_value",
+          name: "PORT1",
+        },
+        {
+          type: "input_value",
+          name: "PORT2",
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
     });
   },
 };

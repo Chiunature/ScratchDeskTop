@@ -43,30 +43,18 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                 secondaryColour="${colors.tertiary}"
                 iconURI="${motorIcon}">
                 ${blockSeparator}
-                <block type="motor_starting">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="motor_stop">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="motor_speed">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                    <value name="SPEED">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="motor_specifiedunit">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="POWER">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
                     </value>
                     <value name="COUNT">
                         <shadow type="math_number"><field name="NUM">1</field></shadow>
@@ -88,30 +76,6 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
-                 <block type="motor_reset_operating_degree">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
-                <block type="motor_rate">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_position">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_angle">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
             </category>
             `;
 };
@@ -133,20 +97,6 @@ const combined_motor = function ({
                 <block type="combined_motor_starting">
                     <value name="PORT">
                         <shadow type="combined_motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_motor_direction"></block>
-                ${blockSeparator}
-                <block type="combined_motor_speed">
-                    <value name="SPEED">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_motor_line">
-                    <value name="distance">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
                     </value>
                 </block>
                 ${blockSeparator}
@@ -175,37 +125,7 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="combined_motor_moveByYawAngle">
-                    <value name="COUNT">
-                        <shadow type="math_number"><field name="NUM">1</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_motor_spinByYawAngle">
-                    <value name="ANGLE">
-                        <shadow type="math_number"><field name="NUM">90</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="combined_linepatrolInit"></block>
-                ${blockSeparator}
-                <block type="combined_linepatrol">
-                    <value name="PORT_ONE">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="PORT_TWO">
-                        <shadow type="math_number" />
-                    </value>
-                    <value name="SPEED">
-                        <shadow type="math_number"><field name="NUM">80</field></shadow>
-                    </value>
-                    <value name="KP">
-                        <shadow type="math_number"><field name="NUM">0.1</field></shadow>
-                    </value>
-                    <value name="KD">
-                        <shadow type="math_number"><field name="NUM">0.0075</field></shadow>
-                    </value>
-                </block>
                 ${blockSeparator}
                 <block type="combined_linepatrol_ltr">
                     <value name="PORT_ONE">
@@ -246,23 +166,13 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                 ${blockSeparator}
                 <block type="matrix_lamp_stop"></block>
                 ${blockSeparator}
-                <block type="matrix_lamp_set">
-                    <value name="brightness">
-                        <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
+                <block type="matrix_lamp_set"></block>
                 ${blockSeparator}
                 <block type="matrix_lamp_text">
                     <value name="matrix_text">
                         <shadow type="text">
                             <field name="TEXT">ABCD</field>
                         </shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="matrix_color">
-                    <value name="COLOR">
-                        <shadow type="colour_picker"/>
                     </value>
                 </block>
                 ${blockSeparator}
@@ -275,6 +185,15 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                     <value name="brightness">
                         <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+                <block type="matrix_lamp_set_pixel">
+                    <value name="x">
+                        <shadow type="matrix_x"></shadow>
+                    </value>
+                    <value name="y">
+                        <shadow type="matrix_y"></shadow>
                     </value>
                 </block>
                 ${categorySeparator}
@@ -387,51 +306,6 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}" iconURI="${sensingIcon}">
-            <block type="sensing_color_judgment">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="COLOR">
-                    <shadow type="colour_card" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_color_range">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="RMin">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                <value name="RMax">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-                 <value name="GMin">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                <value name="GMax">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-                <value name="BMin">
-                    <shadow type="math_0to255_number"><field name="NUM">0</field></shadow>
-                </value>
-                 <value name="BMax">
-                    <shadow type="math_0to255_number"><field name="NUM">255</field></shadow>
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_color_detection">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_color_detectionRGB">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${categorySeparator}
             <block type="sensing_reflected_light_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -443,6 +317,21 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             ${blockSeparator}
             <block type="sensing_reflected_light_detection">
                 <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${categorySeparator}
+            <block type="sensing_grayscale_state">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${categorySeparator}
+            <block type="sensing_calibrate">
+                <value name="PORT1">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="PORT2">
                     <shadow type="sensing_menu" />
                 </value>
             </block>
@@ -462,12 +351,6 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_sound_intensity"></block>
-            ${categorySeparator}
-            <block type="sensing_gyroscope_attitude"></block>
-            ${blockSeparator}
-            <block type="sensing_gyroscope_acceleration"></block>
-            ${categorySeparator}
             <block type="sensing_key_judgment">
                 <value name="PORT">
                     <shadow type="touching_menu" />
@@ -476,45 +359,12 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             ${blockSeparator}
             <block type="sensing_isHandling"></block>
             ${blockSeparator}
-            <block type="sensing_Handling"></block>
-            ${blockSeparator}
             <block type="sensing_mainIsPress"></block>
-            ${categorySeparator}
-            <block type="sensing_gyroscope_angle"></block>
-            ${blockSeparator}
-            <block type="sensing_set_yaw_angle"></block>
             ${categorySeparator}
             <block type="sensing_timer"></block>
             ${blockSeparator}
             <block type="sensing_reset_timer"></block>
             ${blockSeparator}
-            <block type="sensing_get_gray_line">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_get_gray_lineState">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
-            <block type="sensing_judgelineState">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-                <value name="STATEUS">
-                    <shadow type="math_number" />
-                </value>
-            </block>
-            ${categorySeparator}
-            <block type="sensing_nfc_read">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
-            ${categorySeparator}
         </category>
     `;
 };

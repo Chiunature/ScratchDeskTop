@@ -297,7 +297,7 @@ Blockly.Python["combined_linepatrol_ltr"] = function (block) {
   //   Blockly.Python.ORDER_NONE
   // );
   return Blockly.Python.handleResult(
-    `mov_find_line_power_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
+    `mov_find_line_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };

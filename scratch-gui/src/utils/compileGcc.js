@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Visual Blocks Editor
@@ -29,20 +28,22 @@ import {
     Task_Stack,
     Task_MyBlock,
     Task_Info_ItemOfMsgBlock,
-    Task_MsgBlock
+    Task_MsgBlock,
 } from "../config/js/ProgrammerTasks.js";
 import { APLICATION } from "../config/json/LB_USER.json";
-import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link"
+import { ipc as ipc_Renderer, verifyTypeConfig } from "est-link";
 
-
-const reg_USER_Aplication = /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\);\s*\};\s{1}/g;
-const reg_Task_Info = /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\};\s{1}/;
-const reg_MyBlock = /\s{1}\/\*MyBlock Write\d*\*\/[\s\S]*?\/\*MyBlock End\d*\*\/\s{1}/g;
-const reg_Task_MsgBlock = /\s{1}\/\*MsgBlock Write\*\/[\s\S]*?\/\*MsgBlock End\*\/\s{1}/;
+const reg_USER_Aplication =
+    /\s{1}void\s+USER_Aplication\d*\([\s\S]*?\)\s*\{[\s\S]*?\/\*USER APLICATION END\*\/\s*vTaskExit\("1"\);\s*\};\s{1}/g;
+const reg_Task_Info =
+    /\s{1}MallocTask_Info\s+User_Task\[\]\s+\=\s+\{[\s\S]*?\};\s{1}/;
+const reg_MyBlock =
+    /\s{1}\/\*MyBlock Write\d*\*\/[\s\S]*?\/\*MyBlock End\d*\*\/\s{1}/g;
+const reg_Task_MsgBlock =
+    /\s{1}\/\*MsgBlock Write\*\/[\s\S]*?\/\*MsgBlock End\*\/\s{1}/;
 
 class Compile {
-
-    constructor() { }
+    constructor() {}
 
     /**
      * 根据正则去修改文件特定内容
@@ -52,10 +53,13 @@ class Compile {
      * @returns
      */
     changeFileByReg(result, regex, targetStr) {
-        let newRes = result, regList, targetList, isReg = false;
+        let newRes = result,
+            regList,
+            targetList,
+            isReg = false;
         return new Promise((resolve, reject) => {
             try {
-                if (typeof regex === 'string') {
+                if (typeof regex === "string") {
                     regList = regex;
                     isReg = false;
                 } else {
@@ -67,21 +71,24 @@ class Compile {
                     return;
                 }
                 if (targetList && regList) {
-                    if (targetList.length === regList.length || regList.length > targetList.length) {
+                    if (
+                        targetList.length === regList.length ||
+                        regList.length > targetList.length
+                    ) {
                         for (let i = 0; i < regList.length; i++) {
                             const item = regList[i];
                             const target = targetList[i];
                             if (item && target) {
                                 newRes = newRes.replace(item, target);
                             } else if (item && !target) {
-                                newRes = newRes.replace(item, '');
+                                newRes = newRes.replace(item, "");
                             }
                         }
                     } else if (regList.length < targetList.length) {
-                        newRes = result.replace(regList.join(''), targetStr);
+                        newRes = result.replace(regList.join(""), targetStr);
                     }
                 } else {
-                    newRes = result.replace(regList.join(''), targetStr);
+                    newRes = result.replace(regList.join(""), targetStr);
                 }
                 resolve(newRes);
             } catch (error) {
@@ -105,12 +112,24 @@ class Compile {
         //自制积木块放入前面
         const newMy = await this.changeFileByReg(result, reg_MyBlock, myStr);
         //替换消息积木
-        const newMsg = await this.changeFileByReg(newMy, reg_Task_MsgBlock, msgBlockStr);
+        const newMsg = await this.changeFileByReg(
+            newMy,
+            reg_Task_MsgBlock,
+            msgBlockStr
+        );
         //替换void USER_Aplication部分
-        const newUser = await this.changeFileByReg(newMsg, reg_USER_Aplication, codeStr);
+        const newUser = await this.changeFileByReg(
+            newMsg,
+            reg_USER_Aplication,
+            codeStr
+        );
         //替换MallocTask_Info User_Task[]部分
         const taskIntoStr = Task_Info(taskStr);
-        const newTaskInto = await this.changeFileByReg(newUser, reg_Task_Info, taskIntoStr);
+        const newTaskInto = await this.changeFileByReg(
+            newUser,
+            reg_Task_Info,
+            taskIntoStr
+        );
         //重新写入Aplication.c文件
         return await window.myAPI.writeFiles(APLICATION, newTaskInto, spath);
     }
@@ -120,11 +139,21 @@ class Compile {
      * @param options
      */
     async runGcc(options) {
-        const {bufferList, myBlockList, selectedExe, verifyType, msgTaskBlockList}=options;
+        const {
+            bufferList,
+            myBlockList,
+            selectedExe,
+            verifyType,
+            msgTaskBlockList,
+        } = options;
 
-        let codeStr = '',
-            taskStr = '',
-            myBlockStr = Task_MyBlock(Array.isArray(myBlockList) ? myBlockList.join('\n') : myBlockList),
+        let codeStr = "",
+            taskStr = "",
+            myBlockStr = Task_MyBlock(
+                Array.isArray(myBlockList)
+                    ? myBlockList.join("\n")
+                    : myBlockList
+            ),
             msgBlockStr = Task_MsgBlock(msgTaskBlockList);
 
         bufferList.forEach((el, index) => {
@@ -132,34 +161,50 @@ class Compile {
                 codeStr += Task_Stack(el, index);
                 taskStr += Task_Info_Item(index);
             }
-        })
+        });
 
-        if(Array.isArray(msgTaskBlockList)) {
+        if (Array.isArray(msgTaskBlockList)) {
             msgTaskBlockList.forEach((el) => {
                 taskStr += Task_Info_ItemOfMsgBlock(el);
-            })
-        }
-
-        const static_path = sessionStorage.getItem("static_path") || window.resourcesPath;
-        const appRes = await this.handleCode(static_path, codeStr, taskStr, myBlockStr, msgBlockStr);
-        //编译
-        if (appRes) {
-            window.myAPI.commendMake(static_path).then(() => {
-                if (selectedExe) window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES, sendParams: { verifyType, selectedExe } });
-            }).catch(err => {
-                window.myAPI.ipcRender({ sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION });
-                window.myAPI.handlerError(err, static_path);
             });
         }
-    }
 
+        const static_path =
+            sessionStorage.getItem("static_path") || window.resourcesPath;
+        const appRes = await this.handleCode(
+            static_path,
+            codeStr,
+            taskStr,
+            myBlockStr,
+            msgBlockStr
+        );
+        //编译
+        if (appRes) {
+            window.myAPI
+                .commendMake(static_path)
+                .then(() => {
+                    if (selectedExe)
+                        window.myAPI.ipcRender({
+                            sendName:
+                                ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
+                            sendParams: { verifyType, selectedExe },
+                        });
+                })
+                .catch((err) => {
+                    window.myAPI.ipcRender({
+                        sendName: ipc_Renderer.SEND_OR_ON.ERROR.TRANSMISSION,
+                    });
+                    window.myAPI.handlerError(err, static_path);
+                });
+        }
+    }
 
     /**
      * 区分是什么类型的通信
      * @param options
      */
     async sendSerial(options) {
-        const {verifyType} = options;
+        const { verifyType } = options;
         switch (verifyType) {
             case verifyTypeConfig.RESET_FWLIB:
                 window.myAPI.ipcRender({
@@ -208,12 +253,11 @@ function singleton(className) {
                 parmters = args;
             }
             if (!isSame(parmters, args)) {
-                throw new Error('Cannot create instance!');
+                throw new Error("Cannot create instance!");
             }
             return ins;
-        }
-    })
+        },
+    });
 }
 
 export default singleton(Compile);
-
