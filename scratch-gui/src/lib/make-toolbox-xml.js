@@ -254,12 +254,6 @@ const events = function ({ isInitialSetup, isStage, targetId, colors }) {
             secondaryColour="${colors.tertiary}" iconURI="${eventIcon}">
                 <block type="event_whenflagclicked"/>
                 ${blockSeparator}
-                <block type="event_whenbroadcastreceived"/>
-                ${blockSeparator}
-                <block type="event_broadcast"/>
-                ${blockSeparator}
-                <block type="event_broadcastandwait"/>
-                ${categorySeparator}
             </category>
             `;
 };

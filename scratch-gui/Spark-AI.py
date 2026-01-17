@@ -7,7 +7,7 @@ venv_name = "myvenv"
 # python_path = sys.executable
 
 venv_folder_path = f"{os.getcwd()}\\{os.path.join(venv_name)}" 
-exe_folder_path = f"{os.getcwd()}\\NEW-AI极睿.exe"
+exe_folder_path = f"{os.getcwd()}\\Spark-AI.exe"
 resources_path = f"{os.getcwd()}\\resources"
 tasks = []
 path_list = [venv_folder_path, exe_folder_path, resources_path]
@@ -46,9 +46,9 @@ if __name__ == '__main__':
 
 
     # 在虚拟环境中执行
-    target = os.path.join("NEW-AI极睿.exe")
+    target = os.path.join("Spark-AI.exe")
     sub_process = subprocess.Popen(target)
-    # 等待 NEW-AI极睿.exe 进程完成
+    # 等待 Spark-AI.exe 进程完成
     sub_process.wait()
 
     activate_process.kill()

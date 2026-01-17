@@ -89,7 +89,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 6:
                 return item.motor;
             case 2:
-                return item.color;
+                return item.lightIntensity;
             case 3:
                 return item.ultrasion;
             case 4:
@@ -114,7 +114,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 6:
                 return motorData(unitIndex);
             case 2:
-                return colorData(unitIndex);
+                return colorData(keyName); // 改为使用 keyName
             case 3:
                 return intl.formatMessage(messages["distance"]);
             case 4:
@@ -157,22 +157,33 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         }
     }
 
-    function colorData(num) {
-        switch (num) {
-            case 0:
-                return intl.formatMessage(messages["lightIntensity"]);
-            case 1:
-                return "R";
-            case 2:
-                return "G";
-            case 3:
-                return "B";
-            case 4:
-                return "H";
-            case 5:
-                return intl.formatMessage(messages["version"]);
+    // function colorData(num) {
+    //     switch (num) {
+    //         case 0:
+    //             return intl.formatMessage(messages["lightIntensity"]);
+    //         case 1:
+    //             return "R";
+    //         case 2:
+    //             return "G";
+    //         case 3:
+    //             return "B";
+    //         case 4:
+    //             return "H";
+    //         case 5:
+    //             return intl.formatMessage(messages["version"]);
+    //         default:
+    //             return;
+    //     }
+    // }
+
+    function colorData(keyName) {
+        switch (keyName) {
+            case "lux":
+                return intl.formatMessage(messages["lightIntensity"]); // 光强度
+            case "state":
+                return "状态"; // 状态
             default:
-                return;
+                return keyName;
         }
     }
 

@@ -43,16 +43,32 @@ const DeviceBox = ({ list, intl, messages }) => {
         }
     }
 
+    // function colorData(keyName) {
+    //     switch (keyName) {
+    //         case "l":
+    //             return intl.formatMessage(messages["lightIntensity"]);
+    //         case "rgb":
+    //             return "RGB";
+    //         case "version":
+    //             return intl.formatMessage(messages["version"]);
+    //         default:
+    //             return "Error";
+    //     }
+    // }
+
     function colorData(keyName) {
         switch (keyName) {
+            case "lux":
             case "l":
                 return intl.formatMessage(messages["lightIntensity"]);
+            case "state":
+                return "状态";
             case "rgb":
                 return "RGB";
             case "version":
                 return intl.formatMessage(messages["version"]);
             default:
-                return "Error";
+                return keyName;
         }
     }
 
@@ -198,12 +214,6 @@ const DeviceBox = ({ list, intl, messages }) => {
                         {el.motor && Object.keys(el.motor).length > 0 && (
                             <ul className={styles.midUl}>
                                 {Object.keys(el.motor).map((keyName, index) => {
-                                    console.log("keyName", keyName);
-                                    console.log("index", index);
-                                    console.log(
-                                        "el.motor",
-                                        Object.keys(el.motor)
-                                    );
                                     return (
                                         <Fragment key={index}>
                                             {motorData(index) && (
@@ -244,45 +254,59 @@ const DeviceBox = ({ list, intl, messages }) => {
                                 </li>
                             </ul>
                         )}
-                        {el.color && Object.keys(el.color).length > 0 && (
-                            <ul className={styles.midUl}>
-                                {Object.keys(el.color).map((keyName, index) => {
-                                    return (
-                                        <Fragment key={index}>
-                                            {(keyName === "l" ||
-                                                keyName === "rgb" ||
-                                                keyName === "version" ||
-                                                keyName === "Not_Run") && (
-                                                <li>
-                                                    <span>
-                                                        {colorData(keyName)}
-                                                    </span>
-                                                    <span>
-                                                        {el.color[keyName]}
-                                                    </span>
-                                                    {keyName === "rgb" && (
-                                                        <span>
-                                                            <div
-                                                                className={
-                                                                    styles.col
+                        {el.lightIntensity &&
+                            Object.keys(el.lightIntensity).length > 0 && (
+                                <ul className={styles.midUl}>
+                                    {Object.keys(el.lightIntensity).map(
+                                        (keyName, index) => {
+                                            return (
+                                                <Fragment key={index}>
+                                                    {(keyName === "lux" ||
+                                                        keyName === "l" ||
+                                                        keyName === "state" ||
+                                                        keyName === "rgb" ||
+                                                        keyName === "version" ||
+                                                        keyName ===
+                                                            "Not_Run") && (
+                                                        <li>
+                                                            <span>
+                                                                {colorData(
+                                                                    keyName
+                                                                )}
+                                                            </span>
+                                                            <span>
+                                                                {
+                                                                    el
+                                                                        .lightIntensity[
+                                                                        keyName
+                                                                    ]
                                                                 }
-                                                                style={{
-                                                                    backgroundColor:
-                                                                        el
-                                                                            .color[
-                                                                            keyName
-                                                                        ],
-                                                                }}
-                                                            ></div>
-                                                        </span>
+                                                            </span>
+                                                            {keyName ===
+                                                                "rgb" && (
+                                                                <span>
+                                                                    <div
+                                                                        className={
+                                                                            styles.col
+                                                                        }
+                                                                        style={{
+                                                                            backgroundColor:
+                                                                                el
+                                                                                    .lightIntensity[
+                                                                                    keyName
+                                                                                ],
+                                                                        }}
+                                                                    ></div>
+                                                                </span>
+                                                            )}
+                                                        </li>
                                                     )}
-                                                </li>
-                                            )}
-                                        </Fragment>
-                                    );
-                                })}
-                            </ul>
-                        )}
+                                                </Fragment>
+                                            );
+                                        }
+                                    )}
+                                </ul>
+                            )}
                         {el.gray && Object.keys(el.gray).length > 0 && (
                             <ul className={styles.midUl}>
                                 {Object.keys(el.gray).map((keyName, index) => {

@@ -17,7 +17,7 @@ export const instructions = {
 export const deviceIdMap = {
   0: "noDevice",
   a1: "motor",
-  a2: "color",
+  a2: "lightIntensity",
   a3: "superSound",
   a4: "touch",
   a5: "big_motor",

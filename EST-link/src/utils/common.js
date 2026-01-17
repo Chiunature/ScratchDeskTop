@@ -46,7 +46,7 @@ export class Common {
       this.watchDeviceList[i] = {
         port: i,
         motor: {},
-        color: {},
+        lightIntensity: {},
         ultrasonic: null,
         touch: null,
         sensing_device: deviceIdMap[0],
@@ -63,7 +63,7 @@ export class Common {
     this.watchDeviceList[i] = {
       port: i,
       motor: {},
-      color: {},
+      lightIntensity: {},
       ultrasonic: null,
       touch: null,
       sensing_device: deviceIdMap[0],
@@ -337,15 +337,16 @@ export class Common {
    */
   _processColorSensor(item) {
     this._setDeviceInfo(item, 2);
-    if (!("Not_Run" in item.color)) {
-      const { r, g, b } = item.color;
-      item.color = {
-        l: item.color.l,
-        ...item.color,
-        rgb: `rgb(${r >= 255 ? "255" : r}, ${g >= 255 ? "255" : g}, ${
-          b >= 255 ? "255" : b
-        })`,
-      };
+    // 从原始 color 字段读取数据，赋值给 lightIntensity
+    const sourceData = item.color || item.lightIntensity;
+    if (sourceData && !("Not_Run" in sourceData)) {
+      const { lux, state } = sourceData;
+      item.lightIntensity = { lux, state };
+      // 删除旧的 color 字段
+      delete item.color;
+    } else if (sourceData && "Not_Run" in sourceData) {
+      item.lightIntensity = sourceData;
+      delete item.color;
     }
   }
 

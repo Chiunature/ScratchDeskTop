@@ -21,7 +21,7 @@
         "electron": "electron .",
         "pack": "npm run build && electron-builder --win --x64",
         "postinstall": "electron-builder install-app-deps",
-        "build:py": "pyinstaller -F -w -i favicon.ico --noconsole NEW-AI.py"
+        "build:py": "pyinstaller -F -w -i favicon.ico --noconsole Spark-AI.py"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -184,8 +184,8 @@
         }
     },
     "build": {
-        "productName": "NEW-AI极睿",
-        "appId": "com.NEW-AI.eletest",
+        "productName": "Spark-AI",
+        "appId": "com.Spark-AI.eletest",
         "copyright": "cd©20211209",
         "directories": {
             "buildResources": "./",
@@ -250,7 +250,7 @@
             "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "NEW-AI极睿",
+            "shortcutName": "Spark-AI",
             "runAfterFinish": false,
             "perMachine": false,
             "deleteAppDataOnUninstall": true
