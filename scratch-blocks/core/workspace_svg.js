@@ -1170,18 +1170,36 @@ Blockly.WorkspaceSvg.prototype.pasteWorkspaceComment_ = function(xmlComment) {
  * @private
  */
 Blockly.WorkspaceSvg.prototype.refreshToolboxSelection_ = function() {
+  console.log('【refreshToolboxSelection_ 调用】');
+  console.log('  工具箱:', this.toolbox_ ? '存在' : '不存在');
+  console.log('  当前手势:', this.currentGesture_ ? '进行中' : '无');
+  console.log('  刷新已启用:', this.toolboxRefreshEnabled_);
+  
   // Updating the toolbox can be expensive. Don't do it when when it is
   // disabled.
   if (this.toolbox_) {
+    console.log('  flyout:', this.toolbox_.flyout_ ? '存在' : '不存在');
     if (this.toolbox_.flyout_ && !this.currentGesture_ &&
       this.toolboxRefreshEnabled_) {
+      console.log('  ✓ 执行工具箱刷新 (主工作区)');
       this.toolbox_.refreshSelection();
+      console.log('  ✓ 工具箱刷新完成');
+    } else {
+      console.log('  ✗ 跳过刷新 - 条件不满足');
+      console.log('    flyout存在:', !!this.toolbox_.flyout_);
+      console.log('    无手势:', !this.currentGesture_);
+      console.log('    刷新启用:', this.toolboxRefreshEnabled_);
     }
   } else {
     var thisTarget = this.targetWorkspace;
+    console.log('  目标工作区:', thisTarget ? '存在' : '不存在');
     if (thisTarget && thisTarget.toolbox_ && thisTarget.toolbox_.flyout_ &&
       !thisTarget.currentGesture_ && thisTarget.toolboxRefreshEnabled_) {
+      console.log('  ✓ 执行工具箱刷新 (目标工作区)');
       thisTarget.toolbox_.refreshSelection();
+      console.log('  ✓ 工具箱刷新完成');
+    } else {
+      console.log('  ✗ 跳过刷新 - 目标工作区条件不满足');
     }
   }
 };
@@ -1225,14 +1243,29 @@ Blockly.WorkspaceSvg.prototype.deleteVariableById = function(id) {
  */
 Blockly.WorkspaceSvg.prototype.createVariable = function(name, opt_type, opt_id,
     opt_isLocal, opt_isCloud) {
+  console.log('【WorkspaceSvg.createVariable 调用】');
+  console.log('  变量名:', name);
+  console.log('  类型:', opt_type || '标量');
+  console.log('  ID:', opt_id || '自动生成');
+  
   var variableInMap = (this.getVariable(name, opt_type) != null);
+  console.log('  变量是否已存在:', variableInMap);
+  
   var newVar = Blockly.WorkspaceSvg.superClass_.createVariable.call(
       this, name, opt_type, opt_id, opt_isLocal, opt_isCloud);
+  console.log('  变量创建完成，新变量ID:', newVar ? newVar.getId() : 'null');
+  
   // For performance reasons, only refresh the the toolbox for new variables.
   // Variables that already exist should already be there.
   if (!variableInMap && (opt_type != Blockly.BROADCAST_MESSAGE_VARIABLE_TYPE)) {
+    console.log('  ⚡ 需要刷新工具箱（新变量）');
+    console.log('  调用 refreshToolboxSelection_()...');
     this.refreshToolboxSelection_();
+    console.log('  ✓ 工具箱刷新调用完成');
+  } else {
+    console.log('  ⚠️  跳过工具箱刷新（变量已存在或为广播消息）');
   }
+  
   return newVar;
 };
 
