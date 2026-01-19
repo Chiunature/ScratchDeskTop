@@ -191,17 +191,19 @@ class Blocks extends React.Component {
                 // the xml can change while e.g. on the costumes tab.
                 this._renderedToolboxXML = this.props.toolboxXML;
 
-                // we actually never want the workspace to enable "refresh toolbox" - this basically re-renders the
-                // entire toolbox every time we reset the workspace.  We call updateToolbox as a part of
-                // componentDidUpdate so the toolbox will still correctly be updated
+                // 保存原始的 setToolboxRefreshEnabled 方法
+                // 原注释说明：我们在工作区重置时不希望刷新工具箱（性能考虑）
+                // 但是：创建/删除/重命名变量时必须刷新，否则变量列表不会更新
                 this.setToolboxRefreshEnabled =
                     this.workspace.setToolboxRefreshEnabled.bind(
                         this.workspace
                     );
-                this.workspace.setToolboxRefreshEnabled = () => {
-                    this.setToolboxRefreshEnabled(false);
+                
+                // 智能控制刷新：允许传入参数，而不是总是设为 false
+                // 这样变量操作可以触发刷新，批量操作可以禁用刷新
+                this.workspace.setToolboxRefreshEnabled = (enabled) => {
+                    this.setToolboxRefreshEnabled(enabled !== undefined ? enabled : false);
                 };
-
                 // @todo change this when blockly supports UI events
                 addFunctionListener(
                     this.workspace,
