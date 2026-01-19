@@ -275,6 +275,13 @@ Blockly.Variables.realizePotentialVar = function(varName, varType, potentialVarW
  *     like 'string' or 'list'.
  */
 Blockly.Variables.createVariable = function(workspace, opt_callback, opt_type) {
+  console.log('==========================================');
+  console.log('【创建变量流程开始】');
+  console.log('==========================================');
+  console.log('变量类型:', opt_type || '标量变量');
+  console.log('工作区:', workspace ? workspace.id : 'null');
+  console.log('回调函数:', opt_callback ? '存在' : '无');
+  
   // Decide on a modal message based on the opt_type. If opt_type was not
   // provided, default to the original message for scalar variables.
   var newMsg, modalTitle;
@@ -294,24 +301,35 @@ Blockly.Variables.createVariable = function(workspace, opt_callback, opt_type) {
     newMsg = Blockly.Msg.NEW_VARIABLE_TITLE;
     modalTitle = Blockly.Msg.VARIABLE_MODAL_TITLE;
   }
+  console.log('提示信息:', newMsg);
+  console.log('模态框标题:', modalTitle);
+  
   var validate = Blockly.Variables.nameValidator_.bind(null, opt_type);
 
   // Prompt the user to enter a name for the variable
+  console.log('准备显示输入对话框...');
   Blockly.prompt(newMsg, '',
       function(text, additionalVars, variableOptions) {
+        console.log('用户输入完成，输入值:', text);
         variableOptions = variableOptions || {};
         var scope = variableOptions.scope;
         var isLocal = (scope === 'local') || false;
         var isCloud = variableOptions.isCloud || false;
+        console.log('变量选项 - 作用域:', scope, '本地:', isLocal, '云变量:', isCloud);
+        
         // Default to [] if additionalVars is not provided
         additionalVars = additionalVars || [];
         // Only use additionalVars for global variable creation.
         var additionalVarNames = isLocal ? [] : additionalVars;
 
         var validatedText = validate(text, workspace, additionalVarNames, isCloud, opt_callback);
+        console.log('验证后的变量名:', validatedText);
+        
         if (validatedText) {
           // The name is valid according to the type, create the variable
           var potentialVarMap = workspace.getPotentialVariableMap();
+          console.log('潜在变量映射:', potentialVarMap ? '存在' : '不存在');
+          
           var variable;
           // This check ensures that if a new variable is being created from a
           // workspace that already has a variable of the same name and type as
@@ -319,27 +337,44 @@ Blockly.Variables.createVariable = function(workspace, opt_callback, opt_type) {
           // real variable and thus there aren't duplicate options in the field_variable
           // dropdown.
           if (potentialVarMap && opt_type) {
+            console.log('尝试实现潜在变量...');
             variable = Blockly.Variables.realizePotentialVar(validatedText,
                 opt_type, workspace, false);
+            console.log('实现潜在变量结果:', variable ? '成功' : '失败');
           }
           if (!variable) {
+            console.log('创建新变量:', validatedText);
             variable = workspace.createVariable(validatedText, opt_type, null, isLocal, isCloud);
+            console.log('变量创建完成，ID:', variable ? variable.getId() : 'null');
           }
 
           var flyout = workspace.isFlyout ? workspace : workspace.getFlyout();
+          console.log('获取 flyout:', flyout ? '成功' : '失败');
+          console.log('flyout.setCheckboxState:', flyout && flyout.setCheckboxState ? '存在' : '不存在');
+          
           var variableBlockId = variable.getId();
           if (flyout.setCheckboxState) {
+            console.log('设置复选框状态为 true');
             flyout.setCheckboxState(variableBlockId, true);
           }
 
+          console.log('准备调用回调函数...');
           if (opt_callback) {
             opt_callback(variableBlockId);
           }
+          
+          console.log('==========================================');
+          console.log('【创建变量流程结束 - 成功】');
+          console.log('==========================================');
         } else {
           // User canceled prompt without a value.
+          console.log('用户取消或验证失败');
           if (opt_callback) {
             opt_callback(null);
           }
+          console.log('==========================================');
+          console.log('【创建变量流程结束 - 取消】');
+          console.log('==========================================');
         }
       }, modalTitle, opt_type);
 };

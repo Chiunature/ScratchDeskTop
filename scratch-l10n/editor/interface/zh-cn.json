@@ -566,6 +566,7 @@
 	"gui.sharedMessages.closeAutoSave": "关闭自动备份",
 	"gui.gui.defaultProjectTitle": "NEW-AI作品",
 	"gui.alerts.workspaceEmpty": "工作区为空或无起始事件头",
+	"gui.menuBar.saveWithoutBlocks": "警告：当前项目没有代码块。\n\n保存的项目将不包含任何代码逻辑。\n\n是否继续保存？",
 	"gui.device.port": "端口",
 	"gui.device.noDevice": "无设备连接",
 	"gui.device.motor": "电机",
