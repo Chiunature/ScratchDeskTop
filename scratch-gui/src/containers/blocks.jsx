@@ -198,11 +198,13 @@ class Blocks extends React.Component {
                     this.workspace.setToolboxRefreshEnabled.bind(
                         this.workspace
                     );
-                
+
                 // 智能控制刷新：允许传入参数，而不是总是设为 false
                 // 这样变量操作可以触发刷新，批量操作可以禁用刷新
                 this.workspace.setToolboxRefreshEnabled = (enabled) => {
-                    this.setToolboxRefreshEnabled(enabled !== undefined ? enabled : false);
+                    this.setToolboxRefreshEnabled(
+                        enabled !== undefined ? enabled : false
+                    );
                 };
                 // @todo change this when blockly supports UI events
                 addFunctionListener(
