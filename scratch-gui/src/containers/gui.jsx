@@ -126,9 +126,13 @@ class GUI extends React.Component {
         });
     }
 
+    /**
+     * 检查并更新积木块中的电机/设备图标
+     * 根据当前连接的设备更新所有 FieldMotor 实例的显示
+     */
     blocksMotorCheck() {
         if (!this.props.deviceObj) return;
-        // 电机模块设备显示监听
+
         let FieldMotor, FieldCombinedMotor;
         this.proxyMotor(
             FieldMotor,
@@ -232,11 +236,33 @@ class GUI extends React.Component {
         });
     }
 
+    /**
+     * 更新 FieldMotor 的端口设备列表
+     * 通过 Proxy 机制更新所有 FieldMotor 实例的图标显示
+     * @param {Object} proxyVal - Proxy 对象
+     * @param {string} type - 字段类型（如 "FieldMotor"）
+     * @param {Array} data - 设备数据列表
+     */
     proxyMotor(proxyVal, type, data) {
-        if (!ScratchBlocks[type].proxy) return;
+        if (!ScratchBlocks[type].proxy) {
+            return;
+        }
+
         proxyVal = ScratchBlocks[type].proxy();
         const newList = data.map((el) => el.sensing_device);
-        proxyVal.portList = [...newList];
+
+        // 比较新旧值,避免不必要的更新
+        const oldList = proxyVal.portList || [];
+        const isSame =
+            Array.isArray(oldList) &&
+            Array.isArray(newList) &&
+            oldList.length === newList.length &&
+            oldList.every((val, idx) => val === newList[idx]);
+
+        // 只有值不同时才更新
+        if (!isSame) {
+            proxyVal.portList = [...newList];
+        }
     }
 
     //开启监听
@@ -380,7 +406,7 @@ class GUI extends React.Component {
                     dataList[index] = _type(deviceItem);
                 }
             }
-            console.log("dataList", dataList);
+            // console.log("dataList", dataList);
             const isDiff = dataList.find((item) => item !== 0xff);
             //如果isdiff不为0xff，则需要更新
             if (isDiff) {
@@ -450,6 +476,7 @@ class GUI extends React.Component {
 
             // 检查固件版本
             const firmwareRes = this.checkUpdateFirmware(static_path);
+            console.log("firmwareRes", firmwareRes);
             if (!firmwareRes) {
                 return;
             }
@@ -486,7 +513,6 @@ class GUI extends React.Component {
 
     handleRunApp(status) {
         // sessionStorage.setItem('run-app', verifyTypeConfig.NO_RUN_APP);
-        console.log("status", status);
         window.myAPI.ipcRender({
             sendName: ipc_Renderer.SEND_OR_ON.EXE.FILES,
             sendParams: { type: "APP", status },

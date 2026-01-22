@@ -29,8 +29,29 @@ Blockly.FieldMotor = function (motorList, linepatrol, opt_validator) {
 };
 goog.inherits(Blockly.FieldMotor, Blockly.Field);
 
+/**
+ * 端口设备类型列表
+ * 【说明】存储每个端口对应的设备类型（如 "motor", "color", "touch" 等）
+ * 【更新时机】当设备数据更新时，通过 Proxy 设置此值会触发 DOM 更新
+ * 【示例】["motor", "color", null, "touch", ...]
+ */
 Blockly.FieldMotor.portList = [];
-Blockly.FieldMotor.proxy = null;
+
+/**
+ * Proxy 函数，用于创建拦截 Blockly.FieldMotor 属性设置的代理对象
+ * 【说明】使用全局 Proxy，监听 portList 的变化
+ */
+Blockly.FieldMotor.proxy = function () {
+  if (Blockly.FieldMotor._globalProxy) {
+    return Blockly.FieldMotor._globalProxy;
+  }
+  const p = new Proxy(
+    Blockly.FieldMotor,
+    Blockly.FieldMotor._createGlobalProxyHandler()
+  );
+  Blockly.FieldMotor._globalProxy = p;
+  return p;
+};
 Blockly.FieldMotor.small_motor_svg = "small_motor_sensing.svg";
 Blockly.FieldMotor.motor_svg = "motor_sensing.svg";
 Blockly.FieldMotor.color_sensing_svg = "color_sensing.svg";
@@ -38,6 +59,7 @@ Blockly.FieldMotor.sound_sensing_svg = "super_sound.svg";
 Blockly.FieldMotor.touch_sensing_svg = "touch_press.svg";
 Blockly.FieldMotor.camera_sensing_svg = "camera.svg";
 Blockly.FieldMotor.nfc_sensing_svg = "nfc.svg";
+Blockly.FieldMotor.lightIntensity_svg = "lightIntensity.svg";
 /**
  * Construct a FieldMotor from a JSON arg object.
  * @param {!Object} options A JSON object with options (colour).
@@ -55,9 +77,14 @@ Blockly.FieldMotor.prototype.leftDom = null;
 
 Blockly.FieldMotor.prototype.rightDom = null;
 
-Blockly.FieldMotor.prototype.cacheProxy = new WeakMap();
 Blockly.FieldMotor.timer = null;
 Blockly.FieldMotor.callback = null;
+/**
+ * 所有 FieldMotor 实例的列表
+ * 【说明】用于在 portList 被设置时，更新所有实例的图标
+ * 【注意】使用 WeakRef 可以避免内存泄漏，但需要手动清理
+ */
+Blockly.FieldMotor.instances = [];
 
 Blockly.FieldMotor.prototype.init = function (block) {
   if (this.fieldGroup_) {
@@ -125,12 +152,119 @@ Blockly.FieldMotor.prototype.init = function (block) {
   // 过滤掉禁用的按钮（对应 null 端口）
   this.btnList = [...left, ...right].filter((element, index) => {
     const allPorts = [...this.leftList, ...this.rightList];
-    return (
-      allPorts[index] !== null &&
-      allPorts[index] !== "null" &&
-      allPorts[index] !== "NULL"
-    );
+    return !this.isNullPort_(allPorts[index]);
   });
+
+  // 将当前实例添加到实例列表中（使用 WeakRef 避免内存泄漏）
+  Blockly.FieldMotor.instances.push(new WeakRef(this));
+
+  // 【调试日志】记录实例初始化
+
+  // 【关键修复】在 init 时就创建 Proxy，确保即使没有打开下拉菜单也能显示图标
+  // 这样当 portList 被设置时，Proxy 拦截器就能正常工作
+  // 这对于 shadow block 尤其重要，因为用户可能不会打开下拉菜单
+  this.ensureProxyCreated_();
+};
+
+/**
+ * 确保 Proxy 被创建
+ * 【说明】Proxy 用于拦截 portList 的设置，更新 DOM 中的图标
+ * 【问题】如果用户从来没有打开过下拉菜单，Proxy 就不会被创建，导致图标不显示
+ * 【解决】在 init 时就创建 Proxy，确保图标能正常显示
+ * @private
+ */
+Blockly.FieldMotor.prototype.ensureProxyCreated_ = function () {
+  // 如果 Proxy 已经创建，直接返回
+  if (Blockly.FieldMotor._globalProxy) {
+    return;
+  }
+
+  // 如果 btnList 还没有初始化，无法创建 Proxy（需要 btnList 来更新图标）
+  if (!this.btnList || this.btnList.length === 0) {
+    return;
+  }
+  // 调用 createProxy_ 方法创建 Proxy
+  this.createProxy_();
+};
+
+/**
+ * 创建 Proxy 对象
+ * 【说明】提取 Proxy 创建逻辑，供 ensureProxyCreated_ 复用
+ * 【关键】所有 FieldMotor 实例共享同一个 Proxy，它拦截静态属性 portList 的设置
+ * @private
+ */
+Blockly.FieldMotor.prototype.createProxy_ = function () {
+  return Blockly.FieldMotor.proxy();
+};
+
+/**
+ * 创建全局 Proxy 的 handler 对象
+ * 【说明】这个 handler 会更新所有 FieldMotor 实例的图标
+ * @returns {Object} Proxy handler 对象
+ * @private
+ */
+Blockly.FieldMotor._createGlobalProxyHandler = function () {
+  return {
+    /**
+     * 拦截属性读取操作
+     */
+    get(target, key) {
+      return Reflect.get(target, key);
+    },
+
+    /**
+     * 拦截属性设置操作
+     */
+    set(target, key, value) {
+      // 当设置 portList 时，先检查值是否真的改变了
+      if (key === "portList") {
+        // 【关键优化】在设置值之前保存旧值进行比较
+        const oldValue = target[key];
+
+        // 深度比较数组是否相同
+        const isSame =
+          Array.isArray(oldValue) &&
+          Array.isArray(value) &&
+          oldValue.length === value.length &&
+          oldValue.every((val, idx) => val === value[idx]);
+
+        // 【性能优化】如果值相同，直接返回，不进行任何 DOM 操作
+        if (isSame) {
+          target[key] = value;
+          return true;
+        }
+
+        // 设置新值
+        target[key] = value;
+
+        // 【关键】更新所有 FieldMotor 实例的图标
+        // 清理已销毁的实例引用
+        let updatedCount = 0;
+        let destroyedCount = 0;
+        Blockly.FieldMotor.instances = Blockly.FieldMotor.instances.filter(
+          (ref) => {
+            const instance = ref.deref();
+            if (!instance) {
+              destroyedCount++;
+              return false; // 实例已销毁，移除引用
+            }
+
+            // 更新当前实例的图标
+            if (instance.btnList && instance.btnList.length > 0) {
+              updatedCount++;
+              instance.updateIconsForPortList_(value);
+            }
+
+            return true; // 保留引用
+          }
+        );
+      } else {
+        // 其他属性正常设置
+        target[key] = value;
+      }
+      return true;
+    },
+  };
 };
 
 Blockly.FieldMotor.prototype.getValue = function () {
@@ -247,7 +381,7 @@ Blockly.FieldMotor.prototype.createMotorListDom_ = function (list, side) {
     btn.setAttribute("data-testid", "button-" + list[i]);
 
     // 检查是否为 null，如果是则禁用按钮
-    if (list[i] === null || list[i] === "null" || list[i] === "NULL") {
+    if (this.isNullPort_(list[i])) {
       btn.classList.add("disabled");
       btn.setAttribute(
         "style",
@@ -295,47 +429,148 @@ Blockly.FieldMotor.prototype.handleClick_ = function (dom) {
 };
 
 /**
- * 判断数据值是什么类型的设备
- * @param {*} type
- * @returns
+ * 判断端口是否为空（null / "null" / "NULL"）
+ * @param {*} port
+ * @returns {boolean}
+ * @private
  */
-Blockly.FieldMotor.prototype.checkType = function (type) {
+Blockly.FieldMotor.prototype.isNullPort_ = function (port) {
+  return port === null || port === "null" || port === "NULL";
+};
+
+/**
+ * 获取设备类型对应的图标路径（不创建 DOM 元素）
+ * 【性能优化】用于比较当前图标和目标图标，避免不必要的 DOM 操作
+ * @param {string} type - 设备类型
+ * @returns {string|false} 返回图标路径，如果类型不匹配则返回 false
+ */
+Blockly.FieldMotor.prototype.getIconSrc = function (type) {
   const str = Blockly.mainWorkspace.options.pathToMedia;
-  const img = document.createElement("img");
-  img.setAttribute("class", "lls-dsm-icon");
   switch (type) {
     case "motor":
     case "big_motor":
-      img.src = str + Blockly.FieldMotor.motor_svg;
-      break;
+      return str + Blockly.FieldMotor.motor_svg;
     case "small_motor":
-      img.src = str + Blockly.FieldMotor.small_motor_svg;
-      break;
+      return str + Blockly.FieldMotor.small_motor_svg;
     case "gray":
     case "color":
-      img.src = str + Blockly.FieldMotor.color_sensing_svg;
-      break;
+      return str + Blockly.FieldMotor.color_sensing_svg;
     case "superSound":
-      img.src = str + Blockly.FieldMotor.sound_sensing_svg;
-      break;
+      return str + Blockly.FieldMotor.sound_sensing_svg;
     case "touch":
-      img.src = str + Blockly.FieldMotor.touch_sensing_svg;
-      break;
+      return str + Blockly.FieldMotor.touch_sensing_svg;
     case "camer":
-      img.src = str + Blockly.FieldMotor.camera_sensing_svg;
-      break;
+      return str + Blockly.FieldMotor.camera_sensing_svg;
     case "nfc":
-      img.src = str + Blockly.FieldMotor.nfc_sensing_svg;
-      break;
+      return str + Blockly.FieldMotor.nfc_sensing_svg;
+    case "lightIntensity":
+      return str + Blockly.FieldMotor.lightIntensity_svg;
     default:
       return false;
   }
+};
+
+/**
+ * 根据指定的 portList 更新图标（复用逻辑）
+ * @param {Array} portList
+ * @private
+ */
+Blockly.FieldMotor.prototype.updateIconsForPortList_ = function (portList) {
+  const list = Array.isArray(portList) ? portList : [];
+
+  if (!this.btnList || this.btnList.length === 0) {
+    return;
+  }
+
+  // 创建索引映射：portList 索引 -> btnList 索引
+  let btnListIndex = 0;
+
+  // 遍历 motorList，确保缺失端口也会清理图标
+  for (let i = 0; i < this.motorList.length; i++) {
+    const item = list[i];
+
+    // 跳过 null 端口（这些端口在 btnList 中不存在）
+    if (this.isNullPort_(this.motorList[i])) {
+      continue;
+    }
+
+    // 使用映射后的索引访问 btnList
+    if (btnListIndex < this.btnList.length) {
+      const element = this.btnList[btnListIndex];
+
+      // 检查当前 DOM 状态
+      const currentLastChild = element.lastElementChild;
+      const hasImage = currentLastChild && currentLastChild.tagName === "IMG";
+
+      // 获取期望的图标路径（不创建元素）
+      const expectedSrc = this.getIconSrc(item);
+
+      if (expectedSrc) {
+        // 需要显示图标
+        if (!hasImage) {
+          // 当前没有图标,创建并添加
+          const img = this.checkType(item);
+          if (img) {
+            element.appendChild(img);
+          }
+        } else {
+          // 检查当前图标是否已经是正确的图标
+          const currentSrc = currentLastChild.getAttribute("src");
+          if (currentSrc !== expectedSrc) {
+            // 图标不同,替换图标
+            currentLastChild.remove();
+            const img = this.checkType(item);
+            if (img) {
+              element.appendChild(img);
+            }
+          } else {
+          }
+        }
+      } else {
+        // 不需要显示图标（未知类型或 noDevice）
+        if (hasImage) {
+          // 当前有图标,移除图标
+          currentLastChild.remove();
+        }
+      }
+      btnListIndex++;
+    }
+  }
+};
+
+/**
+ * 根据当前 portList 更新下拉菜单中的图标
+ * 【说明】在打开下拉菜单时调用,确保显示最新的设备状态
+ * @private
+ */
+Blockly.FieldMotor.prototype.updateIconsFromPortList_ = function () {
+  this.updateIconsForPortList_(Blockly.FieldMotor.portList || []);
+};
+
+/**
+ * 判断数据值是什么类型的设备，并创建对应的图标元素
+ * 【性能优化】现在只在真正需要创建图标时才调用此方法
+ * 【调用位置】在 Proxy 的 set 拦截器中，当 portList 更新且需要创建新图标时被调用
+ * @param {string} type - 设备类型（如 "motor", "color", "touch" 等）
+ * @returns {HTMLImageElement|false} 返回创建的 img 元素，如果类型不匹配则返回 false
+ */
+Blockly.FieldMotor.prototype.checkType = function (type) {
+  const src = this.getIconSrc(type);
+  if (!src) {
+    return false;
+  }
+  const img = document.createElement("img");
+  img.setAttribute("class", "lls-dsm-icon");
+  img.src = src;
+
   return img;
 };
 
 /**
- * 创建电机dom
- * @returns
+ * 创建电机选择器的 DOM 结构
+ * 【说明】创建下拉菜单的 DOM，包含左右两侧的端口按钮列表
+ * 【关键】仅创建 DOM，不在这里创建 Proxy
+ * @returns {HTMLElement} 返回包含整个选择器的 div 元素
  */
 Blockly.FieldMotor.prototype.createMototDom_ = function () {
   const div = document.createElement("div");
@@ -366,56 +601,10 @@ Blockly.FieldMotor.prototype.createMototDom_ = function () {
   hub.appendChild(this.leftDom);
   hub.appendChild(this.rightDom);
 
+  // 为每个按钮绑定点击事件
   for (let i = 0; i < this.btnList.length; i++) {
     this.handleClick_(this.btnList[i]);
   }
-
-  const that = this;
-  Blockly.FieldMotor.proxy = function () {
-    if (that.cacheProxy.has(that.sourceBlock_)) {
-      return that.cacheProxy.get(that.sourceBlock_);
-    }
-    let p = new Proxy(Blockly.FieldMotor, {
-      get(target, key) {
-        return Reflect.get(target, key);
-      },
-      set(target, key, value) {
-        target[key] = value;
-        if (key === "portList") {
-          // 创建索引映射：portList 索引 -> btnList 索引
-          let btnListIndex = 0;
-          for (let i = 0; i < value.length; i++) {
-            const item = value[i];
-            // 跳过 null 端口
-            if (
-              that.motorList[i] === "null" ||
-              that.motorList[i] === null ||
-              that.motorList[i] === "NULL"
-            ) {
-              continue;
-            }
-            // 使用映射后的索引访问 btnList
-            if (btnListIndex < that.btnList.length) {
-              const element = that.btnList[btnListIndex];
-              const lastChild = that.checkType(item);
-              if (lastChild) {
-                if (element.childNodes.length > 1) continue;
-                element.appendChild(lastChild);
-              } else {
-                if (element.childNodes.length > 1)
-                  element.lastElementChild.remove();
-                continue;
-              }
-              btnListIndex++;
-            }
-          }
-        }
-        return true;
-      },
-    });
-    that.cacheProxy.set(that.sourceBlock_, p);
-    return p;
-  };
 
   return div;
 };
@@ -433,6 +622,10 @@ Blockly.FieldMotor.prototype.showEditor_ = function () {
   );
   Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
   Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
+
+  // 【关键修复】打开下拉菜单后,立即根据当前 portList 更新图标
+  // 这样可以确保下拉菜单显示的是最新的设备状态
+  this.updateIconsFromPortList_();
 
   if (this.linepatrol_) {
     this.motor_ = this.motor_.split("->")[0];
@@ -504,7 +697,6 @@ Blockly.FieldMotor.prototype.dispose = function () {
   this.leftList = null;
   this.linepatrolList = null;
   this.linepatrol_ = null;
-  Blockly.FieldMotor.proxy = null;
   Blockly.Events.setGroup(false);
   Blockly.FieldMotor.superClass_.dispose.call(this);
 };

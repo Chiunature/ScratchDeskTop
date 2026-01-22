@@ -7,10 +7,12 @@ import superSoundIcon from "scratch-blocks/media/super_sound.svg";
 import touchPressIcon from "scratch-blocks/media/touch_press.svg";
 import cameraSensingIcon from "scratch-blocks/media/camera.svg";
 import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
+import lightIntensityIcon from "scratch-blocks/media/lightIntensity.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
 const DeviceSensing = ({ deviceObj, intl }) => {
+    console.log("deviceObj", deviceObj);
     function changeUnitList(unit, index, deviceId) {
         let list = window.myAPI.getStoreValue("sensing-unit-list");
         if (list) {
@@ -65,6 +67,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
             case 6:
                 return smallMotorSensingIcon;
             case 2:
+                return lightIntensityIcon;
             case 7:
                 return colorSensingIcon;
             case 3:
