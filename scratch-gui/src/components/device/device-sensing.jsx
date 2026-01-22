@@ -12,7 +12,6 @@ import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
 const DeviceSensing = ({ deviceObj, intl }) => {
-    console.log("deviceObj", deviceObj);
     function changeUnitList(unit, index, deviceId) {
         let list = window.myAPI.getStoreValue("sensing-unit-list");
         if (list) {
