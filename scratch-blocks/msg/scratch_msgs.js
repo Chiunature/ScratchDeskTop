@@ -6867,7 +6867,7 @@ Blockly.ScratchMsgs.locales["el"] = {
   SLOW: "ΣΙΓΑ",
   SLOWER: "Πιο αργά",
 };
-
+// 英文
 Blockly.ScratchMsgs.locales["en"] = {
   POWER: "power",
   SPEED: "speed",
@@ -7050,7 +7050,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   ANGLE_MOTOR: "%1 %2 angle",
   MOTOR_POSITION: "%1 motor %2 position",
   SPECIFIEDANGLE_MOTOR: "%1 %2 with %3 go to %4",
-  SPECIFIEDUNIT_MOTOR: "%1 %2 %3 run %4 %5",
+  SPECIFIEDUNIT_MOTOR: "%1 %2 %3 speed run %4 %5",
   SPEED_MOTOR: "%1 %2 set speed to %3 %%",
   STOP_MOTOR: "%1 %2 stop motor",
   STARTING_MOTOR: "%1 %2 %3 starting motor",
@@ -7058,7 +7058,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   SPECIFIED_MANNER: "%1 %2 When setting the motor to stop %3",
   COMBINED_MOTOR_MOVE: "%1 moves %4 %5 at a rate of %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 combined motor %2 %3 %4 %5 moves %6 %7",
-  COMBINED_MOTOR_LINE: "%1 started moving %3 %4 towards %2",
+  COMBINED_MOTOR_LINE: "%1 started moving %3 %4 speed towards %2",
   COMBINED_MOTOR_SPEED: "%1 Set combined motor speed to %2 %%",
   COMBINED_MOTOR_STOP: "%1 combined motor stops moving",
   DIRECTION_MOTOR: "%1 starts moving to %2",
@@ -7069,7 +7069,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   COMBINED_MOTOR_STARTWITHPOWER:
     "%1 combined motor move with %2 %% and %3 %% %4",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 combined motor started with %2 %3 %4 %5",
+    "%1 combined motor started with %2 %% %3 %% speed %4 %5",
   COMBINED_MOTOR_MOVEBYYAWANGLE:
     "%1 combination motor based on yaw angle straight line %2 %3 %4",
   COMBINED_MOTOR_SPINBYYAWANGLE:
@@ -29322,13 +29322,13 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   STARTING_MOTOR: "%1 电机%2 启动电机 %3",
   STOP_MOTOR: "%1 电机%2 关闭电机",
   SPEED_MOTOR: "%1 电机%2 将速率设为 %3 %%",
-  SPECIFIEDUNIT_MOTOR: "%1 电机%2 %3 运行 %4 %5",
+  SPECIFIEDUNIT_MOTOR: "%1 电机%2 %3 速度 运行 %4 %5",
   SPECIFIEDANGLE_MOTOR: "%1 电机%2 以 %3 转至位置 %4",
   RELATIVE_POSITION: "%1 电机%2 将相对位置设置为 %3",
   SPECIFIED_MANNER: "%1 电机%2 将电机设置为停止时 %3",
   COMBINED_MOTOR_MOVE: "%1 以 %2%% + %3 %%的速率移动 %4 %5",
   COMBINED_MOTOR_TURN: "%1 组合电机 %2 %3 %4 %5 移动 %6 %7",
-  COMBINED_MOTOR_LINE: "%1 开始向 %2 移动 %3 %4",
+  COMBINED_MOTOR_LINE: "%1 开始向 %2 速度 移动 %3 %4",
   COMBINED_MOTOR_SPEED: "%1 将组合电机速率设为 %2 %%",
   COMBINED_MOTOR_STOP: "%1 组合电机停止运动",
   DIRECTION_MOTOR: "%1 开始向 %2 移动",
@@ -29338,7 +29338,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   COMBINED_MOTOR_STARTING: "%1 将组合电机设置为 %2",
   COMBINED_MOTOR_STARTWITHPOWER: "%1 组合电机以 %2 %% 和 %3 %% %4移动",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 组合电机以 %2 %% 和 %3 %%的功率 执行 %4 %5",
+    "%1 组合电机以 %2 %% 和 %3 %%的速度 执行 %4 %5",
   COMBINED_MOTOR_MOVEBYYAWANGLE: "%1 组合电机根据偏航角直线 %2 %3 %4",
   COMBINED_MOTOR_SPINBYYAWANGLE: "%1 组合电机根据偏航角旋转 %2 度",
   COMBINED_MOTOR_PWM: "%1 组合电机设置电机的PWM值为 %2 和 %3",
@@ -30086,7 +30086,7 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   ANGLE_MOTOR: "%1 電機%2 角度",
   MOTOR_POSITION: "%1 電機%2 位置",
   SPECIFIEDANGLE_MOTOR: "%1 電機%2 和 %3 轉到 %4",
-  SPECIFIEDUNIT_MOTOR: "%1 電機%2 %3 運行 %4 %5",
+  SPECIFIEDUNIT_MOTOR: "%1 電機%2 %3 速度 運行 %4 %5",
   SPEED_MOTOR: "%1 電機%2 將速度設定為 %3 %%",
   STOP_MOTOR: "%1 %2 停止電機",
   STARTING_MOTOR: "%1 電機%2 啟動電機 %3",
@@ -30103,7 +30103,8 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   COMBINED_MOTOR_STOPPING: "%1 將運轉馬達設定為停止時 %2",
   COMBINED_MOTOR_STARTING: "%1 將組合馬達設定為 %2",
   COMBINED_MOTOR_STARTWITHPOWER: "%1 組合馬達以 %2 %% 和 %3 %% %4移動",
-  COMBINED_MOTOR_STARTWITHPOWEROBJ: "%1 組合電機以 %2 %3 執行 %4 %5",
+  COMBINED_MOTOR_STARTWITHPOWEROBJ:
+    "%1 組合電機以 %2 %% %3 %%的速度 執行 %4 %5",
   MOTOR_STARTWITHPOWER: "%1 馬達 %2 以 %3 %% 的動力啟動",
   BIG_MOTOR: "大馬達",
   SMALL_MOTOR: "中馬達",

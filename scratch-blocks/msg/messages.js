@@ -152,7 +152,7 @@ Blockly.Msg.LOOKS_RANDOMBACKDROP = "random backdrop";
 // combined motor blocks
 Blockly.Msg.STARTING_COMBINED_MOTOR = "%1 set the running motor to %2 %3";
 Blockly.Msg.DIRECTION_MOTOR = "%1 start moving %2";
-Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 moving %3 %4";
+Blockly.Msg.COMBINED_MOTOR_LINE = "%1 started moving %3 %4 speed towards %2";
 Blockly.Msg.COMBINED_MOTOR_SPEED =
   "%1 Combined speed of engine is set to %2 %%";
 Blockly.Msg.COMBINED_MOTOR_TURN = "%1 combined motor %2 %3 %4 %5 moving %6 %7";
@@ -173,7 +173,7 @@ Blockly.Msg.STOPPING_COMBINED_MOTOR =
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
   "%1 combined motor move with %2 %% and %3 %% %4";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
-  "%1 Combination motor executed at %2 %3 %4 %5";
+  "%1 combined motor started with %2 %% %3 %% speed %4 %5";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
   "%1 combination motor based on yaw angle straight line %2 %3 %4";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE =
@@ -201,7 +201,7 @@ Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
 Blockly.Msg.ANGLE_MOTOR = "%1 %2 angle";
 Blockly.Msg.MOTOR_POSITION = "%1 %2 position";
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
-Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 run %4 %5";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 speed run %4 %5";
 Blockly.Msg.SPEED_MOTOR = "%1 %2 set speed to %3 %%";
 Blockly.Msg.STOP_MOTOR = "%1 %2 stop motor";
 Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
