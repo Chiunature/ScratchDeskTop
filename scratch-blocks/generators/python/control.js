@@ -199,3 +199,41 @@ Blockly.Python["control_stop"] = function (block) {
     Blockly.Python.TIMER_TYPE
   );
 };
+
+Blockly.Python["control_if_elseif_else"] = function (block) {
+  let argument =
+    Blockly.Python.valueToCode(block, "CONDITION", Blockly.Python.ORDER_NONE) ||
+    "False";
+  let argument2 =
+    Blockly.Python.valueToCode(
+      block,
+      "CONDITION2",
+      Blockly.Python.ORDER_NONE
+    ) || "False";
+  let branch = Blockly.Python.statementToCode(block, "SUBSTACK");
+  branch = Blockly.Python.addLoopTrap(branch, block.id);
+  let branch2 = Blockly.Python.statementToCode(block, "SUBSTACK2");
+  branch2 = Blockly.Python.addLoopTrap(branch2, block.id);
+  let branch3 = Blockly.Python.statementToCode(block, "SUBSTACK3");
+  branch3 = Blockly.Python.addLoopTrap(branch3, block.id);
+
+  let code = "if " + argument + ":\n";
+  if (branch) {
+    code += Blockly.Python.addIndent(branch);
+  } else {
+    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
+  }
+  code += "else if " + argument2 + ":\n";
+  if (branch2) {
+    code += Blockly.Python.addIndent(branch2);
+  } else {
+    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
+  }
+  code += "else:\n";
+  if (branch3) {
+    code += Blockly.Python.addIndent(branch2);
+  } else {
+    code += Blockly.Python.INDENT + Blockly.Python.INDENT + "pass\n";
+  }
+  return code;
+};

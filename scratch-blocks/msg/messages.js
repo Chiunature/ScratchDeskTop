@@ -41,6 +41,7 @@ Blockly.Msg.SPEED = "speed";
 Blockly.Msg.CONTROL_FOREVER = "forever";
 Blockly.Msg.CONTROL_REPEAT = "repeat %1";
 Blockly.Msg.CONTROL_IF = "if %1 then";
+Blockly.Msg.CONTROL_ELSEIF = "else if %1 then";
 Blockly.Msg.CONTROL_ELSE = "else";
 Blockly.Msg.CONTROL_STOP = "stop";
 Blockly.Msg.CONTROL_STOP_ALL = "all";

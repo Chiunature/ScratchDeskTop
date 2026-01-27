@@ -565,3 +565,333 @@ Blockly.Blocks["control_break"] = {
     });
   },
 };
+
+// 自定义 Field 用于显示添加 else if 的按钮
+Blockly.FieldElseIfButton = function () {
+  Blockly.FieldElseIfButton.superClass_.constructor.call(this, "+");
+  this.addElseIfCallback_ = null;
+};
+goog.inherits(Blockly.FieldElseIfButton, Blockly.FieldLabel);
+
+Blockly.FieldElseIfButton.prototype.init = function (block) {
+  if (this.fieldGroup_) {
+    // 已经初始化过，避免重复初始化导致重影
+    return;
+  }
+  Blockly.FieldElseIfButton.superClass_.init.call(this, block);
+  var self = this;
+  this.addElseIfCallback_ = function () {
+    if (block && block.addElseIf) {
+      block.addElseIf();
+    }
+  };
+
+  // 绑定点击事件
+  if (this.textElement_) {
+    Blockly.bindEvent_(this.textElement_, "mousedown", this, function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      if (self.addElseIfCallback_) {
+        self.addElseIfCallback_();
+      }
+    });
+  }
+};
+
+// 重写 render_ 方法，避免重复渲染导致重影
+Blockly.FieldElseIfButton.prototype.render_ = function () {
+  if (this.visible_ && this.textElement_) {
+    // 使用 textContent 而不是 appendChild，避免重复渲染
+    this.textElement_.textContent = "+";
+
+    // 确保样式正确应用（每次渲染时都设置，防止被覆盖）
+    this.textElement_.style.cursor = "pointer";
+    this.textElement_.style.fill = "#fff";
+    this.textElement_.style.fontWeight = "bold";
+    this.textElement_.style.fontSize = "36px"; // 增大字体到 22px
+    this.textElement_.style.fontFamily = "Arial, sans-serif";
+    this.textElement_.style.userSelect = "none";
+    this.textElement_.style.pointerEvents = "all";
+
+    // 更新宽度
+    this.updateWidth();
+
+    // 设置位置（参考 Field.prototype.render_）
+    var centerTextX = (this.size_.width - this.arrowWidth_) / 2;
+    if (this.sourceBlock_ && this.sourceBlock_.RTL) {
+      centerTextX += this.arrowWidth_;
+    }
+
+    // 对于非 shadow block，使用最小偏移量
+    if (
+      this.sourceBlock_ &&
+      !this.sourceBlock_.isShadow() &&
+      !this.positionArrow
+    ) {
+      var minOffset = Blockly.BlockSvg.FIELD_WIDTH / 2;
+      if (this.sourceBlock_.RTL) {
+        var minCenter = this.size_.width - minOffset;
+        centerTextX = Math.min(minCenter, centerTextX);
+      } else {
+        centerTextX = Math.max(minOffset, centerTextX);
+      }
+    }
+
+    // 应用位置
+    this.textElement_.setAttribute("x", centerTextX);
+  }
+};
+
+Blockly.Field.register("field_elseif_button", {
+  fromJson: function (options) {
+    return new Blockly.FieldElseIfButton();
+  },
+});
+
+Blockly.Blocks["control_if_elseif_else"] = {
+  /**
+   * Block for if-elseif-else with dynamic else if branches.
+   * @this Blockly.Block
+   */
+  init: function () {
+    // 初始化 else if 分支数量（默认为1个）
+    this.elseIfCount_ = this.elseIfCount_ || 1;
+
+    this.updateBlock_();
+  },
+
+  /**
+   * 更新积木块结构
+   * @private
+   */
+  updateBlock_: function () {
+    // 保存当前连接的值
+    var savedValues = {};
+    var savedStatements = {};
+
+    // 保存所有条件输入的值
+    if (this.getInput("CONDITION")) {
+      var targetBlock = this.getInput("CONDITION").connection.targetBlock();
+      if (targetBlock) {
+        savedValues["CONDITION"] = targetBlock;
+      }
+    }
+
+    // 保存所有语句输入的值
+    if (this.getInput("SUBSTACK")) {
+      var targetBlock = this.getInput("SUBSTACK").connection.targetBlock();
+      if (targetBlock) {
+        savedStatements["SUBSTACK"] = targetBlock;
+      }
+    }
+
+    for (var i = 0; i < (this.elseIfCount_ || 1); i++) {
+      var condName = "CONDITION" + (i + 2);
+      var stackName = "SUBSTACK" + (i + 2);
+      if (this.getInput(condName)) {
+        var targetBlock = this.getInput(condName).connection.targetBlock();
+        if (targetBlock) {
+          savedValues[condName] = targetBlock;
+        }
+      }
+      if (this.getInput(stackName)) {
+        var targetBlock = this.getInput(stackName).connection.targetBlock();
+        if (targetBlock) {
+          savedStatements[stackName] = targetBlock;
+        }
+      }
+    }
+
+    // 保存 else 分支
+    if (this.getInput("SUBSTACK_ELSE")) {
+      var targetBlock = this.getInput("SUBSTACK_ELSE").connection.targetBlock();
+      if (targetBlock) {
+        savedStatements["SUBSTACK_ELSE"] = targetBlock;
+      }
+    }
+
+    // 清除所有输入（正确地销毁 Field 对象）
+    while (this.inputList.length > 0) {
+      this.removeInput(this.inputList[0].name);
+    }
+
+    // 构建消息和参数数组
+    var messages = [];
+    var args = [];
+    var msgIndex = 0;
+
+    // message0: if %1 then
+    messages[msgIndex] = Blockly.Msg.CONTROL_IF;
+    args[msgIndex] = [
+      {
+        type: "input_value",
+        name: "CONDITION",
+        check: "Boolean",
+      },
+    ];
+    msgIndex++;
+
+    // message1: %1 (语句)
+    messages[msgIndex] = "%1";
+    args[msgIndex] = [
+      {
+        type: "input_statement",
+        name: "SUBSTACK",
+      },
+    ];
+    msgIndex++;
+
+    // 添加 else if 分支
+    for (var i = 0; i < this.elseIfCount_; i++) {
+      // else if %1 then (CONTROL_ELSEIF 已经包含 %1)
+      // 在最后一个 else if 的"那么"后添加"+"按钮
+      if (i === this.elseIfCount_ - 1) {
+        // CONTROL_ELSEIF = "else if %1 then"，我们需要添加 %2 用于按钮
+        // 所以消息变成 "else if %1 then %2"
+        var elseIfMsg = Blockly.Msg.CONTROL_ELSEIF; // "else if %1 then"
+        // 替换 %1 为 %1 %2，这样 %1 是条件，%2 是按钮
+        messages[msgIndex] = elseIfMsg.replace("%1", "%1 %2");
+        args[msgIndex] = [
+          {
+            type: "input_value",
+            name: "CONDITION" + (i + 2),
+            check: "Boolean",
+          },
+          {
+            type: "field_elseif_button",
+            name: "ADD_ELSEIF",
+          },
+        ];
+      } else {
+        messages[msgIndex] = Blockly.Msg.CONTROL_ELSEIF;
+        args[msgIndex] = [
+          {
+            type: "input_value",
+            name: "CONDITION" + (i + 2),
+            check: "Boolean",
+          },
+        ];
+      }
+      msgIndex++;
+
+      // %1 (语句)
+      messages[msgIndex] = "%1";
+      args[msgIndex] = [
+        {
+          type: "input_statement",
+          name: "SUBSTACK" + (i + 2),
+        },
+      ];
+      msgIndex++;
+    }
+
+    // else
+    messages[msgIndex] = Blockly.Msg.CONTROL_ELSE;
+    // else 没有参数，所以不添加 args
+    msgIndex++;
+
+    // %1 (else 语句)
+    messages[msgIndex] = "%1";
+    args[msgIndex] = [
+      {
+        type: "input_statement",
+        name: "SUBSTACK_ELSE",
+      },
+    ];
+
+    // 构建 jsonInit 对象
+    var jsonDef = {
+      type: "control_if_elseif_else",
+      category: Blockly.Categories.control,
+      extensions: ["colours_control", "shape_statement"],
+    };
+
+    // 添加所有消息和参数
+    for (var i = 0; i < messages.length; i++) {
+      jsonDef["message" + i] = messages[i];
+      if (args[i]) {
+        jsonDef["args" + i] = args[i];
+      }
+    }
+
+    // 重新初始化
+    this.jsonInit(jsonDef);
+
+    // 恢复连接的值
+    for (var name in savedValues) {
+      if (savedValues[name] && this.getInput(name)) {
+        try {
+          this.getInput(name).connection.connect(
+            savedValues[name].outputConnection
+          );
+        } catch (e) {
+          // 连接失败，忽略
+        }
+      }
+    }
+
+    for (var name in savedStatements) {
+      if (savedStatements[name] && this.getInput(name)) {
+        try {
+          this.getInput(name).connection.connect(
+            savedStatements[name].previousConnection
+          );
+        } catch (e) {
+          // 连接失败，忽略
+        }
+      }
+    }
+
+    // 绑定按钮回调 - 延迟执行以确保 Field 已初始化
+    var self = this;
+    setTimeout(function () {
+      var addButtonField = self.getField("ADD_ELSEIF");
+      if (addButtonField) {
+        addButtonField.addElseIfCallback_ = function () {
+          self.addElseIf();
+        };
+      }
+    }, 0);
+  },
+
+  /**
+   * 添加一个 else if 分支
+   */
+  addElseIf: function () {
+    Blockly.Events.setGroup(true);
+    var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
+    this.elseIfCount_ = (this.elseIfCount_ || 1) + 1;
+    this.updateBlock_();
+    var newMutation = Blockly.Xml.domToText(this.mutationToDom());
+    Blockly.Events.fire(
+      new Blockly.Events.BlockChange(
+        this,
+        "mutation",
+        null,
+        oldMutation,
+        newMutation
+      )
+    );
+    Blockly.Events.setGroup(false);
+  },
+
+  /**
+   * 保存变异信息到 DOM
+   */
+  mutationToDom: function () {
+    var container = document.createElement("mutation");
+    container.setAttribute("elseifcount", this.elseIfCount_ || 1);
+    return container;
+  },
+
+  /**
+   * 从 DOM 恢复变异信息
+   */
+  domToMutation: function (xmlElement) {
+    this.elseIfCount_ = parseInt(
+      xmlElement.getAttribute("elseifcount") || "1",
+      10
+    );
+    this.updateBlock_();
+  },
+};
