@@ -570,34 +570,52 @@ Blockly.Blocks["control_break"] = {
 Blockly.FieldElseIfButton = function () {
   Blockly.FieldElseIfButton.superClass_.constructor.call(this, "+");
   this.addElseIfCallback_ = null;
+  this.clickListener_ = null;
 };
 goog.inherits(Blockly.FieldElseIfButton, Blockly.FieldLabel);
+Blockly.FieldElseIfButton.prototype.init = function () {
+  // FieldLabel.init 只负责创建/挂载 textElement_；它本身不会绑定点击事件。
+  Blockly.FieldElseIfButton.superClass_.init.call(this);
 
-Blockly.FieldElseIfButton.prototype.init = function (block) {
-  if (this.fieldGroup_) {
-    // 已经初始化过，避免重复初始化导致重影
-    return;
+  // 先解绑旧事件（避免重建/重渲染后重复绑定）
+  if (this.clickListener_) {
+    Blockly.unbindEvent_(this.clickListener_);
+    this.clickListener_ = null;
   }
-  Blockly.FieldElseIfButton.superClass_.init.call(this, block);
-  var self = this;
-  this.addElseIfCallback_ = function () {
-    if (block && block.addElseIf) {
-      block.addElseIf();
-    }
-  };
 
-  // 绑定点击事件
-  if (this.textElement_) {
-    Blockly.bindEvent_(this.textElement_, "mousedown", this, function (e) {
+  // FieldLabel 的根节点就是 textElement_；用 getSvgRoot() 更稳妥
+  var clickTarget = this.getSvgRoot ? this.getSvgRoot() : this.textElement_;
+  if (!clickTarget) return;
+
+  this.clickListener_ = Blockly.bindEvent_(
+    clickTarget,
+    "mousedown",
+    this,
+    function (e) {
+      console.log("🖱️ [CLICK] + 按钮被点击！");
       e.stopPropagation();
       e.preventDefault();
-      if (self.addElseIfCallback_) {
-        self.addElseIfCallback_();
+
+      // 优先走外部回调（updateBlock_ 里会赋值），没有则回退到 sourceBlock_ 方法
+      if (this.addElseIfCallback_) {
+        this.addElseIfCallback_();
+        return;
       }
-    });
-  }
+      var b = this.sourceBlock_;
+      if (b && b.addElseIf) {
+        b.addElseIf();
+      }
+    }
+  );
 };
 
+Blockly.FieldElseIfButton.prototype.dispose = function () {
+  if (this.clickListener_) {
+    Blockly.unbindEvent_(this.clickListener_);
+    this.clickListener_ = null;
+  }
+  Blockly.FieldElseIfButton.superClass_.dispose.call(this);
+};
 // 重写 render_ 方法，避免重复渲染导致重影
 Blockly.FieldElseIfButton.prototype.render_ = function () {
   if (this.visible_ && this.textElement_) {
@@ -652,29 +670,49 @@ Blockly.Field.register("field_elseif_button", {
 Blockly.FieldElseIfRemoveButton = function () {
   Blockly.FieldElseIfRemoveButton.superClass_.constructor.call(this, "−");
   this.removeElseIfCallback_ = null;
+  this.clickListener_ = null;
 };
 goog.inherits(Blockly.FieldElseIfRemoveButton, Blockly.FieldLabel);
 
-Blockly.FieldElseIfRemoveButton.prototype.init = function (block) {
-  if (this.fieldGroup_) {
-    // 已经初始化过，避免重复初始化导致重影
-    return;
-  }
-  Blockly.FieldElseIfRemoveButton.superClass_.init.call(this, block);
-  var self = this;
+Blockly.FieldElseIfRemoveButton.prototype.init = function () {
+  Blockly.FieldElseIfRemoveButton.superClass_.init.call(this);
 
-  // 绑定点击事件
-  if (this.textElement_) {
-    Blockly.bindEvent_(this.textElement_, "mousedown", this, function (e) {
+  // 先解绑旧事件（避免重建/重渲染后重复绑定）
+  if (this.clickListener_) {
+    Blockly.unbindEvent_(this.clickListener_);
+    this.clickListener_ = null;
+  }
+
+  var clickTarget = this.getSvgRoot ? this.getSvgRoot() : this.textElement_;
+  if (!clickTarget) return;
+
+  this.clickListener_ = Blockly.bindEvent_(
+    clickTarget,
+    "mousedown",
+    this,
+    function (e) {
       e.stopPropagation();
       e.preventDefault();
-      if (self.removeElseIfCallback_) {
-        self.removeElseIfCallback_();
-      } else if (block && block.removeElseIf) {
-        block.removeElseIf();
+
+      // 优先走外部回调（updateBlock_ 里会赋值），没有则回退到 sourceBlock_ 方法
+      if (this.removeElseIfCallback_) {
+        this.removeElseIfCallback_();
+        return;
       }
-    });
+      var b = this.sourceBlock_;
+      if (b && b.removeElseIf) {
+        b.removeElseIf();
+      }
+    }
+  );
+};
+
+Blockly.FieldElseIfRemoveButton.prototype.dispose = function () {
+  if (this.clickListener_) {
+    Blockly.unbindEvent_(this.clickListener_);
+    this.clickListener_ = null;
   }
+  Blockly.FieldElseIfRemoveButton.superClass_.dispose.call(this);
 };
 
 // 重写 render_ 方法，避免重复渲染导致重影
@@ -738,6 +776,18 @@ Blockly.Blocks["control_if_elseif_else"] = {
    * @private
    */
   updateBlock_: function () {
+    // 获取调用者信息（可选）
+    try {
+      throw new Error();
+    } catch (e) {
+      const stack = e.stack.split("\n")[2]; // 取上一层调用
+      console.log("🔄 [UPDATE] updateBlock_ 被调用 from:", stack.trim());
+    }
+
+    console.log(
+      "🛠️ [UPDATE] 开始重建 block，当前 elseIfCount_ =",
+      this.elseIfCount_
+    );
     // 保存当前连接的值
     var savedValues = {};
     var savedStatements = {};
@@ -822,12 +872,15 @@ Blockly.Blocks["control_if_elseif_else"] = {
 
     // 添加 else if 分支
     for (var i = 0; i < this.elseIfCount_; i++) {
+      //唯一名称
+      const removeFieldName = "REMOVE_ELSEIF_" + i;
+
       const elseIfMsg = Blockly.Msg.CONTROL_ELSEIF;
       messages[msgIndex] = "%1 " + elseIfMsg.replace("%1", "%2");
       args[msgIndex] = [
         {
           type: "field_remove_elseif_button",
-          name: "REMOVE_ELSEIF",
+          name: removeFieldName,
         },
         {
           type: "input_value",
@@ -877,8 +930,13 @@ Blockly.Blocks["control_if_elseif_else"] = {
       }
     }
 
+    console.log("🔧 [DEBUG] 准备重建 block，elseIfCount =", this.elseIfCount_);
+    console.log("🔧 [DEBUG] 消息结构:", messages);
+    console.log("🔧 [DEBUG] 参数结构:", args);
     // 重新初始化
     this.jsonInit(jsonDef);
+
+    console.log("🔧 [DEBUG] 最终 jsonDef:", JSON.stringify(jsonDef, null, 2));
 
     // 恢复连接的值
     for (var name in savedValues) {
@@ -907,6 +965,15 @@ Blockly.Blocks["control_if_elseif_else"] = {
 
     // 绑定按钮回调 - 延迟执行以确保 Field 已初始化
     var self = this;
+    // 只有在 block 已经渲染到 workspace 后才强制重绘
+    if (this.rendered) {
+      this.render();
+    }
+
+    this.inputList.forEach((input) => {
+      console.log(input.name + ": connection=" + !!input.connection);
+    });
+
     setTimeout(function () {
       var addButtonField = self.getField("ADD_ELSEIF_TOP");
       if (addButtonField) {
@@ -915,11 +982,16 @@ Blockly.Blocks["control_if_elseif_else"] = {
         };
       }
 
-      var removeButtonField = self.getField("REMOVE_ELSEIF");
-      if (removeButtonField) {
-        removeButtonField.removeElseIfCallback_ = function () {
-          self.removeElseIf();
-        };
+      // 遍历所有 REMOVE_ELSEIF_X 字段，全部绑定到 removeElseIf()
+      for (var i = 0; i < self.elseIfCount_; i++) {
+        const removeFieldName = "REMOVE_ELSEIF_" + i;
+        const field = self.getField(removeFieldName);
+        if (field) {
+          // 所有按钮都执行同一个操作：删除最后一个 elseif
+          field.removeElseIfCallback_ = function () {
+            self.removeElseIf();
+          };
+        }
       }
     }, 0);
   },
@@ -928,9 +1000,14 @@ Blockly.Blocks["control_if_elseif_else"] = {
    * 添加一个 else if 分支
    */
   addElseIf: function () {
+    console.log(
+      "🟢 [ACTION] addElseIf() 被调用！当前 elseIfCount_ =",
+      this.elseIfCount_
+    );
     Blockly.Events.setGroup(true);
     var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
     this.elseIfCount_ = (this.elseIfCount_ || 1) + 1;
+    console.log("   → 增加后 elseIfCount_ =", this.elseIfCount_);
     this.updateBlock_();
     var newMutation = Blockly.Xml.domToText(this.mutationToDom());
     Blockly.Events.fire(
@@ -949,9 +1026,15 @@ Blockly.Blocks["control_if_elseif_else"] = {
    * 删除一个 else if 分支（默认删除最后一个）
    */
   removeElseIf: function () {
+    console.log(
+      "🔴 [ACTION] removeElseIf() 被调用！当前 elseIfCount_ =",
+      this.elseIfCount_
+    );
     if ((this.elseIfCount_ || 1) <= 1) {
+      console.log("   → 不允许删除，返回");
       return;
     }
+    console.log("   → 删除后 elseIfCount_ =", this.elseIfCount_);
     Blockly.Events.setGroup(true);
     var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
     this.elseIfCount_ = (this.elseIfCount_ || 1) - 1;
