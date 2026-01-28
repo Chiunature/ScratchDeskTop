@@ -648,6 +648,79 @@ Blockly.Field.register("field_elseif_button", {
   },
 });
 
+// 自定义 Field 用于显示删除 else if 的按钮（删除最后一个 elseif 分支）
+Blockly.FieldElseIfRemoveButton = function () {
+  Blockly.FieldElseIfRemoveButton.superClass_.constructor.call(this, "−");
+  this.removeElseIfCallback_ = null;
+};
+goog.inherits(Blockly.FieldElseIfRemoveButton, Blockly.FieldLabel);
+
+Blockly.FieldElseIfRemoveButton.prototype.init = function (block) {
+  if (this.fieldGroup_) {
+    // 已经初始化过，避免重复初始化导致重影
+    return;
+  }
+  Blockly.FieldElseIfRemoveButton.superClass_.init.call(this, block);
+  var self = this;
+
+  // 绑定点击事件
+  if (this.textElement_) {
+    Blockly.bindEvent_(this.textElement_, "mousedown", this, function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      if (self.removeElseIfCallback_) {
+        self.removeElseIfCallback_();
+      } else if (block && block.removeElseIf) {
+        block.removeElseIf();
+      }
+    });
+  }
+};
+
+// 重写 render_ 方法，避免重复渲染导致重影
+Blockly.FieldElseIfRemoveButton.prototype.render_ = function () {
+  if (this.visible_ && this.textElement_) {
+    this.textElement_.textContent = "−";
+
+    this.textElement_.style.cursor = "pointer";
+    this.textElement_.style.fill = "#fff";
+    this.textElement_.style.fontWeight = "bold";
+    this.textElement_.style.fontSize = "36px";
+    this.textElement_.style.fontFamily = "Arial, sans-serif";
+    this.textElement_.style.userSelect = "none";
+    this.textElement_.style.pointerEvents = "all";
+
+    this.updateWidth();
+
+    var centerTextX = (this.size_.width - this.arrowWidth_) / 2;
+    if (this.sourceBlock_ && this.sourceBlock_.RTL) {
+      centerTextX += this.arrowWidth_;
+    }
+
+    if (
+      this.sourceBlock_ &&
+      !this.sourceBlock_.isShadow() &&
+      !this.positionArrow
+    ) {
+      var minOffset = Blockly.BlockSvg.FIELD_WIDTH / 2;
+      if (this.sourceBlock_.RTL) {
+        var minCenter = this.size_.width - minOffset;
+        centerTextX = Math.min(minCenter, centerTextX);
+      } else {
+        centerTextX = Math.max(minOffset, centerTextX);
+      }
+    }
+
+    this.textElement_.setAttribute("x", centerTextX);
+  }
+};
+
+Blockly.Field.register("field_remove_elseif_button", {
+  fromJson: function (options) {
+    return new Blockly.FieldElseIfRemoveButton();
+  },
+});
+
 Blockly.Blocks["control_if_elseif_else"] = {
   /**
    * Block for if-elseif-else with dynamic else if branches.
@@ -721,8 +794,14 @@ Blockly.Blocks["control_if_elseif_else"] = {
     var msgIndex = 0;
 
     // message0: if %1 then
-    messages[msgIndex] = Blockly.Msg.CONTROL_IF;
+    // 在 if 前添加 "+" 按钮："%1 if %2 then"
+    var ifMsg = Blockly.Msg.CONTROL_IF; // "if %1 then"
+    messages[msgIndex] = "%1 " + ifMsg.replace("%1", "%2");
     args[msgIndex] = [
+      {
+        type: "field_elseif_button",
+        name: "ADD_ELSEIF_TOP",
+      },
       {
         type: "input_value",
         name: "CONDITION",
@@ -743,35 +822,19 @@ Blockly.Blocks["control_if_elseif_else"] = {
 
     // 添加 else if 分支
     for (var i = 0; i < this.elseIfCount_; i++) {
-      // else if %1 then (CONTROL_ELSEIF 已经包含 %1)
-      // 在最后一个 else if 的"那么"后添加"+"按钮
-      if (i === this.elseIfCount_ - 1) {
-        // CONTROL_ELSEIF = "else if %1 then"，我们需要添加 %2 用于按钮
-        // 所以消息变成 "else if %1 then %2"
-        var elseIfMsg = Blockly.Msg.CONTROL_ELSEIF; // "else if %1 then"
-        // 替换 %1 为 %1 %2，这样 %1 是条件，%2 是按钮
-        messages[msgIndex] = elseIfMsg.replace("%1", "%1 %2");
-        args[msgIndex] = [
-          {
-            type: "input_value",
-            name: "CONDITION" + (i + 2),
-            check: "Boolean",
-          },
-          {
-            type: "field_elseif_button",
-            name: "ADD_ELSEIF",
-          },
-        ];
-      } else {
-        messages[msgIndex] = Blockly.Msg.CONTROL_ELSEIF;
-        args[msgIndex] = [
-          {
-            type: "input_value",
-            name: "CONDITION" + (i + 2),
-            check: "Boolean",
-          },
-        ];
-      }
+      const elseIfMsg = Blockly.Msg.CONTROL_ELSEIF;
+      messages[msgIndex] = "%1 " + elseIfMsg.replace("%1", "%2");
+      args[msgIndex] = [
+        {
+          type: "field_remove_elseif_button",
+          name: "REMOVE_ELSEIF",
+        },
+        {
+          type: "input_value",
+          name: "CONDITION" + (i + 2),
+          check: "Boolean",
+        },
+      ];
       msgIndex++;
 
       // %1 (语句)
@@ -845,10 +908,17 @@ Blockly.Blocks["control_if_elseif_else"] = {
     // 绑定按钮回调 - 延迟执行以确保 Field 已初始化
     var self = this;
     setTimeout(function () {
-      var addButtonField = self.getField("ADD_ELSEIF");
+      var addButtonField = self.getField("ADD_ELSEIF_TOP");
       if (addButtonField) {
         addButtonField.addElseIfCallback_ = function () {
           self.addElseIf();
+        };
+      }
+
+      var removeButtonField = self.getField("REMOVE_ELSEIF");
+      if (removeButtonField) {
+        removeButtonField.removeElseIfCallback_ = function () {
+          self.removeElseIf();
         };
       }
     }, 0);
@@ -861,6 +931,30 @@ Blockly.Blocks["control_if_elseif_else"] = {
     Blockly.Events.setGroup(true);
     var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
     this.elseIfCount_ = (this.elseIfCount_ || 1) + 1;
+    this.updateBlock_();
+    var newMutation = Blockly.Xml.domToText(this.mutationToDom());
+    Blockly.Events.fire(
+      new Blockly.Events.BlockChange(
+        this,
+        "mutation",
+        null,
+        oldMutation,
+        newMutation
+      )
+    );
+    Blockly.Events.setGroup(false);
+  },
+
+  /**
+   * 删除一个 else if 分支（默认删除最后一个）
+   */
+  removeElseIf: function () {
+    if ((this.elseIfCount_ || 1) <= 1) {
+      return;
+    }
+    Blockly.Events.setGroup(true);
+    var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
+    this.elseIfCount_ = (this.elseIfCount_ || 1) - 1;
     this.updateBlock_();
     var newMutation = Blockly.Xml.domToText(this.mutationToDom());
     Blockly.Events.fire(
