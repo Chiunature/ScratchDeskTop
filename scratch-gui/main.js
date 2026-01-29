@@ -170,6 +170,11 @@ function openBle(pack) {
     });
 }
 
+// 添加退出应用的IPC监听器
+// ipcMain.on("quit-app", () => {
+//     app.quit();
+// });
+
 function openSerialPort(pack) {
     const sp = new Serialport({ serialport, ...pack });
     //获取串口列表
@@ -396,6 +401,8 @@ function createWindow(loadingWindow) {
         ipcMain.removeAllListeners([item]);
     });
 } */
+// 隔离不同产品的数据
+app.setPath("userData", path.join(app.getPath("appData"), pg.name));
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on("ready", () => {

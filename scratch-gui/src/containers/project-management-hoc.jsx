@@ -8,7 +8,13 @@ import Modal from "./modal.jsx";
 import { closeFileStytem, showFileStytem } from "../reducers/file-stytem";
 import sharedMessages from "../lib/shared-messages";
 import { ipc as ipc_Renderer } from "est-link";
-import { onLoadedProject, requestNewProject, getIsLoadingUpload, getIsShowingWithoutId, requestProjectUpload } from "../reducers/project-state";
+import {
+    onLoadedProject,
+    requestNewProject,
+    getIsLoadingUpload,
+    getIsShowingWithoutId,
+    requestProjectUpload,
+} from "../reducers/project-state";
 import { setProjectTitle } from "../reducers/project-title";
 import PropTypes from "prop-types";
 import getMainMsg from "../lib/alerts/message.js";
@@ -19,38 +25,38 @@ class ProjectManagementHoc extends React.PureComponent {
     constructor(props) {
         super(props);
         bindAll(this, [
-            'handleSelect',
-            'handleClickNew',
-            'handleDeleteRecord',
-            'handleFilterClear',
-            'handleFilterChange',
-            'handleEditRecord',
-            'handleFocus',
-            'handleBlur',
-            'handleCopyRecord',
-            'handleSaveOthers',
-            'handleSelectAll',
-            'handleDeleteAll',
-            'handleCopyAll',
-            'handleRenameOne',
-            'handleSelectOne',
-            'handleDisEditable',
-            'changeFilesList',
-            'preventDefaultEvents',
-            'handleScreenAuto',
-            'handleOpen',
-            'adjustManagement'
+            "handleSelect",
+            "handleClickNew",
+            "handleDeleteRecord",
+            "handleFilterClear",
+            "handleFilterChange",
+            "handleEditRecord",
+            "handleFocus",
+            "handleBlur",
+            "handleCopyRecord",
+            "handleSaveOthers",
+            "handleSelectAll",
+            "handleDeleteAll",
+            "handleCopyAll",
+            "handleRenameOne",
+            "handleSelectOne",
+            "handleDisEditable",
+            "changeFilesList",
+            "preventDefaultEvents",
+            "handleScreenAuto",
+            "handleOpen",
+            "adjustManagement",
         ]);
         this.inp = createRef();
         this.overlayRef = createRef();
         this.state = {
             fileList: [],
-            filterQuery: '',
+            filterQuery: "",
             checkedList: [],
             content: {
-                transform: 'translate(-50%, -50%) scale(1)',
+                transform: "translate(-50%, -50%) scale(1)",
             },
-            loading: true
+            loading: true,
         };
         this.resizeObserver = null;
         this.mainMsg = getMainMsg(props.intl);
@@ -75,19 +81,27 @@ class ProjectManagementHoc extends React.PureComponent {
         if (this.overlayRef) {
             const designDraftWidth = document.documentElement.clientWidth;
             const designDraftHeight = document.documentElement.clientHeight;
-            this.resizeObserver = new ResizeObserver(entries => {
+            this.resizeObserver = new ResizeObserver((entries) => {
                 for (let entry of entries) {
-                    const { width, height } = entry.contentRect
-                    const scale = width / height < designDraftWidth / designDraftHeight ? width / designDraftWidth : height / designDraftHeight;
+                    const { width, height } = entry.contentRect;
+                    const scale =
+                        width / height < designDraftWidth / designDraftHeight
+                            ? width / designDraftWidth
+                            : height / designDraftHeight;
                     if (scale > 1) {
                         break;
                     }
                     this.setState((state) => ({
-                        content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
+                        content: {
+                            transform: state.content.transform.replace(
+                                /scale\([\s*\S*]*\)/,
+                                `scale(${scale})`
+                            ),
+                        },
                     }));
                 }
-            })
-            this.resizeObserver.observe(this.overlayRef)
+            });
+            this.resizeObserver.observe(this.overlayRef);
         }
     }
 
@@ -97,35 +111,53 @@ class ProjectManagementHoc extends React.PureComponent {
         const scale =
             document.documentElement.clientWidth /
                 document.documentElement.clientHeight <
-                designDraftWidth / designDraftHeight
+            designDraftWidth / designDraftHeight
                 ? document.documentElement.clientWidth / designDraftWidth
                 : document.documentElement.clientHeight / designDraftHeight;
         this.setState((state) => ({
-            content: { transform: state.content.transform.replace(/scale\([\s*\S*]*\)/, `scale(${scale})`) }
+            content: {
+                transform: state.content.transform.replace(
+                    /scale\([\s*\S*]*\)/,
+                    `scale(${scale})`
+                ),
+            },
         }));
     }
 
     async initFileList() {
-        let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
+        let data = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "get",
+            key: "files",
+        });
         let newList = [];
         if (data && data.length > 0) {
             for (let i = 0; i < data.length; i++) {
-                const isExists = data[i].filePath && await window.myAPI.FileIsExists(data[i].filePath);
+                const isExists =
+                    data[i].filePath &&
+                    (await window.myAPI.FileIsExists(data[i].filePath));
                 if (isExists) {
                     newList.push(data[i]);
                 }
             }
         }
         this.setState({ fileList: newList, loading: false });
-        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: [...newList] });
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "set",
+            key: "files",
+            value: [...newList],
+        });
     }
 
     async changeFilesList(editable) {
         !editable && this.handleDisEditable();
         this.setState({
-            checkedList: this.state.fileList.filter(el => el.checked)
+            checkedList: this.state.fileList.filter((el) => el.checked),
         });
-        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'set', key: 'files', value: [...this.state.fileList] });
+        await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "set",
+            key: "files",
+            value: [...this.state.fileList],
+        });
     }
 
     preventDefaultEvents(e) {
@@ -141,28 +173,62 @@ class ProjectManagementHoc extends React.PureComponent {
             this.props.onLoadingStarted();
             // const currentContent = await this.props.vm.saveProjectSb3();
             let loadingSuccess = false;
-            const res = await window.myAPI.readFiles(url, '', {});
+            const res = await window.myAPI.readFiles(url, "", {});
             if (res) {
-                const arrayBuffer = res.buffer.slice(res.byteOffset, res.byteOffset + res.byteLength);
-                this.props.vm.loadProject(arrayBuffer)
+                const arrayBuffer = res.buffer.slice(
+                    res.byteOffset,
+                    res.byteOffset + res.byteLength
+                );
+                this.props.vm
+                    .loadProject(arrayBuffer)
                     .then(() => {
+                        // 验证文件产品来源（使用原始文件的 meta 信息）
+                        // try {
+                        //     const originalMeta =
+                        //         this.props.vm.runtime.originalProjectMeta;
+                        //     const currentProduct =
+                        //         this.props.vm.runtime.productInfo.name;
+
+                        //     if (
+                        //         originalMeta &&
+                        //         originalMeta.product &&
+                        //         originalMeta.product !== currentProduct
+                        //     ) {
+                        //         console.warn(
+                        //             `[产品兼容性提示] 此文件由 ${originalMeta.product} 创建，当前应用为 ${currentProduct}`
+                        //         );
+                        //     }
+                        // } catch (error) {
+                        //     console.warn(
+                        //         "[产品兼容性检查] 无法验证文件来源:",
+                        //         error
+                        //     );
+                        // }
+
                         this.props.onSetProjectTitle(name);
                         loadingSuccess = true;
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         log.warn(error);
-                        alert(this.props.intl.formatMessage(sharedMessages.loadError));
+                        alert(
+                            this.props.intl.formatMessage(
+                                sharedMessages.loadError
+                            )
+                        );
                     })
                     .then(async () => {
-                        this.props.onLoadingFinished('LOADING_VM_FILE_UPLOAD', loadingSuccess);
-                        sessionStorage.setItem('openPath', url);
+                        this.props.onLoadingFinished(
+                            "LOADING_VM_FILE_UPLOAD",
+                            loadingSuccess
+                        );
+                        sessionStorage.setItem("openPath", url);
                         // await setProgramList(name, url, arrayBuffer, currentContent);
                     });
             }
         } catch (error) {
             alert(this.props.intl.formatMessage(sharedMessages.loadError));
         }
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+        window.myAPI.ipcRender({ sendName: "mainOnFocus" });
     }
 
     confirmReadyToReplaceProject(message) {
@@ -170,7 +236,7 @@ class ProjectManagementHoc extends React.PureComponent {
         if (this.props.projectChanged && !this.props.canCreateNew) {
             readyToReplaceProject = confirm(message);
         }
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+        window.myAPI.ipcRender({ sendName: "mainOnFocus" });
         return readyToReplaceProject;
     }
 
@@ -180,17 +246,22 @@ class ProjectManagementHoc extends React.PureComponent {
         );
         this.props.onRequestClose();
         if (readyToReplaceProject) {
-            this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
-            sessionStorage.removeItem('setDefaultStartBlock');
+            this.props.onClickNew(
+                this.props.canSave && this.props.canCreateNew
+            );
+            sessionStorage.removeItem("setDefaultStartBlock");
         }
     }
 
     async handleFilterClear() {
-        let list = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, { type: 'get', key: 'files' });
+        let list = await window.myAPI.ipcInvoke(ipc_Renderer.WORKER, {
+            type: "get",
+            key: "files",
+        });
         if (list) {
             this.setState(() => ({
-                filterQuery: '',
-                fileList: list
+                filterQuery: "",
+                fileList: list,
             }));
         }
     }
@@ -200,7 +271,9 @@ class ProjectManagementHoc extends React.PureComponent {
         if (value.length === 0) {
             this.handleFilterClear();
         } else {
-            this.state.fileList = this.state.fileList.filter(el => el.fileName.match(value));
+            this.state.fileList = this.state.fileList.filter((el) =>
+                el.fileName.match(value)
+            );
             this.setState(() => ({ filterQuery: value }));
         }
     }
@@ -239,50 +312,59 @@ class ProjectManagementHoc extends React.PureComponent {
         this.changeFilesList();
     }
 
-
     async handleDeleteRecord(item, index, e) {
         this.preventDefaultEvents(e);
         const res = confirm(this.mainMsg.delete);
         if (res) {
-            item.filePath && await window.myAPI.deleteFiles(item.filePath, '');
+            item.filePath &&
+                (await window.myAPI.deleteFiles(item.filePath, ""));
             this.state.fileList.splice(index, 1);
             this.changeFilesList();
         }
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+        window.myAPI.ipcRender({ sendName: "mainOnFocus" });
     }
 
     handleEditRecord(index, e) {
         this.preventDefaultEvents(e);
-        this.state.fileList[index].editable = !this.state.fileList[index].editable;
+        this.state.fileList[index].editable =
+            !this.state.fileList[index].editable;
         this.changeFilesList(true);
     }
 
     async handleCopyRecord(item, e) {
         this.preventDefaultEvents(e);
-        const count = this.state.fileList.filter(el => el.fileName.indexOf(item.fileName + ' ') !== -1).length + 1;
-        const newFileName = item.fileName + ' ' + count;
+        const count =
+            this.state.fileList.filter(
+                (el) => el.fileName.indexOf(item.fileName + " ") !== -1
+            ).length + 1;
+        const newFileName = item.fileName + " " + count;
         const oldPath = item.filePath;
         const newPath = item.filePath.replace(item.fileName, newFileName);
 
         let time = window.myAPI.getCurrentTime();
-        let timeList = time.split('_');
-        timeList[1] = timeList[1].replaceAll('-', ':');
-        this.state.fileList.unshift({ ...item, fileName: newFileName, filePath: newPath, alterTime: timeList.join(' ') });
+        let timeList = time.split("_");
+        timeList[1] = timeList[1].replaceAll("-", ":");
+        this.state.fileList.unshift({
+            ...item,
+            fileName: newFileName,
+            filePath: newPath,
+            alterTime: timeList.join(" "),
+        });
 
-        const res = await window.myAPI.readFiles(oldPath, '', {});
-        await window.myAPI.writeFiles(newPath, res, '');
+        const res = await window.myAPI.readFiles(oldPath, "", {});
+        await window.myAPI.writeFiles(newPath, res, "");
         if (e) this.changeFilesList();
     }
 
     async handleSaveOthers(item, index, e) {
         this.preventDefaultEvents(e);
-        const res = await window.myAPI.readFiles(item.filePath, '', {});
+        const res = await window.myAPI.readFiles(item.filePath, "", {});
         const filePath = await window.myAPI.ipcInvoke(ipc_Renderer.FILE.SAVE, {
             file: res,
-            filename: item.fileName
+            filename: item.fileName,
         });
         if (filePath) {
-            await window.myAPI.deleteFiles(item.filePath, '');
+            await window.myAPI.deleteFiles(item.filePath, "");
             this.state.fileList[index].filePath = filePath;
             this.changeFilesList();
         }
@@ -290,7 +372,8 @@ class ProjectManagementHoc extends React.PureComponent {
 
     async handleOpen(item, e) {
         this.preventDefaultEvents(e);
-        item.filePath && await window.myAPI.ipcInvoke('openFileLocation', item.filePath);
+        item.filePath &&
+            (await window.myAPI.ipcInvoke("openFileLocation", item.filePath));
     }
 
     handleDisEditable() {
@@ -312,11 +395,13 @@ class ProjectManagementHoc extends React.PureComponent {
         if (!res) return;
         for (let i = 0; i < this.state.checkedList.length; i++) {
             const item = this.state.checkedList[i];
-            item.filePath ? await window.myAPI.deleteFiles(item.filePath, '') : item.checked = false;
+            item.filePath
+                ? await window.myAPI.deleteFiles(item.filePath, "")
+                : (item.checked = false);
         }
-        this.state.fileList = this.state.fileList.filter(el => !el.checked)
+        this.state.fileList = this.state.fileList.filter((el) => !el.checked);
         this.changeFilesList();
-        window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+        window.myAPI.ipcRender({ sendName: "mainOnFocus" });
     }
 
     async handleCopyAll() {
@@ -333,7 +418,6 @@ class ProjectManagementHoc extends React.PureComponent {
         }
     }
 
-
     render() {
         return (
             <Modal
@@ -344,7 +428,7 @@ class ProjectManagementHoc extends React.PureComponent {
                 onRequestClose={this.props.onRequestClose}
                 style={{ content: this.state.content }}
                 intl={this.props.intl}
-                overlayRef={(e) => this.overlayRef = e}
+                overlayRef={(e) => (this.overlayRef = e)}
             >
                 <Box className={styles.body}>
                     <ProjectManagement
@@ -355,7 +439,9 @@ class ProjectManagementHoc extends React.PureComponent {
                         filesList={this.state.fileList}
                         filterQuery={this.state.filterQuery}
                         checkedList={this.state.checkedList}
-                        onStartSelectingFileUpload={this.props.onStartSelectingFileUpload}
+                        onStartSelectingFileUpload={
+                            this.props.onStartSelectingFileUpload
+                        }
                         handleSelect={this.handleSelect}
                         handleClickNew={this.handleClickNew}
                         handleDeleteRecord={this.handleDeleteRecord}
@@ -376,7 +462,7 @@ class ProjectManagementHoc extends React.PureComponent {
                     />
                 </Box>
             </Modal>
-        )
+        );
     }
 }
 
@@ -385,7 +471,7 @@ ProjectManagementHoc.propTypes = {
     onShowFileSystem: PropTypes.func,
     onClickNew: PropTypes.func,
     onSetProjectTitle: PropTypes.func,
-}
+};
 
 const mapStateToProps = (state) => {
     const loadingState = state.scratchGui.projectState.loadingState;
@@ -394,13 +480,12 @@ const mapStateToProps = (state) => {
         isShowingWithoutId: getIsShowingWithoutId(loadingState),
         loadingState: loadingState,
         projectChanged: state.scratchGui.projectChanged,
-        vm: state.scratchGui.vm
+        vm: state.scratchGui.vm,
     };
 };
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
-    {}, stateProps, dispatchProps, ownProps
-);
+const mergeProps = (stateProps, dispatchProps, ownProps) =>
+    Object.assign({}, stateProps, dispatchProps, ownProps);
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onRequestClose: () => dispatch(closeFileStytem()),
@@ -412,8 +497,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         dispatch(onLoadedProject(loadingState, ownProps.canSave, success));
         dispatch(closeLoadingProject());
     },
-    requestProjectUpload: loadingState => dispatch(requestProjectUpload(loadingState)),
-    cancelFileUpload: loadingState => dispatch(onLoadedProject(loadingState, false, false)),
-})
+    requestProjectUpload: (loadingState) =>
+        dispatch(requestProjectUpload(loadingState)),
+    cancelFileUpload: (loadingState) =>
+        dispatch(onLoadedProject(loadingState, false, false)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ProjectManagementHoc);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    mergeProps
+)(ProjectManagementHoc);
