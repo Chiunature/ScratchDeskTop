@@ -243,6 +243,43 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                             "[SBFileUploader] VM 加载项目成功 (onload):",
                             filename
                         );
+
+                        // 验证文件产品来源（使用原始文件的 meta 信息）
+                        try {
+                            const originalMeta =
+                                this.props.vm.runtime.originalProjectMeta;
+                            const currentProduct =
+                                this.props.vm.runtime.productInfo.name;
+
+                            if (originalMeta && originalMeta.product) {
+                                console.log(
+                                    `[文件来源] 原始产品: ${originalMeta.product} v${originalMeta.productVersion}`
+                                );
+                                console.log(
+                                    `[当前应用] ${currentProduct} v${this.props.vm.runtime.productInfo.version}`
+                                );
+
+                                if (originalMeta.product !== currentProduct) {
+                                    // console.warn(
+                                    //     `[产品兼容性提示] 此文件由 ${originalMeta.product} 创建，当前应用为 ${currentProduct}，可能存在兼容性问题`
+                                    // );
+                                    // 可以选择在这里显示用户提示
+                                    alert(
+                                        `此文件由 ${originalMeta.product} 创建，可能存在兼容性问题`
+                                    );
+                                }
+                            } else {
+                                console.log(
+                                    "[文件来源] 无产品标识（可能是旧版本文件）"
+                                );
+                            }
+                        } catch (error) {
+                            console.warn(
+                                "[产品兼容性检查] 无法验证文件来源:",
+                                error
+                            );
+                        }
+
                         if (filename) {
                             const uploadedProjectTitle =
                                 this.getProjectTitleFromFilename(filename);

@@ -7,12 +7,14 @@ const { cwd } = require("process");
 const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
 const { DIR } = require("./src/config/json/LB_USER.json");
-
+const packageJson = require("./package.json");
 /*const UseLocalForage = require("./src/utils/useLocalForage");
 const store_lf = new UseLocalForage();*/
 
 const Store = require("electron-store");
-const store = new Store();
+const store = new Store({
+    name: packageJson.name,
+});
 
 function setStoreValue(key, value) {
     if (store.has(key)) store.delete(key);

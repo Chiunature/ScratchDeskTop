@@ -602,6 +602,12 @@ const serialize = function (runtime, targetId) {
         meta.origin = runtime.origin;
     }
 
+    // 从 runtime 获取产品信息，用当前身份标记文件（标记文件归属）
+    if (runtime.productInfo) {
+        meta.product = runtime.productInfo.name;
+        meta.productVersion = runtime.productInfo.version;
+    }
+
     // Attach full user agent string to metadata if available
     meta.agent = "none";
     if (typeof navigator !== "undefined") meta.agent = navigator.userAgent;

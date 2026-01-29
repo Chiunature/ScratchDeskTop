@@ -72,6 +72,24 @@ export default function ProgramList({
         try {
             await vm.loadProject(result);
 
+            // 验证文件产品来源（使用原始文件的 meta 信息）
+            // try {
+            //     const originalMeta = vm.runtime.originalProjectMeta;
+            //     const currentProduct = vm.runtime.productInfo.name;
+
+            //     if (
+            //         originalMeta &&
+            //         originalMeta.product &&
+            //         originalMeta.product !== currentProduct
+            //     ) {
+            //         console.warn(
+            //             `[产品兼容性提示] 此文件由 ${originalMeta.product} 创建，当前应用为 ${currentProduct}`
+            //         );
+            //     }
+            // } catch (error) {
+            //     console.warn("[产品兼容性检查] 无法验证文件来源:", error);
+            // }
+
             sessionStorage.setItem("openPath", el.path);
             sessionStorage.setItem("programlist-curIndex", index);
             setCurIndex(index);
