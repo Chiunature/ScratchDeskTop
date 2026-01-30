@@ -10,29 +10,10 @@
 
 ### 当前固件版本
 
-- **固件版本**: v307 (LB_FWLIB/version/Version.txt)
-- **配置版本**: v1.3.1 (hotVersion.json)
-- **ATC 版本**: v179
-- **LB 版本**: v227
+-   **固件版本**: v102 (LB_FWLIB/version/Version.txt)
 
 ### 固件资源组件
 
-- **LB_FWLIB**: 固件库 (v307)
-  - 包含各种传感器和执行器固件
-  - 位置: `scratch-gui/resources/LB_FWLIB/`
-- **ByteCode**: 字节码工具
-  - 位置: `scratch-gui/resources/ByteCode/`
-- **gcc-arm-none-eabi**: 交叉编译工具链 (v10.3.1)
-  - 位置: `scratch-gui/resources/gcc-arm-none-eabi/`
-- **zadig**: USB 驱动工具 (v2.8)
-  - 位置: `scratch-gui/resources/zadig.exe`
-- **Description**: 说明文档
-  - 位置: `scratch-gui/resources/Description/`
+-   **LB_FWLIB**: 固件库 (v102)
 
-### 版本更新说明
-
-- 固件资源通过 `package.json` 的 `extraResources` 配置打包
-- 版本信息存储在 `scratch-gui/src/config/json/LB_FWLIB.json`
-- 热更新版本信息存储在 `scratch-gui/resources/scripts/hotVersion.json`
-
-因为目前不清楚 gitignore 忽略的哪些文件是本地项目跑起来必须的，所以目前资源以本地的为主，git 只存储基础代码（不涉及到不清楚的，算了还是先不上传吧）更新固件版本一次
+因为目前不清楚 gitignore 忽略的哪些文件是本地项目跑起来必须的，所 A 以目前资源以本地的为主，git 只存储基础代码（不涉及到不清楚的，算了还是先不上传吧）更新固件版本一次
