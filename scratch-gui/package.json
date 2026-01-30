@@ -236,8 +236,8 @@
         ],
         "fileAssociations": [
             {
-                "ext": "lbs",
-                "name": "LBS File",
+                "ext": "newai",
+                "name": "NEW AI Project File",
                 "icon": "./favicon.ico"
             }
         ],
