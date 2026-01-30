@@ -43,6 +43,12 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                 secondaryColour="${colors.tertiary}"
                 iconURI="${motorIcon}">
                 ${blockSeparator}
+                <block type="motor_starting">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
                 <block type="motor_stop">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
@@ -185,15 +191,6 @@ const matrix = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                     <value name="brightness">
                         <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${categorySeparator}
-                <block type="matrix_lamp_set_pixel">
-                    <value name="x">
-                        <shadow type="matrix_x"></shadow>
-                    </value>
-                    <value name="y">
-                        <shadow type="matrix_y"></shadow>
                     </value>
                 </block>
                 ${categorySeparator}

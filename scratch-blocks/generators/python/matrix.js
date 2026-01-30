@@ -111,13 +111,6 @@ Blockly.Python["matrix_lamp_single"] = function (block) {
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
-Blockly.Python["matrix_lamp_set_pixel"] = function (block) {
-  let x = Blockly.Python.valueToCode(block, "x", Blockly.Python.ORDER_ATOMIC);
-  let y = Blockly.Python.valueToCode(block, "y", Blockly.Python.ORDER_ATOMIC);
-  let code = `set_pixel(${x},${y})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
-};
-
 Blockly.Python["matrix_lamp_stop"] = function (block) {
   // TODO: Assemble Python into code variable.
   let code = `clear()\n`;
