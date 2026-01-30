@@ -118,7 +118,10 @@ function saveFileToLocal() {
             title: "Save File",
             defaultPath: path.join(app.getPath("documents"), obj.filename),
             filters: [
-                { name: "LBS Files", extensions: ["lbs", "sb3", "sb2", "sb1"] },
+                {
+                    name: "SPARK AI Files",
+                    extensions: ["sparkai", "lbs", "sb3", "sb2", "sb1"],
+                },
             ],
         });
         if (!result.canceled) {

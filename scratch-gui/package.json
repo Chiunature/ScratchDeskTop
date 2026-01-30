@@ -236,8 +236,8 @@
         ],
         "fileAssociations": [
             {
-                "ext": "lbs",
-                "name": "LBS File",
+                "ext": "sparkai",
+                "name": "SPARK AI Project File",
                 "icon": "./favicon.ico"
             }
         ],
