@@ -19,6 +19,11 @@ Blockly.Python["sensing_menu"] = function (block) {
   return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python["handShank_menu"] = function (block) {
+  const handShankValue = block.getFieldValue("HAND_SHANK");
+  return handShankValue;
+};
+
 Blockly.Python["touching_menu"] = function (block) {
   const menu = block.getFieldValue("TOUCHING_MENU");
   // TODO: Assemble Python into code variable.
@@ -313,10 +318,15 @@ Blockly.Python["sensing_key_press"] = function (block) {
 };
 //查看遥控器是否按下
 Blockly.Python["sensing_isHandling"] = function (block) {
-  const keys = block.getFieldValue("KEYS");
+  const port = Blockly.Python.valueToCode(
+    block,
+    "PORT",
+    Blockly.Python.ORDER_NONE
+  );
+  console.log("sensing_isHandling_port", port);
   const button = block.getFieldValue("BUTTON");
   const code = Blockly.Python.handleResult(
-    `key_remote("${keys}","${button}")`,
+    `key_remote("${port}","${button}")`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];

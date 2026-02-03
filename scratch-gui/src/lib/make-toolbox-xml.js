@@ -348,7 +348,11 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_isHandling"></block>
+            <block type="sensing_isHandling">
+                <value name="PORT">
+                    <shadow type="handShank_menu" />
+                </value>
+            </block>
             ${blockSeparator}
             <block type="sensing_mainIsPress"></block>
             ${categorySeparator}

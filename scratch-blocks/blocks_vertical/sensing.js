@@ -26,6 +26,37 @@ goog.require("Blockly.Blocks");
 goog.require("Blockly.Colours");
 goog.require("Blockly.constants");
 goog.require("Blockly.ScratchBlocks.VerticalExtensions");
+//手柄菜单
+Blockly.Blocks["handShank_menu"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "%1",
+      args0: [
+        {
+          type: "field_handShank",
+          name: "HAND_SHANK",
+          handShankValue: [
+            "up",
+            "down",
+            "left",
+            "right",
+            "Y",
+            "A",
+            "B",
+            "X",
+            "L",
+            "R",
+          ],
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      colour: Blockly.Colours.sensing.primary,
+      colourSecondary: Blockly.Colours.sensing.secondary,
+      colourTertiary: Blockly.Colours.sensing.tertiary,
+      extensions: ["output_string"],
+    });
+  },
+};
 
 Blockly.Blocks["sensing_loudness"] = {
   /**
@@ -566,22 +597,8 @@ Blockly.Blocks["sensing_isHandling"] = {
       message0: Blockly.Msg.SENSING_ISHANDLING,
       args0: [
         {
-          type: "field_dropdown",
-          name: "KEYS",
-          options: [
-            [Blockly.Msg.UP, "up"],
-            [Blockly.Msg.DOWN, "down"],
-            [Blockly.Msg.PLEFT, "left"],
-            [Blockly.Msg.PRIGHT, "right"],
-            ["X", "X"],
-            ["Y", "Y"],
-            ["A", "A"],
-            ["B", "B"],
-            ["L1", "L1"],
-            ["L2", "L2"],
-            ["R1", "R1"],
-            ["R2", "R2"],
-          ],
+          type: "input_value",
+          name: "PORT",
         },
         {
           type: "field_dropdown",
@@ -643,7 +660,7 @@ Blockly.Blocks["sensing_mainIsPress"] = {
       args0: [
         {
           type: "field_dropdown",
-          name: "KEYS",
+          name: "PORT",
           options: [
             [Blockly.Msg.PLEFT, "left"],
             [Blockly.Msg.PRIGHT, "right"],
