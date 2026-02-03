@@ -49,8 +49,8 @@ Blockly.Python["combined_motor_starting"] = function (block) {
 
   // 使用转换函数将字母端口转换为数字
   const convertedPort = Blockly.Python["combined_letter_to_number"](port);
-
-  const code = `pair(${convertedPort})\n`;
+  const status = block.getFieldValue("STATUS");
+  const code = `pair(${convertedPort}, ${parseInt(status, 10)})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -193,77 +193,9 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
-Blockly.Python["combined_motor_moveByYawAngle"] = function (block) {
-  const count = Blockly.Python.valueToCode(
-    block,
-    "COUNT",
-    Blockly.Python.ORDER_NONE
-  );
-  const unit = block.getFieldValue("unit");
-  let direction = block.getFieldValue("direction");
-  direction = direction[0].toLowerCase() + direction.slice(1);
-  const code = `mov_yaw_line("${direction}", ${count}, "${unit}")\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
-Blockly.Python["combined_motor_spinByYawAngle"] = function (block) {
-  const angle = Blockly.Python.valueToCode(
-    block,
-    "ANGLE",
-    Blockly.Python.ORDER_NONE
-  );
-  const code = `mov_yaw_angle(${angle})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
-Blockly.Python["combined_motor_pwm"] = function (block) {
-  const left = Blockly.Python.valueToCode(
-    block,
-    "LEFT_PWM",
-    Blockly.Python.ORDER_NONE
-  );
-  const right = Blockly.Python.valueToCode(
-    block,
-    "RIGHT_PWM",
-    Blockly.Python.ORDER_NONE
-  );
-  // TODO: Assemble Python into code variable.
-  const code = `\n`;
-  return code;
-};
-
 Blockly.Python["combined_linepatrolInit"] = function (block) {
   return Blockly.Python.handleResult(
     `mov_find_line_init()\n`,
-    Blockly.Python.MOTOR_TYPE
-  );
-};
-
-Blockly.Python["combined_linepatrol"] = function (block) {
-  const portOne = Blockly.Python.valueToCode(
-    block,
-    "PORT_ONE",
-    Blockly.Python.ORDER_NONE
-  );
-  const portTwo = Blockly.Python.valueToCode(
-    block,
-    "PORT_TWO",
-    Blockly.Python.ORDER_NONE
-  );
-  const speed = Blockly.Python.valueToCode(
-    block,
-    "SPEED",
-    Blockly.Python.ORDER_NONE
-  );
-  const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE);
-  const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE);
-  // const sp = Blockly.Python.valueToCode(
-  //   block,
-  //   "SPIN_PARAMS",
-  //   Blockly.Python.ORDER_NONE
-  // );
-  return Blockly.Python.handleResult(
-    `mov_find_line_run(${portOne}, ${portTwo}, ${speed}, ${kp}, ${kd})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };
@@ -298,6 +230,41 @@ Blockly.Python["combined_linepatrol_ltr"] = function (block) {
   // );
   return Blockly.Python.handleResult(
     `mov_find_line_run(${portOne}, ${portTwo}, ${left}, ${right}, ${kp}, ${kd})\n`,
+    Blockly.Python.MOTOR_TYPE
+  );
+};
+
+//组合电机前进偏移量
+Blockly.Python["combined_forward_offset"] = function (block) {
+  const leftOffset = Blockly.Python.valueToCode(
+    block,
+    "LEFT_OFFSET",
+    Blockly.Python.ORDER_NONE
+  );
+  const rightOffset = Blockly.Python.valueToCode(
+    block,
+    "RIGHT_OFFSET",
+    Blockly.Python.ORDER_NONE
+  );
+  return Blockly.Python.handleResult(
+    `mov_set_advance_offset(${leftOffset}, ${rightOffset})\n`,
+    Blockly.Python.MOTOR_TYPE
+  );
+};
+//组合电机后退偏移量
+Blockly.Python["combined_backward_offset"] = function (block) {
+  const leftOffset = Blockly.Python.valueToCode(
+    block,
+    "LEFT_OFFSET",
+    Blockly.Python.ORDER_NONE
+  );
+  const rightOffset = Blockly.Python.valueToCode(
+    block,
+    "RIGHT_OFFSET",
+    Blockly.Python.ORDER_NONE
+  );
+  return Blockly.Python.handleResult(
+    `mov_set_retreat_offset(${leftOffset}, ${rightOffset})\n`,
     Blockly.Python.MOTOR_TYPE
   );
 };

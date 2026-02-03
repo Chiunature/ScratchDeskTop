@@ -190,7 +190,7 @@ Blockly.Msg["STARTING_MOTOR"] = "%1 %2 %3 starting motor";
 Blockly.Msg["RELATIVE_POSITION"] =
   "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg["SPECIFIED_MANNER"] = "%1 %2 When setting the motor to stop %3";
-Blockly.Msg["COMBINED_MOTOR_STARTING"] = "%1 set the running motor to %2 %3";
+Blockly.Msg["COMBINED_MOTOR_STARTING"] = "%1 set the running motor to %2 status is %3";
 Blockly.Msg["DIRECTION_MOTOR"] = "%1 %2 %3 start moving %4";
 Blockly.Msg["COMBINED_MOTOR_TURN"] = "%1 %2 %3 move %4 %5";
 Blockly.Msg["COMBINED_MOTOR_LINE"] = "%1 %2 move %3 %4";

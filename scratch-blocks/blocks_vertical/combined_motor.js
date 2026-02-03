@@ -7,6 +7,7 @@ goog.require("Blockly.Colours");
 goog.require("Blockly.constants");
 goog.require("Blockly.ScratchBlocks.VerticalExtensions");
 
+// 双电机选择
 Blockly.Blocks["combined_motor_box"] = {
   init: function () {
     this.jsonInit({
@@ -109,6 +110,16 @@ Blockly.Blocks["combined_motor_starting"] = {
         {
           type: "input_value",
           name: "PORT",
+        },
+        {
+          type: "field_dropdown",
+          name: "STATUS",
+          options: [
+            ["默认", "3"],
+            ["左电机取反", "0"],
+            ["右电机取反", "1"],
+            ["双电机取反", "2"],
+          ],
         },
       ],
       category: Blockly.Categories.combined_motor,
@@ -580,170 +591,12 @@ Blockly.Blocks["combined_motor_startWithPowerObj"] = {
   },
 };
 
-Blockly.Blocks["combined_motor_moveByYawAngle"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "field_dropdown",
-          name: "direction",
-          options: [
-            [
-              {
-                src: Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.ADVANCE,
-              },
-              "Advance",
-            ],
-            [
-              {
-                src: Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.BACK,
-              },
-              "Retreat",
-            ],
-          ],
-        },
-        {
-          type: "input_value",
-          name: "COUNT",
-        },
-        {
-          type: "field_dropdown",
-          name: "unit",
-          options: [
-            [Blockly.Msg.CIRCLE, "circly"],
-            [Blockly.Msg.ANGLE, "angle"],
-            [Blockly.Msg.SECONDS, "seconds"],
-          ],
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
-Blockly.Blocks["combined_motor_spinByYawAngle"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "ANGLE",
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
-Blockly.Blocks["combined_motor_pwm"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.COMBINED_MOTOR_PWM,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "LEFT_PWM",
-        },
-        {
-          type: "input_value",
-          name: "RIGHT_PWM",
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
 Blockly.Blocks["combined_linepatrolInit"] = {
   init: function () {
     this.jsonInit({
       type: "combined_linepatrolInit",
       message0: Blockly.Msg.SENSING_LINEPATROLINIT,
       args0: [],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
-Blockly.Blocks["combined_linepatrol"] = {
-  init: function () {
-    this.jsonInit({
-      type: "combined_linepatrol",
-      message0: Blockly.Msg.SENSING_LINEPATROL,
-      args0: [
-        {
-          type: "input_value",
-          name: "PORT_ONE",
-        },
-        {
-          type: "input_value",
-          name: "PORT_TWO",
-        },
-        {
-          type: "input_value",
-          name: "SPEED",
-        },
-        {
-          type: "input_value",
-          name: "KP",
-        },
-        {
-          type: "input_value",
-          name: "KD",
-        },
-        // {
-        //   type: "input_value",
-        //   name: "SPIN_PARAMS",
-        // },
-      ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
     });
@@ -784,6 +637,65 @@ Blockly.Blocks["combined_linepatrol_ltr"] = {
         //   type: "input_value",
         //   name: "SPIN_PARAMS",
         // },
+      ],
+      category: Blockly.Categories.combined_motor,
+      extensions: ["colours_combined_motor", "shape_statement"],
+    });
+  },
+};
+
+//组合电机前进偏移量
+Blockly.Blocks["combined_forward_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "combined_forward_offset",
+      message0: Blockly.Msg.COMBINED_FORWARD_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "LEFT_OFFSET",
+        },
+        {
+          type: "input_value",
+          name: "RIGHT_OFFSET",
+        },
+      ],
+      category: Blockly.Categories.combined_motor,
+      extensions: ["colours_combined_motor", "shape_statement"],
+    });
+  },
+};
+//组合电机后退偏移量
+Blockly.Blocks["combined_backward_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "combined_backward_offset",
+      message0: Blockly.Msg.COMBINED_BACKWARD_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "LEFT_OFFSET",
+        },
+        {
+          type: "input_value",
+          name: "RIGHT_OFFSET",
+        },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],

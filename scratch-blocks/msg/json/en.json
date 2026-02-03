@@ -183,7 +183,7 @@
   "STARTING_MOTOR": "%1 %2 %3 starting motor",
   "RELATIVE_POSITION": "%1 %2 Set the relative position of the motor %3",
   "SPECIFIED_MANNER": "%1 %2 When setting the motor to stop %3",
-  "COMBINED_MOTOR_STARTING": "%1 set the running motor to %2 %3",
+  "COMBINED_MOTOR_STARTING": "%1 set the running motor to %2 status is %3",
   "DIRECTION_MOTOR": "%1 %2 %3 start moving %4",
   "COMBINED_MOTOR_TURN": "%1 %2 %3 move %4 %5",
   "COMBINED_MOTOR_LINE": "%1 %2 move %3 %4",

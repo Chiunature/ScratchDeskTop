@@ -43,18 +43,19 @@ Blockly.Python["motor_stop"] = function (block) {
 };
 
 Blockly.Python["motor_speed"] = function (block) {
+  // 词不达意
   const port = Blockly.Python.valueToCode(
     block,
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  const speed = Blockly.Python.valueToCode(
+  const power = Blockly.Python.valueToCode(
     block,
-    "SPEED",
+    "POWER",
     Blockly.Python.ORDER_NONE
   );
   // TODO: Assemble Python into code variable.
-  const code = `set_duty(${port}, ${speed})\n`;
+  const code = `set_duty(${port}, ${power})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

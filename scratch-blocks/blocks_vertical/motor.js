@@ -219,10 +219,7 @@ Blockly.Blocks["motor_stop"] = {
 };
 
 Blockly.Blocks["motor_speed"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
+  // 词不达意
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.SPEED_MOTOR,
@@ -241,7 +238,7 @@ Blockly.Blocks["motor_speed"] = {
         },
         {
           type: "input_value",
-          name: "SPEED",
+          name: "POWER",
         },
       ],
       category: Blockly.Categories.motor,

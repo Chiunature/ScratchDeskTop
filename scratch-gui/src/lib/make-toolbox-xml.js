@@ -82,6 +82,15 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
+                <block type="motor_speed">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
+                    </value>
+                    <value name="POWER">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
             </category>
             `;
 };
@@ -154,6 +163,31 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${categorySeparator}
+                <block type="combined_motor_direction"></block>
+                ${blockSeparator}
+                <block type="combined_motor_speed">
+                    <value name="SPEED">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_forward_offset">
+                    <value name="LEFT_OFFSET">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                    <value name="RIGHT_OFFSET">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_backward_offset">
+                    <value name="LEFT_OFFSET">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value>
+                    <value name="RIGHT_OFFSET">
+                        <shadow type="math_number"><field name="NUM">0</field></shadow>
+                    </value></block>
+                ${blockSeparator}
             </category>
             `;
 };
