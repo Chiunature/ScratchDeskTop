@@ -25,6 +25,15 @@ const SelectBoxCom = (props) => {
             <div className={styles.selectModal}>
                 <div className={styles.selectModalContent}>
                     <div className={styles.downloadUi}>
+                        <div
+                            className={styles.downloadUiLeft}
+                            onClick={() => handleLeft(refUl)}
+                        >
+                            <img
+                                draggable={false}
+                                src={isRtl ? rightArrow : leftArrow}
+                            />
+                        </div>
                         <div className={styles.downloadLi} ref={refUl}>
                             <ul style={{ transform: `translateX(-${sx}px)` }}>
                                 {arr.map((el) => (
@@ -42,6 +51,15 @@ const SelectBoxCom = (props) => {
                                 <span></span>
                                 <span></span>
                             </div>
+                        </div>
+                        <div
+                            className={styles.downloadUiRight}
+                            onClick={() => handleRight(refUl)}
+                        >
+                            <img
+                                draggable={false}
+                                src={isRtl ? leftArrow : rightArrow}
+                            />
                         </div>
                     </div>
                 </div>

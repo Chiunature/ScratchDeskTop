@@ -468,10 +468,7 @@ export class Common {
     if (!data) return;
     //将接收到的数据转成buffer数组
     const list = this.getBufferArray(data);
-    console.log("list", list);
     const start = list.indexOf(0x5a);
-    console.log("start", start);
-    console.log("", { 1: list[start] });
     let newList = [];
     if (
       list[start] === 0x5a &&

@@ -188,11 +188,7 @@ export class Serialport extends Common {
   getBinOrHareWare(eventName) {
     console.log("bin文件或固件下载监听准备调用");
     this.ipcMain(eventName, (event, data) => {
-      console.log("bin文件或固件下载监听准备开始", {
-        eventname: eventName,
-        event: event,
-        data: data,
-      });
+      console.log("bin文件或固件下载监听准备开始");
       if (data.selectedExe) {
         this.selectedExe = data.selectedExe;
       }
@@ -207,7 +203,11 @@ export class Serialport extends Common {
 
         console.log("binArr", binArr);
         this.writeData(binArr, null, event);
+        //在进行文件更新的时候，
         console.log("写入数据完成");
+        setTimeout(() => {
+          console.log("第一个进入倒计时，5秒后检查连接", { event: event });
+        }, 10000);
         this.checkConnected(event);
         console.log("检查连接完成");
         return;
@@ -221,6 +221,7 @@ export class Serialport extends Common {
   checkConnected(event) {
     if (this.upload_sources_status === RESET_FWLIB) {
       this.checkConnectTimer = setTimeout(() => {
+        console.log("第二个进入倒计时，5秒后", { event: event });
         this.readyToUpload({ verifyType: SOURCE }, event);
         this.upload_sources_status = null;
       }, 5000);
@@ -241,7 +242,6 @@ export class Serialport extends Common {
 
     if (Array.isArray(result) && result.length > 0) {
       this.sourceFiles = [...result];
-      console.log("this.sourceFiles", this.sourceFiles);
       this.upload(event);
     }
   }
@@ -250,7 +250,6 @@ export class Serialport extends Common {
     console.log("上传文件开始");
     this.uploadingFile = this.sourceFiles.shift();
     console.log("this.uploadingFile", this.uploadingFile);
-
     this.verifyType = this.uploadingFile.verifyType;
 
     //根据返回的子文件数据和子文件名进入上传处理
@@ -295,7 +294,6 @@ export class Serialport extends Common {
    * @returns
    */
   writeData(data, sign, event) {
-    console.log("写入数据开始", { data: data, sign: sign, event: event });
     if (!this.port || !data) {
       return;
     }
@@ -306,9 +304,7 @@ export class Serialport extends Common {
       this.port.write(Buffer.from(data));
 
       if (sign && sign.includes("Boot_")) {
-        console.log("检测是否超时");
         this.checkOverTime(event);
-        console.log("检测是否超时完成");
       }
     } catch (e) {
       event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
@@ -325,6 +321,7 @@ export class Serialport extends Common {
    */
   checkOverTime(event) {
     this.timeOutTimer = setTimeout(() => {
+      console.log("提示超时");
       event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
         result: false,
         msg: "uploadTimeout",
@@ -339,6 +336,7 @@ export class Serialport extends Common {
   clearTimer() {
     if (!this.timeOutTimer || (this.sign && this.sign.indexOf("Boot_") === -1))
       return;
+    console.log("清除超时检测");
     clearTimeout(this.timeOutTimer);
     this.timeOutTimer = null;
   }
@@ -421,10 +419,8 @@ export class Serialport extends Common {
       const isBoot = this.sign && this.sign.includes("Boot_");
       if (isBoot || this.sign === signType.EXE.FILES) {
         this.receiveData = [...this.receiveData, ...data];
-        console.log("this.receiveData", this.receiveData);
         //把数据放入处理函数校验是否是完整的一帧并获取数据对象
         this.receiveObj = this.catchData(this.receiveData);
-        console.log("this.receiveObj", this.receiveObj);
         if (!this.receiveObj) {
           return;
         } else {
@@ -468,7 +464,6 @@ export class Serialport extends Common {
 
         // 开启设备数据监控监听
         this.watchDeviceData = this.parseDeviceData(completePacket);
-        // console.log("this.watchDeviceData", this.watchDeviceData);
         if (this.watchDeviceData) {
           // 第一次接收到设备监控数据时打印日志
           if (!isFirstDataReceived) {
@@ -488,6 +483,7 @@ export class Serialport extends Common {
       }
     });
     //本身不是哭脸的时候，发重置会断开，连上后发送文件
+    console.log("handleRead的checkConnected被触发");
     this.checkConnected(event);
   }
 

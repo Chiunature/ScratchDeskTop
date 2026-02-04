@@ -286,7 +286,6 @@ Blockly.Python["sensing_key_judgment"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  console.log("按下的是", port);
   const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
     `state(${portValue})`,
@@ -323,7 +322,6 @@ Blockly.Python["sensing_isHandling"] = function (block) {
     "PORT",
     Blockly.Python.ORDER_NONE
   );
-  console.log("sensing_isHandling_port", port);
   const button = block.getFieldValue("BUTTON");
   const code = Blockly.Python.handleResult(
     `key_remote("${port}","${button}")`,
