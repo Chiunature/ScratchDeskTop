@@ -10,10 +10,10 @@
 
 ### 当前固件版本
 
--   **固件版本**: v102 (LB_FWLIB/version/Version.txt)
+-   **固件版本**: v103 (LB_FWLIB/version/Version.txt)
 
 ### 固件资源组件
 
--   **LB_FWLIB**: 固件库 (v102)
+-   **LB_FWLIB**: 固件库 (v103)
 
 因为目前不清楚 gitignore 忽略的哪些文件是本地项目跑起来必须的，所 A 以目前资源以本地的为主，git 只存储基础代码（不涉及到不清楚的，算了还是先不上传吧）更新固件版本一次

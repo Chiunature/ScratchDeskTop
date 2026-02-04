@@ -44,8 +44,8 @@ Blockly.Blocks["handShank_menu"] = {
             "A",
             "B",
             "X",
-            "L",
-            "R",
+            "L1",
+            "R1",
           ],
         },
       ],
@@ -295,15 +295,40 @@ Blockly.Blocks["sensing_grayscale_state"] = {
   },
 };
 
-Blockly.Blocks["sensing_calibrate"] = {
+Blockly.Blocks["sensing_one_calibrate"] = {
   /**
    * Block to Report if its touching a Object.
    * @this Blockly.Block
    */
   init: function () {
     this.jsonInit({
-      type: "sensing_calibrate",
-      message0: Blockly.Msg.SENSING_CALIBRATE,
+      type: "sensing_one_calibrate",
+      message0: Blockly.Msg.SENSING_ONE_CALIBRATE,
+      args0: [
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "input_value",
+          name: "SECONDS",
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["sensing_two_calibrate"] = {
+  /**
+   * Block to Report if its touching a Object.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      type: "sensing_two_calibrate",
+      message0: Blockly.Msg.SENSING_TWO_CALIBRATE,
       args0: [
         {
           type: "input_value",
@@ -312,6 +337,10 @@ Blockly.Blocks["sensing_calibrate"] = {
         {
           type: "input_value",
           name: "PORT2",
+        },
+        {
+          type: "input_value",
+          name: "SECONDS",
         },
       ],
       category: Blockly.Categories.sensing,
@@ -850,6 +879,50 @@ Blockly.Blocks["sensing_nfc_read"] = {
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
+    });
+  },
+};
+
+Blockly.Blocks["read_adcance_left_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "read_adcance_left_offset",
+      message0: Blockly.Msg.READ_ADCANCE_LEFT_OFFSET,
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["read_advance_right_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "read_advance_right_offset",
+      message0: Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET,
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["read_retreat_left_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "read_retreat_left_offset",
+      message0: Blockly.Msg.READ_RETRACH_LEFT_OFFSET,
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["read_retreat_right_offset"] = {
+  init: function () {
+    this.jsonInit({
+      type: "read_retreat_right_offset",
+      message0: Blockly.Msg.READ_RETREAT_RIGHT_OFFSET,
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
     });
   },
 };

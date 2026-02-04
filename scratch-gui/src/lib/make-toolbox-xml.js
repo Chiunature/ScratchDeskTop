@@ -352,15 +352,35 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${categorySeparator}
-            <block type="sensing_calibrate">
+            <block type="sensing_one_calibrate">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="SECONDS">
+                    <shadow type="math_number"><field name="NUM">1</field></shadow>
+                </value>
+            </block>
+            ${categorySeparator}
+            <block type="sensing_two_calibrate">
                 <value name="PORT1">
                     <shadow type="sensing_menu" />
                 </value>
                 <value name="PORT2">
                     <shadow type="sensing_menu" />
                 </value>
+                <value name="SECONDS">
+                    <shadow type="math_number"><field name="NUM">1</field></shadow>
+                </value>
             </block>
             ${categorySeparator}
+            <block type="read_adcance_left_offset"></block>
+            ${blockSeparator}
+            <block type="read_advance_right_offset"></block>
+            ${blockSeparator}
+            <block type="read_retreat_left_offset"></block>
+            ${blockSeparator}
+            <block type="read_retreat_right_offset"></block>
+            ${blockSeparator}
             <block type="sensing_ultrasonic_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />

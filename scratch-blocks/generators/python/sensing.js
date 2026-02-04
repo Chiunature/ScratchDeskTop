@@ -412,7 +412,7 @@ Blockly.Python["sensing_nfc_read"] = function (block) {
   );
   const portValue = Blockly.Python["sensing_port_to_number"](port);
   const code = Blockly.Python.handleResult(
-    `read_car(${portValue})`,
+    `read_car(${portValue})\n`,
     Blockly.Python.NFC_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -432,7 +432,25 @@ Blockly.Python["sensing_grayscale_state"] = function (block) {
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["sensing_calibrate"] = function (block) {
+Blockly.Python["sensing_one_calibrate"] = function (block) {
+  const port = Blockly.Python.valueToCode(
+    block,
+    "PORT",
+    Blockly.Python.ORDER_NONE
+  );
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
+  const seconds = Blockly.Python.valueToCode(
+    block,
+    "SECONDS",
+    Blockly.Python.ORDER_NONE
+  );
+  return Blockly.Python.handleResult(
+    `one_calibrate(${portValue}, ${parseInt(seconds, 10)})\n`,
+    Blockly.Python.COLOR_TYPE
+  );
+};
+
+Blockly.Python["sensing_two_calibrate"] = function (block) {
   const port1 = Blockly.Python.valueToCode(
     block,
     "PORT1",
@@ -445,9 +463,41 @@ Blockly.Python["sensing_calibrate"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   const port2Value = Blockly.Python["sensing_port_to_number"](port2);
-  const code = Blockly.Python.handleResult(
-    `calibrate(${port1Value}, ${port2Value})`,
+  const seconds = Blockly.Python.valueToCode(
+    block,
+    "SECONDS",
+    Blockly.Python.ORDER_NONE
+  );
+  return Blockly.Python.handleResult(
+    `two_calibrate(${port1Value}, ${port2Value}, ${parseInt(seconds, 10)})\n`,
     Blockly.Python.COLOR_TYPE
   );
-  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+//读取前进左偏移量
+Blockly.Python["read_adcance_left_offset"] = function (block) {
+  return Blockly.Python.handleResult(
+    `read_adcance_left_offset()\n`,
+    Blockly.Python.KEY_TYPE
+  );
+};
+//读取前进右偏移量
+Blockly.Python["read_advance_right_offset"] = function (block) {
+  return Blockly.Python.handleResult(
+    `read_advance_right_offset()\n`,
+    Blockly.Python.KEY_TYPE
+  );
+};
+//读取后退左偏移量
+Blockly.Python["read_retreat_left_offset"] = function (block) {
+  return Blockly.Python.handleResult(
+    `read_retreat_left_offset()\n`,
+    Blockly.Python.KEY_TYPE
+  );
+};
+//读取后退右偏移量
+Blockly.Python["read_retreat_right_offset"] = function (block) {
+  return Blockly.Python.handleResult(
+    `read_retreat_right_offset()\n`,
+    Blockly.Python.KEY_TYPE
+  );
 };

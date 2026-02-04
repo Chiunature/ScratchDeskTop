@@ -342,7 +342,12 @@ Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT = "%1 Ultrasonic judgment %2 %3 %%?";
 Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = "line %1 looks %2";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION = "%1 Reflected light";
 Blockly.Msg.SENSING_GRAYSCALE_STATE = "%1 Grayscale state";
-Blockly.Msg.SENSING_CALIBRATE = "%1 and %2 Calibrate";
+Blockly.Msg.SENSING_ONE_CALIBRATE = "%1 Calibrate %2 seconds";
+Blockly.Msg.SENSING_TWO_CALIBRATE = "%1 and %2 Calibrate %3 seconds";
+Blockly.Msg.READ_ADCANCE_LEFT_OFFSET = "Read advance left offset";
+Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET = "Read advance right offset";
+Blockly.Msg.READ_RETRACH_LEFT_OFFSET = "Read retreat left offset";
+Blockly.Msg.READ_RETREAT_RIGHT_OFFSET = "Read retreat right offset";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT =
   "%1 Reflected light judgment %2 %3 %%?";
 Blockly.Msg.SENSING_COLOR_DETECTIONRGB = "%1 color is %2";
