@@ -200,28 +200,25 @@ export class Serialport extends Common {
       if (data.verifyType === RESET_FWLIB) {
         this.upload_sources_status = data.verifyType;
         const { binArr } = this.checkFileName(RESET_FWLIB, 0x6f);
-
         console.log("binArr", binArr);
         this.writeData(binArr, null, event);
-        //在进行文件更新的时候，
-        console.log("写入数据完成");
-        setTimeout(() => {
-          console.log("第一个进入倒计时，5秒后检查连接", { event: event });
-        }, 10000);
         this.checkConnected(event);
-        console.log("检查连接完成");
         return;
       }
-      console.log("准备上传");
       this.readyToUpload(data, event);
-      console.log("上传完成");
     });
   }
 
   checkConnected(event) {
+    /*服了这个屎山，优化了之后一直报错，历史遗留了属于是，
+    checkConnected就是为了更新固件包写的，发了更新指令，会导致主机串口关闭
+    同时因为串口关闭之后，会导致一堆监听器不监听
+    并且清除一部分数据包括这个checkconnectTimer计时器，所以正常更新固件包不走getBinOrHareWare的checkConnected
+    而是走handleRead的checkConnected，同时这个checkConnected确保了只有固件包更新才执行。
+    不正常的更新就可以直接走getBinOrHareWare的checkConnected
+    我服了，这个代码流程。所以这个checkConnected就是专门为了更新固件包写的，其他地方不要调用这个函数。*/
     if (this.upload_sources_status === RESET_FWLIB) {
       this.checkConnectTimer = setTimeout(() => {
-        console.log("第二个进入倒计时，5秒后", { event: event });
         this.readyToUpload({ verifyType: SOURCE }, event);
         this.upload_sources_status = null;
       }, 5000);
@@ -482,8 +479,6 @@ export class Serialport extends Common {
         }
       }
     });
-    //本身不是哭脸的时候，发重置会断开，连上后发送文件
-    console.log("handleRead的checkConnected被触发");
     this.checkConnected(event);
   }
 
