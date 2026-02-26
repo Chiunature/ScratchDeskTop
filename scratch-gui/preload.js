@@ -200,28 +200,33 @@ function commendMake(pathCWD = cwd()) {
             reject(errorMsg);
             return;
         }
-        const process = execFile("ByteCode.exe", [], {
+
+        console.log(`执行: python.exe -c 0.py -o 0.py.o 在 ${targetDir}`);
+        const child = spawn("python.exe", ["-c", "0.py", "-o", "0.py.o"], {
             cwd: targetDir,
-        });
-        console.log("ByteCode.exe路径", targetDir);
-        console.log("process结果", process);
-        let errStr = "";
-        process.stderr.on("data", (err) => {
-            errStr += err.toString();
+            shell: true, // Windows 可能需要
+            stdio: ["ignore", "pipe", "pipe"], // 捕获输出
         });
 
-        process.on("error", (err) => {
-            if (err) {
-                handlerError(err.message, pathCWD);
-                reject(err.message);
-            }
+        // 实时打印输出（替代 execa 的优势）
+        child.stdout.on("data", (data) => {
+            process.stdout.write(`[编译信息] ${data}`);
         });
 
-        process.on("close", (code) => {
+        child.stderr.on("data", (data) => {
+            process.stderr.write(`[编译错误] ${data}`);
+        });
+
+        child.on("error", (err) => {
+            handlerError(err.message, pathCWD);
+            reject(err);
+        });
+
+        child.on("close", (code) => {
             if (code === 0) {
                 resolve(true);
             } else {
-                reject(false);
+                reject(new Error(`进程退出，代码: ${code}`));
             }
         });
     });
