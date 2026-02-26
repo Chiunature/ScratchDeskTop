@@ -211,7 +211,7 @@ export class Serialport extends Common {
 
   checkConnected(event) {
     /*服了这个屎山，优化了之后一直报错，历史遗留了属于是，
-    checkConnected就是为了更新固件包写的，发了更新指令，会导致主机串口关闭
+    checkConnected就是为了更新固件包写的（RESET_FWLIB），发了更新指令，会导致主机串口关闭
     同时因为串口关闭之后，会导致一堆监听器不监听
     并且清除一部分数据包括这个checkconnectTimer计时器，所以正常更新固件包不走getBinOrHareWare的checkConnected
     而是走handleRead的checkConnected，同时这个checkConnected确保了只有固件包更新才执行。

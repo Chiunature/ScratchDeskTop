@@ -1,6 +1,6 @@
 {
     "name": "Spark-AI",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Spark-AI",
     "main": "main-with-cache.js",
     "scripts": {
