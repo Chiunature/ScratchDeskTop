@@ -689,7 +689,7 @@ Blockly.Blocks["sensing_mainIsPress"] = {
       args0: [
         {
           type: "field_dropdown",
-          name: "PORT",
+          name: "KEYS",
           options: [
             [Blockly.Msg.PLEFT, "left"],
             [Blockly.Msg.PRIGHT, "right"],
@@ -889,7 +889,7 @@ Blockly.Blocks["read_adcance_left_offset"] = {
       type: "read_adcance_left_offset",
       message0: Blockly.Msg.READ_ADCANCE_LEFT_OFFSET,
       category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "shape_statement"],
+      extensions: ["colours_sensing", "output_number"],
     });
   },
 };
@@ -900,7 +900,7 @@ Blockly.Blocks["read_advance_right_offset"] = {
       type: "read_advance_right_offset",
       message0: Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET,
       category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "shape_statement"],
+      extensions: ["colours_sensing", "output_number"],
     });
   },
 };
@@ -911,7 +911,7 @@ Blockly.Blocks["read_retreat_left_offset"] = {
       type: "read_retreat_left_offset",
       message0: Blockly.Msg.READ_RETRACH_LEFT_OFFSET,
       category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "shape_statement"],
+      extensions: ["colours_sensing", "output_number"],
     });
   },
 };
@@ -922,7 +922,7 @@ Blockly.Blocks["read_retreat_right_offset"] = {
       type: "read_retreat_right_offset",
       message0: Blockly.Msg.READ_RETREAT_RIGHT_OFFSET,
       category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "shape_statement"],
+      extensions: ["colours_sensing", "output_number"],
     });
   },
 };

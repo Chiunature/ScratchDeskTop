@@ -365,11 +365,11 @@ Blockly.FieldHandShank.prototype.createHandShankDom_ = function () {
   });
   svg.appendChild(rightHighlight);
 
-  // =================== L/R 肩键 ===================
+  // =================== L1/R1 肩键（value 需与 blocks_vertical/sensing.js 中 handShankValue 一致）===================
 
   const shoulderButtons = [
-    { x: 90, y: 36, label: "L", value: "L" },
-    { x: 310, y: 36, label: "R", value: "R" },
+    { x: 90, y: 36, label: "L1", value: "L1" },
+    { x: 310, y: 36, label: "R1", value: "R1" },
   ];
 
   shoulderButtons.forEach(
@@ -648,9 +648,9 @@ Blockly.FieldHandShank.prototype.createHandShankDom_ = function () {
   // 按钮配置：对应手柄的 YABX 按钮
   const rightButtons = [
     { x: 360, y: 95, label: "Y", value: "Y" }, // 上
-    { x: 390, y: 125, label: "B", value: "B" }, // 右
+    { x: 390, y: 125, label: "X", value: "X" }, // 右
     { x: 360, y: 155, label: "A", value: "A" }, // 下
-    { x: 330, y: 125, label: "X", value: "X" }, // 左
+    { x: 330, y: 125, label: "B", value: "B" }, // 左
   ];
 
   rightButtons.forEach(

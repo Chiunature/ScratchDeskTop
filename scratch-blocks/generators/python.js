@@ -91,7 +91,7 @@ Blockly.Python.INDENT = "  ";
 Blockly.Python.MEM_TYPE = "MEM";
 Blockly.Python.COLOR_TYPE = "COLOR";
 Blockly.Python.MATRIX_TYPE = "matrix";
-Blockly.Python.SOUND_TYPE = "sound";
+Blockly.Python.SOUND_TYPE = "beep";
 Blockly.Python.MOTOR_TYPE = "motor";
 Blockly.Python.ULTRASIONIC_TYPE = "ultrasionic";
 Blockly.Python.TOUCH_TYPE = "touch";
@@ -101,7 +101,7 @@ Blockly.Python.LIST_TYPE = "userlist";
 Blockly.Python.CAM_TYPE = "camera";
 Blockly.Python.TIMER_TYPE = "timer";
 Blockly.Python.MSG_TYPE = "msg";
-Blockly.Python.STR_TYPE = "str";
+Blockly.Python.MATH_TYPE = "math";
 Blockly.Python.NFC_TYPE = "nfc";
 Blockly.Python.CAMERA_RECOGNITION_TYPE = "cameraRecognition";
 Blockly.Python.firstLoop = true;
@@ -625,7 +625,7 @@ Blockly.Python.handleResult = function (code, type) {
       result = "_matrix." + result;
       break;
     case Blockly.Python.SOUND_TYPE:
-      result = "_music." + result;
+      result = "_beep." + result;
       break;
     case Blockly.Python.MEM_TYPE:
       result = "_mem." + result;
@@ -664,8 +664,8 @@ Blockly.Python.handleResult = function (code, type) {
     case Blockly.Python.MSG_TYPE:
       result = "_message." + result;
       break;
-    case Blockly.Python.STR_TYPE:
-      result = "_os." + result;
+    case Blockly.Python.MATH_TYPE:
+      result = "_math." + result;
       break;
     case Blockly.Python.NFC_TYPE:
       result = "_nfc." + result;

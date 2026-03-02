@@ -242,28 +242,6 @@ const sound = function ({
     return `
     <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="${colors.primary}"
     secondaryColour="${colors.tertiary}" iconURI="${voiceIcon}">
-        <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
-            <value name="SOUND_MENU">
-                <shadow type="sound_sounds_menu"></shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block id="${targetId}_sound_play" type="sound_play">
-            <value name="SOUND_MENU">
-                <shadow type="sound_sounds_menu"></shadow>
-            </value>
-        </block>
-        ${blockSeparator}
-        <block type="sound_stopallsounds"/>
-        ${blockSeparator}
-        <block type="sound_setvolumeto">
-            <value name="VOLUME">
-                <shadow type="math_0to100_number">
-                    <field name="NUM">100</field>
-                </shadow>
-            </value>
-        </block>
-        ${blockSeparator}
         <block type="sound_PlayMusic">
             <value name="NOTE">
                 <shadow type="piano"></shadow>
@@ -955,8 +933,8 @@ const makeToolboxXML = function (
         gap,
         matrixXML,
         gap,
-        // soundXML,
-        // gap,
+        soundXML,
+        gap,
         eventsXML,
         gap,
         controlXML,

@@ -21,7 +21,9 @@ Blockly.Python["sensing_menu"] = function (block) {
 
 Blockly.Python["handShank_menu"] = function (block) {
   const handShankValue = block.getFieldValue("HAND_SHANK");
-  return handShankValue;
+  console.log("handShankValue", handShankValue);
+  // 必须返回 [code, order] 元组，否则 valueToCode 会把字符串当 tuple 用 tuple[0] 取到首字母
+  return [handShankValue, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python["touching_menu"] = function (block) {

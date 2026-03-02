@@ -182,7 +182,7 @@ Blockly.Python["operator_round"] = function (block) {
   var arg0 = Blockly.Python.valueToCode(block, "NUM", order) || "0";
   var code = "round(" + arg0 + ")";
   return [
-    Blockly.Python.handleResult(code, Blockly.Python.STR_TYPE),
+    Blockly.Python.handleResult(code, Blockly.Python.MATH_TYPE),
     Blockly.Python.ORDER_FUNCTION_CALL,
   ];
 };
@@ -215,31 +215,31 @@ Blockly.Python["operator_mathop"] = function (block) {
       code = "_math.sqrt(" + arg0 + ")";
       break;
     case "sin_abs":
-      code = "_math.sin(" + arg0 + " / 180.0 * _math.pi)";
+      code = "_math.sin(" + arg0 + ")";
       break;
     case "cos_abs":
-      code = "_math.cos(" + arg0 + " / 180.0 * _math.pi)";
+      code = "_math.cos(" + arg0 + ")";
       break;
     case "tan_abs":
-      code = "_math.tan(" + arg0 + " / 180.0 * _math.pi)";
+      code = "_math.tan(" + arg0 + ")";
       break;
     case "asin_abs":
-      code = "_math.asin(" + arg0 + ") / _math.pi * 180";
+      code = "_math.asin(" + arg0 + ")";
       order = Blockly.Python.ORDER_MULTIPLICATIVE;
       break;
     case "acos_abs":
-      code = "_math.acosh(" + arg0 + ") / _math.pi * 180";
+      code = "_math.acos(" + arg0 + ")";
       order = Blockly.Python.ORDER_MULTIPLICATIVE;
       break;
     case "atan_abs":
-      code = "_math.atan(" + arg0 + ") / _math.pi * 180";
+      code = "_math.atan(" + arg0 + ")";
       order = Blockly.Python.ORDER_MULTIPLICATIVE;
       break;
     // case 'ln_abs':
     //   code = '_math.log(' + arg0 + ')';
     //   break;
     case "ln_abs":
-      code = "_math.log(" + arg0 + ", 10)";
+      code = "_math.log(" + arg0 + ")";
       break;
     case "e_abs":
       code = "_math.exp(" + arg0 + ")";
