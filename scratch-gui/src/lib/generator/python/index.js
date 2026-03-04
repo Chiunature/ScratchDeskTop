@@ -15,8 +15,10 @@ export async function handleUploadPython(options, static_path = "") {
             const pyPath = `${DIR}/${selectedExe.num}.py`;
             //把代码写入文件里
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
-
-            const res = await window.myAPI.commendMake(static_path);
+            const res = await window.myAPI.commendMake(
+                static_path,
+                selectedExe
+            );
             if (res) {
                 const fileName = `${selectedExe.num}.py.o`;
                 const oPath = `${DIR}/${fileName}`;
@@ -57,23 +59,8 @@ export async function handleUploadPython(options, static_path = "") {
             } else {
                 reject(alertMsg);
             }
-            /* window.myAPI.ipcRender({
-                sendName: ipc_Renderer.SEND_OR_ON.COMMUNICATION.GETFILES,
-                sendParams: {
-                    ...options,
-                    codeStr: new Uint8Array(stringToArrayBuffer(codeStr)),
-                    fileName: `${selectedExe.num}.py`
-                }
-            });
-            resolve(true); */
         } catch (error) {
             reject(alertMsg);
         }
     });
 }
-
-/* function stringToArrayBuffer(str) {
-    const encoder = new TextEncoder();
-    const res = encoder.encode(str);
-    return res.buffer;
-} */
