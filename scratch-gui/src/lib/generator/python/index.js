@@ -16,7 +16,10 @@ export async function handleUploadPython(options, static_path = "") {
             //把代码写入文件里
             await window.myAPI.writeFiles(pyPath, codeStr, static_path);
 
-            const res = await window.myAPI.commendMake(static_path);
+            const res = await window.myAPI.commendMake(
+                static_path,
+                selectedExe
+            );
             if (res) {
                 const fileName = `${selectedExe.num}.py.o`;
                 const oPath = `${DIR}/${fileName}`;

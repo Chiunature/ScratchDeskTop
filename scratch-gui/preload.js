@@ -191,7 +191,7 @@ function deleteFiles(link, resourcePath = cwd()) {
  * 调用编译命令
  * @returns
  */
-function commendMake(pathCWD = cwd()) {
+function commendMake(pathCWD = cwd(), selectedExe = 0) {
     return new Promise((resolve, reject) => {
         const targetDir = path.join(pathCWD, DIR);
         if (!fs.existsSync(targetDir)) {
@@ -201,12 +201,18 @@ function commendMake(pathCWD = cwd()) {
             return;
         }
 
-        console.log(`执行: python.exe -c 0.py -o 0.py.o 在 ${targetDir}`);
-        const child = spawn("python.exe", ["-c", "0.py", "-o", "0.py.o"], {
-            cwd: targetDir,
-            shell: true, // Windows 可能需要
-            stdio: ["ignore", "pipe", "pipe"], // 捕获输出
-        });
+        console.log(
+            `执行: python.exe -c ${selectedExe.num}.py -o ${selectedExe.num}.py.o 在 ${targetDir}`
+        );
+        const child = spawn(
+            "python.exe",
+            ["-c", `${selectedExe.num}.py`, "-o", `${selectedExe.num}.py.o`],
+            {
+                cwd: targetDir,
+                shell: true, // Windows 可能需要
+                stdio: ["ignore", "pipe", "pipe"], // 捕获输出
+            }
+        );
 
         // 实时打印输出（替代 execa 的优势）
         child.stdout.on("data", (data) => {
