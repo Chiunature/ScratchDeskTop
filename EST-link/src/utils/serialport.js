@@ -49,6 +49,45 @@ export class Serialport extends Common {
     this.uploadingFile = null;
     this.receiveData = [];
     this.currentPort = null;
+    /** 设备心跳超时定时器：超时未收到数据则主动通知渲染进程断开（兜底，解决部分主机不触发 port.close） */
+    this.watchDisconnectTimer = null;
+    this._watchEvent = null;
+  }
+
+  /**
+   * 重置「设备无数据则断开」定时器，每次收到设备数据时调用
+   * 超时 5 秒未收到数据则通知渲染进程断开（兜底，部分主机不触发 port.close）
+   * @param {*} event IPC event，用于超时后通知渲染进程
+   */
+  resetWatchDisconnectTimer(event) {
+    const WATCH_DISCONNECT_MS = 5000;
+    if (this.watchDisconnectTimer) {
+      clearTimeout(this.watchDisconnectTimer);
+      this.watchDisconnectTimer = null;
+    }
+    this._watchEvent = event;
+    this.watchDisconnectTimer = setTimeout(() => {
+      this.onWatchDisconnectTimeout();
+    }, WATCH_DISCONNECT_MS);
+  }
+
+  /**
+   * 超时未收到设备数据，视为断开（兜底逻辑，不依赖 port.close）
+   */
+  onWatchDisconnectTimeout() {
+    this.watchDisconnectTimer = null;
+    const event = this._watchEvent;
+    this._watchEvent = null;
+    if (!event) return;
+    if (this.port && !this.port.isOpen) return;
+    console.log(
+      "\n[主进程-串口] 设备心跳超时，未收到数据，主动通知渲染进程断开(兜底)\n"
+    );
+    this.clearCache();
+    event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, {
+      connectSuccess: false,
+      msg: "disconnect",
+    });
   }
 
   /**
@@ -266,7 +305,12 @@ export class Serialport extends Common {
    */
   listenPortClosed(event) {
     this.port.on("close", () => {
-      console.log("\n=== 串口已关闭，设备已断开连接 ===\n");
+      clearTimeout(this.watchDisconnectTimer);
+      this.watchDisconnectTimer = null;
+      this._watchEvent = null;
+      console.log(
+        "\n[主进程-串口] 串口已关闭，设备已断开连接，将通知渲染进程\n"
+      );
       this.removeAllMainListeners([
         ipc_Main.SEND_OR_ON.COMMUNICATION.GETFILES,
         ipc_Main.SEND_OR_ON.EXE.DELETE,
@@ -351,6 +395,10 @@ export class Serialport extends Common {
     this.checkConnectTimer = null;
     this.receiveObj = null;
     this.sign = null;
+    clearTimeout(this.watchDisconnectTimer);
+    this.watchDisconnectTimer = null;
+    this._watchEvent = null;
+    this.watchDeviceData = null;
   }
 
   /**
@@ -469,6 +517,8 @@ export class Serialport extends Common {
             console.log(`===========================================\n`);
             isFirstDataReceived = true;
           }
+          // 每次收到设备数据都重置「无数据则断开」定时器（兜底：部分主机不触发 port.close）
+          this.resetWatchDisconnectTimer(event);
 
           buffer = "";
           let t = setTimeout(() => {
