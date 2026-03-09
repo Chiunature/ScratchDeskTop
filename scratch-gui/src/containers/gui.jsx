@@ -43,6 +43,7 @@ import {
     setCompleted,
     setSourceCompleted,
     setVersion,
+    setIsConnectedSerial,
 } from "../reducers/connection-modal.js";
 import Compile from "../utils/compileGcc.js";
 import { showAlertWithTimeout, showQrcode, showUpin } from "../reducers/alerts";
@@ -270,10 +271,10 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                // console.log(
-                //     "📥 GUI接收设备数据:",
-                //     JSON.stringify(newDeviceObj, null, 2)
-                // );
+                console.log(
+                    "📥 GUI接收设备数据:",
+                    JSON.stringify(newDeviceObj, null, 2)
+                );
                 const {
                     deviceObj,
                     version,
@@ -285,7 +286,18 @@ class GUI extends React.Component {
                     onSetVersion,
                     onSetDeviceObj,
                 } = this.props;
-                if (!newDeviceObj || completed || dragging) {
+                if (completed || dragging) {
+                    return;
+                }
+                // 设备数据为空（断开或未上报）时清空 version/deviceObj，便于 UI 显示未连接/需升级
+                if (!newDeviceObj) {
+                    if (version != null || deviceObj != null) {
+                        console.log(
+                            "[version] DEVICE.WATCH 收到空数据，清空 version/deviceObj"
+                        );
+                        if (onSetVersion) onSetVersion(null);
+                        if (onSetDeviceObj) onSetDeviceObj(null);
+                    }
                     return;
                 }
 
@@ -294,6 +306,10 @@ class GUI extends React.Component {
                 }
 
                 if (version !== newDeviceObj?.version) {
+                    console.log(
+                        "[version] DEVICE.WATCH 收到设备 version，设置 version =",
+                        newDeviceObj.version
+                    );
                     onSetVersion(newDeviceObj.version);
                 }
 
@@ -723,6 +739,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetSelectedExe: (selectedExe) => dispatch(setSelectedExe(selectedExe)),
     onActivateDeck: (id) => dispatch(activateDeck(id)),
     onSetVersion: (version) => dispatch(setVersion(version)),
+    onSetIsConnectedSerial: (isConnectedSerial) =>
+        dispatch(setIsConnectedSerial(isConnectedSerial)),
     onSetGen: (gen) => dispatch(setGen(gen)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),

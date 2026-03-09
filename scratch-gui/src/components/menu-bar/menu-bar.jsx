@@ -207,7 +207,7 @@ class MenuBar extends React.Component {
         document.addEventListener("keydown", this.keyPress);
         requestIdleCallback(() => {
             this.scanConnection();
-            this.disconnectListen();
+            this.registerConnectionStatusListener();
         });
     }
 
@@ -369,46 +369,90 @@ class MenuBar extends React.Component {
         });
     }
 
-    disconnectListen() {
+    // 只负责“注册主进程的连接状态监听”
+    registerConnectionStatusListener() {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.CONNECTION.CONNECTED,
             callback: (event, args) => {
-                if (args.connectSuccess) {
-                    clearTimeout(this.closeTimer);
-                    this.closeTimer = null;
-                    if (!this.props.peripheralName) {
-                        this.props.onSetDeviceType(args.type);
-                        this.setPortItem(args.serial, args.type);
-                        this.props.onShowConnectAlert(args.msg);
-                        this.props.onCloseBleListModal();
-                    }
-                } else {
-                    if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
-                        this.closeTimer =
-                            !this.closeTimer &&
-                            setTimeout(() => {
-                                this.reConnect(args.msg);
-                            }, 2000);
-                    } else {
-                        this.reConnect(args.msg);
-                    }
-                }
+                this.handleConnectionStatusChange(args);
             },
         });
     }
 
+    // 统一入口：根据 connectSuccess 分发
+    handleConnectionStatusChange(args) {
+        if (args && args.connectSuccess) {
+            this.handleConnectionSuccess(args);
+        } else {
+            this.handleConnectionDisconnected(args);
+        }
+    }
+
+    // 只负责“连接成功”时的处理
+    handleConnectionSuccess(args) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = null;
+
+        if (!this.props.peripheralName) {
+            this.props.onSetDeviceType(args.type);
+            this.setPortItem(args.serial, args.type);
+
+            // 新连接建立时清空 version，避免拔插后设备不发数据时仍显示上次的 version
+            if (this.props.onSetVersion) {
+                this.props.onSetVersion(null);
+                console.log(
+                    "[version] 新连接建立，已清空 version 为 null，等设备上报后再显示"
+                );
+            }
+
+            this.props.onShowConnectAlert(args.msg);
+            this.props.onCloseBleListModal();
+        }
+    }
+
+    // 只负责“断开/失败”时的处理
+    handleConnectionDisconnected(args) {
+        const msg = args && args.msg;
+
+        if (this.props.deviceType === verifyTypeConfig.SERIALPORT) {
+            this.closeTimer =
+                !this.closeTimer &&
+                setTimeout(() => {
+                    this.reConnect(msg);
+                }, 2000);
+        } else {
+            this.reConnect(msg);
+        }
+    }
+
+    // 仍只负责“断开后的清理 + 重新扫描”
     reConnect(msg) {
-        // 重新连接时保持 deviceObj 数据，避免设备信息在连接过程中丢失
+        console.log(
+            "[version] reConnect 执行断开逻辑，清空 port/deviceObj/version/isConnectedSerial"
+        );
+
+        // 清空连接相关状态
         this.props.onSetPort(null);
         this.props.onGetSerialList([]);
-        // 注意：不清空 deviceObj，保持设备数据连续性
+        if (this.props.onSetDeviceObj) this.props.onSetDeviceObj(null);
+        if (this.props.onSetVersion) this.props.onSetVersion(null);
+        if (this.props.onSetIsConnectedSerial) {
+            this.props.onSetIsConnectedSerial(false);
+        }
         this.props.onSetCompleted(false);
         this.props.onSetProgramSel(false);
         this.props.onViewDeviceCards(false);
         this.props.onClearConnectionModalPeripheralName();
-        msg.length > 0 && this.props.onShowDisonnectAlert(msg);
 
-        !this.props.bleListVisible && this.scanConnection();
+        // 断开提示
+        if (msg && msg.length > 0) {
+            this.props.onShowDisonnectAlert(msg);
+        }
+
+        // 若当前不是蓝牙列表界面，则重新扫描串口设备
+        if (!this.props.bleListVisible) {
+            this.scanConnection();
+        }
     }
 
     showDeviceCards() {

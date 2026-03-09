@@ -173,6 +173,7 @@ const GUIComponent = (props) => {
         onViewDeviceCards,
         onSetProgramSel,
         onSetVersion,
+        onSetIsConnectedSerial,
         onSetGen,
         onActivateDeck,
         onOpenConnectionModal,
@@ -425,6 +426,8 @@ const GUIComponent = (props) => {
                             getMainMessage={getMainMessage}
                             onShowQrcode={onShowQrcode}
                             onSetDeviceObj={onSetDeviceObj}
+                            onSetVersion={onSetVersion}
+                            onSetIsConnectedSerial={onSetIsConnectedSerial}
                             intl={intl}
                             onSetDeviceStatus={onSetDeviceStatus}
                             autoSaveByBlockType={autoSaveByBlockType}
