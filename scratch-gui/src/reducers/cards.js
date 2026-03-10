@@ -1,19 +1,6 @@
-import analytics from '../lib/analytics';
-
-import decks from '../lib/libraries/decks/index.jsx';
-
-const CLOSE_CARDS = 'scratch-gui/cards/CLOSE_CARDS';
-const SHRINK_EXPAND_CARDS = 'scratch-gui/cards/SHRINK_EXPAND_CARDS';
-const VIEW_CARDS = 'scratch-gui/cards/VIEW_CARDS';
-const ACTIVATE_DECK = 'scratch-gui/cards/ACTIVATE_DECK';
-const NEXT_STEP = 'scratch-gui/cards/NEXT_STEP';
-const PREV_STEP = 'scratch-gui/cards/PREV_STEP';
-const DRAG_CARD = 'scratch-gui/cards/DRAG_CARD';
-const START_DRAG = 'scratch-gui/cards/START_DRAG';
-const END_DRAG = 'scratch-gui/cards/END_DRAG';
-const VIEW_DEVICE_CARDS = 'scratch-gui/cards/VIEW_DEVICE_CARDS';
-const SET_DEVICE_CARDS = 'scratch-gui/cards/SET_DEVICE_CARDS';
-const SET_PROGRAMSEL = 'scratch-gui/cards/SET_PROGRAMSEL';
+import { createSlice } from "@reduxjs/toolkit";
+import analytics from "../lib/analytics";
+import decks from "../lib/libraries/decks/index.jsx";
 
 const initialState = {
     visible: false,
@@ -26,155 +13,79 @@ const initialState = {
     dragging: false,
     deviceCards: {
         deviceVisible: false,
-        position: {
-            x: 0,
-            y: 0,
-        },
+        position: { x: 0, y: 0 },
         expanded: true,
         dragging: false,
     },
-    programSel: false
+    programSel: false,
 };
 
-const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
-    switch (action.type) {
-    case CLOSE_CARDS:
-        return Object.assign({}, state, {
-            visible: false
-        });
-    case SHRINK_EXPAND_CARDS:
-        return Object.assign({}, state, {
-            expanded: !state.expanded
-        });
-    case VIEW_CARDS:
-        return Object.assign({}, state, {
-            visible: true
-        });
-    case ACTIVATE_DECK:
-        return Object.assign({}, state, {
-            activeDeckId: action.activeDeckId,
-            step: 0,
-            x: 0,
-            y: 0,
-            expanded: true,
-            visible: true
-        });
-    case NEXT_STEP:
-        if (state.activeDeckId !== null) {
-            analytics.event({
-                category: 'how-to',
-                action: 'next step',
-                label: `${state.activeDeckId} - ${state.step}`
-            });
-            return Object.assign({}, state, {
-                step: state.step + 1
-            });
-        }
-        return state;
-    case PREV_STEP:
-        if (state.activeDeckId !== null) {
-            if (state.step > 0) {
-                return Object.assign({}, state, {
-                    step: state.step - 1
-                });
+const cardsSlice = createSlice({
+    name: "cards",
+    initialState,
+    reducers: {
+        closeCards(state) {
+            state.visible = false;
+        },
+        shrinkExpandCards(state) {
+            state.expanded = !state.expanded;
+        },
+        viewCards(state) {
+            state.visible = true;
+        },
+        activateDeck(state, action) {
+            state.activeDeckId = action.payload;
+            state.step = 0;
+            state.x = 0;
+            state.y = 0;
+            state.expanded = true;
+            state.visible = true;
+        },
+        nextStep(state) {
+            if (state.activeDeckId !== null) {
+                state.step += 1;
             }
-        }
-        return state;
-    case DRAG_CARD:
-        return Object.assign({}, state, {
-            x: action.x,
-            y: action.y
-        });
-    case START_DRAG:
-        return Object.assign({}, state, {
-            dragging: true
-        });
-    case END_DRAG:
-        return Object.assign({}, state, {
-            dragging: false
-        });
-    case VIEW_DEVICE_CARDS:
-        if(state.deviceCards.deviceVisible === action.deviceVisible) return state;
-        return Object.assign({}, state, {
-            deviceCards: {
+        },
+        prevStep(state) {
+            if (state.activeDeckId !== null && state.step > 0) {
+                state.step -= 1;
+            }
+        },
+        dragCard(state, action) {
+            state.x = action.payload.x;
+            state.y = action.payload.y;
+        },
+        startDrag(state) {
+            state.dragging = true;
+        },
+        endDrag(state) {
+            state.dragging = false;
+        },
+        viewDeviceCards(state, action) {
+            if (state.deviceCards.deviceVisible === action.payload) return;
+            state.deviceCards = {
                 deviceVisible: !state.deviceCards.deviceVisible,
                 x: 0,
                 y: 0,
-                expanded: true
-            },
+                expanded: true,
+            };
+        },
+        setDeviceCards(state, action) {
+            state.deviceCards = action.payload;
+        },
+        setProgramSel(state, action) {
+            state.programSel = action.payload;
+        },
+    },
+});
 
-        });
-    case SET_DEVICE_CARDS:
-        return Object.assign({}, state, {
-            deviceCards: action.deviceCards
-        });
-    case SET_PROGRAMSEL:
-        // if(state.programSel === action.programSel) return state;
-        return Object.assign({}, state, {
-            programSel: action.programSel
-        });
-    default:
-        return state;
-    }
-};
-
-const activateDeck = function (activeDeckId) {
-    return {
-        type: ACTIVATE_DECK,
-        activeDeckId
-    };
-};
-
-const viewCards = function () {
-    return {type: VIEW_CARDS};
-};
-
-const viewDeviceCards = function (deviceVisible) {
-    return {type: VIEW_DEVICE_CARDS, deviceVisible};
-};
-
-const setProgramSel = function (programSel) {
-    return {type: SET_PROGRAMSEL, programSel};
-};
-
-const closeCards = function () {
-    return {type: CLOSE_CARDS};
-};
-
-const shrinkExpandCards = function () {
-    return {type: SHRINK_EXPAND_CARDS};
-};
-
-const nextStep = function () {
-    return {type: NEXT_STEP};
-};
-
-const prevStep = function () {
-    return {type: PREV_STEP};
-};
-
-const dragCard = function (x, y) {
-    return {type: DRAG_CARD, x, y};
-};
-
-const startDrag = function () {
-    return {type: START_DRAG};
-};
-
-const endDrag = function () {
-    return {type: END_DRAG};
-};
-const setDeviceCards = function (deviceCards) {
-    return {type:SET_DEVICE_CARDS, deviceCards}
-}
-export {
-    reducer as default,
-    initialState as cardsInitialState,
-    activateDeck,
-    viewCards,
+export default cardsSlice.reducer;
+export const cardsInitialState = initialState;
+export const {
     closeCards,
     shrinkExpandCards,
+    viewCards,
+    activateDeck,
     nextStep,
     prevStep,
     dragCard,
@@ -182,5 +93,21 @@ export {
     endDrag,
     viewDeviceCards,
     setDeviceCards,
-    setProgramSel
+    setProgramSel,
+} = cardsSlice.actions;
+
+/**
+ * nextStep 的带 analytics 副作用版本（原 reducer 里调用了 analytics.event）
+ * 若业务需要埋点，可将调用改为 dispatch(nextStepWithAnalytics())
+ */
+export const nextStepWithAnalytics = () => (dispatch, getState) => {
+    const { activeDeckId, step } = getState().scratchGui.cards;
+    if (activeDeckId !== null) {
+        analytics.event({
+            category: "how-to",
+            action: "next step",
+            label: `${activeDeckId} - ${step}`,
+        });
+        dispatch(nextStep());
+    }
 };

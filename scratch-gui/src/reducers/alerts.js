@@ -1,266 +1,173 @@
-import alertsData, { AlertTypes, AlertLevels } from '../lib/alerts/index.jsx';
-import extensionData from '../lib/libraries/extensions/index.jsx';
-
-const SHOW_ALERT = 'scratch-gui/alerts/SHOW_ALERT';
-const SHOW_EXTENSION_ALERT = 'scratch-gui/alerts/SHOW_EXTENSION_ALERT';
-const CLOSE_ALERT = 'scratch-gui/alerts/CLOSE_ALERT';
-const CLOSE_ALERTS_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERTS_WITH_ID';
-const CLOSE_ALERT_WITH_ID = 'scratch-gui/alerts/CLOSE_ALERT_WITH_ID';
-const SHOW_QRCODE = 'scratch-gui/alerts/SHOW_QRCODE';
-const SHOW_UPIN = 'scratch-gui/alerts/SHOW_UPIN';
-const OPEN_AUTO_SAVE = 'scratch-gui/alerts/OPEN_AUTO_SAVE';
-const AUTO_SAVE_BY_BLOCKTYPE = 'scratch-gui/alerts/AUTO_SAVE_BY_BLOCKTYPE';
-const FILE_NOTIFY = 'scratch-gui/alerts/FILE_NOTIFY';
-
-/**
- * Initial state of alerts reducer
- *
- * {bool} visible - whether the alerts are visible
- * {array} alertsList - list of alerts, each with properties:
- *  * alertType (required): one of AlertTypes
- *  * closeButton (optional): bool indicating that we should show close button
- *  * content (optional): react element (a <FormattedMessage />)
- *  * extentionId (optional): id string that identifies the extension
- *  * iconURL (optional): string
- *  * level (required): string, one of AlertLevels
- *  * message (optional): string
- *  * showReconnect (optional): bool
- */
-
-/* function getUpinMsg() {
-    try {
-        const res = window.myAPI.readFilesAsync('./resources/README.md');
-        return res ? res : '';
-    } catch (error) {
-        return '';
-    }
-}
-
-function needUpin() {
-    try {
-    const obj = window.myAPI.readFilesAsync('./resources/scripts/hotVersion.json');
-    const upin = window.myAPI.getStoreValue('upin');
-        const newObj = JSON.parse(obj);
-        // const isNull = isType("Null");
-        // const isUndefined = isType("Undefined");
-        return upin !== newObj?.version;
-    } catch (error) {
-        console.info(error);
-        return false;
-    }
-} */
-
-/* function isType(type) {
-    return function (obj) {
-        return {}.toString.call(obj) == `[object ${type}]`;
-    }
-} */
+import { createSlice } from "@reduxjs/toolkit";
+import alertsData, { AlertTypes, AlertLevels } from "../lib/alerts/index.jsx";
+import extensionData from "../lib/libraries/extensions/index.jsx";
 
 const initialState = {
     visible: true,
     alertsList: [],
     QrcodeVisible: false,
     upinVisible: false,
-    upinMsg: '',
+    upinMsg: "",
     openAutoSave: false,
     autoSaveByBlockType: null,
-    showFileNotify: false
+    showFileNotify: false,
 };
 
-const filterPopupAlerts = alertsList => (
-    alertsList.filter(curAlert => (
-        curAlert.alertType === AlertTypes.STANDARD ||
-        curAlert.alertType === AlertTypes.EXTENSION
-    ))
-);
+const alertsSlice = createSlice({
+    name: "alerts",
+    initialState,
+    reducers: {
+        showStandardAlert(state, action) {
+            const alertId = action.payload;
+            if (!alertId) return;
+            const newAlert = { alertId, level: AlertLevels.WARN };
+            const alertData = alertsData.find(
+                (d) => d.alertId === alertId
+            );
+            if (!alertData) return;
 
-const filterInlineAlerts = alertsList => (
-    alertsList.filter(curAlert => (
-        curAlert.alertType === AlertTypes.INLINE
-    ))
-);
+            const newList = state.alertsList.filter(
+                (curAlert) =>
+                    !alertData.clearList ||
+                    alertData.clearList.indexOf(curAlert.alertId) === -1
+            );
+            newAlert.alertType = alertData.alertType || AlertTypes.STANDARD;
+            newAlert.closeButton = alertData.closeButton;
+            newAlert.content = alertData.content;
+            newAlert.iconURL = alertData.iconURL;
+            newAlert.iconSpinner = alertData.iconSpinner;
+            newAlert.level = alertData.level;
+            newAlert.showDownload = alertData.showDownload;
+            newAlert.showSaveNow = alertData.showSaveNow;
+            newAlert.progress = alertData.progress;
+            newList.push(newAlert);
+            state.alertsList = newList;
+        },
+        showStandardAlertWithData(state, action) {
+            const { alertId, data } = action.payload;
+            if (!alertId) return;
+            const newAlert = { alertId, level: AlertLevels.WARN };
+            const alertData = alertsData.find(
+                (d) => d.alertId === alertId
+            );
+            if (!alertData) return;
 
-const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
-    switch (action.type) {
-        case SHOW_ALERT: { // intended to show standard and inline alerts, but not extensions
-            const alertId = action.alertId;
-            if (alertId) {
-                const newAlert = {
-                    alertId: alertId,
-                    level: AlertLevels.WARN // default level
-                };
-                const alertData = alertsData.find(thisAlertData => thisAlertData.alertId === alertId);
-                if (alertData) {
-                    const newList = state.alertsList.filter(curAlert => (
-                        !alertData.clearList || alertData.clearList.indexOf(curAlert.alertId) === -1
-                    ));
-                    if (action.data && action.data.message) {
-                        newAlert.message = action.data.message;
-                    }
-
-                    newAlert.alertType = alertData.alertType || AlertTypes.STANDARD;
-                    newAlert.closeButton = alertData.closeButton;
-                    newAlert.content = alertData.content;
-                    newAlert.iconURL = alertData.iconURL;
-                    newAlert.iconSpinner = alertData.iconSpinner;
-                    newAlert.level = alertData.level;
-                    newAlert.showDownload = alertData.showDownload;
-                    newAlert.showSaveNow = alertData.showSaveNow;
-                    newAlert.progress = alertData.progress;
-
-                    newList.push(newAlert);
-                    return Object.assign({}, state, {
-                        alertsList: newList
-                    });
-                }
-            }
-            return state; // if alert not found, show nothing
-        }
-        case SHOW_EXTENSION_ALERT: {
-            const extensionId = action.data.extensionId;
-            if (extensionId) {
-                const extension = extensionData.find(ext => ext.extensionId === extensionId);
-                if (extension) {
-                    const newList = state.alertsList.slice();
-                    const newAlert = {
-                        alertType: AlertTypes.EXTENSION,
-                        closeButton: true,
-                        extensionId: extensionId,
-                        extensionName: extension.name,
-                        iconURL: extension.connectionSmallIconURL,
-                        level: AlertLevels.WARN,
-                        showReconnect: true
-                    };
-                    newList.push(newAlert);
-
-                    return Object.assign({}, state, {
-                        alertsList: newList
-                    });
-                }
-            }
-            return state; // if alert not found, show nothing
-        }
-        case CLOSE_ALERT_WITH_ID:
-        case CLOSE_ALERT: {
-            if (action.alertId) {
-                action.index = state.alertsList.findIndex(a => a.alertId === action.alertId);
-                if (action.index === -1) return state;
-            }
-            const newList = state.alertsList.slice();
-            newList.splice(action.index, 1);
-            return Object.assign({}, state, {
-                alertsList: newList
+            const newList = state.alertsList.filter(
+                (curAlert) =>
+                    !alertData.clearList ||
+                    alertData.clearList.indexOf(curAlert.alertId) === -1
+            );
+            if (data && data.message) newAlert.message = data.message;
+            newAlert.alertType = alertData.alertType || AlertTypes.STANDARD;
+            newAlert.closeButton = alertData.closeButton;
+            newAlert.content = alertData.content;
+            newAlert.iconURL = alertData.iconURL;
+            newAlert.iconSpinner = alertData.iconSpinner;
+            newAlert.level = alertData.level;
+            newAlert.showDownload = alertData.showDownload;
+            newAlert.showSaveNow = alertData.showSaveNow;
+            newAlert.progress = alertData.progress;
+            newList.push(newAlert);
+            state.alertsList = newList;
+        },
+        showExtensionAlert(state, action) {
+            const { extensionId } = action.payload;
+            if (!extensionId) return;
+            const extension = extensionData.find(
+                (ext) => ext.extensionId === extensionId
+            );
+            if (!extension) return;
+            state.alertsList.push({
+                alertType: AlertTypes.EXTENSION,
+                closeButton: true,
+                extensionId,
+                extensionName: extension.name,
+                iconURL: extension.connectionSmallIconURL,
+                level: AlertLevels.WARN,
+                showReconnect: true,
             });
-        }
-        case CLOSE_ALERTS_WITH_ID: {
-            return Object.assign({}, state, {
-                alertsList: state.alertsList.filter(curAlert => (
-                    curAlert.alertId !== action.alertId
-                ))
-            });
-        }
-        case SHOW_QRCODE:
-            return Object.assign({}, state, {
-                QrcodeVisible: !state.QrcodeVisible
-            });
-        case SHOW_UPIN:
-            return Object.assign({}, state, {
-                upinVisible: false
-            });
-        case OPEN_AUTO_SAVE:
-            return Object.assign({}, state, {
-                openAutoSave: action.openAutoSave
-            })
-        case AUTO_SAVE_BY_BLOCKTYPE:
-            return Object.assign({}, state, {
-                autoSaveByBlockType: action.autoSaveByBlockType
-            })
-        case FILE_NOTIFY:
-            return Object.assign({}, state, {
-                showFileNotify: action.showFileNotify
-            })
-        default:
-            return state;
-    }
+        },
+        closeAlert(state, action) {
+            const index = action.payload;
+            state.alertsList.splice(index, 1);
+        },
+        closeAlertWithId(state, action) {
+            const alertId = action.payload;
+            const index = state.alertsList.findIndex(
+                (a) => a.alertId === alertId
+            );
+            if (index === -1) return;
+            state.alertsList.splice(index, 1);
+        },
+        closeAlertsWithId(state, action) {
+            state.alertsList = state.alertsList.filter(
+                (curAlert) => curAlert.alertId !== action.payload
+            );
+        },
+        showQrcode(state) {
+            state.QrcodeVisible = !state.QrcodeVisible;
+        },
+        showUpin(state) {
+            state.upinVisible = false;
+        },
+        openAutoSave(state, action) {
+            state.openAutoSave = action.payload;
+        },
+        onAutoSaveByBlockType(state, action) {
+            state.autoSaveByBlockType = action.payload;
+        },
+        showFileNotify(state, action) {
+            state.showFileNotify = action.payload;
+        },
+    },
+});
+
+export default alertsSlice.reducer;
+export const alertsInitialState = initialState;
+export const {
+    showStandardAlert,
+    showStandardAlertWithData,
+    showExtensionAlert,
+    closeAlert,
+    closeAlertWithId,
+    closeAlertsWithId,
+    showQrcode,
+    showUpin,
+    openAutoSave,
+    onAutoSaveByBlockType,
+    showFileNotify,
+} = alertsSlice.actions;
+
+export const filterPopupAlerts = (alertsList) =>
+    alertsList.filter(
+        (curAlert) =>
+            curAlert.alertType === AlertTypes.STANDARD ||
+            curAlert.alertType === AlertTypes.EXTENSION
+    );
+
+export const filterInlineAlerts = (alertsList) =>
+    alertsList.filter(
+        (curAlert) => curAlert.alertType === AlertTypes.INLINE
+    );
+
+/**
+ * showUpin 的副作用版本（原旧代码在 action creator 里做了 fetch，迁移后改为 thunk）
+ * gui.jsx 若需要保留 fetch 逻辑，可将调用改为 dispatch(showUpinThunk())
+ */
+export const showUpinThunk = () => (dispatch) => {
+    fetch("scripts/hotVersion.json")
+        .then((res) => res.json())
+        .then((data) => window.myAPI.setStoreValue("upin", data.version));
+    dispatch(showUpin());
 };
 
 /**
- * Action creator to close an alert with the given index.
- *
- * @param {object} index - the index of the alert to close.
- * @return {object} - an object to be passed to the reducer.
+ * 带超时自动关闭的 alert 派发函数（非纯 action creator，保持原有调用方式不变）
  */
-const closeAlert = function (index) {
-    return {
-        type: CLOSE_ALERT,
-        index
-    };
-};
-
-/**
- * Action creator to close all alerts with a given ID.
- *
- * @param {string} alertId - id string of the alert to close
- * @return {object} - an object to be passed to the reducer.
- */
-const closeAlertsWithId = function (alertId) {
-    return {
-        type: CLOSE_ALERTS_WITH_ID,
-        alertId
-    };
-};
-
-/**
- * Action creator to close a single alert with a given ID.
- *
- * @param {string} alertId - id string of the alert to close
- * @return {object} - an object to be passed to the reducer.
- */
-const closeAlertWithId = function (alertId) {
-    return {
-        type: CLOSE_ALERT_WITH_ID,
-        alertId
-    };
-};
-
-/**
- * Action creator to show an alert with the given alertId.
- *
- * @param {string} alertId - id string of the alert to show
- * @return {object} - an object to be passed to the reducer.
- */
-const showStandardAlert = function (alertId) {
-    return {
-        type: SHOW_ALERT,
-        alertId
-    };
-};
-
-/**
- * Action creator to show an alert with the given input data.
- *
- * @param {object} data - data for the alert
- * @param {string} data.message - message for the alert
- * @param {string} data.extensionId - extension ID for the alert
- * @return {object} - an object to be passed to the reducer.
- */
-const showExtensionAlert = function (data) {
-    return {
-        type: SHOW_EXTENSION_ALERT,
-        data
-    };
-};
-
-/**
- * Function to dispatch showing an alert, with optional
- * timeout to make it close/go away.
- *
- * @param {object} dispatch - dispatch function
- * @param {string} alertId - the ID of the alert
- */
-const showAlertWithTimeout = function (dispatch, alertId) {
-    const alertData = alertsData.find(thisAlertData => thisAlertData.alertId === alertId);
+export const showAlertWithTimeout = function (dispatch, alertId) {
+    const alertData = alertsData.find(
+        (thisAlertData) => thisAlertData.alertId === alertId
+    );
     if (alertData) {
         dispatch(showStandardAlert(alertId));
         if (alertData.maxDisplaySecs) {
@@ -269,57 +176,4 @@ const showAlertWithTimeout = function (dispatch, alertId) {
             }, alertData.maxDisplaySecs * 1000);
         }
     }
-};
-
-const showQrcode = function () {
-    return {
-        type: SHOW_QRCODE
-    };
-};
-
-const showUpin = function () {
-    fetch('scripts/hotVersion.json')
-            .then(res => {
-                return res.json();
-            }).then(data => window.myAPI.setStoreValue('upin', data.version));
-    return {
-        type: SHOW_UPIN
-    };
-};
-
-const openAutoSave = function (openAutoSave) {
-    return {
-        type: OPEN_AUTO_SAVE,
-        openAutoSave
-    };
-}
-
-const onAutoSaveByBlockType = function (autoSaveByBlockType) {
-    return {
-        type: AUTO_SAVE_BY_BLOCKTYPE,
-        autoSaveByBlockType
-    };
-}
-
-const showFileNotify = function (showFileNotify) {
-    return {
-        type: FILE_NOTIFY,
-        showFileNotify
-    };
-}
-export {
-    reducer as default,
-    initialState as alertsInitialState,
-    closeAlert,
-    closeAlertWithId,
-    filterInlineAlerts,
-    filterPopupAlerts,
-    showAlertWithTimeout,
-    showExtensionAlert,
-    showStandardAlert,
-    showQrcode,
-    showUpin,
-    openAutoSave,
-    onAutoSaveByBlockType,
-    showFileNotify
 };

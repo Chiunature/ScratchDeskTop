@@ -1,27 +1,20 @@
-import {detectTheme} from '../lib/themes/themePersistance';
-
-const SET_THEME = 'scratch-gui/theme/SET_THEME';
+import { createSlice } from "@reduxjs/toolkit";
+import { detectTheme } from "../lib/themes/themePersistance";
 
 const initialState = {
-    theme: detectTheme()
+    theme: detectTheme(),
 };
 
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-    case SET_THEME:
-        return {...state, theme: action.theme};
-    default:
-        return state;
-    }
-};
-
-const setTheme = theme => ({
-    type: SET_THEME,
-    theme
+const themeSlice = createSlice({
+    name: "theme",
+    initialState,
+    reducers: {
+        setTheme(state, action) {
+            state.theme = action.payload;
+        },
+    },
 });
 
-export {
-    reducer as default,
-    initialState as themeInitialState,
-    setTheme
-};
+export default themeSlice.reducer;
+export const themeInitialState = initialState;
+export const { setTheme } = themeSlice.actions;

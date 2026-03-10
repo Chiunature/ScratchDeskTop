@@ -1,18 +1,17 @@
-const OPEN_MODAL = 'scratch-gui/modals/OPEN_MODAL';
-const CLOSE_MODAL = 'scratch-gui/modals/CLOSE_MODAL';
+import { createSlice } from "@reduxjs/toolkit";
 
-const MODAL_BACKDROP_LIBRARY = 'backdropLibrary';
-const MODAL_COSTUME_LIBRARY = 'costumeLibrary';
-const MODAL_EXTENSION_LIBRARY = 'extensionLibrary';
-const MODAL_LOADING_PROJECT = 'loadingProject';
-const MODAL_TELEMETRY = 'telemetryModal';
-const MODAL_SOUND_LIBRARY = 'soundLibrary';
-const MODAL_SPRITE_LIBRARY = 'spriteLibrary';
-const MODAL_SOUND_RECORDER = 'soundRecorder';
-const MODAL_CONNECTION = 'connectionModal';
-const MODAL_TIPS_LIBRARY = 'tipsLibrary';
-const MODAL_CASCADER_PANEL = 'cascarderPanel';
-const MODAL_BLELIST = 'bleList';
+const MODAL_BACKDROP_LIBRARY = "backdropLibrary";
+const MODAL_COSTUME_LIBRARY = "costumeLibrary";
+const MODAL_EXTENSION_LIBRARY = "extensionLibrary";
+const MODAL_LOADING_PROJECT = "loadingProject";
+const MODAL_TELEMETRY = "telemetryModal";
+const MODAL_SOUND_LIBRARY = "soundLibrary";
+const MODAL_SPRITE_LIBRARY = "spriteLibrary";
+const MODAL_SOUND_RECORDER = "soundRecorder";
+const MODAL_CONNECTION = "connectionModal";
+const MODAL_TIPS_LIBRARY = "tipsLibrary";
+const MODAL_CASCADER_PANEL = "cascarderPanel";
+const MODAL_BLELIST = "bleList";
 
 const initialState = {
     [MODAL_BACKDROP_LIBRARY]: false,
@@ -26,133 +25,49 @@ const initialState = {
     [MODAL_CONNECTION]: false,
     [MODAL_TIPS_LIBRARY]: false,
     [MODAL_CASCADER_PANEL]: false,
-    [MODAL_BLELIST]: false
+    [MODAL_BLELIST]: false,
 };
 
-const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
-    switch (action.type) {
-    case OPEN_MODAL:
-        return Object.assign({}, state, {
-            [action.modal]: true
-        });
-    case CLOSE_MODAL:
-        return Object.assign({}, state, {
-            [action.modal]: false
-        });
-    default:
-        return state;
-    }
-};
-const openModal = function (modal) {
-    return {
-        type: OPEN_MODAL,
-        modal: modal
-    };
-};
-const closeModal = function (modal) {
-    return {
-        type: CLOSE_MODAL,
-        modal: modal
-    };
-};
-const openBackdropLibrary = function () {
-    return openModal(MODAL_BACKDROP_LIBRARY);
-};
-const openCostumeLibrary = function () {
-    return openModal(MODAL_COSTUME_LIBRARY);
-};
-const openExtensionLibrary = function () {
-    return openModal(MODAL_EXTENSION_LIBRARY);
-};
-const openLoadingProject = function () {
-    return openModal(MODAL_LOADING_PROJECT);
-};
-const openTelemetryModal = function () {
-    return openModal(MODAL_TELEMETRY);
-};
-const openSoundLibrary = function () {
-    return openModal(MODAL_SOUND_LIBRARY);
-};
-const openSpriteLibrary = function () {
-    return openModal(MODAL_SPRITE_LIBRARY);
-};
-const openSoundRecorder = function () {
-    return openModal(MODAL_SOUND_RECORDER);
-};
-const openConnectionModal = function () {
-    return openModal(MODAL_CONNECTION);
-};
-const openCascaderPanelModal = function () {
-    return openModal(MODAL_CASCADER_PANEL);
-};
-const openBleListModal = function () {
-    return openModal(MODAL_BLELIST);
-};
-const openTipsLibrary = function () {
-    return openModal(MODAL_TIPS_LIBRARY);
-};
-const closeBackdropLibrary = function () {
-    return closeModal(MODAL_BACKDROP_LIBRARY);
-};
-const closeCostumeLibrary = function () {
-    return closeModal(MODAL_COSTUME_LIBRARY);
-};
-const closeExtensionLibrary = function () {
-    return closeModal(MODAL_EXTENSION_LIBRARY);
-};
-const closeLoadingProject = function () {
-    return closeModal(MODAL_LOADING_PROJECT);
-};
-const closeTelemetryModal = function () {
-    return closeModal(MODAL_TELEMETRY);
-};
-const closeSpriteLibrary = function () {
-    return closeModal(MODAL_SPRITE_LIBRARY);
-};
-const closeSoundLibrary = function () {
-    return closeModal(MODAL_SOUND_LIBRARY);
-};
-const closeSoundRecorder = function () {
-    return closeModal(MODAL_SOUND_RECORDER);
-};
-const closeTipsLibrary = function () {
-    return closeModal(MODAL_TIPS_LIBRARY);
-};
-const closeConnectionModal = function () {
-    return closeModal(MODAL_CONNECTION);
-};
-const closeCascaderPanelModal = function () {
-    return closeModal(MODAL_CASCADER_PANEL);
-};
-const closeBleListModal = function () {
-    return closeModal(MODAL_BLELIST);
-};
-export {
-    reducer as default,
-    initialState as modalsInitialState,
-    openBackdropLibrary,
-    openCostumeLibrary,
-    openExtensionLibrary,
-    openLoadingProject,
-    openSoundLibrary,
-    openSpriteLibrary,
-    openSoundRecorder,
-    openTelemetryModal,
-    openTipsLibrary,
-    openConnectionModal,
-    openCascaderPanelModal,
-    openBleListModal,
-    closeBackdropLibrary,
-    closeCostumeLibrary,
-    closeExtensionLibrary,
-    closeLoadingProject,
-    closeSpriteLibrary,
-    closeSoundLibrary,
-    closeSoundRecorder,
-    closeTelemetryModal,
-    closeTipsLibrary,
-    closeConnectionModal,
-    closeCascaderPanelModal,
-    closeBleListModal
-};
+const modalsSlice = createSlice({
+    name: "modals",
+    initialState,
+    reducers: {
+        openModal(state, action) {
+            state[action.payload] = true;
+        },
+        closeModal(state, action) {
+            state[action.payload] = false;
+        },
+    },
+});
+
+export default modalsSlice.reducer;
+export const modalsInitialState = initialState;
+
+const { openModal, closeModal } = modalsSlice.actions;
+
+export const openBackdropLibrary = () => openModal(MODAL_BACKDROP_LIBRARY);
+export const openCostumeLibrary = () => openModal(MODAL_COSTUME_LIBRARY);
+export const openExtensionLibrary = () => openModal(MODAL_EXTENSION_LIBRARY);
+export const openLoadingProject = () => openModal(MODAL_LOADING_PROJECT);
+export const openTelemetryModal = () => openModal(MODAL_TELEMETRY);
+export const openSoundLibrary = () => openModal(MODAL_SOUND_LIBRARY);
+export const openSpriteLibrary = () => openModal(MODAL_SPRITE_LIBRARY);
+export const openSoundRecorder = () => openModal(MODAL_SOUND_RECORDER);
+export const openConnectionModal = () => openModal(MODAL_CONNECTION);
+export const openCascaderPanelModal = () => openModal(MODAL_CASCADER_PANEL);
+export const openBleListModal = () => openModal(MODAL_BLELIST);
+export const openTipsLibrary = () => openModal(MODAL_TIPS_LIBRARY);
+
+export const closeBackdropLibrary = () => closeModal(MODAL_BACKDROP_LIBRARY);
+export const closeCostumeLibrary = () => closeModal(MODAL_COSTUME_LIBRARY);
+export const closeExtensionLibrary = () => closeModal(MODAL_EXTENSION_LIBRARY);
+export const closeLoadingProject = () => closeModal(MODAL_LOADING_PROJECT);
+export const closeTelemetryModal = () => closeModal(MODAL_TELEMETRY);
+export const closeSpriteLibrary = () => closeModal(MODAL_SPRITE_LIBRARY);
+export const closeSoundLibrary = () => closeModal(MODAL_SOUND_LIBRARY);
+export const closeSoundRecorder = () => closeModal(MODAL_SOUND_RECORDER);
+export const closeTipsLibrary = () => closeModal(MODAL_TIPS_LIBRARY);
+export const closeConnectionModal = () => closeModal(MODAL_CONNECTION);
+export const closeCascaderPanelModal = () => closeModal(MODAL_CASCADER_PANEL);
+export const closeBleListModal = () => closeModal(MODAL_BLELIST);

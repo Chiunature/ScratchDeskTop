@@ -1,12 +1,4 @@
-const SET_ID = "scratch-gui/device/setId";
-const CLEAR_ID = "scratch-gui/device/clearId";
-const SET_NAME = "scratch-gui/device/setName";
-const CLEAR_NAME = "scratch-gui/device/clearName";
-const SET_TYPE = "scratch-gui/device/setType";
-const CLEAR_TYPE = "scratch-gui/device/clearType";
-const SET_DEVICEOBJ = "scratch-gui/device/deviceObj";
-const SET_DEVICESTATUS = "scratch-gui/device/deviceStatus";
-const SET_CURRENTMAC = "scratch-gui/device/currentMAC";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     deviceId: null,
@@ -21,113 +13,43 @@ const initialState = {
     },
 };
 
-const reducer = function (state, action) {
-    if (typeof state === "undefined") state = initialState;
-    switch (action.type) {
-        case SET_ID:
-            return Object.assign({}, state, {
-                deviceId: action.deviceId,
-            });
-        case CLEAR_ID:
-            return Object.assign({}, state, {
-                deviceId: null,
-            });
-        case SET_NAME:
-            return Object.assign({}, state, {
-                deviceName: action.deviceName,
-            });
-        case CLEAR_NAME:
-            return Object.assign({}, state, {
-                deviceName: null,
-            });
-        case SET_TYPE:
-            return Object.assign({}, state, {
-                deviceType: action.deviceType,
-            });
-        case CLEAR_TYPE:
-            return Object.assign({}, state, {
-                deviceType: null,
-            });
-        case SET_DEVICEOBJ:
-            return Object.assign({}, state, {
-                deviceObj: action.deviceObj,
-            });
-        case SET_DEVICESTATUS:
-            return Object.assign({}, state, {
-                deviceStatus: action.deviceStatus,
-            });
-        case SET_CURRENTMAC:
-            return Object.assign({}, state, {
-                currentMAC: action.currentMAC,
-            });
-        default:
-            return state;
-    }
-};
+const deviceSlice = createSlice({
+    name: "device",
+    initialState,
+    reducers: {
+        setDeviceId(state, action) {
+            state.deviceId = action.payload;
+        },
+        clearDeviceId(state) {
+            state.deviceId = null;
+        },
+        setDeviceName(state, action) {
+            state.deviceName = action.payload;
+        },
+        clearDeviceName(state) {
+            state.deviceName = null;
+        },
+        setDeviceType(state, action) {
+            state.deviceType = action.payload;
+        },
+        clearDeviceType(state) {
+            state.deviceType = null;
+        },
+        setDeviceObj(state, action) {
+            state.deviceObj = action.payload;
+        },
+        setDeviceStatus(state, action) {
+            state.deviceStatus = action.payload;
+        },
+        setCurrentMAC(state, action) {
+            state.currentMAC = action.payload;
+        },
+    },
+});
 
-const setDeviceId = function (deviceId) {
-    return {
-        type: SET_ID,
-        deviceId: deviceId,
-    };
-};
-
-const clearDeviceId = function () {
-    return {
-        type: CLEAR_ID,
-    };
-};
-
-const setDeviceName = function (deviceName) {
-    return {
-        type: SET_NAME,
-        deviceName: deviceName,
-    };
-};
-
-const clearDeviceName = function () {
-    return {
-        type: CLEAR_NAME,
-    };
-};
-
-const setDeviceType = function (deviceType) {
-    return {
-        type: SET_TYPE,
-        deviceType: deviceType,
-    };
-};
-
-const clearDeviceType = function () {
-    return {
-        type: CLEAR_TYPE,
-    };
-};
-
-const setDeviceObj = function (obj) {
-    return {
-        type: SET_DEVICEOBJ,
-        deviceObj: obj,
-    };
-};
-
-const setDeviceStatus = function (status) {
-    return {
-        type: SET_DEVICESTATUS,
-        deviceStatus: status,
-    };
-};
-
-const setCurrentMAC = function (mac) {
-    return {
-        type: SET_CURRENTMAC,
-        currentMAC: mac,
-    };
-};
-
-export {
-    reducer as default,
-    initialState as deviceInitialState,
+export default deviceSlice.reducer;
+export const deviceInitialState = initialState;
+export const {
     setDeviceId,
     clearDeviceId,
     setDeviceName,
@@ -137,4 +59,4 @@ export {
     setDeviceObj,
     setDeviceStatus,
     setCurrentMAC,
-};
+} = deviceSlice.actions;

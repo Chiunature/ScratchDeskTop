@@ -1,41 +1,22 @@
-const SET_FILESTYTEM = 'scratch-gui/file-stytem/SET_FILESTYTEM';
-const CLOSE_FILESTYTEM = 'scratch-gui/file-stytem/CLOSE_FILESTYTEM';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    showFileStytem: false
-}
-
-const reducer = function (state, action) {
-    if (typeof state === "undefined") state = initialState;
-    switch (action.type) {
-        case SET_FILESTYTEM:
-            return Object.assign({}, state, {
-                showFileStytem: true,
-            });
-        case CLOSE_FILESTYTEM:
-            return Object.assign({}, state, {
-                showFileStytem: false,
-            });
-        default:
-            return state;
-    }
-}
-
-const showFileStytem = function () {
-    return {
-        type: SET_FILESTYTEM
-    };
+    showFileStytem: false,
 };
 
-const closeFileStytem = function () {
-    return {
-        type: CLOSE_FILESTYTEM
-    };
-};
+const fileStytemSlice = createSlice({
+    name: "fileStytem",
+    initialState,
+    reducers: {
+        showFileStytem(state) {
+            state.showFileStytem = true;
+        },
+        closeFileStytem(state) {
+            state.showFileStytem = false;
+        },
+    },
+});
 
-export {
-    reducer as default,
-    showFileStytem,
-    closeFileStytem,
-    initialState as fileStytemInitialState
-}
+export default fileStytemSlice.reducer;
+export const fileStytemInitialState = initialState;
+export const { showFileStytem, closeFileStytem } = fileStytemSlice.actions;

@@ -1,32 +1,19 @@
-const TIPS_UPDATE = "scratch-gui/tips/TIPS_UPDATE";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    updateObj: null
+    updateObj: null,
 };
 
-const reducer = function (state, action) {
-    if (typeof state === 'undefined') state = initialState;
-    switch (action.type) {
-        case TIPS_UPDATE: {
-            return Object.assign({}, state, {
-                updateObj: action.updateObj
-            });
-        }
-        default:
-            return state;
-    }
-}
+const tipsSlice = createSlice({
+    name: "tips",
+    initialState,
+    reducers: {
+        setTipsUpdateObj(state, action) {
+            state.updateObj = action.payload ? { ...action.payload } : null;
+        },
+    },
+});
 
-const setTipsUpdateObj = function (updateObj) {
-    return {
-        type: TIPS_UPDATE,
-        updateObj: { ...updateObj }
-    };
-};
-
-
-export {
-    reducer as default,
-    initialState as tipsInitialState,
-    setTipsUpdateObj
-};
+export default tipsSlice.reducer;
+export const tipsInitialState = initialState;
+export const { setTipsUpdateObj } = tipsSlice.actions;
