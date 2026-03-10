@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { selectProjectTitle } from '../../selectors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, intlShape, injectIntl } from 'react-intl';
@@ -46,7 +47,7 @@ ProjectTitleInput.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    projectTitle: state.scratchGui.projectTitle
+    projectTitle: selectProjectTitle(state)
 });
 
 const mapDispatchToProps = dispatch => ({

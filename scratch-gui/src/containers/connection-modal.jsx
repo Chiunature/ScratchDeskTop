@@ -9,6 +9,17 @@ import VM from "scratch-vm";
 import analytics from "../lib/analytics";
 import extensionData from "../lib/libraries/extensions/index.jsx";
 import { connect } from "react-redux";
+import {
+    selectExtensionId,
+    selectSerialList,
+    selectPort,
+    selectPeripheralName,
+    selectIsConnectedSerial,
+    selectConnectionVersion,
+    selectSourceCompleted,
+    selectDeviceType,
+    selectCompleted,
+} from "../selectors";
 import { closeConnectionModal } from "../reducers/modals";
 import { showAlertWithTimeout } from "../reducers/alerts";
 import { setDeviceType } from "../reducers/device.js";
@@ -221,15 +232,15 @@ ConnectionModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    extensionId: state.scratchGui.connectionModal.extensionId,
-    serialList: state.scratchGui.connectionModal.serialList,
-    port: state.scratchGui.connectionModal.port,
-    peripheralName: state.scratchGui.connectionModal.peripheralName,
-    isConnectedSerial: state.scratchGui.connectionModal.isConnectedSerial,
-    version: state.scratchGui.connectionModal.version,
-    sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
-    deviceType: state.scratchGui.device.deviceType,
-    completed: state.scratchGui.connectionModal.completed,
+    extensionId: selectExtensionId(state),
+    serialList: selectSerialList(state),
+    port: selectPort(state),
+    peripheralName: selectPeripheralName(state),
+    isConnectedSerial: selectIsConnectedSerial(state),
+    version: selectConnectionVersion(state),
+    sourceCompleted: selectSourceCompleted(state),
+    deviceType: selectDeviceType(state),
+    completed: selectCompleted(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

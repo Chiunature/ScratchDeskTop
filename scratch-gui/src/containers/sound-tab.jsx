@@ -24,6 +24,7 @@ import DragConstants from '../lib/drag-constants';
 import downloadBlob from '../lib/download-blob';
 
 import { connect } from 'react-redux';
+import { selectEditingTarget, selectSprites, selectStage, selectSoundLibraryVisible, selectSoundRecorderVisible } from '../selectors';
 
 import {
     closeSoundLibrary,
@@ -313,12 +314,12 @@ SoundTab.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    editingTarget: state.scratchGui.targets.editingTarget,
+    editingTarget: selectEditingTarget(state),
     isRtl: state.locales.isRtl,
-    sprites: state.scratchGui.targets.sprites,
-    stage: state.scratchGui.targets.stage,
-    soundLibraryVisible: state.scratchGui.modals.soundLibrary,
-    soundRecorderVisible: state.scratchGui.modals.soundRecorder
+    sprites: selectSprites(state),
+    stage: selectStage(state),
+    soundLibraryVisible: selectSoundLibraryVisible(state),
+    soundRecorderVisible: selectSoundRecorderVisible(state)
 });
 
 const mapDispatchToProps = dispatch => ({

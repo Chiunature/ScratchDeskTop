@@ -90,6 +90,22 @@ import {
     showAlertWithTimeout,
     showFileNotify,
 } from "../../reducers/alerts";
+import {
+    selectVm,
+    selectIsGen,
+    selectPeripheralName,
+    selectDeviceId,
+    selectDeviceName,
+    selectDeviceType,
+    selectSerialList,
+    selectPort,
+    selectGeneratorName,
+    selectOpenAutoSave,
+    selectShowFileNotify,
+    selectProjectTitle,
+    selectWorkspace,
+    selectLoadingState,
+} from "../../selectors";
 import downloadBlob from "../../lib/download-blob";
 import {
     setDeviceCards,
@@ -1232,9 +1248,11 @@ const getProjectFilename = (curTitle, defaultTitle) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const loadingState = state.scratchGui.projectState.loadingState;
+    const loadingState = selectLoadingState(state);
     const user =
         state.session && state.session.session && state.session.session.user;
+    const vm = selectVm(state);
+    const projectTitle = selectProjectTitle(state);
     return {
         aboutMenuOpen: aboutMenuOpen(state),
         accountMenuOpen: accountMenuOpen(state),
@@ -1249,7 +1267,7 @@ const mapStateToProps = (state, ownProps) => {
         languageMenuOpen: languageMenuOpen(state),
         locale: state.locales.locale,
         loginMenuOpen: loginMenuOpen(state),
-        projectTitle: state.scratchGui.projectTitle,
+        projectTitle,
         sessionExists:
             state.session && typeof state.session.session !== "undefined",
         username: user ? user.username : null,
@@ -1257,25 +1275,20 @@ const mapStateToProps = (state, ownProps) => {
             ownProps.authorUsername &&
             user &&
             ownProps.authorUsername === user.username,
-        vm: state.scratchGui.vm,
-        isGen: state.scratchGui.mode.isGen,
-        peripheralName: state.scratchGui.connectionModal.peripheralName,
-        deviceId: state.scratchGui.device.deviceId,
-        deviceName: state.scratchGui.device.deviceName,
-        deviceType: state.scratchGui.device.deviceType,
-        serialList: state.scratchGui.connectionModal.serialList,
-        saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
-            state.scratchGui.vm
-        ),
-        projectFilename: getProjectFilename(
-            state.scratchGui.projectTitle,
-            projectTitleInitialState
-        ),
-        workspace: state.scratchGui.workspaceMetrics.workspace,
-        port: state.scratchGui.connectionModal.port,
-        generatorName: state.scratchGui.mode.generatorName,
-        openAutoSave: state.scratchGui.alerts.openAutoSave,
-        showFileNotify: state.scratchGui.alerts.showFileNotify,
+        vm,
+        isGen: selectIsGen(state),
+        peripheralName: selectPeripheralName(state),
+        deviceId: selectDeviceId(state),
+        deviceName: selectDeviceName(state),
+        deviceType: selectDeviceType(state),
+        serialList: selectSerialList(state),
+        saveProjectSb3: vm.saveProjectSb3.bind(vm),
+        projectFilename: getProjectFilename(projectTitle, projectTitleInitialState),
+        workspace: selectWorkspace(state),
+        port: selectPort(state),
+        generatorName: selectGeneratorName(state),
+        openAutoSave: selectOpenAutoSave(state),
+        showFileNotify: selectShowFileNotify(state),
     };
 };
 

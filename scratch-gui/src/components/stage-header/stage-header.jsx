@@ -3,6 +3,7 @@ import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectStageSize } from '../../selectors';
 import VM from 'scratch-vm';
 
 import Box from '../box/box.jsx';
@@ -176,7 +177,7 @@ const StageHeaderComponent = function (props) {
 
 const mapStateToProps = state => ({
     // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+    stageSizeMode: selectStageSize(state)
 });
 
 StageHeaderComponent.propTypes = {

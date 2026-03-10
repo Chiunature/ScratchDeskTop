@@ -1,4 +1,5 @@
 import {connect} from 'react-redux';
+import { selectAlertsList, selectProjectChanged } from '../../selectors';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -47,8 +48,8 @@ SaveStatus.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    alertsList: state.scratchGui.alerts.alertsList,
-    projectChanged: state.scratchGui.projectChanged
+    alertsList: selectAlertsList(state),
+    projectChanged: selectProjectChanged(state)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -7,7 +7,8 @@ import SelectExeBtn from "./selectExeBtn.jsx";
 import RunExeBtn from './runExeBtn.jsx';
 import { verifyTypeConfig } from 'est-link';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedExe } from '../../reducers/mode';
+import { setSelectedExeWithPersist } from '../../reducers/mode';
+import { selectSelectedExe } from '../../selectors';
 
 
 // import { defineMessages } from 'react-intl';
@@ -26,7 +27,7 @@ const UploadBtn = (props) => {
 
     // let [openUpload, setOpenUpload] = useState(true);
     // let [text, setText] = useState('');
-    const selectedExe = useSelector((state) => state.scratchGui.mode.selectedExe);
+    const selectedExe = useSelector(selectSelectedExe);
     const dispatch = useDispatch();
 
     /* useEffect(() => {
@@ -34,7 +35,7 @@ const UploadBtn = (props) => {
     }, []); */
 
     const onSetSelectedExe = (exe) => {
-        return dispatch(setSelectedExe(exe));
+        return dispatch(setSelectedExeWithPersist(exe));
     }
     const compile = (isRun) => {
         /* if (!openUpload) {

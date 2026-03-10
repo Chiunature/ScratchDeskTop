@@ -7,6 +7,7 @@ import {setStageSize} from '../reducers/stage-size';
 import {setFullScreen} from '../reducers/mode';
 
 import {connect} from 'react-redux';
+import { selectStageSize, selectShowBranding, selectIsFullScreen, selectIsPlayerOnly } from '../selectors';
 
 import StageHeaderComponent from '../components/stage-header/stage-header.jsx';
 
@@ -52,10 +53,10 @@ StageHeader.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    stageSizeMode: state.scratchGui.stageSize.stageSize,
-    showBranding: state.scratchGui.mode.showBranding,
-    isFullScreen: state.scratchGui.mode.isFullScreen,
-    isPlayerOnly: state.scratchGui.mode.isPlayerOnly
+    stageSizeMode: selectStageSize(state),
+    showBranding: selectShowBranding(state),
+    isFullScreen: selectIsFullScreen(state),
+    isPlayerOnly: selectIsPlayerOnly(state)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SelectBoxCom from '../components/box/selectBox.jsx';
-import { setExelist } from '../reducers/mode.js';
+import { setExelistWithPersist } from '../reducers/mode.js';
+import { selectExeList } from '../selectors';
 
 
 export default function SelectBox({ selectedExe, onSetSelectedExe, completed, handleCompile, isRtl, flag }) {
     let [index, setIndex] = useState(selectedExe.num);
     let [sx, setSx] = useState(selectedExe.num * 96);
-    const exeList = useSelector(state => state.scratchGui.mode.exeList);
+    const exeList = useSelector(selectExeList);
     const dispatch = useDispatch();
 
 
-    const onSetExelist = (exeList) => dispatch(setExelist(exeList));
+    const onSetExelist = (exeList) => dispatch(setExelistWithPersist(exeList));
 
     function changeSelectExe(current) {
         onSetSelectedExe({

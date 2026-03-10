@@ -7,6 +7,7 @@ import VM from 'scratch-vm';
 import AssetPanel from '../components/asset-panel/asset-panel.jsx';
 import PaintEditorWrapper from './paint-editor-wrapper.jsx';
 import {connect} from 'react-redux';
+import { selectEditingTarget, selectSprites, selectStage, selectAssetDragging } from '../selectors';
 import {handleFileUpload, costumeUpload} from '../lib/file-uploader.js';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
@@ -353,11 +354,11 @@ CostumeTab.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    editingTarget: state.scratchGui.targets.editingTarget,
+    editingTarget: selectEditingTarget(state),
     isRtl: state.locales.isRtl,
-    sprites: state.scratchGui.targets.sprites,
-    stage: state.scratchGui.targets.stage,
-    dragging: state.scratchGui.assetDrag.dragging
+    sprites: selectSprites(state),
+    stage: selectStage(state),
+    dragging: selectAssetDragging(state)
 });
 
 const mapDispatchToProps = dispatch => ({

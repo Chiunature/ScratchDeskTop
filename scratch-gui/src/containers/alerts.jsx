@@ -6,6 +6,7 @@ import {
     closeAlert,
     filterPopupAlerts
 } from '../reducers/alerts';
+import { selectAlertsList } from '../selectors';
 
 import AlertsComponent from '../components/alerts/alerts.jsx';
 
@@ -29,7 +30,7 @@ Alerts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    alertsList: state.scratchGui.alerts.alertsList
+    alertsList: selectAlertsList(state)
 });
 
 const mapDispatchToProps = dispatch => ({

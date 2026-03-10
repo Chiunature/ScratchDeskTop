@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {
     filterInlineAlerts
 } from '../reducers/alerts';
+import { selectAlertsList } from '../selectors';
 
 import InlineMessageComponent from '../components/alerts/inline-message.jsx';
 
@@ -45,7 +46,7 @@ InlineMessages.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    alertsList: state.scratchGui.alerts.alertsList
+    alertsList: selectAlertsList(state)
 });
 
 const mapDispatchToProps = () => ({});
