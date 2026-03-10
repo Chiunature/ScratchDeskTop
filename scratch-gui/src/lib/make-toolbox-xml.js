@@ -43,18 +43,6 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                 secondaryColour="${colors.tertiary}"
                 iconURI="${motorIcon}">
                 ${blockSeparator}
-                <block type="motor_starting">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="motor_stop">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="motor_specifiedunit">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
@@ -67,12 +55,6 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="motor_specified_manner">
-                    <value name="PORT">
-                        <shadow type="motor_box"></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="motor_startWithPower">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
@@ -82,12 +64,15 @@ const motor = function ({ isInitialSetup, isStage, targetId, colors }) {
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="motor_speed">
+                <block type="motor_stop">
                     <value name="PORT">
                         <shadow type="motor_box"></shadow>
                     </value>
-                    <value name="POWER">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                </block>
+                ${blockSeparator}
+                <block type="motor_specified_manner">
+                    <value name="PORT">
+                        <shadow type="motor_box"></shadow>
                     </value>
                 </block>
                 ${blockSeparator}

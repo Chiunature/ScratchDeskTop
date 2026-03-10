@@ -18,19 +18,6 @@ Blockly.Python["motor_acceleration_menu"] = function (block) {
   return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["motor_starting"] = function (block) {
-  const port = Blockly.Python.valueToCode(
-    block,
-    "PORT",
-    Blockly.Python.ORDER_NONE
-  );
-  let spin = block.getFieldValue("SPIN");
-  spin = spin[0].toLowerCase() + spin.slice(1);
-  // TODO: Assemble Python into code variable.
-  const code = `run(${port}, '${spin}')\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
 Blockly.Python["motor_stop"] = function (block) {
   const port = Blockly.Python.valueToCode(
     block,
@@ -39,23 +26,6 @@ Blockly.Python["motor_stop"] = function (block) {
   );
   // TODO: Assemble Python into code variable.
   const code = `stop(${port})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
-};
-
-Blockly.Python["motor_speed"] = function (block) {
-  // 词不达意
-  const port = Blockly.Python.valueToCode(
-    block,
-    "PORT",
-    Blockly.Python.ORDER_NONE
-  );
-  const power = Blockly.Python.valueToCode(
-    block,
-    "POWER",
-    Blockly.Python.ORDER_NONE
-  );
-  // TODO: Assemble Python into code variable.
-  const code = `set_duty(${port}, ${power})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

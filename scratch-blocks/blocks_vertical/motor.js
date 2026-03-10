@@ -135,61 +135,6 @@ Blockly.Blocks["motor_acceleration"] = {
   },
 };
 
-Blockly.Blocks["motor_starting"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.STARTING_MOTOR,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-        {
-          type: "field_dropdown",
-          name: "SPIN",
-          options: [
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia +
-                  "rotate-right.svg",
-                width: 32,
-                height: 32,
-                alt: Blockly.Msg.RIGHT,
-              },
-              "Advance",
-            ],
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-                width: 32,
-                height: 32,
-                alt: Blockly.Msg.LEFT,
-              },
-              "Retreat",
-            ],
-          ],
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "shape_statement"],
-    });
-  },
-};
-
 Blockly.Blocks["motor_stop"] = {
   /**
    * Block to move steps.
@@ -210,35 +155,6 @@ Blockly.Blocks["motor_stop"] = {
         {
           type: "input_value",
           name: "PORT",
-        },
-      ],
-      category: Blockly.Categories.motor,
-      extensions: ["colours_motion", "shape_statement"],
-    });
-  },
-};
-
-Blockly.Blocks["motor_speed"] = {
-  // 词不达意
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.SPEED_MOTOR,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "motor_sensing.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "PORT",
-        },
-        {
-          type: "input_value",
-          name: "POWER",
         },
       ],
       category: Blockly.Categories.motor,

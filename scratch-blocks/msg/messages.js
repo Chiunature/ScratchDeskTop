@@ -201,10 +201,8 @@ Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
 Blockly.Msg.ANGLE_MOTOR = "%1 %2 angle";
 Blockly.Msg.MOTOR_POSITION = "%1 %2 position";
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
-Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 %3 power run %4 seconds";
-Blockly.Msg.SPEED_MOTOR = "%1 %2 set power to %3 %%";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 rotates at %3%% power for %4 seconds";
 Blockly.Msg.STOP_MOTOR = "%1 %2 stop motor";
-Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
 Blockly.Msg.RELATIVE_POSITION =
   "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
@@ -212,7 +210,7 @@ Blockly.Msg.COMBINED_FORWARD_OFFSET =
   "%1 set the combined motor forward offset to %2 and %3";
 Blockly.Msg.COMBINED_BACKWARD_OFFSET =
   "%1 set the combined motor backward offset to %2 and %3";
-Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 Set the motor %2 power to %3 %%";
+Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 motor %2 is running at %3%% power";
 Blockly.Msg.MOTOR_ACCELERATION =
   "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL =
