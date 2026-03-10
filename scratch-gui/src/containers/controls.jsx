@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
 import {connect} from 'react-redux';
+import { selectVmRunning, selectVmTurbo } from '../selectors';
 
 import ControlsComponent from '../components/controls/controls.jsx';
 
@@ -57,9 +58,9 @@ Controls.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    isStarted: state.scratchGui.vmStatus.running,
-    projectRunning: state.scratchGui.vmStatus.running,
-    turbo: state.scratchGui.vmStatus.turbo
+    isStarted: selectVmRunning(state),
+    projectRunning: selectVmRunning(state),
+    turbo: selectVmTurbo(state)
 });
 // no-op function to prevent dispatch prop being passed to component
 const mapDispatchToProps = () => ({});

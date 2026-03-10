@@ -12,6 +12,7 @@ import downloadBlob from '../lib/download-blob';
 import SliderPrompt from './slider-prompt.jsx';
 
 import {connect} from 'react-redux';
+import { selectMonitorLayout, selectToolboxXML, selectVm } from '../selectors';
 import {Map} from 'immutable';
 import VM from 'scratch-vm';
 
@@ -265,10 +266,10 @@ Monitor.propTypes = {
     y: PropTypes.number
 };
 const mapStateToProps = state => ({
-    monitorLayout: state.scratchGui.monitorLayout,
+    monitorLayout: selectMonitorLayout(state),
     // render on toolbox updates since changes to the blocks could affect monitor labels, i.e. updated locale
-    toolboxXML: state.scratchGui.toolbox.toolboxXML,
-    vm: state.scratchGui.vm
+    toolboxXML: selectToolboxXML(state),
+    vm: selectVm(state)
 });
 const mapDispatchToProps = dispatch => ({
     addMonitorRect: (id, rect, savePosition) =>

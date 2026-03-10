@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash.omit';
 import {connect} from 'react-redux';
+import { selectFontsLoaded } from '../selectors';
 import {setFontsLoaded} from '../reducers/fonts-loaded';
 
 // This list is from scratch-render-fonts:
@@ -75,7 +76,7 @@ const FontLoaderHOC = function (WrappedComponent) {
         onSetFontsLoaded: PropTypes.func.isRequired
     };
     const mapStateToProps = state => ({
-        fontsLoaded: state.scratchGui.fontsLoaded
+        fontsLoaded: selectFontsLoaded(state)
     });
     const mapDispatchToProps = dispatch => ({
         onSetFontsLoaded: () => dispatch(setFontsLoaded())

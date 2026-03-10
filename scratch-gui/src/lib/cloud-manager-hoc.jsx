@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectLoadingState, selectProjectId, selectHasEverEnteredEditor } from '../selectors';
 import bindAll from 'lodash.bindall';
 
 import VM from 'scratch-vm';
@@ -148,12 +149,12 @@ const cloudManagerHOC = function (WrappedComponent) {
     };
 
     const mapStateToProps = (state, ownProps) => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         return {
             isShowingWithId: getIsShowingWithId(loadingState),
-            projectId: state.scratchGui.projectState.projectId,
+            projectId: selectProjectId(state),
             // if you're editing someone else's project, you can't modify cloud data
-            canModifyCloudData: (!state.scratchGui.mode.hasEverEnteredEditor || ownProps.canSave) &&
+            canModifyCloudData: (!selectHasEverEnteredEditor(state) || ownProps.canSave) &&
                 // possible security concern if the program attempts to encode webcam data over cloud variables
                 !ownProps.vm.extensionManager.isExtensionLoaded('videoSensing')
         };

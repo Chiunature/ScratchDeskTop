@@ -190,3 +190,35 @@ export const selectCustomProceduresMutator = (state) =>
 // ─── 时间旅行 (timeTravel) ─────────────────────────────────────────────────────
 export const selectTimeTravelYear = (state) =>
     state.scratchGui.timeTravel.year;
+
+// ─── VM 状态 (vmStatus) ────────────────────────────────────────────────────────
+export const selectVmStatus = (state) => state.scratchGui.vmStatus;
+export const selectVmRunning = (state) => state.scratchGui.vmStatus.running;
+export const selectVmStarted = (state) => state.scratchGui.vmStatus.started;
+export const selectVmTurbo = (state) => state.scratchGui.vmStatus.turbo;
+
+// ─── 颜色选择器 (colorPicker) ─────────────────────────────────────────────────
+export const selectColorPickerActive = (state) =>
+    state.scratchGui.colorPicker.active;
+
+// ─── 超时 (timeout) ───────────────────────────────────────────────────────────
+export const selectAutoSaveTimeoutId = (state) =>
+    state.scratchGui.timeout.autoSaveTimeoutId;
+
+// ─── 自定义过程激活状态 (customProcedures) ────────────────────────────────────
+export const selectCustomProceduresActive = (state) =>
+    state.scratchGui.customProcedures.active;
+
+// ─── alerts 补充字段 ───────────────────────────────────────────────────────────
+export const selectQrcodeVisible = (state) =>
+    state.scratchGui.alerts.QrcodeVisible;
+export const selectAutoSaveByBlockType = (state) =>
+    state.scratchGui.alerts.autoSaveByBlockType;
+
+// ─── workspaceMetrics 整体 ────────────────────────────────────────────────────
+export const selectWorkspaceMetrics = (state) =>
+    state.scratchGui.workspaceMetrics;
+
+// ─── projectState 补充字段 ────────────────────────────────────────────────────
+export const selectProjectData = (state) =>
+    state.scratchGui.projectState.projectData;

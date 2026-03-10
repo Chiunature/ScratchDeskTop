@@ -2,6 +2,15 @@ import bindAll from 'lodash.bindall';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {
+    selectEditingTarget,
+    selectHoveredTarget,
+    selectSpriteLibraryVisible,
+    selectSprites,
+    selectStage,
+    selectBlockDrag,
+    selectWorkspaceMetrics,
+} from '../selectors';
 import {intlShape, injectIntl} from 'react-intl';
 
 import {
@@ -287,14 +296,14 @@ TargetPane.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    editingTarget: state.scratchGui.targets.editingTarget,
-    hoveredTarget: state.scratchGui.hoveredTarget,
+    editingTarget: selectEditingTarget(state),
+    hoveredTarget: selectHoveredTarget(state),
     isRtl: state.locales.isRtl,
-    spriteLibraryVisible: state.scratchGui.modals.spriteLibrary,
-    sprites: state.scratchGui.targets.sprites,
-    stage: state.scratchGui.targets.stage,
-    raiseSprites: state.scratchGui.blockDrag,
-    workspaceMetrics: state.scratchGui.workspaceMetrics
+    spriteLibraryVisible: selectSpriteLibraryVisible(state),
+    sprites: selectSprites(state),
+    stage: selectStage(state),
+    raiseSprites: selectBlockDrag(state),
+    workspaceMetrics: selectWorkspaceMetrics(state)
 });
 
 const mapDispatchToProps = dispatch => ({

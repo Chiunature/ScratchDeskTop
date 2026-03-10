@@ -12,6 +12,7 @@ import {notScratchDesktop} from '../lib/isScratchDesktop';
 import LibraryComponent from '../components/library/library.jsx';
 
 import {connect} from 'react-redux';
+import { selectTipsLibraryVisible, selectProjectId } from '../selectors';
 
 import {
     closeTipsLibrary
@@ -105,8 +106,8 @@ TipsLibrary.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    visible: state.scratchGui.modals.tipsLibrary,
-    projectId: state.scratchGui.projectState.projectId
+    visible: selectTipsLibraryVisible(state),
+    projectId: selectProjectId(state)
 });
 
 const mapDispatchToProps = dispatch => ({

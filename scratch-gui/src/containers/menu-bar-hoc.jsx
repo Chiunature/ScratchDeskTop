@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { selectProjectChanged } from '../selectors';
 import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import React from 'react';
@@ -53,7 +54,7 @@ const MenuBarHOC = function (WrappedComponent) {
         confirmWithMessage: message => (confirm(message)) // eslint-disable-line no-alert
     };
     const mapStateToProps = state => ({
-        projectChanged: state.scratchGui.projectChanged
+        projectChanged: selectProjectChanged(state)
     });
     const mapDispatchToProps = (dispatch) => ({
         onSetDeviceType: (deviceType) => dispatch(setDeviceType(deviceType))

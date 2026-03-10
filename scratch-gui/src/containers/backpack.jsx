@@ -15,6 +15,7 @@ import DragConstants from '../lib/drag-constants';
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 
 import {connect} from 'react-redux';
+import { selectAssetDrag, selectVm, selectBlockDrag } from '../selectors';
 import storage from '../lib/storage';
 import VM from 'scratch-vm';
 
@@ -262,9 +263,9 @@ const getTokenAndUsername = state => {
 
 const mapStateToProps = state => Object.assign(
     {
-        dragInfo: state.scratchGui.assetDrag,
-        vm: state.scratchGui.vm,
-        blockDrag: state.scratchGui.blockDrag
+        dragInfo: selectAssetDrag(state),
+        vm: selectVm(state),
+        blockDrag: selectBlockDrag(state)
     },
     getTokenAndUsername(state)
 );

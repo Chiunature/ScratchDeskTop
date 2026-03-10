@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
+import { selectTheme } from '../../selectors';
 
 import check from './check.svg';
 import {MenuItem, Submenu} from '../menu/menu.jsx';
@@ -100,7 +101,7 @@ ThemeMenu.propTypes = {
 const mapStateToProps = state => ({
     isRtl: state.locales.isRtl,
     menuOpen: themeMenuOpen(state),
-    theme: state.scratchGui.theme.theme
+    theme: selectTheme(state)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

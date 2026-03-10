@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectLoadingState } from '../selectors';
 
 import {
     getIsShowingWithId
@@ -64,7 +65,7 @@ ProjectWatcher.defaultProps = {
 };
 
 const mapStateToProps = state => {
-    const loadingState = state.scratchGui.projectState.loadingState;
+    const loadingState = selectLoadingState(state);
     return {
         isShowingWithId: getIsShowingWithId(loadingState)
     };

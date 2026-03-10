@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectAssetDragging, selectHoveredTarget, selectVm } from '../selectors';
 
 import {setHoveredSprite} from '../reducers/hovered-target';
 import {updateAssetDrag} from '../reducers/asset-drag';
@@ -167,12 +168,14 @@ SpriteSelectorItem.propTypes = {
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
-const mapStateToProps = (state, {id}) => ({
-    dragging: state.scratchGui.assetDrag.dragging,
-    receivedBlocks: state.scratchGui.hoveredTarget.receivedBlocks &&
-            state.scratchGui.hoveredTarget.sprite === id,
-    vm: state.scratchGui.vm
-});
+const mapStateToProps = (state, {id}) => {
+    const hoveredTarget = selectHoveredTarget(state);
+    return {
+        dragging: selectAssetDragging(state),
+        receivedBlocks: hoveredTarget.receivedBlocks && hoveredTarget.sprite === id,
+        vm: selectVm(state)
+    };
+};
 const mapDispatchToProps = dispatch => ({
     dispatchSetHoveredSprite: spriteId => {
         dispatch(setHoveredSprite(spriteId));

@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
+import { selectHighlightedTargetTime, selectHighlightedTargetId, selectVm } from '../selectors';
 import VM from 'scratch-vm';
 
 class TargetHighlight extends React.Component {
@@ -69,9 +70,9 @@ TargetHighlight.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    highlightedTargetTime: state.scratchGui.targets.highlightedTargetTime,
-    highlightedTargetId: state.scratchGui.targets.highlightedTargetId,
-    vm: state.scratchGui.vm
+    highlightedTargetTime: selectHighlightedTargetTime(state),
+    highlightedTargetId: selectHighlightedTargetId(state),
+    vm: selectVm(state)
 });
 
 const mapDispatchToProps = () => ({});

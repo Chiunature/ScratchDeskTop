@@ -2,6 +2,15 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import {
+    selectFontsLoaded,
+    selectLoadingState,
+    selectProjectData,
+    selectProjectId,
+    selectIsPlayerOnly,
+    selectVmStarted,
+    selectProjectTitle,
+} from '../selectors';
 
 import VM from 'scratch-vm';
 import AudioEngine from 'scratch-audio';
@@ -144,18 +153,18 @@ const vmManagerHOC = function (WrappedComponent) {
     };
 
     const mapStateToProps = state => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         return {
-            fontsLoaded: state.scratchGui.fontsLoaded,
+            fontsLoaded: selectFontsLoaded(state),
             isLoadingWithId: getIsLoadingWithId(loadingState),
             locale: state.locales.locale,
             messages: state.locales.messages,
-            projectData: state.scratchGui.projectState.projectData,
-            projectId: state.scratchGui.projectState.projectId,
+            projectData: selectProjectData(state),
+            projectId: selectProjectId(state),
             loadingState: loadingState,
-            isPlayerOnly: state.scratchGui.mode.isPlayerOnly,
-            isStarted: state.scratchGui.vmStatus.started,
-            projectTitle: state.scratchGui.projectTitle,
+            isPlayerOnly: selectIsPlayerOnly(state),
+            isStarted: selectVmStarted(state),
+            projectTitle: selectProjectTitle(state),
         };
     };
 

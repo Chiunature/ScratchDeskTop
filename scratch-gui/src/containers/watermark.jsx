@@ -3,6 +3,7 @@ import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectTargets, selectVm } from '../selectors';
 
 import ThrottledPropertyHOC from '../lib/throttled-property-hoc.jsx';
 
@@ -43,7 +44,7 @@ Watermark.propTypes = {
 };
 
 const mapStateToProps = state => {
-    const targets = state.scratchGui.targets;
+    const targets = selectTargets(state);
     const currentTargetId = targets.editingTarget;
 
     let asset;
@@ -57,7 +58,7 @@ const mapStateToProps = state => {
     }
 
     return {
-        vm: state.scratchGui.vm,
+        vm: selectVm(state),
         asset: asset
     };
 };

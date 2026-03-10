@@ -4,6 +4,13 @@ import React from 'react';
 import VM from 'scratch-vm';
 
 import {connect} from 'react-redux';
+import {
+    selectProjectChanged,
+    selectIsFullScreen,
+    selectIsPlayerOnly,
+    selectSoundRecorderVisible,
+    selectVm,
+} from '../selectors';
 
 import {updateTargets} from '../reducers/targets';
 import {updateBlockDrag} from '../reducers/block-drag';
@@ -169,14 +176,14 @@ const vmListenerHOC = function (WrappedComponent) {
         onGreenFlag: () => ({})
     };
     const mapStateToProps = state => ({
-        projectChanged: state.scratchGui.projectChanged,
+        projectChanged: selectProjectChanged(state),
         // Do not emit target or project updates in fullscreen or player only mode
         // or when recording sounds (it leads to garbled recordings on low-power machines)
-        shouldUpdateTargets: !state.scratchGui.mode.isFullScreen && !state.scratchGui.mode.isPlayerOnly &&
-            !state.scratchGui.modals.soundRecorder,
+        shouldUpdateTargets: !selectIsFullScreen(state) && !selectIsPlayerOnly(state) &&
+            !selectSoundRecorderVisible(state),
         // Do not update the projectChanged state in fullscreen or player only mode
-        shouldUpdateProjectChanged: !state.scratchGui.mode.isFullScreen && !state.scratchGui.mode.isPlayerOnly,
-        vm: state.scratchGui.vm,
+        shouldUpdateProjectChanged: !selectIsFullScreen(state) && !selectIsPlayerOnly(state),
+        vm: selectVm(state),
         username: state.session && state.session.session && state.session.session.user ?
             state.session.session.user.username : ''
     });

@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
+import { selectVm } from '../selectors';
 import VM from 'scratch-vm';
 import Box from '../components/box/box.jsx';
 import greenFlag from '../components/green-flag/icon--green-flag.svg';
@@ -45,7 +46,7 @@ GreenFlagOverlay.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    vm: state.scratchGui.vm
+    vm: selectVm(state)
 });
 
 const mapDispatchToProps = () => ({});

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
 
 import {connect} from 'react-redux';
+import { selectMonitors } from '../selectors';
 import {moveMonitorRect} from '../reducers/monitor-layout';
 
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
@@ -37,7 +38,7 @@ MonitorList.propTypes = {
     moveMonitorRect: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-    monitors: state.scratchGui.monitors
+    monitors: selectMonitors(state)
 });
 const mapDispatchToProps = dispatch => ({
     moveMonitorRect: (id, x, y) => dispatch(moveMonitorRect(id, x, y))

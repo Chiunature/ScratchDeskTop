@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { selectAssetDrag } from '../selectors';
 import { indexForPositionOnList } from './drag-utils';
 
 const SortableHOC = function (WrappedComponent) {
@@ -133,7 +134,7 @@ const SortableHOC = function (WrappedComponent) {
     };
 
     const mapStateToProps = state => ({
-        dragInfo: state.scratchGui.assetDrag,
+        dragInfo: selectAssetDrag(state),
         isRtl: state.locales.isRtl
     });
 

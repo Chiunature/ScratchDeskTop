@@ -5,6 +5,7 @@ import React from 'react';
 import CustomProceduresComponent from '../components/custom-procedures/custom-procedures.jsx';
 import ScratchBlocks from 'scratch-blocks';
 import { connect } from 'react-redux';
+import { selectCustomProceduresMutator } from '../selectors';
 
 class CustomProcedures extends React.Component {
     constructor(props) {
@@ -210,7 +211,7 @@ CustomProcedures.defaultProps = {
 
 const mapStateToProps = state => ({
     isRtl: state.locales.isRtl,
-    mutator: state.scratchGui.customProcedures.mutator
+    mutator: selectCustomProceduresMutator(state)
 });
 
 export default connect(

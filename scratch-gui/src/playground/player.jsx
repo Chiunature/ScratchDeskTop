@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
+import { selectIsPlayerOnly } from '../selectors';
 import {compose} from 'redux';
 
 import Box from '../components/box/box.jsx';
@@ -38,7 +39,7 @@ Player.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    isPlayerOnly: state.scratchGui.mode.isPlayerOnly
+    isPlayerOnly: selectIsPlayerOnly(state)
 });
 
 const mapDispatchToProps = dispatch => ({

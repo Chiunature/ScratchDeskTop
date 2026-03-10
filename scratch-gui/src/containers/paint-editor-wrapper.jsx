@@ -6,6 +6,7 @@ import VM from 'scratch-vm';
 import {inlineSvgFonts} from 'scratch-svg-renderer';
 
 import {connect} from 'react-redux';
+import { selectVm } from '../selectors';
 
 class PaintEditorWrapper extends React.PureComponent {
     constructor (props) {
@@ -72,12 +73,13 @@ PaintEditorWrapper.propTypes = {
 };
 
 const mapStateToProps = (state, {selectedCostumeIndex}) => {
-    const targetId = state.scratchGui.vm.editingTarget.id;
-    const sprite = state.scratchGui.vm.editingTarget.sprite;
+    const vm = selectVm(state);
+    const targetId = vm.editingTarget.id;
+    const sprite = vm.editingTarget.sprite;
     // Make sure the costume index doesn't go out of range.
     const index = selectedCostumeIndex < sprite.costumes.length ?
         selectedCostumeIndex : sprite.costumes.length - 1;
-    const costume = state.scratchGui.vm.editingTarget.sprite.costumes[index];
+    const costume = vm.editingTarget.sprite.costumes[index];
     return {
         name: costume && costume.name,
         rotationCenterX: costume && costume.rotationCenterX,
@@ -86,7 +88,7 @@ const mapStateToProps = (state, {selectedCostumeIndex}) => {
         imageId: targetId && `${targetId}${costume.skinId}`,
         rtl: state.locales.isRtl,
         selectedCostumeIndex: index,
-        vm: state.scratchGui.vm,
+        vm: vm,
         zoomLevelId: targetId
     };
 };

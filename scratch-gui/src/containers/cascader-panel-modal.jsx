@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { selectSourceCompleted } from '../selectors';
 import CascaderPanelModalCom from '../components/cascader-panel/cascader-panel-modal.jsx';
 import { closeCascaderPanelModal } from "../reducers/modals";
 import { initOptions } from '../components/cascader-panel/Cascader.js';
@@ -31,7 +32,7 @@ class CascaderPanelModal extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    sourceCompleted: state.scratchGui.connectionModal.sourceCompleted
+    sourceCompleted: selectSourceCompleted(state)
 })
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => dispatch(closeCascaderPanelModal()),

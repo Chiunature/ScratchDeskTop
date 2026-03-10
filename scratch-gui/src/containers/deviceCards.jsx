@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { selectCards } from '../selectors';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -38,7 +39,7 @@ DeviceCards.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    deviceCards: state.scratchGui.cards.deviceCards,
+    deviceCards: selectCards(state).deviceCards,
     isRtl: state.locales.isRtl,
     locale: state.locales.locale,
 });

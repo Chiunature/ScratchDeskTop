@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { defineMessages, intlShape, injectIntl } from "react-intl";
 import { connect } from "react-redux";
+import { selectProjectChanged, selectVm, selectLoadingState } from "../selectors";
 import log from "../lib/log";
 import sharedMessages from "./shared-messages";
 import { ipc } from "est-link";
@@ -331,7 +332,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }),
     };
     const mapStateToProps = (state, ownProps) => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         const user =
             state.session &&
             state.session.session &&
@@ -340,12 +341,12 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             isLoadingUpload: getIsLoadingUpload(loadingState),
             isShowingWithoutId: getIsShowingWithoutId(loadingState),
             loadingState: loadingState,
-            projectChanged: state.scratchGui.projectChanged,
+            projectChanged: selectProjectChanged(state),
             userOwnsProject:
                 ownProps.authorUsername &&
                 user &&
                 ownProps.authorUsername === user.username,
-            vm: state.scratchGui.vm,
+            vm: selectVm(state),
         };
     };
     const mapDispatchToProps = (dispatch, ownProps) => ({

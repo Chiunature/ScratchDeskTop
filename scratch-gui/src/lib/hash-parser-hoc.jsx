@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import { selectLoadingState, selectProjectId } from '../selectors';
 
 import {
     defaultProjectId,
@@ -63,10 +64,10 @@ const HashParserHOC = function (WrappedComponent) {
         setProjectId: PropTypes.func
     };
     const mapStateToProps = state => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         return {
             isFetchingWithoutId: getIsFetchingWithoutId(loadingState),
-            reduxProjectId: state.scratchGui.projectState.projectId
+            reduxProjectId: selectProjectId(state)
         };
     };
     const mapDispatchToProps = dispatch => ({

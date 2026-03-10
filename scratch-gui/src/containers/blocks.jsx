@@ -28,6 +28,17 @@ import {
     injectExtensionCategoryTheme,
 } from "../lib/themes/blockHelpers";
 import { connect } from "react-redux";
+import {
+    selectModals,
+    selectIsFullScreen,
+    selectExtensionLibraryVisible,
+    selectToolboxXML,
+    selectCustomProceduresActive,
+    selectWorkspaceMetrics,
+    selectCompleted,
+    selectCode,
+    selectGeneratorName,
+} from "../selectors";
 import { updateToolbox } from "../reducers/toolbox";
 import { activateColorPicker } from "../reducers/color-picker";
 import {
@@ -941,22 +952,24 @@ Blocks.defaultProps = {
     theme: DEFAULT_THEME,
 };
 
-const mapStateToProps = (state) => ({
-    anyModalVisible:
-        Object.keys(state.scratchGui.modals).some(
-            (key) => state.scratchGui.modals[key]
-        ) || state.scratchGui.mode.isFullScreen,
-    extensionLibraryVisible: state.scratchGui.modals.extensionLibrary,
-    isRtl: state.locales.isRtl,
-    locale: state.locales.locale,
-    messages: state.locales.messages,
-    toolboxXML: state.scratchGui.toolbox.toolboxXML,
-    customProceduresVisible: state.scratchGui.customProcedures.active,
-    workspaceMetrics: state.scratchGui.workspaceMetrics,
-    completed: state.scratchGui.connectionModal.completed,
-    code: state.scratchGui.mode.code,
-    generatorName: state.scratchGui.mode.generatorName,
-});
+const mapStateToProps = (state) => {
+    const modals = selectModals(state);
+    return {
+        anyModalVisible:
+            Object.keys(modals).some((key) => modals[key]) ||
+            selectIsFullScreen(state),
+        extensionLibraryVisible: selectExtensionLibraryVisible(state),
+        isRtl: state.locales.isRtl,
+        locale: state.locales.locale,
+        messages: state.locales.messages,
+        toolboxXML: selectToolboxXML(state),
+        customProceduresVisible: selectCustomProceduresActive(state),
+        workspaceMetrics: selectWorkspaceMetrics(state),
+        completed: selectCompleted(state),
+        code: selectCode(state),
+        generatorName: selectGeneratorName(state),
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     onActivateColorPicker: (callback) =>

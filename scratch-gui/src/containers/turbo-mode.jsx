@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectVm, selectVmTurbo } from '../selectors';
 
 /**
  * Turbo Mode component passes toggleTurboMode function to its child.
@@ -50,8 +51,8 @@ TurboMode.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    vm: state.scratchGui.vm,
-    turboMode: state.scratchGui.vmStatus.turbo
+    vm: selectVm(state),
+    turboMode: selectVmTurbo(state)
 });
 
 export default connect(

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
 import {connect} from 'react-redux';
+import { selectVm } from '../selectors';
 import {encodeAndAddSoundToVM} from '../lib/audio/audio-util.js';
 
 import RecordModalComponent from '../components/record-modal/record-modal.jsx';
@@ -116,7 +117,7 @@ RecordModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    vm: state.scratchGui.vm
+    vm: selectVm(state)
 });
 
 const mapDispatchToProps = dispatch => ({

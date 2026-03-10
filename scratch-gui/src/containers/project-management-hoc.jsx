@@ -1,6 +1,7 @@
 import React, { createRef } from "react";
 import ProjectManagement from "../components/project-management/project-management.jsx";
 import { connect } from "react-redux";
+import { selectLoadingState, selectProjectChanged, selectVm } from "../selectors";
 import bindAll from "lodash.bindall";
 import styles from "../components/project-management/project-management.css";
 import Box from "../components/box/box.jsx";
@@ -474,13 +475,13 @@ ProjectManagementHoc.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    const loadingState = state.scratchGui.projectState.loadingState;
+    const loadingState = selectLoadingState(state);
     return {
         isLoadingUpload: getIsLoadingUpload(loadingState),
         isShowingWithoutId: getIsShowingWithoutId(loadingState),
         loadingState: loadingState,
-        projectChanged: state.scratchGui.projectChanged,
-        vm: state.scratchGui.vm,
+        projectChanged: selectProjectChanged(state),
+        vm: selectVm(state),
     };
 };
 

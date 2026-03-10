@@ -2,6 +2,14 @@ import bindAll from 'lodash.bindall';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+    selectAutoSaveTimeoutId,
+    selectProjectChanged,
+    selectProjectId,
+    selectProjectTitle,
+    selectVm,
+    selectLoadingState,
+} from '../selectors';
 import VM from 'scratch-vm';
 
 import collectMetadata from '../lib/collect-metadata';
@@ -410,10 +418,10 @@ const ProjectSaverHOC = function (WrappedComponent) {
         onUpdateProjectData: saveProjectToServer
     };
     const mapStateToProps = (state, ownProps) => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         const isShowingWithId = getIsShowingWithId(loadingState);
         return {
-            autoSaveTimeoutId: state.scratchGui.timeout.autoSaveTimeoutId,
+            autoSaveTimeoutId: selectAutoSaveTimeoutId(state),
             isAnyCreatingNewState: getIsAnyCreatingNewState(loadingState),
             isLoading: getIsLoading(loadingState),
             isCreatingCopy: getIsCreatingCopy(loadingState),
@@ -426,10 +434,10 @@ const ProjectSaverHOC = function (WrappedComponent) {
             isManualUpdating: getIsManualUpdating(loadingState),
             loadingState: loadingState,
             locale: state.locales.locale,
-            projectChanged: state.scratchGui.projectChanged,
-            reduxProjectId: state.scratchGui.projectState.projectId,
-            reduxProjectTitle: state.scratchGui.projectTitle,
-            vm: state.scratchGui.vm
+            projectChanged: selectProjectChanged(state),
+            reduxProjectId: selectProjectId(state),
+            reduxProjectTitle: selectProjectTitle(state),
+            vm: selectVm(state)
         };
     };
     const mapDispatchToProps = dispatch => ({

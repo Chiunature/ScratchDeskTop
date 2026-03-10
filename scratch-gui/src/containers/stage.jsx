@@ -4,6 +4,13 @@ import React from 'react';
 import Renderer from 'scratch-render';
 import VM from 'scratch-vm';
 import {connect} from 'react-redux';
+import {
+    selectColorPickerActive,
+    selectIsFullScreen,
+    selectIsPlayerOnly,
+    selectVmStarted,
+    selectMicIndicator,
+} from '../selectors';
 
 import {STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
 import {getEventXY} from '../lib/touch-utils';
@@ -444,12 +451,12 @@ Stage.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    isColorPicking: state.scratchGui.colorPicker.active,
-    isFullScreen: state.scratchGui.mode.isFullScreen,
-    isStarted: state.scratchGui.vmStatus.started,
-    micIndicator: state.scratchGui.micIndicator,
+    isColorPicking: selectColorPickerActive(state),
+    isFullScreen: selectIsFullScreen(state),
+    isStarted: selectVmStarted(state),
+    micIndicator: selectMicIndicator(state),
     // Do not use editor drag style in fullscreen or player mode.
-    useEditorDragStyle: !(state.scratchGui.mode.isFullScreen || state.scratchGui.mode.isPlayerOnly)
+    useEditorDragStyle: !(selectIsFullScreen(state) || selectIsPlayerOnly(state))
 });
 
 const mapDispatchToProps = dispatch => ({

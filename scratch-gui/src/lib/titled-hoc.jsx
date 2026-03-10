@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
+import { selectLoadingState, selectProjectTitle } from "../selectors";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 
 import {
@@ -92,11 +93,11 @@ const TitledHOC = function (WrappedComponent) {
     };
 
     const mapStateToProps = (state) => {
-        const loadingState = state.scratchGui.projectState.loadingState;
+        const loadingState = selectLoadingState(state);
         return {
             isAnyCreatingNewState: getIsAnyCreatingNewState(loadingState),
             isShowingWithoutId: getIsShowingWithoutId(loadingState),
-            reduxProjectTitle: state.scratchGui.projectTitle,
+            reduxProjectTitle: selectProjectTitle(state),
         };
     };
 

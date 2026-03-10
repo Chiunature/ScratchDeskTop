@@ -4,6 +4,7 @@ import React from 'react';
 import VM from 'scratch-vm';
 import {setVariableValue} from '../lib/variable-utils';
 import {connect} from 'react-redux';
+import { selectVm } from '../selectors';
 
 import SliderMonitorComponent from '../components/monitor/slider-monitor.jsx';
 
@@ -56,6 +57,6 @@ SliderMonitor.propTypes = {
     vm: PropTypes.instanceOf(VM)
 };
 
-const mapStateToProps = state => ({vm: state.scratchGui.vm});
+const mapStateToProps = state => ({vm: selectVm(state)});
 
 export default connect(mapStateToProps)(SliderMonitor);

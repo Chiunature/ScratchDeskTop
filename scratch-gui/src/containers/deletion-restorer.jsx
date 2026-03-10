@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import { selectDeletedItem, selectRestoreFun } from '../selectors';
 import {setRestore} from '../reducers/restore-deletion';
 
 /**
@@ -55,8 +56,8 @@ DeletionRestorer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    deletedItem: state.scratchGui.restoreDeletion.deletedItem,
-    restore: state.scratchGui.restoreDeletion.restoreFun
+    deletedItem: selectDeletedItem(state),
+    restore: selectRestoreFun(state)
 });
 const mapDispatchToProps = dispatch => ({
     dispatchUpdateRestore: updatedState => {

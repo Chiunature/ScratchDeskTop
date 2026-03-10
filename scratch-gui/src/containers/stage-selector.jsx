@@ -5,6 +5,7 @@ import React from 'react';
 import {intlShape, injectIntl} from 'react-intl';
 
 import {connect} from 'react-redux';
+import { selectVm, selectHoveredTarget, selectBlockDrag } from '../selectors';
 import {openBackdropLibrary} from '../reducers/modals';
 import {activateTab, COSTUMES_TAB_INDEX} from '../reducers/editor-tab';
 import {showStandardAlert, closeAlertWithId} from '../reducers/alerts';
@@ -186,13 +187,15 @@ StageSelector.propTypes = {
     onShowImporting: PropTypes.func
 };
 
-const mapStateToProps = (state, {asset, id}) => ({
-    url: asset && asset.encodeDataURI(),
-    vm: state.scratchGui.vm,
-    receivedBlocks: state.scratchGui.hoveredTarget.receivedBlocks &&
-            state.scratchGui.hoveredTarget.sprite === id,
-    raised: state.scratchGui.blockDrag
-});
+const mapStateToProps = (state, {asset, id}) => {
+    const hoveredTarget = selectHoveredTarget(state);
+    return {
+        url: asset && asset.encodeDataURI(),
+        vm: selectVm(state),
+        receivedBlocks: hoveredTarget.receivedBlocks && hoveredTarget.sprite === id,
+        raised: selectBlockDrag(state)
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
     onNewBackdropClick: e => {

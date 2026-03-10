@@ -9,6 +9,14 @@ import {
     intlShape,
 } from "react-intl";
 import { connect } from "react-redux";
+import {
+    selectTimeTravelYear,
+    selectStageSize,
+    selectTheme,
+    selectSelectedExe,
+    selectQrcodeVisible,
+    selectAutoSaveByBlockType,
+} from "../../selectors";
 import MediaQuery from "react-responsive";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import tabStyles from "react-tabs/style/react-tabs.css";
@@ -663,12 +671,12 @@ GUIComponent.defaultProps = {
 
 const mapStateToProps = (state) => ({
     // This is the button's mode, as opposed to the actual current state
-    blocksId: state.scratchGui.timeTravel.year.toString(),
-    stageSizeMode: state.scratchGui.stageSize.stageSize,
-    theme: state.scratchGui.theme.theme,
-    selectedExe: state.scratchGui.mode.selectedExe,
-    QrcodeVisible: state.scratchGui.alerts.QrcodeVisible,
-    autoSaveByBlockType: state.scratchGui.alerts.autoSaveByBlockType,
+    blocksId: selectTimeTravelYear(state).toString(),
+    stageSizeMode: selectStageSize(state),
+    theme: selectTheme(state),
+    selectedExe: selectSelectedExe(state),
+    QrcodeVisible: selectQrcodeVisible(state),
+    autoSaveByBlockType: selectAutoSaveByBlockType(state),
 });
 const mapDispatchToProps = (dispatch) => ({
     onAutoSaveByBlockType: (autoSaveByBlockType) =>

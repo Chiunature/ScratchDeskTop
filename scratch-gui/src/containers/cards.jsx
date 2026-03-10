@@ -1,4 +1,5 @@
 import {connect} from 'react-redux';
+import { selectCards } from '../selectors';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -43,19 +44,22 @@ Cards.propTypes = {
     locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-    visible: state.scratchGui.cards.visible,
-    content: state.scratchGui.cards.content,
-    activeDeckId: state.scratchGui.cards.activeDeckId,
-    step: state.scratchGui.cards.step,
-    expanded: state.scratchGui.cards.expanded,
-    x: state.scratchGui.cards.x,
-    y: state.scratchGui.cards.y,
-    isRtl: state.locales.isRtl,
-    locale: state.locales.locale,
-    dragging: state.scratchGui.cards.dragging,
-    showVideos: notScratchDesktop()
-});
+const mapStateToProps = state => {
+    const cards = selectCards(state);
+    return {
+        visible: cards.visible,
+        content: cards.content,
+        activeDeckId: cards.activeDeckId,
+        step: cards.step,
+        expanded: cards.expanded,
+        x: cards.x,
+        y: cards.y,
+        isRtl: state.locales.isRtl,
+        locale: state.locales.locale,
+        dragging: cards.dragging,
+        showVideos: notScratchDesktop()
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
     onActivateDeckFactory: id => () => dispatch(activateDeck(id)),

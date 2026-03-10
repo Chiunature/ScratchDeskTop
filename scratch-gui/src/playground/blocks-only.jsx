@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
+import { selectVm } from '../selectors';
 
 import Controls from '../containers/controls.jsx';
 import Blocks from '../containers/blocks.jsx';
@@ -10,7 +11,7 @@ import AppStateHOC from '../lib/app-state-hoc.jsx';
 
 import styles from './blocks-only.css';
 
-const mapStateToProps = state => ({vm: state.scratchGui.vm});
+const mapStateToProps = state => ({vm: selectVm(state)});
 
 const VMBlocks = connect(mapStateToProps)(Blocks);
 const VMControls = connect(mapStateToProps)(Controls);

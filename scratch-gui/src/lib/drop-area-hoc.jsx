@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import omit from 'lodash.omit';
 import { connect } from 'react-redux';
+import { selectAssetDrag } from '../selectors';
 
 /**
  * Higher Order Component to give components the ability to react to drag overs
@@ -103,7 +104,7 @@ const DropAreaHOC = function (dragTypes) {
         };
 
         const mapStateToProps = state => ({
-            dragInfo: state.scratchGui.assetDrag
+            dragInfo: selectAssetDrag(state)
         });
 
         const mapDispatchToProps = () => ({});

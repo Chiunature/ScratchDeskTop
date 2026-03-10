@@ -1,5 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import {
+    selectSourceCompleted,
+    selectPeripheralName,
+    selectCompleted,
+    selectPort,
+    selectCurrentMAC,
+} from '../selectors';
 import { defineMessages } from "react-intl";
 import bindAll from 'lodash.bindall';
 import BleListModalCom from '../components/ble-list/ble-list-modal.jsx';
@@ -241,11 +248,11 @@ class BleListModal extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    sourceCompleted: state.scratchGui.connectionModal.sourceCompleted,
-    peripheralName: state.scratchGui.connectionModal.peripheralName,
-    completed: state.scratchGui.connectionModal.completed,
-    port: state.scratchGui.connectionModal.port,
-    currentMAC: state.scratchGui.device.currentMAC,
+    sourceCompleted: selectSourceCompleted(state),
+    peripheralName: selectPeripheralName(state),
+    completed: selectCompleted(state),
+    port: selectPort(state),
+    currentMAC: selectCurrentMAC(state),
 })
 const mapDispatchToProps = (dispatch) => ({
     onCancel: () => dispatch(closeBleListModal()),
