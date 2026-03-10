@@ -1,17 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Provider} from 'react-redux';
-import {createStore, combineReducers, compose} from 'redux';
 import ConnectedIntlProvider from './connected-intl-provider.jsx';
-
-import localesReducer, {initLocale, localesInitialState} from '../reducers/locales';
-
 import {setPlayer, setFullScreen} from '../reducers/mode.js';
-
-import locales from 'scratch-l10n';
-import {detectLocale} from './detect-locale';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import {createAppStore} from './store';
 
 /*
  * Higher Order Component to provide redux state. If an `intl` prop is provided
@@ -26,63 +18,7 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
     class AppStateWrapper extends React.Component {
         constructor (props) {
             super(props);
-            let initialState = {};
-            let reducers = {};
-            let enhancer;
-
-            let initializedLocales = localesInitialState;
-            const locale = detectLocale(Object.keys(locales));
-            if (locale !== 'en') {
-                initializedLocales = initLocale(initializedLocales, locale);
-            }
-            if (localesOnly) {
-                // Used for instantiating minimal state for the unsupported
-                // browser modal
-                reducers = {locales: localesReducer};
-                initialState = {locales: initializedLocales};
-                enhancer = composeEnhancers();
-            } else {
-                // You are right, this is gross. But it's necessary to avoid
-                // importing unneeded code that will crash unsupported browsers.
-                const guiRedux = require('../reducers/gui');
-                const guiReducer = guiRedux.default;
-                const {
-                    guiInitialState,
-                    guiMiddleware,
-                    initFullScreen,
-                    initPlayer,
-                    initTelemetryModal
-                } = guiRedux;
-                // const {ScratchPaintReducer} = require('scratch-paint');
-
-                let initializedGui = guiInitialState;
-                if (props.isFullScreen || props.isPlayerOnly) {
-                    if (props.isFullScreen) {
-                        initializedGui = initFullScreen(initializedGui);
-                    }
-                    if (props.isPlayerOnly) {
-                        initializedGui = initPlayer(initializedGui);
-                    }
-                } else if (props.showTelemetryModal) {
-                    initializedGui = initTelemetryModal(initializedGui);
-                }
-                reducers = {
-                    locales: localesReducer,
-                    scratchGui: guiReducer,
-                    // scratchPaint: ScratchPaintReducer
-                };
-                initialState = {
-                    locales: initializedLocales,
-                    scratchGui: initializedGui
-                };
-                enhancer = composeEnhancers(guiMiddleware);
-            }
-            const reducer = combineReducers(reducers);
-            this.store = createStore(
-                reducer,
-                initialState,
-                enhancer
-            );
+            this.store = createAppStore(localesOnly, props);
         }
         componentDidUpdate (prevProps) {
             if (localesOnly) return;

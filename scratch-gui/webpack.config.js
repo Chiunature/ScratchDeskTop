@@ -159,6 +159,7 @@ const base = {
                             "@babel/plugin-transform-async-to-generator",
                             "@babel/plugin-proposal-object-rest-spread",
                             "@babel/plugin-proposal-optional-chaining",
+                            "@babel/plugin-proposal-nullish-coalescing-operator",
                             [
                                 "react-intl",
                                 {

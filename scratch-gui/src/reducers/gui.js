@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 import alertsReducer, { alertsInitialState } from './alerts';
 import assetDragReducer, { assetDragInitialState } from './asset-drag';
 import cardsReducer, { cardsInitialState } from './cards';
@@ -29,12 +29,9 @@ import vmReducer, { vmInitialState } from './vm';
 import vmStatusReducer, { vmStatusInitialState } from './vm-status';
 import workspaceMetricsReducer, { workspaceMetricsInitialState } from './workspace-metrics';
 import deviceReducer, { deviceInitialState } from './device';
-import throttle from 'redux-throttle';
 import fileStytemReducer, { fileStytemInitialState } from './file-stytem';
 import decks from '../lib/libraries/decks/index.jsx';
 import tipsReducer,{ tipsInitialState } from './tips';
-
-const guiMiddleware = compose(applyMiddleware(throttle(300, { leading: true, trailing: true })));
 
 const guiInitialState = {
     alerts: alertsInitialState,
@@ -184,7 +181,6 @@ const guiReducer = combineReducers({
 export {
     guiReducer as default,
     guiInitialState,
-    guiMiddleware,
     initEmbedded,
     initFullScreen,
     initPlayer,

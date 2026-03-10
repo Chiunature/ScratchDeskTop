@@ -271,10 +271,10 @@ class GUI extends React.Component {
         window.myAPI.ipcRender({
             eventName: ipc_Renderer.RETURN.DEVICE.WATCH,
             callback: (e, newDeviceObj) => {
-                console.log(
-                    "📥 GUI接收设备数据:",
-                    JSON.stringify(newDeviceObj, null, 2)
-                );
+                // console.log(
+                //     "📥 GUI接收设备数据:",
+                //     JSON.stringify(newDeviceObj, null, 2)
+                // );
                 const {
                     deviceObj,
                     version,
