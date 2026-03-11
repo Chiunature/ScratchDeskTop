@@ -6840,11 +6840,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   CONTROL_REPEAT: "repeat %1",
   CONTROL_IF: "if %1 then",
   CONTROL_ELSE: "else",
-  CONTROL_STOP: "stop",
-  CONTROL_STOP_ALL: "all",
-  CONTROL_STOP_THIS: "this script",
-  CONTROL_STOP_OTHER: "other scripts in sprite",
-  CONTROL_STOP_EXIT: "stop and exit",
+  CONTROL_STOP: "stop and exit",
   CONTROL_WAIT: "wait %1 seconds",
   CONTROL_WAITUNTIL: "wait until %1",
   CONTROL_REPEATUNTIL: "repeat until %1",
@@ -6879,7 +6875,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   DATA_INDEX_ALL: "all",
   DATA_INDEX_LAST: "last",
   DATA_INDEX_RANDOM: "random",
-  EVENT_WHENFLAGCLICKED: "%1 Start",
+  EVENT_WHENFLAGCLICKED: "%1 When the program starts",
   EVENT_WHENTHISSPRITECLICKED: "when this sprite clicked",
   EVENT_WHENSTAGECLICKED: "when stage clicked",
   EVENT_WHENTOUCHINGOBJECT: "when this sprite touches %1",
@@ -7030,7 +7026,8 @@ Blockly.ScratchMsgs.locales["en"] = {
   COMBINED_BACKWARD_OFFSET:
     "%1 set the combined motor backward offset to %2 and %3",
   COMBINED_MOTOR_STOPPING: "%1 Set the combined motor to stop and %2",
-  COMBINED_MOTOR_STARTING: "%1 Set the combined motor to %2 with rotation direction %3",
+  COMBINED_MOTOR_STARTING:
+    "%1 Set the combined motor to %2 with rotation direction %3",
   COMBINED_MOTOR_STARTWITHPOWER:
     "%1 move with left power %2 %% and right power %3 %%",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
@@ -29056,11 +29053,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   CONTROL_REPEAT: "重复执行 %1 次",
   CONTROL_IF: "如果 %1 那么",
   CONTROL_ELSE: "否则",
-  CONTROL_STOP: "停止",
-  CONTROL_STOP_ALL: "停止所有程序",
-  CONTROL_STOP_THIS: "停止这个程序",
-  CONTROL_STOP_OTHER: "停止除了这个程序的其他程序",
-  CONTROL_STOP_EXIT: "停止并且退出程序",
+  CONTROL_STOP: "停止并且退出程序",
   CONTROL_WAIT: "等待 %1 秒",
   CONTROL_WAITUNTIL: "等待 %1",
   CONTROL_REPEATUNTIL: "重复执行直到 %1",
@@ -29095,7 +29088,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   DATA_INDEX_RANDOM: "随机",
   DATA_DEFINEVAR: "定义变量 %1",
   DATA_DEFINELIST: "定义列表 %1",
-  EVENT_WHENFLAGCLICKED: "%1 开始",
+  EVENT_WHENFLAGCLICKED: "%1 当程序启动时",
   EVENT_WHENTHISSPRITECLICKED: "当角色被点击",
   EVENT_WHENSTAGECLICKED: "当舞台被点击",
   EVENT_WHENTOUCHINGOBJECT: "当该角色碰到 %1",
@@ -29385,7 +29378,8 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GET_GRAY_LINE: "%1 获取循迹卡传感器值 %2",
   SENSING_GET_GRAY_LINESTATE: "%1 循迹卡传感器 %2 号的状态是否为1",
   SENSING_LINEPATROLINIT: "巡线参数初始化",
-  SENSING_LINEPATROL: "双巡线 左传感器 %1 右传感器 %2 功率 %3 %% KP %4 %% KD %5 ",
+  SENSING_LINEPATROL:
+    "双巡线 左传感器 %1 右传感器 %2 功率 %3 %% KP %4 %% KD %5 ",
   SENSING_LINEPATROL_LTR:
     "双巡线 左传感器 %1 右传感器 %2 左功率 %3 右功率 %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "判断 %1 当前循迹卡 %2 状态",

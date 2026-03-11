@@ -172,30 +172,5 @@ Blockly.Python["control_break"] = function (block) {
 };
 
 Blockly.Python["control_stop"] = function (block) {
-  const ALL_SCRIPTS = "all";
-  const THIS_SCRIPT = "single";
-  const OTHER_SCRIPTS = "other";
-  const EXIT = "exit";
-
-  let stop_options = "";
-  switch (block.getFieldValue("STOP_OPTION")) {
-    case ALL_SCRIPTS:
-      stop_options = "stopAllTask";
-      break;
-    case THIS_SCRIPT:
-      stop_options = "stopThisTask";
-      break;
-    case OTHER_SCRIPTS:
-      stop_options = "stopOtherTask";
-      break;
-    case EXIT:
-      stop_options = "stopAndExit";
-      break;
-    default:
-      break;
-  }
-  return Blockly.Python.handleResult(
-    `stop("${stop_options}")\n`,
-    Blockly.Python.TIMER_TYPE
-  );
+  return Blockly.Python.handleResult(`stop()\n`, Blockly.Python.TIMER_TYPE);
 };
