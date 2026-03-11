@@ -375,9 +375,7 @@ Blockly.ScratchMsgs.locales["ab"] = {
   COMBINED_MOTOR_MOVE: "%1 ҳаракати %4 %5 бо суръати %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 муҳаррики омехта %2 %3 %4 %5 ҳаракат %6 %7",
   COMBINED_MOTOR_LINE: "%1 ҳаракати %3 %4 ба сӯи %2 оғоз кард",
-  COMBINED_MOTOR_SPEED: "%1 Суръати омехтаи моторро ба %2 %% таъин кунед",
   COMBINED_MOTOR_STOP: "%1 мотори муттаҳидшуда ҳаракатро қатъ мекунад",
-  DIRECTION_MOTOR: "%1 ҳаракат ба %2 оғоз мекунад",
   COMBINED_MOTOR_MOVESTEP:
     "%1 суръати муҳаррики омехта ба %2 %% ва %3 %% гузошта шудааст",
   COMBINED_MOTOR_ANGLE: "%1 ба ҳаракати %2 дараҷа оғоз мекунад",
@@ -783,9 +781,7 @@ Blockly.ScratchMsgs.locales["af"] = {
   COMBINED_MOTOR_MOVE: "%1 skuif %4 %5 teen 'n tempo van %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 gekombineerde motor %2 %3 %4 %5 beweeg %6 %7",
   COMBINED_MOTOR_LINE: "%1 het begin om %3 %4 na %2 te beweeg",
-  COMBINED_MOTOR_SPEED: "%1 Stel gekombineerde motorspoed na %2 %%",
   COMBINED_MOTOR_STOP: "%1 gekombineerde motor hou op beweeg",
-  DIRECTION_MOTOR: "%1 begin skuif na %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 gekombineerde motorspoed gestel op %2 %% en %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begin %2 grade beweeg",
@@ -1187,9 +1183,7 @@ Blockly.ScratchMsgs.locales["ar"] = {
   COMBINED_MOTOR_MOVE: "يتحرك %1 %4 %5 بمعدل %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "المحرك المدمج %1 %2 %3 %4 %5 يتحرك %6 %7",
   COMBINED_MOTOR_LINE: "بدأ %1 بالتحرك %3 %4 باتجاه %2",
-  COMBINED_MOTOR_SPEED: "%1 اضبط سرعة المحرك المجمعة على %2 %%",
   COMBINED_MOTOR_STOP: "توقف المحرك المدمج %1 عن الحركة",
-  DIRECTION_MOTOR: "%1 يبدأ التحرك إلى %2",
   COMBINED_MOTOR_MOVESTEP: "تم ضبط سرعة المحرك المجمعة %1 على %2 %% و%3 %%",
   COMBINED_MOTOR_ANGLE: "%1 يبدأ التحرك %2 درجة",
   COMBINED_MOTOR_STOPPING: "%1 اضبط المحرك قيد التشغيل على إيقاف %2",
@@ -1584,9 +1578,7 @@ Blockly.ScratchMsgs.locales["am"] = {
   COMBINED_MOTOR_MOVE: "%1 ይንቀሳቀሳል %4 %5 በ%2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 ጥምር ሞተር %2 %3 %4 %5 ይንቀሳቀሳል %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 ወደ %2 መንቀሳቀስ ጀምሯል",
-  COMBINED_MOTOR_SPEED: "%1 የተቀናጀ የሞተር ፍጥነት ወደ %2 %% አዘጋጅ",
   COMBINED_MOTOR_STOP: "%1 ጥምር ሞተር መንቀሳቀስ ያቆማል",
-  DIRECTION_MOTOR: "%1 ወደ %2 መሄድ ይጀምራል",
   COMBINED_MOTOR_MOVESTEP: "%1 ጥምር የሞተር ፍጥነት ወደ %2 %% እና %3 %% ተቀናብሯል",
   COMBINED_MOTOR_ANGLE: "%1 ወደ %2 ዲግሪ መንቀሳቀስ ይጀምራል",
   COMBINED_MOTOR_STOPPING: "%1 የሩጫ ሞተርን %2 እንዲያቆም ያዋቅሩት",
@@ -1984,10 +1976,7 @@ Blockly.ScratchMsgs.locales["an"] = {
   COMBINED_MOTOR_MOVE: "%1 mueve %4 %5 a una velocidad de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 mueve %6 %7",
   COMBINED_MOTOR_LINE: "%1 comenzó a moverse %3 %4 hacia %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Establece la velocidad combinada del motor en %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado deja de moverse",
-  DIRECTION_MOTOR: "%1 comienza a moverse hacia %2",
   COMBINED_MOTOR_MOVESTEP:
     "Velocidad del motor combinada %1 establecida en %2 %% y %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 comienza a moverse %2 grados",
@@ -2390,10 +2379,7 @@ Blockly.ScratchMsgs.locales["az"] = {
   COMBINED_MOTOR_MOVE: "%1 hərəkət edir %4 %5 %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 birləşmiş motor %2 %3 %4 %5 hərəkət %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 %2 istiqamətində hərəkət etməyə başladı",
-  COMBINED_MOTOR_SPEED:
-    "%1 Birləşdirilmiş mühərrik sürətini %2 %% olaraq təyin edin",
   COMBINED_MOTOR_STOP: "%1 birləşmiş mühərrik hərəkətini dayandırır",
-  DIRECTION_MOTOR: "%1 %2-yə köçməyə başlayır",
   COMBINED_MOTOR_MOVESTEP:
     "%1 birləşdirilmiş mühərrik sürəti %2 %% və %3 %% olaraq təyin olundu",
   COMBINED_MOTOR_ANGLE: "%1 %2 dərəcə hərəkət etməyə başlayır",
@@ -2795,9 +2781,7 @@ Blockly.ScratchMsgs.locales["id"] = {
   COMBINED_MOTOR_MOVE: "%1 bergerak %4 %5 dengan kecepatan %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor gabungan %2 %3 %4 %5 bergerak %6 %7",
   COMBINED_MOTOR_LINE: "%1 mulai bergerak %3 %4 menuju %2",
-  COMBINED_MOTOR_SPEED: "%1 Tetapkan kecepatan motor gabungan ke %2 %%",
   COMBINED_MOTOR_STOP: "%1 gabungan motor berhenti bergerak",
-  DIRECTION_MOTOR: "%1 mulai berpindah ke %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kecepatan motor gabungan disetel ke %2 %% dan %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 mulai bergerak %2 derajat",
@@ -3199,9 +3183,7 @@ Blockly.ScratchMsgs.locales["bn"] = {
   COMBINED_MOTOR_MOVE: "%1 %2%% + %3 %% হারে %4 %5 সরেছে",
   COMBINED_MOTOR_TURN: "%1 সম্মিলিত মোটর %2 %3 %4 %5 চালিত %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 থেকে %2 এর দিকে যেতে শুরু করেছে",
-  COMBINED_MOTOR_SPEED: "%1 সম্মিলিত মোটরের গতি %2 %% এ সেট করুন",
   COMBINED_MOTOR_STOP: "%1 সম্মিলিত মোটর চলাচল বন্ধ করে",
-  DIRECTION_MOTOR: "%1 %2 তে যেতে শুরু করে",
   COMBINED_MOTOR_MOVESTEP:
     "%1 সম্মিলিত মোটর গতি %2 %% এবং %3 %% এ সেট করা হয়েছে",
   COMBINED_MOTOR_ANGLE: "%1 %2 ডিগ্রী সরানো শুরু করে",
@@ -3603,9 +3585,7 @@ Blockly.ScratchMsgs.locales["be"] = {
   COMBINED_MOTOR_MOVE: "%1 рухае %4 %5 з хуткасцю %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 камбінаваны рухавік %2 %3 %4 %5 рухае %6 %7",
   COMBINED_MOTOR_LINE: "%1 пачаў рух %3 %4 да %2",
-  COMBINED_MOTOR_SPEED: "%1 Усталяваць камбінаваную хуткасць рухавіка на %2 %%",
   COMBINED_MOTOR_STOP: "%1 камбінаваны рухавік спыняе рух",
-  DIRECTION_MOTOR: "%1 пачынае рухацца да %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 камбінаваная хуткасць рухавіка ўстаноўлена на %2 %% і %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 пачынае рухацца на %2 градусы",
@@ -4008,9 +3988,7 @@ Blockly.ScratchMsgs.locales["bg"] = {
   COMBINED_MOTOR_MOVE: "%1 премества %4 %5 със скорост %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 комбиниран двигател %2 %3 %4 %5 движи %6 %7",
   COMBINED_MOTOR_LINE: "%1 започна да движи %3 %4 към %2",
-  COMBINED_MOTOR_SPEED: "%1 Задайте комбинирана скорост на двигателя на %2 %%",
   COMBINED_MOTOR_STOP: "%1 комбиниран двигател спира да се движи",
-  DIRECTION_MOTOR: "%1 започва да се движи към %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 комбинирана скорост на двигателя, зададена на %2 %% и %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 започва да се движи на %2 градуса",
@@ -4412,9 +4390,7 @@ Blockly.ScratchMsgs.locales["ca"] = {
   COMBINED_MOTOR_MOVE: "%1 mou %4 %5 a una velocitat de %2%% + %3%%",
   COMBINED_MOTOR_TURN: "%1 motor combinat %2 %3 %4 %5 moviments %6 %7",
   COMBINED_MOTOR_LINE: "%1 va començar a moure %3 %4 cap a %2",
-  COMBINED_MOTOR_SPEED: "%1 Estableix la velocitat del motor combinada a %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinat deixa de moure's",
-  DIRECTION_MOTOR: "%1 comença a moure's a %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 velocitat del motor combinada establerta a %2 %% i %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 comença a moure %2 graus",
@@ -4815,9 +4791,7 @@ Blockly.ScratchMsgs.locales["cs"] = {
   COMBINED_MOTOR_MOVE: "%1 se pohybuje o %4 %5 tempem %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinovaný motor %2 %3 %4 %5 pohybuje %6 %7",
   COMBINED_MOTOR_LINE: "%1 se začalo přesouvat %3 %4 směrem k %2",
-  COMBINED_MOTOR_SPEED: "%1 Nastavit kombinované otáčky motoru na %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinovaný motor se přestane pohybovat",
-  DIRECTION_MOTOR: "%1 se začíná přesouvat do %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinované otáčky motoru nastaveny na %2 %% a %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 se začíná pohybovat o %2 stupňů",
@@ -5221,7 +5195,6 @@ Blockly.ScratchMsgs.locales["cy"] = {
   COMbinED_MOTOR_LINE: "Dechreuodd %1 symud %3 %4 tuag at %2",
   COMbinED_MOTOR_SPEED: "%1 Gosod cyflymder modur cyfun i %2 %%",
   COMbinED_MOTOR_STOP: "%1 modur cyfun yn stopio symud",
-  DIRECTION_MOTOR: " Mae %1 yn dechrau symud i %2",
   COMbinED_MOTOR_MOVESTEP:
     "%1 cyflymder echddygol cyfun wedi ei osod i %2 %% a %3 %%",
   COMbinED_MOTOR_ANGLE: "Mae %1 yn dechrau symud %2 gradd",
@@ -5617,9 +5590,7 @@ Blockly.ScratchMsgs.locales["da"] = {
   COMBINED_MOTOR_MOVE: "%1 flytter %4 %5 med en hastighed på %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombineret motor %2 %3 %4 %5 flytter %6 %7",
   COMBINED_MOTOR_LINE: "%1 begyndte at flytte %3 %4 mod %2",
-  COMBINED_MOTOR_SPEED: "%1 Indstil kombineret motorhastighed til %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombineret motor holder op med at bevæge sig",
-  DIRECTION_MOTOR: "%1 begynder at flytte til %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombineret motorhastighed indstillet til %2 %% og %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begynder at bevæge sig %2 grader",
@@ -6024,9 +5995,7 @@ Blockly.ScratchMsgs.locales["de"] = {
     "%1 bewegt %4 %5 mit einer Geschwindigkeit von %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinierter Motor %2 %3 %4 %5 bewegt sich %6 %7",
   COMBINED_MOTOR_LINE: "%1 hat begonnen, %3 %4 in Richtung %2 zu bewegen",
-  COMBINED_MOTOR_SPEED: "%1 Kombinierte Motorgeschwindigkeit auf %2 %% setzen",
   COMBINED_MOTOR_STOP: "%1 kombinierter Motor stoppt die Bewegung",
-  DIRECTION_MOTOR: "%1 beginnt sich nach %2 zu bewegen",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinierte Motorgeschwindigkeit auf %2 %% und %3 %% eingestellt",
   COMBINED_MOTOR_ANGLE: "%1 beginnt sich um %2 Grad zu bewegen",
@@ -6428,9 +6397,7 @@ Blockly.ScratchMsgs.locales["et"] = {
   COMBINED_MOTOR_MOVE: "%1 liigub %4 %5 kiirusega %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombineeritud mootor %2 %3 %4 %5 liigub %6 %7",
   COMBINED_MOTOR_LINE: "%1 alustas %3 %4 liikumist %2 suunas",
-  COMBINED_MOTOR_SPEED: "%1 määra kombineeritud mootori kiirus %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombineeritud mootor peatub",
-  DIRECTION_MOTOR: "%1 hakkab liikuma asukohta %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombineeritud mootori kiirus on määratud %2 %% ja %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 hakkab liikuma %2 kraadi",
@@ -6832,9 +6799,7 @@ Blockly.ScratchMsgs.locales["el"] = {
   COMBINED_MOTOR_TURN:
     "%1 συνδυασμένος κινητήρας %2 %3 %4 %5 μετακινείται %6 %7",
   COMBINED_MOTOR_LINE: "Το %1 άρχισε να κινείται %3 %4 προς το %2",
-  COMBINED_MOTOR_SPEED: "%1 Ρύθμιση συνδυασμένης ταχύτητας κινητήρα σε %2 %%",
   COMBINED_MOTOR_STOP: "%1 συνδυασμένος κινητήρας σταματά να κινείται",
-  DIRECTION_MOTOR: "Το %1 αρχίζει να μετακινείται στο %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 συνδυασμένη ταχύτητα κινητήρα ορίστηκε σε %2 %% και %3 %%",
   COMBINED_MOTOR_ANGLE: "Το %1 αρχίζει να κινείται %2 μοίρες",
@@ -7057,21 +7022,19 @@ Blockly.ScratchMsgs.locales["en"] = {
   COMBINED_MOTOR_MOVE: "%1 moves %4 %5 at a rate of %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 combined motor %2 %3 %4 %5 moves %6 %7",
   COMBINED_MOTOR_LINE: "%1 started moving %3 %4 towards %2",
-  COMBINED_MOTOR_SPEED: "%1 Set combined motor speed to %2 %%",
-  COMBINED_MOTOR_STOP: "%1 combined motor stops moving",
-  DIRECTION_MOTOR: "%1 starts moving to %2",
+  COMBINED_MOTOR_STOP: "%1 stops moving",
   COMBINED_MOTOR_MOVESTEP: "%1 combined motor speed set to %2 %% and %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 starts moving %2 degrees",
   COMBINED_FORWARD_OFFSET:
     "%1 set the combined motor forward offset to %2 and %3",
   COMBINED_BACKWARD_OFFSET:
     "%1 set the combined motor backward offset to %2 and %3",
-  COMBINED_MOTOR_STOPPING: "%1 Set the running motor to stop %2",
-  COMBINED_MOTOR_STARTING: "%1 sets the combined motor to %2 status is %3",
+  COMBINED_MOTOR_STOPPING: "%1 Set the combined motor to stop and %2",
+  COMBINED_MOTOR_STARTING: "%1 Set the combined motor to %2 with rotation direction %3",
   COMBINED_MOTOR_STARTWITHPOWER:
-    "%1 combined motor move with %2 %% and %3 %% power",
+    "%1 move with left power %2 %% and right power %3 %%",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 combination motor operates at %2 %% and %3 %% power for %4 seconds",
+    "%1 moves for %4 seconds with left power %2 %% and right power %3 %%",
   COMBINED_MOTOR_MOVEBYYAWANGLE:
     "%1 combination motor based on yaw angle straight line %2 %3 %4",
   COMBINED_MOTOR_SPINBYYAWANGLE:
@@ -7213,7 +7176,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_LINEPATROLINIT: "Initialize the linepatrol",
   SENSING_LINEPATROL: "The linepatrol %1 %2 power is %3 KP %4 KD %5 ",
   SENSING_LINEPATROL_LTR:
-    "The linepatrol %1 %2 the power of left is %3 the power of right is %4 KP %5 KD %6 ",
+    "Dual line patrol: Left sensor %1 Right sensor %2 Left power %3 %% Right power %4 %% KP %5 KD %6",
   SENSING_JUDGELINESTATE: "Determine %1 the current grayscale %2 status",
   SENSING_CAMERA_FIND_COLOR_BLOCK:
     "%1 %2 search for color blocks R %3 G %4 B %5 tolerance %6",
@@ -7773,10 +7736,7 @@ Blockly.ScratchMsgs.locales["es"] = {
   COMBINED_MOTOR_MOVE: "%1 mueve %4 %5 a una velocidad de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 mueve %6 %7",
   COMBINED_MOTOR_LINE: "%1 comenzó a moverse %3 %4 hacia %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Establece la velocidad combinada del motor en %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado deja de moverse",
-  DIRECTION_MOTOR: "%1 comienza a moverse hacia %2",
   COMBINED_MOTOR_MOVESTEP:
     "Velocidad del motor combinada %1 establecida en %2 %% y %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 comienza a moverse %2 grados",
@@ -8180,10 +8140,7 @@ Blockly.ScratchMsgs.locales["es-419"] = {
   COMBINED_MOTOR_MOVE: "%1 mueve %4 %5 a una velocidad de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 mueve %6 %7",
   COMBINED_MOTOR_LINE: "%1 comenzó a moverse %3 %4 hacia %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Establece la velocidad combinada del motor en %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado deja de moverse",
-  DIRECTION_MOTOR: "%1 comienza a moverse hacia %2",
   COMBINED_MOTOR_MOVESTEP:
     "Velocidad del motor combinada %1 establecida en %2 %% y %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 comienza a moverse %2 grados",
@@ -8587,9 +8544,7 @@ Blockly.ScratchMsgs.locales["eu"] = {
   COMBINED_MOTOR_MOVE: "%1ek %4 %5 mugitzen du %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor konbinatua %2 %3 %4 %5 mugitzen du %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 %2 aldera mugitzen hasi zen",
-  COMBINED_MOTOR_SPEED: "%1 Ezarri motor-abiadura konbinatua %2%%-ra",
   COMBINED_MOTOR_STOP: "%1 motor konbinatuak higitzeari uzten dio",
-  DIRECTION_MOTOR: "%1 %2ra mugitzen hasten da",
   COMBINED_MOTOR_MOVESTEP:
     "%1 motor-abiadura konbinatua %2%% eta %3%% gisa ezarrita",
   COMBINED_MOTOR_ANGLE: "%1 %2 gradu mugitzen hasten da",
@@ -8991,9 +8946,7 @@ Blockly.ScratchMsgs.locales["fa"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 را با نرخ %2%% + %3 %% جابه جا می کند،",
   COMBINED_MOTOR_TURN: "%1 موتور ترکیبی %2 %3 %4 %5 %6 %7حرکت می کند،",
   COMBINED_MOTOR_LINE: "%1 started moving %3 %4 towards %2",
-  COMBINED_MOTOR_SPEED: "%1 سرعت موتور ترکیبی را روی %2 %% تنظیم کنید،",
   COMBINED_MOTOR_STOP: "%1 موتور ترکیبی از حرکت می ایستد",
-  DIRECTION_MOTOR: "%1 شروع به حرکت به %2 می کند",
   COMBINED_MOTOR_MOVESTEP: "%1 سرعت موتور ترکیبی روی %2 %% و %3 %% تنظیم شد،",
   COMBINED_MOTOR_ANGLE: "%1 شروع به حرکت %2 درجه می کند",
   COMBINED_MOTOR_STOPPING: "%1 موتور در حال کار را روی توقف %2 تنظیم کنید",
@@ -9395,9 +9348,7 @@ Blockly.ScratchMsgs.locales["fr"] = {
   COMBINED_MOTOR_MOVE: "%1 déplace %4 %5 à une vitesse de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 moteur combiné %2 %3 %4 %5 déplace %6 %7",
   COMBINED_MOTOR_LINE: "%1 a commencé à déplacer %3 %4 vers %2",
-  COMBINED_MOTOR_SPEED: "%1 Régler la vitesse combinée du moteur sur %2 %%",
   COMBINED_MOTOR_STOP: "%1 moteur combiné arrête de bouger",
-  DIRECTION_MOTOR: "%1 commence à se déplacer vers %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 vitesse moteur combinée réglée sur %2 %% et %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 commence à se déplacer de %2 degrés",
@@ -9801,9 +9752,7 @@ Blockly.ScratchMsgs.locales["fy"] = {
   COMBINED_MOTOR_MOVE: "%1 ferpleatst %4 %5 mei in taryf fan %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinearre motor %2 %3 %4 %5 ferpleatst %6 %7",
   COMBINED_MOTOR_LINE: "%1 begûn te ferpleatsen fan %3 %4 nei %2",
-  COMBINED_MOTOR_SPEED: "%1 Stel de kombinearre motorsnelheid yn op %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinearre motor hâldt op mei bewegen",
-  DIRECTION_MOTOR: "%1 begjint te ferpleatsen nei %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinearre motorsnelheid ynsteld op %2 %% en %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begjint %2 graden te bewegen",
@@ -10204,9 +10153,7 @@ Blockly.ScratchMsgs.locales["ga"] = {
   COMBINED_MOTOR_MOVE: "Bogann %1 %4 %5 ag ráta %2% ​​+ %3 %%",
   COMBINED_MOTOR_TURN: " Bogann %1 mótar comhcheangailte %2 %3 %4 %5 %6 %7",
   COMBINED_MOTOR_LINE: "Thosaigh %1 ag bogadh %3 %4 i dtreo %2",
-  COMBINED_MOTOR_SPEED: "%1 Socraigh luas mótair comhcheangailte go %2 %%",
   " COMBIED_MOTOR_STOP ": " Stopann %1 mótar comhcheangailte ag bogadh",
-  DIRECTION_MOTOR: "Tosaíonn %1 ag bogadh go %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 luas mótair comhcheangailte socraithe go %2 %% agus %3 %%",
   COMbinED_MOTOR_ANGLE: "Tosaíonn %1 ag bogadh %2 céim",
@@ -10611,9 +10558,7 @@ Blockly.ScratchMsgs.locales["gd"] = {
   COMBINED_MOTOR_MOVE: "Gluaisidh %1 %4 %5 aig ìre %2%+%3%%",
   COMBINED_MOTOR_TURN: "Tha %1 motair còmhla %2 %3 %4 %5 a' gluasad %6 %7",
   COMBINED_MOTOR_LINE: "Thòisich %1 a' gluasad %3 %4 a dh'ionnsaigh %2",
-  COMBINED_MOTOR_SPEED: "%1 Suidhich astar motair co-cheangailte gu %2 %%",
   COMBIED_MOTOR_STOP: "Tha %1 motair co-cheangailte a' stad a' gluasad",
-  DIRECTION_MOTOR: "Tha %1 a' tòiseachadh a' gluasad gu %2",
   COMBINED_MOTOR_MOVESTEP:
     "Suidhich %1 astar motair cho-aonaichte gu %2 %% agus %3 %%",
   COMBINED_MOTOR_ANGLE: "Tòisichidh %1 a' gluasad %2 ceum",
@@ -11015,9 +10960,7 @@ Blockly.ScratchMsgs.locales["gl"] = {
   COMBINED_MOTOR_MOVE: "%1 move %4 %5 a un ritmo de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 move %6 %7",
   COMBINED_MOTOR_LINE: "%1 comezou a mover %3 %4 cara a %2",
-  COMBINED_MOTOR_SPEED: "%1 Establece a velocidade combinada do motor en %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado deixa de moverse",
-  DIRECTION_MOTOR: "%1 comeza a moverse a %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 velocidade do motor combinada establecida en %2 %% e %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 comeza a moverse %2 graos",
@@ -11423,24 +11366,6 @@ Blockly.ScratchMsgs.locales["ko"] = {
   COMBINED_MOTOR_TURN: "%1 결합 모터 %2 %3 %4 %5 이동 %6 %7",
   COMBINED_MOTOR_LINE:
     "%1이(가) %3 %4을(를) %2 방향으로 이동하기 시작했습니다.",
-  COMBINED_MOTOR_SPEED: "%1 결합된 모터 속도를 %2 %%로 설정합니다",
-  COMBINED_MOTOR_STOP: "%1 결합 모터의 움직임이 멈춥니다",
-  DIRECTION_MOTOR: "%1이(가) %2(으)로 이동을 시작합니다.",
-  COMBINED_MOTOR_MOVESTEP:
-    "%1 결합 모터 속도가 %2 %% 및 %3 %%로 설정되었습니다.",
-  COMBINED_MOTOR_ANGLE: "%1이(가) %2도 움직이기 시작합니다",
-  COMBINED_MOTOR_STOPPING: "%1 실행 중인 모터를 %2 정지하도록 설정합니다.",
-  COMBINED_MOTOR_STARTING: "%1 은(는) 결합된 모터를 %2 으로 설정합니다",
-  COMBINED_MOTOR_STARTWITHPOWER:
-    "%1 결합 모터는 %2 %% 및 %3 %% 전력으로 움직입니다.",
-  COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 결합 모터가 %2 %3을(를) 사용하여 %4 %5을(를) 실행합니다",
-  MOTOR_STARTWITHPOWER: "%1 모터 %2이(가) %3 %% 전력으로 시작되었습니다",
-  BIG_MOTOR: "대형 모터",
-  SMALL_MOTOR: "SMALL_MOTOR",
-  MATRIX_LAMP: "%1 조명 %2 색상은 %3",
-  STOP_MATRIX_LAMP: "%1 픽셀 조명 끄기",
-  SET_MATRIX_LAMP: "%1 픽셀 조명의 밝기를 %2 %%로 설정",
   SINGLE_MATRIX_LAMP: "%1 설정 픽셀 x %2 y %3",
   TEXT_MATRIX_LAMP: "%1 텍스트 디스플레이 %2",
   SETRGB_MATRIX_LAMP: "%1 조명 일련 번호 %2 색상 %3",
@@ -11827,9 +11752,7 @@ Blockly.ScratchMsgs.locales["hy"] = {
   COMBINED_MOTOR_MOVE: "%1-ը տեղափոխում է %4 %5 %2%% + %3 %% արագությամբ",
   COMBINED_MOTOR_TURN: "%1 համակցված շարժիչ %2 %3 %4 %5 շարժվում է %6 %7",
   COMBINED_MOTOR_LINE: "%1 սկսեց շարժվել %3 %4 դեպի %2",
-  COMBINED_MOTOR_SPEED: "%1 Սահմանել շարժիչի համակցված արագությունը %2 %%",
   COMBINED_MOTOR_STOP: "%1 համակցված շարժիչը դադարում է շարժվել",
-  DIRECTION_MOTOR: "%1 սկսում է շարժվել դեպի %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 շարժիչի համակցված արագությունը սահմանվել է %2 %% և %3 %%",
   COMBINED_MOTOR_ANGLE: "%1-ը սկսում է շարժվել %2 աստիճանով",
@@ -12230,9 +12153,7 @@ Blockly.ScratchMsgs.locales["he"] = {
   COMBINED_MOTOR_MOVE: "%1 מעביר את %4 %5 בקצב של %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 מנוע משולב %2 %3 %4 %5 נע %6 %7",
   COMBINED_MOTOR_LINE: "%1 התחיל להזיז את %3 %4 לכיוון %2",
-  COMBINED_MOTOR_SPEED: "%1 הגדר את מהירות המנוע המשולבת ל-%2 %%",
   COMBINED_MOTOR_STOP: "%1 מנוע משולב מפסיק לנוע",
-  DIRECTION_MOTOR: "%1 מתחיל לעבור ל-%2",
   COMBINED_MOTOR_MOVESTEP: "%1 מהירות מנוע משולבת מוגדרת ל-%2 %% ו-%3 %%",
   COMBINED_MOTOR_ANGLE: "%1 מתחיל לנוע %2 מעלות",
   COMBINED_MOTOR_STOPPING: "%1 הגדר את המנוע הפועל לעצירה%2 ",
@@ -12630,9 +12551,7 @@ Blockly.ScratchMsgs.locales["hr"] = {
   COMBINED_MOTOR_MOVE: "%1 pomiče %4 %5 brzinom od %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinirani motor %2 %3 %4 %5 pomiče %6 %7",
   COMBINED_MOTOR_LINE: "%1 se počeo kretati %3 %4 prema %2",
-  COMBINED_MOTOR_SPEED: "%1 Postavite kombiniranu brzinu motora na %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinirani motor prestaje se kretati",
-  DIRECTION_MOTOR: "%1 se počinje kretati prema %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinirana brzina motora postavljena na %2 %% i %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 počinje se kretati %2 stupnja",
@@ -13033,10 +12952,7 @@ Blockly.ScratchMsgs.locales["xh"] = {
   COMBINED_MOTOR_MOVE: "%1 ishukuma %4 %5 ngesantya se %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 injini edibeneyo %2 %3 %4 %5 ihamba %6 %7",
   COMBINED_MOTOR_LINE: "%1 iqalile ukushukuma %3 %4 ukuya %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Misela isantya semoto esidityanisiweyo ukuya kwi-%2 %%",
   COMBINED_MOTOR_STOP: "%1 injini edibeneyo iyayeka ukuhamba",
-  DIRECTION_MOTOR: "%1 iqala ukuya kwi%2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 isantya semoto esidityanisiweyo simiselwe ku-%2 %% kunye ne-%3 %%",
   COMBINED_MOTOR_ANGLE: "%1 iqala ukushukuma %2 degrees",
@@ -13437,10 +13353,7 @@ Blockly.ScratchMsgs.locales["zu"] = {
   COMBINED_MOTOR_MOVE: "%1 unyakaza %4 %5 ngesilinganiso %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 injini ehlanganisiwe %2 %3 %4 %5 ihamba %6 %7",
   COMBINED_MOTOR_LINE: "%1 iqale ukusuka %3 %4 iya ku %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Setha isivinini semoto esihlanganisiwe siye ku-%2 %%",
   COMBINED_MOTOR_STOP: "%1 injini ehlanganisiwe iyama ukuhamba",
-  DIRECTION_MOTOR: "%1 iqala ukuthuthela ku-%2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 isivinini semoto esihlanganisiwe simiswe ukuze sithi %2 %% kanye %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 iqala ukuhambisa %2 degrees",
@@ -13842,9 +13755,7 @@ Blockly.ScratchMsgs.locales["is"] = {
   COMBINED_MOTOR_MOVE: "%1 færir %4 %5 á hraðanum %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 samsettur mótor %2 %3 %4 %5 færist %6 %7",
   COMBINED_MOTOR_LINE: "%1 byrjaði að færa %3 %4 í átt að %2",
-  COMBINED_MOTOR_SPEED: "%1 Stilltu samanlagðan mótorhraða á %2 %%",
   COMBINED_MOTOR_STOP: "%1 samsettur mótor hættir að hreyfast",
-  DIRECTION_MOTOR: "%1 byrjar að flytja til %2",
   COMBINED_MOTOR_MOVESTEP: "%1 samsettur mótorhraði stilltur á %2 %% og %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 byrjar að hreyfast %2 gráður",
   COMBINED_MOTOR_STOPPING: "%1 Stilltu mótorinn í gangi á að stoppa %2",
@@ -14246,9 +14157,7 @@ Blockly.ScratchMsgs.locales["it"] = {
   COMBINED_MOTOR_MOVE: "%1 sposta %4 %5 alla velocità di %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motore combinato %2 %3 %4 %5 muove %6 %7",
   COMBINED_MOTOR_LINE: "%1 ha iniziato a spostare %3 %4 verso %2",
-  COMBINED_MOTOR_SPEED: "%1 Imposta la velocità combinata del motore su %2 %%",
   COMBINED_MOTOR_STOP: "%1 motore combinato smette di muoversi",
-  DIRECTION_MOTOR: "%1 inizia a spostarsi verso %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 velocità combinata del motore impostata su %2 %% e %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 inizia a muoversi di %2 gradi",
@@ -14651,9 +14560,7 @@ Blockly.ScratchMsgs.locales["ka"] = {
   COMBINED_MOTOR_MOVE: "%1 მოძრაობს %4 %5 სიჩქარით %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 კომბინირებული ძრავა %2 %3 %4 %5 მოძრაობს %6 %7",
   COMBINED_MOTOR_LINE: "%1 დაიწყო გადაადგილება %3 %4 %2-ისკენ",
-  COMBINED_MOTOR_SPEED: "%1 დააყენეთ ძრავის კომბინირებული სიჩქარე %2 %%",
   COMBINED_MOTOR_STOP: "%1 კომბინირებული ძრავა წყვეტს მოძრაობას",
-  DIRECTION_MOTOR: "%1 იწყებს გადასვლას %2-ზე",
   COMBINED_MOTOR_MOVESTEP:
     "%1 ძრავის კომბინირებული სიჩქარე დაყენებულია %2%% და %3%%",
   COMBINED_MOTOR_ANGLE: "%1 იწყებს მოძრაობას %2 გრადუსით",
@@ -15055,9 +14962,7 @@ Blockly.ScratchMsgs.locales["kk"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 %2%% + %3 %% жылдамдықпен жылжытады",
   COMBINED_MOTOR_TURN: "%1 аралас мотор %2 %3 %4 %5 %6 %7 жылжиды",
   COMBINED_MOTOR_LINE: "%1 %3 % 4 %2 жағына жылжи бастады",
-  COMBINED_MOTOR_SPEED: "%1 Аралас қозғалтқыш жылдамдығын %2 %% етіп орнату",
   COMBINED_MOTOR_STOP: "%1 аралас мотор қозғалысын тоқтатады",
-  DIRECTION_MOTOR: "%1 %2 орнына жылжи бастайды",
   COMBINED_MOTOR_MOVESTEP:
     "%1 аралас қозғалтқыш жылдамдығы %2 %% және %3 %% мәніне орнатылды",
   COMBINED_MOTOR_ANGLE: "%1 %2 градусқа жылжи бастайды",
@@ -15459,10 +15364,7 @@ Blockly.ScratchMsgs.locales["qu"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 %2%% + %3 %% ritmopi kuyuchin",
   COMBINED_MOTOR_TURN: "%1 huñusqa motor %2 %3 %4 %5 %6 %7 kuyuchin",
   COMBINED_MOTOR_LINE: "%1 %3 %4 %2 kaqman kuyuchiyta qallarirqa",
-  COMBINED_MOTOR_SPEED:
-    "%1 Huñusqa motorpa utqaylla puriyninta %2 %% nisqaman churay",
   COMBINED_MOTOR_STOP: "%1 huñusqa motorqa manañam kuyunchu",
-  DIRECTION_MOTOR: "%1 %2 kaqman kuyuyta qallarikun",
   COMBINED_MOTOR_MOVESTEP:
     "%1 huñusqa motorpa utqaylla kayninta %2 %% chaymanta %3 %% nisqaman churasqa",
   COMBINED_MOTOR_ANGLE: "%1 %2 gradukunata kuyuchiyta qallarikun",
@@ -15866,9 +15768,7 @@ Blockly.ScratchMsgs.locales["sw"] = {
   COMBINED_MOTOR_MOVE: "%1 husogea %4 %5 kwa kiwango cha %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor iliyounganishwa %2 %3 %4 %5 husogezwa %6 %7",
   COMBINED_MOTOR_LINE: "%1 ilianza kusonga %3 %4 kuelekea %2",
-  COMBINED_MOTOR_SPEED: "%1 Weka kasi ya gari iliyounganishwa hadi %2 %%",
   COMBINED_MOTOR_STOP: "Mota %1 iliyounganishwa huacha kusonga",
-  DIRECTION_MOTOR: "%1 inaanza kuhamia %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kasi ya gari iliyounganishwa imewekwa kuwa %2 %% na %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 inaanza kusonga digrii %2",
@@ -16270,9 +16170,7 @@ Blockly.ScratchMsgs.locales["ht"] = {
   COMBINED_MOTOR_MOVE: "%1 deplase %4 %5 nan yon pousantaj de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motè konbine %2 %3 %4 %5 mouvman %6 %7",
   COMBINED_MOTOR_LINE: "%1 kòmanse deplase %3 %4 nan direksyon %2",
-  COMBINED_MOTOR_SPEED: "%1 Mete vitès motè konbine a %2 %%",
   COMBINED_MOTOR_STOP: "%1 motè konbine sispann deplase",
-  DIRECTION_MOTOR: "%1 kòmanse deplase nan %2",
   COMBINED_MOTOR_MOVESTEP: "%1 vitès motè konbine yo mete sou %2 %% ak %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 kòmanse deplase %2 degre",
   COMBINED_MOTOR_STOPPING: "%1 Mete motè k ap kouri pou sispann %2",
@@ -16671,9 +16569,7 @@ Blockly.ScratchMsgs.locales["ku"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 bi rêjeya %2%% + %3 %% digere",
   COMBINED_MOTOR_TURN: "%1 Motora hevgirtî %2 %3 %4 %5 %6 %7 tevdigere",
   COMBINED_MOTOR_LINE: "%1 dest pê kir %3 %4 ber bi %2 ve çû",
-  COMBINED_MOTOR_SPEED: "%1 Leza motora hevgirtî danî %2 %%",
   COMBINED_MOTOR_STOP: "%1 motora hevgirtî disekine",
-  DIRECTION_MOTOR: "%1 dest pê dike ber bi %2 ve diçe",
   COMBINED_MOTOR_MOVESTEP:
     "%1 leza motorê ya hevgirtî hate danîn ser %2 %% û %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 dest bi tevgera %2 derece dike",
@@ -17074,9 +16970,7 @@ Blockly.ScratchMsgs.locales["ckb"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 بە ڕێژەی %2%% + %3 %% دەجوڵێنێت",
   COMBINED_MOTOR_TURN: "%1 ماتۆڕی یەکگرتوو %2 %3 %4 %5 %6 %7 دەجوڵێنێت",
   COMBINED_MOTOR_LINE: "%1 دەستی کرد بە جوڵاندنی %3 %4 بەرەو %2",
-  COMBINED_MOTOR_SPEED: "%1 خێرایی ماتۆڕی یەکگرتوو بۆ %2 %% دابنێ",
   COMBINED_MOTOR_STOP: "%1 ماتۆڕی یەکگرتوو لە جووڵە وەستاوە",
-  DIRECTION_MOTOR: "%1 دەست دەکات بە گواستنەوە بۆ %2",
   COMBINED_MOTOR_MOVESTEP: "%1 خێرایی ماتۆڕی یەکگرتوو بۆ %2 %% و %3 %% دانراوە",
   COMBINED_MOTOR_ANGLE: "%1 دەست دەکات بە جوڵەی %2 پلە",
   COMBINED_MOTOR_STOPPING: "%1 ماتۆڕی کارپێکردن ڕێکبخە بۆ وەستانی %2",
@@ -17476,9 +17370,7 @@ Blockly.ScratchMsgs.locales["lv"] = {
   COMBINED_MOTOR_MOVE: "%1 pārvieto %4 %5 ar ātrumu %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinētais motors %2 %3 %4 %5 kustas %6 %7",
   COMBINED_MOTOR_LINE: "%1 sāka pārvietot %3 %4 uz %2",
-  COMBINED_MOTOR_SPEED: "%1 Iestatīt kombinēto motora ātrumu uz %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinētais motors pārstāj kustēties",
-  DIRECTION_MOTOR: "%1 sāk pārvietoties uz %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinētais motora ātrums iestatīts uz %2 %% un %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 sāk kustēties %2 grādiem",
@@ -17879,9 +17771,7 @@ Blockly.ScratchMsgs.locales["lt"] = {
   COMBINED_MOTOR_MOVE: "%1 perkelia %4 %5 %2%% + %3 %% greičiu",
   COMBINED_MOTOR_TURN: "%1 kombinuotas variklis %2 %3 %4 %5 juda %6 %7",
   COMBINED_MOTOR_LINE: "%1 pradėjo judėti %3 %4 link %2",
-  COMBINED_MOTOR_SPEED: "%1 Nustatyti kombinuotą variklio greitį į %2 %%,",
   COMBINED_MOTOR_STOP: "%1 kombinuotas variklis nustoja judėti",
-  DIRECTION_MOTOR: "%1 pradeda judėti į %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinuotas variklio greitis nustatytas į %2 %% ir %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 pradeda judėti %2 laipsnių",
@@ -18282,9 +18172,7 @@ Blockly.ScratchMsgs.locales["hu"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5 áthelyezi %2%% + %3 %% sebességgel",
   COMBINED_MOTOR_TURN: "%1 kombinált motor %2 %3 %4 %5 %6 %7",
   COMBINED_MOTOR_LINE: "%1 elkezdte mozgatni %3 %4 %2 felé",
-  COMBINED_MOTOR_SPEED: "%1 Kombinált motorfordulatszám beállítása %2 %%-ra",
   COMBINED_MOTOR_STOP: "%1 kombinált motor leáll",
-  DIRECTION_MOTOR: "%1 elindul ide: %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinált motorfordulatszám beállítva: %2 %% és %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 %2 fokkal mozog",
@@ -18687,9 +18575,7 @@ Blockly.ScratchMsgs.locales["mi"] = {
   COMBINED_MOTOR_MOVE: "%1 ka neke %4 %5 i te tere o %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motini whakakotahi %2 %3 %4 %5 neke %6 %7",
   COMBINED_MOTOR_LINE: "%1 i timata te neke %3 %4 ki %2",
-  COMBINED_MOTOR_SPEED: "%1 Tautuhia te tere motini ki te %2 %%",
   COMBINED_MOTOR_STOP: "%1 ka mutu te neke haere o te motini whakakotahi",
-  DIRECTION_MOTOR: "%1 ka timata te neke ki %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kua whakaritea te tere motopaika ki te %2 %% me te %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 ka timata te neke %2 nga nekehanga",
@@ -19094,7 +18980,6 @@ Blockly.ScratchMsgs.locales["mn"] = {
   ХОЛБОГДСОН_ХОЛБОРТОЙ_ХУРД:
     "%1 Хөдөлгүүрийн нийлмэл хурдыг %2 %% болгож тохируулах",
   COMBINED_MOTOR_STOP: "%1 хосолсон мотор хөдөлгөөнийг зогсооно",
-  DIRECTION_MOTOR: "%1 %2 руу шилжиж эхэлдэг",
   COMBINED_MOTOR_MOVESTEP:
     "%1 моторын нийлмэл хурдыг %2 %% ба %3 %% болгож тохируулсан",
   COMBINED_MOTOR_ANGLE: "%1 нь %2 градус хөдөлж эхэлдэг",
@@ -19497,9 +19382,7 @@ Blockly.ScratchMsgs.locales["nl"] = {
   COMBINED_MOTOR_MOVE: "%1 beweegt %4 %5 met een snelheid van %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 gecombineerde motor %2 %3 %4 %5 beweegt %6 %7",
   COMBINED_MOTOR_LINE: "%1 begon %3 %4 richting %2 te bewegen",
-  COMBINED_MOTOR_SPEED: "%1 Stel het gecombineerde motortoerental in op %2 %%",
   COMBINED_MOTOR_STOP: "%1 gecombineerde motor stopt met bewegen",
-  DIRECTION_MOTOR: "%1 begint te bewegen naar %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 gecombineerd motortoerental ingesteld op %2 %% en %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begint %2 graden te bewegen",
@@ -19906,9 +19789,6 @@ Blockly.ScratchMsgs.locales["ja"] = {
   COMBINED_MOTOR_MOVE: "%1 は %2%% + %3 %% の速度で %4 %5 を移動します",
   COMBINED_MOTOR_TURN: "%1 結合モーター %2 %3 %4 %5 は %6 %7 を移動します",
   COMBINED_MOTOR_LINE: "%1 は %2 に向かって %3 %4 の移動を開始しました",
-  COMBINED_MOTOR_SPEED: "%1 複合モーター速度を %2 に設定します %%",
-  COMBINED_MOTOR_STOP: "%1 結合モーターが動作を停止します",
-  DIRECTION_MOTOR: "%1 は %2 への移動を開始します",
   COMBINED_MOTOR_MOVESTEP:
     "%1 の結合モーター速度は %2 %% と %3 %% に設定されました",
   COMBINED_MOTOR_ANGLE: "%1 は %2 度移動を開始します",
@@ -20315,9 +20195,7 @@ Blockly.ScratchMsgs.locales["ja-Hira"] = {
   COMBINED_MOTOR_MOVE: "%1 は %2%% + %3 %% の速度で %4 %5 を移動します",
   COMBINED_MOTOR_TURN: "%1 結合モーター %2 %3 %4 %5 は %6 %7 を移動します",
   COMBINED_MOTOR_LINE: "%1 は %2 に向かって %3 %4 の移動を開始しました",
-  COMBINED_MOTOR_SPEED: "%1 複合モーター速度を %2 に設定します %%",
   COMBINED_MOTOR_STOP: "%1 結合モーターが動作を停止します",
-  DIRECTION_MOTOR: "%1 は %2 への移動を開始します",
   COMBINED_MOTOR_MOVESTEP:
     "%1 の結合モーター速度は %2 %% と %3 %% に設定されました",
   COMBINED_MOTOR_ANGLE: "%1 は %2 度移動を開始します",
@@ -20719,9 +20597,7 @@ Blockly.ScratchMsgs.locales["nb"] = {
   COMBINED_MOTOR_MOVE: "%1 flytter %4 %5 med en hastighet på %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinert motor %2 %3 %4 %5 flytter %6 %7",
   COMBINED_MOTOR_LINE: "%1 begynte å flytte %3 %4 mot %2",
-  COMBINED_MOTOR_SPEED: "%1 Sett kombinert motorhastighet til %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinert motor slutter å bevege seg",
-  DIRECTION_MOTOR: "%1 begynner å flytte til %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinert motorhastighet satt til %2 %% og %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begynner å bevege seg %2 grader",
@@ -21121,9 +20997,7 @@ Blockly.ScratchMsgs.locales["nn"] = {
   COMBINED_MOTOR_MOVE: "%1 flytter %4 %5 med en hastighet på %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinert motor %2 %3 %4 %5 flytter %6 %7",
   COMBINED_MOTOR_LINE: "%1 begynte å flytte %3 %4 mot %2",
-  COMBINED_MOTOR_SPEED: "%1 Sett kombinert motorhastighet til %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinert motor slutter å bevege seg",
-  DIRECTION_MOTOR: "%1 begynner å flytte til %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinert motorhastighet satt til %2 %% og %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 begynner å bevege seg %2 grader",
@@ -21522,9 +21396,7 @@ Blockly.ScratchMsgs.locales["or"] = {
   COMBINED_MOTOR_MOVE: "%1 %2 %% + %3 %% ହାରରେ %4 %5 ଘୁଞ୍ଚାଏ",
   COMBINED_MOTOR_TURN: "%1 ମିଳିତ ମୋଟର %2 %3 %4 %5 ଚଳନ %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 %2 ଆଡକୁ ଗତି କରିବା ଆରମ୍ଭ କଲା",
-  COMBINED_MOTOR_SPEED: "%1 ମିଳିତ ମୋଟର ବେଗକୁ %2 %% କୁ ସେଟ୍ କରନ୍ତୁ",
   COMBINED_MOTOR_STOP: "%1 ମିଳିତ ମୋଟର ଚାଲିବା ବନ୍ଦ କରେ",
-  DIRECTION_MOTOR: "%1 %2 କୁ ଯିବା ଆରମ୍ଭ କରେ",
   COMBINED_MOTOR_MOVESTEP: "%1 ମିଳିତ ମୋଟର ସ୍ପିଡ୍%2 %% ଏବଂ%3 %% ରେ ସେଟ୍ ହୋଇଛି",
   COMBINED_MOTOR_ANGLE: "%1 %2 ଡିଗ୍ରୀ ଗତି କରିବା ଆରମ୍ଭ କରେ",
   COMBINED_MOTOR_STOPPING:
@@ -21926,10 +21798,7 @@ Blockly.ScratchMsgs.locales["uz"] = {
   COMBINED_MOTOR_MOVE: "%1 harakat qiladi %4 %5 %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 birlashtirilgan motor %2 %3 %4 %5 harakat %6 %7",
   COMBINED_MOTOR_LINE: "%1 %3 %4 tomon %2 tomon harakatlana boshladi",
-  COMBINED_MOTOR_SPEED:
-    "%1 Birlashtirilgan dvigatel tezligini %2 %% qilib belgilang",
   COMBINED_MOTOR_STOP: "%1 birlashtirilgan motor harakatini to'xtatadi",
-  DIRECTION_MOTOR: "%1 %2 ga o'tishni boshlaydi",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinatsiyalangan vosita tezligi %2 %% va %3 %% ga o‘rnatildi",
   COMBINED_MOTOR_ANGLE: "%1 %2 daraja harakatlana boshlaydi",
@@ -22334,9 +22203,7 @@ Blockly.ScratchMsgs.locales["th"] = {
   COMBINED_MOTOR_MOVE: "%1 เคลื่อนที่ %4 %5 ในอัตรา %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 มอเตอร์รวม %2 %3 %4 %5 เคลื่อนที่ %6 %7",
   COMBINED_MOTOR_LINE: "%1 เริ่มเคลื่อนที่ %3 %4 ไปยัง %2",
-  COMBINED_MOTOR_SPEED: "%1 ตั้งค่าความเร็วมอเตอร์รวมเป็น %2 %%",
   COMBINED_MOTOR_STOP: "%1 มอเตอร์ที่รวมกันหยุดเคลื่อนที่",
-  DIRECTION_MOTOR: "%1 เริ่มเคลื่อนที่ไปที่ %2",
   COMBINED_MOTOR_MOVESTEP: "%1 ความเร็วมอเตอร์รวมตั้งไว้ที่ %2 %% และ %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 เริ่มเคลื่อนที่ %2 องศา",
   COMBINED_MOTOR_STOPPING: "%1 ตั้งค่ามอเตอร์ที่ทำงานให้หยุด %2",
@@ -22736,9 +22603,7 @@ Blockly.ScratchMsgs.locales["km"] = {
   COMBINED_MOTOR_MOVE: "%1 ផ្លាស់ទី %4 %5 ក្នុងអត្រា %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 ម៉ូទ័ររួមបញ្ចូលគ្នា %2 %3 %4 %5 ផ្លាស់ទី %6 %7",
   COMBINED_MOTOR_LINE: "%1 បានចាប់ផ្តើមផ្លាស់ទី %3 %4 ទៅ %2",
-  COMBINED_MOTOR_SPEED: "%1 កំណត់ល្បឿនម៉ូទ័ររួមបញ្ចូលគ្នាទៅ %2 %%",
   COMBINED_MOTOR_STOP: "%1 ម៉ូទ័ររួមបញ្ចូលគ្នាឈប់ផ្លាស់ទី",
-  DIRECTION_MOTOR: "%1 ចាប់ផ្តើមផ្លាស់ទីទៅ %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 ល្បឿនម៉ូទ័ររួមបញ្ចូលគ្នាបានកំណត់ទៅ %2 %% និង %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 ចាប់ផ្តើមផ្លាស់ទី %2 ដឺក្រេ",
@@ -23139,9 +23004,7 @@ Blockly.ScratchMsgs.locales["pl"] = {
   COMBINED_MOTOR_MOVE: "%1 porusza się %4%5 z szybkością %2%% + %3%%",
   COMBINED_MOTOR_TURN: "%1 połączony silnik %2 %3 %4 %5 porusza się %6 %7",
   COMBINED_MOTOR_LINE: "%1 zaczął poruszać się %3 %4 w kierunku %2",
-  COMBINED_MOTOR_SPEED: "%1 Ustaw łączną prędkość silnika na %2 %%",
   COMBINED_MOTOR_STOP: "%1 połączony silnik przestaje się poruszać",
-  DIRECTION_MOTOR: "%1 zaczyna przesuwać się do %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 łączna prędkość silnika ustawiona na %2%% i %3%%",
   COMBINED_MOTOR_ANGLE: "%1 zaczyna się poruszać o %2 stopnie",
@@ -23543,9 +23406,7 @@ Blockly.ScratchMsgs.locales["pt"] = {
   COMBINED_MOTOR_MOVE: "%1 move %4 %5 a uma taxa de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 move %6 %7",
   COMBINED_MOTOR_LINE: "%1 começou a se mover %3 %4 em direção a %2",
-  COMBINED_MOTOR_SPEED: "%1 Define a velocidade combinada do motor para %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado para de se mover",
-  DIRECTION_MOTOR: "%1 começa a se mover para %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 velocidade combinada do motor definida como %2 %% e %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 começa a se mover %2 graus",
@@ -23947,9 +23808,7 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
   COMBINED_MOTOR_MOVE: "%1 move %4 %5 a uma taxa de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinado %2 %3 %4 %5 move %6 %7",
   COMBINED_MOTOR_LINE: "%1 começou a se mover %3 %4 em direção a %2",
-  COMBINED_MOTOR_SPEED: "%1 Define a velocidade combinada do motor para %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinado para de se mover",
-  DIRECTION_MOTOR: "%1 começa a se mover para %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 velocidade combinada do motor definida como %2 %% e %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 começa a se mover %2 graus",
@@ -24351,9 +24210,7 @@ Blockly.ScratchMsgs.locales["rap"] = {
   COMBINED_MOTOR_MOVE: "%1 ka neke %4 %5 i te tere o %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motini whakakotahi %2 %3 %4 %5 neke %6 %7",
   COMBINED_MOTOR_LINE: "%1 i timata te neke %3 %4 ki %2",
-  COMBINED_MOTOR_SPEED: "%1 Tautuhia te tere motini ki te %2 %%",
   COMBINED_MOTOR_STOP: "%1 ka mutu te neke haere o te motini whakakotahi",
-  DIRECTION_MOTOR: "%1 ka timata te neke ki %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kua whakaritea te tere motopaika ki te %2 %% me te %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 ka timata te neke %2 nga nekehanga",
@@ -24754,9 +24611,7 @@ Blockly.ScratchMsgs.locales["ro"] = {
   COMBINED_MOTOR_MOVE: "%1 mută %4 %5 cu o rată de %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 motor combinat %2 %3 %4 %5 se mișcă %6 %7",
   COMBINED_MOTOR_LINE: "%1 a început să mute %3 %4 către %2",
-  COMBINED_MOTOR_SPEED: "%1 Setați viteza combinată a motorului la %2 %%",
   COMBINED_MOTOR_STOP: "%1 motor combinat nu se mai mișcă",
-  DIRECTION_MOTOR: "%1 începe să se mute la %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 viteză combinată a motorului setată la %2 %% și %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 începe să se miște %2 grade",
@@ -25158,10 +25013,7 @@ Blockly.ScratchMsgs.locales["ru"] = {
   COMBINED_MOTOR_TURN:
     "%1 комбинированный двигатель %2 %3 %4 %5 перемещается %6 %7",
   COMBINED_MOTOR_LINE: "%1 начал движение %3 %4 к %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Установить комбинированную скорость двигателя на %2 %%",
   COMBINED_MOTOR_STOP: "Комбинированный двигатель %1 прекращает движение",
-  DIRECTION_MOTOR: "%1 начинает движение к %2",
   COMBINED_MOTOR_MOVESTEP:
     "Комбинированная скорость двигателя %1 установлена ​​на %2 %% и %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 начинает двигаться на %2 градуса",
@@ -25561,10 +25413,7 @@ Blockly.ScratchMsgs.locales["nso"] = {
   COMBINED_MOTOR_MOVE: "%1 e šuthiša %4 %5 ka seelo sa %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 entšene e kopantšwego %2 %3 %4 %5 e sepela %6 %7",
   COMBINED_MOTOR_LINE: "%1 e thomile go sepela %3 %4 go leba go %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Beakanya lebelo la entšene ye e kopantšwego go %2 %%",
   COMBINED_MOTOR_STOP: "%1 ya entšene e kopantšwego e emiša go sepela",
-  DIRECTION_MOTOR: "%1 e thoma go hudugela go %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 lebelo la entšene le kopantšwego le beakantšwe go %2 %% le %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 e thoma go sepela %2 likhato",
@@ -25967,10 +25816,7 @@ Blockly.ScratchMsgs.locales["tn"] = {
   COMBINED_MOTOR_MOVE: "%1 e šuthiša %4 %5 ka seelo sa %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 entšene e kopantšwego %2 %3 %4 %5 e sepela %6 %7",
   COMBINED_MOTOR_LINE: "%1 e thomile go sepela %3 %4 go leba go %2",
-  COMBINED_MOTOR_SPEED:
-    "%1 Beakanya lebelo la entšene ye e kopantšwego go %2 %%",
   COMBINED_MOTOR_STOP: "%1 ya entšene e kopantšwego e emiša go sepela",
-  DIRECTION_MOTOR: "%1 e thoma go hudugela go %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 lebelo la entšene le kopantšwego le beakantšwe go %2 %% le %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 e thoma go sepela %2 likhato",
@@ -26372,9 +26218,7 @@ Blockly.ScratchMsgs.locales["sk"] = {
   COMBINED_MOTOR_MOVE: "%1 sa pohybuje o %4 %5 rýchlosťou %2%% + %3%%",
   COMBINED_MOTOR_TURN: "%1 kombinovaný motor %2 %3 %4 %5 pohybov %6 %7",
   COMBINED_MOTOR_LINE: "%1 sa začalo presúvať %3 %4 smerom k %2",
-  COMBINED_MOTOR_SPEED: "%1 Nastaviť kombinovanú rýchlosť motora na %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinovaný motor sa prestane pohybovať",
-  DIRECTION_MOTOR: "%1 sa začína presúvať na %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinovaná rýchlosť motora nastavená na %2 %% a %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 sa začína pohybovať o %2 stupňov",
@@ -26774,9 +26618,7 @@ Blockly.ScratchMsgs.locales["sl"] = {
   COMBINED_MOTOR_MOVE: "%1 premakne %4 %5 s hitrostjo %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinirani motor %2 %3 %4 %5 premakne %6 %7",
   COMBINED_MOTOR_LINE: "%1 se je začel premikati %3 %4 proti %2",
-  COMBINED_MOTOR_SPEED: "%1 Nastavi kombinirano hitrost motorja na %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinirani motor se preneha premikati",
-  DIRECTION_MOTOR: "%1 se začne premikati v %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinirana hitrost motorja je nastavljena na %2 %% in %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 se začne premikati %2 stopinji",
@@ -27174,9 +27016,7 @@ Blockly.ScratchMsgs.locales["sr"] = {
   COMBINED_MOTOR_MOVE: "%1 pomiče %4 %5 brzinom od %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinirani motor %2 %3 %4 %5 pomiče %6 %7",
   COMBINED_MOTOR_LINE: "%1 se počeo kretati %3 %4 prema %2",
-  COMBINED_MOTOR_SPEED: "%1 Postavite kombiniranu brzinu motora na %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinirani motor prestaje se kretati",
-  DIRECTION_MOTOR: "%1 se počinje kretati prema %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinirana brzina motora postavljena na %2 %% i %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 počinje se kretati %2 stupnja",
@@ -27576,9 +27416,7 @@ Blockly.ScratchMsgs.locales["fi"] = {
   COMBINED_MOTOR_MOVE: "%1 siirtää %4 %5 nopeudella %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 yhdistetty moottori %2 %3 %4 %5 liikettä %6 %7",
   COMBINED_MOTOR_LINE: "%1 alkoi liikkua %3 %4 kohti %2",
-  COMBINED_MOTOR_SPEED: "%1 Aseta yhdistetty moottorin nopeus %2 %%",
   COMBINED_MOTOR_STOP: "%1 yhdistetty moottori pysähtyy",
-  DIRECTION_MOTOR: "%1 alkaa siirtyä kohteeseen %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 yhdistetty moottorin nopeus asetettu arvoon %2 %% ja %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 alkaa liikkua %2 astetta",
@@ -27979,9 +27817,7 @@ Blockly.ScratchMsgs.locales["sv"] = {
   COMBINED_MOTOR_MOVE: "%1 flyttar %4 %5 med en hastighet av %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 kombinerad motor %2 %3 %4 %5 flyttar %6 %7",
   COMBINED_MOTOR_LINE: "%1 började flytta %3 %4 mot %2",
-  COMBINED_MOTOR_SPEED: "%1 Ställ in kombinerad motorhastighet till %2 %%",
   COMBINED_MOTOR_STOP: "%1 kombinerad motor slutar röra sig",
-  DIRECTION_MOTOR: "%1 börjar flytta till %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 kombinerad motorhastighet inställd på %2 %% och %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 börjar röra sig %2 grader",
@@ -28384,7 +28220,6 @@ Blockly.ScratchMsgs.locales["vi"] = {
   COMBIND_MOTOR_LINE: "%1 bắt đầu di chuyển %3 %4 về phía %2",
   COMBIND_MOTOR_SPEED: "%1 Đặt tốc độ động cơ kết hợp thành %2 %%",
   COMBIND_MOTOR_STOP: "%1 động cơ kết hợp ngừng chuyển động",
-  DIRECTION_MOTOR: "%1 bắt đầu di chuyển tới %2",
   COMBIND_MOTOR_MOVESTEP:
     "%1 tốc độ động cơ kết hợp được đặt thành %2 %% và %3 %%",
   COMBIND_MOTOR_ANGLE: "%1 bắt đầu di chuyển %2 độ",
@@ -28778,9 +28613,7 @@ Blockly.ScratchMsgs.locales["tr"] = {
   COMBINED_MOTOR_MOVE: "%1 %4 %5'i %2%% + %3 %% oranında hareket ettirir",
   COMBINED_MOTOR_TURN: "%1 birleşik motor %2 %3 %4 %5 hareket %6 %7",
   COMBINED_MOTOR_LINE: "%1, %3 %4'ü %2'ye doğru hareket ettirmeye başladı",
-  COMBINED_MOTOR_SPEED: "%1 Birleşik motor hızını %2 %% olarak ayarlayın",
   COMBINED_MOTOR_STOP: "%1 birleşik motor hareket etmeyi durdurur",
-  DIRECTION_MOTOR: "%1, %2'ye doğru hareket etmeye başlar",
   COMBINED_MOTOR_MOVESTEP:
     "%1 birleşik motor hızı %2 %% ve %3 %% olarak ayarlandı",
   COMBINED_MOTOR_ANGLE: "%1, %2 derece hareket etmeye başlar",
@@ -29182,9 +29015,7 @@ Blockly.ScratchMsgs.locales["uk"] = {
   COMBINED_MOTOR_MOVE: "%1 переміщує %4 %5 зі швидкістю %2%% + %3 %%",
   COMBINED_MOTOR_TURN: "%1 комбінований двигун %2 %3 %4 %5 рухається %6 %7",
   COMBINED_MOTOR_LINE: "%1 почав рух %3 %4 до %2",
-  COMBINED_MOTOR_SPEED: "%1 Встановити комбіновану швидкість двигуна на %2 %%",
   COMBINED_MOTOR_STOP: "%1 комбінований двигун зупиняється",
-  DIRECTION_MOTOR: "%1 починає рух до %2",
   COMBINED_MOTOR_MOVESTEP:
     "%1 комбінована швидкість двигуна встановлена ​​на %2 %% і %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 починає рухатися на %2 градусів",
@@ -29337,16 +29168,14 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   COMBINED_MOTOR_MOVE: "%1 以 %2%% + %3 %%的速率移动 %4 %5",
   COMBINED_MOTOR_TURN: "%1 组合电机 %2 %3 %4 %5 移动 %6 %7",
   COMBINED_MOTOR_LINE: "%1 开始向 %2 移动 %3 %4",
-  COMBINED_MOTOR_SPEED: "%1 将组合电机速率设为 %2 %%",
-  COMBINED_MOTOR_STOP: "%1 组合电机停止运动",
-  DIRECTION_MOTOR: "%1 开始向 %2 移动",
+  COMBINED_MOTOR_STOP: "%1 停止运动",
   COMBINED_MOTOR_MOVESTEP: "%1 组合电机的速率设为 %2 %% 和 %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 开始 %2度 移动",
-  COMBINED_MOTOR_STOPPING: "%1 将运转电机设置为停止时 %2",
-  COMBINED_MOTOR_STARTING: "%1 将组合电机设置为 %2 状态为 %3",
-  COMBINED_MOTOR_STARTWITHPOWER: "%1 组合电机以 %2 %% 和 %3 %% 的功率移动",
+  COMBINED_MOTOR_STOPPING: "%1 将组合电机设置为停止使 %2",
+  COMBINED_MOTOR_STARTING: "%1 将组合电机设置为 %2 转动方向为 %3",
+  COMBINED_MOTOR_STARTWITHPOWER: "%1 以左功率 %2 %% 右功率 %3 %%移动",
   COMBINED_MOTOR_STARTWITHPOWEROBJ:
-    "%1 组合电机以 %2 %% 和 %3 %%的功率 执行 %4 秒",
+    "%1 以左功率 %2 %% 和右功率 %3 %%移动 %4 秒",
   COMBINED_MOTOR_MOVEBYYAWANGLE: "%1 组合电机根据偏航角直线 %2 %3 %4",
   COMBINED_MOTOR_SPINBYYAWANGLE: "%1 组合电机根据偏航角旋转 %2 度",
   COMBINED_MOTOR_PWM: "%1 组合电机设置电机的PWM值为 %2 和 %3",
@@ -29363,7 +29192,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   BIG_MOTOR: "大电机",
   SMALL_MOTOR: "中电机",
   RETARDATION: "制动",
-  FLOAT: "惯性滑行(float)",
+  FLOAT: "惯性滑行",
   PATH: "最短路径",
   CLOCKWISE: "顺时针",
   ANTICLOCKWISE: "逆时针",
@@ -29556,7 +29385,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GET_GRAY_LINE: "%1 获取循迹卡传感器值 %2",
   SENSING_GET_GRAY_LINESTATE: "%1 循迹卡传感器 %2 号的状态是否为1",
   SENSING_LINEPATROLINIT: "巡线参数初始化",
-  SENSING_LINEPATROL: "双巡线 左传感器 %1 右传感器 %2 功率 %3 KP %4 KD %5 ",
+  SENSING_LINEPATROL: "双巡线 左传感器 %1 右传感器 %2 功率 %3 %% KP %4 %% KD %5 ",
   SENSING_LINEPATROL_LTR:
     "双巡线 左传感器 %1 右传感器 %2 左功率 %3 右功率 %4 KP %5 KD %6 ",
   SENSING_JUDGELINESTATE: "判断 %1 当前循迹卡 %2 状态",
@@ -30112,9 +29941,7 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   COMBINED_MOTOR_MOVE: "%1 以 %2%% + %3 %%的速率移動 %4 %5",
   COMBINED_MOTOR_TURN: "%1 組合馬達 %2 %3 %4 %5 移動 %6 %7",
   COMBINED_MOTOR_LINE: "%1 開始往 %2 移動 %3 %4",
-  COMBINED_MOTOR_SPEED: "%1 將組合馬達速率設為 %2 %%",
   COMBINED_MOTOR_STOP: "%1 組合馬達停止移動",
-  DIRECTION_MOTOR: "%1 開始往 %2 移動",
   COMBINED_MOTOR_MOVESTEP: "%1 組合馬達的速率設為 %2 %% 和 %3 %%",
   COMBINED_MOTOR_ANGLE: "%1 開始 %2度 移動",
   COMBINED_MOTOR_STOPPING: "%1 將運轉馬達設定為停止時 %2",

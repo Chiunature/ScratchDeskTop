@@ -15,7 +15,7 @@ const myBlocksIcon = "static/LeftBuildingIcon/HomemadeBlocks.svg";
 
 const categorySeparator = '<sep gap="36"/>';
 
-const blockSeparator = '<sep gap="24"/>'; // At default scale, about 28px
+const blockSeparator = '<sep gap="14"/>'; // At default scale, about 28px
 
 const xmlEscape = function (unsafe) {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -100,19 +100,10 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${blockSeparator}
-                <block type="combined_motor_stop"></block>
-                ${blockSeparator}
                 <block type="combined_motor_stopping"></block>
                 ${blockSeparator}
-                <block type="combined_motor_startWithPower">
-                    <value name="POWER_ONE">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                    <value name="POWER_TWO">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
+                <block type="combined_motor_stop"></block>
+                ${categorySeparator}
                 <block type="combined_motor_startWithPowerObj">
                     <value name="POWER_ONE">
                         <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
@@ -125,6 +116,16 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${blockSeparator}
+                <block type="combined_motor_startWithPower">
+                    <value name="POWER_ONE">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="POWER_TWO">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${categorySeparator}
+
                 <block type="combined_linepatrolInit"></block>
                 ${blockSeparator}
                 <block type="combined_linepatrol_ltr">
@@ -148,14 +149,6 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${categorySeparator}
-                <block type="combined_motor_direction"></block>
-                ${blockSeparator}
-                <block type="combined_motor_speed">
-                    <value name="SPEED">
-                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
                 <block type="combined_forward_offset">
                     <value name="LEFT_OFFSET">
                         <shadow type="math_number"><field name="NUM">0</field></shadow>

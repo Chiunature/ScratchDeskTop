@@ -115,10 +115,10 @@ Blockly.Blocks["combined_motor_starting"] = {
           type: "field_dropdown",
           name: "STATUS",
           options: [
-            ["默认", "3"],
-            ["左电机取反", "0"],
-            ["右电机取反", "1"],
-            ["双电机取反", "2"],
+            ["全部正向", "3"],
+            ["左电机反向", "0"],
+            ["右电机反向", "1"],
+            ["全部反向", "2"],
           ],
         },
       ],
@@ -128,110 +128,6 @@ Blockly.Blocks["combined_motor_starting"] = {
   },
 };
 
-Blockly.Blocks["combined_motor_direction"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.DIRECTION_MOTOR,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "field_dropdown",
-          name: "direction",
-          options: [
-            [
-              {
-                src: Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.ADVANCE,
-              },
-              "Advance",
-            ],
-            [
-              {
-                src: Blockly.mainWorkspace.options.pathToMedia + "back.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.BACK,
-              },
-              "Retreat",
-            ],
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia + "turn-left.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.TURNLEFT,
-              },
-              "left",
-            ],
-            [
-              {
-                src:
-                  Blockly.mainWorkspace.options.pathToMedia + "turn-right.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.TURNRIGHT,
-              },
-              "right",
-            ],
-            [
-              {
-                src: Blockly.mainWorkspace.options.pathToMedia + "stop.svg",
-                width: 25,
-                height: 25,
-                alt: Blockly.Msg.STOP,
-              },
-              "stop",
-            ],
-          ],
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
-
-Blockly.Blocks["combined_motor_speed"] = {
-  /**
-   * Block to move steps.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.COMBINED_MOTOR_SPEED,
-      args0: [
-        {
-          type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
-          width: 32,
-          height: 32,
-          alt: "*",
-          flipRtl: false,
-        },
-        {
-          type: "input_value",
-          name: "SPEED",
-        },
-      ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
-    });
-  },
-};
 
 Blockly.Blocks["combined_motor_turn"] = {
   /**
