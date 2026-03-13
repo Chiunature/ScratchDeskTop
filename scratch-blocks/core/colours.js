@@ -37,9 +37,9 @@ Blockly.Colours = {
     quaternary: "#00b0f9",
   },
   combined_motor: {
-    primary: "#2388ca",
-    secondary: "#4280D7",
-    tertiary: "#3373CC",
+    primary: "#FF4CCD",
+    secondary: "#FF33A3",
+    tertiary: "#FF1A84",
   },
   matrix: {
     primary: "#7986b8",
@@ -67,9 +67,10 @@ Blockly.Colours = {
     tertiary: "#be637f",
   },
   sensing: {
-    primary: "#f18e2f",
-    secondary: "#f18e2f",
-    tertiary: "#d67214",
+    primary: "#34CCF1",
+    secondary: "#2EBDDA",
+    tertiary: "#27A7C9",
+    quaternary: "#27A7C9",
   },
   cameraRecognition: {
     primary: "#59C059",

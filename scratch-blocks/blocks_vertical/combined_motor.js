@@ -576,8 +576,8 @@ Blockly.Blocks["combined_forward_offset"] = {
           name: "RIGHT_OFFSET",
         },
       ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
     });
   },
 };
@@ -605,8 +605,8 @@ Blockly.Blocks["combined_backward_offset"] = {
           name: "RIGHT_OFFSET",
         },
       ],
-      category: Blockly.Categories.combined_motor,
-      extensions: ["colours_combined_motor", "shape_statement"],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
     });
   },
 };

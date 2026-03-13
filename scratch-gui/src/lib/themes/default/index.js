@@ -1,3 +1,4 @@
+// core/colours.js 里的默认颜色，会在运行时被 GUI 里的 default/index.js（以及其它主题）通过 overrideColours 覆盖。
 const blockColors = {
     motor: {
         primary: "#4C97FF",
@@ -12,10 +13,10 @@ const blockColors = {
         quaternary: "#3373CC",
     },
     combined_motor: {
-        primary: "#CF63CF",
-        secondary: "#C94FC9",
-        tertiary: "#BD42BD",
-        quaternary: "#BD42BD",
+        primary: "#FF4CCD",
+        secondary: "#FF33A3",
+        tertiary: "#FF1A84",
+        quaternary: "#FF1A84",
     },
     matrix: {
         primary: "#9966FF",
@@ -48,10 +49,10 @@ const blockColors = {
         quaternary: "#CC9900",
     },
     sensing: {
-        primary: "#5CB1D6",
-        secondary: "#47A8D1",
-        tertiary: "#2E8EB8",
-        quaternary: "#2E8EB8",
+        primary: "#34CCF1",
+        secondary: "#2EBDDA",
+        tertiary: "#27A7C9",
+        quaternary: "#27A7C9",
     },
     pen: {
         primary: "#0fBD8C",
