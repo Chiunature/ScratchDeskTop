@@ -230,6 +230,14 @@ Blockly.Blocks["sensing_reflected_light_judgment"] = {
       message0: Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -264,6 +272,14 @@ Blockly.Blocks["sensing_reflected_light_detection"] = {
       message0: Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -285,12 +301,20 @@ Blockly.Blocks["sensing_grayscale_state"] = {
       message0: Blockly.Msg.SENSING_GRAYSCALE_STATE,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
       ],
       category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "output_number"],
+      extensions: ["colours_sensing", "output_boolean"],
     });
   },
 };
@@ -305,6 +329,14 @@ Blockly.Blocks["sensing_one_calibrate"] = {
       type: "sensing_one_calibrate",
       message0: Blockly.Msg.SENSING_ONE_CALIBRATE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -330,6 +362,14 @@ Blockly.Blocks["sensing_two_calibrate"] = {
       type: "sensing_two_calibrate",
       message0: Blockly.Msg.SENSING_TWO_CALIBRATE,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT1",
@@ -396,6 +436,14 @@ Blockly.Blocks["sensing_ultrasonic_judgment"] = {
       message0: Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT,
       args0: [
         {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "ultrasonic.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -429,6 +477,14 @@ Blockly.Blocks["sensing_ultrasonic_detection"] = {
       type: "sensing_ultrasonic_detection",
       message0: Blockly.Msg.SENSING_ULTRASONIC_DETECTION,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "ultrasonic.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -465,6 +521,14 @@ Blockly.Blocks["sensing_key_judgment"] = {
       type: "sensing_key_judgment",
       message0: Blockly.Msg.SENSING_KEY_JUDGMENT,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "touch.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -625,6 +689,14 @@ Blockly.Blocks["sensing_isHandling"] = {
       type: "sensing_isHandling",
       message0: Blockly.Msg.SENSING_ISHANDLING,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT",
@@ -888,6 +960,16 @@ Blockly.Blocks["read_adcance_left_offset"] = {
     this.jsonInit({
       type: "read_adcance_left_offset",
       message0: Blockly.Msg.READ_ADCANCE_LEFT_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+      ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
     });
@@ -899,6 +981,16 @@ Blockly.Blocks["read_advance_right_offset"] = {
     this.jsonInit({
       type: "read_advance_right_offset",
       message0: Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+      ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
     });
@@ -910,6 +1002,16 @@ Blockly.Blocks["read_retreat_left_offset"] = {
     this.jsonInit({
       type: "read_retreat_left_offset",
       message0: Blockly.Msg.READ_RETRACH_LEFT_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+      ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
     });
@@ -921,6 +1023,16 @@ Blockly.Blocks["read_retreat_right_offset"] = {
     this.jsonInit({
       type: "read_retreat_right_offset",
       message0: Blockly.Msg.READ_RETREAT_RIGHT_OFFSET,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+      ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
     });

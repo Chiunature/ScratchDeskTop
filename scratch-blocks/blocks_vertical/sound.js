@@ -273,9 +273,14 @@ Blockly.Blocks['sound_PlayMusic'] = {
     this.jsonInit({
       "message0": Blockly.Msg.SOUND_PLAYMUSIC,
       "args0": [
-        // {
-        //   "type": "field_vertical_separator"
-        // },
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "music.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           "type": "input_value",
           "name": "NOTE"

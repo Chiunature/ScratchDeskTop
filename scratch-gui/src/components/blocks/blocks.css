@@ -127,6 +127,7 @@
     margin: 0 auto 0.125rem;
 }
 
-/* .blocks :global(.blocklyToolboxTriggerIcon) {
-    transition: all .2s;
-} */
+.blocks :global(.letter-spacing .blocklyFlyoutLabelText) {
+    font-size: 1.25rem;
+    fill: #575e75;
+}

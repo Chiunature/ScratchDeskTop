@@ -149,23 +149,6 @@ const combined_motor = function ({
                     </value>
                 </block>
                 ${categorySeparator}
-                <block type="combined_forward_offset">
-                    <value name="LEFT_OFFSET">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
-                    <value name="RIGHT_OFFSET">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
-                </block>
-                ${blockSeparator}
-                <block type="combined_backward_offset">
-                    <value name="LEFT_OFFSET">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value>
-                    <value name="RIGHT_OFFSET">
-                        <shadow type="math_number"><field name="NUM">0</field></shadow>
-                    </value></block>
-                ${blockSeparator}
             </category>
             `;
 };
@@ -287,6 +270,13 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}" iconURI="${sensingIcon}">
+            <label text="触碰传感器" web-class="letter-spacing" />
+            <block type="sensing_key_judgment">
+                <value name="PORT">
+                    <shadow type="touching_menu" />
+                </value>
+            </block>
+            <label text="灰度传感器" web-class="letter-spacing" />
             <block type="sensing_reflected_light_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -301,13 +291,13 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${categorySeparator}
+            ${blockSeparator}
             <block type="sensing_grayscale_state">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${categorySeparator}
+            ${blockSeparator}
             <block type="sensing_one_calibrate">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -316,7 +306,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="math_number"><field name="NUM">1</field></shadow>
                 </value>
             </block>
-            ${categorySeparator}
+            ${blockSeparator}
             <block type="sensing_two_calibrate">
                 <value name="PORT1">
                     <shadow type="sensing_menu" />
@@ -328,15 +318,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="math_number"><field name="NUM">1</field></shadow>
                 </value>
             </block>
-            ${categorySeparator}
-            <block type="read_adcance_left_offset"></block>
-            ${blockSeparator}
-            <block type="read_advance_right_offset"></block>
-            ${blockSeparator}
-            <block type="read_retreat_left_offset"></block>
-            ${blockSeparator}
-            <block type="read_retreat_right_offset"></block>
-            ${blockSeparator}
+            <label text="超声波传感器" web-class="letter-spacing" />
             <block type="sensing_ultrasonic_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -351,18 +333,40 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            ${blockSeparator}
-            <block type="sensing_key_judgment">
-                <value name="PORT">
-                    <shadow type="touching_menu" />
-                </value>
-            </block>
-            ${blockSeparator}
+            <label text="遥控器" web-class="letter-spacing" />
             <block type="sensing_isHandling">
                 <value name="PORT">
                     <shadow type="handShank_menu" />
                 </value>
             </block>
+            ${blockSeparator}
+            <block type="combined_forward_offset">
+                <value name="LEFT_OFFSET">
+                    <shadow type="math_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="RIGHT_OFFSET">
+                    <shadow type="math_number"><field name="NUM">0</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="combined_backward_offset">
+                <value name="LEFT_OFFSET">
+                    <shadow type="math_number"><field name="NUM">0</field></shadow>
+                </value>
+                <value name="RIGHT_OFFSET">
+                    <shadow type="math_number"><field name="NUM">0</field></shadow>
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="read_adcance_left_offset"></block>
+            ${blockSeparator}
+            <block type="read_advance_right_offset"></block>
+            ${blockSeparator}
+            <block type="read_retreat_left_offset"></block>
+            ${blockSeparator}
+            <block type="read_retreat_right_offset"></block>
+            ${blockSeparator}
+            <label text="其他" web-class="letter-spacing" />
             ${blockSeparator}
             <block type="sensing_mainIsPress"></block>
             ${categorySeparator}

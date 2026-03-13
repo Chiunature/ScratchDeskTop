@@ -128,7 +128,6 @@ Blockly.Blocks["combined_motor_starting"] = {
   },
 };
 
-
 Blockly.Blocks["combined_motor_turn"] = {
   /**
    * Block to move steps.
@@ -492,7 +491,16 @@ Blockly.Blocks["combined_linepatrolInit"] = {
     this.jsonInit({
       type: "combined_linepatrolInit",
       message0: Blockly.Msg.SENSING_LINEPATROLINIT,
-      args0: [],
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+      ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
     });
@@ -505,6 +513,14 @@ Blockly.Blocks["combined_linepatrol_ltr"] = {
       type: "combined_linepatrol_ltr",
       message0: Blockly.Msg.SENSING_LINEPATROL_LTR,
       args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
         {
           type: "input_value",
           name: "PORT_ONE",
@@ -529,10 +545,6 @@ Blockly.Blocks["combined_linepatrol_ltr"] = {
           type: "input_value",
           name: "KD",
         },
-        // {
-        //   type: "input_value",
-        //   name: "SPIN_PARAMS",
-        // },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
@@ -549,7 +561,7 @@ Blockly.Blocks["combined_forward_offset"] = {
       args0: [
         {
           type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
           width: 32,
           height: 32,
           alt: "*",
@@ -578,7 +590,7 @@ Blockly.Blocks["combined_backward_offset"] = {
       args0: [
         {
           type: "field_image",
-          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          src: Blockly.mainWorkspace.options.pathToMedia + "handleShank.svg",
           width: 32,
           height: 32,
           alt: "*",

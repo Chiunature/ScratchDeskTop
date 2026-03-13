@@ -533,8 +533,8 @@ Blockly.Css.CONTENT = [
   // 工具栏标签文本
   ".blocklyFlyoutLabelText {",
   'font-family: "Helvetica Neue", Helvetica, sans-serif;',
-  "font-size: 16pt;",
-  "fill: #575E75;",
+  "font-size:1.5rem;",
+  "fill:#000;",
   "font-weight: bold;",
   "}",
 
