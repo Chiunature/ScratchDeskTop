@@ -281,6 +281,7 @@ Blockly.Blocks['sound_PlayMusic'] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           "type": "input_value",
           "name": "NOTE"

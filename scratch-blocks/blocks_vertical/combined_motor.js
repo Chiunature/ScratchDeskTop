@@ -107,6 +107,7 @@ Blockly.Blocks["combined_motor_starting"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "PORT",
@@ -303,6 +304,9 @@ Blockly.Blocks["combined_motor_stop"] = {
           alt: "*",
           flipRtl: false,
         },
+        {
+          type: "field_vertical_separator",
+        },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
@@ -404,6 +408,9 @@ Blockly.Blocks["combined_motor_stopping"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "field_dropdown",
           name: "status",
           options: [
@@ -434,6 +441,9 @@ Blockly.Blocks["combined_motor_startWithPower"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -468,6 +478,9 @@ Blockly.Blocks["combined_motor_startWithPowerObj"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "POWER_ONE",
         },
@@ -500,6 +513,9 @@ Blockly.Blocks["combined_linepatrolInit"] = {
           alt: "*",
           flipRtl: false,
         },
+        {
+          type: "field_vertical_separator",
+        },
       ],
       category: Blockly.Categories.combined_motor,
       extensions: ["colours_combined_motor", "shape_statement"],
@@ -520,6 +536,9 @@ Blockly.Blocks["combined_linepatrol_ltr"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -568,6 +587,9 @@ Blockly.Blocks["combined_forward_offset"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "LEFT_OFFSET",
         },
@@ -597,6 +619,9 @@ Blockly.Blocks["combined_backward_offset"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "LEFT_OFFSET",
         },
@@ -610,3 +635,147 @@ Blockly.Blocks["combined_backward_offset"] = {
     });
   },
 };
+
+Blockly.Blocks["combined_mov_dir_power_seconds"] = {
+  init: function () {
+    this.jsonInit({
+      type: "combined_mov_dir_power_seconds",
+      message0: Blockly.Msg.COMBINED_MOV_DIR_POWER_SECONDS,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        { type: "field_vertical_separator" },
+        {
+          type: "field_dropdown",
+          name: "DIRECTION",
+          options: [
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.ADVANCE,
+              },
+              "advance",
+            ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "back.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.BACK,
+              },
+              "retreat",
+            ],
+            [
+              {
+                src:
+                  Blockly.mainWorkspace.options.pathToMedia + "turn-left.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.TURNLEFT,
+              },
+              "left",
+            ],
+            [
+              {
+                src:
+                  Blockly.mainWorkspace.options.pathToMedia + "turn-right.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.TURNRIGHT,
+              },
+              "right",
+            ],
+          ],
+        },
+        {
+          type: "input_value",
+          name: "POWER",
+        },
+        {
+          type: "input_value",
+          name: "SECONDS",
+        },
+      ],
+      category: Blockly.Categories.combined_motor,
+      extensions: ["colours_combined_motor", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["combined_mov_dir_power"] = {
+  init: function () {
+    this.jsonInit({
+      type: "combined_mov_dir_power",
+      message0: Blockly.Msg.COMBINED_MOV_DIR_POWER,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "combined_motor.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        { type: "field_vertical_separator" },        {
+          type: "field_dropdown",
+          name: "DIRECTION",
+          options: [
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "advance.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.ADVANCE,
+              },
+              "advance",
+            ],
+            [
+              {
+                src: Blockly.mainWorkspace.options.pathToMedia + "back.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.BACK,
+              },
+              "retreat",
+            ],
+            [
+              {
+                src:
+                  Blockly.mainWorkspace.options.pathToMedia + "turn-left.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.TURNLEFT,
+              },
+              "left",
+            ],
+            [
+              {
+                src:
+                  Blockly.mainWorkspace.options.pathToMedia + "turn-right.svg",
+                width: 25,
+                height: 25,
+                alt: Blockly.Msg.TURNRIGHT,
+              },
+              "right",
+            ],
+          ],
+        },
+        {
+          type: "input_value",
+          name: "POWER",
+        },
+      ],
+      category: Blockly.Categories.combined_motor,
+      extensions: ["colours_combined_motor", "shape_statement"],
+    });
+  },
+};
+      

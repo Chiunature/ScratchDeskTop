@@ -15,13 +15,11 @@ Blockly.Python["sensing_port_to_number"] = function (port) {
 
 Blockly.Python["sensing_menu"] = function (block) {
   const menu = block.getFieldValue("SENSING_MENU");
-  // TODO: Assemble Python into code variable.
   return [`"${menu}"`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python["handShank_menu"] = function (block) {
   const handShankValue = block.getFieldValue("HAND_SHANK");
-  console.log("handShankValue", handShankValue);
   // 必须返回 [code, order] 元组，否则 valueToCode 会把字符串当 tuple 用 tuple[0] 取到首字母
   return [handShankValue, Blockly.Python.ORDER_ATOMIC];
 };
@@ -445,7 +443,7 @@ Blockly.Python["sensing_one_calibrate"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   return Blockly.Python.handleResult(
-    `one_calibrate(${portValue}, ${parseInt(seconds, 10)})\n`,
+    `one_calibrate(${portValue}, ${seconds})\n`,
     Blockly.Python.COLOR_TYPE
   );
 };
@@ -469,35 +467,57 @@ Blockly.Python["sensing_two_calibrate"] = function (block) {
     Blockly.Python.ORDER_NONE
   );
   return Blockly.Python.handleResult(
-    `two_calibrate(${port1Value}, ${port2Value}, ${parseInt(seconds, 10)})\n`,
+    `two_calibrate(${port1Value}, ${port2Value}, ${seconds})\n`,
     Blockly.Python.COLOR_TYPE
   );
 };
 //读取前进左偏移量
 Blockly.Python["read_adcance_left_offset"] = function (block) {
-  return Blockly.Python.handleResult(
+  const code = Blockly.Python.handleResult(
     `read_adcance_left_offset()\n`,
     Blockly.Python.KEY_TYPE
   );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 //读取前进右偏移量
 Blockly.Python["read_advance_right_offset"] = function (block) {
-  return Blockly.Python.handleResult(
+  const code = Blockly.Python.handleResult(
     `read_advance_right_offset()\n`,
     Blockly.Python.KEY_TYPE
   );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 //读取后退左偏移量
 Blockly.Python["read_retreat_left_offset"] = function (block) {
-  return Blockly.Python.handleResult(
+  const code = Blockly.Python.handleResult(
     `read_retreat_left_offset()\n`,
     Blockly.Python.KEY_TYPE
   );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 //读取后退右偏移量
 Blockly.Python["read_retreat_right_offset"] = function (block) {
-  return Blockly.Python.handleResult(
+  const code = Blockly.Python.handleResult(
     `read_retreat_right_offset()\n`,
     Blockly.Python.KEY_TYPE
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["set_color_threshold_value"] = function (block) {
+  const port = Blockly.Python.valueToCode(
+    block,
+    "PORT",
+    Blockly.Python.ORDER_NONE
+  );
+  const portValue = Blockly.Python["sensing_port_to_number"](port);
+  const threshold = Blockly.Python.valueToCode(
+    block,
+    "THRESHOLD",
+    Blockly.Python.ORDER_NONE
+  );
+  return Blockly.Python.handleResult(
+    `set_color_threshold_value(${portValue}, ${threshold})\n`,
+    Blockly.Python.COLOR_TYPE
   );
 };

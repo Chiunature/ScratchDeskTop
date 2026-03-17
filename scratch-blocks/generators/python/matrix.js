@@ -45,40 +45,7 @@ Blockly.Python["matrix_y"] = function (block) {
 
 Blockly.Python["matrix_lamp"] = function (block) {
   let lamp = block.getFieldValue("lamp");
-  // let no,
-  //   id = block.id,
-  //   blockDB_ = block.workspace.blockDB_;
-  // Object.keys(blockDB_).map((el, index) => {
-  //   if (el == id) {
-  //     if (index > 0) no = index - 1;
-  //     else no = index;
-  //   }
-  // });
-  // let color = Blockly.Python.valueToCode(
-  //   block,
-  //   "COLOR",
-  //   Blockly.Python.ORDER_ATOMIC
-  // );
-  // console.log("灯", lamp);
   let lp = Blockly.Python.stringToHex(lamp);
-  // let newColor;
-  // if (
-  //   typeof color === "string" &&
-  //   color.indexOf("(") === -1 &&
-  //   color.indexOf("#") !== -1
-  // ) {
-  //   const pre = Blockly.Python.hexToRgb(color);
-  //   // const target = Blockly.Python.rgbToGrb(pre);
-  //   const last = Blockly.Python.grbToHex(pre);
-  //   if (!pre) {
-  //     return;
-  //   }
-  //   newColor = last.replace(/\'/g, "");
-  // } else {
-  //   newColor = color;
-  // }
-
-  // TODO: Assemble Python into code variable.
   let code = `show(${lp})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };

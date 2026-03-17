@@ -149,10 +149,10 @@ Blockly.Msg.LOOKS_RANDOMBACKDROP = "random backdrop";
 Blockly.Msg.STARTING_COMBINED_MOTOR = "%1 set the running motor to %2 %3";
 Blockly.Msg.COMBINED_MOTOR_LINE = "%1 %2 moving %3 %4";
 Blockly.Msg.COMBINED_MOTOR_TURN = "%1 combined motor %2 %3 %4 %5 moving %6 %7";
-Blockly.Msg.COMBINED_MOTOR_STOP = "%1 stops moving";
+Blockly.Msg.COMBINED_MOTOR_STOP = "%1 %2 stops moving";
 Blockly.Msg.COMBINED_MOTOR_MOVESTEP = "%1 at a speed of %2 and %3 %% to move";
 Blockly.Msg.COMBINED_MOTOR_STOPPING =
-  "%1 Set the combined motor to stop and %2";
+  "%1 %2 Set the combined motor to stop and %3";
 Blockly.Msg.COMBINED_MOTOR_ANGLE = "%1 starts move %2";
 Blockly.Msg.TURN_COMBINED_MOTOR = "%1 %2 %3 move %4 %5";
 Blockly.Msg.LINE_COMBINED_MOTOR = "%1 %2 move %3 %4";
@@ -164,9 +164,9 @@ Blockly.Msg.MOVEPOWER_COMBINED_MOTOR =
 Blockly.Msg.STOPPING_COMBINED_MOTOR =
   "%1 When setting the running motor to stop %2";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWER =
-  "%1 move with left power %2 %% and right power %3 %%";
+  "%1 %2 move with left power %3 %% and right power %4 %%";
 Blockly.Msg.COMBINED_MOTOR_STARTWITHPOWEROBJ =
-  "%1 moves for %4 seconds with left power %2 %% and right power %3 %%";
+  "%1 %2 moves for %5 seconds with left power %3 %% and right power %4 %%";
 Blockly.Msg.COMBINED_MOTOR_MOVEBYYAWANGLE =
   "%1 combination motor based on yaw angle straight line %2 %3 %4";
 Blockly.Msg.COMBINED_MOTOR_SPINBYYAWANGLE =
@@ -194,16 +194,20 @@ Blockly.Msg.RATE_MOTOR = "%1 %2 speed";
 Blockly.Msg.ANGLE_MOTOR = "%1 %2 angle";
 Blockly.Msg.MOTOR_POSITION = "%1 %2 position";
 Blockly.Msg.SPECIFIEDANGLE_MOTOR = "%1 %2 with %3 go to %4";
-Blockly.Msg.SPECIFIEDUNIT_MOTOR = "%1 %2 rotates at %3%% power for %4 seconds";
-Blockly.Msg.STOP_MOTOR = "%1 %2 stop motor";
+Blockly.Msg.SPECIFIEDUNIT_MOTOR =
+  "%1 %2 %3 rotates at %4%% power for %5 seconds";
+Blockly.Msg.STOP_MOTOR = "%1 %2 %3 stop motor";
 Blockly.Msg.RELATIVE_POSITION =
   "%1 %2 Set the relative position of the motor %3";
-Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
+Blockly.Msg.SPECIFIED_MANNER = "%1 %2 %3 When setting the motor to stop %4";
 Blockly.Msg.COMBINED_FORWARD_OFFSET =
-  "%1 set the combined motor forward offset to left %2 and right %3";
+  "%1 %2 set the combined motor forward offset to left %3 and right %4";
 Blockly.Msg.COMBINED_BACKWARD_OFFSET =
-  "%1 set the combined motor backward offset to left %2 and right %3";
-Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 motor %2 is running at %3%% power";
+  "%1 %2 set the combined motor backward offset to left %3 and right %4";
+Blockly.Msg.COMBINED_MOV_DIR_POWER = "%1 %2 %3 move at power %4 %%";
+Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 %2 motor %3 is running at %4%% power";
+Blockly.Msg.COMBINED_MOV_DIR_POWER_SECONDS =
+  "%1 %2 %3 rotate at power %4%% for %5 seconds";
 Blockly.Msg.MOTOR_ACCELERATION =
   "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL =
@@ -324,26 +328,28 @@ Blockly.Msg.SENSING_MAGNETIC_CALIBRATION = "Magnetic field calibration";
 Blockly.Msg.SENSING_GYROSCOPE_ATTITUDE = "attitude %1";
 Blockly.Msg.SENSING_GYROSCOPE_ACCELERATION = "acceleration %1 G";
 Blockly.Msg.SENSING_KEY_PRESS = "%1 key is %2";
-Blockly.Msg.SENSING_KEY_JUDGMENT = "%1 Is the touch sensor %2 pressed?";
+Blockly.Msg.SENSING_KEY_JUDGMENT = "%1 %2 Is the touch sensor %3 pressed?";
 Blockly.Msg.SENSING_SOUND_INTENSITY = "Obtain sound intensity";
 Blockly.Msg.SENSING_ULTRASONIC_DETECTION =
-  "%1 The value of ultrasonic sensor %2";
+  "%1 %2 The value of ultrasonic sensor %3";
 Blockly.Msg.SENSING_NFC_READ = "NFC %1 read";
 Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT =
-  "%1 Is the distance from ultrasonic sensor %2 %3 %4 cm?";
+  "%1 %2 Is the distance from ultrasonic sensor %3 %4 %5 cm?";
 Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = "line %1 looks %2";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION =
-  "%1 The value of grayscale sensor %2";
+  "%1 %2 The value of grayscale sensor %3";
 Blockly.Msg.SENSING_GRAYSCALE_STATE =
-  "%1 Is the grayscale sensor %2 triggered?";
-Blockly.Msg.SENSING_ONE_CALIBRATE = "%1 %2 Calibrate %3 seconds";
-Blockly.Msg.SENSING_TWO_CALIBRATE = "%1 %2 and %3 Calibrate %4 seconds";
-Blockly.Msg.READ_ADCANCE_LEFT_OFFSET = "%1 Read advance left offset";
-Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET = "%1 Read advance right offset";
-Blockly.Msg.READ_RETRACH_LEFT_OFFSET = "%1 Read retreat left offset";
-Blockly.Msg.READ_RETREAT_RIGHT_OFFSET = "%1 Read retreat right offset";
+  "%1 %2 Is the grayscale sensor %3 triggered?";
+Blockly.Msg.SENSING_ONE_CALIBRATE = "%1 %2 %3 Calibrate %4 seconds";
+Blockly.Msg.SENSING_TWO_CALIBRATE = "%1 %2 %3 and %4 Calibrate %5 seconds";
+Blockly.Msg.SET_COLOR_THRESHOLD_VALUE =
+  "%1 %2 set the threshold of photoelectric sensor %3 to %4";
+Blockly.Msg.READ_ADCANCE_LEFT_OFFSET = "%1 %2 Read advance left offset";
+Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET = "%1 %2 Read advance right offset";
+Blockly.Msg.READ_RETRACH_LEFT_OFFSET = "%1 %2 Read retreat left offset";
+Blockly.Msg.READ_RETREAT_RIGHT_OFFSET = "%1 %2 Read retreat right offset";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT =
-  "%1 The reflected light from grayscale sensor %2 is %3 %4？";
+  "%1 %2 The reflected light from grayscale sensor %3 is %4 %5？";
 Blockly.Msg.SENSING_COLOR_DETECTIONRGB = "%1 color is %2";
 Blockly.Msg.SENSING_COLOR_DETECTION = "%1 color";
 Blockly.Msg.SENSING_COLOR_JUDGMENT = "%1 color is %2";
@@ -392,7 +398,7 @@ Blockly.Msg.SENSING_USERNAME = "username";
 Blockly.Msg.SENSING_USERID = "user id";
 Blockly.Msg.SENSING_GYROSCOPE_ANGLE = "%1's angle";
 Blockly.Msg.SENSING_SET_YAW_ANGLE = "Set yaw angle to 0";
-Blockly.Msg.SENSING_ISHANDLING = "%1 Is the %2 button of the handle %3";
+Blockly.Msg.SENSING_ISHANDLING = "%1 %2 Is the %3 button of the handle %4";
 Blockly.Msg.SENSING_HANDLING = "Controller %1 rocker %2 axis";
 Blockly.Msg.SENSING_MAINISPRESS = "Is the %1 button of the host %2";
 Blockly.Msg.SENSING_COLOR_RANGE =
@@ -403,11 +409,11 @@ Blockly.Msg.SENSING_REFLECTED_LIGHT_BLACKLINE =
 Blockly.Msg.SENSING_GET_GRAY_LINE = "%1 Obtain grayscale sensor values %2";
 Blockly.Msg.SENSING_GET_GRAY_LINESTATE =
   "%1 Is it Obtain grayscale sensor values %2 ?";
-Blockly.Msg.SENSING_LINEPATROLINIT = "%1 Initialize the linepatrol";
+Blockly.Msg.SENSING_LINEPATROLINIT = "%1 %2 Initialize the linepatrol";
 Blockly.Msg.SENSING_LINEPATROL =
   "The linepatrol %1 %2 power is %3 KP %4 KD %5 ";
 Blockly.Msg.SENSING_LINEPATROL_LTR =
-  "%1 Dual line patrol: Left sensor %2 Right sensor %3 Left power %4 %% Right power %5 %% KP %6 KD %7";
+  "%1 %2 Dual line patrol: Left sensor %3 Right sensor %4 Left power %5 %% Right power %6 %% KP %7 KD %8";
 Blockly.Msg.SENSING_JUDGELINESTATE =
   "Determine %1 the current grayscale %2 status";
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK =
@@ -496,14 +502,15 @@ Blockly.Msg.SOUND_SETVOLUMETO = "set volume to %1%";
 Blockly.Msg.SOUND_VOLUME = "volume";
 Blockly.Msg.SOUND_RECORD = "record...";
 Blockly.Msg.SOUND_SETPLAYSPEED = "Set performance speed to %1";
-Blockly.Msg.SOUND_PLAYMUSIC = "%1 Play note %2 for %3 beats";
+Blockly.Msg.SOUND_PLAYMUSIC = "%1 %2 Play note %3 for %4 beats";
 //Matrix blocks
-Blockly.Msg.MATRIX_LAMP = "%1 light %2";
-Blockly.Msg.STOP_MATRIX_LAMP = "%1 turn off pixel lights";
-Blockly.Msg.SET_MATRIX_LAMP = "%1 set the brightness of the pixel light to %2";
-Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 turn on Pixels x %2 y %3 %4";
+Blockly.Msg.MATRIX_LAMP = "%1 %2 light %3";
+Blockly.Msg.STOP_MATRIX_LAMP = "%1 %2 turn off pixel lights";
+Blockly.Msg.SET_MATRIX_LAMP =
+  "%1 %2 set the brightness of the pixel light to %3";
+Blockly.Msg.SINGLE_MATRIX_LAMP = "%1 %2 turn on Pixels x %3 y %4 %5";
 Blockly.Msg.SET_PIXEL_MATRIX_LAMP = "%1 Turn on the small light %2 x %3 y";
-Blockly.Msg.TEXT_MATRIX_LAMP = "%1 text display %2 %3";
+Blockly.Msg.TEXT_MATRIX_LAMP = "%1 %2 text display %3 %4";
 Blockly.Msg.SETRGB_MATRIX_LAMP = "%1 light serial number %2 color %3";
 Blockly.Msg.USERGB_MATRIX_LAMP = "%1 %2 light";
 Blockly.Msg.MATRIX_COLOR = "%1 set the light's color is %2";

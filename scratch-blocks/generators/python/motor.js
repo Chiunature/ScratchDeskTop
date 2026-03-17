@@ -45,7 +45,7 @@ Blockly.Python["motor_specifiedunit"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const code = `run_for_power_degrees(${port}, ${power}, ${count}, "seconds")\n`;
+  const code = `run_for_power_seconds(${port}, ${power}, ${count})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 

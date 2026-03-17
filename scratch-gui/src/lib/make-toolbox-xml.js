@@ -102,6 +102,21 @@ const combined_motor = function ({
                 ${blockSeparator}
                 <block type="combined_motor_stopping"></block>
                 ${blockSeparator}
+                <block type="combined_mov_dir_power_seconds">
+                    <value name="POWER">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                    <value name="SECONDS">
+                        <shadow type="math_number"><field name="NUM">1</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
+                <block type="combined_mov_dir_power">
+                    <value name="POWER">
+                        <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+                    </value>
+                </block>
+                ${blockSeparator}
                 <block type="combined_motor_stop"></block>
                 ${categorySeparator}
                 <block type="combined_motor_startWithPowerObj">
@@ -289,6 +304,15 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             <block type="sensing_reflected_light_detection">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
+                </value>
+            </block>
+            ${blockSeparator}
+            <block type="set_color_threshold_value">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+                <value name="THRESHOLD">
+                    <shadow type="math_number"><field name="NUM">1000</field></shadow>
                 </value>
             </block>
             ${blockSeparator}

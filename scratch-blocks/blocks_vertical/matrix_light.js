@@ -24,6 +24,7 @@ Blockly.Blocks["matrix_lamp"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "field_matrix",
           name: "lamp",
@@ -57,6 +58,7 @@ Blockly.Blocks["matrix_lamp_stop"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
       ],
       category: Blockly.Categories.matrix,
       colour: "#9966FF",
@@ -83,6 +85,7 @@ Blockly.Blocks["matrix_lamp_set"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "field_dropdown",
           name: "brightness",
@@ -221,6 +224,7 @@ Blockly.Blocks["matrix_lamp_single"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "x",
@@ -263,6 +267,7 @@ Blockly.Blocks["matrix_lamp_text"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "matrix_text",

@@ -152,6 +152,7 @@ Blockly.Blocks["motor_stop"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "PORT",
@@ -180,6 +181,7 @@ Blockly.Blocks["motor_specifiedunit"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "PORT",
@@ -289,6 +291,7 @@ Blockly.Blocks["motor_specified_manner"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "PORT",
@@ -409,6 +412,7 @@ Blockly.Blocks["motor_startWithPower"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
         {
           type: "input_value",
           name: "PORT",

@@ -238,6 +238,9 @@ Blockly.Blocks["sensing_reflected_light_judgment"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -280,6 +283,9 @@ Blockly.Blocks["sensing_reflected_light_detection"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -309,6 +315,9 @@ Blockly.Blocks["sensing_grayscale_state"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -336,6 +345,9 @@ Blockly.Blocks["sensing_one_calibrate"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -369,6 +381,9 @@ Blockly.Blocks["sensing_two_calibrate"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -444,6 +459,9 @@ Blockly.Blocks["sensing_ultrasonic_judgment"] = {
           flipRtl: false,
         },
         {
+          type: "field_vertical_separator",
+        },
+        {
           type: "input_value",
           name: "PORT",
         },
@@ -484,6 +502,9 @@ Blockly.Blocks["sensing_ultrasonic_detection"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -528,6 +549,9 @@ Blockly.Blocks["sensing_key_judgment"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -696,6 +720,9 @@ Blockly.Blocks["sensing_isHandling"] = {
           height: 32,
           alt: "*",
           flipRtl: false,
+        },
+        {
+          type: "field_vertical_separator",
         },
         {
           type: "input_value",
@@ -969,6 +996,7 @@ Blockly.Blocks["read_adcance_left_offset"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
@@ -990,6 +1018,7 @@ Blockly.Blocks["read_advance_right_offset"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
@@ -1011,6 +1040,7 @@ Blockly.Blocks["read_retreat_left_offset"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
@@ -1032,9 +1062,39 @@ Blockly.Blocks["read_retreat_right_offset"] = {
           alt: "*",
           flipRtl: false,
         },
+        { type: "field_vertical_separator" },
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_number"],
+    });
+  },
+};
+Blockly.Blocks["set_color_threshold_value"] = {
+  init: function () {
+    this.jsonInit({
+      type: "set_color_threshold_value",
+      message0: Blockly.Msg.SET_COLOR_THRESHOLD_VALUE,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "gray_scale.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        { type: "field_vertical_separator" },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "input_value",
+          name: "THRESHOLD",
+        },
+      ],
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "shape_statement"],
     });
   },
 };

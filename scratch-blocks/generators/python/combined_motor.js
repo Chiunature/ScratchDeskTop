@@ -50,7 +50,7 @@ Blockly.Python["combined_motor_starting"] = function (block) {
   // 使用转换函数将字母端口转换为数字
   const convertedPort = Blockly.Python["combined_letter_to_number"](port);
   const status = block.getFieldValue("STATUS");
-  const code = `pair(${convertedPort}, ${parseInt(status, 10)})\n`;
+  const code = `pair(${convertedPort},${parseInt(status, 10)})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -167,7 +167,7 @@ Blockly.Python["combined_motor_startWithPowerObj"] = function (block) {
     "COUNT",
     Blockly.Python.ORDER_NONE
   );
-  const code = `mov_for_power_degrees(${one}, ${two}, ${count}, "seconds")\n`;
+  const code = `mov_for_power_seconds(${one}, ${two}, ${count})\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
@@ -240,4 +240,30 @@ Blockly.Python["combined_backward_offset"] = function (block) {
     `mov_set_retreat_offset(${leftOffset}, ${rightOffset})\n`,
     Blockly.Python.MOTOR_TYPE
   );
+};
+Blockly.Python["combined_mov_dir_power_seconds"] = function (block) {
+  const direction = block.getFieldValue("DIRECTION");
+
+  const power = Blockly.Python.valueToCode(
+    block,
+    "POWER",
+    Blockly.Python.ORDER_NONE
+  );
+  const seconds = Blockly.Python.valueToCode(
+    block,
+    "SECONDS",
+    Blockly.Python.ORDER_NONE
+  );
+  const code = `mov_dir_power_seconds("${direction}", ${power}, ${seconds})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
+};
+Blockly.Python["combined_mov_dir_power"] = function (block) {
+  const direction = block.getFieldValue("DIRECTION");
+  const power = Blockly.Python.valueToCode(
+    block,
+    "POWER",
+    Blockly.Python.ORDER_NONE
+  );
+  const code = `mov_dir_power("${direction}", ${power})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };

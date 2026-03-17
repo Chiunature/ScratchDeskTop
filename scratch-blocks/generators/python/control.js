@@ -172,5 +172,5 @@ Blockly.Python["control_break"] = function (block) {
 };
 
 Blockly.Python["control_stop"] = function (block) {
-  return Blockly.Python.handleResult(`stop()\n`, Blockly.Python.TIMER_TYPE);
+  return Blockly.Python.handleResult(`stop_exit()\n`, Blockly.Python.TIMER_TYPE);
 };
