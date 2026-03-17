@@ -38,7 +38,11 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import { ipc as ipc_Renderer, verifyTypeConfig, deviceIdMap } from "est-link";
 import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
-import { setGen, setExelistWithPersist, setSelectedExeWithPersist } from "../reducers/mode.js";
+import {
+    setGen,
+    setExelistWithPersist,
+    setSelectedExeWithPersist,
+} from "../reducers/mode.js";
 import {
     selectVm,
     selectActiveTabIndex,
@@ -92,7 +96,11 @@ import {
     setIsConnectedSerial,
 } from "../reducers/connection-modal.js";
 import Compile from "../utils/compileGcc.js";
-import { showAlertWithTimeout, showQrcode, showUpinThunk } from "../reducers/alerts";
+import {
+    showAlertWithTimeout,
+    showQrcode,
+    showUpinThunk,
+} from "../reducers/alerts";
 import {
     activateDeck,
     setProgramSel,
@@ -338,9 +346,6 @@ class GUI extends React.Component {
                 // 设备数据为空（断开或未上报）时清空 version/deviceObj，便于 UI 显示未连接/需升级
                 if (!newDeviceObj) {
                     if (version != null || deviceObj != null) {
-                        console.log(
-                            "[version] DEVICE.WATCH 收到空数据，清空 version/deviceObj"
-                        );
                         if (onSetVersion) onSetVersion(null);
                         if (onSetDeviceObj) onSetDeviceObj(null);
                     }
@@ -352,10 +357,6 @@ class GUI extends React.Component {
                 }
 
                 if (version !== newDeviceObj?.version) {
-                    console.log(
-                        "[version] DEVICE.WATCH 收到设备 version，设置 version =",
-                        newDeviceObj.version
-                    );
                     onSetVersion(newDeviceObj.version);
                 }
 
@@ -468,7 +469,6 @@ class GUI extends React.Component {
                     dataList[index] = _type(deviceItem);
                 }
             }
-            // console.log("dataList", dataList);
             const isDiff = dataList.find((item) => item !== 0xff);
             //如果isdiff不为0xff，则需要更新
             if (isDiff) {
@@ -538,7 +538,6 @@ class GUI extends React.Component {
 
             // 检查固件版本
             const firmwareRes = this.checkUpdateFirmware(static_path);
-            console.log("firmwareRes", firmwareRes);
             if (!firmwareRes) {
                 return;
             }
@@ -779,7 +778,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetSourceCompleted: (sourceCompleted) =>
         dispatch(setSourceCompleted(sourceCompleted)),
     onSetExelist: (exeList) => dispatch(setExelistWithPersist(exeList)),
-    onSetSelectedExe: (selectedExe) => dispatch(setSelectedExeWithPersist(selectedExe)),
+    onSetSelectedExe: (selectedExe) =>
+        dispatch(setSelectedExeWithPersist(selectedExe)),
     onActivateDeck: (id) => dispatch(activateDeck(id)),
     onSetVersion: (version) => dispatch(setVersion(version)),
     onSetIsConnectedSerial: (isConnectedSerial) =>

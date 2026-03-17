@@ -416,9 +416,6 @@ class MenuBar extends React.Component {
             // 新连接建立时清空 version，避免拔插后设备不发数据时仍显示上次的 version
             if (this.props.onSetVersion) {
                 this.props.onSetVersion(null);
-                console.log(
-                    "[version] 新连接建立，已清空 version 为 null，等设备上报后再显示"
-                );
             }
 
             this.props.onShowConnectAlert(args.msg);
@@ -443,10 +440,6 @@ class MenuBar extends React.Component {
 
     // 仍只负责“断开后的清理 + 重新扫描”
     reConnect(msg) {
-        console.log(
-            "[version] reConnect 执行断开逻辑，清空 port/deviceObj/version/isConnectedSerial"
-        );
-
         // 清空连接相关状态
         this.props.onSetPort(null);
         this.props.onGetSerialList([]);
@@ -1283,7 +1276,10 @@ const mapStateToProps = (state, ownProps) => {
         deviceType: selectDeviceType(state),
         serialList: selectSerialList(state),
         saveProjectSb3: vm.saveProjectSb3.bind(vm),
-        projectFilename: getProjectFilename(projectTitle, projectTitleInitialState),
+        projectFilename: getProjectFilename(
+            projectTitle,
+            projectTitleInitialState
+        ),
         workspace: selectWorkspace(state),
         port: selectPort(state),
         generatorName: selectGeneratorName(state),

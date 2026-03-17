@@ -7025,8 +7025,9 @@ Blockly.ScratchMsgs.locales["en"] = {
     "%1 %2 set the combined motor forward offset to left %3 and right %4",
   COMBINED_BACKWARD_OFFSET:
     "%1 %2 set the combined motor backward offset to left %3 and right %4",
-  COMBINED_MOV_DIR_POWER_SECONDS: "%1 %2 %3 rotate at power %4%% for %5 seconds",
-  COMBINED_MOV_DIR_POWER:"%1 %2 %3 move at power %4 %%",
+  COMBINED_MOV_DIR_POWER_SECONDS:
+    "%1 %2 %3 rotate at power %4%% for %5 seconds",
+  COMBINED_MOV_DIR_POWER: "%1 %2 %3 move at power %4 %%",
   COMBINED_MOTOR_STOPPING: "%1 %2 Set the combined motor to stop and %3",
   COMBINED_MOTOR_STARTING:
     "%1 %2 Set the combined motor to %3 with rotation direction %4",
@@ -7140,7 +7141,8 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_REFLECTED_LIGHT_DETECTION: "%1 %2 The value of grayscale sensor %3",
   SENSING_GRAYSCALE_STATE: "%1 %2 Is the grayscale sensor %3 triggered?",
   SENSING_ONE_CALIBRATE: "%1 %2 %3 Calibrate %4 seconds",
-  SET_COLOR_THRESHOLD_VALUE: "%1 %2 set the threshold of photoelectric sensor %3 to %4",
+  SET_COLOR_THRESHOLD_VALUE:
+    "%1 %2 set the threshold of photoelectric sensor %3 to %4",
   READ_ADCANCE_LEFT_OFFSET: "%1 %2 Read advance left offset",
   READ_ADVANCE_RIGHT_OFFSET: "%1 %2 Read advance right offset",
   READ_RETRACH_LEFT_OFFSET: "%1 %2 Read retreat left offset",
@@ -7178,7 +7180,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_LINEPATROLINIT: "%1 %2 Initialize the linepatrol",
   SENSING_LINEPATROL: "The linepatrol %1 %2 power is %3 KP %4 KD %5 ",
   SENSING_LINEPATROL_LTR:
-    "%1 Dual line patrol: Left sensor %2 Right sensor %3 Left power %4 %% Right power %5 %% KP %6 KD %7",
+    "%1 %2 Dual line patrol: Left sensor %3 Right sensor %4 Left power %5 %% Right power %6 %% KP %7 KD %8",
   SENSING_JUDGELINESTATE: "Determine %1 the current grayscale %2 status",
   SENSING_CAMERA_FIND_COLOR_BLOCK:
     "%1 %2 search for color blocks R %3 G %4 B %5 tolerance %6",
@@ -7369,6 +7371,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   CAMERA_RECOGNITION_CMP_COLOR: "%1 %2 color is %3",
   CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE:
     "%1 set %2 color to %3 %4 %5 percentage to %6",
+  SOUND_PLAYMUSIC: "%1 %2 Play note %3 for %4 beats",
 };
 
 Blockly.ScratchMsgs.locales["es"] = {
@@ -29180,8 +29183,8 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   MOTOR_STARTWITHPOWER: "%1 %2 电机 %3 以 %4 %%功率转动",
   COMBINED_FORWARD_OFFSET: "%1 %2 设置手柄前进偏移量为左 %3 右 %4",
   COMBINED_BACKWARD_OFFSET: "%1 %2 设置手柄后退偏移量为左 %3 右%4",
-  COMBINED_MOV_DIR_POWER_SECONDS:"%1 %2 %3 以功率 %4%% 转动 %5 秒",
-  COMBINED_MOV_DIR_POWER:"%1 %2 %3 以功率 %4 %% 移动",
+  COMBINED_MOV_DIR_POWER_SECONDS: "%1 %2 %3 以功率 %4%% 转动 %5 秒",
+  COMBINED_MOV_DIR_POWER: "%1 %2 %3 以功率 %4 %% 移动",
   ANGLE_MOTOR: "%1 电机 %2 角度",
   MOTOR_POSITION: "%1 电机 %2 位置",
   RATE_MOTOR: "%1 电机 %2 速度",

@@ -192,10 +192,6 @@ const SerialportList = (props) => {
                                 </>
                             ) : (
                                 <>
-                                    {console.log("[version] serialport-list 展示", {
-                                        version: props.version,
-                                        firewareVersion: props.firewareVersion,
-                                    })}
                                     {props.version == props.firewareVersion ? (
                                         <FormattedMessage
                                             defaultMessage="The latest version"
