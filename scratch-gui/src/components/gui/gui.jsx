@@ -54,6 +54,7 @@ import codeIcon from "./icon--code.svg";
 import soundsIcon from "./icon--sounds.svg";
 // import loadIcon from "./icon--load.svg";
 import Generator from "../../components/generators/generators.jsx";
+import AiChat from "../../components/ai-chat/ai-chat.jsx";
 import errorBoundaryHOC from "../../lib/error-boundary-hoc.jsx";
 
 import DeviceCards from "../../containers/deviceCards.jsx";
@@ -183,6 +184,8 @@ const GUIComponent = (props) => {
         onSetVersion,
         onSetIsConnectedSerial,
         onSetGen,
+        isAiChat,
+        onSetAiChat,
         onActivateDeck,
         onOpenConnectionModal,
         onShowQrcode,
@@ -562,6 +565,10 @@ const GUIComponent = (props) => {
                                         codeEditorLanguage="cpp"
                                         codeEditorOptions={codeEditorOptions}
                                         codeEditorTheme="vs"
+                                    />
+                                    <AiChat
+                                        isAiChat={isAiChat}
+                                        onSetAiChat={onSetAiChat}
                                     />
                                 </Box>
                             </Box>

@@ -19,6 +19,7 @@ export const selectShowBranding = (state) => state.scratchGui.mode.showBranding;
 export const selectHasEverEnteredEditor = (state) =>
     state.scratchGui.mode.hasEverEnteredEditor;
 export const selectIsGen = (state) => state.scratchGui.mode.isGen;
+export const selectIsAiChat = (state) => state.scratchGui.mode.isAiChat;
 export const selectCode = (state) => state.scratchGui.mode.code;
 export const selectIsComplete = (state) => state.scratchGui.mode.isComplete;
 export const selectCompileList = (state) => state.scratchGui.mode.compileList;

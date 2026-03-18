@@ -6,6 +6,7 @@ const initialState = {
     isPlayerOnly: false,
     hasEverEnteredEditor: true,
     isGen: false,
+    isAiChat: false,
     code: ``,
     isComplete: false,
     compileList: [],
@@ -33,6 +34,9 @@ const modeSlice = createSlice({
         },
         setGen(state, action) {
             state.isGen = action.payload;
+        },
+        setAiChat(state, action) {
+            state.isAiChat = action.payload;
         },
         getCode(state, action) {
             state.code = action.payload;
@@ -70,6 +74,7 @@ export const {
     setFullScreen,
     setPlayer,
     setGen,
+    setAiChat,
     getCode,
     setIsComplete,
     setCompileList,

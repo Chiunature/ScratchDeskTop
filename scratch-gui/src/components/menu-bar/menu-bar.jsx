@@ -32,6 +32,7 @@ import {
 import {
     getCode,
     setGen,
+    setAiChat,
     setGeneratorName,
     setPlayer,
 } from "../../reducers/mode";
@@ -93,6 +94,7 @@ import {
 import {
     selectVm,
     selectIsGen,
+    selectIsAiChat,
     selectPeripheralName,
     selectDeviceId,
     selectDeviceName,
@@ -1134,6 +1136,26 @@ class MenuBar extends React.Component {
                             onGetCode={this.props.onGetCode}
                             workspace={this.props.workspace}
                         />
+                        <div
+                            id="menuBarAiChat"
+                            className={classNames(
+                                styles.menuBarItem,
+                                styles.hoverable,
+                                styles.generator,
+                                { [styles.active]: this.props.isAiChat }
+                            )}
+                            onClick={() => {
+                                const next = !this.props.isAiChat;
+                                if (next) {
+                                    this.props.onSetGen(false);
+                                }
+                                this.props.onSetAiChat(next);
+                            }}
+                        >
+                            <span className={styles.collapsibleLabel}>
+                                AI 助手
+                            </span>
+                        </div>
                     </Box>
                 </Box>
                 <FilesSaveNotify
@@ -1212,6 +1234,8 @@ MenuBar.propTypes = {
     onStartSelectingFileUpload: PropTypes.func,
     onToggleLoginOpen: PropTypes.func,
     onSetGen: PropTypes.func,
+    onSetAiChat: PropTypes.func,
+    isAiChat: PropTypes.bool,
     onViewDeviceCards: PropTypes.func,
     projectTitle: PropTypes.string,
     peripheralName: PropTypes.string,
@@ -1270,6 +1294,7 @@ const mapStateToProps = (state, ownProps) => {
             ownProps.authorUsername === user.username,
         vm,
         isGen: selectIsGen(state),
+        isAiChat: selectIsAiChat(state),
         peripheralName: selectPeripheralName(state),
         deviceId: selectDeviceId(state),
         deviceName: selectDeviceName(state),
@@ -1311,6 +1336,7 @@ const mapDispatchToProps = (dispatch) => ({
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true)),
     onSetGen: (isGen) => dispatch(setGen(isGen)),
+    onSetAiChat: (isAiChat) => dispatch(setAiChat(isAiChat)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onOpenBleListModal: () => dispatch(openBleListModal()),
     onDeviceIsEmpty: () => showAlertWithTimeout(dispatch, "selectADeviceFirst"),

@@ -40,6 +40,7 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import {
     setGen,
+    setAiChat,
     setExelistWithPersist,
     setSelectedExeWithPersist,
 } from "../reducers/mode.js";
@@ -64,6 +65,7 @@ import {
     selectIsFullScreen,
     selectIsPlayerOnly,
     selectIsGen,
+    selectIsAiChat,
     selectCode,
     selectCompileList,
     selectBufferList,
@@ -731,6 +733,7 @@ const mapStateToProps = (state) => {
         vm: selectVm(state),
         code: selectCode(state),
         isGen: selectIsGen(state),
+        isAiChat: selectIsAiChat(state),
         peripheralName: selectPeripheralName(state),
         completed: selectCompleted(state),
         compileList: selectCompileList(state),
@@ -785,6 +788,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetIsConnectedSerial: (isConnectedSerial) =>
         dispatch(setIsConnectedSerial(isConnectedSerial)),
     onSetGen: (gen) => dispatch(setGen(gen)),
+    onSetAiChat: (isAiChat) => dispatch(setAiChat(isAiChat)),
     onOpenConnectionModal: () => dispatch(openConnectionModal()),
     onSetDeviceObj: (obj) => dispatch(setDeviceObj(obj)),
     onSetTipsUpdate: (obj) => dispatch(setTipsUpdateObj(obj)),
