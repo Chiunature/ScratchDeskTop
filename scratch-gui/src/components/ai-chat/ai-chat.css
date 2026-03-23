@@ -13,45 +13,67 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: width 0.3s ease;
+    transition: width 0.2s ease;
 }
 
-.panel-open {
-    width: 360px;
+.resizingBody {
+    cursor: ew-resize;
+    user-select: none;
+}
+/* 拖拽过程中关闭面板宽度动画，保证拖拽更跟手 */
+.resizingBody .panel {
+    transition: none;
+}
+
+.resizeHandle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    cursor: ew-resize;
+    z-index: 2;
+}
+
+.resizeHandle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transition: background 0.15s ease;
+}
+
+/* 拖动中：不依赖 hover，指针移出把手也保持高亮 */
+.resizingBody .panel-open .resizeHandle::before {
+    background: #f6e6ff;
+}
+/* 未拖动：仅 hover 时高亮 */
+.panel-open .resizeHandle:hover::before {
+    background: #f6e6ff;
 }
 
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 12px 16px;
-    border-bottom: 1px solid #e6e6e6;
-    background: var(--motion-primary);
-    color: #fff;
+    background: transparent;
     flex-shrink: 0;
 }
 
-.title {
-    font-size: 15px;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
 .close-btn {
-    background: none;
+    padding: 0;
     border: none;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
-    line-height: 1;
-    opacity: 0.85;
+    background: transparent;
+    width: 1rem;
+    height: 1rem;
 }
-
-.close-btn:hover {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.15);
+.close-btn-icon {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
 }
 
 .messages {
@@ -72,6 +94,55 @@
     background-color: rgba(0, 0, 0, 0.15);
 }
 
+.messages:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
+.message.assistant .messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Markdown 代码块滚动条（更细、更贴合深色主题） */
+.markdownContent pre {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(255, 255, 255, 0.18) rgba(0, 0, 0, 0.08);
+}
+
+.markdownContent pre::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.markdownContent pre::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+.markdownContent pre::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+}
+
+.markdownContent pre:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.message.user .markdownContent pre {
+    scrollbar-color: rgba(255, 255, 255, 0.28) rgba(255, 255, 255, 0.1);
+}
+
+.message.user .markdownContent pre::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.message.user .markdownContent pre::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.message.user .markdownContent pre:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.34);
+}
+
 .message {
     display: flex;
 }
@@ -88,37 +159,210 @@
     max-width: 80%;
     padding: 8px 12px;
     border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 16px;
     word-break: break-word;
     white-space: pre-wrap;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .message.user .bubble {
     background: var(--motion-primary);
     color: #fff;
     border-bottom-right-radius: 4px;
+    border-color: rgba(255, 255, 255, 0.14);
 }
 
 .message.assistant .bubble {
-    background: #f0f0f0;
-    color: #333;
+    background: #2d2d2d;
+    color: rgba(255, 255, 255, 0.92);
     border-bottom-left-radius: 4px;
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
 }
 
-/* 打字动画 */
+/* Markdown 渲染基础样式 */
+.markdownContent {
+    display: block;
+}
+
+.markdownContent p {
+    margin: 0;
+}
+
+.markdownContent p + p,
+.markdownContent ul + p,
+.markdownContent ol + p,
+.markdownContent p + ul,
+.markdownContent p + ol,
+.markdownContent h1 + p,
+.markdownContent h2 + p,
+.markdownContent h3 + p {
+    margin-top: 0;
+}
+
+.markdownContent h1,
+.markdownContent h2,
+.markdownContent h3 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.markdownContent h1,
+.markdownContent h2 {
+    font-size: 22px;
+}
+
+.markdownContent h3 {
+    font-size: 20px;
+    opacity: 0.95;
+}
+
+.markdownContent ul,
+.markdownContent ol {
+    margin: 0;
+    padding-left: 18px;
+    list-style-position: outside;
+}
+
+.markdownContent ul {
+    list-style-type: disc; /* 防止被全局 reset 吃掉圆点 */
+}
+
+.markdownContent ol {
+    list-style-type: decimal; /* 防止有序列表序号丢失 */
+}
+
+.markdownContent li {
+    margin: 0;
+    display: list-item;
+}
+
+.markdownContent a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    opacity: 0.95;
+}
+
+.message.assistant .markdownContent a {
+    color: #7ab7ff;
+}
+
+.message.user .markdownContent a {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.markdownContent pre {
+    margin: 8px 0 0;
+    padding: 10px;
+    border-radius: 10 10 0 0;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.message.user .markdownContent pre {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.markdownContent code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+/* 代码块工具栏（复制/下载） */
+.codeBlock {
+    margin-top: 8px;
+}
+
+.codeToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 10px 10px 0 0;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* 与下方 pre 共享同一条边框，不要留缝 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message.user .codeToolbar {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.codeActions {
+    display: flex;
+    gap: 6px;
+}
+
+.codeBtn {
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.message.user .codeBtn {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.codeBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.codeBtn:active {
+    transform: translateY(1px);
+}
+
+.codeLang {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    font-size: 11px;
+    opacity: 0.9;
+    text-transform: lowercase;
+}
+
+/* 覆盖 .markdownContent pre 的更强选择器，确保工具栏与代码块完全贴合 */
+.markdownContent pre.codePre {
+    margin-top: 0;
+    border-top: none;
+    /* 减少顶部留白，让工具栏和代码区更像一个整体 */
+    padding-top: 6px;
+}
+
+/* 打字动画（三个圆点依次跳动，纯 CSS，无需 GIF） */
 .typing {
     display: flex;
     align-items: center;
     gap: 4px;
     padding: 10px 14px;
+    min-height: 36px; /* 占位高度，避免无文字时气泡塌掉 */
 }
 
 .typing span {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #aaa;
+    /* 与助手深色气泡对比足够，又比正文略淡 */
+    background: rgba(255, 255, 255, 0.45);
     display: inline-block;
     animation: typing-bounce 1.2s infinite ease-in-out;
 }
@@ -132,8 +376,16 @@
 }
 
 @keyframes typing-bounce {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-    40% { transform: translateY(-6px); opacity: 1; }
+    0%,
+    80%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    40% {
+        transform: translateY(-6px);
+        opacity: 1;
+    }
 }
 
 .input-row {

@@ -222,6 +222,8 @@ module.exports = [
                 "process.env.DEBUG": Boolean(process.env.DEBUG),
                 "process.env.GA_ID":
                     '"' + (process.env.GA_ID || "UA-000000-01") + '"',
+                "process.env.COZE_API_TOKEN":
+                    '"' + (process.env.COZE_API_TOKEN || "") + '"',
             }),
             new CompressionPlugin({
                 filename: "[path][base].gz",

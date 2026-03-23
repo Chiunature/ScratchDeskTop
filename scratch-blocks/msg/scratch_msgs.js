@@ -7142,7 +7142,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_GRAYSCALE_STATE: "%1 %2 Is the grayscale sensor %3 triggered?",
   SENSING_ONE_CALIBRATE: "%1 %2 %3 Calibrate %4 seconds",
   SET_COLOR_THRESHOLD_VALUE:
-    "%1 %2 set the threshold of photoelectric sensor %3 to %4",
+    "%1 %2 set the threshold of grayscale sensor %3 to %4",
   READ_ADCANCE_LEFT_OFFSET: "%1 %2 Read advance left offset",
   READ_ADVANCE_RIGHT_OFFSET: "%1 %2 Read advance right offset",
   READ_RETRACH_LEFT_OFFSET: "%1 %2 Read retreat left offset",
@@ -29355,7 +29355,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GRAYSCALE_STATE: "%1 %2 灰度传感器 %3 是否触发",
   SENSING_ONE_CALIBRATE: "%1 %2 校准 %3 的灰度传感器 %4 秒",
   SENSING_TWO_CALIBRATE: "%1 %2 %3 和 %4 的灰度传感器 %5 秒",
-  SET_COLOR_THRESHOLD_VALUE: "%1 %2 光电传感器 %3 阈值设为 %4",
+  SET_COLOR_THRESHOLD_VALUE: "%1 %2 灰度传感器 %3 阈值设为 %4",
   READ_ADCANCE_LEFT_OFFSET: "%1 %2 读取前进左偏移量",
   READ_ADVANCE_RIGHT_OFFSET: "%1 %2 读取前进右偏移量",
   READ_RETRACH_LEFT_OFFSET: "%1 %2 读取后退左偏移量",

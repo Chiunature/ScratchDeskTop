@@ -78,6 +78,27 @@ function ipcHandle(eventName, callback) {
     ipcMain.handle(eventName, (event, arg) => callback(event, arg));
 }
 
+function setupAiChatCodeSave() {
+    ipcHandle("ai-chat-save-code", async (event, payload) => {
+        try {
+            const { filename, content } = payload || {};
+            const safeName = String(filename || "code.txt")
+                .replace(/[\\/:*?"<>|]+/g, "_")
+                .replace(/\s+/g, " ")
+                .trim();
+
+            const byteCodeDir = path.join(getStaticPath(), "ByteCode");
+            fs.mkdirSync(byteCodeDir, { recursive: true });
+
+            const savePath = path.join(byteCodeDir, safeName || "code.txt");
+            fs.writeFileSync(savePath, String(content || ""), { encoding: "utf8" });
+            return { ok: true, path: savePath };
+        } catch (e) {
+            return { ok: false, error: (e && e.message) ? e.message : String(e) };
+        }
+    });
+}
+
 async function updater(win, autoUpdate) {
     if (!autoUpdate) {
         return null;
@@ -223,6 +244,30 @@ function getStaticPath() {
     return resourcesRoot;
 }
 
+function setupCodeBlockDownloads(win) {
+    if (!win || !win.webContents || !win.webContents.session) return;
+
+    const byteCodeDir = path.join(getStaticPath(), "ByteCode");
+    try {
+        fs.mkdirSync(byteCodeDir, { recursive: true });
+    } catch {
+        // ignore
+    }
+
+    win.webContents.session.on("will-download", (event, item) => {
+        try {
+            const filename = path.basename(item.getFilename() || "code.txt");
+            // 仅接管 AI 聊天代码块下载（我们生成的文件名默认为 code.xxx）
+            if (!/^code\./i.test(filename)) return;
+
+            const savePath = path.join(byteCodeDir, filename);
+            item.setSavePath(savePath);
+        } catch {
+            // ignore
+        }
+    });
+}
+
 function createTray() {
     const tray = new Tray(path.join(__dirname, "favicon.ico"));
 
@@ -285,6 +330,11 @@ function createWindow(loadingWindow) {
         partition: "persist:window-id" + getRandomString(),
         webPreferences: options,
     });
+
+    // 将 AI 代码块下载固定到 ByteCode 目录
+    setupCodeBlockDownloads(mainWindow);
+    // 允许渲染进程直接保存代码到 ByteCode（避免“另存为”弹窗）
+    setupAiChatCodeSave();
 
     handleMenuAndDevtool(mainWindow);
 

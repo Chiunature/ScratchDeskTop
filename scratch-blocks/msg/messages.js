@@ -343,7 +343,7 @@ Blockly.Msg.SENSING_GRAYSCALE_STATE =
 Blockly.Msg.SENSING_ONE_CALIBRATE = "%1 %2 %3 Calibrate %4 seconds";
 Blockly.Msg.SENSING_TWO_CALIBRATE = "%1 %2 %3 and %4 Calibrate %5 seconds";
 Blockly.Msg.SET_COLOR_THRESHOLD_VALUE =
-  "%1 %2 set the threshold of photoelectric sensor %3 to %4";
+  "%1 %2 set the threshold of grayscale sensor %3 to %4";
 Blockly.Msg.READ_ADCANCE_LEFT_OFFSET = "%1 %2 Read advance left offset";
 Blockly.Msg.READ_ADVANCE_RIGHT_OFFSET = "%1 %2 Read advance right offset";
 Blockly.Msg.READ_RETRACH_LEFT_OFFSET = "%1 %2 Read retreat left offset";
