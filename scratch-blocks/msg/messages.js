@@ -568,8 +568,8 @@ Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_BLOCK_SIZE = "%1 返回%2 色块大小";
 Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_X_POINT = "%1 返回%2 色块X坐标";
 Blockly.Msg.CAMERA_RECOGNITION_FOLLOW_Y_POINT = "%1 返回%2 色块Y坐标";
 Blockly.Msg.CAMERA_RECOGNITION_COLOR_BLUE = "%1 返回%2 颜色blue值";
-Blockly.Msg.CAMERA_RECOGNITION_COLOR_GREAD = "%1 返回%2 颜色gread值";
-Blockly.Msg.CAMERA_RECOGNITION_COLOR_READ = "%1 返回%2 颜色read值";
+Blockly.Msg.CAMERA_RECOGNITION_COLOR_GREAD = "%1 返回%2 颜色green值";
+Blockly.Msg.CAMERA_RECOGNITION_COLOR_READ = "%1 返回%2 颜色red值";
 Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_COLOR_DETECTION =
   "%1 设置%2 全局颜色检测模式";
 Blockly.Msg.CAMERA_RECOGNITION_SET_MODE_LINE_PATROL = "%1 设置%2 巡线模式";
