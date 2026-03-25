@@ -1136,7 +1136,7 @@ class MenuBar extends React.Component {
                             onGetCode={this.props.onGetCode}
                             workspace={this.props.workspace}
                         />
-                        <div
+                        {/* <div
                             id="menuBarAiChat"
                             className={classNames(
                                 styles.menuBarItem,
@@ -1155,7 +1155,7 @@ class MenuBar extends React.Component {
                             <span className={styles.collapsibleLabel}>
                                 AI 助手
                             </span>
-                        </div>
+                        </div> */}
                     </Box>
                 </Box>
                 <FilesSaveNotify
