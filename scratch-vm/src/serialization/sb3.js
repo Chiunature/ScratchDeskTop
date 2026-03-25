@@ -62,6 +62,7 @@ const CORE_EXTENSIONS = [
     "combined",
     "matrix",
     "cameraRecognition",
+    "grayv2",
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,

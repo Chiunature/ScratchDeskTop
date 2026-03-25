@@ -523,6 +523,7 @@ Blockly.Msg.CATEGORY_OPERATORS = "Operators";
 Blockly.Msg.CATEGORY_VARIABLES = "Variables";
 Blockly.Msg.CATEGORY_MYBLOCKS = "My Blocks";
 Blockly.Msg.CATEGORY_SENSING_CAMERA = "Camera";
+Blockly.Msg.CATEGORY_GRAYV2 = "GrayV2";
 // Context menus
 Blockly.Msg.COPY = "Copy";
 Blockly.Msg.PASTE = "Paste";
@@ -584,6 +585,28 @@ Blockly.Msg.CAMERA_RECOGNITION_FIND_COLOR = "%1 查找%2 颜色";
 Blockly.Msg.CAMERA_RECOGNITION_CMP_COLOR = "%1 %2 颜色是否为 %3";
 Blockly.Msg.CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE =
   "%1 设置%2 颜色为%3 %4 %5 百分比为 %6";
+
+// GrayV2 blocks
+Blockly.Msg.GRAYV2_IF_CH_BLACK =
+  "Does the %2 of %1 recognize the black line？？";
+Blockly.Msg.GRAYV2_READ_CH =
+  "Read the photoelectric analog value from %2 of %1";
+Blockly.Msg.GRAYV2_IF_ALL_CH_WAY_STATE = "Is the status of %1 %2";
+Blockly.Msg.GRAYV2_POWER_FIND_IF_CH_STATE =
+  "%1 turn at left speed %2 and right speed %3 until %4 line is encountered";
+Blockly.Msg.GRAYV2_POWER_FIND_WAY_TYPE =
+  "%1 patrols at speed %2 until it identifies %3";
+Blockly.Msg.GRAYV2_POWER_FIND_LINE =
+  "%1 conducts a line patrol at a speed of %2";
+Blockly.Msg.GRAYV2_POWER_FIND_LINE_ENCORD =
+  "%1 patrol line at speed %2, encoder value %3";
+Blockly.Msg.GRAYV2_POWER_FIND_LINE_MS =
+  "%1 patrol line at speed %2, millisecond %3";
+Blockly.Msg.GRAYV2_START_CALIBRATE =
+  "Calibrate the current grayscale sensor %1";
+Blockly.Msg.GRAYV2_SET_THRESHOLD = "The threshold for %2 of %1 is set to %3";
+Blockly.Msg.GRAYV2_SET_RGB = "Set all colors of %1 to %2";
+Blockly.Msg.GRAYV2_SET_PID = "%1 Set the patrol line KP to %2 and KI to %3";
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = "Change value:";

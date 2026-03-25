@@ -12,6 +12,7 @@ const sensingIcon = "static/LeftBuildingIcon/detect.svg";
 const operatorsIcon = "static/LeftBuildingIcon/operation.svg";
 const variablesIcon = "static/LeftBuildingIcon/variable.svg";
 const myBlocksIcon = "static/LeftBuildingIcon/HomemadeBlocks.svg";
+const grayv2Icon = "static/LeftBuildingIcon/grayv2.svg";
 
 const categorySeparator = '<sep gap="36"/>';
 
@@ -752,7 +753,6 @@ const cameraRecognition = function ({ colors }) {
     <category name="%{BKY_CATEGORY_CAMERA_RECOGNITION}" id="cameraRecognition" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}" iconURI="${cameraIcon}">
         ${categorySeparator}
-        ${blockSeparator}
         <block type="cameraRecognition_set_mode_apriltagtag_mode">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
@@ -961,6 +961,120 @@ const cameraRecognition = function ({ colors }) {
     `;
 };
 
+const grayv2 = function ({ colors }) {
+    return `
+    <category name="%{BKY_CATEGORY_GRAYV2}" id="grayv2" colour="${colors.primary}"
+        secondaryColour="${colors.tertiary}" iconURI="${grayv2Icon}">
+        ${categorySeparator}
+        <block type="if_ch_black">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="read_ch">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="if_all_ch_way_state">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="power_find_if_ch_state">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="LEFT_SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="RIGHT_SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="power_find_way_type">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="power_find_line">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="power_find_line_encord">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="ENCODER_VALUE">
+                <shadow type="math_number"><field name="NUM">1000</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="power_find_line_ms">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="MILLISECONDS">
+                <shadow type="math_number"><field name="NUM">1000</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="start_calibrate">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="set_threshold">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="RANGE">
+                <shadow type="math_number"><field name="NUM">100</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="set_rgb">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="set_pid">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="KP">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+            <value name="KI">
+                <shadow type="math_number"><field name="NUM">0.1</field></shadow>
+            </value>
+        </block>
+            ${categorySeparator}
+    </category>
+    `;
+};
+
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -1043,6 +1157,8 @@ const makeToolboxXML = function (
     const cameraRecognitionXML =
         moveCategory("cameraRecognition") ||
         cameraRecognition({ colors: colors.cameraRecognition });
+    const grayv2XML =
+        moveCategory("grayv2") || grayv2({ colors: colors.grayv2 });
     const sensingXML =
         moveCategory("sensing") ||
         sensing({ isInitialSetup, isStage, targetId, colors: colors.sensing });
@@ -1070,6 +1186,8 @@ const makeToolboxXML = function (
         sensingXML,
         gap,
         cameraRecognitionXML, // 添加这一行
+        gap,
+        grayv2XML,
         gap,
         operatorsXML,
         gap,

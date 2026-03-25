@@ -23,8 +23,9 @@
 goog.provide("Blockly.Colours");
 
 Blockly.Colours = {
-  // SVG colours: these must be specificed in #RRGGBB style
-  // To add an opacity, this must be specified as a separate property (for SVG fill-opacity)
+  //primary是主体填充颜色
+  //secondary是阴影块 / 嵌在输入槽里的占位积木、以及 堆叠高亮（glow）时 的填充色
+  //tertiary是整块积木外轮廓描边（stroke），以及 输入口（圆角凹槽）内部的填充色
   motion: {
     primary: "#64c7f0",
     secondary: "#4280D7",
@@ -75,6 +76,11 @@ Blockly.Colours = {
     primary: "#59C059",
     secondary: "#46B946",
     tertiary: "#389438",
+  },
+  grayv2: {
+    primary: "#ed5283",
+    secondary: "#ff266b",
+    tertiary: "#e20048",
   },
   pen: {
     primary: "#0fBD8C",

@@ -71,6 +71,12 @@ const blockColors = {
         tertiary: "#707fc1",
         quaternary: "#5e6ba3",
     },
+    grayv2: {
+        primary: "#ed5283",
+        secondary: "#ff266b",
+        tertiary: "#e20048",
+        quaternary: "#e20048",
+    },
     data: {
         primary: "#FF8C1A",
         secondary: "#FF8000",

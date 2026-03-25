@@ -248,6 +248,7 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function () {
     "combined_motor",
     "matrix",
     "cameraRecognition",
+    "grayv2",
   ];
   // Register functions for all category colours.
   for (var i = 0; i < categoryNames.length; i++) {
