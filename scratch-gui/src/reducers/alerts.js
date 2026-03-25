@@ -259,10 +259,26 @@ const showExtensionAlert = function (data) {
  * @param {object} dispatch - dispatch function
  * @param {string} alertId - the ID of the alert
  */
-const showAlertWithTimeout = function (dispatch, alertId) {
-    const alertData = alertsData.find(thisAlertData => thisAlertData.alertId === alertId);
+const showAlertWithTimeout = function (dispatch, alertIdOrData) {
+    const alertId =
+        typeof alertIdOrData === "string"
+            ? alertIdOrData
+            : alertIdOrData && alertIdOrData.alertId;
+    const message =
+        typeof alertIdOrData === "string"
+            ? null
+            : alertIdOrData && alertIdOrData.message;
+
+    const alertData = alertsData.find(
+        thisAlertData => thisAlertData.alertId === alertId
+    );
     if (alertData) {
-        dispatch(showStandardAlert(alertId));
+        // SHOW_ALERT action 里 reducer 已支持 action.data.message
+        dispatch({
+            type: SHOW_ALERT,
+            alertId,
+            ...(message ? { data: { message } } : {}),
+        });
         if (alertData.maxDisplaySecs) {
             setTimeout(() => {
                 dispatch(closeAlertsWithId(alertId));

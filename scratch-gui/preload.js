@@ -33,18 +33,6 @@ function hasStoreValue(key) {
     return store.has(key);
 }
 
-/*async function setForage(key, value) {
-    await store_lf.setForage(key, value);
-}
-
-async function getForage(key) {
-    return await store_lf.getForage(key);
-}
-
-async function removeForage(key) {
-    await store_lf.removeForage(key);
-}*/
-
 /**
  * 异步通信
  * @param {String} sendName
@@ -145,30 +133,25 @@ function writeFiles(link, data, resourcePath = cwd(), options = {}) {
 }
 
 function replaceFiles(oldFilePath, newFilePath, content) {
-    // 删除旧文件
-    fs.unlink(oldFilePath, (err) => {
-        if (err) {
-            if (err) handlerError(err);
-        } else {
-            console.log("Old file deleted successfully.");
+    return new Promise((resolve, reject) => {
+        // 删除旧文件
+        fs.unlink(oldFilePath, (err) => {
+            if (err) {
+                handlerError(err);
+                reject(err);
+                return;
+            }
 
-            // 将新文件移动到旧文件的位置
-            /*fs.rename(newFilePath, oldFilePath, (err) => {
-                if (err) {
-                    console.error('Error moving new file to old file location:', err);
-                } else {
-                    console.log('New file moved to old file location successfully.');
+            // 创建新文件（写入完成后 resolve，保证调用方可 await）
+            fs.writeFile(newFilePath, content, (err2) => {
+                if (err2) {
+                    console.error("Error creating new file:", err2);
+                    reject(err2);
+                    return;
                 }
-            });*/
-            // 创建新文件
-            fs.writeFile(newFilePath, content, (err) => {
-                if (err) {
-                    console.error("Error creating new file:", err);
-                } else {
-                    console.log("New file created successfully.");
-                }
+                resolve(true);
             });
-        }
+        });
     });
 }
 
@@ -341,7 +324,6 @@ async function changeFileName(oldPath, newPath) {
         if (err) {
             console.error("Error creating new file:", err);
         } else {
-            console.log("New file created successfully.");
             /* fs.rename(oldPath, newPath, (err) => {
                 if (err) {
                     console.error(err);

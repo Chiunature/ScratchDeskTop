@@ -19,6 +19,7 @@ const AlertComponent = ({
     content,
     closeButton,
     extensionName,
+    message,
     iconSpinner,
     iconURL,
     level,
@@ -94,7 +95,12 @@ const AlertComponent = ({
                             )
                         }}
                     />
-                ) : content} {progress && pg + '%'}
+                ) : content} {progress && pg + "%"}
+                {message && !extensionName && (
+                    <span style={{ fontWeight: "normal", marginLeft: ".5rem" }}>
+                        {message}
+                    </span>
+                )}
             </div>
             <div className={styles.alertButtons}>
                 {showSaveNow && (
@@ -157,6 +163,7 @@ AlertComponent.propTypes = {
     iconSpinner: PropTypes.bool,
     iconURL: PropTypes.string,
     level: PropTypes.string,
+    message: PropTypes.string,
     onCloseAlert: PropTypes.func.isRequired,
     onDownload: PropTypes.func,
     onReconnect: PropTypes.func,
