@@ -329,7 +329,8 @@ class Blocks {
                 id: e.blockId,
                 element: e.element,
                 name: e.name,
-                value: e.newValue
+                value: e.newValue,
+                oldValue: e.oldValue
             });
             break;
         case 'move':

@@ -104,7 +104,11 @@ class Blocks extends React.Component {
             "setLocale",
             "workspaceToCode",
             "toggleMinimap",
+            "mainWorkspaceChangeListener",
         ]);
+        this._throttledWorkspaceCodeOnly = throttle((type) => {
+            this.workspaceToCode(type);
+        }, 60);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.statusButtonCallback =
             this.handleConnectionModalStart;
@@ -198,11 +202,13 @@ class Blocks extends React.Component {
                     this.workspace.setToolboxRefreshEnabled.bind(
                         this.workspace
                     );
-                
+
                 // 智能控制刷新：允许传入参数，而不是总是设为 false
                 // 这样变量操作可以触发刷新，批量操作可以禁用刷新
                 this.workspace.setToolboxRefreshEnabled = (enabled) => {
-                    this.setToolboxRefreshEnabled(enabled !== undefined ? enabled : false);
+                    this.setToolboxRefreshEnabled(
+                        enabled !== undefined ? enabled : false
+                    );
                 };
                 // @todo change this when blockly supports UI events
                 addFunctionListener(
@@ -236,6 +242,11 @@ class Blocks extends React.Component {
         } else if (type === "endDrag" || type === "change") {
             this.props.setAutoSaveByBlockType(type);
         }
+    }
+
+    mainWorkspaceChangeListener(event) {
+        this.props.vm.blockListener(event);
+        this._throttledWorkspaceCodeOnly(event.type);
     }
 
     //解析任务
@@ -335,6 +346,12 @@ class Blocks extends React.Component {
             this.minimapNavigator.destroy();
             this.minimapNavigator = null;
         }
+        if (
+            this._throttledWorkspaceCodeOnly &&
+            this._throttledWorkspaceCodeOnly.cancel
+        ) {
+            this._throttledWorkspaceCodeOnly.cancel();
+        }
         this.detachVM();
         this.workspace.dispose();
         clearTimeout(this.toolboxUpdateTimeout);
@@ -400,12 +417,7 @@ class Blocks extends React.Component {
     }
 
     attachVM() {
-        const throttleFunc = throttle((event) => {
-            this.workspaceToCode(event.type);
-            this.props.vm.blockListener(event);
-        }, 60);
-
-        this.workspace.addChangeListener(throttleFunc);
+        this.workspace.addChangeListener(this.mainWorkspaceChangeListener);
         this.flyoutWorkspace = this.workspace.getFlyout().getWorkspace();
         this.flyoutWorkspace.addChangeListener(
             this.props.vm.flyoutBlockListener
@@ -552,9 +564,7 @@ class Blocks extends React.Component {
         ) {
             this.onWorkspaceMetricsChange();
         }
-
-        // Remove and reattach the workspace listener (but allow flyout events)
-        this.workspace.removeChangeListener(this.props.vm.blockListener);
+        this.workspace.removeChangeListener(this.mainWorkspaceChangeListener);
         const dom = this.ScratchBlocks.Xml.textToDom(data.xml);
         try {
             this.ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(
@@ -576,7 +586,7 @@ class Blocks extends React.Component {
             }
             log.error(error);
         }
-        this.workspace.addChangeListener(this.props.vm.blockListener);
+        this.workspace.addChangeListener(this.mainWorkspaceChangeListener);
 
         if (
             this.props.vm.editingTarget &&

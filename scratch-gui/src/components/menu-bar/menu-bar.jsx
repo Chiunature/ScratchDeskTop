@@ -248,11 +248,13 @@ class MenuBar extends React.Component {
     }
 
     handleClickSave(isAutoSave) {
+        // 菜单/图标 onClick 会传入 SyntheticEvent，它是 truthy，不能当作“自动保存”标志
+        const autoSaveFlag = isAutoSave === true;
         const openPath = sessionStorage.getItem("openPath");
         const onlySave =
             openPath && openPath !== "null" && openPath !== "undefined";
         this.getSaveToComputerHandler(() =>
-            this.downloadProject(onlySave, isAutoSave)
+            this.downloadProject(onlySave, autoSaveFlag)
         )();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
@@ -536,232 +538,16 @@ class MenuBar extends React.Component {
         return false;
     }
 
-    /**
-     * 打印保存时的项目内容日志
-     * @param {Blob} content - 保存的项目内容（ZIP格式）
-     */
+    logCombinedMotorModeSnapshotForSave(extra) {
+        return;
+    }
+
+    logWorkspaceBlocksForSave(extra) {
+        return;
+    }
+
     async printSaveLog(content) {
-        console.log("==========================================");
-        console.log("【保存项目日志】");
-        console.log("==========================================");
-        console.log(`保存时间: ${new Date().toLocaleString("zh-CN")}`);
-        console.log(`文件名: ${this.props.projectFilename}`);
-        console.log("");
-
-        // 打印项目基本信息
-        if (this.props.vm && this.props.vm.runtime) {
-            const runtime = this.props.vm.runtime;
-            const targets = runtime.targets || [];
-
-            console.log("【项目基本信息】");
-            console.log(`- 角色/精灵数量: ${targets.length}`);
-            console.log(
-                `- 扩展列表: ${
-                    (runtime.getExtensionIDs &&
-                        runtime.getExtensionIDs().length) ||
-                    0
-                } 个`
-            );
-            console.log("");
-
-            // 打印每个target的详细信息
-            console.log("【角色/精灵详情】");
-            targets.forEach((target, idx) => {
-                const targetName = target.isStage
-                    ? "舞台"
-                    : target.sprite
-                    ? target.sprite.name
-                    : `角色${idx + 1}`;
-                console.log(
-                    `\n  ${idx + 1}. ${targetName}${
-                        target.isStage ? " (Stage)" : ""
-                    }`
-                );
-
-                // 代码块信息
-                const blocks = target.blocks ? target.blocks._blocks : {};
-                const blockCount = Object.keys(blocks).length;
-                console.log(`    代码块数量: ${blockCount}`);
-
-                if (blockCount > 0) {
-                    // 统计代码块类型
-                    const blockTypes = {};
-                    const topLevelBlocks = [];
-
-                    Object.entries(blocks).forEach(([blockId, block]) => {
-                        if (Array.isArray(block)) {
-                            blockTypes["primitive"] =
-                                (blockTypes["primitive"] || 0) + 1;
-                        } else if (block.opcode) {
-                            const category = block.opcode.split("_")[0];
-                            blockTypes[category] =
-                                (blockTypes[category] || 0) + 1;
-                            if (block.topLevel) {
-                                topLevelBlocks.push({
-                                    id: blockId,
-                                    opcode: block.opcode,
-                                    x: block.x,
-                                    y: block.y,
-                                });
-                            }
-                        }
-                    });
-
-                    console.log(`    代码块类型分布:`, blockTypes);
-                    console.log(`    顶层脚本数量: ${topLevelBlocks.length}`);
-                    if (topLevelBlocks.length > 0) {
-                        console.log(`    顶层脚本列表:`);
-                        topLevelBlocks.forEach((script, i) => {
-                            console.log(
-                                `      ${i + 1}. ${
-                                    script.opcode
-                                } (ID: ${script.id.substring(0, 20)}...) at (${
-                                    script.x
-                                }, ${script.y})`
-                            );
-                        });
-                    }
-                }
-
-                // 变量信息
-                const varCount = Object.keys(target.variables || {}).length;
-                const listCount = Object.keys(target.lists || {}).length;
-                const broadcastCount = Object.keys(
-                    target.broadcasts || {}
-                ).length;
-                console.log(
-                    `    变量: ${varCount} 个, 列表: ${listCount} 个, 广播: ${broadcastCount} 个`
-                );
-
-                // 造型和声音
-                const costumeCount = target.sprite
-                    ? target.sprite.costumes
-                        ? target.sprite.costumes.length
-                        : 0
-                    : 0;
-                const soundCount = target.sprite
-                    ? target.sprite.sounds
-                        ? target.sprite.sounds.length
-                        : 0
-                    : 0;
-                console.log(
-                    `    造型: ${costumeCount} 个, 声音: ${soundCount} 个`
-                );
-            });
-            console.log("");
-        }
-
-        // 解析并打印ZIP文件内容
-        try {
-            console.log("【文件内容格式】");
-            const arrayBuffer = await content.arrayBuffer();
-            console.log(`- 文件类型: ZIP压缩包 (LBS格式)`);
-            console.log(
-                `- 文件大小: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`
-            );
-            console.log("");
-
-            // 尝试动态导入JSZip（如果可用）
-            let JSZip;
-            try {
-                // 在浏览器环境中，尝试使用动态import或require
-                if (typeof require !== "undefined") {
-                    JSZip = require("jszip");
-                } else {
-                    throw new Error("require not available");
-                }
-            } catch (e) {
-                // 如果无法加载JSZip，只打印基本信息
-                console.log("  注意: 无法加载JSZip库，跳过ZIP文件结构详细解析");
-                console.log("  (文件已成功保存，但无法在浏览器中解析ZIP内容)");
-                return;
-            }
-
-            const zip = await JSZip.loadAsync(arrayBuffer);
-
-            console.log("【ZIP文件结构】");
-            const fileList = [];
-            zip.forEach((relativePath, file) => {
-                if (!file.dir) {
-                    const size = file._data ? file._data.compressedSize : 0;
-                    fileList.push({
-                        name: relativePath,
-                        size: size,
-                    });
-                }
-            });
-
-            fileList.forEach((file) => {
-                const sizeKB = (file.size / 1024).toFixed(2);
-                console.log(`  - ${file.name} (${sizeKB} KB)`);
-            });
-            console.log("");
-
-            // 解析project.json
-            const projectJsonFile = zip.file("project.json");
-            if (projectJsonFile) {
-                console.log("【project.json 内容摘要】");
-                const projectJsonContent = await projectJsonFile.async(
-                    "string"
-                );
-                const projectData = JSON.parse(projectJsonContent);
-
-                console.log(
-                    `- JSON大小: ${(projectJsonContent.length / 1024).toFixed(
-                        2
-                    )} KB`
-                );
-                console.log(`- 版本: ${projectData.meta?.semver || "N/A"}`);
-                console.log(`- VM版本: ${projectData.meta?.vm || "N/A"}`);
-                console.log(
-                    `- 扩展数量: ${(projectData.extensions || []).length}`
-                );
-                console.log(
-                    `- 监视器数量: ${(projectData.monitors || []).length}`
-                );
-                console.log(
-                    `- Target数量: ${(projectData.targets || []).length}`
-                );
-
-                // 统计所有代码块
-                let totalBlocks = 0;
-                (projectData.targets || []).forEach((target) => {
-                    const blocks = target.blocks || {};
-                    totalBlocks += Object.keys(blocks).length;
-                });
-                console.log(`- 总代码块数: ${totalBlocks}`);
-                console.log("");
-
-                // 打印JSON结构（简化版）
-                console.log("【JSON结构】");
-                console.log(
-                    JSON.stringify(
-                        {
-                            meta: projectData.meta,
-                            extensions: projectData.extensions,
-                            monitors: projectData.monitors?.length || 0,
-                            targets: projectData.targets?.map((t) => ({
-                                name: t.name,
-                                isStage: t.isStage,
-                                blocksCount: Object.keys(t.blocks || {}).length,
-                                variablesCount: Object.keys(t.variables || {})
-                                    .length,
-                                costumesCount: (t.costumes || []).length,
-                                soundsCount: (t.sounds || []).length,
-                            })),
-                        },
-                        null,
-                        2
-                    )
-                );
-            }
-        } catch (error) {
-            console.error("解析文件内容时出错:", error);
-        }
-
-        console.log("==========================================");
-        console.log("【保存日志结束】");
-        console.log("==========================================\n");
+        return;
     }
 
     downloadProject(onlySave, isAutoSave) {
@@ -781,85 +567,154 @@ class MenuBar extends React.Component {
             }
         }
 
-        this.props.saveProjectSb3().then(async (content) => {
-            // 打印保存日志
-            await this.printSaveLog(content);
-
-            if (this.props.onSaveFinished) {
-                this.props.onSaveFinished();
-            }
-
-            // 有保存过
-            if (onlySave) {
-                // 覆盖保存：等磁盘写入完成后再更新缓存与提示
-                await downloadBlob(
-                    this.props.projectFilename,
-                    content,
-                    onlySave
-                );
-
-                const savedFilePath =
-                    sessionStorage.getItem("openPath") ||
-                    sessionStorage.getItem("open-auto-save-path");
-                const saveDir =
-                    savedFilePath && savedFilePath.lastIndexOf("\\") > -1
-                        ? savedFilePath.slice(
-                              0,
-                              savedFilePath.lastIndexOf("\\")
-                          )
-                        : "";
-
-                savedFilePath && (await this.setCacheForSave(savedFilePath));
-
-                this.props.onShowCompletedAlert({
-                    alertId: "saveNowSuccess",
-                    message: saveDir,
-                });
-                //await setProgramList(this.props.projectFilename, filePath, null, content);
-                return;
-            }
-
-            // 没有保存过
-            const res = await content.arrayBuffer();
-            if (isAutoSave) {
-                const { homedir } = await window.myAPI.getHomeDir();
-                const path = `${homedir}\\${this.props.projectFilename}`;
-                sessionStorage.setItem("open-auto-save-path", path);
-                await window.myAPI.writeFiles(path, Buffer.from(res), "");
-                // 等缓存更新完成后再提示
-                await this.setCacheForSave(path);
-
-                this.props.onShowCompletedAlert({
-                    alertId: "saveNowSuccess",
-                    message: homedir,
-                });
-                return;
-            }
-
-            const filePath = await window.myAPI.ipcInvoke(
-                ipc_Renderer.FILE.SAVE,
-                {
-                    file: Buffer.from(res),
-                    filename: this.props.projectFilename,
-                }
-            );
-            if (filePath) {
-                sessionStorage.setItem("openPath", filePath);
-                const newName = filePath.slice(filePath.lastIndexOf("\\") + 1);
-                const resultName = newName.slice(0, newName.lastIndexOf("."));
-                this.props.onSetProjectTitle(resultName);
-                // await setProgramList(resultName, filePath, null, content);
-                await this.setCacheForSave(filePath);
-                const saveDir =
-                    filePath && filePath.lastIndexOf("\\") > -1
-                        ? filePath.slice(0, filePath.lastIndexOf("\\"))
-                        : "";
-                this.props.onShowCompletedAlert({
-                    alertId: "saveNowSuccess",
-                    message: saveDir,
-                });
-            }
+        this.logCombinedMotorModeSnapshotForSave({
+            step: "before-saveProjectSb3",
+            onlySave,
+            isAutoSave,
         });
+
+        this.logWorkspaceBlocksForSave({
+            step: "before-saveProjectSb3",
+            onlySave,
+            isAutoSave,
+        });
+
+        this.props
+            .saveProjectSb3()
+            .then(async (content) => {
+                try {
+                    this.logCombinedMotorModeSnapshotForSave({
+                        step: "after-saveProjectSb3-resolve",
+                        onlySave,
+                        isAutoSave,
+                    });
+                    await this.printSaveLog(content);
+
+                    if (this.props.onSaveFinished) {
+                        this.props.onSaveFinished();
+                    }
+
+                    // 有保存过
+                    if (onlySave) {
+                        this.logWorkspaceBlocksForSave({
+                            step: "before-overwrite-disk",
+                            onlySave,
+                            isAutoSave,
+                        });
+                        // 覆盖保存：等磁盘写入完成后再更新缓存与提示
+                        await downloadBlob(
+                            this.props.projectFilename,
+                            content,
+                            onlySave
+                        );
+
+                        const savedFilePath =
+                            sessionStorage.getItem("openPath") ||
+                            sessionStorage.getItem("open-auto-save-path");
+                        const saveDir =
+                            savedFilePath &&
+                            savedFilePath.lastIndexOf("\\") > -1
+                                ? savedFilePath.slice(
+                                      0,
+                                      savedFilePath.lastIndexOf("\\")
+                                  )
+                                : "";
+
+                        savedFilePath &&
+                            (await this.setCacheForSave(savedFilePath));
+
+                        this.logWorkspaceBlocksForSave({
+                            step: "overwrite-save-done",
+                            onlySave,
+                            isAutoSave,
+                            savedFilePath: savedFilePath || "(none)",
+                        });
+
+                        this.props.onShowCompletedAlert({
+                            alertId: "saveNowSuccess",
+                            message: saveDir,
+                        });
+                        return;
+                    }
+
+                    // 没有保存过
+                    const res = await content.arrayBuffer();
+                    if (isAutoSave) {
+                        this.logWorkspaceBlocksForSave({
+                            step: "before-first-auto-save-write",
+                            onlySave,
+                            isAutoSave,
+                        });
+                        const { homedir } = await window.myAPI.getHomeDir();
+                        const path = `${homedir}\\${this.props.projectFilename}`;
+                        sessionStorage.setItem("open-auto-save-path", path);
+                        await window.myAPI.writeFiles(
+                            path,
+                            Buffer.from(res),
+                            ""
+                        );
+                        await this.setCacheForSave(path);
+
+                        this.logWorkspaceBlocksForSave({
+                            step: "first-auto-save-done",
+                            onlySave,
+                            isAutoSave,
+                            path,
+                        });
+
+                        this.props.onShowCompletedAlert({
+                            alertId: "saveNowSuccess",
+                            message: homedir,
+                        });
+                        return;
+                    }
+
+                    this.logWorkspaceBlocksForSave({
+                        step: "before-save-as-dialog",
+                        onlySave,
+                        isAutoSave,
+                    });
+                    const filePath = await window.myAPI.ipcInvoke(
+                        ipc_Renderer.FILE.SAVE,
+                        {
+                            file: Buffer.from(res),
+                            filename: this.props.projectFilename,
+                        }
+                    );
+                    if (filePath) {
+                        sessionStorage.setItem("openPath", filePath);
+                        const newName = filePath.slice(
+                            filePath.lastIndexOf("\\") + 1
+                        );
+                        const resultName = newName.slice(
+                            0,
+                            newName.lastIndexOf(".")
+                        );
+                        this.props.onSetProjectTitle(resultName);
+                        await this.setCacheForSave(filePath);
+                        const saveDir =
+                            filePath && filePath.lastIndexOf("\\") > -1
+                                ? filePath.slice(0, filePath.lastIndexOf("\\"))
+                                : "";
+
+                        this.logWorkspaceBlocksForSave({
+                            step: "manual-save-done",
+                            onlySave,
+                            isAutoSave,
+                            filePath,
+                        });
+
+                        this.props.onShowCompletedAlert({
+                            alertId: "saveNowSuccess",
+                            message: saveDir,
+                        });
+                    } else {
+                    }
+                } catch (err) {
+                }
+            })
+            .catch((err) => {
+            });
     }
 
     async setCacheForSave(filePath) {
