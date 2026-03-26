@@ -340,7 +340,6 @@ export class Common {
     if (!("Not_Run" in item.color)) {
       const { r, g, b } = item.color;
       item.color = {
-        l: item.color.l,
         ...item.color,
         rgb: `rgb(${r >= 255 ? "255" : r}, ${g >= 255 ? "255" : g}, ${
           b >= 255 ? "255" : b

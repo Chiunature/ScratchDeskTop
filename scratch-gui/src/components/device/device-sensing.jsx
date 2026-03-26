@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useCallback } from "react";
 import styles from "./device.css";
 import colorSensingIcon from "scratch-blocks/media/color_sensing.svg";
 import motorSensingIcon from "scratch-blocks/media/motor_sensing.svg";
@@ -10,312 +10,173 @@ import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
+// ─── Port index (0–7) → label (A–H) ─────────────────────────────────────────
+const PORT_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+const getPort = (index) =>
+    PORT_LABELS[index] !== undefined ? PORT_LABELS[index] : String(index);
+
+// ─── sensing_device 类型名 → 传感器图标 ──────────────────────────────────────
+// sensing_device 由 est-link/common.js 的 distinguishDevice 写入，值为可读字符串
+const DEVICE_ICONS = {
+    motor: motorSensingIcon,
+    big_motor: motorSensingIcon,
+    small_motor: motorSensingIcon,
+    color: colorSensingIcon,
+    gray: colorSensingIcon,
+    superSound: superSoundIcon,
+    touch: touchPressIcon,
+    camer: cameraSensingIcon,
+    nfc: nfcSensingIcon,
+};
+
+const getSensing = (sensingDevice) => DEVICE_ICONS[sensingDevice] || null;
+
+// ─── sensing_device 类型名 → item 上对应的数据字段名 ─────────────────────────
+// big_motor / small_motor 已在 est-link 中统一挂到 item.motor
+const DEVICE_DATA_FIELDS = {
+    motor: "motor",
+    big_motor: "motor",
+    small_motor: "motor",
+    color: "color",
+    superSound: "ultrasion",
+    touch: "touch",
+    gray: "gray",
+    camer: "camer",
+    nfc: "nfc",
+};
+
+const getType = (item) => {
+    const field = DEVICE_DATA_FIELDS[item.sensing_device];
+    return field ? item[field] || null : null;
+};
+
+// ─── 摄像头各 mode 的字段标签表 ──────────────────────────────────────────────
+const CAMERA_MODE_TITLES = {
+    1: "Mode",
+    3: "颜色检测",
+    4: "巡线",
+    6: "人脸识别",
+    16: "特征点检测",
+    12: "Apriltag模式",
+};
+
+const CAMERA_MODE_LABELS = {
+    1: { state: "是否找到", x: "X坐标", y: "Y坐标", pixel: "像素点" },
+    3: { r: "红色值", g: "绿色值", b: "蓝色值" },
+    4: { state: "是否找到", sig: "显著性", cm: "垂度", theta: "角度" },
+    6: { state: "是否找到", x: "X坐标", y: "Y坐标" },
+    16: { state: "是否找到", matchine: "匹配度", angle: "角度" },
+    12: {
+        state: "是否找到",
+        id: "标签ID",
+        x: "X坐标",
+        y: "Y坐标",
+        angle: "角度",
+        cm: "距离",
+    },
+};
+
+const getCameraLabel = (keyName, camera) => {
+    if (!camera?.mode) return keyName;
+    if (keyName === "mode") return CAMERA_MODE_TITLES[camera.mode] || keyName;
+    return CAMERA_MODE_LABELS[camera.mode]?.[keyName] || keyName;
+};
+
+// ─── NFC 字段标签 ─────────────────────────────────────────────────────────────
+const NFC_LABELS = { id: "标签ID", version: "版本" };
+const getNfcLabel = (keyName) => NFC_LABELS[keyName] || keyName;
+
+// ─── 各传感器字段名 → 消息 key 的映射表（模块级，方便一眼看清所有映射）────────
+// 不在表里的字段：电机/颜色返回 null（隐藏），灰度直接显示原始 key 名
+const MOTOR_MSG_KEYS = {
+    circly: "circly",
+    speed: "actualSpeed",
+    pos: "angle",
+    version: "version",
+};
+
+const COLOR_DIRECT_LABELS = { r: "R", g: "G", b: "B", h: "H" };
+const COLOR_MSG_KEYS = {
+    lux: "lightIntensity",
+    version: "version",
+    // SoftwareVersion / Softwareversion 与 version 重复，不在下拉菜单中展示
+};
+
+const GRAY_MSG_KEYS = {
+    version: "version",
+    // Softwareversion 与 version 重复，不在下拉菜单中展示
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
 const DeviceSensing = ({ deviceObj, intl }) => {
-    function changeUnitList(unit, index, deviceId) {
-        let list = window.myAPI.getStoreValue("sensing-unit-list");
-        if (list) {
-            let newList = JSON.parse(list);
-            if (
-                newList.length === 0 ||
-                (newList[index]?.deviceId === deviceId &&
-                    newList[index]?.unit === unit)
-            )
-                return;
-            newList[index]["unit"] = unit;
-            newList[index]["deviceId"] = deviceId;
-            window.myAPI.setStoreValue(
-                "sensing-unit-list",
-                JSON.stringify(newList)
-            );
-        }
-    }
-    //返回端口号
-    function getPort(index) {
-        const num = parseInt(index);
-        if (isNaN(num)) return;
-        switch (num) {
-            case 0:
-                return "A";
-            case 1:
-                return "B";
-            case 2:
-                return "C";
-            case 3:
-                return "D";
-            case 4:
-                return "E";
-            case 5:
-                return "F";
-            case 6:
-                return "G";
-            case 7:
-                return "H";
-            default:
-                break;
-        }
-    }
-    //返回图标
-    function getSensing(deviceId) {
-        if (!deviceId) return;
-        const num = parseInt(deviceId.slice(-1));
-        switch (num) {
-            case 1:
-            case 5:
-                return motorSensingIcon;
-            case 6:
-                return smallMotorSensingIcon;
-            case 2:
-            case 7:
-                return colorSensingIcon;
-            case 3:
-                return superSoundIcon;
-            case 4:
-                return touchPressIcon;
-            case 8:
-                return cameraSensingIcon;
-            case 9:
-                return nfcSensingIcon;
-            default:
-                break;
-        }
-    }
-    //返回数据
-    function getType(item) {
-        if (!item.deviceId) return;
-        const num = parseInt(item.deviceId.slice(-1));
-        switch (num) {
-            case 1:
-            case 5:
-            case 6:
-                return item.motor;
-            case 2:
-                return item.color;
-            case 3:
-                return item.ultrasion;
-            case 4:
-                return item.touch;
-            case 7:
-                return item.gray;
-            case 8:
-                return item.camer;
-            case 9:
-                return item.nfc;
-            default:
-                return null;
-        }
-    }
+    const fmt = (key) => intl.formatMessage(messages[key]);
 
-    function DistinguishTypes(deviceId, unitIndex, keyName, item) {
-        if (!deviceId) return;
-        const num = parseInt(deviceId.slice(-1));
-        switch (num) {
-            case 1:
-            case 5:
-            case 6:
-                return motorData(unitIndex);
-            case 2:
-                return colorData(unitIndex);
-            case 3:
-                return intl.formatMessage(messages["distance"]);
-            case 4:
-                return intl.formatMessage(messages["key"]);
-            case 7:
-                return grayData(unitIndex, keyName);
-            case 8:
-                // 获取 camera 对象
-                const camera = item?.camer || item?.camera;
-                return cameraData(keyName, camera);
-            case 9:
-                return nfcData(keyName);
-            default:
-                return keyName;
-        }
-    }
+    const getMotorLabel = (keyName) => {
+        const msgKey = MOTOR_MSG_KEYS[keyName];
+        return msgKey ? fmt(msgKey) : null;
+    };
 
-    function grayData(num, keyName) {
-        switch (num) {
-            case 0:
-            case 1:
-                return keyName;
-            default:
-                return intl.formatMessage(messages["version"]);
-        }
-    }
+    const getColorLabel = (keyName) => {
+        if (COLOR_DIRECT_LABELS[keyName]) return COLOR_DIRECT_LABELS[keyName];
+        const msgKey = COLOR_MSG_KEYS[keyName];
+        return msgKey ? fmt(msgKey) : null;
+    };
 
-    function motorData(num) {
-        switch (num) {
-            case 0:
-                return intl.formatMessage(messages["circly"]);
-            case 1:
-                return intl.formatMessage(messages["actualSpeed"]);
-            case 2:
-                return intl.formatMessage(messages["angle"]);
-            case 3:
-                return intl.formatMessage(messages["version"]);
-            default:
-                return;
-        }
-    }
+    const getGrayLabel = (keyName) => {
+        const msgKey = GRAY_MSG_KEYS[keyName];
+        return msgKey ? fmt(msgKey) : keyName;
+    };
 
-    function colorData(num) {
-        switch (num) {
-            case 0:
-                return intl.formatMessage(messages["lightIntensity"]);
-            case 1:
-                return "R";
-            case 2:
-                return "G";
-            case 3:
-                return "B";
-            case 4:
-                return "H";
-            case 5:
-                return intl.formatMessage(messages["version"]);
-            default:
-                return;
-        }
-    }
+    // 设备类型名 → 标签解析函数
+    // sensing_device 由 est-link/common.js 的 distinguishDevice 设置，值如 "motor"/"color"/"gray" 等
+    const LABEL_RESOLVERS = {
+        motor: (keyName) => getMotorLabel(keyName),
+        big_motor: (keyName) => getMotorLabel(keyName),
+        small_motor: (keyName) => getMotorLabel(keyName),
+        color: (keyName) => getColorLabel(keyName),
+        superSound: () => fmt("distance"),
+        touch: () => fmt("key"),
+        gray: (keyName) => getGrayLabel(keyName),
+        camer: (keyName, item) =>
+            getCameraLabel(keyName, item.camer || item.camera),
+        nfc: (keyName) => getNfcLabel(keyName),
+    };
 
-    function cameraData(keyName, camera) {
-        // 根据 camera 的 mode 和 keyName 返回对应的显示文本
-        if (!camera || !camera.mode) return keyName;
+    const DistinguishTypes = (keyName, item) => {
+        const resolve = LABEL_RESOLVERS[item.sensing_device];
+        return resolve ? resolve(keyName, item) : keyName;
+    };
 
-        switch (camera.mode) {
-            case 1:
-                // mode 1: {"mode":1,"state":1,"x":185,"y":33,"pixel":27392}
-                switch (keyName) {
-                    case "mode":
-                        return "模式";
-                    case "state":
-                        return "是否找到";
-                    case "x":
-                        return "X坐标";
-                    case "y":
-                        return "Y坐标";
-                    case "pixel":
-                        return "像素点";
-                    default:
-                        return keyName;
-                }
-            case 3:
-                // mode 2: {"mode":2,"r":23,"g":33,"b":xx}
-                switch (keyName) {
-                    case "mode":
-                        return "颜色检测";
-                    case "r":
-                        return "红色值";
-                    case "g":
-                        return "绿色值";
-                    case "b":
-                        return "蓝色值";
-                    default:
-                        return keyName;
-                }
-            case 4:
-                //巡线
-                switch (keyName) {
-                    case "mode":
-                        return "巡线";
-                    case "state":
-                        return "是否找到";
-                    case "sig":
-                        return "显著性";
-                    case "cm":
-                        return "垂度";
-                    case "theta":
-                        return "角度";
-                    default:
-                        return keyName;
-                }
-            case 6:
-                // 人脸识别
-                switch (keyName) {
-                    case "mode":
-                        return "人脸识别";
-                    case "state":
-                        return "是否找到";
-                    case "x":
-                        return "X坐标";
-                    case "y":
-                        return "Y坐标";
-                    default:
-                        return keyName;
-                }
-            case 16:
-                //特征点检测
-                switch (keyName) {
-                    case "mode":
-                        return "特征点检测";
-                    case "state":
-                        return "是否找到";
-                    case "matchine":
-                        return "匹配度";
-                    case "angle":
-                        return "角度";
-                    default:
-                        return keyName;
-                }
-            case 12:
-                //Apriltag模式
-                switch (keyName) {
-                    case "mode":
-                        return "Apriltag模式";
-                    case "state":
-                        return "是否找到";
-                    case "id":
-                        return "标签ID";
-                    case "x":
-                        return "X坐标";
-                    case "y":
-                        return "Y坐标";
-                    case "angle":
-                        return "角度";
-                    case "cm":
-                        return "距离";
-                    default:
-                        return keyName;
-                }
-            default:
-                return keyName;
-        }
-    }
-
-    function nfcData(keyName) {
-        switch (keyName) {
-            case "id":
-                return "标签ID";
-            case "version":
-                return "版本";
-            default:
-                return keyName;
-        }
-    }
-    function _checkTypeIs(currentType, target) {
-        return {}.toString.call(currentType) === "[object " + target + "]";
-    }
+    const changeUnitList = useCallback((unit, index, deviceId) => {
+        const raw = window.myAPI.getStoreValue("sensing-unit-list");
+        if (!raw) return;
+        const list = JSON.parse(raw);
+        if (
+            list.length === 0 ||
+            (list[index]?.deviceId === deviceId && list[index]?.unit === unit)
+        )
+            return;
+        list[index] = { ...list[index], unit, deviceId };
+        window.myAPI.setStoreValue("sensing-unit-list", JSON.stringify(list));
+    }, []);
 
     return (
         <div className={styles.deviceSensingBox}>
             <ul>
-                {deviceObj?.deviceList &&
-                    deviceObj.deviceList.map((item, index) => {
-                        return (
-                            <Fragment key={index}>
-                                {item?.deviceId !== "0" && (
-                                    <DeviceSensingItem
-                                        _checkTypeIs={_checkTypeIs}
-                                        changeUnitList={changeUnitList}
-                                        index={index}
-                                        item={item}
-                                        getPort={getPort}
-                                        getSensing={getSensing}
-                                        getType={getType}
-                                        DistinguishTypes={DistinguishTypes}
-                                    />
-                                )}
-                            </Fragment>
-                        );
-                    })}
+                {deviceObj?.deviceList?.map((item, index) =>
+                    item?.deviceId && item.deviceId !== "0" ? (
+                        <DeviceSensingItem
+                            key={index}
+                            changeUnitList={changeUnitList}
+                            index={index}
+                            item={item}
+                            getPort={getPort}
+                            getSensing={getSensing}
+                            getType={getType}
+                            DistinguishTypes={DistinguishTypes}
+                        />
+                    ) : null
+                )}
             </ul>
         </div>
     );

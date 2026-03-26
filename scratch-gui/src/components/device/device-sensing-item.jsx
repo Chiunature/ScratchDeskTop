@@ -1,6 +1,39 @@
-import React, { useState, useMemo, useEffect, Fragment } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import styles from "./device.css";
 import dropdownCaret from "../menu-bar/dropdown-caret.svg";
+
+// 判断值是否为有效数据（非 null/undefined）
+const isValid = (val) =>
+    val !== undefined && val !== null;
+
+// 颜色识别对象是否含 lux 字段（决定默认优先展示 lux）
+const isColorWithLux = (obj) =>
+    obj && "lux" in obj && ("r" in obj || "g" in obj || "b" in obj);
+
+// 电机类型的 sensing_device 名称集合
+const MOTOR_TYPES = new Set(["motor", "big_motor", "small_motor"]);
+
+// 从本地存储读取当前端口的已保存单位
+const getSavedUnit = (index, deviceId) => {
+    const raw = window.myAPI.getStoreValue("sensing-unit-list");
+    if (!raw) return null;
+    try {
+        const list = JSON.parse(raw);
+        const entry = list?.[index];
+        return entry?.deviceId === deviceId ? (entry.unit || null) : null;
+    } catch {
+        return null;
+    }
+};
+
+// 取默认单位：颜色识别优先 lux，电机取第 3 个字段（pos），其余取第 1 个
+const getDefaultUnit = (obj, sensingDevice) => {
+    if (isColorWithLux(obj)) return "lux";
+    const keys = Object.keys(obj);
+    return MOTOR_TYPES.has(sensingDevice)
+        ? (keys[2] !== undefined ? keys[2] : keys[0])
+        : keys[0];
+};
 
 const DeviceSensingItem = ({
     item,
@@ -10,114 +43,71 @@ const DeviceSensingItem = ({
     DistinguishTypes,
     index,
     changeUnitList,
-    _checkTypeIs,
 }) => {
-    let [showData, setShowData] = useState(0);
-    let [unit, setUnit] = useState(null);
-    let [unitIndex, setUnitIndex] = useState(0);
+    const [unit, setUnit] = useState(null);
 
+    // 设备切换时重置选中单位
     useEffect(() => {
-        const obj = getType(item);
-        if (!obj) return;
-
-        // 检查当前 unit 是否在新的 obj 中存在
-        // 当 camera mode 变化时，obj 的键可能会变化（比如 mode 1 有 x,y,pixel，mode 3 有 r,g,b）
-        if (unit && !obj.hasOwnProperty(unit)) {
-            // 如果当前 unit 不存在于新的 obj 中，重置 unit 让 initUnit 重新选择
-            setUnit(null);
-        }
-
-        initUnit(obj);
-    }, [item]);
-
-    let newDeviceId = useMemo(() => {
         setUnit(null);
-        return item.deviceId;
     }, [item.deviceId]);
 
-    let data = useMemo(() => {
-        const type = DistinguishTypes(newDeviceId, unitIndex, unit, item);
-        return type ? type + ": " + showData : showData;
-    }, [showData, newDeviceId, unitIndex, unit, item]);
+    // unit 为 null 时进行初始化（优先读本地存储，其次取默认）
+    useEffect(() => {
+        if (unit !== null) return;
+        const obj = getType(item);
+        if (!obj || !item.deviceId) return;
 
-    function initUnit(obj) {
-        if (!unit) {
-            const arr = window.myAPI.getStoreValue("sensing-unit-list");
-            let sensingUnitList, unitListItem;
-            if (arr) {
-                sensingUnitList = JSON.parse(arr);
-            }
-            if (sensingUnitList) {
-                unitListItem = sensingUnitList[index];
-            }
-            if (!newDeviceId) {
-                return;
-            }
-            const num = parseInt(newDeviceId.slice(-1));
-            const isSameDevice = unitListItem?.deviceId === newDeviceId;
-            if (isSameDevice) {
-                switch (num) {
-                    case 1:
-                    case 5:
-                    case 6:
-                        const motorUnit =
-                            isSameDevice && unitListItem?.unit
-                                ? unitListItem["unit"]
-                                : Object.keys(obj)[2];
-                        setUnit(motorUnit);
-                        initUnitIndex(obj, motorUnit);
-                        break;
-                    default:
-                        const newUnit =
-                            isSameDevice && unitListItem?.unit
-                                ? unitListItem["unit"]
-                                : Object.keys(obj)[0];
-                        setUnit(newUnit);
-                        initUnitIndex(obj, newUnit);
-                        break;
-                }
-            } else {
-                const defaultUnit = Object.keys(obj)[0];
-                setUnit(defaultUnit);
-                initUnitIndex(obj, defaultUnit);
-                changeUnitList(defaultUnit, index, newDeviceId);
-            }
+        const saved = getSavedUnit(index, item.deviceId);
+        const next =
+            saved && saved in obj
+                ? saved
+                : getDefaultUnit(obj, item.sensing_device);
+
+        setUnit(next);
+        changeUnitList(next, index, item.deviceId);
+    }, [unit, item, index]);
+
+    // 当前数据中不存在该 unit 时重置（例如 camera mode 切换导致字段消失）
+    useEffect(() => {
+        const obj = getType(item);
+        if (obj && unit && !(unit in obj)) {
+            setUnit(null);
         }
+    }, [item]);
 
-        // 无论 unit 是否变化，都要更新 showData
-        // 这样当 camera mode 变化时，即使 unit 不变，showData 也会更新为最新的值
-        if (
-            unit &&
-            obj.hasOwnProperty(unit) &&
-            !_checkTypeIs(obj[unit], "Undefined") &&
-            !_checkTypeIs(obj[unit], "Null")
-        ) {
-            setShowData(obj[unit]);
-        }
-    }
+    const obj = getType(item);
 
-    function initUnitIndex(obj, unit) {
-        if (!unit || !obj) return;
-        const arr = Object.keys(obj);
-        setUnitIndex(arr.indexOf(unit));
-    }
+    // 当前展示数值（派生值，无需独立 state）
+    const showData = useMemo(() => {
+        if (!obj || !unit || !(unit in obj)) return 0;
+        const val = obj[unit];
+        return isValid(val) ? val : 0;
+    }, [obj, unit]);
 
-    function selectUnit(el, unIndex) {
-        if (unit === el || unIndex === unitIndex) {
-            return;
-        }
-        setUnit(el);
-        setUnitIndex(unIndex);
-        changeUnitList(el, index, newDeviceId);
-    }
+    // 组合显示文案："标签: 数值"
+    const label = useMemo(() => {
+        const typeName = DistinguishTypes(unit, item);
+        return typeName ? `${typeName}: ${showData}` : `${showData}`;
+    }, [showData, unit, item]);
+
+    const handleSelectUnit = useCallback(
+        (key) => {
+            if (key === unit) return;
+            setUnit(key);
+            changeUnitList(key, index, item.deviceId);
+        },
+        [unit, index, item.deviceId]
+    );
+
+    const options = obj ? Object.keys(obj) : [];
 
     return (
         <li>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
-                <img src={getSensing(item.deviceId)} />
+                <img src={getSensing(item.sensing_device)} alt="" />
                 <div className={styles.showUnit}>
-                    <label>{data}</label>
+                    <label>{label}</label>
                     <img
                         className={styles.dropdownCaret}
                         src={dropdownCaret}
@@ -126,30 +116,21 @@ const DeviceSensingItem = ({
                 </div>
                 <div className={styles.deviceSensingUnit}>
                     <div>
-                        {getType(item) &&
-                            Object.keys(getType(item)).map((el, unIndex) => {
-                                const displayText = DistinguishTypes(
-                                    item.deviceId,
-                                    unIndex,
-                                    el,
-                                    item
-                                );
-                                return el === "Not_Run" ? (
-                                    <span key={unIndex}>Error</span>
-                                ) : (
-                                    <Fragment key={unIndex}>
-                                        {displayText && (
-                                            <span
-                                                onClick={() =>
-                                                    selectUnit(el, unIndex)
-                                                }
-                                            >
-                                                {displayText}
-                                            </span>
-                                        )}
-                                    </Fragment>
-                                );
-                            })}
+                        {options.map((key) => {
+                            if (key === "Not_Run") {
+                                return <span key={key}>Error</span>;
+                            }
+                            const text = DistinguishTypes(key, item);
+                            if (!text) return null;
+                            return (
+                                <span
+                                    key={key}
+                                    onClick={() => handleSelectUnit(key)}
+                                >
+                                    {text}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

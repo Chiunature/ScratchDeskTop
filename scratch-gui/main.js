@@ -402,6 +402,9 @@ app.setPath("userData", path.join(app.getPath("appData"), pg.name));
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on("ready", () => {
+    // 清理上次异常退出遗留的损坏缓存，避免 ERR_CACHE_READ_FAILURE
+    const { session } = require("electron");
+    session.defaultSession.clearCache().catch(() => {});
     showLoading(createWindow);
     createTray();
 });

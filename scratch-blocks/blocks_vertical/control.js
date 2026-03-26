@@ -592,7 +592,6 @@ Blockly.FieldElseIfButton.prototype.init = function () {
     "mousedown",
     this,
     function (e) {
-      console.log("🖱️ [CLICK] + 按钮被点击！");
       e.stopPropagation();
       e.preventDefault();
 
@@ -781,13 +780,7 @@ Blockly.Blocks["control_if_elseif_else"] = {
       throw new Error();
     } catch (e) {
       const stack = e.stack.split("\n")[2]; // 取上一层调用
-      console.log("🔄 [UPDATE] updateBlock_ 被调用 from:", stack.trim());
     }
-
-    console.log(
-      "🛠️ [UPDATE] 开始重建 block，当前 elseIfCount_ =",
-      this.elseIfCount_
-    );
     // 保存当前连接的值
     var savedValues = {};
     var savedStatements = {};
@@ -930,14 +923,8 @@ Blockly.Blocks["control_if_elseif_else"] = {
       }
     }
 
-    console.log("🔧 [DEBUG] 准备重建 block，elseIfCount =", this.elseIfCount_);
-    console.log("🔧 [DEBUG] 消息结构:", messages);
-    console.log("🔧 [DEBUG] 参数结构:", args);
     // 重新初始化
     this.jsonInit(jsonDef);
-
-    console.log("🔧 [DEBUG] 最终 jsonDef:", JSON.stringify(jsonDef, null, 2));
-
     // 恢复连接的值
     for (var name in savedValues) {
       if (savedValues[name] && this.getInput(name)) {
@@ -970,10 +957,6 @@ Blockly.Blocks["control_if_elseif_else"] = {
       this.render();
     }
 
-    this.inputList.forEach((input) => {
-      console.log(input.name + ": connection=" + !!input.connection);
-    });
-
     setTimeout(function () {
       var addButtonField = self.getField("ADD_ELSEIF_TOP");
       if (addButtonField) {
@@ -1000,14 +983,9 @@ Blockly.Blocks["control_if_elseif_else"] = {
    * 添加一个 else if 分支
    */
   addElseIf: function () {
-    console.log(
-      "🟢 [ACTION] addElseIf() 被调用！当前 elseIfCount_ =",
-      this.elseIfCount_
-    );
     Blockly.Events.setGroup(true);
     var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
     this.elseIfCount_ = (this.elseIfCount_ || 1) + 1;
-    console.log("   → 增加后 elseIfCount_ =", this.elseIfCount_);
     this.updateBlock_();
     var newMutation = Blockly.Xml.domToText(this.mutationToDom());
     Blockly.Events.fire(
@@ -1026,15 +1004,9 @@ Blockly.Blocks["control_if_elseif_else"] = {
    * 删除一个 else if 分支（默认删除最后一个）
    */
   removeElseIf: function () {
-    console.log(
-      "🔴 [ACTION] removeElseIf() 被调用！当前 elseIfCount_ =",
-      this.elseIfCount_
-    );
     if ((this.elseIfCount_ || 1) <= 1) {
-      console.log("   → 不允许删除，返回");
       return;
     }
-    console.log("   → 删除后 elseIfCount_ =", this.elseIfCount_);
     Blockly.Events.setGroup(true);
     var oldMutation = Blockly.Xml.domToText(this.mutationToDom());
     this.elseIfCount_ = (this.elseIfCount_ || 1) - 1;
