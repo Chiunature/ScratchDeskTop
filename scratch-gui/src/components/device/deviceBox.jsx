@@ -3,21 +3,33 @@ import styles from "./device.css";
 
 // ─── Port index → label ───────────────────────────────────────────────────────
 const PORT_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
-const getPort = (index) => PORT_LABELS[index] !== undefined ? PORT_LABELS[index] : String(index);
+const getPort = (index) =>
+    PORT_LABELS[index] !== undefined ? PORT_LABELS[index] : String(index);
 
 // ─── 摄像头各 mode 字段标签表（与 device-sensing.jsx 保持一致）─────────────────
 const CAMERA_MODE_TITLES = {
-    1: "Mode", 3: "颜色检测", 4: "巡线",
-    6: "人脸识别", 16: "特征点检测", 12: "Apriltag模式",
+    1: "Mode",
+    3: "颜色检测",
+    4: "巡线",
+    6: "人脸识别",
+    16: "特征点检测",
+    12: "Apriltag模式",
 };
 
 const CAMERA_MODE_LABELS = {
-    1:  { state: "是否找到", x: "X坐标", y: "Y坐标", pixel: "像素点" },
-    3:  { r: "红色值", g: "绿色值", b: "蓝色值" },
-    4:  { state: "是否找到", sig: "显著性", cm: "垂度", theta: "角度" },
-    6:  { state: "是否找到", x: "X坐标", y: "Y坐标" },
+    1: { state: "是否找到", x: "X坐标", y: "Y坐标", pixel: "像素点" },
+    3: { r: "红色值", g: "绿色值", b: "蓝色值" },
+    4: { state: "是否找到", sig: "显著性", cm: "垂度", theta: "角度" },
+    6: { state: "是否找到", x: "X坐标", y: "Y坐标" },
     16: { state: "是否找到", matchine: "匹配度", angle: "角度" },
-    12: { state: "是否找到", id: "标签ID", x: "X坐标", y: "Y坐标", angle: "角度", cm: "距离" },
+    12: {
+        state: "是否找到",
+        id: "标签ID",
+        x: "X坐标",
+        y: "Y坐标",
+        angle: "角度",
+        cm: "距离",
+    },
 };
 
 const getCameraLabel = (keyName, camera) => {
@@ -32,22 +44,22 @@ const getNfcLabel = (keyName) => NFC_LABELS[keyName] || keyName;
 
 // ─── 各传感器字段名 → 消息 key / 直接标签 的映射表 ──────────────────────────
 const MOTOR_MSG_KEYS = {
-    circly:  "circly",
-    speed:   "actualSpeed",
-    pos:     "angle",
+    circly: "circly",
+    speed: "actualSpeed",
+    angle: "angle",
     version: "version",
 };
 
 // 颜色面板只展示这几个字段，rgb 固定为 "RGB"，其余查 i18n
 const COLOR_BOX_LABELS = {
-    lux:     { msg: "lightIntensity" },
-    rgb:     { text: "RGB" },
+    lux: { msg: "lightIntensity" },
+    rgb: { text: "RGB" },
     version: { msg: "version" },
 };
 
 // 灰度面板：version 类字段查 i18n，其余显示原始 key 名
 const GRAY_MSG_KEYS = {
-    version:         "version",
+    version: "version",
     Softwareversion: "version",
 };
 
@@ -103,7 +115,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                     {el.ultrasion && (
                         <ul className={styles.midUl}>
                             <li>
-                                <span>{intl.formatMessage(messages["distance"])}</span>
+                                <span>
+                                    {intl.formatMessage(messages["distance"])}
+                                </span>
                                 <span>{el.ultrasion.cm}</span>
                                 <span>cm</span>
                             </li>
@@ -114,7 +128,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                     {el.touch && (
                         <ul className={styles.midUl}>
                             <li>
-                                <span>{intl.formatMessage(messages["key"])}</span>
+                                <span>
+                                    {intl.formatMessage(messages["key"])}
+                                </span>
                                 <span>{el.touch.state}</span>
                             </li>
                         </ul>
@@ -125,7 +141,11 @@ const DeviceBox = ({ list, intl, messages }) => {
                         <ul className={styles.midUl}>
                             {Object.keys(el.color).map((keyName) => {
                                 if (keyName === "Not_Run") {
-                                    return <li key={keyName}><span>Error</span></li>;
+                                    return (
+                                        <li key={keyName}>
+                                            <span>Error</span>
+                                        </li>
+                                    );
                                 }
                                 const label = getColorLabel(keyName);
                                 if (!label) return null;
@@ -137,7 +157,10 @@ const DeviceBox = ({ list, intl, messages }) => {
                                             <span>
                                                 <div
                                                     className={styles.col}
-                                                    style={{ backgroundColor: el.color[keyName] }}
+                                                    style={{
+                                                        backgroundColor:
+                                                            el.color[keyName],
+                                                    }}
                                                 />
                                             </span>
                                         )}
@@ -153,7 +176,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                             {Object.keys(el.gray).map((keyName) => (
                                 <li key={keyName}>
                                     <span>
-                                        {keyName === "Not_Run" ? "Error" : getGrayLabel(keyName)}
+                                        {keyName === "Not_Run"
+                                            ? "Error"
+                                            : getGrayLabel(keyName)}
                                     </span>
                                     <span>{el.gray[keyName]}</span>
                                 </li>
@@ -165,16 +190,23 @@ const DeviceBox = ({ list, intl, messages }) => {
                     {(el.camer || el.camera) &&
                         Object.keys(el.camer || el.camera).length > 0 && (
                             <ul className={styles.midUl}>
-                                {Object.keys(el.camer || el.camera).map((keyName) => {
-                                    if (keyName === "mode") return null;
-                                    const camera = el.camer || el.camera;
-                                    return (
-                                        <li key={keyName}>
-                                            <span>{getCameraLabel(keyName, camera)}</span>
-                                            <span>{camera[keyName]}</span>
-                                        </li>
-                                    );
-                                })}
+                                {Object.keys(el.camer || el.camera).map(
+                                    (keyName) => {
+                                        if (keyName === "mode") return null;
+                                        const camera = el.camer || el.camera;
+                                        return (
+                                            <li key={keyName}>
+                                                <span>
+                                                    {getCameraLabel(
+                                                        keyName,
+                                                        camera
+                                                    )}
+                                                </span>
+                                                <span>{camera[keyName]}</span>
+                                            </li>
+                                        );
+                                    }
+                                )}
                             </ul>
                         )}
 

@@ -20,7 +20,7 @@ const getPort = (index) =>
 const DEVICE_ICONS = {
     motor: motorSensingIcon,
     big_motor: motorSensingIcon,
-    small_motor: motorSensingIcon,
+    small_motor: smallMotorSensingIcon,
     color: colorSensingIcon,
     gray: colorSensingIcon,
     superSound: superSoundIcon,
@@ -91,7 +91,7 @@ const getNfcLabel = (keyName) => NFC_LABELS[keyName] || keyName;
 const MOTOR_MSG_KEYS = {
     circly: "circly",
     speed: "actualSpeed",
-    pos: "angle",
+    angle: "angle",
     version: "version",
 };
 
