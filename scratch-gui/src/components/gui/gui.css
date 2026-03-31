@@ -290,11 +290,11 @@ $fade-out-distance: 15px;
     left: 1.25rem;
 }
 
-/* Menu */
+/* Menu：仅保留 MenuBar 在 flex 布局中的伸展行为 */
 
-.menu-bar-position {
-    position: relative;
-    z-index: $z-index-menu-bar;
+.menu-bar-flex {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 /* Alerts */

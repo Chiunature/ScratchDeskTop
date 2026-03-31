@@ -296,3 +296,80 @@
     height: 1.8rem;
     vertical-align: middle;
 }
+
+/* 设备电量（与菜单栏同色条内展示） */
+.device-battery-badge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    padding: 0 0.75rem;
+    font-size: $menu-bar-standard-font-size;
+    font-weight: bold;
+    color: $ui-white;
+    white-space: nowrap;
+    border-left: 1px solid $ui-black-transparent;
+}
+
+[dir="rtl"] .device-battery-badge {
+    border-left: none;
+    border-right: 1px solid $ui-black-transparent;
+}
+
+.device-battery-shell {
+    position: relative;
+    width: 1.7rem;
+    height: 0.82rem;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 0.16rem;
+    overflow: visible;
+    padding: 1px;
+}
+
+.device-battery-head {
+    position: absolute;
+    right: -0.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.12rem;
+    height: 0.36rem;
+    border-radius: 0 0.08rem 0.08rem 0;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+[dir="rtl"] .device-battery-head {
+    right: auto;
+    left: -0.2rem;
+    border-radius: 0.08rem 0 0 0.08rem;
+}
+
+.device-battery-fill {
+    height: 100%;
+    border-radius: 0.1rem;
+    background: linear-gradient(90deg, #44d17a, #75f0a3);
+    animation: battery-flow 1.2s ease-in-out infinite;
+    transition: width 220ms ease-out;
+}
+
+.device-battery-value {
+    min-width: 2.4rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+[dir="rtl"] .device-battery-value {
+    text-align: left;
+}
+
+@keyframes battery-flow {
+    0% {
+        filter: brightness(0.9);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+    100% {
+        filter: brightness(0.9);
+    }
+}

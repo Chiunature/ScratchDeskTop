@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test:mock-serial": "node ./scripts/mock-serialport-test.cjs"
   },
   "author": "",
   "license": "ISC",

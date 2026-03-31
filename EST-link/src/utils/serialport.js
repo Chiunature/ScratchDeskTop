@@ -52,6 +52,10 @@ export class Serialport extends Common {
     /** 设备心跳超时定时器：超时未收到数据则主动通知渲染进程断开（兜底，解决部分主机不触发 port.close） */
     this.watchDisconnectTimer = null;
     this._watchEvent = null;
+    /** 最近一层 IPC event，用于串口异步 error / write 回调时安全 reply（避免未监听 error 导致主进程崩溃） */
+    this._lastSerialIpcEvent = null;
+    /** 串口 error 后主动 close 时跳过一次 close 里的「断开」通知，避免与 uploadError 重复 */
+    this._suppressNextCloseDisconnect = false;
   }
 
   /**
@@ -154,6 +158,8 @@ export class Serialport extends Common {
       const open = await this.OpenPort();
       if (open) {
         console.log(`  串口已打开，开始监听数据...`);
+        this._lastSerialIpcEvent = event;
+        this.attachPortErrorHandler(event);
         event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, {
           connectSuccess: true,
           msg: "successfullyConnected",
@@ -217,6 +223,46 @@ export class Serialport extends Common {
           resolve(true);
         }
       });
+    });
+  }
+
+  /**
+   * 监听底层串口错误（Windows 上如 GetOverlappedResult / 错误码 31 多由此上报）。
+   * 不监听时 Node 可能将 port 的 error 视为未处理异常，Electron 主进程会弹窗崩溃。
+   */
+  attachPortErrorHandler(initialEvent) {
+    if (!this.port) return;
+    this.port.removeAllListeners("error");
+    this.port.on("error", (err) => {
+      console.error(
+        "[主进程-串口] port error:",
+        err && err.message ? err.message : err
+      );
+      this._suppressNextCloseDisconnect = true;
+      const replyEvent = this._lastSerialIpcEvent || initialEvent;
+      const isBoot = this.sign && String(this.sign).includes("Boot_");
+      try {
+        if (isBoot && replyEvent && typeof replyEvent.reply === "function") {
+          replyEvent.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+            result: false,
+            msg: "uploadError",
+            errMsg: err && err.message ? err.message : String(err),
+          });
+        } else if (replyEvent && typeof replyEvent.reply === "function") {
+          replyEvent.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, {
+            connectSuccess: false,
+            msg: "disconnect",
+          });
+        }
+      } catch (replyErr) {
+        console.error("[主进程-串口] reply after port error failed:", replyErr);
+      }
+      this.clearCache();
+      try {
+        if (this.port && this.port.isOpen) this.port.close();
+      } catch {
+        // ignore
+      }
     });
   }
 
@@ -305,6 +351,8 @@ export class Serialport extends Common {
    */
   listenPortClosed(event) {
     this.port.on("close", () => {
+      const skipDisconnectReply = this._suppressNextCloseDisconnect;
+      this._suppressNextCloseDisconnect = false;
       clearTimeout(this.watchDisconnectTimer);
       this.watchDisconnectTimer = null;
       this._watchEvent = null;
@@ -320,10 +368,12 @@ export class Serialport extends Common {
         ipc_Main.SEND_OR_ON.CONNECTION.DISCONNECTED,
       ]);
       this.clearCache();
-      event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, {
-        connectSuccess: false,
-        msg: "disconnect",
-      });
+      if (!skipDisconnectReply) {
+        event.reply(ipc_Main.RETURN.CONNECTION.CONNECTED, {
+          connectSuccess: false,
+          msg: "disconnect",
+        });
+      }
     });
   }
 
@@ -338,21 +388,46 @@ export class Serialport extends Common {
     if (!this.port || !data) {
       return;
     }
+    if (event) {
+      this._lastSerialIpcEvent = event;
+    }
     try {
       //修改标识符，根据标识符判断要发送的是文件还是文件名
       this.sign = sign;
-      //写入数据
-      this.port.write(Buffer.from(data));
+      //写入数据（异步失败走 callback；仅 try/catch 拿不到 Windows 重叠 IO 错误）
+      this.port.write(Buffer.from(data), (writeErr) => {
+        if (!writeErr) return;
+        console.error(
+          "[主进程-串口] write callback error:",
+          writeErr.message || writeErr
+        );
+        const replyEvent = this._lastSerialIpcEvent || event;
+        const isBoot = sign && String(sign).includes("Boot_");
+        if (isBoot && replyEvent && typeof replyEvent.reply === "function") {
+          try {
+            replyEvent.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+              result: false,
+              msg: "uploadError",
+              errMsg: writeErr.message || String(writeErr),
+            });
+          } catch {
+            // ignore
+          }
+          this.clearCache();
+        }
+      });
 
       if (sign && sign.includes("Boot_")) {
         this.checkOverTime(event);
       }
     } catch (e) {
-      event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
-        result: false,
-        msg: "uploadError",
-        errMsg: e,
-      });
+      if (event && typeof event.reply === "function") {
+        event.reply(ipc_Main.RETURN.COMMUNICATION.BIN.CONPLETED, {
+          result: false,
+          msg: "uploadError",
+          errMsg: e,
+        });
+      }
     }
   }
 

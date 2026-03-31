@@ -107,6 +107,7 @@ import {
     selectProjectTitle,
     selectWorkspace,
     selectLoadingState,
+    selectDeviceObj,
 } from "../../selectors";
 import downloadBlob from "../../lib/download-blob";
 import {
@@ -1156,6 +1157,32 @@ class MenuBar extends React.Component {
                                 AI 助手
                             </span>
                         </div> */}
+                        {this.props.peripheralName &&
+                        typeof this.props.deviceObj?.bat === "number" ? (
+                            <div className={styles.deviceBatteryBadge}>
+                                <div className={styles.deviceBatteryShell}>
+                                    <div
+                                        className={styles.deviceBatteryFill}
+                                        style={{
+                                            width: `${Math.max(
+                                                0,
+                                                Math.min(
+                                                    100,
+                                                    this.props.deviceObj.bat
+                                                )
+                                            )}%`,
+                                        }}
+                                    />
+                                    <div className={styles.deviceBatteryHead} />
+                                </div>
+                                <span className={styles.deviceBatteryValue}>
+                                    {this.props.deviceObj.bat >= 100
+                                        ? 100
+                                        : this.props.deviceObj.bat}
+                                    %
+                                </span>
+                            </div>
+                        ) : null}
                     </Box>
                 </Box>
                 <FilesSaveNotify
@@ -1239,6 +1266,9 @@ MenuBar.propTypes = {
     onViewDeviceCards: PropTypes.func,
     projectTitle: PropTypes.string,
     peripheralName: PropTypes.string,
+    deviceObj: PropTypes.shape({
+        bat: PropTypes.number,
+    }),
     deviceId: PropTypes.string,
     renderLogin: PropTypes.func,
     sessionExists: PropTypes.bool,
@@ -1296,6 +1326,7 @@ const mapStateToProps = (state, ownProps) => {
         isGen: selectIsGen(state),
         isAiChat: selectIsAiChat(state),
         peripheralName: selectPeripheralName(state),
+        deviceObj: selectDeviceObj(state),
         deviceId: selectDeviceId(state),
         deviceName: selectDeviceName(state),
         deviceType: selectDeviceType(state),

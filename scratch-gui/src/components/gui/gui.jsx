@@ -414,7 +414,7 @@ const GUIComponent = (props) => {
                             canRemix={canRemix}
                             canSave={canSave}
                             canShare={canShare}
-                            className={styles.menuBarPosition}
+                            className={styles.menuBarFlex}
                             enableCommunity={enableCommunity}
                             isShared={isShared}
                             logo={logo}
@@ -508,38 +508,6 @@ const GUIComponent = (props) => {
                                                     }
                                                 />
                                             </Box>
-                                            {/* 取消掉点击扩展按钮的功能 */}
-                                            {/* <Box
-                                                className={
-                                                    styles.extensionButtonContainer
-                                                }
-                                            >
-                                                <button
-                                                    className={
-                                                        styles.extensionButton
-                                                    }
-                                                    title={intl.formatMessage(
-                                                        messages.addExtension
-                                                    )}
-                                                    onClick={
-                                                        // onExtensionButtonClick
-                                                    }
-                                                    disabled={
-                                                        extensionLibraryContent.length >
-                                                        0
-                                                            ? false
-                                                            : true
-                                                    }
-                                                >
-                                                    <img
-                                                        className={
-                                                            styles.extensionButtonIcon
-                                                        }
-                                                        draggable={false}
-                                                        src={addExtensionIcon}
-                                                    />
-                                                </button>
-                                            </Box> */}
                                         </TabPanel>
                                         <TabPanel
                                             className={tabClassNames.tabPanel}

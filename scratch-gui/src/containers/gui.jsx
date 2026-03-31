@@ -121,6 +121,42 @@ import debounce from "lodash.debounce";
 import { PYTHON } from "../config/json/generators.json";
 import { handleUploadPython } from "../lib/generator/python/index.js";
 import { FIREWARE_VERSION } from "../config/json/LB_FWLIB.json";
+
+/**
+ * 下位机 JSON 中电量在 adc.bat（如 "87%"）；合并为 deviceObj.bat 数字供界面使用。
+ * @param {object|null|undefined} raw
+ * @returns {object|null|undefined}
+ */
+function mergeDeviceBatteryFromAdc(raw) {
+    if (!raw || typeof raw !== "object") {
+        return raw;
+    }
+    const fromAdc = raw.adc && raw.adc.bat;
+    let bat = raw.bat;
+    if (fromAdc !== undefined && fromAdc !== null) {
+        if (typeof fromAdc === "number" && !Number.isNaN(fromAdc)) {
+            bat = Math.min(100, Math.max(0, fromAdc));
+        } else if (typeof fromAdc === "string") {
+            const n = parseInt(
+                String(fromAdc).replace(/%/g, "").trim(),
+                10
+            );
+            if (!Number.isNaN(n)) {
+                bat = Math.min(100, Math.max(0, n));
+            }
+        }
+    } else if (typeof bat === "string") {
+        const n = parseInt(String(bat).replace(/%/g, "").trim(), 10);
+        if (!Number.isNaN(n)) {
+            bat = Math.min(100, Math.max(0, n));
+        }
+    }
+    if (typeof bat === "number" && !Number.isNaN(bat)) {
+        return bat === raw.bat ? raw : { ...raw, bat };
+    }
+    return raw;
+}
+
 class GUI extends React.Component {
     constructor(props) {
         super(props);
@@ -373,7 +409,7 @@ class GUI extends React.Component {
                 requestIdleCallback(() => {
                     this.initSensingList();
                     this.blocksMotorCheck();
-                    onSetDeviceObj(newDeviceObj);
+                    onSetDeviceObj(mergeDeviceBatteryFromAdc(newDeviceObj));
                 });
             },
         });
