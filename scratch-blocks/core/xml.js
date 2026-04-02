@@ -718,8 +718,13 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
           // Give the renderer a millisecond to render and position the block
           // before positioning the comment bubble.
           setTimeout(function() {
-            if (block.comment && block.comment.setVisible) {
-              block.comment.setVisible(visible == 'true');
+            try {
+              if (block.comment && block.comment.setVisible) {
+                block.comment.setVisible(visible == 'true');
+              }
+            } catch (e) {
+              // 处于无渲染/分步加载状态时，注释气泡定位可能失败（例如渲染 SVG 尚未就绪）。
+              // 不要因为气泡渲染失败就中断整个工作区的加载。
             }
           }, 1);
         }
@@ -727,10 +732,14 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         var bubbleH = parseInt(xmlChild.getAttribute('h'), 10);
         if (!isNaN(bubbleW) && !isNaN(bubbleH) &&
             block.comment && block.comment.setVisible) {
-          if (block.comment instanceof Blockly.ScratchBlockComment) {
-            block.comment.setSize(bubbleW, bubbleH);
-          } else {
-            block.comment.setBubbleSize(bubbleW, bubbleH);
+          try {
+            if (block.comment instanceof Blockly.ScratchBlockComment) {
+              block.comment.setSize(bubbleW, bubbleH);
+            } else {
+              block.comment.setBubbleSize(bubbleW, bubbleH);
+            }
+          } catch (e) {
+            // 同样原因，忽略气泡大小设置失败。
           }
         }
         break;
@@ -749,18 +758,35 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         if (!input) {
           console.warn('Ignoring non-existent input ' + name + ' in block ' +
                        prototypeName);
+          // 如果当前版本的积木定义里不存在该输入口，
+          // 仍然需要保留 XML 里的子积木数据（至少创建出来）。
+          // 这些子积木不会接到这个输入口上（因为输入口不存在）。
+          if (childBlockElement) {
+            Blockly.Xml.domToBlockHeadless_(childBlockElement, workspace);
+          }
+          if (childShadowElement) {
+            Blockly.Xml.domToBlockHeadless_(childShadowElement, workspace);
+          }
           break;
         }
         if (childShadowElement) {
-          input.connection.setShadowDom(childShadowElement);
+          // 某些旧/异常 XML 或自定义积木定义可能导致输入口存在但连接为空。
+          // 反序列化时需要避免因为空连接而崩溃。
+          if (input.connection && input.connection.setShadowDom) {
+            input.connection.setShadowDom(childShadowElement);
+          }
         }
         if (childBlockElement) {
           blockChild = Blockly.Xml.domToBlockHeadless_(childBlockElement,
               workspace);
           if (blockChild.outputConnection) {
-            input.connection.connect(blockChild.outputConnection);
+            if (input.connection) {
+              input.connection.connect(blockChild.outputConnection);
+            }
           } else if (blockChild.previousConnection) {
-            input.connection.connect(blockChild.previousConnection);
+            if (input.connection) {
+              input.connection.connect(blockChild.previousConnection);
+            }
           } else {
             goog.asserts.fail(
                 'Child block does not have output or previous statement.');
@@ -768,20 +794,40 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         }
         break;
       case 'next':
-        if (childShadowElement && block.nextConnection) {
-          block.nextConnection.setShadowDom(childShadowElement);
+        // 如果这个 XML 的 'next' 里包含 shadow，也需要一并保留下来。
+        if (childShadowElement) {
+          // 当 nextConnection 可以使用时，沿用原有 shadowDom 逻辑。
+          if (block.nextConnection) {
+            try {
+              block.nextConnection.setShadowDom(childShadowElement);
+            } catch (e) {
+              // 无渲染反序列化期间 shadowDom 可能会因为渲染依赖缺失而失败，忽略即可。
+            }
+          } else {
+            // 如果当前 block 没有 nextConnection，也要至少创建 shadow 子块，
+            // 避免语句链在 UI 上被“整段丢掉”。
+            Blockly.Xml.domToBlockHeadless_(childShadowElement, workspace);
+          }
         }
         if (childBlockElement) {
-          goog.asserts.assert(block.nextConnection,
-              'Next statement does not exist.');
-          // If there is more than one XML 'next' tag.
-          goog.asserts.assert(!block.nextConnection.isConnected(),
-              'Next statement is already connected.');
           blockChild = Blockly.Xml.domToBlockHeadless_(childBlockElement,
               workspace);
-          goog.asserts.assert(blockChild.previousConnection,
-              'Next block does not have previous statement.');
-          block.nextConnection.connect(blockChild.previousConnection);
+          // 有些版本/自定义定义里可能没有 nextConnection。
+          // 这时仍然要创建子积木，但跳过连线（避免接不上导致抛错/中断）。
+          if (block.nextConnection && blockChild &&
+              blockChild.previousConnection) {
+            // 有些积木定义在初始化时会预先连一个默认 shadow。
+            // 在处理 XML 时应该替换掉它，否则 XML 的语句链可能不会被挂上。
+            if (block.nextConnection.isConnected &&
+                block.nextConnection.isConnected()) {
+              try {
+                block.nextConnection.disconnect();
+              } catch (e) {
+                // disconnect 失败也不影响后续 connect 尝试。
+              }
+            }
+            block.nextConnection.connect(blockChild.previousConnection);
+          }
         }
         break;
       default:
