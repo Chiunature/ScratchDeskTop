@@ -492,9 +492,9 @@ Blockly.Blocks["combined_motor_stopping"] = {
           type: "field_dropdown",
           name: "status",
           options: [
-            [Blockly.Msg.RETARDATION, "1"],
-            [Blockly.Msg.STILL, "2"],
-            [Blockly.Msg.FLOAT, "0"],
+            [Blockly.Msg.RETARDATION, "2"],
+            [Blockly.Msg.STILL, "0"],
+            [Blockly.Msg.FLOAT, "1"],
           ],
         },
       ],

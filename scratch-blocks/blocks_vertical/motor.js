@@ -416,8 +416,8 @@ Blockly.Blocks["motor_specified_manner"] = {
           type: "field_dropdown",
           name: "action",
           options: [
-            [Blockly.Msg.RETARDATION, "1"],
-            [Blockly.Msg.STILL, "2"],
+            [Blockly.Msg.RETARDATION, "2"],
+            [Blockly.Msg.STILL, "1"],
             [Blockly.Msg.FLOAT, "0"],
           ],
         },
