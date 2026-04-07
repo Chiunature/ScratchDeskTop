@@ -119,6 +119,7 @@ class Blocks extends React.Component {
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
+        this._toolboxIdleHandle = null;
         this.ScratchBlocks.Names.pingyin_pro = { pinyin, convert };
     }
     async componentDidMount() {
@@ -354,14 +355,26 @@ class Blocks extends React.Component {
         }
         this.detachVM();
         this.workspace.dispose();
+        if (
+            this._toolboxIdleHandle != null &&
+            typeof cancelIdleCallback === "function"
+        ) {
+            cancelIdleCallback(this._toolboxIdleHandle);
+            this._toolboxIdleHandle = null;
+        }
         clearTimeout(this.toolboxUpdateTimeout);
     }
     requestToolboxUpdate() {
-        requestIdleCallback(this.updateToolbox.bind(this));
-        /* clearTimeout(this.toolboxUpdateTimeout);
-        this.toolboxUpdateTimeout = setTimeout(() => {
+        if (
+            this._toolboxIdleHandle != null &&
+            typeof cancelIdleCallback === "function"
+        ) {
+            cancelIdleCallback(this._toolboxIdleHandle);
+        }
+        this._toolboxIdleHandle = requestIdleCallback(() => {
+            this._toolboxIdleHandle = null;
             this.updateToolbox();
-        }, 0); */
+        });
     }
     setLocale() {
         this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
@@ -379,6 +392,23 @@ class Blocks extends React.Component {
 
     updateToolbox() {
         this.toolboxUpdateTimeout = false;
+
+        if (!this.workspace || !this.workspace.svgGroup_) {
+            const queue = this.toolboxUpdateQueue;
+            this.toolboxUpdateQueue = [];
+            queue.forEach((fn) => fn());
+            return;
+        }
+
+        if (!this.workspace.toolbox_) {
+            this.workspace.updateToolbox(this.props.toolboxXML);
+            this._renderedToolboxXML = this.props.toolboxXML;
+            this.workspace.toolboxRefreshEnabled_ = true;
+            const queue = this.toolboxUpdateQueue;
+            this.toolboxUpdateQueue = [];
+            queue.forEach((fn) => fn());
+            return;
+        }
 
         const categoryId = this.workspace.toolbox_.getSelectedCategoryId();
         const offset = this.workspace.toolbox_.getCategoryScrollOffset();

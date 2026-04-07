@@ -235,7 +235,7 @@ Blockly.FieldDropdown.prototype.showEditor_ = function () {
   for (var i = 0; i < options.length; i++) {
     var content = options[i][0]; // Human-readable text or image.
     var value = options[i][1]; // Language-neutral value.
-    if (typeof content == "object") {
+    if (content != null && typeof content === "object") {
       // An image, not text.
       var image = new Image(content["width"], content["height"]);
       image.src = content["src"];
@@ -384,11 +384,14 @@ Blockly.FieldDropdown.prototype.trimOptions_ = function () {
     var label = options[i][0];
     if (typeof label == "string") {
       options[i][0] = Blockly.utils.replaceMessageReferences(label);
-    } else {
+    } else if (label != null && typeof label === "object") {
       if (label.alt != null) {
         options[i][0].alt = Blockly.utils.replaceMessageReferences(label.alt);
       }
       hasImages = true;
+    } else {
+      // Missing Blockly.Msg.* or invalid label; keep trimOptions_ / prefix logic safe.
+      options[i][0] = "";
     }
   }
   if (hasImages || options.length < 2) {
@@ -484,7 +487,7 @@ Blockly.FieldDropdown.prototype.setValue = function (newValue) {
     // Options are tuples of human-readable text and language-neutral values.
     if (options[i][1] == newValue) {
       var content = options[i][0];
-      if (typeof content == "object") {
+      if (content != null && typeof content === "object") {
         this.imageJson_ = content;
         this.text_ = content.alt;
       } else {
