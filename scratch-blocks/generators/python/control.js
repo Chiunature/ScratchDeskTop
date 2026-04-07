@@ -45,7 +45,7 @@ Blockly.Python["control_repeat"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "await asyncio.sleep(0)\n" +
+    "await asyncio.sleep_ms(1)\n" +
     Blockly.Python.addIndent(branch)
   );
 };
@@ -65,7 +65,7 @@ Blockly.Python["control_forever"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "await asyncio.sleep(0)\n" +
+    "await asyncio.sleep_ms(1)\n" +
     Blockly.Python.addIndent(branch)
   );
 };
@@ -122,7 +122,9 @@ Blockly.Python["control_wait_until"] = function (block) {
 
   let code = "while not (" + argument + "):\n";
   code +=
-    Blockly.Python.INDENT + Blockly.Python.INDENT + "await asyncio.sleep(0)\n";
+    Blockly.Python.INDENT +
+    Blockly.Python.INDENT +
+    "await asyncio.sleep_ms(1)\n";
 
   if (block.getRootBlock().type === "event_whenmicrobitbegin") {
     code += Blockly.Python.INDENT + "repeat()\n";
@@ -151,7 +153,7 @@ Blockly.Python["control_repeat_until"] = function (block) {
     code +
     Blockly.Python.INDENT +
     Blockly.Python.INDENT +
-    "await asyncio.sleep(0)\n" +
+    "await asyncio.sleep_ms(1)\n" +
     Blockly.Python.addIndent(branch)
   );
 };
