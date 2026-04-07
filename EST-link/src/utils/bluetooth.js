@@ -403,7 +403,7 @@ export class Bluetooth extends Common {
               .trim();
             buffer = buffer.slice(completePacketIndex + 1);
 
-            // 解析JSON字符串为数组格式 [[0,0],[0,0],[0,0],[0,0]]
+            // 解析 JSON：{ Status, Data, Response }（与串口协议一致）
             let parsedData = null;
             try {
               parsedData = JSON.parse(completePacket);

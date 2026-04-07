@@ -5,7 +5,10 @@ const DeviceBox = ({ list, intl, messages }) => {
     let newList = useMemo(() => list, [list]);
 
     function getPort(index) {
-        const num = parseInt(index);
+        if (typeof index === "string" && /^[A-H]$/.test(index)) {
+            return index;
+        }
+        const num = parseInt(index, 10);
         if (isNaN(num)) return;
         switch (num) {
             case 0:
@@ -104,7 +107,10 @@ const DeviceBox = ({ list, intl, messages }) => {
                                             messages["distance"]
                                         )}
                                     </span>
-                                    <span>{el.ultrasion.cm}</span>
+                                    <span>
+                                        {el.ultrasion.value ??
+                                            el.ultrasion.cm}
+                                    </span>
                                     <span>cm</span>
                                 </li>
                             </ul>
@@ -115,7 +121,9 @@ const DeviceBox = ({ list, intl, messages }) => {
                                     <span>
                                         {intl.formatMessage(messages["key"])}
                                     </span>
-                                    <span>{el.touch.state}</span>
+                                    <span>
+                                        {el.touch.value ?? el.touch.state}
+                                    </span>
                                 </li>
                             </ul>
                         )}

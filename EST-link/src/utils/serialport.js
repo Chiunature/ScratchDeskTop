@@ -32,6 +32,99 @@ import ipc_Main from "../config/json/ipc.json";
 import signType from "../config/json/sign.json";
 import { instructions, reg, nameList } from "../config/js/instructions.js";
 
+/**
+ * 从缓冲区中切出若干完整顶层 JSON 文本（仅按 {...} 括号配对，不要求换行）。
+ * 修复：半包残留如 esponse": null} 中多出的 “}” 在 braceCount 已为 0 时不再执行减一，避免错位与把垃圾拼成“整包”。
+ * @param {string} buffer
+ * @returns {{ chunks: string[], rest: string }} chunks 为可 JSON.parse 的字符串片段（仍需 try）；rest 为未处理完的尾部
+ */
+function splitConcatenatedJsonObjects(buffer) {
+  const chunks = [];
+  let braceCount = 0;
+  let startIndex = -1;
+  let lastCompleteEnd = 0;
+
+  for (let i = 0; i < buffer.length; i++) {
+    const c = buffer[i];
+    if (c === "{") {
+      if (braceCount === 0) {
+        startIndex = i;
+      }
+      braceCount++;
+    } else if (c === "}") {
+      if (braceCount > 0) {
+        braceCount--;
+        if (braceCount === 0 && startIndex !== -1) {
+          chunks.push(buffer.substring(startIndex, i + 1));
+          lastCompleteEnd = i + 1;
+          startIndex = -1;
+        }
+      }
+    }
+  }
+
+  let rest;
+  if (braceCount > 0 && startIndex !== -1) {
+    rest = buffer.substring(startIndex);
+  } else {
+    rest = buffer.substring(lastCompleteEnd);
+    if (rest.length > 0) {
+      const fb = rest.indexOf("{");
+      if (fb > 0) {
+        rest = rest.substring(fb);
+      } else if (fb === -1) {
+        rest = "";
+      }
+    }
+  }
+  return { chunks, rest };
+}
+
+/** 文件传输协议中与下位机约定的 Response 取值 */
+const FILE_TRANSFER_RESPONSE_VALUES = [
+  "rec_ready",
+  "rec_done",
+  "chk_error",
+  "timeout",
+];
+
+/**
+ * 取下位机协议应答字符串（字段名 Response）。
+ * Response 为 null/空时不视为应答（与监控包 {"Response":null} 区分）。
+ * @param {Object} parsedData
+ * @returns {string|null}
+ */
+function getDeviceProtocolResponse(parsedData) {
+  if (!parsedData || typeof parsedData !== "object") {
+    return null;
+  }
+  const r = parsedData.Response;
+  if (r !== undefined && r !== null && r !== "") {
+    return String(r);
+  }
+  return null;
+}
+
+/**
+ * 用户程序是否在设备上运行：仅字段 Status（stop / run）。
+ * 与 scratch-gui 中 verifyTypeConfig.EST_RUN（"run"）一致。
+ * @param {Object} parsedData
+ * @param {{ deviceStatus: ?string }} sp Serialport 实例
+ */
+function applyProgramStatusFromJson(parsedData, sp) {
+  if (!parsedData || typeof parsedData !== "object") {
+    return;
+  }
+  const raw = parsedData.Status;
+  if (raw === undefined || raw === null) {
+    return;
+  }
+  const s = String(raw).trim().toLowerCase();
+  if (s === "run" || s === "stop") {
+    sp.deviceStatus = s;
+  }
+}
+
 export class Serialport extends Common {
   constructor(...args) {
     super(...args);
@@ -47,7 +140,8 @@ export class Serialport extends Common {
     this.verifyType = null;
     this.receiveObj = null;
     this.watchDeviceData = null;
-    this.deviceStatus = null; // 保存设备状态（deviceStatus 字段）
+    /** 下位机用户程序是否在跑：来自 JSON 的 Status（run/stop），经 applyProgramStatusFromJson 写入 */
+    this.deviceStatus = null;
     this.selectedExe = null;
     this.sourceFiles = [];
     this.receiveData = [];
@@ -375,9 +469,9 @@ export class Serialport extends Common {
    * @param event
    */
   watchDevice(event) {
-    if (!this.watchDeviceData) return;
-    const result = this.distinguishDevice(this.watchDeviceData);
-    // 添加 deviceStatus 字段到返回结果中
+    const result = this.watchDeviceData
+      ? this.distinguishDevice(this.watchDeviceData)
+      : { deviceList: [] };
     if (this.deviceStatus !== null && this.deviceStatus !== undefined) {
       result.deviceStatus = this.deviceStatus;
     }
@@ -495,38 +589,14 @@ export class Serialport extends Common {
         bufferGrowthCount = 0;
         lastBufferLength = 0;
         return;
-      } // 设备数据是连续的JSON对象，没有换行符分隔
-      // 需要按JSON对象边界（{...}）来分割
-      const jsonObjects = [];
-      let currentIndex = 0;
-      let braceCount = 0;
-      let startIndex = -1;
-
-      // 遍历buffer，找到所有完整的JSON对象
-      for (let i = 0; i < buffer.length; i++) {
-        if (buffer[i] === "{") {
-          if (braceCount === 0) {
-            startIndex = i; // 记录JSON对象的开始位置
-          }
-          braceCount++;
-        } else if (buffer[i] === "}") {
-          braceCount--;
-          if (braceCount === 0 && startIndex !== -1) {
-            // 找到一个完整的JSON对象
-            const jsonStr = buffer.substring(startIndex, i + 1);
-            jsonObjects.push(jsonStr);
-            currentIndex = i + 1;
-            startIndex = -1;
-          }
-        }
       }
 
-      // 保留未完成的部分到buffer中（可能还有未完成的JSON对象）
-      buffer = buffer.substring(currentIndex);
+      const { chunks: jsonObjects, rest: nextBuf } =
+        splitConcatenatedJsonObjects(buffer);
+      buffer = nextBuf;
 
-      // 如果 buffer 中有未完成的 JSON，但已经超过 10KB，可能是垃圾数据
-      // 尝试清理：查找第一个 { 符号，丢弃之前的数据
-      if (buffer.length > 10 * 1024 && startIndex === -1) {
+      // rest 仍很大且以非 { 开头时，再次去掉前缀垃圾（半截包后的尾巴）
+      if (buffer.length > 10 * 1024) {
         const firstBrace = buffer.indexOf("{");
         if (firstBrace > 0) {
           const discarded = buffer.substring(0, firstBrace);
@@ -540,7 +610,6 @@ export class Serialport extends Common {
           );
           buffer = buffer.substring(firstBrace);
         } else if (firstBrace === -1) {
-          // 如果连 { 都找不到，说明整个 buffer 都是垃圾数据，清空
           console.warn(
             `⚠️ handleRead: buffer 中找不到有效的 JSON 起始符号，已清空`,
             {
@@ -552,7 +621,6 @@ export class Serialport extends Common {
         }
       }
 
-      // 逐个解析JSON对象
       for (const jsonStr of jsonObjects) {
         const trimmedStr = jsonStr.trim();
         if (trimmedStr.length === 0) {
@@ -582,7 +650,11 @@ export class Serialport extends Common {
         }
 
         // 如果解析成功且是设备监控数据，缓存JSON字符串用于下次比较
-        if (parsedData && parsedData.deviceData) {
+        if (
+          parsedData &&
+          Array.isArray(parsedData.Data) &&
+          parsedData.Data.length
+        ) {
           this.lastDeviceDataJson = trimmedStr;
         }
 
@@ -593,44 +665,41 @@ export class Serialport extends Common {
 
     // 处理 JSON 数据的辅助函数（解决粘包后的数据处理）
     const processJsonData = (parsedData) => {
-      // 新数据格式：{ deviceData: [[0,0],[0,0],[0,0],[0,0]], deviceResposne: null, deviceStatus: null }
+      applyProgramStatusFromJson(parsedData, this);
 
-      // 检查是否是文件传输响应（deviceResposne 字段）
+      // 设备监控包：{ Status, Data, Response }
+
+      const protocolRes = getDeviceProtocolResponse(parsedData);
       if (
         parsedData &&
         typeof parsedData === "object" &&
-        parsedData.deviceResposne &&
-        (parsedData.deviceResposne === "rec_ready" ||
-          parsedData.deviceResposne === "rec_done" ||
-          parsedData.deviceResposne === "chk_error" ||
-          parsedData.deviceResposne === "timeout")
+        protocolRes &&
+        FILE_TRANSFER_RESPONSE_VALUES.includes(protocolRes)
       ) {
-        // 如果正在等待传输响应，让专门的监听器处理，这里不处理
         if (this.isWaitingRecReady || this.isWaitingTransferResult) {
           this.dlog(
-            `📋 handleRead: 检测到文件传输响应 ${parsedData.deviceResposne}，交由专门的处理函数处理（避免数据竞争）`
+            `📋 handleRead: 检测到文件传输响应 ${protocolRes}，交由专门的处理函数处理（避免数据竞争）`
           );
           return;
         }
-        // 如果没有在等待，说明可能是意外的响应，记录警告
         console.warn(
-          `⚠️ handleRead: 收到文件传输响应 ${parsedData.deviceResposne}，但没有在等待传输响应`
+          `⚠️ handleRead: 收到文件传输响应 ${protocolRes}，但没有在等待传输响应`
         );
         return;
       }
 
-      // 检查是否是设备监控数据（deviceData 字段）
-      if (parsedData && parsedData.deviceData) {
-        const deviceData = this.checkIsDeviceData(parsedData.deviceData);
-        if (deviceData) {
-          // 开启设备数据监控监听
-          this.watchDeviceData = deviceData;
-          // 保存 deviceStatus 字段（如果存在）
-          if (parsedData.deviceStatus !== undefined) {
-            this.deviceStatus = parsedData.deviceStatus;
-          }
+      const hasDataPayload =
+        parsedData && Array.isArray(parsedData.Data);
+      const hasStatusPayload =
+        parsedData && parsedData.Status !== undefined;
 
-          // 第一次接收到设备监控数据时打印日志
+      let scheduledWatch = false;
+
+      if (hasDataPayload) {
+        const deviceData = this.checkIsDeviceData(parsedData);
+        if (deviceData) {
+          this.watchDeviceData = deviceData;
+
           if (!isFirstDataReceived) {
             console.log(`\n✓✓✓ 设备真正连接成功！正在接收设备监控数据... ✓✓✓`);
             console.log(`监控数据示例:`, parsedData);
@@ -638,20 +707,34 @@ export class Serialport extends Common {
             isFirstDataReceived = true;
           }
 
+          scheduledWatch = true;
           let t = setTimeout(() => {
             watch(event);
             clearTimeout(t);
             t = null;
           });
         } else {
-          // deviceData 字段存在但格式不正确
           console.warn(
-            `⚠️ handleRead: deviceData 格式不正确:`,
-            parsedData.deviceData
+            `⚠️ handleRead: 设备监控 Data 格式不正确:`,
+            parsedData.Data
           );
         }
-      } else {
-        // 既不是文件传输响应，也不是设备监控数据，记录警告
+      }
+
+      if (
+        !scheduledWatch &&
+        hasStatusPayload &&
+        (this.watchDeviceData ||
+          (this.deviceStatus !== null && this.deviceStatus !== undefined))
+      ) {
+        let t2 = setTimeout(() => {
+          watch(event);
+          clearTimeout(t2);
+          t2 = null;
+        });
+      }
+
+      if (!hasDataPayload && !hasStatusPayload) {
         console.warn(`⚠️ handleRead: 收到未知格式的数据:`, parsedData);
       }
     };
@@ -1044,18 +1127,16 @@ export class Serialport extends Common {
             return;
           }
 
-          // 新格式：检查 deviceResposne 字段
-          if (parsedData.deviceResposne === "rec_ready") {
+          const pr = getDeviceProtocolResponse(parsedData);
+          if (pr === "rec_ready") {
             responseReceived = true;
             clearTimeout(timer);
             cleanup();
             console.log("✅ 验证成功：收到 rec_ready 回复");
             resolve(true);
-          } else if (parsedData.deviceData) {
-            // 如果是设备监控数据（包含 deviceData），清空buffer继续等待
+          } else if (parsedData.Data != null) {
             buffer = "";
           } else {
-            // 如果是对象但没有 rec_ready 或 deviceData，清空buffer继续等待
             buffer = "";
           }
         } catch (error) {
@@ -1136,10 +1217,8 @@ export class Serialport extends Common {
             return;
           }
 
-          // 新格式：检查 deviceResposne 字段
-          if (parsedData.deviceResposne) {
-            const responseType = parsedData.deviceResposne;
-
+          const responseType = getDeviceProtocolResponse(parsedData);
+          if (responseType) {
             if (responseType === "rec_done") {
               responseReceived = true;
               clearTimeout(timer);
@@ -1165,18 +1244,15 @@ export class Serialport extends Common {
               console.log(
                 `⚠️ 收到未知的响应类型: ${responseType}，继续等待...`
               );
-              // 清空buffer，继续等待下一个数据包
               buffer = "";
             }
-          } else if (parsedData.deviceData) {
-            // 如果是设备监控数据（包含 deviceData），清空buffer继续等待
+          } else if (parsedData.Data != null) {
             buffer = "";
           } else {
             console.log(
-              `⚠️ JSON 格式正确，但缺少 deviceResposne 或 deviceData 字段:`,
+              `⚠️ JSON 格式正确，但缺少有效的 Response 或监控 Data:`,
               parsedData
             );
-            // 清空buffer，继续等待下一个数据包
             buffer = "";
           }
         } catch (error) {
