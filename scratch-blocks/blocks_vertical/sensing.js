@@ -270,8 +270,12 @@ Blockly.Blocks["sensing_ultrasonic_judgment"] = {
       message0: Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT,
       args0: [
         {
-          type: "input_value",
+          type: "field_dropdown",
           name: "PORT",
+          options: [
+            ["1", "1"],
+            ["2", "2"],
+          ],
         },
         {
           type: "field_dropdown",
@@ -304,8 +308,12 @@ Blockly.Blocks["sensing_ultrasonic_detection"] = {
       message0: Blockly.Msg.SENSING_ULTRASONIC_DETECTION,
       args0: [
         {
-          type: "input_value",
+          type: "field_dropdown",
           name: "PORT",
+          options: [
+            ["1", "1"],
+            ["2", "2"],
+          ],
         },
       ],
       category: Blockly.Categories.sensing,
@@ -340,8 +348,12 @@ Blockly.Blocks["sensing_key_judgment"] = {
       message0: Blockly.Msg.SENSING_KEY_JUDGMENT,
       args0: [
         {
-          type: "input_value",
+          type: "field_dropdown",
           name: "PORT",
+          options: [
+            ["1", "1"],
+            ["2", "2"],
+          ],
         },
       ],
       category: Blockly.Categories.sensing,
@@ -507,60 +519,21 @@ Blockly.Blocks["sensing_isHandling"] = {
             [Blockly.Msg.DOWN, "down"],
             [Blockly.Msg.PLEFT, "left"],
             [Blockly.Msg.PRIGHT, "right"],
-            ["X", "X"],
-            ["Y", "Y"],
             ["A", "A"],
             ["B", "B"],
-            ["L1", "L1"],
-            ["L2", "L2"],
-            ["R1", "R1"],
-            ["R2", "R2"],
           ],
         },
         {
           type: "field_dropdown",
           name: "BUTTON",
           options: [
-            [Blockly.Msg.PRESS, "press"],
-            [Blockly.Msg.UNPRESS, "unpress"],
+            [Blockly.Msg.PRESS, "1"],
+            [Blockly.Msg.UNPRESS, "0"],
           ],
         },
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_boolean"],
-    });
-  },
-};
-
-Blockly.Blocks["sensing_Handling"] = {
-  /**
-   * Block to Report if its touching a Object.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      type: "sensing_Handling",
-      message0: Blockly.Msg.SENSING_HANDLING,
-      args0: [
-        {
-          type: "field_dropdown",
-          name: "KEYS",
-          options: [
-            [Blockly.Msg.PLEFT, "left"],
-            [Blockly.Msg.PRIGHT, "right"],
-          ],
-        },
-        {
-          type: "field_dropdown",
-          name: "BUTTON",
-          options: [
-            [Blockly.Msg.MOTION_XPOSITION, "X"],
-            [Blockly.Msg.MOTION_YPOSITION, "Y"],
-          ],
-        },
-      ],
-      category: Blockly.Categories.sensing,
-      extensions: ["colours_sensing", "output_number"],
     });
   },
 };
@@ -750,6 +723,17 @@ Blockly.Blocks["sensing_judgelineState"] = {
       ],
       category: Blockly.Categories.sensing,
       extensions: ["colours_sensing", "output_boolean"],
+    });
+  },
+};
+
+Blockly.Blocks["getGear"] = {
+  init: function () {
+    this.jsonInit({
+      type: "getGear",
+      message0: Blockly.Msg.GET_GEAR,
+      category: Blockly.Categories.sensing,
+      extensions: ["colours_sensing", "output_number"],
     });
   },
 };

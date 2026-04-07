@@ -494,31 +494,28 @@ Blockly.Python.check_ = function (block) {
 };
 
 Blockly.Python.stringToHex = function (matrix) {
-  // 将字符串按照每5个字符分割成数组（7行x5列）
-  const matrixArr = matrix.match(/.{1,5}/g) || [];
-  // 定义存储16进制数的数组（按列转换）
+  const MATRIX_ROWS = 7;
+  const MATRIX_COLS = 13;
+  const matrixArr =
+    matrix.match(new RegExp(".{1," + MATRIX_COLS + "}", "g")) || [];
   const hexArr = [];
 
-  // 需要按列转换：遍历5列
-  for (let col = 0; col < 5; col++) {
+  for (let col = 0; col < MATRIX_COLS; col++) {
     let columnBits = "";
-    // 遍历7行，从第一行到第七行（正序，第一行对应bit 0最低位）
-    for (let row = 0; row < 7; row++) {
+    for (let row = 0; row < MATRIX_ROWS; row++) {
       if (matrixArr[row] && matrixArr[row][col]) {
         columnBits += matrixArr[row][col];
       } else {
         columnBits += "0";
       }
     }
-    // 反转位序，使第一行对应最低位
     columnBits = columnBits.split("").reverse().join("");
-    // 转换为十进制数（1代表亮，0代表不亮）
     const decimalNum = parseInt(columnBits, 2);
     const hexNum = "0x" + decimalNum.toString(16).padStart(2, "0");
     hexArr.push(hexNum);
   }
-  const result = hexArr.map((hex) => "\\x" + hex.substring(2)).join("");
-  return result;
+
+  return hexArr;
 };
 
 // 将hex格式颜色转换为rgb格式
@@ -596,7 +593,11 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
   let result = code;
   switch (type) {
     case Blockly.Python.MATRIX_TYPE:
-      result = "" + result;
+      if (isAwait) {
+        result = "await " + result;
+      } else {
+        result = "" + result;
+      }
       break;
     case Blockly.Python.SOUND_TYPE:
       if (isAwait) {
@@ -616,9 +617,9 @@ Blockly.Python.handleResult = function (code, type, isAwait = false) {
       break;
     case Blockly.Python.MOTOR_TYPE:
       if (isAwait) {
-        result = `await app.${result}`;
+        result = `await app2.${result}`;
       } else {
-        result = `app.${result}`;
+        result = `app2.${result}`;
       }
       break;
     case Blockly.Python.ULTRASIONIC_TYPE:

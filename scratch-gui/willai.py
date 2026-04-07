@@ -6,8 +6,8 @@ import asyncio
 venv_name = "myvenv"
 # python_path = sys.executable
 
-venv_folder_path = f"{os.getcwd()}\\{os.path.join(venv_name)}" 
-exe_folder_path = f"{os.getcwd()}\\NEW-AI极睿.exe"
+venv_folder_path = f"{os.getcwd()}\\{os.path.join(venv_name)}"
+exe_folder_path = f"{os.getcwd()}\\WillAI.exe"
 resources_path = f"{os.getcwd()}\\resources"
 tasks = []
 path_list = [venv_folder_path, exe_folder_path, resources_path]
@@ -45,15 +45,15 @@ if __name__ == '__main__':
     activate_process = subprocess.Popen(["cmd", "/k", f"call {activate_script}"], creationflags=subprocess.CREATE_NO_WINDOW)
 
 
-    # 在虚拟环境中执行
-    target = os.path.join("NEW-AI极睿.exe")
+    # 在虚拟环境中执行（与 electron-builder 的 productName 一致）
+    target = os.path.join("WillAI.exe")
     sub_process = subprocess.Popen(target)
-    # 等待 NEW-AI极睿.exe 进程完成
+    # 等待 WillAI.exe 进程完成
     sub_process.wait()
 
     activate_process.kill()
     # 退出虚拟环境
     deactivate_process = subprocess.Popen(["cmd", "/k", f"call {deactivate_script}"], creationflags=subprocess.CREATE_NO_WINDOW)
     deactivate_process.kill()
-    
+
     sys.exit()

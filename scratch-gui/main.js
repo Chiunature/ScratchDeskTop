@@ -32,9 +32,11 @@ const getRandomString = require("./scripts/getRandomString.js");
 const electron = require("electron");
 const { app, BrowserWindow, dialog, Menu, ipcMain, screen, shell, utilityProcess, MessageChannelMain, Tray } = electron;
 
-//设置通知标题上面的 英文 electron.app.Electron 
+// Windows 任务栏 / 通知：AppUserModelId 应与 electron-builder 的 appId 一致
 const pg = require("./package.json");
-app.setAppUserModelId(pg.description);
+app.setAppUserModelId(
+    pg.build && pg.build.appId ? pg.build.appId : "com.willai.editor"
+);
 
 const Store = require("electron-store");
 Store.initRenderer();
@@ -293,7 +295,7 @@ function createWindow(loadingWindow) {
         if (!mainMsg && args.msg) {
             mainMsg = { ...args.msg };
         }
-        // notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\NEW-AI')}`);
+        // notice(`通知`, `可在文件选项中开启自动备份, 开启后工作区会每隔10分钟自动保存文件, 路径是${path.join(app.getPath('documents'), '\\willai')}`);
         return updater(mainWindow, args.autoUpdate);
     });
 

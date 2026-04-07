@@ -365,7 +365,7 @@ function getHomeDir() {
 
         const rsName = `${year}${month}${day}`;
         const homedir = path.join(os.homedir(), "Documents");
-        const dir = homedir + "\\NEW-AI\\" + rsName;
+        const dir = homedir + "\\willai\\" + rsName;
 
         try {
             if (fs.existsSync(dir)) {
@@ -383,7 +383,7 @@ function getHomeDir() {
 
 function openCacheDir() {
     const homedir = path.join(os.homedir(), "Documents");
-    const dir = homedir + "\\NEW-AI\\";
+    const dir = homedir + "\\willai\\";
     shell.openPath(dir);
 }
 

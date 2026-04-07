@@ -1,11 +1,11 @@
 {
-    "name": "new-ai",
-    "version": "0.1.0",
-    "description": "摄像头",
+    "name": "willai",
+    "version": "0.2.2",
+    "description": "WillAI",
     "main": "main-with-cache.js",
     "scripts": {
         "build": "npm run clean && webpack --colors --bail",
-        "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
+        "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist && rimraf ./pack",
         "deploy": "touch build/.nojekyll && gh-pages -t -d build -m \"Build for $(git log --pretty=format:%H -n1) [skip ci]\"",
         "prune": "./prune-gh-pages.sh",
         "i18n:push": "tx-push-src scratch-editor interface translations/en.json",
@@ -21,7 +21,7 @@
         "electron": "electron .",
         "pack": "npm run build && electron-builder --win --x64",
         "postinstall": "electron-builder install-app-deps",
-        "build:py": "pyinstaller -F -w -i favicon.ico --noconsole NEW-AI.py"
+        "build:py": "pyinstaller -F -w -i favicon.ico --noconsole willai.py"
     },
     "author": "Massachusetts Institute of Technology",
     "license": "BSD-3-Clause",
@@ -184,12 +184,12 @@
         }
     },
     "build": {
-        "productName": "摄像头",
-        "appId": "com.NEW-AI.eletest",
+        "productName": "WillAI",
+        "appId": "com.willai.editor",
         "copyright": "cd©20211209",
         "directories": {
             "buildResources": "./",
-            "output": "pack"
+            "output": "pack/willai"
         },
         "afterPack": "./scripts/afterPack.js",
         "extraResources": [
@@ -237,7 +237,7 @@
         "fileAssociations": [
             {
                 "ext": "lbs",
-                "name": "LBS File",
+                "name": "WillAI project",
                 "icon": "./favicon.ico"
             }
         ],
@@ -250,7 +250,7 @@
             "installerHeaderIcon": "./favicon.ico",
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "摄像头",
+            "shortcutName": "WillAI",
             "runAfterFinish": false,
             "perMachine": false,
             "deleteAppDataOnUninstall": true

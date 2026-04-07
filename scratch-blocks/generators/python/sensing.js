@@ -209,16 +209,12 @@ Blockly.Python["sensing_reflected_light_detection"] = function (block) {
 
 Blockly.Python["sensing_sound_intensity"] = function (block) {
   // TODO: Assemble Python into code variable.
-  const code = Blockly.Python.handleResult(`voic()`, Blockly.Python.TIMER_TYPE);
+  const code = `MICADC.read()`;
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python["sensing_ultrasonic_judgment"] = function (block) {
-  const port = Blockly.Python.valueToCode(
-    block,
-    "PORT",
-    Blockly.Python.ORDER_NONE
-  );
+  const port = block.getFieldValue("PORT");
   const judgment = block.getFieldValue("judgment");
   const inp = Blockly.Python.valueToCode(
     block,
@@ -233,11 +229,7 @@ Blockly.Python["sensing_ultrasonic_judgment"] = function (block) {
 };
 
 Blockly.Python["sensing_ultrasonic_detection"] = function (block) {
-  const port = Blockly.Python.valueToCode(
-    block,
-    "PORT",
-    Blockly.Python.ORDER_NONE
-  );
+  const port = block.getFieldValue("PORT");
   const code = Blockly.Python.handleResult(
     `get_ul(${port})`,
     Blockly.Python.ULTRASIONIC_TYPE
@@ -246,13 +238,9 @@ Blockly.Python["sensing_ultrasonic_detection"] = function (block) {
 };
 
 Blockly.Python["sensing_key_judgment"] = function (block) {
-  const port = Blockly.Python.valueToCode(
-    block,
-    "PORT",
-    Blockly.Python.ORDER_NONE
-  );
+  const port = block.getFieldValue("PORT");
   const code = Blockly.Python.handleResult(
-    `get_sensor_data(${port},1)==1`,
+    `get_key(${port})==1`,
     Blockly.Python.TOUCH_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -285,18 +273,7 @@ Blockly.Python["sensing_isHandling"] = function (block) {
   const button = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
   const code = Blockly.Python.handleResult(
-    `key_remote("${button}", "${keys}")`,
-    Blockly.Python.KEY_TYPE
-  );
-  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
-};
-
-//遥控器获取坐标
-Blockly.Python["sensing_Handling"] = function (block) {
-  const keys = block.getFieldValue("KEYS");
-  const button = block.getFieldValue("BUTTON");
-  const code = Blockly.Python.handleResult(
-    `key_remote("${keys}", "${button}")`,
+    `get_remote_key("${keys}")==${button}`,
     Blockly.Python.KEY_TYPE
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
@@ -346,15 +323,17 @@ Blockly.Python["sensing_judgelineState"] = function (block) {
 
 Blockly.Python["sensing_timer"] = function (block) {
   // TODO: Assemble Python into code variable.
-  const code = Blockly.Python.handleResult(
-    `timer()`,
-    Blockly.Python.TIMER_TYPE
-  );
+  const code = `get_timer()`;
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python["sensing_reset_timer"] = function (block) {
   // TODO: Assemble Python into code variable.
-  let code = `resetTimer()\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
+  let code = `timer_clear()\n`;
+  return code;
+};
+
+Blockly.Python["getGear"] = function (block) {
+  const code = `get_remote_key("GEAR")`;
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };

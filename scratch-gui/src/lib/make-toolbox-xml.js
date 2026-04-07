@@ -319,9 +319,7 @@ const sound = function ({
     secondaryColour="${colors.tertiary}">
         <block type="sound_PlayMusic">
             <value name="NOTE">
-                <shadow type="text">
-                    <field name="TEXT">C4</field>
-                </shadow>
+                <shadow type="piano"></shadow>
             </value>
             <value name="BEATS">
                 <shadow type="math_number">
@@ -516,19 +514,12 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             </block>
             ${categorySeparator}
             <block type="sensing_ultrasonic_judgment">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
                 <value name="value">
                     <shadow type="math_number"><field name="NUM">10</field></shadow>
                 </value>
             </block>
             ${blockSeparator}
-            <block type="sensing_ultrasonic_detection">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
+            <block type="sensing_ultrasonic_detection" />
             ${blockSeparator}
             <block type="sensing_sound_intensity"></block>
             ${categorySeparator}
@@ -536,15 +527,9 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             ${blockSeparator}
             <block type="sensing_gyroscope_acceleration"></block>
             ${categorySeparator}
-            <block type="sensing_key_judgment">
-                <value name="PORT">
-                    <shadow type="sensing_menu" />
-                </value>
-            </block>
+            <block type="sensing_key_judgment" />
             ${blockSeparator}
             <block type="sensing_isHandling"></block>
-            ${blockSeparator}
-            <block type="sensing_Handling"></block>
             ${blockSeparator}
             <block type="sensing_mainIsPress"></block>
             ${categorySeparator}
@@ -577,6 +562,8 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${categorySeparator}
+            <block type="getGear" />
+            ${blockSeparator}
         </category>
     `;
 };

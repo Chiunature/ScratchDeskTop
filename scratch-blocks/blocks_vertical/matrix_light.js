@@ -13,6 +13,8 @@ Blockly.Blocks["matrix_lamp"] = {
    * @this Blockly.Block
    */
   init: function () {
+    // 7 行 x 13 列 = 91 位，行优先
+    var defaultLamp = new Array(92).join("1");
     this.jsonInit({
       message0: Blockly.Msg.MATRIX_LAMP,
       args0: [
@@ -27,7 +29,7 @@ Blockly.Blocks["matrix_lamp"] = {
         {
           type: "field_matrix",
           name: "lamp",
-          matrix: "11111111111111111111111111111111111",
+          matrix: defaultLamp,
         },
       ],
       category: Blockly.Categories.matrix,
@@ -114,6 +116,10 @@ Blockly.Blocks["matrix_x"] = {
             ["6", "6"],
             ["7", "7"],
             ["8", "8"],
+            ["9", "9"],
+            ["10", "10"],
+            ["11", "11"],
+            ["12", "12"],
           ],
         },
       ],

@@ -15,14 +15,14 @@ Blockly.Blocks["motor_box"] = {
   init: function () {
     // 从 mutation 或默认配置中获取 motorList
     var motorList = this.motorList || [
+      "A",
+      "B",
+      "C",
+      "D",
       "null",
       "null",
       "null",
       "null",
-      "E",
-      "F",
-      "G",
-      "H",
     ];
 
     this.jsonInit({
@@ -50,7 +50,7 @@ Blockly.Blocks["motor_box_abef"] = {
    */
   init: function () {
     // 专门为 motor_specified_manner 设计的端口列表
-    var motorList = ["null", "null", "null", "null", "E", "F", "G", "H"];
+    var motorList = ["A", "B", "C", "D", "null", "null", "null", "null"];
 
     this.jsonInit({
       message0: "%1",

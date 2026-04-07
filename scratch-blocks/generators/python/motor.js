@@ -89,7 +89,7 @@ Blockly.Python["motor_specified_manner"] = function (block) {
   // 将字符串数值转换为整数
   const actionValue = parseInt(action, 10);
   const code = `set_stop_mode(${port}, ${actionValue})\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE, true);
+  return Blockly.Python.handleResult(code, Blockly.Python.MOTOR_TYPE);
 };
 
 Blockly.Python["motor_startWithPower"] = function (block) {

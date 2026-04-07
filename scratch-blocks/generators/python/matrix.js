@@ -46,7 +46,7 @@ Blockly.Python["matrix_y"] = function (block) {
 Blockly.Python["matrix_lamp"] = function (block) {
   let lamp = block.getFieldValue("lamp");
   let lp = Blockly.Python.stringToHex(lamp);
-  let code = `display(b'${lp}')\n`;
+  let code = `display([${lp}])\n`;
   return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
 };
 
@@ -56,11 +56,8 @@ Blockly.Python["matrix_lamp_text"] = function (block) {
     "matrix_text",
     Blockly.Python.ORDER_NONE
   );
-  // const regex = /^[A-Za-z0-9]+$/;
-  // const match = regex.exec(text);
-  // if (match && match.length > 0 && text.indexOf('matrix') === -1) text = match[0].toUpperCase();
-  let code = `asyncio.create_task(scroll_text(${text}))\n`;
-  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE);
+  let code = `scroll_text(${text})\n`;
+  return Blockly.Python.handleResult(code, Blockly.Python.MATRIX_TYPE, true);
 };
 
 Blockly.Python["matrix_lamp_stop"] = function (block) {

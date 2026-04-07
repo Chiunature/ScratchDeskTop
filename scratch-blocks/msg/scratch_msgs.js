@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 goog.provide("Blockly.ScratchMsgs.allLocales");
 
@@ -252,7 +252,6 @@ Blockly.ScratchMsgs.locales["ab"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 бұрыш",
   SENSING_SET_YAW_ANGLE: "Иілу бұрышын 0-ге орнату",
   SENSING_ISHANDLING: "%1 дескрипторы %2",
-  SENSING_HANDLING: "%1 джойстикті өңдеу %2",
   SENSING_MAINISPRESS: "%1 негізгі түймесі %2 ма",
   SENSING_COLOR_RANGE:
     "%1 Of die kleurreeks op R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 is",
@@ -660,7 +659,6 @@ Blockly.ScratchMsgs.locales["af"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 hoek",
   SENSING_SET_YAW_ANGLE: "Stel gierhoek in op 0",
   SENSING_ISHANDLING: "Of handvatsel %1 %2 is",
-  SENSING_HANDLING: "Hanteer %1 Joystick %2",
   SENSING_MAINISPRESS: "Of die gasheer %1 -knoppie %2 is",
   SENSING_COLOR_RANGE:
     "%1 Of die kleurreeks op R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 is",
@@ -1064,7 +1062,6 @@ Blockly.ScratchMsgs.locales["ar"] = {
   SENSING_GYROSCOPE_ANGLE: "زاوية %1",
   SENSING_SET_YAW_ANGLE: "اضبط زاوية الانحراف على 0",
   SENSING_ISHANDLING: "سواء كان المقبض %1 هو %2",
-  SENSING_HANDLING: "التعامل مع %1 عصا التحكم %2",
   SENSING_MAINISPRESS: "سواء كان زر المضيف %1 هو %2",
   SENSING_COLOR_RANGE:
     "%1 ما إذا كان نطاق الألوان عند R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -1463,7 +1460,6 @@ Blockly.ScratchMsgs.locales["am"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 አንግል",
   SENSING_SET_YAW_ANGLE: "ያው አንግል ወደ 0 አዘጋጅ",
   SENSING_ISHANDLING: "መያዣው %1 ይሁን %2",
-  SENSING_HANDLING: "%1 ጆይስቲክን ይያዙ %2",
   SENSING_MAINISPRESS: "የ %1 አስተናጋጅ አዝራር %2 ይሁን አይሁን",
   SENSING_COLOR_RANGE: "%1 የቀለም ክልል በ R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ነው",
   SOUND_PLAY: "%1ን ድምጽ ጀምር",
@@ -1861,7 +1857,6 @@ Blockly.ScratchMsgs.locales["an"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ángulo",
   SENSING_SET_YAW_ANGLE: "Emohenda ángulo de giro 0-pe",
   SENSING_ISHANDLING: "Oĩpa %1 ñanduti renda %2",
-  SENSING_HANDLING: "Emboguata %1 Joystick %2",
   SENSING_MAINISPRESS: "Oĩpa %1 mboajepyréva karameg̃ua %2",
   SENSING_COLOR_RANGE:
     "Haꞌehína pe saꞌi vore puerto %1 rehegua R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ryepýpe",
@@ -2268,7 +2263,6 @@ Blockly.ScratchMsgs.locales["az"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 açı",
   SENSING_SET_YAW_ANGLE: "Sapma açısını 0'a ayarla",
   SENSING_ISHANDLING: "%1 tanıtıcısının %2 olup olmadığı",
-  SENSING_HANDLING: "%1 Kumanda Kolu %2'yi Kullanın",
   SENSING_MAINISPRESS: "Ana bilgisayar %1 düğmesinin %2 olup olmadığı",
   SENSING_COLOR_RANGE: "%1 rəng aralığının R %2 ~ %3 G %4 ~ %5 B %6 ~ %7-də",
   SOUND_PLAY: "%1 səsini ifa et",
@@ -2672,7 +2666,6 @@ Blockly.ScratchMsgs.locales["id"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 sudut",
   SENSING_SET_YAW_ANGLE: "Setel sudut yaw ke 0",
   SENSING_ISHANDLING: "Apakah pegangan %1 adalah %2",
-  SENSING_HANDLING: "Menangani %1 Joystick %2",
   SENSING_MAINISPRESS: "Apakah tombol host %1 adalah %2",
   SENSING_COLOR_RANGE:
     "%1 apakah kisaran warna berada pada R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -3075,7 +3068,6 @@ Blockly.ScratchMsgs.locales["bn"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 কোণ",
   SENSING_SET_YAW_ANGLE: "ইয়াও কোণ 0 এ সেট করুন",
   SENSING_ISHANDLING: "হ্যান্ডেল %1 %2 কিনা",
-  SENSING_HANDLING: "হ্যান্ডেল %1 জয়স্টিক %2",
   SENSING_MAINISPRESS: "হোস্ট %1 বোতামটি %2 কিনা",
   SENSING_COLOR_RANGE:
     "%1 রঙের পরিসীমা আর %2 ~ %3  জি %4 ~ %5 বি %6 ~ %7 এ রয়েছে কিনা",
@@ -3480,7 +3472,6 @@ Blockly.ScratchMsgs.locales["be"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 кут",
   SENSING_SET_YAW_ANGLE: "Усталяваць вугал гойсання на 0",
   SENSING_ISHANDLING: "Ці з'яўляецца маркер %1 %2",
-  SENSING_HANDLING: "Упраўленне %1 джойсцікам %2",
   SENSING_MAINISPRESS: "Ці з'яўляецца кнопка хоста %1 %2",
   SENSING_COLOR_RANGE:
     "%1, ці будзе дыяпазон колеру на ўзроўні R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -3884,7 +3875,6 @@ Blockly.ScratchMsgs.locales["bg"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ъгъл",
   SENSING_SET_YAW_ANGLE: "Задайте ъгъл на отклонение на 0",
   SENSING_ISHANDLING: "Дали манипулаторът %1 е %2",
-  SENSING_HANDLING: "Манипулиране на %1 джойстик %2",
   SENSING_MAINISPRESS: "Дали бутонът %1 на хоста е %2",
   SENSING_COLOR_RANGE:
     "%1 дали цветовият диапазон е при R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -4289,7 +4279,6 @@ Blockly.ScratchMsgs.locales["ca"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angle",
   SENSING_SET_YAW_ANGLE: "Estableix l'angle de guiñada a 0",
   SENSING_ISHANDLING: "Si el controlador %1 és %2",
-  SENSING_HANDLING: "Maneja %1 Joystick %2",
   SENSING_MAINISPRESS: "Si el botón del host %1 es %2",
   SENSING_COLOR_RANGE:
     "Está la gama de colores del puerto %1 dentro del rango R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -4692,7 +4681,6 @@ Blockly.ScratchMsgs.locales["cs"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 úhel",
   SENSING_SET_YAW_ANGLE: "Nastavit úhel stáčení na 0",
   SENSING_ISHANDLING: "Zda je rukojeť %1 %2",
-  SENSING_HANDLING: "Ovládejte %1 joystick %2",
   SENSING_MAINISPRESS: "Zda je hostitelské tlačítko %1 %2",
   SENSING_COLOR_RANGE:
     "Je rozsah barev portu %1 v rozsahu R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -5096,7 +5084,6 @@ Blockly.ScratchMsgs.locales["cy"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ongl",
   SENSING_SET_YAW_ANGLE: "Gosod ongl yaw i 0",
   SENSING_ISHANDLING: "A yw trin %1 yn %2",
-  SENSING_HANDLING: "Trin %1 ffon reoli %2",
   SENSING_MAINISPRESS: "A yw'r botwm gwesteiwr %1 yn %2",
   SENSING_COLOR_RANGE:
     "A yw amrediad lliw porth %1 o fewn yr ystod R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -5492,7 +5479,6 @@ Blockly.ScratchMsgs.locales["da"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 vinkel",
   SENSING_SET_YAW_ANGLE: "Sæt krøjningsvinklen til 0",
   SENSING_ISHANDLING: "Om håndtaget %1 er %2",
-  SENSING_HANDLING: "Håndtag %1 joystick %2",
   SENSING_MAINISPRESS: "Om værtsknappen %1 er %2",
   SENSING_COLOR_RANGE:
     "Om farveområdet for port %1 er inden for området R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -5898,7 +5884,6 @@ Blockly.ScratchMsgs.locales["de"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 Winkel",
   SENSING_SET_YAW_ANGLE: "Gierwinkel auf 0 setzen",
   SENSING_ISHANDLING: "Ob Handle %1 %2 ist",
-  SENSING_HANDLING: "Handle %1 Joystick %2",
   SENSING_MAINISPRESS: "Kas hosti %1 nupp on %2",
   SENSING_COLOR_RANGE:
     "Kas pordi %1 värvivahemik on vahemikus R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -6305,7 +6290,6 @@ Blockly.ScratchMsgs.locales["et"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 nurk",
   SENSING_SET_YAW_ANGLE: "Määra kaldenurk 0",
   SENSING_ISHANDLING: "Kas käepide %1 on %2",
-  SENSING_HANDLING: "Käepide %1 juhtkangi %2",
   SENSING_MAINISPRESS: "Kas hosti %1 nupp on %2",
   SENSING_COLOR_RANGE:
     "Kas pordi %1 värvivahemik on vahemikus R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -6708,7 +6692,6 @@ Blockly.ScratchMsgs.locales["el"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 γωνία",
   SENSING_SET_YAW_ANGLE: "Ρύθμιση γωνίας περιστροφής στο 0",
   SENSING_ISHANDLING: "Εάν η λαβή %1 είναι %2",
-  SENSING_HANDLING: "Χειρισμός %1 Joystick %2",
   SENSING_MAINISPRESS: "Είτε το κουμπί %1 του κεντρικού υπολογιστή είναι %2",
   SENSING_COLOR_RANGE:
     "Εάν η χρωματική περιοχή της θύρας %1 είναι εντός της περιοχής R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -7183,7 +7166,6 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angle",
   SENSING_SET_YAW_ANGLE: "Set yaw angle to 0",
   SENSING_ISHANDLING: "Is the %1 button of the handle %2?",
-  SENSING_HANDLING: "Controller %1 rocker %2 axis",
   SENSING_MAINISPRESS: "Whether the host %1 button is %2",
   SENSING_COLOR_RANGE:
     "Whether the color range of port %1 is within the range of R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -7193,6 +7175,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   SENSING_GET_GRAY_LINE: "%1 Obtain grayscale sensor values %2",
   SENSING_GET_GRAY_LINESTATE: "%1 Is it Obtain grayscale sensor values %2 ?",
   SENSING_JUDGELINESTATE: "Determine %1 the current grayscale %2 status",
+  GET_GEAR: "Get gear",
   SENSING_CAMERA_FIND_COLOR_BLOCK:
     "%1 %2 search for color blocks R %3 G %4 B %5 tolerance %6",
   SENSING_CAMERA_FIND_COLOR_STATE:
@@ -7587,7 +7570,6 @@ Blockly.ScratchMsgs.locales["es"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ángulo",
   SENSING_SET_YAW_ANGLE: "Establece el ángulo de guiñada en 0",
   SENSING_ISHANDLING: "Si el identificador %1 es %2",
-  SENSING_HANDLING: "Manejar %1 Palanca de mando %2",
   SENSING_MAINISPRESS: "Si el botón del host %1 es %2",
   SENSING_COLOR_RANGE:
     "Si el rango de color del puerto %1 está dentro del rango de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -7994,7 +7976,6 @@ Blockly.ScratchMsgs.locales["es-419"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ángulo",
   SENSING_SET_YAW_ANGLE: "Establece el ángulo de guiñada en 0",
   SENSING_ISHANDLING: "Si el identificador %1 es %2",
-  SENSING_HANDLING: "Manejar %1 Palanca de mando %2",
   SENSING_MAINISPRESS: "Si el botón del host %1 es %2",
   SENSING_COLOR_RANGE:
     "Si el rango de color del puerto %1 está dentro del rango de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -8401,7 +8382,6 @@ Blockly.ScratchMsgs.locales["eu"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angelua",
   SENSING_SET_YAW_ANGLE: "Ezarri ihin-angelua 0-ra",
   SENSING_ISHANDLING: "%1 heldulekua %2 den ala ez",
-  SENSING_HANDLING: "Kudeatu %1 Joystick %2",
   SENSING_MAINISPRESS: "%1 ostalariaren botoia %2 den ala ez",
   SENSING_COLOR_RANGE:
     "%1 atakaren kolore-barrutia R %2 ~ %3 G %4 ~ %5 B %6 ~ %7-ren barrutian dagoen ala ez",
@@ -8804,7 +8784,6 @@ Blockly.ScratchMsgs.locales["fa"] = {
   SENSING_GYROSCOPE_ANGLE: "زاویه %1",
   SENSING_SET_YAW_ANGLE: "زاویه انحراف را روی 0 تنظیم کنید",
   SENSING_ISHANDLING: "آیا دسته %1 %2 است یا خیر",
-  SENSING_HANDLING: "دستگیره %1 جوی استیک %2",
   SENSING_MAINISPRESS: "آیا دکمه میزبان 1% %2 باشد",
   SENSING_COLOR_RANGE:
     "آیا محدوده رنگ پورت %1 در محدوده R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 باشد یا خیر",
@@ -9209,7 +9188,6 @@ Blockly.ScratchMsgs.locales["fr"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angle",
   SENSING_SET_YAW_ANGLE: "Régler l'angle de lacet sur 0",
   SENSING_ISHANDLING: "Si le handle %1 est %2",
-  SENSING_HANDLING: "Gérer %1 Joystick %2",
   SENSING_MAINISPRESS: "Si le bouton de l hôte %1 est %2",
   SENSING_COLOR_RANGE:
     "Si la plage de couleurs du port %1 est dans la plage de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -9614,7 +9592,6 @@ Blockly.ScratchMsgs.locales["fy"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 hoeke",
   SENSING_SET_YAW_ANGLE: "Stel de gierhoeke yn op 0",
   SENSING_ISHANDLING: "Of handgreep %1 %2 is",
-  SENSING_HANDLING: "Behannelje %1 joystick %2",
   SENSING_MAINISPRESS: "Of de host %1 knop %2 is",
   SENSING_COLOR_RANGE:
     "Of het kleurbereik van poort %1 binnen het bereik van R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ligt",
@@ -10018,7 +9995,6 @@ Blockly.ScratchMsgs.locales["ga"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 uillinn",
   SENSING_SET_YAW_ANGLE: "Socraigh uillinn yaw go 0",
   SENSING_ISHANDLING: "Cé acu an bhfuil %1 ag láimhseáil %2",
-  SENSING_HANDLING: "Láigh %1 luamhán stiúrtha %2",
   SENSING_MAINISPRESS: "An é %2 an cnaipe óstaigh %1",
   SENSING_COLOR_RANGE:
     "Cibé an bhfuil raon datha an phoirt %1 laistigh den raon R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -10422,7 +10398,6 @@ Blockly.ScratchMsgs.locales["gd"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ceàrn",
   SENSING_SET_YAW_ANGLE: "Suidhich ceàrn yaw gu 0",
   SENSING_ISHANDLING: "Co-dhiù an e %2 a th' ann an làimhseachadh %1",
-  SENSING_HANDLING: "Làimhsich %1 joystick %2",
   SENSING_MAINISPRESS: "Co-dhiù an e am putan òstair %1 %2",
   SENSING_COLOR_RANGE:
     "Co-dhiù a bheil an raon dhathan aig port %1 taobh a-staigh raon R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -10829,7 +10804,6 @@ Blockly.ScratchMsgs.locales["gl"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ângulo",
   SENSING_SET_YAW_ANGLE: "Defina o ângulo de guinada como 0",
   SENSING_ISHANDLING: "Se o identificador %1 é %2",
-  SENSING_HANDLING: "Alça %1 Joystick %2",
   SENSING_MAINISPRESS: "Se o botão do host %1 é %2",
   SENSING_COLOR_RANGE:
     "Se o intervalo de cores da porta %1 está dentro do intervalo de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -11236,7 +11210,6 @@ Blockly.ScratchMsgs.locales["ko"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 각도",
   SENSING_SET_YAW_ANGLE: "요 각도를 0으로 설정",
   SENSING_ISHANDLING: "%1 핸들이 %2 인지 여부",
-  SENSING_HANDLING: "%1 조이스틱 %2 처리",
   SENSING_MAINISPRESS: "호스트 %1 버튼이 %2 인지 여부",
   SENSING_COLOR_RANGE:
     "포트 %1 의 색상 범위가 R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 범위 내에 있는지 여부",
@@ -11641,7 +11614,6 @@ Blockly.ScratchMsgs.locales["hy"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 անկյուն",
   SENSING_SET_YAW_ANGLE: "Սահմանել թեքության անկյունը 0-ի",
   SENSING_ISHANDLING: "Արդյոք %1 բռնիչը %2 է",
-  SENSING_HANDLING: "Կարգավորել %1 Joystick %2",
   SENSING_MAINISPRESS: "Արդյոք հյուրընկալող %1 կոճակը %2 է",
   SENSING_COLOR_RANGE:
     "%1 պորտի գունային տիրույթը R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 միջակայքում է",
@@ -12044,7 +12016,6 @@ Blockly.ScratchMsgs.locales["he"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 זווית",
   SENSING_SET_YAW_ANGLE: "הגדר את זווית הפיכוך ל-0",
   SENSING_ISHANDLING: "האם הידית %1 היא %2",
-  SENSING_HANDLING: "ידית% 1 ג'ויסטיק%2",
   SENSING_MAINISPRESS: "האם לחצן המארח %1 הוא %2",
   SENSING_COLOR_RANGE:
     "האם טווח הצבעים של היציאה %1 הוא בטווח של R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -12444,7 +12415,6 @@ Blockly.ScratchMsgs.locales["hr"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 kut",
   SENSING_SET_YAW_ANGLE: "Postavi kut skretanja na 0",
   SENSING_ISHANDLING: "Je li oznaka %1 %2",
-  SENSING_HANDLING: "Rukovanje %1 joystickom %2",
   SENSING_MAINISPRESS: "Da li je dugme domaćina %1 %2",
   SENSING_COLOR_RANGE:
     "Je li raspon boja priključka %1 unutar raspona R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -12847,7 +12817,6 @@ Blockly.ScratchMsgs.locales["xh"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 engile",
   SENSING_SET_YAW_ANGLE: "Seta i-engile ye-yaw ku-0",
   SENSING_ISHANDLING: "Loko xikhomela %1 i %2",
-  SENSING_HANDLING: "Xikhomela %1 Joystick %2",
   SENSING_MAINISPRESS: "Loko buti ya host %1 yi ri %2",
   SENSING_COLOR_RANGE:
     "Loko nxaxamelo wa mihlovo ya port %1 wu le ndzeni ka mpimo wa R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -13251,7 +13220,6 @@ Blockly.ScratchMsgs.locales["zu"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angle",
   SENSING_SET_YAW_ANGLE: "Setha i-engeli ye-yaw ibe ngu-0",
   SENSING_ISHANDLING: "Ukuthi isibambo %1 sithi %2",
-  SENSING_HANDLING: "Phatha%1 Joystick %2",
   SENSING_MAINISPRESS: "Ukuthi inkinobho yosokhaya %1 ithi %2",
   SENSING_COLOR_RANGE:
     "Ukuthi ububanzi bombala bembobo %1 bungaphakathi kwebanga elingu-R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -13655,7 +13623,6 @@ Blockly.ScratchMsgs.locales["is"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 horn",
   SENSING_SET_YAW_ANGLE: "Stilltu beygjuhorn á 0",
   SENSING_ISHANDLING: "Hvort handfang %1 sé %2",
-  SENSING_HANDLING: "Höndla %1 stýripinnann %2",
   SENSING_MAINISPRESS: "Hvort hýsilhnappurinn %1 sé %2",
   SENSING_COLOR_RANGE:
     "Hvort litasvið gátt %1 sé innan bilsins R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -14058,7 +14025,6 @@ Blockly.ScratchMsgs.locales["it"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 angolo",
   SENSING_SET_YAW_ANGLE: "Imposta l'angolo di imbardata su 0",
   SENSING_ISHANDLING: "Se l'handle %1 è %2",
-  SENSING_HANDLING: "Gestisci %1 Joystick %2",
   SENSING_MAINISPRESS: "Se il pulsante host %1 è %2",
   SENSING_COLOR_RANGE:
     "Se la gamma di colori della porta %1 rientra nell'intervallo di R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -14465,7 +14431,6 @@ Blockly.ScratchMsgs.locales["ka"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 კუთხე",
   SENSING_SET_YAW_ANGLE: "დააყენეთ გადახრის კუთხე 0-ზე",
   SENSING_ISHANDLING: "დასახელება %1 არის თუ არა %2",
-  SENSING_HANDLING: "%1 ჯოისტიკის %2 დამუშავება",
   SENSING_MAINISPRESS: "ჰოსტის %1 ღილაკი არის თუ არა %2",
   SENSING_COLOR_RANGE:
     " %1 პორტის ფერის დიაპაზონი არის თუ არა R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ფარგლებში",
@@ -14868,7 +14833,6 @@ Blockly.ScratchMsgs.locales["kk"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 бұрыш",
   SENSING_SET_YAW_ANGLE: "Иілу бұрышын 0-ге орнату",
   SENSING_ISHANDLING: "%1 дескрипторы %2",
-  SENSING_HANDLING: "%1 джойстикті өңдеу %2",
   SENSING_MAINISPRESS: "%1 негізгі түймесі %2 ма",
   SENSING_COLOR_RANGE:
     "%1 портының түс диапазоны R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ауқымында болуы",
@@ -15273,7 +15237,6 @@ Blockly.ScratchMsgs.locales["qu"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 k'uchu",
   SENSING_SET_YAW_ANGLE: "0 nisqaman yaw k'uchuta churay",
   SENSING_ISHANDLING: "%1 hapina %2 kaptinpas",
-  SENSING_HANDLING: "%1 Joystick %2 llamk'achiyta",
   SENSING_MAINISPRESS: "Qatiqpa %1 ñit'ina %2 kaptin",
   SENSING_COLOR_RANGE:
     "%1 puertopa llimp'inkuna R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 nisqap llimp'in ukhupichu kachkan",
@@ -15680,7 +15643,6 @@ Blockly.ScratchMsgs.locales["sw"] = {
   SENSING_GYROSCOPE_ANGLE: "pembe %1",
   SENSING_SET_YAW_ANGLE: "Weka pembe ya yaw iwe 0",
   SENSING_ISHANDLING: "Ikiwa mpini %1 ni %2",
-  SENSING_HANDLING: "Shikilia %1 Joystick %2",
   SENSING_MAINISPRESS: "Iwapo kitufe cha mwenyeji %1 ni %2",
   SENSING_COLOR_RANGE:
     "Iwapo safu ya rangi ya mlango %1 iko ndani ya safu ya R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -16083,7 +16045,6 @@ Blockly.ScratchMsgs.locales["ht"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ang",
   SENSING_SET_YAW_ANGLE: "Mete ang laze a 0",
   SENSING_ISHANDLING: "Si manch %1 se %2",
-  SENSING_HANDLING: "Manyen %1 Joystick %2",
   SENSING_MAINISPRESS: "Si bouton %1 lame a se %2",
   SENSING_COLOR_RANGE:
     "Si la plage de couleurs du port %1 est dans la plage de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -16484,7 +16445,6 @@ Blockly.ScratchMsgs.locales["ku"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 goşe",
   SENSING_SET_YAW_ANGLE: "Goşeya yaw bike 0",
   SENSING_ISHANDLING: "Ka destana %1 %2 ye",
-  SENSING_HANDLING: "%1 Joystick %2",
   SENSING_MAINISPRESS: "Ni jatigila %1 butɔni ye %2 ye",
   SENSING_COLOR_RANGE:
     "Ni port %1 kulɛri hakɛ bɛ R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 kɔnɔ",
@@ -16888,7 +16848,6 @@ Blockly.ScratchMsgs.locales["ckb"] = {
   SENSING_GYROSCOPE_ANGLE: "گۆشەی %1",
   SENSING_SET_YAW_ANGLE: "گۆشەی وەرگەڕان لەسەر 0 دابنێ",
   SENSING_ISHANDLING: "ئایا دەستە %1 %2 بێت",
-  SENSING_HANDLING: "دەستەبەرکردنی %1 جۆیستیک %2",
   SENSING_MAINISPRESS: "ئایا دوگمەی هۆست %1 %2 بێت",
   SENSING_COLOR_RANGE:
     "ئایا مەودای ڕەنگی دەروازەی %1 لە مەودای R %2 ~ %3 G %4 ~ %5 B %6 ~ %7دایە",
@@ -17290,7 +17249,6 @@ Blockly.ScratchMsgs.locales["lv"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 leņķis",
   SENSING_SET_YAW_ANGLE: "Iestatīt leņķa leņķi uz 0",
   SENSING_ISHANDLING: "Vai rokturis %1 ir %2",
-  SENSING_HANDLING: "Rokturis %1 kursorsviras %2",
   SENSING_MAINISPRESS: "Vai saimniekdatora poga %1 ir %2",
   SENSING_COLOR_RANGE:
     "Vai porta %1 krāsu diapazons ir diapazonā R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -17693,7 +17651,6 @@ Blockly.ScratchMsgs.locales["lt"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 kampas",
   SENSING_SET_YAW_ANGLE: "Nustatyti posūkio kampą į 0",
   SENSING_ISHANDLING: "Ar rankena %1 yra %2",
-  SENSING_HANDLING: "Rankokite %1 vairasvirtę %2",
   SENSING_MAINISPRESS: "Ar mygtukas %1 yra %2",
   SENSING_COLOR_RANGE:
     "Ar prievado %1 spalvų diapazonas yra R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ribose",
@@ -18096,7 +18053,6 @@ Blockly.ScratchMsgs.locales["hu"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 szög",
   SENSING_SET_YAW_ANGLE: "Az elfordulási szög beállítása 0-ra",
   SENSING_ISHANDLING: "A(z) %1 leíró %2 -e",
-  SENSING_HANDLING: "%1 joystick fogantyúja %2",
   SENSING_MAINISPRESS: "A(z) %1 gazdagép gomb %2-e",
   SENSING_COLOR_RANGE:
     "A %1 port színtartománya az R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 tartományon belül van-e",
@@ -18500,7 +18456,6 @@ Blockly.ScratchMsgs.locales["mi"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 koki",
   SENSING_SET_YAW_ANGLE: "Tautuhi koki yaw ki te 0",
   SENSING_ISHANDLING: "Ahakoa he %2 te kakau %1",
-  SENSING_HANDLING: "Kawea %1 Joystick %2",
   SENSING_MAINISPRESS: "Ahakoa ko %2 te patene kaihautu %1",
   SENSING_COLOR_RANGE:
     "Ahakoa ko te awhe tae o te tauranga %1 kei roto i te awhe o R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -18904,7 +18859,6 @@ Blockly.ScratchMsgs.locales["mn"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 өнцөг",
   SENSING_SET_YAW_ANGLE: "Эхлэх өнцгийг 0 болгож тохируулах",
   SENSING_ISHANDLING: "%1 бариул %2 эсэх",
-  SENSING_HANDLING: "%1 Joystick %2 -г удирдах",
   SENSING_MAINISPRESS: "%1 хостын товчлуур нь %2 эсэх",
   SENSING_COLOR_RANGE:
     "%1 портын өнгөний муж R %2 ~ %3 G %4 ~ %5 B %6 ~ %7-ийн мужид байгаа эсэх",
@@ -19310,7 +19264,6 @@ Blockly.ScratchMsgs.locales["nl"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 hoek",
   SENSING_SET_YAW_ANGLE: "Stel gierhoek in op 0",
   SENSING_ISHANDLING: "Of handvatsel %1 %2 is",
-  SENSING_HANDLING: "Hanteer %1 Joystick %2",
   SENSING_MAINISPRESS: "Of die gasheer %1-knoppie %2 is",
   SENSING_COLOR_RANGE:
     "Of die kleurreeks van poort %1 binne die reeks van R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 is",
@@ -19720,7 +19673,6 @@ Blockly.ScratchMsgs.locales["ja"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 角度",
   SENSING_SET_YAW_ANGLE: "ヨー角を 0 に設定します",
   SENSING_ISHANDLING: "ハンドル %1 が %2 かどうか",
-  SENSING_HANDLING: "ハンドル %1 ジョイスティック %2",
   SENSING_MAINISPRESS: "ホスト %1 ボタンが %2 かどうか",
   SENSING_COLOR_RANGE:
     "ポート %1 の色の範囲が R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 の範囲内かどうか",
@@ -20127,7 +20079,6 @@ Blockly.ScratchMsgs.locales["ja-Hira"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 角度",
   SENSING_SET_YAW_ANGLE: "ヨー角を 0 に設定します",
   SENSING_ISHANDLING: "ハンドル %1 が %2 かどうか",
-  SENSING_HANDLING: "ハンドル %1 ジョイスティック %2",
   SENSING_MAINISPRESS: "ホスト %1 ボタンが %2 かどうか",
   SENSING_COLOR_RANGE:
     "ポート %1 の色の範囲が R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 の範囲内かどうか",
@@ -20529,7 +20480,6 @@ Blockly.ScratchMsgs.locales["nb"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 vinkel",
   SENSING_SET_YAW_ANGLE: "Sett girvinkel til 0",
   SENSING_ISHANDLING: "Om håndtaket %1 er %2",
-  SENSING_HANDLING: "Håndtak %1 styrespak %2",
   SENSING_MAINISPRESS: "Om vertsknappen %1 er %2",
   SENSING_COLOR_RANGE:
     "Om fargeområdet til port %1 er innenfor området R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -20932,7 +20882,6 @@ Blockly.ScratchMsgs.locales["nn"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 vinkel",
   SENSING_SET_YAW_ANGLE: "Sätt girvinkeln till 0",
   SENSING_ISHANDLING: "Om handtaget %1 är %2",
-  SENSING_HANDLING: "Handtag %1 joystick %2",
   SENSING_MAINISPRESS: "Om värdknappen %1 är %2",
   SENSING_COLOR_RANGE:
     "Om färgområdet för port %1 ligger inom intervallet R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -21334,7 +21283,6 @@ Blockly.ScratchMsgs.locales["or"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 କୋଣ",
   SENSING_SET_YAW_ANGLE: "ୟା କୋଣକୁ 0 ରେ ସେଟ୍ କରନ୍ତୁ",
   SENSING_ISHANDLING: "ହ୍ୟାଣ୍ଡେଲ %1 ହେଉଛି %2",
-  SENSING_HANDLING: "%1 ଜୟଷ୍ଟିକ୍ %2 ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ",
   SENSING_MAINISPRESS: "ହୋଷ୍ଟ% 1 ବଟନ୍% 2 ଅଟେ କି ନାହିଁ",
   SENSING_COLOR_RANGE:
     "ପୋର୍ଟ %1 ର ରଙ୍ଗ ପରିସର R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ପରିସର ମଧ୍ୟରେ ଅଛି କି ନାହିଁ",
@@ -21736,7 +21684,6 @@ Blockly.ScratchMsgs.locales["uz"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 burchak",
   SENSING_SET_YAW_ANGLE: "Egish burchagini 0 ga o'rnating",
   SENSING_ISHANDLING: "%1 tutqichi %2 bo ladimi",
-  SENSING_HANDLING: "%1 joystikni boshqarish %2",
   SENSING_MAINISPRESS: "%1 xost tugmasi %2 bo ladimi",
   SENSING_COLOR_RANGE:
     "%1 portining rang diapazoni R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 diapazoni ichidami",
@@ -22145,7 +22092,6 @@ Blockly.ScratchMsgs.locales["th"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 มุม",
   SENSING_SET_YAW_ANGLE: "ตั้งค่ามุมการหันเหเป็น 0",
   SENSING_ISHANDLING: "ไม่ว่าหมายเลขอ้างอิง %1 จะเป็น %2 หรือไม่",
-  SENSING_HANDLING: "จัดการ %1 จอยสติ๊ก %2",
   SENSING_MAINISPRESS: "ไม่ว่าปุ่มโฮสต์ %1 จะเป็น %2",
   SENSING_COLOR_RANGE:
     "ไม่ว่าช่วงสีของพอร์ต %1 จะอยู่ในช่วง R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 หรือไม่",
@@ -22548,7 +22494,6 @@ Blockly.ScratchMsgs.locales["km"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 មុំ",
   SENSING_SET_YAW_ANGLE: "កំណត់មុំយោលទៅ 0",
   SENSING_ISHANDLING: "ថាតើចំណុចទាញ %1 គឺ %2",
-  SENSING_HANDLING: "ដោះស្រាយ %1 Joystick %2",
   SENSING_MAINISPRESS: "ថាតើម៉ាស៊ីន %1 ប៊ូតុងគឺ %2",
   SENSING_COLOR_RANGE:
     "ថាតើជួរពណ៌នៃច្រក %1 ស្ថិតនៅក្នុងជួរ R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ទេ",
@@ -22950,7 +22895,6 @@ Blockly.ScratchMsgs.locales["pl"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 kąt",
   SENSING_SET_YAW_ANGLE: "Ustaw kąt odchylenia na 0",
   SENSING_ISHANDLING: "Czy uchwyt %1 to %2",
-  SENSING_HANDLING: "Uchwyt %1 Joystick %2",
   SENSING_MAINISPRESS: "Czy przycisk hosta %1 to %2",
   SENSING_COLOR_RANGE:
     "Czy zakres kolorów portu %1 mieści się w zakresie R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -23354,7 +23298,6 @@ Blockly.ScratchMsgs.locales["pt"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ângulo",
   SENSING_SET_YAW_ANGLE: "Defina o ângulo de guinada como 0",
   SENSING_ISHANDLING: "Se o identificador %1 é %2",
-  SENSING_HANDLING: "Alça %1 Joystick %2",
   SENSING_MAINISPRESS: "Se o botão do host %1 é %2",
   SENSING_COLOR_RANGE:
     "Se o intervalo de cores da porta %1 está dentro do intervalo de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -23758,7 +23701,6 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ângulo",
   SENSING_SET_YAW_ANGLE: "Defina o ângulo de guinada como 0",
   SENSING_ISHANDLING: "Se o identificador %1 é %2",
-  SENSING_HANDLING: "Alça %1 Joystick %2",
   SENSING_MAINISPRESS: "Se o botão do host %1 é %2",
   SENSING_COLOR_RANGE:
     "Se o intervalo de cores da porta %1 está dentro do intervalo de R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -24162,7 +24104,6 @@ Blockly.ScratchMsgs.locales["rap"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 ángulo",
   SENSING_SET_YAW_ANGLE: "Emohenda ángulo de giro 0-pe",
   SENSING_ISHANDLING: "Oĩpa %1 ñanduti renda %2",
-  SENSING_HANDLING: "Emboguata %1 Joystick %2",
   SENSING_MAINISPRESS: "Oĩpa %1 mboajepyréva karameg̃ua %2",
   SENSING_COLOR_RANGE:
     "Oĩpa pe saꞌi vore vore %1 rehegua R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 ryepýpe",
@@ -24565,7 +24506,6 @@ Blockly.ScratchMsgs.locales["ro"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 unghi",
   SENSING_SET_YAW_ANGLE: "Setați unghiul de rotire la 0",
   SENSING_ISHANDLING: "Dacă mânerul %1 este %2",
-  SENSING_HANDLING: "Manevrează %1 Joystick %2",
   SENSING_MAINISPRESS: "Dacă butonul gazdă %1 este %2",
   SENSING_COLOR_RANGE:
     "Dacă gama de culori a portului %1 se află în intervalul R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -24968,7 +24908,6 @@ Blockly.ScratchMsgs.locales["ru"] = {
   SENSING_GYROSCOPE_ANGLE: "Угол %1",
   SENSING_SET_YAW_ANGLE: "Установить угол поворота на 0",
   SENSING_ISHANDLING: "Является ли дескриптор %1 %2",
-  SENSING_HANDLING: "Управлять %1 джойстиком %2",
   SENSING_MAINISPRESS: "Является ли кнопка хоста %1 %2",
   SENSING_COLOR_RANGE:
     "Находится ли цветовой диапазон порта %1 в диапазоне R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -25373,7 +25312,6 @@ Blockly.ScratchMsgs.locales["nso"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 nurk",
   SENSING_SET_YAW_ANGLE: "Määra kaldenurk 0",
   SENSING_ISHANDLING: "Kas käepide %1 on %2",
-  SENSING_HANDLING: "Käepide %1 juhtkangi %2",
   SENSING_MAINISPRESS: "Kas hosti %1 nupp on %2",
   SENSING_COLOR_RANGE:
     "Kas pordi % 1 värvivahemik on vahemikus R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -25778,7 +25716,6 @@ Blockly.ScratchMsgs.locales["tn"] = {
   SENSING_GYROSCOPE_ANGLE: "% 1 nurk",
   SENSING_SET_YAW_ANGLE: "Määra kaldenurk 0",
   SENSING_ISHANDLING: "Kas käepide %1 on %2",
-  SENSING_HANDLING: "Käepide %1 juhtkangi %2",
   SENSING_MAINISPRESS: "Kas hosti %1 nupp on %2",
   SENSING_COLOR_RANGE:
     "Kas pordi %1 värvivahemik on vahemikus R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -26183,7 +26120,6 @@ Blockly.ScratchMsgs.locales["sk"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 uhol",
   SENSING_SET_YAW_ANGLE: "Nastaviť uhol vybočenia na 0",
   SENSING_ISHANDLING: "Či je rukoväť %1 %2",
-  SENSING_HANDLING: "Rukoväť %1 joystick %2",
   SENSING_MAINISPRESS: "Či je tlačidlo hostiteľa %1 %2",
   SENSING_COLOR_RANGE:
     "Či je rozsah farieb portu %1 v rozsahu R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -26585,7 +26521,6 @@ Blockly.ScratchMsgs.locales["sl"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 kot",
   SENSING_SET_YAW_ANGLE: "Nastavi kot zasuka na 0",
   SENSING_ISHANDLING: "Ali je ročaj %1 %2",
-  SENSING_HANDLING: "Upravljanje %1 igralne palice %2",
   SENSING_MAINISPRESS: "Ali je gostiteljski gumb %1 %2",
   SENSING_COLOR_RANGE:
     "Ali je barvni obseg vrat %1 znotraj obsega R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -27386,7 +27321,6 @@ Blockly.ScratchMsgs.locales["fi"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 kulma",
   SENSING_SET_YAW_ANGLE: "Aseta kääntökulmaksi 0",
   SENSING_ISHANDLING: "Onko kahva %1 %2",
-  SENSING_HANDLING: "Katso %1 Joystick %2",
   SENSING_MAINISPRESS: "Onko isäntä %1-painike %2",
   SENSING_COLOR_RANGE:
     "Onko portin %1 värialue R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 sisällä",
@@ -27790,7 +27724,6 @@ Blockly.ScratchMsgs.locales["sv"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 vinkel",
   SENSING_SET_YAW_ANGLE: "Sätt girvinkeln till 0",
   SENSING_ISHANDLING: "Om handtaget %1 är %2",
-  SENSING_HANDLING: "Handtag %1 joystick %2",
   SENSING_MAINISPRESS: "Om värdknappen %1 är %2",
   SENSING_COLOR_RANGE:
     "Om färgområdet för port %1 ligger inom intervallet R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -28193,7 +28126,6 @@ Blockly.ScratchMsgs.locales["vi"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 góc",
   SENSING_SET_YAW_ANGLE: "Đặt góc lệch thành 0",
   SENSING_ISHANDLING: "Cho dù phần xử lý %1 có phải là %2",
-  SENSING_HANDLING: "Xử lý cần điều khiển %1 %2",
   SENSING_MAINISPRESS: "Nút máy chủ %1 có phải là %2",
   SENSING_COLOR_RANGE:
     "Liệu dải màu của cổng %1 có nằm trong phạm vi của R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 hay không",
@@ -28589,7 +28521,6 @@ Blockly.ScratchMsgs.locales["tr"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 açı",
   SENSING_SET_YAW_ANGLE: "Sapma açısını 0'a ayarla",
   SENSING_ISHANDLING: "%1 tanıtıcısının %2 olup olmadığı",
-  SENSING_HANDLING: "%1 Kumanda Kolu %2 yi Kullanın",
   SENSING_MAINISPRESS: "Ana bilgisayar %1 düğmesinin %2 olup olmadığı",
   SENSING_COLOR_RANGE:
     "%1 bağlantı noktasının renk aralığının R %2 ~ %3 G %4 ~ %5 B %6 ~ %7 aralığında olup olmadığı",
@@ -28993,7 +28924,6 @@ Blockly.ScratchMsgs.locales["uk"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 кут",
   SENSING_SET_YAW_ANGLE: "Установити кут повороту на 0",
   SENSING_ISHANDLING: "Чи дескриптор %1 є %2",
-  SENSING_HANDLING: "Керувати %1 джойстиком %2",
   SENSING_MAINISPRESS: "Чи кнопка хосту %1 є %2",
   SENSING_COLOR_RANGE:
     "Чи діапазон кольорів порту %1 знаходиться в діапазоні R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
@@ -29292,7 +29222,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SMALL_MOTOR: "中电机",
   RETARDATION: "制动",
   STILL: "保持位置不动",
-  FLOAT: "惯性滑行(float)",
+  FLOAT: "惯性滑行",
   PATH: "最短路径",
   CLOCKWISE: "顺时针",
   ANTICLOCKWISE: "逆时针",
@@ -29464,7 +29394,6 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 角度",
   SENSING_SET_YAW_ANGLE: "将偏航角度设为0",
   SENSING_ISHANDLING: "手柄 %1 是否 %2",
-  SENSING_HANDLING: "手柄 %1 摇杆 %2",
   SENSING_MAINISPRESS: "主机 %1 按钮是否 %2",
   SENSING_COLOR_RANGE: "%1 颜色范围是否在 R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
   SENSING_HSVCOLOR: "%1 %2 范围是否在 %3 ~ %4",
@@ -29472,6 +29401,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   SENSING_GET_GRAY_LINE: "%1 获取循迹卡传感器值 %2",
   SENSING_GET_GRAY_LINESTATE: "%1 循迹卡传感器 %2 号的状态是否为1",
   SENSING_JUDGELINESTATE: "判断 %1 当前循迹卡 %2 状态",
+  GET_GEAR: "获取手柄档位",
   SENSING_CAMERA_FIND_COLOR_BLOCK: "%1 %2 搜索色块 R %3 G %4 B %5 容差 %6",
   SENSING_CAMERA_FIND_COLOR_STATE: "%1 获取色块当前查找的状态",
   SENSING_CAMERA_FIND_COLOR_BLOCK_X: "%1 获取当前色块的x坐标系",
@@ -29861,7 +29791,6 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   SENSING_GYROSCOPE_ANGLE: "%1 角度",
   SENSING_SET_YAW_ANGLE: "偏航角度設為0",
   SENSING_ISHANDLING: "手把 %1 是否 %2",
-  SENSING_HANDLING: "手把 %1 搖桿 %2",
   SENSING_MAINISPRESS: "主機 %1 按鈕是否 %2",
   SENSING_COLOR_RANGE: "%1 顏色範圍是否在 R %2 ~ %3 G %4 ~ %5 B %6 ~ %7",
   SENSING_HSVCOLOR: "%1 %2 範圍是否在 %3 ~ %4",

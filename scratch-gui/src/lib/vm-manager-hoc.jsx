@@ -65,7 +65,7 @@ const vmManagerHOC = function (WrappedComponent) {
                 sessionStorage.setItem('programlist-curIndex', 0);
                 await window.myAPI.setForage('programlist', [obj]);
             } else {
-                //await setProgramList('NEW-AI', null, this.props.projectData, currentContent, this.props.onSetProjectTitle);
+                //await setProgramList('willai', null, this.props.projectData, currentContent, this.props.onSetProjectTitle);
                 sessionStorage.removeItem('openPath');
             }
         }*/

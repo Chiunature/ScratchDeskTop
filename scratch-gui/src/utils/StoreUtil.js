@@ -1,7 +1,7 @@
 const Store = require('electron-store');
 
 class StoreUtil {
-    constructor({ configName = 'myapp', fileExtension = 'json', defaults = {}, encryptionKey = null }) {
+    constructor({ configName = 'willai', fileExtension = 'json', defaults = {}, encryptionKey = null }) {
         this.store = new Store({
             name: configName,
             defaults,

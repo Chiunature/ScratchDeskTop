@@ -19,441 +19,523 @@
  */
 
 /**
- * @fileoverview 5x5 matrix input field.
- * Displays an editable 5x5 matrix for controlling LED arrays.
+ * @fileoverview 7×13 矩阵输入字段。
+ * 用于点阵/LED 的 7 行 13 列可编辑矩阵。
  * @author khanning@gmail.com (Kreg Hanning)
  */
-'use strict';
+"use strict";
 
-goog.provide('Blockly.FieldMatrix');
+goog.provide("Blockly.FieldMatrix");
 
-goog.require('Blockly.DropDownDiv');
+goog.require("Blockly.DropDownDiv");
 
 /**
- * Class for a matrix field.
- * @param {number} matrix The default matrix value represented by a 25-bit integer.
+ * 矩阵字段类。
+ * @param {string} matrix 默认矩阵字符串（91 个字符，行优先，7×13）。
  * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldMatrix = function (matrix) {
-  Blockly.FieldMatrix.superClass_.constructor.call(this, matrix);
-  this.addArgType('matrix');
+  var norm = matrix;
+  if (!norm || typeof norm !== "string") {
+    norm = Blockly.FieldMatrix.ZEROS;
+  } else if (norm.length < Blockly.FieldMatrix.MATRIX_LEN) {
+    norm =
+      norm +
+      Blockly.FieldMatrix.ZEROS.substring(
+        0,
+        Blockly.FieldMatrix.MATRIX_LEN - norm.length
+      );
+  }
+  Blockly.FieldMatrix.superClass_.constructor.call(this, norm);
+  this.addArgType("matrix");
   /**
-   * Array of SVGElement<rect> for matrix thumbnail image on block field.
+   * 积木上缩略图：每个 LED 对应一个 rect。
    * @type {!Array<SVGElement>}
    * @private
    */
   this.ledThumbNodes_ = [];
   /**
-   * Array of SVGElement<rect> for matrix editor in dropdown menu.
+   * 下拉编辑器中的矩阵格子 rect 列表。
    * @type {!Array<SVGElement>}
    * @private
    */
   this.ledButtons_ = [];
   /**
-   * String for storing current matrix value.
+   * 当前矩阵取值字符串（仅含 '0'/'1'）。
    * @type {!String}
    * @private
    */
-  this.matrix_ = matrix;
+  this.matrix_ = norm;
   /**
-   * SVGElement for LED matrix in editor.
+   * 编辑器中矩阵的 SVG 根节点。
    * @type {?SVGElement}
    * @private
    */
   this.matrixStage_ = null;
   /**
-   * SVG image for dropdown arrow.
+   * 下拉箭头所用的 SVG image。
    * @type {?SVGElement}
    * @private
    */
   this.arrow_ = null;
   /**
-   * String indicating matrix paint style.
-   * value can be [null, 'fill', 'clear'].
+   * 拖拽涂色模式：null | 'fill'（点亮）| 'clear'（熄灭）。
    * @type {?String}
    * @private
    */
   this.paintStyle_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the field is selected.
+   * 字段被按下时的事件绑定（mousedown）。
    * @type {!Array}
    * @private
    */
   this.mouseDownWrapper_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the clear button editor button is selected.
+   * 「清空」按钮点击事件绑定。
    * @type {!Array}
    * @private
    */
   this.clearButtonWrapper_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the fill button editor button is selected.
+   * 「全亮」按钮点击事件绑定。
    * @type {!Array}
    * @private
    */
   this.fillButtonWrapper_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the matrix editor is touched.
+   * 矩阵区域 mousedown 事件绑定。
    * @type {!Array}
    * @private
    */
   this.matrixTouchWrapper_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the matrix editor touch event moves.
+   * 拖拽过程中 document 上 mousemove 绑定。
    * @type {!Array}
    * @private
    */
   this.matrixMoveWrapper_ = null;
   /**
-   * Touch event wrapper.
-   * Runs when the matrix editor is released.
+   * 拖拽结束 mouseup 绑定。
    * @type {!Array}
    * @private
    */
   this.matrixReleaseWrapper_ = null;
 };
+
+/**
+ * 矩阵尺寸（行优先：下标 = 行 * COLS + 列）。
+ * 必须在首次 {@code new Blockly.FieldMatrix(...)} 之前赋值完毕。
+ * @type {number}
+ * @const
+ */
+Blockly.FieldMatrix.MATRIX_ROWS = 7;
+Blockly.FieldMatrix.MATRIX_COLS = 13;
+Blockly.FieldMatrix.MATRIX_LEN =
+  Blockly.FieldMatrix.MATRIX_ROWS * Blockly.FieldMatrix.MATRIX_COLS;
+Blockly.FieldMatrix.ZEROS = new Array(Blockly.FieldMatrix.MATRIX_LEN + 1).join(
+  "0"
+);
+Blockly.FieldMatrix.ONES = new Array(Blockly.FieldMatrix.MATRIX_LEN + 1).join(
+  "1"
+);
+
 goog.inherits(Blockly.FieldMatrix, Blockly.Field);
 
 /**
- * Construct a FieldMatrix from a JSON arg object.
- * @param {!Object} options A JSON object with options (matrix).
- * @returns {!Blockly.FieldMatrix} The new field instance.
+ * 由 JSON 参数构造 FieldMatrix（与 field_matrix 的 JSON 定义对应）。
+ * @param {!Object} options 含 matrix 等选项的对象。
+ * @returns {!Blockly.FieldMatrix} 新字段实例。
  * @package
  * @nocollapse
  */
 Blockly.FieldMatrix.fromJson = function (options) {
-  return new Blockly.FieldMatrix(options['matrix']);
+  return new Blockly.FieldMatrix(options["matrix"]);
 };
 
 /**
- * Fixed size of the matrix thumbnail in the input field, in px.
+ * 积木上缩略图区域宽度基准，单位 px。
  * @type {number}
  * @const
  */
-Blockly.FieldMatrix.THUMBNAIL_SIZE = 30;
+Blockly.FieldMatrix.THUMBNAIL_SIZE = 68;
 
 /**
- * Fixed size of each matrix thumbnail node, in px.
+ * 缩略图中每个小格子的边长，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.THUMBNAIL_NODE_SIZE = 4;
 
 /**
- * Fixed size of each matrix thumbnail node, in px.
+ * 缩略图格子间距，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.THUMBNAIL_NODE_PAD = 1;
 
 /**
- * Fixed size of arrow icon in drop down menu, in px.
+ * 下拉箭头图标尺寸，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.ARROW_SIZE = 12;
 
 /**
- * Fixed size of each button inside the 5x5 matrix, in px.
+ * 编辑器里矩阵格子的边长，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.MATRIX_NODE_SIZE = 18;
 
 /**
- * Fixed corner radius for 5x5 matrix buttons, in px.
+ * 编辑器格子的圆角半径，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.MATRIX_NODE_RADIUS = 4;
 
 /**
- * Fixed padding for 5x5 matrix buttons, in px.
+ * 编辑器格子水平/列方向的间距，单位 px。
  * @type {number}
  * @const
  */
 Blockly.FieldMatrix.MATRIX_NODE_PAD = 7;
+/** 编辑器格子竖直（行）方向间距，单位 px。 */
 Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO = 9;
-/**
- * String with 35 '0' chars (7 rows x 5 columns).
- * Used for clearing a matrix or filling an LED node array.
- * @type {string}
- * @const
- */
-Blockly.FieldMatrix.ZEROS = '00000000000000000000000000000000000';
 
-/**
- * String with 35 '1' chars (7 rows x 5 columns).
- * Used for filling a matrix.
- * @type {string}
- * @const
- */
-Blockly.FieldMatrix.ONES = '11111111111111111111111111111111111';
-
+/** 防抖定时器句柄（与 {@link Blockly.FieldMatrix.callback} 配合）。 */
 Blockly.FieldMatrix.timer = null;
+/** 矩阵变更时外部回调，签名为 function(type, payload)。 */
 Blockly.FieldMatrix.callback = null;
 /**
- * Called when the field is placed on a block.
- * @param {Block} block The owning block.
+ * 字段挂到积木上时调用，创建缩略图与箭头。
+ * @this {Blockly.FieldMatrix}
  */
 Blockly.FieldMatrix.prototype.init = function () {
   if (this.fieldGroup_) {
-    // Matrix menu has already been initialized once.
+    // 已初始化过，直接返回。
     return;
   }
 
-  // Change the color to parent block color.
+  // 如需跟随父积木着色，可取消下面注释。
   /* if (this.sourceBlock_.getParent()) {
     var parentBlock = this.sourceBlock_.getParent();
     this.sourceBlock_.setColour(parentBlock.getColour(), parentBlock.getColourSecondary(),
       parentBlock.getColourTertiary());
   } */
 
-  // Build the DOM.
-  this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-  this.size_.width = Blockly.FieldMatrix.THUMBNAIL_SIZE +
-    Blockly.FieldMatrix.ARROW_SIZE + (Blockly.BlockSvg.DROPDOWN_ARROW_PADDING * 1.5);
+  // 构建字段的 SVG DOM。
+  this.fieldGroup_ = Blockly.utils.createSvgElement("g", {}, null);
+  this.size_.width =
+    Blockly.FieldMatrix.THUMBNAIL_SIZE +
+    Blockly.FieldMatrix.ARROW_SIZE +
+    Blockly.BlockSvg.DROPDOWN_ARROW_PADDING * 1.5;
 
   this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
 
   var thumbX = Blockly.BlockSvg.DROPDOWN_ARROW_PADDING / 2;
   // var thumbY = (this.size_.height - Blockly.FieldMatrix.THUMBNAIL_SIZE) / 2;
   var thumbY = -7;
-  var thumbnail = Blockly.utils.createSvgElement('g', {
-    'transform': 'translate(' + thumbX + ', ' + thumbY + ')',
-    'pointer-events': 'bounding-box', 'cursor': 'pointer'
-  }, this.fieldGroup_);
+  var thumbnail = Blockly.utils.createSvgElement(
+    "g",
+    {
+      transform: "translate(" + thumbX + ", " + thumbY + ")",
+      "pointer-events": "bounding-box",
+      cursor: "pointer",
+    },
+    this.fieldGroup_
+  );
   this.ledThumbNodes_ = [];
   var nodeSize = Blockly.FieldMatrix.THUMBNAIL_NODE_SIZE;
   var nodePad = Blockly.FieldMatrix.THUMBNAIL_NODE_PAD;
-  for (var i = 0; i < 7; i++) {
-    for (var n = 0; n < 5; n++) {
+  for (var i = 0; i < Blockly.FieldMatrix.MATRIX_ROWS; i++) {
+    for (var n = 0; n < Blockly.FieldMatrix.MATRIX_COLS; n++) {
       var attr = {
-        'x': ((nodeSize + nodePad) * n) + nodePad,
-        'y': ((nodeSize + nodePad) * i) + nodePad,
-        'width': nodeSize, 'height': nodeSize,
-        'rx': nodePad, 'ry': nodePad
+        x: (nodeSize + nodePad) * n + nodePad,
+        y: (nodeSize + nodePad) * i + nodePad,
+        width: nodeSize,
+        height: nodeSize,
+        rx: nodePad,
+        ry: nodePad,
       };
       this.ledThumbNodes_.push(
-        Blockly.utils.createSvgElement('rect', attr, thumbnail)
+        Blockly.utils.createSvgElement("rect", attr, thumbnail)
       );
     }
-    thumbnail.style.cursor = 'default';
+    thumbnail.style.cursor = "default";
   }
 
   this.updateMatrix_();
 
   if (!this.arrow_) {
-    var arrowX = Blockly.FieldMatrix.THUMBNAIL_SIZE +
+    var arrowX =
+      Blockly.FieldMatrix.THUMBNAIL_SIZE +
       Blockly.BlockSvg.DROPDOWN_ARROW_PADDING * 1.5;
     var arrowY = (this.size_.height - Blockly.FieldMatrix.ARROW_SIZE) / 2;
-    this.arrow_ = Blockly.utils.createSvgElement('image', {
-      'height': Blockly.FieldMatrix.ARROW_SIZE + 'px',
-      'width': Blockly.FieldMatrix.ARROW_SIZE + 'px',
-      'transform': 'translate(' + (arrowX + 3) + ', ' + (arrowY + 2) + ')'
-    }, this.fieldGroup_);
-    this.arrow_.setAttributeNS('http://www.w3.org/1999/xlink',
-      'xlink:href', Blockly.mainWorkspace.options.pathToMedia +
-    'dropdown-arrow.svg');
-    this.arrow_.style.cursor = 'default';
+    this.arrow_ = Blockly.utils.createSvgElement(
+      "image",
+      {
+        height: Blockly.FieldMatrix.ARROW_SIZE + "px",
+        width: Blockly.FieldMatrix.ARROW_SIZE + "px",
+        transform: "translate(" + (arrowX + 3) + ", " + (arrowY + 2) + ")",
+      },
+      this.fieldGroup_
+    );
+    this.arrow_.setAttributeNS(
+      "http://www.w3.org/1999/xlink",
+      "xlink:href",
+      Blockly.mainWorkspace.options.pathToMedia + "dropdown-arrow.svg"
+    );
+    this.arrow_.style.cursor = "default";
   }
 
   this.mouseDownWrapper_ = Blockly.bindEventWithChecks_(
-    this.getClickTarget_(), 'mousedown', this, this.onMouseDown_);
+    this.getClickTarget_(),
+    "mousedown",
+    this,
+    this.onMouseDown_
+  );
 };
 
 /**
- * Set the value for this matrix menu.
- * @param {string} matrix The new matrix value represented by a 25-bit integer.
+ * 设置矩阵字符串；不足 MATRIX_LEN 时右侧用 '0' 补齐。
+ * @param {string} matrix 新值（行优先，最终长度为 MATRIX_LEN）。
  * @override
  */
 Blockly.FieldMatrix.prototype.setValue = function (matrix) {
   if (!matrix || matrix === this.matrix_) {
-    return;  // No change
+    return; // 无变化
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
-    Blockly.Events.fire(new Blockly.Events.Change(
-      this.sourceBlock_, 'field', this.name, this.matrix_, matrix));
+    Blockly.Events.fire(
+      new Blockly.Events.Change(
+        this.sourceBlock_,
+        "field",
+        this.name,
+        this.matrix_,
+        matrix
+      )
+    );
   }
-  matrix = matrix + Blockly.FieldMatrix.ZEROS.substr(0, 35 - matrix.length);
+  matrix =
+    matrix +
+    Blockly.FieldMatrix.ZEROS.substr(
+      0,
+      Blockly.FieldMatrix.MATRIX_LEN - matrix.length
+    );
   this.matrix_ = matrix;
   this.updateMatrix_();
 };
 
-
 Blockly.FieldMatrix.prototype.stringToHex = function (matrix) {
-  // 将字符串按照每5个字符分割成数组（7行x5列）
-  var matrixArr = matrix.match(/.{1,5}/g) || [];
-  // 定义存储16进制数的数组（按列转换）
+  // 每行 MATRIX_COLS 个字符（7 行 × 13 列）；按列读取 7 位再反转，得到每列一个字节数值。
+  var cols = Blockly.FieldMatrix.MATRIX_COLS;
+  var rows = Blockly.FieldMatrix.MATRIX_ROWS;
+  var matrixArr = matrix.match(new RegExp(".{1," + cols + "}", "g")) || [];
   var hexArr = [];
-  
-  // 需要按列转换：遍历5列
-  for (var col = 0; col < 5; col++) {
-    var columnBits = '';
-    // 遍历7行，从第一行到第七行（正序，第一行对应bit 0最低位）
-    for (var row = 0; row < 7; row++) {
+
+  for (var col = 0; col < cols; col++) {
+    var columnBits = "";
+    for (var row = 0; row < rows; row++) {
       if (matrixArr[row] && matrixArr[row][col]) {
         columnBits += matrixArr[row][col];
       } else {
-        columnBits += '0';
+        columnBits += "0";
       }
     }
-    // 反转位序，使第一行对应最低位
-    columnBits = columnBits.split('').reverse().join('');
-    // 转换为十进制数（1代表亮，0代表不亮）
+    columnBits = columnBits.split("").reverse().join("");
     var decimalNum = parseInt(columnBits, 2);
     hexArr.push(decimalNum);
   }
-
   return hexArr;
-}
-
+};
 
 /**
- * Get the value from this matrix menu.
- * @return {string} Current matrix value.
+ * 获取当前矩阵字符串。
+ * @return {string} 当前矩阵值。
  */
 Blockly.FieldMatrix.prototype.getValue = function () {
   return String(this.matrix_);
 };
 
 /**
- * Show the drop-down menu for editing this field.
+ * 打开下拉编辑器（矩阵 + 清空/全亮按钮）。
  * @private
  */
 Blockly.FieldMatrix.prototype.showEditor_ = function () {
-  // If there is an existing drop-down someone else owns, hide it immediately and clear it.
+  // 若已有其他下拉层，先关闭并清空。
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.DropDownDiv.clearContent();
   var div = Blockly.DropDownDiv.getContentDiv();
-  // Build the SVG DOM.
-  var matrixSize = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * 5) +
-    (Blockly.FieldMatrix.MATRIX_NODE_PAD * 6);
-  this.matrixStage_ = Blockly.utils.createSvgElement('svg', {
-    'xmlns': 'http://www.w3.org/2000/svg',
-    'xmlns:html': 'http://www.w3.org/1999/xhtml',
-    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-    'version': '1.1',
-    'height': matrixSize + 70 + 'px',
-    'width': matrixSize + 'px'
-  }, div);
-  // Create the 5x5 matrix
+  // 构建编辑器内矩阵 SVG。
+  var cols = Blockly.FieldMatrix.MATRIX_COLS;
+  var rows = Blockly.FieldMatrix.MATRIX_ROWS;
+  // 宽度按列数计算（x 方向使用 MATRIX_NODE_PAD）
+  var matrixWidth =
+    Blockly.FieldMatrix.MATRIX_NODE_SIZE * cols +
+    Blockly.FieldMatrix.MATRIX_NODE_PAD * (cols + 1);
+  // 高度按行数计算（y 方向使用 MATRIX_NODE_PAD_TWO）
+  var matrixHeight =
+    Blockly.FieldMatrix.MATRIX_NODE_SIZE * rows +
+    Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO * (rows + 1);
+  this.matrixStage_ = Blockly.utils.createSvgElement(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      "xmlns:html": "http://www.w3.org/1999/xhtml",
+      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+      version: "1.1",
+      height: matrixHeight + "px",
+      width: matrixWidth + "px",
+      // Provide a viewBox so the grid scales correctly with the dropdown layout.
+      viewBox: "0 0 " + matrixWidth + " " + matrixHeight,
+      preserveAspectRatio: "xMinYMin meet",
+    },
+    div
+  );
   this.ledButtons_ = [];
-  for (var i = 0; i < 7; i++) {
-    for (var n = 0; n < 5; n++) {
-      var x = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * n) +
-        (Blockly.FieldMatrix.MATRIX_NODE_PAD * (n + 1));
-      var y = (Blockly.FieldMatrix.MATRIX_NODE_SIZE * i) +
-        (Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO * (i + 1));
+  for (var i = 0; i < Blockly.FieldMatrix.MATRIX_ROWS; i++) {
+    for (var n = 0; n < cols; n++) {
+      var x =
+        Blockly.FieldMatrix.MATRIX_NODE_SIZE * n +
+        Blockly.FieldMatrix.MATRIX_NODE_PAD * (n + 1);
+      var y =
+        Blockly.FieldMatrix.MATRIX_NODE_SIZE * i +
+        Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO * (i + 1);
       var attr = {
-        'x': x + 'px', 'y': y + 'px',
-        'width': Blockly.FieldMatrix.MATRIX_NODE_SIZE,
-        'height': Blockly.FieldMatrix.MATRIX_NODE_SIZE,
-        'rx': Blockly.FieldMatrix.MATRIX_NODE_RADIUS,
-        'ry': Blockly.FieldMatrix.MATRIX_NODE_RADIUS
+        x: x,
+        y: y,
+        width: Blockly.FieldMatrix.MATRIX_NODE_SIZE,
+        height: Blockly.FieldMatrix.MATRIX_NODE_SIZE,
+        rx: Blockly.FieldMatrix.MATRIX_NODE_RADIUS,
+        ry: Blockly.FieldMatrix.MATRIX_NODE_RADIUS,
       };
-      var led = Blockly.utils.createSvgElement('rect', attr, this.matrixStage_);
+      var led = Blockly.utils.createSvgElement("rect", attr, this.matrixStage_);
       this.matrixStage_.appendChild(led);
       this.ledButtons_.push(led);
     }
   }
-  // Div for lower button menu
-  var buttonDiv = document.createElement('div');
-  // Button to clear matrix
-  var clearButtonDiv = document.createElement('div');
-  clearButtonDiv.className = 'scratchMatrixButtonDiv';
+  // 下方按钮区域容器。
+  var buttonDiv = document.createElement("div");
+  // 「清空矩阵」
+  var clearButtonDiv = document.createElement("div");
+  clearButtonDiv.className = "scratchMatrixButtonDiv";
   var clearButton = this.createButton_(this.sourceBlock_.colourSecondary_);
   clearButtonDiv.appendChild(clearButton);
-  // Button to fill matrix
-  var fillButtonDiv = document.createElement('div');
-  fillButtonDiv.className = 'scratchMatrixButtonDiv';
-  var fillButton = this.createButton_('#FFFFFF');
+  // 「全部点亮」
+  var fillButtonDiv = document.createElement("div");
+  fillButtonDiv.className = "scratchMatrixButtonDiv";
+  var fillButton = this.createButton_("#FFFFFF");
   fillButtonDiv.appendChild(fillButton);
 
   buttonDiv.appendChild(clearButtonDiv);
   buttonDiv.appendChild(fillButtonDiv);
   div.appendChild(buttonDiv);
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(),
-    this.sourceBlock_.getColourTertiary());
+  Blockly.DropDownDiv.setColour(
+    this.sourceBlock_.getColour(),
+    this.sourceBlock_.getColourTertiary()
+  );
   Blockly.DropDownDiv.setCategory(this.sourceBlock_.getCategory());
   Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
-  this.matrixTouchWrapper_ =
-    Blockly.bindEvent_(this.matrixStage_, 'mousedown', this, this.onMouseDown);
-  this.clearButtonWrapper_ =
-    Blockly.bindEvent_(clearButton, 'click', this, this.clearMatrix_);
-  this.fillButtonWrapper_ =
-    Blockly.bindEvent_(fillButton, 'click', this, this.fillMatrix_);
+  this.matrixTouchWrapper_ = Blockly.bindEvent_(
+    this.matrixStage_,
+    "mousedown",
+    this,
+    this.onMouseDown
+  );
+  this.clearButtonWrapper_ = Blockly.bindEvent_(
+    clearButton,
+    "click",
+    this,
+    this.clearMatrix_
+  );
+  this.fillButtonWrapper_ = Blockly.bindEvent_(
+    fillButton,
+    "click",
+    this,
+    this.fillMatrix_
+  );
 
-  // Update the matrix for the current value
+  // 按当前 matrix_ 刷新格子显示。
   this.updateMatrix_();
-
 };
 
+// 调试用：历史上遗留的全局函数写法，不应作为实例方法使用。
 this.nodeCallback_ = function (e, num) {
   console.log(num);
 };
 
 /**
- * Make an svg object that resembles a 3x3 matrix to be used as a button.
- * @param {string} fill The color to fill the matrix nodes.
- * @return {SvgElement} The button svg element.
+ * 绘制 3×3 小点阵样式的 SVG 按钮图标。
+ * @param {string} fill 填充色。
+ * @return {SvgElement} 按钮 SVG 根元素。
  */
 Blockly.FieldMatrix.prototype.createButton_ = function (fill) {
-  var button = Blockly.utils.createSvgElement('svg', {
-    'xmlns': 'http://www.w3.org/2000/svg',
-    'xmlns:html': 'http://www.w3.org/1999/xhtml',
-    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-    'version': '1.1',
-    'height': Blockly.FieldMatrix.MATRIX_NODE_SIZE + 'px',
-    'width': Blockly.FieldMatrix.MATRIX_NODE_SIZE + 'px'
+  var button = Blockly.utils.createSvgElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    "xmlns:html": "http://www.w3.org/1999/xhtml",
+    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+    version: "1.1",
+    height: Blockly.FieldMatrix.MATRIX_NODE_SIZE + "px",
+    width: Blockly.FieldMatrix.MATRIX_NODE_SIZE + "px",
   });
   var nodeSize = Blockly.FieldMatrix.MATRIX_NODE_SIZE / 4;
   var nodePad = Blockly.FieldMatrix.MATRIX_NODE_SIZE / 16;
   for (var i = 0; i < 3; i++) {
     for (var n = 0; n < 3; n++) {
-      Blockly.utils.createSvgElement('rect', {
-        'x': ((nodeSize + nodePad) * n) + nodePad,
-        'y': ((nodeSize + nodePad) * i) + nodePad,
-        'width': nodeSize, 'height': nodeSize,
-        'rx': nodePad, 'ry': nodePad,
-        'fill': fill
-      }, button);
+      Blockly.utils.createSvgElement(
+        "rect",
+        {
+          x: (nodeSize + nodePad) * n + nodePad,
+          y: (nodeSize + nodePad) * i + nodePad,
+          width: nodeSize,
+          height: nodeSize,
+          rx: nodePad,
+          ry: nodePad,
+          fill: fill,
+        },
+        button
+      );
     }
   }
   return button;
 };
 
 /**
- * Redraw the matrix with the current value.
+ * 根据 matrix_ 重绘缩略图与编辑器中的格子颜色。
  * @private
  */
 Blockly.FieldMatrix.prototype.updateMatrix_ = function () {
   for (var i = 0; i < this.matrix_.length; i++) {
-    if (this.matrix_[i] === '0') {
-      this.fillMatrixNode_(this.ledButtons_, i, this.sourceBlock_.colourSecondary_);
+    if (this.matrix_[i] === "0") {
+      this.fillMatrixNode_(
+        this.ledButtons_,
+        i,
+        this.sourceBlock_.colourSecondary_
+      );
       this.fillMatrixNode_(this.ledThumbNodes_, i, this.sourceBlock_.colour_);
     } else {
-      this.fillMatrixNode_(this.ledButtons_, i, '#FFFFFF');
-      this.fillMatrixNode_(this.ledThumbNodes_, i, '#FFFFFF');
+      this.fillMatrixNode_(this.ledButtons_, i, "#FFFFFF");
+      this.fillMatrixNode_(this.ledThumbNodes_, i, "#FFFFFF");
     }
   }
 };
 
+/**
+ * 通知外部矩阵已变更（100ms 防抖）；type 为 'change' 时 payload.matrix 为按列字节数组。
+ * @param {string} type 事件类型。
+ * @param {*} value 非 change 时传入的附加数据。
+ */
 Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
-  if (typeof Blockly.FieldMatrix.callback === 'function') {
+  if (typeof Blockly.FieldMatrix.callback === "function") {
     clearTimeout(Blockly.FieldMatrix.timer);
     const that = this;
     Blockly.FieldMatrix.timer = setTimeout(() => {
       switch (type) {
-        case 'change':
+        case "change":
           let lp = that.stringToHex(that.matrix_);
           Blockly.FieldMatrix.callback(type, { matrix: lp });
           break;
@@ -463,80 +545,93 @@ Blockly.FieldMatrix.prototype.changeMatrix = function (type, value) {
       }
     }, 100);
   }
-}
+};
 
 /**
- * Clear the matrix.
- * @param {!Event} e Mouse event.
+ * 清空矩阵（全 0）。
+ * @param {!Event} e 鼠标事件。
  */
 Blockly.FieldMatrix.prototype.clearMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ZEROS);
-  this.changeMatrix('change');
+  this.changeMatrix("change");
 };
 
 /**
- * Fill the matrix.
- * @param {!Event} e Mouse event.
+ * 点亮全部格子（全 1）。
+ * @param {!Event} e 鼠标事件。
  */
 Blockly.FieldMatrix.prototype.fillMatrix_ = function (e) {
   if (e.button != 0) return;
   this.setValue(Blockly.FieldMatrix.ONES);
-  this.changeMatrix('change');
+  this.changeMatrix("change");
 };
 
 /**
- * Fill matrix node with specified colour.
- * @param {!Array<SVGElement>} node The array of matrix nodes.
- * @param {!number} index The index of the matrix node.
- * @param {!string} fill The fill colour in '#rrggbb' format.
+ * 将指定下标的格子设为给定填充色。
+ * @param {!Array<SVGElement>} node 格子 SVG 数组。
+ * @param {!number} index 下标。
+ * @param {!string} fill '#rrggbb' 格式颜色。
  */
 Blockly.FieldMatrix.prototype.fillMatrixNode_ = function (node, index, fill) {
   if (!node || !node[index] || !fill) return;
-  node[index].setAttribute('fill', fill);
+  node[index].setAttribute("fill", fill);
 };
 
+/** 将下标 led 的格子设为 state（'0' 或 '1'），并触发 changeMatrix。 */
 Blockly.FieldMatrix.prototype.setLEDNode_ = function (led, state) {
-  if (led < 0 || led > 34) return;
-  var matrix = this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
+  if (led < 0 || led >= Blockly.FieldMatrix.MATRIX_LEN) return;
+  var matrix =
+    this.matrix_.substr(0, led) + state + this.matrix_.substr(led + 1);
   this.setValue(matrix);
-  this.changeMatrix('change');
+  this.changeMatrix("change");
 };
 
+/** 点亮下标 led。 */
 Blockly.FieldMatrix.prototype.fillLEDNode_ = function (led) {
-  if (led < 0 || led > 34) return;
-  this.setLEDNode_(led, '1');
+  if (led < 0 || led >= Blockly.FieldMatrix.MATRIX_LEN) return;
+  this.setLEDNode_(led, "1");
 };
 
+/** 熄灭下标 led。 */
 Blockly.FieldMatrix.prototype.clearLEDNode_ = function (led) {
-  if (led < 0 || led > 34) return;
-  this.setLEDNode_(led, '0');
+  if (led < 0 || led >= Blockly.FieldMatrix.MATRIX_LEN) return;
+  this.setLEDNode_(led, "0");
 };
 
+/** 切换下标 led 的亮灭。 */
 Blockly.FieldMatrix.prototype.toggleLEDNode_ = function (led) {
-  if (led < 0 || led > 34) return;
-  if (this.matrix_.charAt(led) === '0') {
-    this.setLEDNode_(led, '1');
+  if (led < 0 || led >= Blockly.FieldMatrix.MATRIX_LEN) return;
+  if (this.matrix_.charAt(led) === "0") {
+    this.setLEDNode_(led, "1");
   } else {
-    this.setLEDNode_(led, '0');
+    this.setLEDNode_(led, "0");
   }
 };
 
 /**
- * Toggle matrix nodes on and off.
- * @param {!Event} e Mouse event.
+ * 在编辑器内按下：开始拖拽涂色，并切换起点格子。
+ * @param {!Event} e 鼠标事件。
  */
 Blockly.FieldMatrix.prototype.onMouseDown = function (e) {
-  this.matrixMoveWrapper_ =
-    Blockly.bindEvent_(document.body, 'mousemove', this, this.onMouseMove);
-  this.matrixReleaseWrapper_ =
-    Blockly.bindEvent_(document.body, 'mouseup', this, this.onMouseUp);
+  this.matrixMoveWrapper_ = Blockly.bindEvent_(
+    document.body,
+    "mousemove",
+    this,
+    this.onMouseMove
+  );
+  this.matrixReleaseWrapper_ = Blockly.bindEvent_(
+    document.body,
+    "mouseup",
+    this,
+    this.onMouseUp
+  );
   var ledHit = this.checkForLED_(e);
   if (ledHit > -1) {
-    if (this.matrix_.charAt(ledHit) === '0') {
-      this.paintStyle_ = 'fill';
+    if (this.matrix_.charAt(ledHit) === "0") {
+      this.paintStyle_ = "fill";
     } else {
-      this.paintStyle_ = 'clear';
+      this.paintStyle_ = "clear";
     }
     this.toggleLEDNode_(ledHit);
     this.updateMatrix_();
@@ -546,8 +641,7 @@ Blockly.FieldMatrix.prototype.onMouseDown = function (e) {
 };
 
 /**
- * Unbind mouse move event and clear the paint style.
- * @param {!Event} e Mouse move event.
+ * 释放鼠标：解绑移动监听并结束涂色模式。
  */
 Blockly.FieldMatrix.prototype.onMouseUp = function () {
   Blockly.unbindEvent_(this.matrixMoveWrapper_);
@@ -556,26 +650,26 @@ Blockly.FieldMatrix.prototype.onMouseUp = function () {
 };
 
 /**
- * Toggle matrix nodes on and off by dragging mouse.
- * @param {!Event} e Mouse move event.
+ * 拖拽时连续点亮或熄灭经过的格子。
+ * @param {!Event} e 鼠标移动事件。
  */
 Blockly.FieldMatrix.prototype.onMouseMove = function (e) {
   e.preventDefault();
   if (this.paintStyle_) {
     var led = this.checkForLED_(e);
     if (led < 0) return;
-    if (this.paintStyle_ === 'clear') {
+    if (this.paintStyle_ === "clear") {
       this.clearLEDNode_(led);
-    } else if (this.paintStyle_ === 'fill') {
+    } else if (this.paintStyle_ === "fill") {
       this.fillLEDNode_(led);
     }
   }
 };
 
 /**
- * Check if mouse coordinates collide with a matrix node.
- * @param {!Event} e Mouse move event.
- * @return {number} The matching matrix node or -1 for none.
+ * 根据鼠标坐标命中矩阵格子，返回线性下标；未命中返回 -1。
+ * @param {!Event} e 鼠标事件。
+ * @return {number} 格子下标，或 -1。
  */
 Blockly.FieldMatrix.prototype.checkForLED_ = function (e) {
   var bBox = this.matrixStage_.getBoundingClientRect();
@@ -584,19 +678,38 @@ Blockly.FieldMatrix.prototype.checkForLED_ = function (e) {
   var nodePadTwo = Blockly.FieldMatrix.MATRIX_NODE_PAD_TWO;
   var dx = e.clientX - bBox.left;
   var dy = e.clientY - bBox.top;
-  var min = nodePad / 2;
-  var max = bBox.width - (nodePad / 2);
-  if (dx < min || dx > max || dy < min || dy > max + 72) {
+
+  // Convert from screen pixels to SVG user coordinates.
+  // This keeps hit-testing correct when the SVG is scaled by the layout.
+  var viewBox = this.matrixStage_.getAttribute("viewBox");
+  var vbW = bBox.width;
+  var vbH = bBox.height;
+  if (viewBox) {
+    var parts = viewBox.split(/\s+/);
+    if (parts.length === 4) {
+      vbW = parseFloat(parts[2]);
+      vbH = parseFloat(parts[3]);
+    }
+  }
+  var x = dx * (vbW / bBox.width);
+  var y = dy * (vbH / bBox.height);
+
+  var xDiv = Math.trunc((x - nodePad / 2) / (nodeSize + nodePad));
+  var yDiv = Math.trunc((y - nodePadTwo / 2) / (nodeSize + nodePadTwo));
+  if (
+    xDiv < 0 ||
+    xDiv >= Blockly.FieldMatrix.MATRIX_COLS ||
+    yDiv < 0 ||
+    yDiv >= Blockly.FieldMatrix.MATRIX_ROWS
+  ) {
     return -1;
   }
-  var xDiv = Math.trunc((dx - nodePad / 2) / (nodeSize + nodePad));
-  var yDiv = Math.trunc((dy - nodePadTwo / 2) / (nodeSize + nodePadTwo));
-  return xDiv + (yDiv * 5);
+  return xDiv + yDiv * Blockly.FieldMatrix.MATRIX_COLS;
 };
 
 /**
- * Clean up this FieldMatrix, as well as the inherited Field.
- * @return {!Function} Closure to call on destruction of the WidgetDiv.
+ * 销毁时解绑事件、释放引用（与继承的 Field 一起清理）。
+ * @return {!Function} WidgetDiv 销毁时要执行的闭包。
  * @private
  */
 Blockly.FieldMatrix.prototype.dispose_ = function () {
@@ -625,4 +738,4 @@ Blockly.FieldMatrix.prototype.dispose_ = function () {
   };
 };
 
-Blockly.Field.register('field_matrix', Blockly.FieldMatrix);
+Blockly.Field.register("field_matrix", Blockly.FieldMatrix);

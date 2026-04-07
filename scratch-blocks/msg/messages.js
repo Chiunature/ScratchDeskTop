@@ -381,7 +381,6 @@ Blockly.Msg.SENSING_USERID = "user id";
 Blockly.Msg.SENSING_GYROSCOPE_ANGLE = "%1's angle";
 Blockly.Msg.SENSING_SET_YAW_ANGLE = "Set yaw angle to 0";
 Blockly.Msg.SENSING_ISHANDLING = "Is the %1 button of the handle %2?";
-Blockly.Msg.SENSING_HANDLING = "Controller %1 rocker %2 axis";
 Blockly.Msg.SENSING_MAINISPRESS = "Is the %1 button of the host %2";
 Blockly.Msg.SENSING_COLOR_RANGE =
   "Is the color range of port %1 within R %2 ~ %3 G %4 ~ %5 B %6 ~ %7";
@@ -569,3 +568,5 @@ Blockly.Msg.NEW_BROADCAST_MESSAGE = "New message";
 Blockly.Msg.NEW_BROADCAST_MESSAGE_TITLE = "New message name:";
 Blockly.Msg.BROADCAST_MODAL_TITLE = "New Message";
 Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME = "message1";
+
+Blockly.Msg.GET_GEAR = "Get gear";

@@ -13,7 +13,7 @@ const messages = defineMessages({
     defaultProjectTitle: {
         id: 'gui.gui.defaultProjectTitle',
         description: 'Default title for project',
-        defaultMessage: 'NEW-AI Project'
+        defaultMessage: 'WillAI Project'
     }
 });
 
@@ -47,7 +47,7 @@ const TitledHOC = function (WrappedComponent) {
             let newTitle = requestedTitle;
             if (newTitle === null || typeof newTitle === 'undefined') {
                 // newTitle = this.props.intl.formatMessage(messages.defaultProjectTitle);
-                newTitle = "NEW-AI";
+                newTitle = "willai";
             }
             this.props.onChangedProjectTitle(newTitle);
             return newTitle;

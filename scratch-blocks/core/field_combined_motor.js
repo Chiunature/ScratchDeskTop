@@ -11,15 +11,14 @@ Blockly.FieldCombinedMotor = function (motorList, opt_validator) {
   this.motorList = motorList;
   this.rightList = motorList.slice(4);
   this.leftList = motorList.slice(0, 4);
-  // 找到右边两侧第一个和第二非 null 的端口作为默认值
-  const rightFristPort =
-    this.rightList.find((m) => m !== null && m !== "null" && m !== "NULL") ||
-    "";
-  const rightLastPort =
-    this.rightList.filter(
+  // 找到边两侧第一个和第二非 null 的端口作为默认值
+  const leftFristPort =
+    this.leftList.find((m) => m !== null && m !== "null" && m !== "NULL") || "";
+  const leftLastPort =
+    this.leftList.filter(
       (m) => m !== null && m !== "null" && m !== "NULL"
     )[1] || "";
-  this.motor_ = [rightFristPort, rightLastPort];
+  this.motor_ = [leftFristPort, leftLastPort];
   this.combined_motor = this.motor_.join("+");
   Blockly.FieldCombinedMotor.superClass_.constructor.call(
     this,
@@ -242,6 +241,8 @@ Blockly.FieldCombinedMotor.prototype.createMotorListDom_ = function (
  */
 Blockly.FieldCombinedMotor.prototype.handleClick_ = function (dom) {
   dom.onclick = () => {
+    const child = dom.firstChild;
+    const value = child.innerHTML;
     if (this.motor_.length === 2) {
       this.motor_.splice(0, this.motor_.length);
       for (let i = 0; i < this.btnList.length; i++) {
@@ -250,10 +251,13 @@ Blockly.FieldCombinedMotor.prototype.handleClick_ = function (dom) {
         element.removeAttribute("style");
       }
     }
-    const child = dom.firstChild;
+    // 已选过相同值时跳过，防止重复
+    if (this.motor_.includes(value)) {
+      return;
+    }
     child.classList.add("selected");
     child.setAttribute("style", `color: ${this.sourceBlock_.getColour()}`);
-    this.motor_.push(child.innerHTML);
+    this.motor_.push(value);
     this.leftSideText.innerHTML = this.motor_[0] ? this.motor_[0] : "";
     this.rightSideText.innerHTML = this.motor_[1] ? this.motor_[1] : "";
     this.setValue(this.motor_.join("+"));

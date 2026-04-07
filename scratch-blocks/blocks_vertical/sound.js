@@ -201,9 +201,6 @@ Blockly.Blocks["sound_PlayMusic"] = {
     this.jsonInit({
       message0: Blockly.Msg.SOUND_PLAYMUSIC,
       args0: [
-        // {
-        //   "type": "field_vertical_separator"
-        // },
         {
           type: "input_value",
           name: "NOTE",
