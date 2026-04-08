@@ -108,7 +108,7 @@ function saveFileToLocal() {
         const result = await dialog.showSaveDialog({
             title: 'Save File',
             defaultPath: path.join(app.getPath('documents'), obj.filename),
-            filters: [{ name: 'LBS Files', extensions: ['lbs', 'sb3', 'sb2', 'sb1'] }]
+            filters: [{ name: 'WillAI Files', extensions: ['willai', 'sb3', 'sb2', 'sb1'] }]
         });
         if (!result.canceled) {
             const filePath = result.filePath;

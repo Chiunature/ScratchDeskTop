@@ -605,7 +605,7 @@ class MenuBar extends React.Component {
         try {
             console.log('【文件内容格式】');
             const arrayBuffer = await content.arrayBuffer();
-            console.log(`- 文件类型: ZIP压缩包 (LBS格式)`);
+            console.log(`- 文件类型: ZIP压缩包 (WillAI / .willai)`);
             console.log(`- 文件大小: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`);
             console.log('');
             
@@ -1087,7 +1087,7 @@ const getProjectFilename = (curTitle, defaultTitle) => {
     if (!filenameTitle || filenameTitle.length === 0) {
         filenameTitle = defaultTitle;
     }
-    return `${filenameTitle.substring(0, 100)}.lbs`;
+    return `${filenameTitle.substring(0, 100)}.willai`;
 };
 
 const mapStateToProps = (state, ownProps) => {
