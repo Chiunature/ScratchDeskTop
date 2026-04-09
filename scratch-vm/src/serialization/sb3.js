@@ -62,6 +62,8 @@ const CORE_EXTENSIONS = [
     "combined",
     "matrix",
     "cameraRecognition",
+    // handShank_menu 阴影块；操作码前缀是 handShank，而非 worker 扩展 URL。
+    "handShank",
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,

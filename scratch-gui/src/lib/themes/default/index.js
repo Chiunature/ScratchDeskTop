@@ -15,8 +15,8 @@ const blockColors = {
     combined_motor: {
         primary: "#FF4CCD",
         secondary: "#FF33A3",
-        tertiary: "#FF1A84",
-        quaternary: "#FF1A84",
+        tertiary: "#B2248A",
+        quaternary: "#B2248A",
     },
     matrix: {
         primary: "#9966FF",
