@@ -360,19 +360,32 @@ export class Common {
   }
 
   /**
-   * 处理灰度传感器数据
+   * 处理灰度传感器数据（gray / gray_v2 共用同一套聚合规则，结果统一写入 item.gray）
    * @param {Object} item - 设备项
+   * @param {"gray"|"gray_v2"} sourceKey - 协议中的字段名
    */
-  _processGraySensor(item) {
-    this._setDeviceInfo(item, 7);
-    const obj = { n: [], b: [], ...item.gray };
+  _processGraySensor(item, sourceKey = "gray") {
+    const idKey = sourceKey === "gray_v2" ? "a10" : "a7";
+    let idIndex = this.deviceIdList.indexOf(idKey);
+    if (idIndex < 0) {
+      idIndex = sourceKey === "gray_v2" ? 10 : 7;
+    }
+    this._setDeviceInfo(item, idIndex);
 
-    for (let key in obj) {
+    const raw = item[sourceKey];
+    if (!raw) return;
+
+    const obj = { n: [], b: [], ...raw };
+
+    for (const key in obj) {
+      if (key === "n" || key === "b") continue;
       if (/^\d{1}/.test(key)) {
         obj["n"].push(` ${key}:${obj[key]} `);
         delete obj[key];
       } else if (/b[\d+?]/.test(key)) {
         obj["b"].push(` ${key}:${obj[key]} `);
+        delete obj[key];
+      } else if (/^t[1-7]$/i.test(key)) {
         delete obj[key];
       }
     }
@@ -383,6 +396,9 @@ export class Common {
     }
 
     item.gray = { ...obj };
+    if (sourceKey === "gray_v2") {
+      delete item.gray_v2;
+    }
   }
 
   /**
@@ -442,8 +458,10 @@ export class Common {
         this._setDeviceInfo(item, 3);
       } else if (item.touch) {
         this._setDeviceInfo(item, 4);
+      } else if (item.gray_v2) {
+        this._processGraySensor(item, "gray_v2");
       } else if (item.gray) {
-        this._processGraySensor(item);
+        this._processGraySensor(item, "gray");
       } else if (item.camer || item.camera) {
         this._processCamera(item);
       } else if (item.nfc) {

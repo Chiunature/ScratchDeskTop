@@ -61,6 +61,7 @@ const COLOR_BOX_LABELS = {
 const GRAY_MSG_KEYS = {
     version: "version",
     Softwareversion: "version",
+    SoftwareVersion: "version",
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -181,6 +182,22 @@ const DeviceBox = ({ list, intl, messages }) => {
                                             : getGrayLabel(keyName)}
                                     </span>
                                     <span>{el.gray[keyName]}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+                    {/* 灰度 V2 */}
+                    {el.gray_v2 && Object.keys(el.gray_v2).length > 0 && (
+                        <ul className={styles.midUl}>
+                            {Object.keys(el.gray_v2).map((keyName) => (
+                                <li key={keyName}>
+                                    <span>
+                                        {keyName === "Not_Run"
+                                            ? "Error"
+                                            : getGrayLabel(keyName)}
+                                    </span>
+                                    <span>{el.gray_v2[keyName]}</span>
                                 </li>
                             ))}
                         </ul>

@@ -601,6 +601,7 @@
 	"gui.device.updateSensing": "强制外设更新",
 	"gui.device.gyroscopeCalibration": "陀螺仪校准",
 	"gui.device.gray": "循迹卡",
+	"gui.device.gray_v2": "循迹卡 V2",
 	"gui.device.camer": "摄像头",
 	"gui.device.nfc": "NFC",
 	"gui.main.Exit": "你所做的更改可能未保存!",

@@ -23,6 +23,7 @@ const DEVICE_ICONS = {
     small_motor: smallMotorSensingIcon,
     color: colorSensingIcon,
     gray: colorSensingIcon,
+    gray_v2: colorSensingIcon,
     superSound: superSoundIcon,
     touch: touchPressIcon,
     camer: cameraSensingIcon,
@@ -41,6 +42,7 @@ const DEVICE_DATA_FIELDS = {
     superSound: "ultrasion",
     touch: "touch",
     gray: "gray",
+    gray_v2: "gray",
     camer: "camer",
     nfc: "nfc",
 };
@@ -104,7 +106,8 @@ const COLOR_MSG_KEYS = {
 
 const GRAY_MSG_KEYS = {
     version: "version",
-    // Softwareversion 与 version 重复，不在下拉菜单中展示
+    Softwareversion: "version",
+    SoftwareVersion: "version",
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -137,6 +140,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         superSound: () => fmt("distance"),
         touch: () => fmt("key"),
         gray: (keyName) => getGrayLabel(keyName),
+        gray_v2: (keyName) => getGrayLabel(keyName),
         camer: (keyName, item) =>
             getCameraLabel(keyName, item.camer || item.camera),
         nfc: (keyName) => getNfcLabel(keyName),

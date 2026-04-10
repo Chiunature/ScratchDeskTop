@@ -289,6 +289,7 @@ Blockly.FieldMotor.prototype.checkType = function (type) {
       img.src = str + Blockly.FieldMotor.small_motor_svg;
       break;
     case "gray":
+    case "gray_v2":
     case "color":
       img.src = str + Blockly.FieldMotor.color_sensing_svg;
       break;

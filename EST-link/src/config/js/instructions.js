@@ -25,6 +25,7 @@ export const deviceIdMap = {
   a7: "gray",
   a8: "camer",
   a9: "nfc",
+  a10: "gray_v2",
 };
 
 export const reg = {

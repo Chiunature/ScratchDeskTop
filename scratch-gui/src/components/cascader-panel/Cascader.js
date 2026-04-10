@@ -86,6 +86,12 @@ export async function initOptions(intl) {
                 checked: false,
                 father: el.label
             },
+            {
+                value: intl.formatMessage(message.gray_v2),
+                label: intl.formatMessage(message.gray_v2),
+                checked: false,
+                father: el.label
+            },
         ]
         el['children'] = children;
     }

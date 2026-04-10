@@ -165,6 +165,11 @@ const messages = defineMessages({
         description: "Gray",
         defaultMessage: "Gray",
     },
+    gray_v2: {
+        id: "gui.device.gray_v2",
+        description: "Gray sensor V2",
+        defaultMessage: "Gray V2",
+    },
     camer: {
         id: "gui.device.camer",
         description: "Camera",

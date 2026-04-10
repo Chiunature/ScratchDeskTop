@@ -567,6 +567,7 @@
 	"gui.device.updateSensing": "Force external device update",
 	"gui.device.gyroscopeCalibration": "Gyroscope calibration",
 	"gui.device.gray": "Gray",
+	"gui.device.gray_v2": "Gray V2",
 	"gui.device.camer": "Camera",
 	"gui.device.nfc": "NFC",
 	"gui.main.Exit": "The changes you made may not be saved!",
