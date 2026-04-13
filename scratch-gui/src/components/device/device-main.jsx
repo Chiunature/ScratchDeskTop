@@ -10,72 +10,93 @@ const DeviceMain = ({ messages, deviceObj, intl, peripheralName }) => {
 
     return (
         <>
-            <div className={styles.midBox}>
-                <p>
+            <div className={styles.deviceMainCard}>
+                <p className={styles.deviceMainTitle}>
                     <FormattedMessage
                         defaultMessage="Device"
                         description="View device information"
                         id="gui.menuBar.Device"
                     />
                 </p>
-                <ul className={styles.midUl}>
+                <div className={styles.deviceMainFieldsRow}>
                     {peripheralName && (
-                        <li>
-                            <span>
+                        <div className={styles.deviceMainField}>
+                            <span className={styles.deviceMainLabel}>
                                 {intl.formatMessage(messages["mainName"])}
                             </span>
-                            <span>
+                            <span className={styles.deviceMainValueBox}>
                                 {peripheralName.slice(
                                     0,
                                     peripheralName.indexOf("(")
                                 )}
                             </span>
-                        </li>
+                        </div>
                     )}
                     {version && (
-                        <li>
-                            <span>
+                        <div className={styles.deviceMainField}>
+                            <span className={styles.deviceMainLabel}>
                                 {intl.formatMessage(messages["version"])}
                             </span>
-                            <span>{version}</span>
-                        </li>
+                            <span className={styles.deviceMainValueBox}>
+                                {version}
+                            </span>
+                        </div>
                     )}
-                    {typeof bat === "number" && (
-                        <li>
-                            <span>
+                    {bat && (
+                        <div className={styles.deviceMainField}>
+                            <span className={styles.deviceMainLabel}>
                                 {intl.formatMessage(messages["electricity"])}
                             </span>
-                            <span>{bat >= 100 ? "100" : bat}%</span>
-                        </li>
+                            <span className={styles.deviceMainValueBox}>
+                                {bat >= 100 ? "100" : bat}%
+                            </span>
+                        </div>
                     )}
-                </ul>
+                </div>
             </div>
-            <div className={styles.midBox}>
-                <p>{intl.formatMessage(messages["mainControl"])}</p>
-                <ul className={styles.midUl}>
+            <div className={styles.deviceMainControlCard}>
+                <p className={styles.deviceMainControlTitle}>
+                    {intl.formatMessage(messages["mainControl"])}
+                </p>
+                <div className={styles.deviceMainMetrics}>
                     {mem &&
                         Object.keys(mem).length > 0 &&
                         Object.keys(mem).map((item, index) => {
                             return (
                                 item.indexOf("id") === -1 && (
-                                    <li key={index}>
-                                        <span>
+                                    <div
+                                        className={styles.deviceMainMetricCell}
+                                        key={index}
+                                    >
+                                        <span
+                                            className={
+                                                styles.deviceMainMetricLabel
+                                            }
+                                        >
                                             {intl.formatMessage(messages[item])}
                                         </span>
-                                        <span>{mem[item]}</span>
-                                    </li>
+                                        <span
+                                            className={
+                                                styles.deviceMainMetricValue
+                                            }
+                                        >
+                                            {mem[item]}
+                                        </span>
+                                    </div>
                                 )
                             );
                         })}
                     {sound && (
-                        <li>
-                            <span>
+                        <div className={styles.deviceMainSoundRow}>
+                            <span className={styles.deviceMainSoundLabel}>
                                 {intl.formatMessage(messages["soundIntensity"])}
                             </span>
-                            <span>{sound}</span>
-                        </li>
+                            <span className={styles.deviceMainSoundValue}>
+                                {sound}
+                            </span>
+                        </div>
                     )}
-                </ul>
+                </div>
             </div>
         </>
     );

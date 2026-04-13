@@ -1,13 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Modal from '../../containers/modal.jsx';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import Modal from "../../containers/modal.jsx";
 import styles from "./connection-modal.css";
-import Box from '../box/box.jsx';
-import Device from '../device/device.jsx';
-import useResizeObserver from '../../lib/useResizeObserver.js';
-
+import Box from "../box/box.jsx";
+import Device from "../device/device.jsx";
+import useResizeObserver from "../../lib/useResizeObserver.js";
 
 export default function DeviceModal(props) {
-
     // const [scale, setScale] = useState(1);
     const [isMounted, setIsMounted] = useState(false);
     let [elementRef, size, setTrigger] = useResizeObserver();
@@ -19,8 +17,8 @@ export default function DeviceModal(props) {
         return () => {
             // window.onresize = null;
             setIsMounted(false);
-        }
-    }, [])
+        };
+    }, []);
 
     const newScale = useMemo(() => {
         if (elementRef && isMounted) {
@@ -28,14 +26,17 @@ export default function DeviceModal(props) {
             const designDraftHeight = 991;
             const { width, height } = size;
             if (width > 0 && height > 0) {
-                const scale = width / height < designDraftWidth / designDraftHeight ? width / designDraftWidth : height / designDraftHeight;
+                const scale =
+                    width / height < designDraftWidth / designDraftHeight
+                        ? width / designDraftWidth
+                        : height / designDraftHeight;
                 return scale.toFixed(2);
             } else {
                 return 1;
             }
         }
         return 1;
-    }, [elementRef, size])
+    }, [elementRef, size]);
 
     /* const handleScreenAuto = () => {
         const designDraftWidth = 1920;
@@ -51,9 +52,9 @@ export default function DeviceModal(props) {
     } */
 
     const getOverlayRef = (e) => {
-        elementRef.current = e
-        setTrigger({ ...elementRef })
-    }
+        elementRef.current = e;
+        setTrigger({ ...elementRef });
+    };
 
     return (
         <Modal
@@ -65,13 +66,15 @@ export default function DeviceModal(props) {
             style={{
                 content: {
                     scale: newScale,
-                }
+                    /* 盖过 modal.css 的 overflow:hidden，并用 max-content 避免 fit-content 被视口压窄 */
+                    // overflow: "visible",
+                    // width: "max-content",
+                    // maxWidth: "none",
+                },
             }}
             overlayRef={getOverlayRef}
         >
-            <Box className={styles.body}>
-                <Device {...props} />
-            </Box>
+            <Device {...props} />
         </Modal>
-    )
+    );
 }

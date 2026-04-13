@@ -626,5 +626,8 @@
 	"gui.main.noSave": "未保存",
 	"gui.theme.default": "原始",
 	"gui.theme.dark": "深色",
-	"gui.theme.highContrast": "高对比度"
+	"gui.theme.highContrast": "高对比度",
+	"gui.device.grayRawParams": "参数n",
+	"gui.device.grayBinaryStatus": "参数b",
+	"gui.device.firmwareVersion": "固件版本"
 }

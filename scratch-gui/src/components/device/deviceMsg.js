@@ -180,6 +180,16 @@ const messages = defineMessages({
         description: "NFC",
         defaultMessage: "NFC",
     },
+    grayRawParams: {
+        id: "gui.device.grayRawParams",
+        description: "Gray sensor multi-level raw parameters",
+        defaultMessage: "参数n",
+    },
+    grayBinaryStatus: {
+        id: "gui.device.grayBinaryStatus",
+        description: "Gray sensor binary channel status",
+        defaultMessage: "参数b",
+    },
 });
 
 export default messages;
