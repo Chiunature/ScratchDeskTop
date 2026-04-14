@@ -10,6 +10,11 @@ const messages = defineMessages({
         description: "No device connection",
         defaultMessage: "No device connection",
     },
+    deviceAbnormal: {
+        id: "gui.device.deviceAbnormal",
+        description: "Port device error or unrecognized module",
+        defaultMessage: "Device error on this port",
+    },
     motor: {
         id: "gui.device.motor",
         description: "Motor",

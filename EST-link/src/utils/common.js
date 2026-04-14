@@ -332,6 +332,26 @@ export class Common {
   }
 
   /**
+   * 下位机在端口上给出 dev null / 解析失败占位时，标记为设备异常（与无设备区分）
+   * @param {Object} item
+   * @returns {boolean}
+   */
+  _hasDevNullMarker(item) {
+    if (item == null || typeof item !== "object") {
+      return false;
+    }
+    return (
+      Object.prototype.hasOwnProperty.call(item, "dev null") ||
+      Object.prototype.hasOwnProperty.call(item, "dev_null")
+    );
+  }
+
+  _setDevicePortAbnormal(item) {
+    item.sensing_device = deviceIdMap.dev_null;
+    item.deviceId = "dev_null";
+  }
+
+  /**
    * 处理颜色传感器数据
    * @param {Object} item - 设备项
    */
@@ -365,7 +385,7 @@ export class Common {
    * @param {"gray"|"gray_v2"} sourceKey - 协议中的字段名
    */
   _processGraySensor(item, sourceKey = "gray") {
-    const idKey = sourceKey === "gray_v2" ? "a10" : "a7";
+    const idKey = sourceKey === "gray_v2" ? "b0" : "a7";
     let idIndex = this.deviceIdList.indexOf(idKey);
     if (idIndex < 0) {
       idIndex = sourceKey === "gray_v2" ? 10 : 7;
@@ -466,6 +486,8 @@ export class Common {
         this._processCamera(item);
       } else if (item.nfc) {
         this._processNfc(item);
+      } else if (this._hasDevNullMarker(item)) {
+        this._setDevicePortAbnormal(item);
       } else {
         // 如果所有条件都不满足，设置默认值为 "noDevice"
         this._setDeviceInfo(item, 0);

@@ -569,6 +569,7 @@
 	"gui.menuBar.saveWithoutBlocks": "警告：当前项目没有代码块。\n\n保存的项目将不包含任何代码逻辑。\n\n是否继续保存？",
 	"gui.device.port": "端口",
 	"gui.device.noDevice": "无设备连接",
+	"gui.device.deviceAbnormal": "该端口设备异常",
 	"gui.device.motor": "电机",
 	"gui.device.big_motor": "大电机",
 	"gui.device.small_motor": "中电机",

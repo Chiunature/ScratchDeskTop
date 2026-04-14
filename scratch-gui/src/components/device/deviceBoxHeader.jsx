@@ -19,27 +19,40 @@ const deviceBadgeStyle = {
     textAlign: "center",
 };
 
-const DeviceBoxHeader = ({ port, sensingDevice, intl, messages, compact = false }) => (
-    <div
-        className={
-            compact ? styles.deviceBoxHeaderCompact : styles.deviceBoxHeaderNormal
-        }
-    >
-        <span
-            style={portBadgeStyle}
-            className={compact ? styles.portBadgeCompact : styles.portBadgeNormal}
+const DeviceBoxHeader = ({
+    port,
+    sensingDevice,
+    intl,
+    messages,
+    compact = false,
+    abnormal = false,
+}) => {
+    const deviceBadgeClass = abnormal
+        ? compact
+            ? styles.deviceBadgeAbnormalCompact
+            : styles.deviceBadgeAbnormal
+        : compact
+          ? styles.deviceBadgeCompact
+          : styles.deviceBadgeNormal;
+    return (
+        <div
+            className={
+                compact ? styles.deviceBoxHeaderCompact : styles.deviceBoxHeaderNormal
+            }
         >
-            {intl.formatMessage(messages["port"])}:{getPort(port)}
-        </span>
-        <span
-            style={deviceBadgeStyle}
-            className={compact ? styles.deviceBadgeCompact : styles.deviceBadgeNormal}
-        >
-            {messages[sensingDevice]
-                ? intl.formatMessage(messages[sensingDevice])
-                : sensingDevice || "Unknown"}
-        </span>
-    </div>
-);
+            <span
+                style={portBadgeStyle}
+                className={compact ? styles.portBadgeCompact : styles.portBadgeNormal}
+            >
+                {intl.formatMessage(messages["port"])}:{getPort(port)}
+            </span>
+            <span style={deviceBadgeStyle} className={deviceBadgeClass}>
+                {messages[sensingDevice]
+                    ? intl.formatMessage(messages[sensingDevice])
+                    : sensingDevice || "Unknown"}
+            </span>
+        </div>
+    );
+};
 
 export default DeviceBoxHeader;

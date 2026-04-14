@@ -161,6 +161,7 @@ export class Serialport extends Common {
         sum & 0xff,
         0xa5,
       ];
+      console.log("传感器外设更新list==============>", list);
       this.writeData(list, null, event);
     });
   }

@@ -538,6 +538,7 @@
 	"gui.alerts.workspaceEmpty": "Workspace is Empty or No starting event header",
 	"gui.device.port": "Port",
 	"gui.device.noDevice": "No device connected",
+	"gui.device.deviceAbnormal": "Device error on this port",
 	"gui.device.motor": "Motor",
 	"gui.device.big_motor": "Big motor",
 	"gui.device.small_motor": "Small motor",

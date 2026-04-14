@@ -16,6 +16,8 @@ export const instructions = {
 
 export const deviceIdMap = {
   0: "noDevice",
+  /** 下位机上报端口异常占位（如 "dev null"）时与 sensing_device 对应 */
+  dev_null: "deviceAbnormal",
   a1: "motor",
   a2: "color",
   a3: "superSound",
@@ -25,7 +27,7 @@ export const deviceIdMap = {
   a7: "gray",
   a8: "camer",
   a9: "nfc",
-  a10: "gray_v2",
+  b0: "gray_v2",
 };
 
 export const reg = {

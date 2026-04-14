@@ -168,7 +168,9 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         <div className={styles.deviceSensingBox}>
             <ul>
                 {deviceObj?.deviceList?.map((item, index) =>
-                    item?.deviceId && item.deviceId !== "0" ? (
+                    item?.deviceId &&
+                    item.deviceId !== "0" &&
+                    item.sensing_device !== "deviceAbnormal" ? (
                         <DeviceSensingItem
                             key={index}
                             changeUnitList={changeUnitList}

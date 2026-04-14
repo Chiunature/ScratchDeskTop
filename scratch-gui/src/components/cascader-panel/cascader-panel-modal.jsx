@@ -1,22 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import classNames from 'classnames';
+import React, { useEffect, useMemo, useState } from "react";
+import classNames from "classnames";
 import { FormattedMessage } from "react-intl";
 import Box from "../box/box.jsx";
 // import Divider from '../divider/divider.jsx';
 import Modal from "../../containers/modal.jsx";
 import styles from "./cascader-panel.css";
-import Input from '../forms/input.jsx';
-import message from '../device/deviceMsg';
-import { ipc as ipc_Render, verifyTypeConfig } from 'est-link';
+import Input from "../forms/input.jsx";
+import message from "../device/deviceMsg";
+import { ipc as ipc_Render, verifyTypeConfig } from "est-link";
 
 function CascaderPanelModalCom(props) {
-
     let [list, setList] = useState([]);
     let [valList, setValList] = useState([]);
 
     useEffect(() => {
         clearCheckAndInit();
-    }, [])
+    }, []);
 
     let menuList = useMemo(() => list, [list]);
 
@@ -32,7 +31,10 @@ function CascaderPanelModalCom(props) {
             if (item.checked) {
                 item.checked = false;
             }
-            if (item.children && typeof item.children[Symbol.iterator] === 'function') {
+            if (
+                item.children &&
+                typeof item.children[Symbol.iterator] === "function"
+            ) {
                 for (const el of item.children) {
                     if (el.checked) {
                         el.checked = false;
@@ -52,9 +54,9 @@ function CascaderPanelModalCom(props) {
         for (let i = 0; i < arr.children.length; i++) {
             const child = arr.children[i];
             if (childIndex === i) {
-                child['checked'] = !child['checked'];
+                child["checked"] = !child["checked"];
             } else {
-                child['checked'] = false;
+                child["checked"] = false;
             }
         }
         setList(newList);
@@ -65,16 +67,16 @@ function CascaderPanelModalCom(props) {
         const result = [];
         for (const item of newList) {
             const arr = [];
-            if (!item['children']) {
+            if (!item["children"]) {
                 continue;
             }
-            for (const subItem of item['children']) {
-                if (subItem['checked']) {
+            for (const subItem of item["children"]) {
+                if (subItem["checked"]) {
                     arr.push(subItem.father, subItem.value);
                 }
             }
             if (arr.length > 0) {
-                result.push([arr.join('/')]);
+                result.push([arr.join("/")]);
             }
         }
         setValList(result);
@@ -92,17 +94,19 @@ function CascaderPanelModalCom(props) {
     }
 
     function getIndex(data) {
-        const portList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        const portList = ["A", "B", "C", "D", "E", "F", "G", "H"];
         return portList.indexOf(data);
     }
 
     function checkPorts(el) {
         const index = getIndex(el.father);
-        const devices = ['a1', 'a5', 'a6', 'a2', 'a7'];
-        const hasDevice = props?.deviceObj?.deviceList[index]?.deviceId && devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
+        const devices = ["a1", "a5", "a6", "a2", "a7"];
+        const hasDevice =
+            props?.deviceObj?.deviceList[index]?.deviceId &&
+            devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
         if (!hasDevice) {
-            alert('该端口没有连接对应设备!');
-            window.myAPI.ipcRender({ sendName: 'mainOnFocus' });
+            alert("该端口没有连接对应设备!");
+            window.myAPI.ipcRender({ sendName: "mainOnFocus" });
         }
         return hasDevice;
     }
@@ -111,28 +115,31 @@ function CascaderPanelModalCom(props) {
         if (valList.length === 0 || !props.peripheralName || props.completed) {
             return;
         }
-        const dataList = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
+        const dataList = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff];
         for (const item of valList) {
-            const newItem = item[0].split('/');
+            const newItem = item[0].split("/");
             const index = getIndex(newItem[0]);
             switch (newItem[1]) {
                 case props.intl.formatMessage(message.big_motor):
-                    dataList[index] = 0xA1;
+                    dataList[index] = 0xa1; //161
                     break;
                 case props.intl.formatMessage(message.small_motor):
-                    dataList[index] = 0xA6;
+                    dataList[index] = 0xa6; //166
                     break;
                 case props.intl.formatMessage(message.color):
-                    dataList[index] = 0xA2;
+                    dataList[index] = 0xa2; //162
                     break;
                 case props.intl.formatMessage(message.gray):
-                    dataList[index] = 0xA9;
+                    dataList[index] = 0xa9; //169
                     break;
                 default:
                     break;
             }
         }
-        window.myAPI.ipcRender({ sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE, sendParams: [...dataList] });
+        window.myAPI.ipcRender({
+            sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE,
+            sendParams: [...dataList],
+        });
     }
 
     /* function calibration() {
@@ -155,83 +162,105 @@ function CascaderPanelModalCom(props) {
         >
             <Box className={styles.body}>
                 <Box className={styles.headArea}>
-                    {
-                        headList.map((el, index) => {
-                            return (
-                                <Box className={styles.headUl} key={index}>
-                                    <div>
+                    {headList.map((el, index) => {
+                        return (
+                            <Box className={styles.headUl} key={index}>
+                                <div>
+                                    <FormattedMessage
+                                        defaultMessage="Port"
+                                        description="Port"
+                                        id="gui.device.port"
+                                    />
+                                </div>
+                                <ul>
+                                    <li>
                                         <FormattedMessage
-                                            defaultMessage="Port"
-                                            description="Port"
-                                            id="gui.device.port"
+                                            defaultMessage="Big motor"
+                                            description="Big motor"
+                                            id="gui.device.big_motor"
                                         />
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <FormattedMessage
-                                                defaultMessage="Big motor"
-                                                description="Big motor"
-                                                id="gui.device.big_motor"
-                                            />
-                                        </li>
-                                        <li>
-                                            <FormattedMessage
-                                                defaultMessage="Small motor"
-                                                description="Small motor"
-                                                id="gui.device.small_motor"
-                                            />
-                                        </li>
-                                        <li>
-                                            <FormattedMessage
-                                                defaultMessage="Color recognizer"
-                                                description="Color recognizer"
-                                                id="gui.device.color"
-                                            />
-                                        </li>
-                                        <li>
-                                            <FormattedMessage
-                                                defaultMessage="Gray"
-                                                description="Gray"
-                                                id="gui.device.gray"
-                                            />
-                                        </li>
-                                    </ul>
-                                </Box>
-                            )
-                        })
-                    }
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            defaultMessage="Small motor"
+                                            description="Small motor"
+                                            id="gui.device.small_motor"
+                                        />
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            defaultMessage="Color recognizer"
+                                            description="Color recognizer"
+                                            id="gui.device.color"
+                                        />
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            defaultMessage="Gray"
+                                            description="Gray"
+                                            id="gui.device.gray"
+                                        />
+                                    </li>
+                                </ul>
+                            </Box>
+                        );
+                    })}
                 </Box>
                 <Box className={styles.activityArea}>
-                    {
-                        menuList.map((el, fatherIndex) => {
-                            return (
-                                <Box className={styles.activityUl} key={fatherIndex}>
-                                    <div>{el.label}</div>
-                                    <ul>
-                                        {
-                                            el?.children && el.children.map((item, childIndex) => {
-                                                return (
-                                                    <li key={childIndex}>
-                                                        <Input className={styles.inpSpan}
-                                                            type="radio"
-                                                            readOnly
-                                                            checked={item.checked}
-                                                            onClick={() => handleCheck(item, childIndex, fatherIndex)}
-                                                        />
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
-                                </Box>
-                            )
-                        })
-                    }
+                    {menuList.map((el, fatherIndex) => {
+                        return (
+                            <Box
+                                className={styles.activityUl}
+                                key={fatherIndex}
+                            >
+                                <div>{el.label}</div>
+                                <ul>
+                                    {el?.children &&
+                                        el.children.map((item, childIndex) => {
+                                            return (
+                                                <li key={childIndex}>
+                                                    <Input
+                                                        className={
+                                                            styles.inpSpan
+                                                        }
+                                                        type="radio"
+                                                        readOnly
+                                                        checked={item.checked}
+                                                        onClick={() =>
+                                                            handleCheck(
+                                                                item,
+                                                                childIndex,
+                                                                fatherIndex
+                                                            )
+                                                        }
+                                                    />
+                                                </li>
+                                            );
+                                        })}
+                                </ul>
+                            </Box>
+                        );
+                    })}
                 </Box>
                 <Box className={styles.bottomArea}>
-                    <Box className={styles.alert}>注意: *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。(请勿重复点击强制更新按钮)</Box>
-                    <Box className={classNames(styles.bottomAreaItem, styles.buttonRow)}>
-                        <button className={classNames(styles.redButton, styles.connectionButton)} onClick={update} disabled={valList.length === 0}>
+                    <Box className={styles.alert}>
+                        注意:
+                        *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。(请勿重复点击强制更新按钮)
+                    </Box>
+                    <Box
+                        className={classNames(
+                            styles.bottomAreaItem,
+                            styles.buttonRow
+                        )}
+                    >
+                        <button
+                            className={classNames(
+                                styles.redButton,
+                                styles.connectionButton
+                            )}
+                            onClick={update}
+                            disabled={valList.length === 0}
+                        >
                             <FormattedMessage
                                 defaultMessage="Force updates"
                                 description="Force updates"
@@ -243,7 +272,7 @@ function CascaderPanelModalCom(props) {
                 </Box>
             </Box>
         </Modal>
-    )
+    );
 }
 
 export default CascaderPanelModalCom;

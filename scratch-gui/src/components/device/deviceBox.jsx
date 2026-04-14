@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import DeviceBoxHeader from "./deviceBoxHeader.jsx";
 import DeviceBoxMotor from "./deviceBoxMotor.jsx";
 import DeviceBoxUltrasound from "./deviceBoxUltrasound.jsx";
@@ -41,26 +42,47 @@ const hasConnectedData = (device) => {
     });
 };
 
+const hasDevNullMarker = (el) => {
+    if (!el || typeof el !== "object") {
+        return false;
+    }
+    return (
+        Object.prototype.hasOwnProperty.call(el, "dev null") ||
+        Object.prototype.hasOwnProperty.call(el, "dev_null")
+    );
+};
+
 const DeviceBox = ({ list, intl, messages }) => (
     <>
         {list.map((el, index) => {
             const isNoDeviceCard =
                 el?.sensing_device === "noDevice" && !hasConnectedData(el);
+            const isAbnormalCard =
+                !hasConnectedData(el) &&
+                (el?.sensing_device === "deviceAbnormal" || hasDevNullMarker(el));
+            const isCompactCard = isNoDeviceCard || isAbnormalCard;
+            const headerSensing = isAbnormalCard
+                ? "deviceAbnormal"
+                : el.sensing_device;
             return (
                 <div
                     style={cardStyle}
-                    className={isNoDeviceCard ? styles.deviceCardNoDevice : ""}
+                    className={classNames(
+                        isAbnormalCard && styles.deviceCardAbnormal,
+                        isNoDeviceCard && styles.deviceCardNoDevice
+                    )}
                     key={index}
                 >
                     <DeviceBoxHeader
                         port={el.port}
-                        sensingDevice={el.sensing_device}
+                        sensingDevice={headerSensing}
                         intl={intl}
                         messages={messages}
-                        compact={isNoDeviceCard}
+                        compact={isCompactCard}
+                        abnormal={isAbnormalCard}
                     />
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxMotor
                             motor={el.motor}
                             intl={intl}
@@ -68,7 +90,7 @@ const DeviceBox = ({ list, intl, messages }) => (
                         />
                     )}
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxUltrasound
                             ultrasion={el.ultrasion}
                             intl={intl}
@@ -76,7 +98,7 @@ const DeviceBox = ({ list, intl, messages }) => (
                         />
                     )}
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxTouch
                             touch={el.touch}
                             intl={intl}
@@ -84,7 +106,7 @@ const DeviceBox = ({ list, intl, messages }) => (
                         />
                     )}
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxColor
                             color={el.color}
                             intl={intl}
@@ -92,7 +114,7 @@ const DeviceBox = ({ list, intl, messages }) => (
                         />
                     )}
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxGray
                             gray={
                                 el.gray && Object.keys(el.gray).length > 0
@@ -107,11 +129,11 @@ const DeviceBox = ({ list, intl, messages }) => (
                         />
                     )}
 
-                    {!isNoDeviceCard && (
+                    {!isCompactCard && (
                         <DeviceBoxCamera camera={el.camer || el.camera} />
                     )}
 
-                    {!isNoDeviceCard && <DeviceBoxNfc nfc={el.nfc} />}
+                    {!isCompactCard && <DeviceBoxNfc nfc={el.nfc} />}
                 </div>
             );
         })}
