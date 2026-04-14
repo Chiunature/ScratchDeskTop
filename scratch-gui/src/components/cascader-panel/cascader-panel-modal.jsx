@@ -100,7 +100,7 @@ function CascaderPanelModalCom(props) {
 
     function checkPorts(el) {
         const index = getIndex(el.father);
-        const devices = ["a1", "a5", "a6", "a2", "a7"];
+        const devices = ["a1", "a5", "a6", "a2", "a7", "b0"];
         const hasDevice =
             props?.deviceObj?.deviceList[index]?.deviceId &&
             devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
@@ -132,10 +132,14 @@ function CascaderPanelModalCom(props) {
                 case props.intl.formatMessage(message.gray):
                     dataList[index] = 0xa9; //169
                     break;
+                case props.intl.formatMessage(message.gray_v2):
+                    dataList[index] = 0xb0; //176
+                    break;
                 default:
                     break;
             }
         }
+        console.log("dataList", dataList);
         window.myAPI.ipcRender({
             sendName: ipc_Render.SEND_OR_ON.SENSING_UPDATE,
             sendParams: [...dataList],
@@ -199,6 +203,13 @@ function CascaderPanelModalCom(props) {
                                             defaultMessage="Gray"
                                             description="Gray"
                                             id="gui.device.gray"
+                                        />
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            defaultMessage="Gray sensor V2"
+                                            description="Gray sensor V2"
+                                            id="gui.device.gray_v2"
                                         />
                                     </li>
                                 </ul>
