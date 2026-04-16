@@ -299,7 +299,7 @@ ul {
 
 .device-sensing-box ul li {
     min-width: 120px;
-    max-width: 240px;
+    max-width: 400px;
     height: 100%;
     display: flex;
     padding: 0 5px;

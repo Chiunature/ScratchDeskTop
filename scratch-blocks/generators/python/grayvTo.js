@@ -26,7 +26,7 @@ Blockly.Python["grayvTo_port_to_number"] = function (port) {
   }
 };
 
-Blockly.Python["if_ch_black"] = function (block) {
+Blockly.Python["grayv2_if_ch_black"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -38,7 +38,7 @@ Blockly.Python["if_ch_black"] = function (block) {
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["read_ch"] = function (block) {
+Blockly.Python["grayv2_read_ch"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -50,7 +50,7 @@ Blockly.Python["read_ch"] = function (block) {
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["if_all_ch_way_state"] = function (block) {
+Blockly.Python["grayv2_if_all_ch_way_state"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -62,7 +62,7 @@ Blockly.Python["if_all_ch_way_state"] = function (block) {
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["power_find_if_ch_state"] = function (block) {
+Blockly.Python["grayv2_power_find_if_ch_state"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -86,14 +86,14 @@ Blockly.Python["power_find_if_ch_state"] = function (block) {
   return code;
 };
 
-Blockly.Python["power_find_way_type"] = function (block) {
+Blockly.Python["grayv2_power_find_way_type"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
   const speed =
     Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) ||
     "0";
-  const intersection = block.getFieldValue("INTERSECTION");
+  const intersection = block.getFieldValue("INTERSECTION_TYPE");
   const code = Blockly.Python.handleResult(
     `power_find_way_type(${portValue}, ${speed}, ${intersection})\n`,
     Blockly.Python.GRAYV2_TYPE
@@ -101,7 +101,7 @@ Blockly.Python["power_find_way_type"] = function (block) {
   return code;
 };
 
-Blockly.Python["power_find_line"] = function (block) {
+Blockly.Python["grayv2_power_find_line"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -115,7 +115,7 @@ Blockly.Python["power_find_line"] = function (block) {
   return code;
 };
 
-Blockly.Python["power_find_line_encord"] = function (block) {
+Blockly.Python["grayv2_power_find_line_encord"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -135,7 +135,7 @@ Blockly.Python["power_find_line_encord"] = function (block) {
   return code;
 };
 
-Blockly.Python["power_find_line_ms"] = function (block) {
+Blockly.Python["grayv2_power_find_line_ms"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -155,7 +155,7 @@ Blockly.Python["power_find_line_ms"] = function (block) {
   return code;
 };
 
-Blockly.Python["start_calibrate"] = function (block) {
+Blockly.Python["grayv2_start_calibrate"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -166,7 +166,7 @@ Blockly.Python["start_calibrate"] = function (block) {
   return code;
 };
 
-Blockly.Python["set_threshold"] = function (block) {
+Blockly.Python["grayv2_set_threshold"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -181,7 +181,7 @@ Blockly.Python["set_threshold"] = function (block) {
   return code;
 };
 
-Blockly.Python["set_rgb"] = function (block) {
+Blockly.Python["grayv2_set_rgb"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
@@ -193,7 +193,7 @@ Blockly.Python["set_rgb"] = function (block) {
   return code;
 };
 
-Blockly.Python["set_pid"] = function (block) {
+Blockly.Python["grayv2_set_pid"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);

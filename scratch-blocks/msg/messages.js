@@ -593,20 +593,20 @@ Blockly.Msg.GRAYV2_READ_CH =
   "Read the photoelectric analog value from %2 of %1";
 Blockly.Msg.GRAYV2_IF_ALL_CH_WAY_STATE = "Is the status of %1 %2";
 Blockly.Msg.GRAYV2_POWER_FIND_IF_CH_STATE =
-  "%1 turn at left speed %2 and right speed %3 until %4 line is encountered";
+  "%1 %2 turn at left speed %3 and right speed %4 until %5 line is encountered";
 Blockly.Msg.GRAYV2_POWER_FIND_WAY_TYPE =
-  "%1 patrols at speed %2 until it identifies %3";
+  "%1 %2 patrols at speed %3 until it identifies %4";
 Blockly.Msg.GRAYV2_POWER_FIND_LINE =
-  "%1 conducts a line patrol at a speed of %2";
+  "%1 %2 conducts a line patrol at a speed of %3";
 Blockly.Msg.GRAYV2_POWER_FIND_LINE_ENCORD =
-  "%1 patrol line at speed %2, encoder value %3";
+  "%1 %2 patrol line at speed %3, encoder value %4";
 Blockly.Msg.GRAYV2_POWER_FIND_LINE_MS =
-  "%1 patrol line at speed %2, millisecond %3";
+  "%1 %2 patrol line at speed %3, millisecond %4";
 Blockly.Msg.GRAYV2_START_CALIBRATE =
-  "Calibrate the current grayscale sensor %1";
-Blockly.Msg.GRAYV2_SET_THRESHOLD = "The threshold for %2 of %1 is set to %3";
-Blockly.Msg.GRAYV2_SET_RGB = "Set all colors of %1 to %2";
-Blockly.Msg.GRAYV2_SET_PID = "%1 Set the patrol line KP to %2 and KI to %3";
+  "%1 Calibrate the current grayscale sensor %2";
+Blockly.Msg.GRAYV2_SET_THRESHOLD = "%1 The threshold for %3 of %2 is set to %4";
+Blockly.Msg.GRAYV2_SET_RGB = "%1 Set all colors of %2 to %3";
+Blockly.Msg.GRAYV2_SET_PID = "%1 %2 Set the patrol line KP to %3 and KD to %4";
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = "Change value:";

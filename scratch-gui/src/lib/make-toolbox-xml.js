@@ -379,8 +379,6 @@ const control = function ({ isInitialSetup, isStage, targetId, colors }) {
         ${blockSeparator}
         <block type="control_if_else"/>
         ${blockSeparator}
-        <block type="control_if_elseif_else"/>
-        ${blockSeparator}
          <block id="repeat_until" type="control_repeat_until"/>
          ${blockSeparator}
         <block type="control_stop" />
@@ -966,85 +964,13 @@ const grayv2 = function ({ colors }) {
     <category name="%{BKY_CATEGORY_GRAYV2}" id="grayv2" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}" iconURI="${grayv2Icon}">
         ${categorySeparator}
-        <block type="if_ch_black">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-                </value>
-            </block>
-        ${categorySeparator}
-        <block type="read_ch">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-                </value>
-            </block>
-        ${categorySeparator}
-        <block type="if_all_ch_way_state">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-                </value>
-            </block>
-        ${categorySeparator}
-        <block type="power_find_if_ch_state">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-            </value>
-            <value name="LEFT_SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="RIGHT_SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="power_find_way_type">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-            </value>
-            <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="power_find_line">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-            </value>
-            <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="power_find_line_encord">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-            </value>
-            <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="ENCODER_VALUE">
-                <shadow type="math_number"><field name="NUM">1000</field></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="power_find_line_ms">
-            <value name="PORT">
-                <shadow type="grayv2_menu" />
-            </value>
-            <value name="SPEED">
-                <shadow type="math_0to100_number"><field name="NUM">50</field></shadow>
-            </value>
-            <value name="MILLISECONDS">
-                <shadow type="math_number"><field name="NUM">1000</field></shadow>
-            </value>
-        </block>
-        ${categorySeparator}
-        <block type="start_calibrate">
+         <block type="grayv2_start_calibrate">
             <value name="PORT">
                 <shadow type="grayv2_menu" />
             </value>
         </block>
         ${categorySeparator}
-        <block type="set_threshold">
+        <block type="grayv2_set_threshold">
             <value name="PORT">
                 <shadow type="grayv2_menu" />
             </value>
@@ -1053,13 +979,13 @@ const grayv2 = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
-        <block type="set_rgb">
+        <block type="grayv2_set_rgb">
             <value name="PORT">
                 <shadow type="grayv2_menu" />
             </value>
         </block>
         ${categorySeparator}
-        <block type="set_pid">
+        <block type="grayv2_set_pid">
             <value name="PORT">
                 <shadow type="grayv2_menu" />
             </value>
@@ -1070,7 +996,79 @@ const grayv2 = function ({ colors }) {
                 <shadow type="math_number"><field name="NUM">0.1</field></shadow>
             </value>
         </block>
-            ${categorySeparator}
+        ${categorySeparator}
+        <block type="grayv2_if_ch_black">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="grayv2_read_ch">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="grayv2_if_all_ch_way_state">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+                </value>
+            </block>
+        ${categorySeparator}
+        <block type="grayv2_power_find_if_ch_state">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="LEFT_SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="RIGHT_SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="grayv2_power_find_way_type">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="grayv2_power_find_line">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="grayv2_power_find_line_encord">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="ENCODER_VALUE">
+                <shadow type="math_number"><field name="NUM">1000</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="grayv2_power_find_line_ms">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+            <value name="SPEED">
+                <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
+            </value>
+            <value name="MILLISECONDS">
+                <shadow type="math_number"><field name="NUM">1000</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
     </category>
     `;
 };

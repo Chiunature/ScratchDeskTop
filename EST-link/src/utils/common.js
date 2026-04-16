@@ -380,7 +380,7 @@ export class Common {
   }
 
   /**
-   * 处理灰度传感器数据（gray / gray_v2 共用同一套聚合规则，结果统一写入 item.gray）
+   * 处理灰度传感器（巡线卡）数据（gray / gray_v2 共用同一套聚合规则，结果统一写入 item.gray）
    * @param {Object} item - 设备项
    * @param {"gray"|"gray_v2"} sourceKey - 协议中的字段名
    */

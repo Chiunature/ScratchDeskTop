@@ -9,6 +9,7 @@ import cameraSensingIcon from "scratch-blocks/media/camera.svg";
 import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
+import grayv2SensingIcon from "scratch-blocks/media/grayv2.svg";
 
 // ─── Port index (0–7) → label (A–H) ─────────────────────────────────────────
 const PORT_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -23,7 +24,7 @@ const DEVICE_ICONS = {
     small_motor: smallMotorSensingIcon,
     color: colorSensingIcon,
     gray: colorSensingIcon,
-    gray_v2: colorSensingIcon,
+    gray_v2: grayv2SensingIcon,
     superSound: superSoundIcon,
     touch: touchPressIcon,
     camer: cameraSensingIcon,
