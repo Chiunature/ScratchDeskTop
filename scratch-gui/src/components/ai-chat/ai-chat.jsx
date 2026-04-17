@@ -38,7 +38,7 @@ const LANGUAGE_TO_EXT = {
 
 function getExtFromLanguage(language) {
     const lang = (language || "").toLowerCase();
-    return LANGUAGE_TO_EXT[lang] || "txt";
+    return LANGUAGE_TO_EXT[lang] || "py";
 }
 
 const generateSessionId = () => {
@@ -53,7 +53,8 @@ const generateSessionId = () => {
  * @param {boolean} props.isAiChat - 控制面板是否显示
  * @param {Function} props.onSetAiChat - 设置面板显示状态的函数
  */
-const AiChat = ({ isAiChat, onSetAiChat }) => {
+const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
+    console.log("peripheralName", peripheralName);
     const panelRef = useRef(null);
     const [panelWidth, setPanelWidth] = useState(DEFAULT_PANEL_WIDTH); //面板宽度
     const draggingRef = useRef(null); //拖拽内容
@@ -145,8 +146,7 @@ const AiChat = ({ isAiChat, onSetAiChat }) => {
             const languageMatch = String(codeClassName).match(
                 /language-([a-zA-Z0-9_-]+)/
             );
-            const language = languageMatch ? languageMatch[1] : "";
-
+            const language = languageMatch ? languageMatch[1] : "python";
             const rawChildren =
                 (codeEl && codeEl.props && codeEl.props.children) || "";
             const codeText = Array.isArray(rawChildren)
@@ -158,9 +158,7 @@ const AiChat = ({ isAiChat, onSetAiChat }) => {
             return (
                 <div className={styles.codeBlock}>
                     <div className={styles.codeToolbar}>
-                        <span className={styles.codeLang}>
-                            {language ? language : "code"}
-                        </span>
+                        <span className={styles.codeLang}>{language}</span>
                         <div className={styles.codeActions}>
                             <button
                                 type="button"
@@ -182,19 +180,54 @@ const AiChat = ({ isAiChat, onSetAiChat }) => {
                                 type="button"
                                 className={styles.codeBtn}
                                 onClick={async () => {
+                                    console.log(
+                                        "[AI_CHAT][RUN_CODE] click run code",
+                                        {
+                                            language,
+                                            codeLength: cleanText.length,
+                                        }
+                                    );
                                     const res = await saveToByteCodeDir(
                                         cleanText,
                                         language
                                     );
-                                    if (res && res.ok) {
-                                        console.log(
-                                            "已保存到 ByteCode：",
-                                            res.path
-                                        );
-                                    } else {
+                                    if (!res || !res.ok) {
                                         console.error(
                                             "保存失败：",
                                             res?.error || res
+                                        );
+                                        return;
+                                    }
+                                    console.log(
+                                        "[AI_CHAT][RUN_CODE] saved to ByteCode",
+                                        res.path
+                                    );
+
+                                    if (!peripheralName) {
+                                        console.warn(
+                                            "设备未连接，无法下发代码"
+                                        );
+                                        return;
+                                    }
+
+                                    if (typeof onRunAiCode !== "function") {
+                                        console.warn("onRunAiCode 未注入");
+                                        return;
+                                    }
+
+                                    const runResult = await onRunAiCode({
+                                        code: cleanText,
+                                        language,
+                                        isRun: true,
+                                    });
+                                    if (!runResult?.ok) {
+                                        console.error(
+                                            "AI代码下发失败：",
+                                            runResult?.error
+                                        );
+                                    } else {
+                                        console.log(
+                                            "[AI_CHAT][RUN_CODE] upload done"
                                         );
                                     }
                                 }}
@@ -211,7 +244,13 @@ const AiChat = ({ isAiChat, onSetAiChat }) => {
                 </div>
             );
         },
-        [copyTextToClipboard, downloadText]
+        [
+            copyTextToClipboard,
+            downloadText,
+            saveToByteCodeDir,
+            peripheralName,
+            onRunAiCode,
+        ]
     );
 
     const renderMarkdown = useCallback(

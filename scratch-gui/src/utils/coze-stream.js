@@ -1,8 +1,8 @@
 // Coze 项目 ID，可在此处统一管理
-export const DEFAULT_COZE_PROJECT_ID = "7610680426172284963";
+export const DEFAULT_COZE_PROJECT_ID = "7629260602313211955";
 
 // Coze接口（Coze 原生支持 CORS，可直接在浏览器/Electron 渲染进程中调用）
-const COZE_STREAM_URL = "https://7nfvck747g.coze.site/stream_run";
+const COZE_STREAM_URL = "https://kwvtjz59xj.coze.site/stream_run";
 
 /**
  *调用 Coze AI 接口

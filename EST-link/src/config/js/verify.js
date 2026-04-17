@@ -103,6 +103,14 @@ function getResultByCodeType(options, codeOptions) {
           fileData: options.codeStr,
         },
       ];
+    case "ai":
+      return [
+        {
+          verifyType: BOOTBIN,
+          fileName: fileName,
+          fileData: options.codeStr,
+        },
+      ];
     default:
       return false;
   }

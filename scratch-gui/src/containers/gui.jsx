@@ -137,10 +137,7 @@ function mergeDeviceBatteryFromAdc(raw) {
         if (typeof fromAdc === "number" && !Number.isNaN(fromAdc)) {
             bat = Math.min(100, Math.max(0, fromAdc));
         } else if (typeof fromAdc === "string") {
-            const n = parseInt(
-                String(fromAdc).replace(/%/g, "").trim(),
-                10
-            );
+            const n = parseInt(String(fromAdc).replace(/%/g, "").trim(), 10);
             if (!Number.isNaN(n)) {
                 bat = Math.min(100, Math.max(0, n));
             }
@@ -160,7 +157,13 @@ function mergeDeviceBatteryFromAdc(raw) {
 class GUI extends React.Component {
     constructor(props) {
         super(props);
-        bindAll(this, ["handleCompile", "handleRunApp", "getMainMessage"]);
+        bindAll(this, [
+            "handleCompile",
+            "handleRunApp",
+            "getMainMessage",
+            "handleAiCodeUpload",
+            "uploadCodeByTaskType",
+        ]);
         this.handleUploadClick = debounce(this.handleCompile, 300, {
             leading: false,
             trailing: true,
@@ -538,6 +541,10 @@ class GUI extends React.Component {
     }
 
     async onClickUploadCode(isRun) {
+        return this.uploadCodeByTaskType({ taskType: "blockly", isRun });
+    }
+
+    async uploadCodeByTaskType({ taskType, isRun, codeStr, language }) {
         const static_path =
             localStorage.getItem("static_path") || window.resourcesPath;
         try {
@@ -546,6 +553,25 @@ class GUI extends React.Component {
                 ? JSON.parse(selItem)
                 : this.props.selectedExe;
             const verifyType = verifyTypeConfig.BOOTBIN;
+            if (taskType === "ai") {
+                const lang = String(language || "").toLowerCase();
+                if (lang && lang !== "python" && lang !== "py") {
+                    throw "aiOnlySupportPython";
+                }
+                await handleUploadPython(
+                    {
+                        verifyType,
+                        selectedExe,
+                        codeStr: String(codeStr || ""),
+                        codeType: "ai",
+                        taskType: "ai",
+                        isRun,
+                    },
+                    static_path
+                );
+                return;
+            }
+
             switch (this.props.generatorName) {
                 case PYTHON:
                     await handleUploadPython(
@@ -554,6 +580,7 @@ class GUI extends React.Component {
                             selectedExe,
                             codeStr: this.props.code,
                             codeType: this.props.generatorName,
+                            taskType: "blockly",
                             isRun,
                         },
                         static_path
@@ -603,10 +630,46 @@ class GUI extends React.Component {
                 await window.myAPI.sleep(2000);
             }
 
-            // 区分是哪种代码类型的下载
+            // 积木代码下载
             this.onClickUploadCode(isRun);
         } catch (error) {
             // window.myAPI.handlerError(error);
+        }
+    }
+
+    async handleAiCodeUpload({ code, language, isRun = true }) {
+        try {
+            const static_path =
+                localStorage.getItem("static_path") || window.resourcesPath;
+
+            const firmwareRes = this.checkUpdateFirmware(static_path);
+            if (!firmwareRes) return { ok: false, error: "firmwareNeedUpdate" };
+
+            const sensingRes = this.checkUpdateSensing(static_path);
+            if (!sensingRes) return { ok: false, error: "sensingNeedUpdate" };
+
+            this.props.onSetCompleted(true);
+            this.props.onShowCompletedAlert("uploading");
+
+            if (
+                this.props?.deviceObj?.WillAiState === verifyTypeConfig.EST_RUN
+            ) {
+                this.handleRunApp(verifyTypeConfig.EST_RUN);
+                await window.myAPI.sleep(2000);
+            }
+
+            await this.uploadCodeByTaskType({
+                taskType: "ai",
+                isRun,
+                codeStr: code,
+                language,
+            });
+            return { ok: true };
+        } catch (error) {
+            this.props.onShowCompletedAlert(error);
+            this.props.onSetCompleted(false);
+            this.props.onSetSourceCompleted(false);
+            return { ok: false, error };
         }
     }
 
@@ -686,6 +749,7 @@ class GUI extends React.Component {
                     {...componentProps}
                     handleCompile={this.handleUploadClick}
                     handleRunApp={this.handleRunApp}
+                    onRunAiCode={this.handleAiCodeUpload}
                     getMainMessage={this.getMainMessage}
                     compile={this.compile}
                 >

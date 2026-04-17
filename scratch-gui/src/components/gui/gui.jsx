@@ -16,6 +16,7 @@ import {
     selectSelectedExe,
     selectQrcodeVisible,
     selectAutoSaveByBlockType,
+    selectPeripheralName,
 } from "../../selectors";
 import MediaQuery from "react-responsive";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -212,6 +213,7 @@ const GUIComponent = (props) => {
         selectedExe,
         showFileStytem,
         handleRunApp,
+        onRunAiCode,
         onSetDeviceObj,
         updateObj,
         onSetTipsUpdate,
@@ -537,6 +539,8 @@ const GUIComponent = (props) => {
                                     <AiChat
                                         isAiChat={isAiChat}
                                         onSetAiChat={onSetAiChat}
+                                        onRunAiCode={onRunAiCode}
+                                        peripheralName={peripheralName}
                                     />
                                 </Box>
                             </Box>
@@ -600,6 +604,7 @@ GUIComponent.propTypes = {
     onSeeCommunity: PropTypes.func,
     onShare: PropTypes.func,
     onShowPrivacyPolicy: PropTypes.func,
+    onRunAiCode: PropTypes.func,
     onStartSelectingFileUpload: PropTypes.func,
     onTabSelect: PropTypes.func,
     onTelemetryModalCancel: PropTypes.func,
