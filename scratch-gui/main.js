@@ -91,10 +91,12 @@ function setupAiChatCodeSave() {
             fs.mkdirSync(byteCodeDir, { recursive: true });
 
             const savePath = path.join(byteCodeDir, safeName || "code.txt");
-            fs.writeFileSync(savePath, String(content || ""), { encoding: "utf8" });
+            fs.writeFileSync(savePath, String(content || ""), {
+                encoding: "utf8",
+            });
             return { ok: true, path: savePath };
         } catch (e) {
-            return { ok: false, error: (e && e.message) ? e.message : String(e) };
+            return { ok: false, error: e && e.message ? e.message : String(e) };
         }
     });
 }
@@ -257,8 +259,8 @@ function setupCodeBlockDownloads(win) {
     win.webContents.session.on("will-download", (event, item) => {
         try {
             const filename = path.basename(item.getFilename() || "code.txt");
-            // 仅接管 AI 聊天代码块下载（我们生成的文件名默认为 code.xxx）
-            if (!/^code\./i.test(filename)) return;
+            // 仅接管 AI 聊天代码块下载（固定为 aicode.xxx，覆盖写入）
+            if (!/^aicode\./i.test(filename)) return;
 
             const savePath = path.join(byteCodeDir, filename);
             item.setSavePath(savePath);

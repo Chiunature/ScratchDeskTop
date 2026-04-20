@@ -54,7 +54,6 @@ const generateSessionId = () => {
  * @param {Function} props.onSetAiChat - 设置面板显示状态的函数
  */
 const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
-    console.log("peripheralName", peripheralName);
     const panelRef = useRef(null);
     const [panelWidth, setPanelWidth] = useState(DEFAULT_PANEL_WIDTH); //面板宽度
     const draggingRef = useRef(null); //拖拽内容
@@ -100,7 +99,7 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
     const downloadText = useCallback((text, language) => {
         const value = typeof text === "string" ? text : String(text ?? "");
         const ext = getExtFromLanguage(language);
-        const filename = `code_${Date.now()}.${ext}`;
+        const filename = `aicode.${ext}`;
 
         const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
@@ -120,7 +119,7 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         if (!value) return { ok: false, error: "空代码" };
 
         const ext = getExtFromLanguage(language);
-        const filename = `code_${Date.now()}.${ext}`;
+        const filename = `aicode.${ext}`;
 
         if (!window.myAPI?.ipcInvoke) {
             return { ok: false, error: "ipcInvoke 不可用" };
