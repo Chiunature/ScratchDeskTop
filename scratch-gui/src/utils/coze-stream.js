@@ -4,6 +4,135 @@ export const DEFAULT_COZE_PROJECT_ID = "7629260602313211955";
 // Coze接口（Coze 原生支持 CORS，可直接在浏览器/Electron 渲染进程中调用）
 const COZE_STREAM_URL = "https://kwvtjz59xj.coze.site/stream_run";
 
+const STREAM_EVENT_TYPES = {
+    ANSWER: "answer",
+    MESSAGE_START: "message_start",
+    MESSAGE_END: "message_end",
+    TOOL_REQUEST: "tool_request",
+    TOOL_RESPONSE: "tool_response",
+    ERROR: "error",
+    TEXT: "text",
+    UNKNOWN: "unknown",
+};
+
+const COZE_ERROR_CODE_MAP = {
+    "400": "请求参数错误，请检查输入内容",
+    "401": "鉴权失败，请检查 API Token",
+    "403": "没有权限访问该资源",
+    "404": "请求的资源不存在",
+    "408": "请求超时，请稍后重试",
+    "429": "请求过于频繁，请稍后再试",
+    "500": "服务内部错误，请稍后重试",
+    "502": "网关异常，请稍后重试",
+    "503": "服务暂不可用，请稍后重试",
+    "504": "网关超时，请稍后重试",
+};
+
+export function getCozeFriendlyError(code, message) {
+    const codeStr =
+        code === null || typeof code === "undefined" ? "" : String(code);
+    const mapped = COZE_ERROR_CODE_MAP[codeStr];
+    const fallback = message || "请求失败，请稍后重试";
+    if (!codeStr && !mapped) return fallback;
+    const normalizedMessage = message || mapped || fallback;
+    return codeStr ? `${normalizedMessage}（错误码: ${codeStr}）` : normalizedMessage;
+}
+
+function parseSequenceId(value) {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+}
+
+function getEventType(data) {
+    const type = data?.type;
+    if (!type || typeof type !== "string") return STREAM_EVENT_TYPES.UNKNOWN;
+    if (Object.values(STREAM_EVENT_TYPES).includes(type)) return type;
+    return STREAM_EVENT_TYPES.UNKNOWN;
+}
+
+function getErrorFromPayload(data) {
+    const payloadError = data?.content?.error || data?.error;
+    if (!payloadError) return null;
+    if (typeof payloadError === "string") {
+        return { message: getCozeFriendlyError(null, payloadError) };
+    }
+    if (typeof payloadError === "object") {
+        const code = payloadError.code || null;
+        const message = payloadError.message || null;
+        return {
+            code,
+            message: getCozeFriendlyError(code, message),
+            raw: payloadError,
+        };
+    }
+    return null;
+}
+
+export function normalizeCozeEvent(data) {
+    if (typeof data === "string") {
+        return {
+            eventType: STREAM_EVENT_TYPES.TEXT,
+            sequenceId: null,
+            textChunk: data,
+            raw: data,
+        };
+    }
+
+    if (!data || typeof data !== "object") {
+        return {
+            eventType: STREAM_EVENT_TYPES.UNKNOWN,
+            sequenceId: null,
+            textChunk: "",
+            raw: data,
+        };
+    }
+
+    const eventType = getEventType(data);
+    const textChunk = extractCozeText(data);
+
+    return {
+        eventType,
+        sessionId: data.session_id || null,
+        replyId: data.reply_id || null,
+        msgId: data.msg_id || null,
+        queryMsgId: data.query_msg_id || null,
+        sequenceId: parseSequenceId(data.sequence_id),
+        finish: Boolean(data.finish),
+        textChunk,
+        tool:
+            eventType === STREAM_EVENT_TYPES.TOOL_REQUEST ||
+            eventType === STREAM_EVENT_TYPES.TOOL_RESPONSE
+                ? {
+                      toolCallId:
+                          data.content?.tool_request?.tool_call_id ||
+                          data.content?.tool_response?.tool_call_id ||
+                          null,
+                      toolName:
+                          data.content?.tool_request?.tool_name ||
+                          data.content?.tool_response?.tool_name ||
+                          null,
+                      parameters: data.content?.tool_request?.parameters || null,
+                      responseCode: data.content?.tool_response?.code || null,
+                      responseMessage:
+                          data.content?.tool_response?.message || null,
+                      responseResult: data.content?.tool_response?.result || null,
+                  }
+                : null,
+        messageEnd:
+            eventType === STREAM_EVENT_TYPES.MESSAGE_END
+                ? {
+                      code: data.content?.message_end?.code || null,
+                      message: getCozeFriendlyError(
+                          data.content?.message_end?.code || null,
+                          data.content?.message_end?.message || null
+                      ),
+                  }
+                : null,
+        error: getErrorFromPayload(data),
+        raw: data,
+    };
+}
+
 /**
  *调用 Coze AI 接口
  * @param {string} queryText - 用户输入的问题
@@ -59,14 +188,25 @@ export async function streamCoze(
     if (!res.ok) {
         try {
             const errorData = await res.json();
+            const code = errorData.code || res.status || null;
             const errorMessage =
                 errorData.message ||
                 errorData.error ||
                 `请求失败: ${res.status}`;
-            onError && onError(new Error(errorMessage));
+            const wrappedError = new Error(
+                getCozeFriendlyError(code, errorMessage)
+            );
+            wrappedError.code = code;
+            onError && onError(wrappedError);
         } catch {
-            onError &&
-                onError(new Error(`请求失败: ${res.status} ${res.statusText}`));
+            const wrappedError = new Error(
+                getCozeFriendlyError(
+                    res.status,
+                    `请求失败: ${res.status} ${res.statusText}`
+                )
+            );
+            wrappedError.code = res.status;
+            onError && onError(wrappedError);
         }
         return;
     }
@@ -112,13 +252,13 @@ export async function streamCoze(
 
                 try {
                     const parsed = JSON.parse(dataText);
-                    onMessage(parsed);
+                    onMessage(normalizeCozeEvent(parsed));
                 } catch {
                     const textOnly = dataText
                         .replace(/\{[\s\S]*?\}/g, "")
                         .trim();
                     if (textOnly) {
-                        onMessage(textOnly);
+                        onMessage(normalizeCozeEvent(textOnly));
                     }
                 }
             }
@@ -137,6 +277,9 @@ export async function streamCoze(
  * @returns {string} 增量文本，无内容时返回空字符串
  */
 export function extractCozeText(data) {
+    if (data && data.eventType && typeof data.eventType === "string") {
+        return typeof data.textChunk === "string" ? data.textChunk : "";
+    }
     if (typeof data === "string") return data;
     if (!data || typeof data !== "object") return "";
 

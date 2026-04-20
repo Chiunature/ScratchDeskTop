@@ -348,44 +348,137 @@
     padding-top: 6px;
 }
 
-/* 打字动画（三个圆点依次跳动，纯 CSS，无需 GIF） */
-.typing {
+.streamingState {
+    margin-top: 0;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.thinkingText {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.thinkingChar {
+    display: inline-block;
+    opacity: 0.35;
+    animation: thinking-char-glow 0.96s ease-in-out infinite;
+    will-change: opacity, text-shadow;
+}
+
+.stateBubble {
+    width: fit-content;
+    max-width: 80%;
+    padding: 6px 10px;
+}
+
+@keyframes thinking-char-glow {
+    0%,
+    100% {
+        opacity: 0.35;
+        text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
+    }
+}
+
+.toolList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.toolCard {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.toolHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.toolMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.toolHeaderRight {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 10px 14px;
-    min-height: 36px; /* 占位高度，避免无文字时气泡塌掉 */
+    gap: 6px;
 }
 
-.typing span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    /* 与助手深色气泡对比足够，又比正文略淡 */
-    background: rgba(255, 255, 255, 0.45);
-    display: inline-block;
-    animation: typing-bounce 1.2s infinite ease-in-out;
+.toolName {
+    font-size: 12px;
+    font-weight: 600;
+    word-break: break-all;
 }
 
-.typing span:nth-child(2) {
-    animation-delay: 0.2s;
+.toolQuery {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.72);
+    word-break: break-word;
 }
 
-.typing span:nth-child(3) {
-    animation-delay: 0.4s;
+.toolStatus {
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 1px 8px;
+    border: 1px solid transparent;
 }
 
-@keyframes typing-bounce {
-    0%,
-    80%,
-    100% {
-        transform: translateY(0);
-        opacity: 0.4;
-    }
-    40% {
-        transform: translateY(-6px);
-        opacity: 1;
-    }
+.toolPending {
+    color: #ffd76a;
+    border-color: rgba(255, 215, 106, 0.35);
+}
+
+.toolSuccess {
+    color: #94e7b1;
+    border-color: rgba(148, 231, 177, 0.35);
+}
+
+.toolError {
+    color: #ff9a9a;
+    border-color: rgba(255, 154, 154, 0.35);
+}
+
+.toolPayload {
+    margin: 8px 0 0;
+    padding: 6px;
+    border-radius: 6px;
+    max-height: 160px;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.toolToggleBtn {
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 1px 8px;
+    cursor: pointer;
+}
+
+.toolToggleBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .input-row {

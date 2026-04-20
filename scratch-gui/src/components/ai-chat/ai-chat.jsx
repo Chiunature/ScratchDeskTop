@@ -3,13 +3,37 @@ import classNames from "classnames";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import styles from "./ai-chat.css";
-import { streamCoze, extractCozeText } from "../../utils/coze-stream";
+import {
+    streamCoze,
+    extractCozeText,
+    getCozeFriendlyError,
+} from "../../utils/coze-stream";
 import { COZE_API_TOKEN } from "../../config/coze.config";
 import CloseButton from "../../../static/IconAI/icon-close.svg";
 const WIDTH_STORAGE_KEY = "aiChatPanelWidth";
 const DEFAULT_PANEL_WIDTH = 480;
 const MIN_PANEL_WIDTH = 360;
 const MAX_PANEL_WIDTH = 720;
+const STREAM_STATES = {
+    IDLE: "idle",
+    RECEIVING: "receiving",
+    TOOL_RUNNING: "toolRunning",
+    COMPLETED: "completed",
+    FAILED: "failed",
+};
+
+const SENSITIVE_KEYS = [
+    "token",
+    "apiKey",
+    "apikey",
+    "secret",
+    "password",
+    "authorization",
+    "accessKey",
+    "privateKey",
+    "credential",
+    "cookie",
+];
 
 const LANGUAGE_TO_EXT = {
     javascript: "js",
@@ -36,6 +60,10 @@ const LANGUAGE_TO_EXT = {
     md: "md",
 };
 
+const TOOL_NAME_MAP = {
+    search_knowledge: "知识库检索",
+};
+
 function getExtFromLanguage(language) {
     const lang = (language || "").toLowerCase();
     return LANGUAGE_TO_EXT[lang] || "py";
@@ -46,6 +74,105 @@ const generateSessionId = () => {
     window.crypto.getRandomValues(array);
     return btoa(String.fromCharCode(...array));
 };
+
+function updateToolEntries(prevEntries, event) {
+    const toolCallId = event?.tool?.toolCallId || `tool-${Date.now()}`;
+    if (event.eventType === "tool_request") {
+        const next = [...prevEntries];
+        const index = next.findIndex((item) => item.toolCallId === toolCallId);
+        const entry = {
+            toolCallId,
+            toolName: event?.tool?.toolName || "unknown_tool",
+            parameters: event?.tool?.parameters || null,
+            status: "pending",
+            result: null,
+            message: null,
+            code: null,
+        };
+        if (index >= 0) {
+            next[index] = { ...next[index], ...entry };
+        } else {
+            next.push(entry);
+        }
+        return next;
+    }
+    if (event.eventType === "tool_response") {
+        const next = [...prevEntries];
+        const index = next.findIndex((item) => item.toolCallId === toolCallId);
+        const responseCode = event?.tool?.responseCode;
+        const status =
+            String(responseCode || "0") === "0" ? "success" : "error";
+        const prevEntry = index >= 0 ? next[index] : null;
+        const entry = {
+            toolCallId,
+            toolName:
+                event?.tool?.toolName ||
+                prevEntry?.toolName ||
+                "unknown_tool",
+            status,
+            result: event?.tool?.responseResult || null,
+            message: getCozeFriendlyError(
+                responseCode,
+                event?.tool?.responseMessage || null
+            ),
+            code: responseCode || null,
+        };
+        if (index >= 0) {
+            next[index] = { ...next[index], ...entry };
+        } else {
+            next.push(entry);
+        }
+        return next;
+    }
+    return prevEntries;
+}
+
+function isSensitiveKey(key) {
+    const keyText = String(key || "").toLowerCase();
+    return SENSITIVE_KEYS.some((sensitiveKey) =>
+        keyText.includes(String(sensitiveKey).toLowerCase())
+    );
+}
+
+function maskString(value) {
+    if (typeof value !== "string") return value;
+    if (value.length <= 4) return "****";
+    return `${value.slice(0, 2)}***${value.slice(-2)}`;
+}
+
+function desensitizePayload(value) {
+    if (Array.isArray(value)) {
+        return value.map((item) => desensitizePayload(item));
+    }
+    if (value && typeof value === "object") {
+        return Object.entries(value).reduce((acc, [key, val]) => {
+            if (isSensitiveKey(key)) {
+                acc[key] = maskString(String(val ?? ""));
+            } else {
+                acc[key] = desensitizePayload(val);
+            }
+            return acc;
+        }, {});
+    }
+    return value;
+}
+
+function getReadableToolName(toolName) {
+    const name = String(toolName || "").trim();
+    if (!name) return "工具调用";
+    return TOOL_NAME_MAP[name] || name;
+}
+
+function getToolQuery(parameters) {
+    if (!parameters || typeof parameters !== "object") return "";
+    if (typeof parameters.query === "string") return parameters.query;
+    if (typeof parameters.search_query === "string") return parameters.search_query;
+    const nested = parameters.search_knowledge;
+    if (nested && typeof nested === "object" && typeof nested.query === "string") {
+        return nested.query;
+    }
+    return "";
+}
 
 /**
  * AI聊天面板组件
@@ -66,8 +193,15 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
     const [inputValue, setInputValue] = useState(""); //输入框内容
     const [loading, setLoading] = useState(false);
     const [streamingText, setStreamingText] = useState(""); //流式回复文本
+    const [streamingState, setStreamingState] = useState(STREAM_STATES.IDLE);
+    const [streamingTools, setStreamingTools] = useState([]);
+    const [toolExpandedMap, setToolExpandedMap] = useState({});
     const replyBufferRef = useRef(""); //回复缓冲区，用于存储流式回复的文本
     const sessionIdRef = useRef(generateSessionId());
+    const sequenceBufferRef = useRef(new Map());
+    const expectedSequenceRef = useRef(null);
+    const streamFailedRef = useRef(false);
+    const streamingToolsRef = useRef([]);
 
     const copyTextToClipboard = useCallback(async (text) => {
         const value = typeof text === "string" ? text : String(text ?? "");
@@ -272,6 +406,102 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         ),
         [MarkdownCodeBlock]
     );
+
+    const setToolsWithRef = useCallback((updater) => {
+        setStreamingTools((prev) => {
+            const next =
+                typeof updater === "function" ? updater(prev) : updater || [];
+            streamingToolsRef.current = next;
+            return next;
+        });
+    }, []);
+
+    const applyStreamEvent = useCallback(
+        (event) => {
+            if (!event || streamFailedRef.current) return;
+            const eventType = event.eventType;
+
+            if (eventType === "message_start") {
+                setStreamingState(STREAM_STATES.RECEIVING);
+                return;
+            }
+
+            if (eventType === "tool_request" || eventType === "tool_response") {
+                setToolsWithRef((prev) => updateToolEntries(prev, event));
+                if (eventType === "tool_request") {
+                    setStreamingState(STREAM_STATES.TOOL_RUNNING);
+                }
+            }
+
+            if (eventType === "answer" || eventType === "text") {
+                const chunk = extractCozeText(event);
+                if (!chunk) return;
+                replyBufferRef.current += chunk;
+                setStreamingText(replyBufferRef.current);
+                setStreamingState(STREAM_STATES.RECEIVING);
+                return;
+            }
+
+            if (eventType === "error") {
+                streamFailedRef.current = true;
+                setStreamingState(STREAM_STATES.FAILED);
+                const code = event?.error?.code || null;
+                const message =
+                    getCozeFriendlyError(code, event?.error?.message) ||
+                    extractCozeText(event) ||
+                    "请求失败，请稍后重试";
+                setMessages((prev) => [
+                    ...prev,
+                    { role: "assistant", content: message },
+                ]);
+                return;
+            }
+
+            if (eventType === "message_end") {
+                const endCode = event?.messageEnd?.code;
+                if (endCode && String(endCode) !== "0") {
+                    streamFailedRef.current = true;
+                    setStreamingState(STREAM_STATES.FAILED);
+                    const message =
+                        getCozeFriendlyError(
+                            endCode,
+                            event?.messageEnd?.message || null
+                        ) || "请求结束，但返回异常状态";
+                    setMessages((prev) => [
+                        ...prev,
+                        { role: "assistant", content: message },
+                    ]);
+                    return;
+                }
+                setStreamingState(STREAM_STATES.COMPLETED);
+            }
+        },
+        [setToolsWithRef]
+    );
+
+    const consumeOrderedEvent = useCallback(
+        (event) => {
+            const sequenceId = event?.sequenceId;
+            if (!Number.isFinite(sequenceId)) {
+                applyStreamEvent(event);
+                return;
+            }
+            if (expectedSequenceRef.current === null) {
+                expectedSequenceRef.current = sequenceId;
+            }
+            sequenceBufferRef.current.set(sequenceId, event);
+            while (
+                sequenceBufferRef.current.has(expectedSequenceRef.current || 0)
+            ) {
+                const key = expectedSequenceRef.current;
+                const nextEvent = sequenceBufferRef.current.get(key);
+                sequenceBufferRef.current.delete(key);
+                applyStreamEvent(nextEvent);
+                expectedSequenceRef.current = key + 1;
+            }
+        },
+        [applyStreamEvent]
+    );
     //初始化处理
     useEffect(() => {
         try {
@@ -379,53 +609,75 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         setInputValue("");
         //清空回复缓冲区
         replyBufferRef.current = "";
+        streamFailedRef.current = false;
+        expectedSequenceRef.current = null;
+        sequenceBufferRef.current.clear();
+        streamingToolsRef.current = [];
+        setToolsWithRef([]);
+        setToolExpandedMap({});
         //清空流式文本
         setStreamingText("");
+        setStreamingState(STREAM_STATES.RECEIVING);
         //设置加载状态
         setLoading(true);
-        //流式回复默认失败
-        let streamFailed = false;
         try {
             //调用流式回复接口
             await streamCoze(
                 text,
                 { sessionId: sessionIdRef.current },
                 // 成功回调
-                (data) => {
-                    //提取文字内容
-                    const chunk = extractCozeText(data);
-                    if (!chunk) return;
-                    console.log("chunk", chunk);
-                    replyBufferRef.current += chunk;
-                    setStreamingText(replyBufferRef.current);
+                (event) => {
+                    consumeOrderedEvent(event);
                 },
                 // 错误回调
                 (error) => {
-                    streamFailed = true;
+                    streamFailedRef.current = true;
+                    setStreamingState(STREAM_STATES.FAILED);
+                    const message = getCozeFriendlyError(
+                        error?.code || null,
+                        error?.message || null
+                    );
                     setMessages((prev) => [
                         ...prev,
                         {
                             role: "assistant",
-                            content: error?.message || "请求失败，请稍后重试",
+                            content: message,
                         },
                     ]);
                 },
                 COZE_API_TOKEN
             );
-            if (!streamFailed && replyBufferRef.current) {
+            if (
+                !streamFailedRef.current &&
+                (replyBufferRef.current || streamingToolsRef.current.length > 0)
+            ) {
                 setMessages((prev) => [
                     ...prev,
                     {
                         role: "assistant",
-                        content: replyBufferRef.current,
+                        content: replyBufferRef.current || " ",
+                        tools: streamingToolsRef.current,
                     },
                 ]);
             }
         } finally {
             setStreamingText("");
+            setToolsWithRef([]);
             setLoading(false);
+            setStreamingState((prev) =>
+                prev === STREAM_STATES.FAILED
+                    ? STREAM_STATES.FAILED
+                    : STREAM_STATES.IDLE
+            );
         }
-    }, [inputValue]);
+    }, [inputValue, consumeOrderedEvent, setToolsWithRef]);
+
+    const toggleToolExpanded = useCallback((toolKey) => {
+        setToolExpandedMap((prev) => ({
+            ...prev,
+            [toolKey]: !prev[toolKey],
+        }));
+    }, []);
 
     const handleKeyDown = useCallback(
         (e) => {
@@ -438,6 +690,85 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         },
         [handleSend]
     );
+
+    const renderToolCard = useCallback(
+        (tool, index, prefix = "tool") => {
+            const toolKey = `${prefix}-${tool.toolCallId || index}`;
+            const isExpanded = Boolean(toolExpandedMap[toolKey]);
+            const safeParams = desensitizePayload(tool.parameters);
+            const safeResult = desensitizePayload(tool.result || tool.message);
+            const hasPayload = Boolean(safeParams || safeResult);
+            const readableToolName = getReadableToolName(tool.toolName);
+            const toolQuery = getToolQuery(safeParams);
+            const statusText =
+                tool.status === "pending"
+                    ? "调用中"
+                    : tool.status === "success"
+                    ? "完成"
+                    : "失败";
+            return (
+                <div key={toolKey} className={styles.toolCard}>
+                    <div className={styles.toolHeader}>
+                        <div className={styles.toolMeta}>
+                            <span className={styles.toolName}>
+                                {`${readableToolName} #${index + 1}`}
+                            </span>
+                            {toolQuery && (
+                                <span className={styles.toolQuery}>
+                                    {`检索词：${toolQuery}`}
+                                </span>
+                            )}
+                        </div>
+                        <div className={styles.toolHeaderRight}>
+                            <span
+                                className={classNames(styles.toolStatus, {
+                                    [styles.toolPending]:
+                                        tool.status === "pending",
+                                    [styles.toolSuccess]:
+                                        tool.status === "success",
+                                    [styles.toolError]: tool.status === "error",
+                                })}
+                            >
+                                {statusText}
+                            </span>
+                            {hasPayload && (
+                                <button
+                                    type="button"
+                                    className={styles.toolToggleBtn}
+                                    onClick={() => toggleToolExpanded(toolKey)}
+                                >
+                                    {isExpanded ? "收起" : "展开"}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    {isExpanded && safeParams && (
+                        <pre className={styles.toolPayload}>
+                            {JSON.stringify(safeParams, null, 2)}
+                        </pre>
+                    )}
+                    {isExpanded && safeResult && (
+                        <pre className={styles.toolPayload}>
+                            {typeof safeResult === "string"
+                                ? safeResult
+                                : JSON.stringify(safeResult, null, 2)}
+                        </pre>
+                    )}
+                </div>
+            );
+        },
+        [toolExpandedMap, toggleToolExpanded]
+    );
+
+    const streamStateText =
+        streamingState === STREAM_STATES.TOOL_RUNNING
+            ? "调用工具中"
+            : streamingState === STREAM_STATES.COMPLETED
+            ? "回复完成"
+            : streamingState === STREAM_STATES.FAILED
+            ? "回复失败"
+            : "正在思考";
+
     return (
         <div
             ref={panelRef} //通过ref绑定该div
@@ -484,40 +815,114 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
                     >
                         <div className={styles.bubble}>
                             {msg.role === "assistant" ? (
-                                <div className={styles.markdownContent}>
-                                    {renderMarkdown(msg.content)}
-                                </div>
+                                <>
+                                    <div className={styles.markdownContent}>
+                                        {renderMarkdown(msg.content)}
+                                    </div>
+                                    {Array.isArray(msg.tools) &&
+                                        msg.tools.length > 0 && (
+                                            <div className={styles.toolList}>
+                                                {msg.tools.map((tool, index) =>
+                                                    renderToolCard(
+                                                        tool,
+                                                        index,
+                                                        `history-${i}`
+                                                    )
+                                                )}
+                                            </div>
+                                        )}
+                                </>
                             ) : (
                                 msg.content
                             )}
                         </div>
                     </div>
                 ))}
-                {/* 请求中：先显示 CSS 三点；收到第一个字后显示流式正文 */}
+                {/* 请求中：未收到流式正文前显示“正在思考”逐字动画 */}
                 {loading && (
-                    <div
-                        className={classNames(styles.message, styles.assistant)}
-                    >
-                        {streamingText ? (
-                            <div className={styles.bubble}>
-                                <div className={styles.markdownContent}>
-                                    {renderMarkdown(streamingText)}
+                    <>
+                        {streamingText && (
+                            <div
+                                className={classNames(
+                                    styles.message,
+                                    styles.assistant
+                                )}
+                            >
+                                <div className={styles.bubble}>
+                                    <div className={styles.markdownContent}>
+                                        {renderMarkdown(streamingText)}
+                                    </div>
+                                    {streamingTools.length > 0 && (
+                                        <div className={styles.toolList}>
+                                            {streamingTools.map((tool, index) =>
+                                                renderToolCard(
+                                                    tool,
+                                                    index,
+                                                    "streaming"
+                                                )
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        ) : (
+                        )}
+                        <div
+                            className={classNames(
+                                styles.message,
+                                styles.assistant
+                            )}
+                        >
                             <div
                                 className={classNames(
                                     styles.bubble,
-                                    styles.typing
+                                    styles.stateBubble
                                 )}
-                                aria-label="正在生成回复"
                             >
-                                <span />
-                                <span />
-                                <span />
+                                {streamStateText === "正在思考" ? (
+                                    <div
+                                        className={classNames(
+                                            styles.streamingState,
+                                            styles.thinkingText
+                                        )}
+                                        aria-label={streamStateText}
+                                    >
+                                        {streamStateText
+                                            .split("")
+                                            .map((char, index) => (
+                                                <span
+                                                    key={`${char}-${index}`}
+                                                    className={
+                                                        styles.thinkingChar
+                                                    }
+                                                    style={{
+                                                        animationDelay: `${
+                                                            index * 0.24
+                                                        }s`,
+                                                    }}
+                                                >
+                                                    {char}
+                                                </span>
+                                            ))}
+                                    </div>
+                                ) : (
+                                    <div className={styles.streamingState}>
+                                        {streamStateText}
+                                    </div>
+                                )}
+                                {!streamingText && streamingTools.length > 0 && (
+                                    <div className={styles.toolList}>
+                                        {streamingTools.map((tool, index) =>
+                                            renderToolCard(
+                                                tool,
+                                                index,
+                                                "streaming"
+                                            )
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    </>
                 )}
                 {/* <div ref={messagesEndRef} /> */}
             </div>
