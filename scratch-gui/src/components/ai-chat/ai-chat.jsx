@@ -182,6 +182,7 @@ function getToolQuery(parameters) {
  */
 const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
     const panelRef = useRef(null);
+    const messagesRef = useRef(null);
     const [panelWidth, setPanelWidth] = useState(DEFAULT_PANEL_WIDTH); //面板宽度
     const draggingRef = useRef(null); //拖拽内容
     const [messages, setMessages] = useState([
@@ -196,12 +197,15 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
     const [streamingState, setStreamingState] = useState(STREAM_STATES.IDLE);
     const [streamingTools, setStreamingTools] = useState([]);
     const [toolExpandedMap, setToolExpandedMap] = useState({});
+    const [isAtBottom, setIsAtBottom] = useState(true);
+    const [userScrolledUp, setUserScrolledUp] = useState(false); // 用户是否主动滚动上去
     const replyBufferRef = useRef(""); //回复缓冲区，用于存储流式回复的文本
     const sessionIdRef = useRef(generateSessionId());
     const sequenceBufferRef = useRef(new Map());
     const expectedSequenceRef = useRef(null);
     const streamFailedRef = useRef(false);
     const streamingToolsRef = useRef([]);
+    const isScrollingProgrammaticallyRef = useRef(false); // 标记是否程序触发的滚动
 
     const copyTextToClipboard = useCallback(async (text) => {
         const value = typeof text === "string" ? text : String(text ?? "");
@@ -518,6 +522,40 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
             }
         } catch (e) {}
     }, []);
+
+    // 监听滚动事件
+    useEffect(() => {
+        const messagesEl = messagesRef.current;
+        if (!messagesEl) return;
+
+        messagesEl.addEventListener("scroll", handleScroll);
+        return () => {
+            messagesEl.removeEventListener("scroll", handleScroll);
+        };
+    }, [handleScroll]);
+
+    // 面板打开时滚动到底部
+    useEffect(() => {
+        if (!isAiChat) return;
+        scrollToBottom();
+    }, [isAiChat, scrollToBottom]);
+
+    // 当用户发送新消息时滚动到底部，并恢复自动滚动
+    useEffect(() => {
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage?.role === "user") {
+            setUserScrolledUp(false);
+            scrollToBottom();
+        }
+    }, [messages, scrollToBottom]);
+
+    // AI 回复时的智能滚动：自动滚动到底部，除非用户主动滚动上去
+    useEffect(() => {
+        // 只有在加载中且用户没有主动滚动上去时才自动滚动
+        if (loading && !userScrolledUp) {
+            scrollToBottom();
+        }
+    }, [streamingText, streamingTools, loading, userScrolledUp, scrollToBottom]);
     // 点击面板外部关闭面板的处理
     useEffect(() => {
         // 如果不是打开状态，直接返回
@@ -691,6 +729,44 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         [handleSend]
     );
 
+    // 滚动到底部
+    const scrollToBottom = useCallback(() => {
+        if (messagesRef.current) {
+            isScrollingProgrammaticallyRef.current = true;
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+            setIsAtBottom(true);
+            setUserScrolledUp(false);
+            // 短暂延迟后重置标记
+            setTimeout(() => {
+                isScrollingProgrammaticallyRef.current = false;
+            }, 100);
+        }
+    }, []);
+
+    // 检查是否在底部
+    const checkIsAtBottom = useCallback(() => {
+        if (!messagesRef.current) return true;
+        const { scrollTop, scrollHeight, clientHeight } = messagesRef.current;
+        const threshold = 30; // 30px 容差
+        return scrollHeight - scrollTop - clientHeight <= threshold;
+    }, []);
+
+    // 处理滚动事件
+    const handleScroll = useCallback(() => {
+        if (!messagesRef.current || isScrollingProgrammaticallyRef.current) return;
+
+        const atBottom = checkIsAtBottom();
+        setIsAtBottom(atBottom);
+
+        // 只有用户手动滚动上去时才标记为 userScrolledUp
+        if (!atBottom) {
+            setUserScrolledUp(true);
+        } else {
+            // 用户滚动回底部，恢复自动滚动
+            setUserScrolledUp(false);
+        }
+    }, [checkIsAtBottom]);
+
     const renderToolCard = useCallback(
         (tool, index, prefix = "tool") => {
             const toolKey = `${prefix}-${tool.toolCallId || index}`;
@@ -804,7 +880,7 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
                 </button>
             </div>
             {/* 消息列表 */}
-            <div className={styles.messages}>
+            <div className={styles.messages} ref={messagesRef}>
                 {messages.map((msg, i) => (
                     <div
                         key={i}
@@ -924,8 +1000,38 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
                         </div>
                     </>
                 )}
-                {/* <div ref={messagesEndRef} /> */}
+
             </div>
+
+            {/* 滚动到底部悬浮按钮 - 当用户滚动上去看历史消息时显示 */}
+            {userScrolledUp && loading && (
+                <button
+                    className={classNames(
+                        styles.scrollToBottomBtn,
+                        streamingState === STREAM_STATES.RECEIVING &&
+                            styles.scrollToBottomBtnAnimating
+                    )}
+                    onClick={scrollToBottom}
+                    aria-label="滚动到底部"
+                >
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M7 10L12 15L17 10"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                </button>
+            )}
+
             {/* 输入区域 */}
             <div className={styles.inputRow}>
                 <textarea

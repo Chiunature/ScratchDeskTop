@@ -530,3 +530,56 @@
     opacity: 0.45;
     cursor: not-allowed;
 }
+
+/* 滚动到底部悬浮按钮 */
+.scroll-to-bottom-btn {
+    position: absolute;
+    bottom: 90px; /* 在输入区域上方 16px */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(45, 45, 45, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    z-index: 100;
+    padding: 0;
+}
+
+.scroll-to-bottom-btn:hover {
+    background: rgba(60, 60, 60, 0.98);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.scroll-to-bottom-btn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* 回复中动画效果 - 呼吸发光 */
+.scroll-to-bottom-btn-animating {
+    animation: scroll-btn-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scroll-btn-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 215, 106, 0.4);
+        border-color: rgba(255, 215, 106, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), 0 0 12px 4px rgba(255, 215, 106, 0.25);
+        border-color: rgba(255, 215, 106, 0.6);
+    }
+}
+
+/* 让消息区域有相对定位，以便悬浮按钮绝对定位 */
+.messages {
+    position: relative;
+}
