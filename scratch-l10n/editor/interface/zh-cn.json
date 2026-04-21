@@ -580,7 +580,7 @@
 	"gui.device.brake": "刹车",
 	"gui.device.stop": "停止",
 	"gui.device.color": "颜色识别器",
-	"gui.device.lightIntensity": "光强",
+	"gui.device.lightIntensity": "灰度传感器",
 	"gui.device.superSound": "超声波",
 	"gui.device.distance": "距离",
 	"gui.device.touch": "触碰按钮",

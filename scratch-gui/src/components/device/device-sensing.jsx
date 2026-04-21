@@ -7,7 +7,7 @@ import superSoundIcon from "scratch-blocks/media/ultrasonic.svg";
 import touchPressIcon from "scratch-blocks/media/touch.svg";
 import cameraSensingIcon from "scratch-blocks/media/camera.svg";
 import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
-import lightIntensityIcon from "scratch-blocks/media/lightIntensity.svg";
+import lightIntensityIcon from "scratch-blocks/media/gray_scale.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 
