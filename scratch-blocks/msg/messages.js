@@ -595,7 +595,7 @@ Blockly.Msg.GRAYV2_IF_ALL_CH_WAY_STATE = "Is the status of %1 %2";
 Blockly.Msg.GRAYV2_POWER_FIND_IF_CH_STATE =
   "%1 %2 turn at left speed %3 and right speed %4 until %5 line is encountered";
 Blockly.Msg.GRAYV2_POWER_FIND_WAY_TYPE =
-  "%1 %2 patrols at speed %3 until it identifies %4";
+  "%1 %2 patrols at speed %3 until it identifies %4 then run %5 encoder value";
 Blockly.Msg.GRAYV2_POWER_FIND_LINE =
   "%1 %2 conducts a line patrol at a speed of %3";
 Blockly.Msg.GRAYV2_POWER_FIND_LINE_ENCORD =

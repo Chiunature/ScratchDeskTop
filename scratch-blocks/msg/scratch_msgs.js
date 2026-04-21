@@ -7405,7 +7405,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   GRAYV2_POWER_FIND_IF_CH_STATE:
     "%1 %2 turn at left speed %3 and right speed %4 until %5 line is encountered",
   GRAYV2_POWER_FIND_WAY_TYPE:
-    "%1 %2 patrols at speed %3 until it identifies %4",
+    "%1 %2 patrols at speed %3 until it identifies %4 then run %5 encoder value",
   GRAYV2_POWER_FIND_LINE: "%1 %2 conducts a line patrol at a speed of %3",
   GRAYV2_POWER_FIND_LINE_ENCORD:
     "%1 %2 patrol line at speed %3, encoder value %4",
@@ -29794,7 +29794,8 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   GRAYV2_READ_CH: "%1 %2 光电模拟值",
   GRAYV2_IF_ALL_CH_WAY_STATE: "%1 状态是否为 %2",
   GRAYV2_POWER_FIND_IF_CH_STATE: "%1 %2 以左速度 %3 右速度 %4 转弯直到 %5 遇线",
-  GRAYV2_POWER_FIND_WAY_TYPE: "%1 %2 以速度 %3 巡线直到识别 %4",
+  GRAYV2_POWER_FIND_WAY_TYPE:
+    "%1 %2 以速度 %3 巡线直到识别 %4 后运行 %5 编码值",
   GRAYV2_POWER_FIND_LINE: "%1 %2 以速度 %3 巡线一次",
   GRAYV2_POWER_FIND_LINE_ENCORD: "%1 %2 以速度 %3 巡线 %4 编码值",
   GRAYV2_POWER_FIND_LINE_MS: "%1 %2 以速度 %3 巡线 %4 毫秒",

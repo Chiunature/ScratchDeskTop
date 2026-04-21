@@ -94,8 +94,14 @@ Blockly.Python["grayv2_power_find_way_type"] = function (block) {
     Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) ||
     "0";
   const intersection = block.getFieldValue("INTERSECTION_TYPE");
+  const codeValue =
+    Blockly.Python.valueToCode(
+      block,
+      "CODE_VALUE",
+      Blockly.Python.ORDER_NONE
+    ) || "0";
   const code = Blockly.Python.handleResult(
-    `power_find_way_type(${portValue}, ${speed}, ${intersection})\n`,
+    `power_find_way_type(${portValue}, ${speed}, ${intersection}, ${codeValue})\n`,
     Blockly.Python.GRAYV2_TYPE
   );
   return code;

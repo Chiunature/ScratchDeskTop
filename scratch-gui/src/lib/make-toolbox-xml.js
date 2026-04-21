@@ -1034,6 +1034,9 @@ const grayv2 = function ({ colors }) {
             <value name="SPEED">
                 <shadow type="math_-100to100_number"><field name="NUM">50</field></shadow>
             </value>
+            <value name="CODE_VALUE">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
         </block>
         ${categorySeparator}
         <block type="grayv2_power_find_line">

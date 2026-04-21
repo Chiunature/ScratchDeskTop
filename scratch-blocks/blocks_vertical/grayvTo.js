@@ -206,6 +206,10 @@ Blockly.Blocks["grayv2_power_find_way_type"] = {
             [Blockly.Msg.GRAYV2_IntersectionType_11, "10"],
           ],
         },
+        {
+          type: "input_value",
+          name: "CODE_VALUE",
+        },
       ],
       category: Blockly.Categories.grayv2,
       extensions: ["colours_grayv2", "shape_statement"],
