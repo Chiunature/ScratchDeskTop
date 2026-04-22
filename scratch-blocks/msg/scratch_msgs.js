@@ -7410,7 +7410,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   GRAYV2_POWER_FIND_LINE_ENCORD:
     "%1 %2 patrol line at speed %3, encoder value %4",
   GRAYV2_POWER_FIND_LINE_MS: "%1 %2 patrol line at speed %3, milliseconds %4",
-  GRAYV2_START_CALIBRATE: "Calibrate the current grayscale sensor %1",
+  GRAYV2_START_CALIBRATE: "%1 Calibrate the current grayscale sensor %2",
   GRAYV2_SET_THRESHOLD: "%1 The threshold for %3 of %2 is set to %4",
   GRAYV2_SET_RGB: "%1 Set all colors of %2 to %3",
   GRAYV2_SET_PID: "%1 %2 Set the patrol line KP to %3 and KD to %4",
