@@ -348,6 +348,10 @@
     padding-top: 6px;
 }
 
+.markdownContent pre.plainCodePre {
+    margin-top: 8px;
+}
+
 .streamingState {
     margin-top: 0;
     font-size: 12px;

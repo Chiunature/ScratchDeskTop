@@ -106,9 +106,7 @@ function updateToolEntries(prevEntries, event) {
         const entry = {
             toolCallId,
             toolName:
-                event?.tool?.toolName ||
-                prevEntry?.toolName ||
-                "unknown_tool",
+                event?.tool?.toolName || prevEntry?.toolName || "unknown_tool",
             status,
             result: event?.tool?.responseResult || null,
             message: getCozeFriendlyError(
@@ -166,9 +164,14 @@ function getReadableToolName(toolName) {
 function getToolQuery(parameters) {
     if (!parameters || typeof parameters !== "object") return "";
     if (typeof parameters.query === "string") return parameters.query;
-    if (typeof parameters.search_query === "string") return parameters.search_query;
+    if (typeof parameters.search_query === "string")
+        return parameters.search_query;
     const nested = parameters.search_knowledge;
-    if (nested && typeof nested === "object" && typeof nested.query === "string") {
+    if (
+        nested &&
+        typeof nested === "object" &&
+        typeof nested.query === "string"
+    ) {
         return nested.query;
     }
     return "";
@@ -283,7 +286,7 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
             const languageMatch = String(codeClassName).match(
                 /language-([a-zA-Z0-9_-]+)/
             );
-            const language = languageMatch ? languageMatch[1] : "python";
+            const language = languageMatch ? languageMatch[1] : "";
             const rawChildren =
                 (codeEl && codeEl.props && codeEl.props.children) || "";
             const codeText = Array.isArray(rawChildren)
@@ -291,6 +294,15 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
                 : String(rawChildren);
 
             const cleanText = codeText.replace(/\n$/, "");
+
+            // 无语言标记的 fenced code block，按普通代码块展示，不注入 python 工具栏。
+            if (!language) {
+                return (
+                    <pre className={styles.plainCodePre}>
+                        <code>{cleanText}</code>
+                    </pre>
+                );
+            }
 
             return (
                 <div className={styles.codeBlock}>
@@ -555,7 +567,13 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
         if (loading && !userScrolledUp) {
             scrollToBottom();
         }
-    }, [streamingText, streamingTools, loading, userScrolledUp, scrollToBottom]);
+    }, [
+        streamingText,
+        streamingTools,
+        loading,
+        userScrolledUp,
+        scrollToBottom,
+    ]);
     // 点击面板外部关闭面板的处理
     useEffect(() => {
         // 如果不是打开状态，直接返回
@@ -753,7 +771,8 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
 
     // 处理滚动事件
     const handleScroll = useCallback(() => {
-        if (!messagesRef.current || isScrollingProgrammaticallyRef.current) return;
+        if (!messagesRef.current || isScrollingProgrammaticallyRef.current)
+            return;
 
         const atBottom = checkIsAtBottom();
         setIsAtBottom(atBottom);
@@ -985,22 +1004,22 @@ const AiChat = ({ isAiChat, onSetAiChat, onRunAiCode, peripheralName }) => {
                                         {streamStateText}
                                     </div>
                                 )}
-                                {!streamingText && streamingTools.length > 0 && (
-                                    <div className={styles.toolList}>
-                                        {streamingTools.map((tool, index) =>
-                                            renderToolCard(
-                                                tool,
-                                                index,
-                                                "streaming"
-                                            )
-                                        )}
-                                    </div>
-                                )}
+                                {!streamingText &&
+                                    streamingTools.length > 0 && (
+                                        <div className={styles.toolList}>
+                                            {streamingTools.map((tool, index) =>
+                                                renderToolCard(
+                                                    tool,
+                                                    index,
+                                                    "streaming"
+                                                )
+                                            )}
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </>
                 )}
-
             </div>
 
             {/* 滚动到底部悬浮按钮 - 当用户滚动上去看历史消息时显示 */}

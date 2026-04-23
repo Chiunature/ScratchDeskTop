@@ -54,12 +54,12 @@ Blockly.FieldMotor.proxy = function () {
 };
 Blockly.FieldMotor.small_motor_svg = "small_motor_sensing.svg";
 Blockly.FieldMotor.motor_svg = "motor_sensing.svg";
-Blockly.FieldMotor.color_sensing_svg = "color_sensing.svg";
-Blockly.FieldMotor.sound_sensing_svg = "super_sound.svg";
-Blockly.FieldMotor.touch_sensing_svg = "touch_press.svg";
+Blockly.FieldMotor.color_sensing_svg = "gray_scale.svg";
+Blockly.FieldMotor.sound_sensing_svg = "ultrasonic.svg";
+Blockly.FieldMotor.touch_sensing_svg = "touch.svg";
 Blockly.FieldMotor.camera_sensing_svg = "camera.svg";
 Blockly.FieldMotor.nfc_sensing_svg = "nfc.svg";
-Blockly.FieldMotor.lightIntensity_svg = "lightIntensity.svg";
+Blockly.FieldMotor.lightIntensity_svg = "gray_scale.svg";
 /**
  * Construct a FieldMotor from a JSON arg object.
  * @param {!Object} options A JSON object with options (colour).
