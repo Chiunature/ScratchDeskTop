@@ -312,6 +312,12 @@ Blockly.Python.finish = function (code) {
 
   return ret;
 };
+/*
+用来判断代码是不是"  \n"这样的空代码
+*/
+function isMeaningful(item) {
+  return typeof item === "string" && item.trim().length > 0;
+}
 
 Blockly.Python.splitCodeByTask = function (code) {
   let result = "\n";
@@ -356,7 +362,10 @@ Blockly.Python.splitCodeByTask = function (code) {
     result =
       result +
       `\nasync def ${taskName}:\n` +
-      `${Blockly.Python.addIndent(item, Blockly.Python.INDENT)}`;
+      `${Blockly.Python.addIndent(
+        isMeaningful(item) ? item : "pass\n",
+        Blockly.Python.INDENT
+      )}`;
   }
 
   // 在最后添加 __tasks__ 列表，包含所有任务函数

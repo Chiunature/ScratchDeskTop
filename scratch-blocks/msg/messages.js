@@ -320,8 +320,6 @@ Blockly.Msg.SENSING_READ_PIN = "Read pin %1 value";
 Blockly.Msg.SENSING_COMPASS = "Compass pointing";
 Blockly.Msg.SENSING_MAGNETISM = "Magnetism %1";
 Blockly.Msg.SENSING_MAGNETIC_CALIBRATION = "Magnetic field calibration";
-Blockly.Msg.SENSING_GYROSCOPE_ATTITUDE = "attitude %1";
-Blockly.Msg.SENSING_GYROSCOPE_ACCELERATION = "acceleration %1 G";
 Blockly.Msg.SENSING_KEY_PRESS = "%1 key is %2";
 Blockly.Msg.SENSING_KEY_JUDGMENT = "Is the %1 touch button pressed";
 Blockly.Msg.SENSING_SOUND_INTENSITY = "Obtain sound intensity";
@@ -329,12 +327,6 @@ Blockly.Msg.SENSING_ULTRASONIC_DETECTION =
   "Ultrasonic %1 obtain distance value";
 Blockly.Msg.SENSING_ULTRASONIC_JUDGMENT = "%1 Ultrasonic judgment %2 %3 %%?";
 Blockly.Msg.SENSING_LINE_INSPECTION_JUDGMENT = "line %1 looks %2";
-Blockly.Msg.SENSING_REFLECTED_LIGHT_DETECTION = "%1 Reflected light";
-Blockly.Msg.SENSING_REFLECTED_LIGHT_JUDGMENT =
-  "%1 Reflected light judgment %2 %3 %%?";
-Blockly.Msg.SENSING_COLOR_DETECTIONRGB = "%1 color is %2";
-Blockly.Msg.SENSING_COLOR_DETECTION = "%1 color";
-Blockly.Msg.SENSING_COLOR_JUDGMENT = "%1 color is %2";
 Blockly.Msg.SENSING_TOUCHINGOBJECT = "touching %1?";
 Blockly.Msg.SENSING_TOUCHINGOBJECT_POINTER = "mouse-pointer";
 Blockly.Msg.SENSING_TOUCHINGOBJECT_EDGE = "edge";
@@ -378,20 +370,11 @@ Blockly.Msg.SENSING_CURRENT_SECOND = "second";
 Blockly.Msg.SENSING_DAYSSINCE2000 = "days since 2000";
 Blockly.Msg.SENSING_USERNAME = "username";
 Blockly.Msg.SENSING_USERID = "user id";
-Blockly.Msg.SENSING_GYROSCOPE_ANGLE = "%1's angle";
-Blockly.Msg.SENSING_SET_YAW_ANGLE = "Set yaw angle to 0";
 Blockly.Msg.SENSING_ISHANDLING = "Is the %1 button of the handle %2?";
 Blockly.Msg.SENSING_MAINISPRESS = "Is the %1 button of the host %2";
-Blockly.Msg.SENSING_COLOR_RANGE =
-  "Is the color range of port %1 within R %2 ~ %3 G %4 ~ %5 B %6 ~ %7";
 Blockly.Msg.SENSING_HSVCOLOR = "Is the %2 range of port %1 within %3 ~ %4";
 Blockly.Msg.SENSING_REFLECTED_LIGHT_BLACKLINE =
   "%1 The threshold for detecting black lines is around %2";
-Blockly.Msg.SENSING_GET_GRAY_LINE = "%1 Obtain grayscale sensor values %2";
-Blockly.Msg.SENSING_GET_GRAY_LINESTATE =
-  "%1 Is it Obtain grayscale sensor values %2 ?";
-Blockly.Msg.SENSING_JUDGELINESTATE =
-  "Determine %1 the current grayscale %2 status";
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_BLOCK =
   "%1 search for color blocks R %2 G %3 B %4 tolerance %5";
 Blockly.Msg.SENSING_CAMERA_FIND_COLOR_STATE =
