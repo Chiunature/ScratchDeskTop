@@ -1,0 +1,17 @@
+{
+  "name": "pika-bytecode-gen-napi",
+  "version": "0.1.0",
+  "description": "N-API binding for PikaScript bytecode generation",
+  "main": "index.js",
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean"
+  },
+  "gypfile": true,
+  "dependencies": {
+    "node-addon-api": "^8.1.0"
+  },
+  "devDependencies": {
+    "node-gyp": "^11.2.0"
+  }
+}

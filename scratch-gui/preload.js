@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const { execFile, exec, spawn } = require("child_process");
+const { exec } = require("child_process");
 const { cwd } = require("process");
 const url = require("url");
 const { VERSION } = require("./src/config/json/LB_FWLIB.json");
@@ -187,6 +187,13 @@ function deleteFiles(link, resourcePath = cwd()) {
     });
 }
 
+function compilePythonBytecode(inputPath, outputPath) {
+    // Lazy-load the native addon so the app can still start with a clear compile error if it is missing.
+    console.log("[PY_COMPILE][preload] loading pika-bytecode-gen-napi");
+    const pikaBytecodeGen = require("pika-bytecode-gen-napi");
+    return pikaBytecodeGen.compile(inputPath, outputPath);
+}
+
 /**
  * 调用编译命令
  * @returns
@@ -194,47 +201,65 @@ function deleteFiles(link, resourcePath = cwd()) {
 function commendMake(pathCWD = cwd(), selectedExe = 0) {
     return new Promise((resolve, reject) => {
         const targetDir = path.join(pathCWD, DIR);
+        console.log("[PY_COMPILE][preload] commendMake start", {
+            pathCWD,
+            targetDir,
+            selectedExe,
+        });
         if (!fs.existsSync(targetDir)) {
             const errorMsg = `目录不存在: ${targetDir}`;
+            console.error("[PY_COMPILE][preload] targetDir missing", errorMsg);
             handlerError(errorMsg, pathCWD);
             reject(errorMsg);
             return;
         }
 
-        console.log(
-            `执行: python.exe -c ${selectedExe.num}.py -o ${selectedExe.num}.py.o 在 ${targetDir}`
-        );
-        const child = spawn(
-            "python.exe",
-            ["-c", `${selectedExe.num}.py`, "-o", `${selectedExe.num}.py.o`],
-            {
-                cwd: targetDir,
-                shell: true, // Windows 可能需要
-                stdio: ["ignore", "pipe", "pipe"], // 捕获输出
-            }
-        );
+        if (
+            !selectedExe ||
+            selectedExe.num === undefined ||
+            selectedExe.num === null ||
+            selectedExe.num === ""
+        ) {
+            const errorMsg = "未选择目标程序，无法生成 .py.o";
+            console.error("[PY_COMPILE][preload] selectedExe invalid", selectedExe);
+            handlerError(errorMsg, pathCWD);
+            reject(new Error(errorMsg));
+            return;
+        }
 
-        // 实时打印输出（替代 execa 的优势）
-        child.stdout.on("data", (data) => {
-            process.stdout.write(`[编译信息] ${data}`);
-        });
+        const inputPath = path.join(targetDir, `${selectedExe.num}.py`);
+        const outputPath = path.join(targetDir, `${selectedExe.num}.py.o`);
 
-        child.stderr.on("data", (data) => {
-            process.stderr.write(`[编译错误] ${data}`);
-        });
-
-        child.on("error", (err) => {
-            handlerError(err.message, pathCWD);
-            reject(err);
-        });
-
-        child.on("close", (code) => {
-            if (code === 0) {
+        try {
+            console.log("[PY_COMPILE][preload] compile input/output", {
+                inputPath,
+                outputPath,
+                inputExists: fs.existsSync(inputPath),
+                inputSize: fs.existsSync(inputPath) ? fs.statSync(inputPath).size : -1,
+                oldOutputExists: fs.existsSync(outputPath),
+                oldOutputSize: fs.existsSync(outputPath)
+                    ? fs.statSync(outputPath).size
+                    : -1,
+            });
+            const result = compilePythonBytecode(inputPath, outputPath);
+            const outputExists = fs.existsSync(outputPath);
+            const outputSize = outputExists ? fs.statSync(outputPath).size : -1;
+            console.log("[PY_COMPILE][preload] compile result", {
+                result,
+                outputExists,
+                outputSize,
+            });
+            if (result === 0) {
                 resolve(true);
             } else {
-                reject(new Error(`进程退出，代码: ${code}`));
+                console.error("[PY_COMPILE][preload] native compile failed", result);
+                reject(new Error(`PikaScript 字节码生成失败，代码: ${result}`));
             }
-        });
+        } catch (err) {
+            console.error("[PY_COMPILE][preload] compile exception", err);
+            handlerError(err && err.message ? err.message : String(err), pathCWD);
+            reject(err);
+        }
     });
 }
 
