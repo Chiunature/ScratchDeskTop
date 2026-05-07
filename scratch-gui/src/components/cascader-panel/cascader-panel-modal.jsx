@@ -18,7 +18,6 @@ function CascaderPanelModalCom(props) {
     }, []);
 
     let menuList = useMemo(() => list, [list]);
-
     let headList = useMemo(() => new Array(2).fill(null), [list]);
 
     async function clearCheckAndInit() {
@@ -101,12 +100,22 @@ function CascaderPanelModalCom(props) {
     function checkPorts(el) {
         const index = getIndex(el.father);
         const devices = ["a1", "a5", "a6", "a2", "a7", "b0"];
+        const deviceEntry = props?.deviceObj?.deviceList?.[index];
+        const deviceId = deviceEntry?.deviceId;
+
+        // 占位/异常设备：不拦截，允许用户自行选择端口类型后强制更新
+        const allowUnspecified =
+            deviceId === "dev_null" ||
+            deviceEntry?.sensing_device === "deviceAbnormal";
         const hasDevice =
-            props?.deviceObj?.deviceList[index]?.deviceId &&
-            devices.includes(props?.deviceObj?.deviceList[index]?.deviceId);
+            allowUnspecified || (!!deviceId && devices.includes(deviceId));
         if (!hasDevice) {
             alert("该端口没有连接对应设备!");
             window.myAPI.ipcRender({ sendName: "mainOnFocus" });
+        }
+        if (el.id != deviceId) {
+            alert("请选择正确连接的设备!");
+            return false;
         }
         return hasDevice;
     }

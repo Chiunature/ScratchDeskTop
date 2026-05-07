@@ -1,58 +1,56 @@
-import message from '../device/deviceMsg.js';
-
-
+import message from "../device/deviceMsg.js";
 
 const options = [
     {
-        value: 'A',
-        label: 'A',
-        checked: false
+        value: "A",
+        label: "A",
+        checked: false,
     },
     {
-        value: 'B',
-        label: 'B',
-        checked: false
+        value: "B",
+        label: "B",
+        checked: false,
     },
     {
-        value: 'C',
-        label: 'C',
-        checked: false
+        value: "C",
+        label: "C",
+        checked: false,
     },
     {
-        value: 'D',
-        label: 'D',
-        checked: false
+        value: "D",
+        label: "D",
+        checked: false,
     },
     {
-        value: 'E',
-        label: 'E',
-        checked: false
+        value: "E",
+        label: "E",
+        checked: false,
     },
     {
-        value: 'F',
-        label: 'F',
-        checked: false
+        value: "F",
+        label: "F",
+        checked: false,
     },
     {
-        value: 'G',
-        label: 'G',
-        checked: false
+        value: "G",
+        label: "G",
+        checked: false,
     },
     {
-        value: 'H',
-        label: 'H',
-        checked: false
+        value: "H",
+        label: "H",
+        checked: false,
     },
 ];
 
 function deepClone(obj) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const { port1, port2 } = new MessageChannel();
         port1.onmessage = (e) => {
             resolve(e.data);
-        }
+        };
         port2.postMessage(obj);
-    })
+    });
 }
 
 export async function initOptions(intl) {
@@ -65,37 +63,41 @@ export async function initOptions(intl) {
             {
                 value: intl.formatMessage(message.big_motor),
                 label: intl.formatMessage(message.big_motor),
+                id: "a5",
                 checked: false,
-                father: el.label
+                father: el.label,
             },
             {
                 value: intl.formatMessage(message.small_motor),
                 label: intl.formatMessage(message.small_motor),
+                id: "a6",
                 checked: false,
-                father: el.label
+                father: el.label,
             },
             {
                 value: intl.formatMessage(message.color),
                 label: intl.formatMessage(message.color),
+                id: "a2",
                 checked: false,
-                father: el.label
+                father: el.label,
             },
             {
                 value: intl.formatMessage(message.gray),
                 label: intl.formatMessage(message.gray),
+                id: "a7",
                 checked: false,
-                father: el.label
+                father: el.label,
             },
             {
                 value: intl.formatMessage(message.gray_v2),
                 label: intl.formatMessage(message.gray_v2),
+                id: "b0",
                 checked: false,
-                father: el.label
+                father: el.label,
             },
-        ]
-        el['children'] = children;
+        ];
+        el["children"] = children;
     }
     const newOptions = await deepClone(options);
     return newOptions;
 }
-
