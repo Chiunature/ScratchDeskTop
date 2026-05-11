@@ -204,7 +204,8 @@ module.exports = [
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': '"' + process.env.NODE_ENV + '"',
                 'process.env.DEBUG': Boolean(process.env.DEBUG),
-                'process.env.GA_ID': '"' + (process.env.GA_ID || 'UA-000000-01') + '"'
+                // Empty default: do not load google-analytics.com (often blocked / times out). Set GA_ID when building if you need GA.
+                'process.env.GA_ID': '"' + (process.env.GA_ID || '') + '"'
             }),
             new CompressionPlugin({
                 filename: '[path][base].gz',
