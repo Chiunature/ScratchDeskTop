@@ -255,12 +255,12 @@ class MenuBar extends React.Component {
         // Note that if user is logged in and editing someone else's project,
         // they'll lose their work.
         const readyToReplaceProject = this.props.confirmReadyToReplaceProject(
-            this.props.intl.formatMessage(sharedMessages.replaceProjectWarning)
+            this.props.intl.formatMessage(sharedMessages.replaceProjectWarning),
         );
         this.props.onRequestCloseFile();
         if (readyToReplaceProject) {
             this.props.onClickNew(
-                this.props.canSave && this.props.canCreateNew
+                this.props.canSave && this.props.canCreateNew,
             );
             sessionStorage.removeItem("setDefaultStartBlock");
         }
@@ -271,7 +271,7 @@ class MenuBar extends React.Component {
         const onlySave =
             openPath && openPath !== "null" && openPath !== "undefined";
         this.getSaveToComputerHandler(() =>
-            this.downloadProject(onlySave, isAutoSave)
+            this.downloadProject(onlySave, isAutoSave),
         )();
         this.props.onClickSave();
         this.props.onRequestCloseFile();
@@ -305,7 +305,7 @@ class MenuBar extends React.Component {
                 const metadata = collectMetadata(
                     this.props.vm,
                     this.props.projectTitle,
-                    this.props.locale
+                    this.props.locale,
                 );
                 this.props.onProjectTelemetryEvent("projectDidSave", metadata);
             }
@@ -508,7 +508,7 @@ class MenuBar extends React.Component {
                     spath,
                     this.props.locale === "zh-cn"
                         ? HELP_SOFT_PDF
-                        : HELP_SOFT_EN_PDF
+                        : HELP_SOFT_EN_PDF,
                 );
                 break;
             default:
@@ -518,7 +518,7 @@ class MenuBar extends React.Component {
 
     saveSvg() {
         const blocks = document.querySelector(
-            ".blocklyWorkspace .blocklyBlockCanvas"
+            ".blocklyWorkspace .blocklyBlockCanvas",
         );
         if (blocks.getBBox().height === 0) {
             this.props.onShowCompletedAlert("workspaceEmpty");
@@ -527,12 +527,12 @@ class MenuBar extends React.Component {
             const scale = parseFloat(
                 transform.substring(
                     transform.indexOf("scale") + 6,
-                    transform.length - 1
-                )
+                    transform.length - 1,
+                ),
             );
             const name = this.props.projectFilename.slice(
                 0,
-                this.props.projectFilename.lastIndexOf(".")
+                this.props.projectFilename.lastIndexOf("."),
             );
             saveSvgAsPng(blocks, `${name}.png`, {
                 left: blocks.getBBox().x * scale,
@@ -547,14 +547,14 @@ class MenuBar extends React.Component {
 
     async screenPrintWorkspace() {
         const blocks = document.querySelector(
-            ".blocklyWorkspace .blocklyBlockCanvas"
+            ".blocklyWorkspace .blocklyBlockCanvas",
         );
         const transform = blocks.getAttribute("transform");
         const scale = parseFloat(
             transform.substring(
                 transform.indexOf("scale") + 6,
-                transform.length - 1
-            )
+                transform.length - 1,
+            ),
         );
         return await svgAsDataUri(blocks, {
             backgroundColor: "#ffffff",
@@ -616,7 +616,7 @@ class MenuBar extends React.Component {
                     (runtime.getExtensionIDs &&
                         runtime.getExtensionIDs().length) ||
                     0
-                } 个`
+                } 个`,
             );
             console.log("");
 
@@ -626,12 +626,12 @@ class MenuBar extends React.Component {
                 const targetName = target.isStage
                     ? "舞台"
                     : target.sprite
-                    ? target.sprite.name
-                    : `角色${idx + 1}`;
+                      ? target.sprite.name
+                      : `角色${idx + 1}`;
                 console.log(
                     `\n  ${idx + 1}. ${targetName}${
                         target.isStage ? " (Stage)" : ""
-                    }`
+                    }`,
                 );
 
                 // 代码块信息
@@ -673,7 +673,7 @@ class MenuBar extends React.Component {
                                     script.opcode
                                 } (ID: ${script.id.substring(0, 20)}...) at (${
                                     script.x
-                                }, ${script.y})`
+                                }, ${script.y})`,
                             );
                         });
                     }
@@ -683,10 +683,10 @@ class MenuBar extends React.Component {
                 const varCount = Object.keys(target.variables || {}).length;
                 const listCount = Object.keys(target.lists || {}).length;
                 const broadcastCount = Object.keys(
-                    target.broadcasts || {}
+                    target.broadcasts || {},
                 ).length;
                 console.log(
-                    `    变量: ${varCount} 个, 列表: ${listCount} 个, 广播: ${broadcastCount} 个`
+                    `    变量: ${varCount} 个, 列表: ${listCount} 个, 广播: ${broadcastCount} 个`,
                 );
 
                 // 造型和声音
@@ -701,7 +701,7 @@ class MenuBar extends React.Component {
                         : 0
                     : 0;
                 console.log(
-                    `    造型: ${costumeCount} 个, 声音: ${soundCount} 个`
+                    `    造型: ${costumeCount} 个, 声音: ${soundCount} 个`,
                 );
             });
             console.log("");
@@ -713,7 +713,7 @@ class MenuBar extends React.Component {
             const arrayBuffer = await content.arrayBuffer();
             console.log(`- 文件类型: ZIP压缩包 (LBS格式)`);
             console.log(
-                `- 文件大小: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`
+                `- 文件大小: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`,
             );
             console.log("");
 
@@ -757,26 +757,25 @@ class MenuBar extends React.Component {
             const projectJsonFile = zip.file("project.json");
             if (projectJsonFile) {
                 console.log("【project.json 内容摘要】");
-                const projectJsonContent = await projectJsonFile.async(
-                    "string"
-                );
+                const projectJsonContent =
+                    await projectJsonFile.async("string");
                 const projectData = JSON.parse(projectJsonContent);
 
                 console.log(
                     `- JSON大小: ${(projectJsonContent.length / 1024).toFixed(
-                        2
-                    )} KB`
+                        2,
+                    )} KB`,
                 );
                 console.log(`- 版本: ${projectData.meta?.semver || "N/A"}`);
                 console.log(`- VM版本: ${projectData.meta?.vm || "N/A"}`);
                 console.log(
-                    `- 扩展数量: ${(projectData.extensions || []).length}`
+                    `- 扩展数量: ${(projectData.extensions || []).length}`,
                 );
                 console.log(
-                    `- 监视器数量: ${(projectData.monitors || []).length}`
+                    `- 监视器数量: ${(projectData.monitors || []).length}`,
                 );
                 console.log(
-                    `- Target数量: ${(projectData.targets || []).length}`
+                    `- Target数量: ${(projectData.targets || []).length}`,
                 );
 
                 // 统计所有代码块
@@ -807,8 +806,8 @@ class MenuBar extends React.Component {
                             })),
                         },
                         null,
-                        2
-                    )
+                        2,
+                    ),
                 );
             }
         } catch (error) {
@@ -874,7 +873,7 @@ class MenuBar extends React.Component {
                 {
                     file: Buffer.from(res),
                     filename: this.props.projectFilename,
-                }
+                },
             );
             if (filePath) {
                 sessionStorage.setItem("openPath", filePath);
@@ -903,7 +902,7 @@ class MenuBar extends React.Component {
         const obj = {
             fileName: this.props.projectFilename.slice(
                 0,
-                this.props.projectFilename.lastIndexOf(".")
+                this.props.projectFilename.lastIndexOf("."),
             ),
             filePath: filePath,
             alterTime: timeList.join(" "),
@@ -996,11 +995,11 @@ class MenuBar extends React.Component {
                             className={classNames(
                                 styles.menuBarItem,
                                 styles.hoverable,
-                                styles.generator
+                                styles.generator,
                             )}
                             onMouseUp={() =>
                                 this.handleConnectionMouseUp(
-                                    verifyTypeConfig.SERIALPORT
+                                    verifyTypeConfig.SERIALPORT,
                                 )
                             }
                         >
@@ -1017,7 +1016,7 @@ class MenuBar extends React.Component {
                                 {this.props.peripheralName ? (
                                     this.props.peripheralName.slice(
                                         0,
-                                        this.props.peripheralName.indexOf("(")
+                                        this.props.peripheralName.indexOf("("),
                                     )
                                 ) : (
                                     <FormattedMessage
@@ -1035,11 +1034,11 @@ class MenuBar extends React.Component {
                                 styles.generator,
                                 {
                                     [styles.active]: "",
-                                }
+                                },
                             )}
                             onMouseUp={() =>
                                 this.handleConnectionMouseUp(
-                                    verifyTypeConfig.BLUETOOTH
+                                    verifyTypeConfig.BLUETOOTH,
                                 )
                             }
                         >
@@ -1077,7 +1076,7 @@ class MenuBar extends React.Component {
                                 styles.generator,
                                 {
                                     [styles.active]: "",
-                                }
+                                },
                             )}
                             onClick={this.saveSvg}
                         >
@@ -1106,7 +1105,7 @@ class MenuBar extends React.Component {
                                 styles.generator,
                                 {
                                     [styles.active]: "",
-                                }
+                                },
                             )}
                             onMouseUp={() =>
                                 this.props.onOpenCascaderPanelModal()
@@ -1137,7 +1136,7 @@ class MenuBar extends React.Component {
                             onGetCode={this.props.onGetCode}
                             workspace={this.props.workspace}
                         />
-                        <div
+                        {/* <div
                             id="menuBarAiChat"
                             className={classNames(
                                 styles.menuBarItem,
@@ -1156,7 +1155,7 @@ class MenuBar extends React.Component {
                             <span className={styles.collapsibleLabel}>
                                 AI 助手
                             </span>
-                        </div>
+                        </div> */}
                         {this.props.peripheralName &&
                         typeof this.props.deviceObj?.bat === "number" ? (
                             <div className={styles.deviceBatteryBadge}>
@@ -1168,8 +1167,8 @@ class MenuBar extends React.Component {
                                                 0,
                                                 Math.min(
                                                     100,
-                                                    this.props.deviceObj.bat
-                                                )
+                                                    this.props.deviceObj.bat,
+                                                ),
                                             )}%`,
                                         }}
                                     />
@@ -1230,7 +1229,7 @@ MenuBar.propTypes = {
             PropTypes.shape({
                 title: PropTypes.string, // text for the menu item
                 onClick: PropTypes.func, // call this callback when the menu item is clicked
-            })
+            }),
         ),
     ]),
     onClickAccount: PropTypes.func,
@@ -1334,7 +1333,7 @@ const mapStateToProps = (state, ownProps) => {
         saveProjectSb3: vm.saveProjectSb3.bind(vm),
         projectFilename: getProjectFilename(
             projectTitle,
-            projectTitleInitialState
+            projectTitleInitialState,
         ),
         workspace: selectWorkspace(state),
         port: selectPort(state),
@@ -1402,5 +1401,5 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
     injectIntl,
     MenuBarHOC,
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps),
 )(MenuBar);

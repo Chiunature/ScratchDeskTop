@@ -22,7 +22,7 @@ const locales = {
 	// 'de': {name: 'Deutsch'},
 	// 'et': {name: 'Eesti'},
 	// 'el': {name: 'Ελληνικά'},
-	en: { name: "English" },
+	'en': { name: 'English' },
 	// 'es': {name: 'Español (España)'},
 	// 'es-419': {name: 'Español Latinoamericano'},
 	// 'eo': {name: 'Esperanto'},
@@ -66,8 +66,8 @@ const locales = {
 	// 'th': {name: 'ไทย'},
 	// 'km': {name: 'ភាសាខ្មែរ'},
 	// 'pl': {name: 'Polski'},
-	// 'pt': {name: 'Português'},
-	// 'pt-br': {name: 'Português Brasileiro'},
+	'pt': { name: 'Português' },
+	'pt-br': { name: 'Português Brasileiro' },
 	// 'rap': {name: 'Rapa Nui'},
 	// 'ro': {name: 'Română'},
 	// 'ru': {name: 'Русский'},
@@ -81,55 +81,55 @@ const locales = {
 	// 'vi': {name: 'Tiếng Việt'},
 	// 'tr': {name: 'Türkçe'},
 	// 'uk': {name: 'Українська'},
-	"zh-cn": { name: "简体中文" },
+	'zh-cn': { name: '简体中文' },
 	// 'zh-tw': {name: '繁體中文'}
 };
 
 const customLocales = {
-	ab: {
-		locale: "ab",
-		parentLocale: "ru",
+	'ab': {
+		locale: 'ab',
+		parentLocale: 'ru',
 	},
 	// Aragonese is not in the locale data, using es for Spain
-	an: {
-		locale: "an",
-		parentLocale: "es",
+	'an': {
+		locale: 'an',
+		parentLocale: 'es',
 	},
 	// haitian creole is not in locale-langData
-	ht: {
-		locale: "ht",
-		parentLocale: "fr",
+	'ht': {
+		locale: 'ht',
+		parentLocale: 'fr',
 	},
-	oc: {
-		locale: "oc",
-		parentLocale: "fr",
+	'oc': {
+		locale: 'oc',
+		parentLocale: 'fr',
 	},
-	rap: {
-		locale: "rap",
-		parentLocale: "es",
+	'rap': {
+		locale: 'rap',
+		parentLocale: 'es',
 	},
 	// TODO: replace zh-cn, zh-tw with zh-Hans and zh-Hant then customLocales is unnecessary
-	"zh-cn": {
-		locale: "zh-cn",
-		parentLocale: "zh",
+	'zh-cn': {
+		locale: 'zh-cn',
+		parentLocale: 'zh',
 	},
-	"zh-tw": {
-		locale: "zh-tw",
-		parentLocale: "zh",
+	'zh-tw': {
+		locale: 'zh-tw',
+		parentLocale: 'zh',
 	},
 };
 
 const localeMap = {
-	"aa-dj": "aa_DJ",
-	"es-419": "es_419",
+	'aa-dj': 'aa_DJ',
+	'es-419': 'es_419',
 	// ja-Hira: no map - it's 'ja-Hira' on transifex
-	"pt-br": "pt_BR",
-	"zh-cn": "zh_CN",
-	"zh-tw": "zh_TW",
+	'pt-br': 'pt_BR',
+	'zh-cn': 'zh_CN',
+	'zh-tw': 'zh_TW',
 };
 
 // list of RTL locales supported, and a function to check whether a locale is RTL
-const rtlLocales = ["ar", "ckb", "fa", "he"];
+const rtlLocales = ['ar', 'ckb', 'fa', 'he'];
 
 const isRtl = (locale) => {
 	return rtlLocales.indexOf(locale) !== -1;
