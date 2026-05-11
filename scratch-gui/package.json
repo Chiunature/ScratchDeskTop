@@ -1,6 +1,6 @@
 {
     "name": "willai",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "WillAI",
     "main": "main-with-cache.js",
     "scripts": {
