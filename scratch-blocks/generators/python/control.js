@@ -26,7 +26,7 @@ Blockly.Python["control_wait"] = function (block) {
   let arg0 = Blockly.Python.valueToCode(
     block,
     "DURATION",
-    Blockly.Python.ORDER_FUNCTION_CALL
+    Blockly.Python.ORDER_FUNCTION_CALL,
   );
   const code = "sleep_s(" + arg0 + ")\n";
   return Blockly.Python.handleResult(code, Blockly.Python.TIMER_TYPE);
@@ -36,12 +36,12 @@ Blockly.Python["control_repeat"] = function (block) {
   let repeats = Blockly.Python.valueToCode(
     block,
     "TIMES",
-    Blockly.Python.ORDER_FUNCTION_CALL
+    Blockly.Python.ORDER_FUNCTION_CALL,
   );
   let branch = Blockly.Python.statementToCode(block, "SUBSTACK");
   branch = Blockly.Python.addLoopTrap(branch, block.id);
 
-  let code = "for count in range(" + repeats + "):\n";
+  let code = "for count in range(int(" + repeats + ")):\n";
   if (branch) {
     code += Blockly.Python.addIndent(branch);
   } else {
@@ -124,7 +124,7 @@ Blockly.Python["control_wait_until"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "CONDITION",
-      Blockly.Python.ORDER_UNARY_POSTFIX
+      Blockly.Python.ORDER_UNARY_POSTFIX,
     ) || "False";
 
   let code = "while not (" + argument + "):\n";
@@ -143,7 +143,7 @@ Blockly.Python["control_repeat_until"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "CONDITION",
-      Blockly.Python.ORDER_UNARY_POSTFIX
+      Blockly.Python.ORDER_UNARY_POSTFIX,
     ) || "False";
 
   let branch = Blockly.Python.statementToCode(block, "SUBSTACK");
@@ -196,7 +196,7 @@ Blockly.Python["control_stop"] = function (block) {
   }
   return Blockly.Python.handleResult(
     `stop("${stop_options}")\n`,
-    Blockly.Python.TIMER_TYPE
+    Blockly.Python.TIMER_TYPE,
   );
 };
 
@@ -208,7 +208,7 @@ Blockly.Python["control_if_elseif_else"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "CONDITION2",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "False";
   let branch = Blockly.Python.statementToCode(block, "SUBSTACK");
   branch = Blockly.Python.addLoopTrap(branch, block.id);
