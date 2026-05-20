@@ -38,7 +38,10 @@ const CORE_EXTENSIONS = [
     'sound',
     'motor',
     'combined',
-    'matrix'
+    'matrix',
+    // handShank_menu / touching_menu 阴影块；操作码前缀不是 worker 扩展 URL。
+    'handShank',
+    'touching'
 ];
 
 // Adjust script coordinates to account for

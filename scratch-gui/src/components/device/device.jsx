@@ -10,16 +10,15 @@ const Device = (props) => {
             props.deviceObj?.deviceList
                 ? props.deviceObj.deviceList.slice(4)
                 : [],
-        [props.deviceObj?.deviceList]
+        [props.deviceObj?.deviceList],
     );
     const newLeftList = useMemo(
         () =>
             props.deviceObj?.deviceList
                 ? props.deviceObj.deviceList.slice(0, 4)
                 : [],
-        [props.deviceObj?.deviceList]
+        [props.deviceObj?.deviceList],
     );
-    console.log("newLeftList", newLeftList);
     return (
         <div className={styles.box}>
             <div className={styles.container}>

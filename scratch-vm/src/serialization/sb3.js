@@ -64,6 +64,8 @@ const CORE_EXTENSIONS = [
     "cameraRecognition",
     // handShank_menu 阴影块；操作码前缀是 handShank，而非 worker 扩展 URL。
     "handShank",
+    // touching_menu 阴影块；操作码前缀是 touching，而非 worker 扩展 URL。
+    "touching",
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,
