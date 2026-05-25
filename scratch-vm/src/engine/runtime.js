@@ -2466,12 +2466,20 @@ class Runtime extends EventEmitter {
      * @return {?Target} The target, if found.
      */
     getTargetForStage () {
+        let stageTarget = null;
+        let bestScore = -1;
         for (let i = 0; i < this.targets.length; i++) {
             const target = this.targets[i];
             if (target.isStage) {
-                return target;
+                const score = Object.keys(target.variables || {}).length +
+                    Object.keys(target.blocks._blocks || {}).length;
+                if (score > bestScore) {
+                    bestScore = score;
+                    stageTarget = target;
+                }
             }
         }
+        return stageTarget;
     }
 
     /**

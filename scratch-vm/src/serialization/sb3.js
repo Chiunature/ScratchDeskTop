@@ -16,6 +16,11 @@ const uid = require("../util/uid");
 const MathUtil = require("../util/math-util");
 const StringUtil = require("../util/string-util");
 const VariableUtil = require("../util/variable-util");
+const {
+    consolidateRuntimeStages,
+    compareSerializedTargetLayerOrder,
+    dedupeSerializedTargets,
+} = require("../util/stage-merge");
 
 const { loadCostume } = require("../import/load-costume.js");
 const { loadSound } = require("../import/load-sound.js");
@@ -560,6 +565,10 @@ const serialize = function (runtime, targetId) {
     // Create extension set to hold extension ids found while serializing targets
     const extensions = new Set();
 
+    if (!targetId) {
+        consolidateRuntimeStages(runtime);
+    }
+
     const originalTargetsToSerialize = targetId
         ? [runtime.getTargetById(targetId)]
         : runtime.targets.filter((target) => target.isOriginal);
@@ -588,7 +597,7 @@ const serialize = function (runtime, targetId) {
         return serializedTargets[0];
     }
 
-    obj.targets = serializedTargets;
+    obj.targets = dedupeSerializedTargets(serializedTargets);
 
     obj.monitors = serializeMonitors(runtime.getMonitorState());
 
@@ -1353,9 +1362,16 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
     // then sort by the layer order property before parsing the targets
     // so that their corresponding render drawables can be created in
     // their layer order (e.g. back to front)
-    const targetObjects = ((isSingleSprite ? [json] : json.targets) || [])
+  let targetObjects = (isSingleSprite ? [json] : json.targets) || [];
+    if (!isSingleSprite) {
+        targetObjects = dedupeSerializedTargets(targetObjects);
+    } else if (json.isStage) {
+        targetObjects = dedupeSerializedTargets(targetObjects);
+    }
+
+    targetObjects = targetObjects
         .map((t, i) => Object.assign(t, { targetPaneOrder: i }))
-        .sort((a, b) => a.layerOrder - b.layerOrder);
+        .sort(compareSerializedTargetLayerOrder);
 
     const monitorObjects = json.monitors || [];
 

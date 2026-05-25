@@ -330,52 +330,56 @@ class VirtualMachine extends EventEmitter {
             input = JSON.stringify(input);
         }
 
-        const validationPromise = new Promise((resolve, reject) => {
-            const validate = require("scratch-parser");
-            // The second argument of false below indicates to the validator that the
-            // input should be parsed/validated as an entire project (and not a single sprite)
-            validate(input, false, (error, res) => {
-                if (error) return reject(error);
-                resolve(res);
-            });
-        }).catch((error) => {
-            const {
-                SB1File,
-                ValidationError,
-            } = require("scratch-sb1-converter");
+        const { repairProjectInput } = require("./util/stage-merge");
 
-            try {
-                const sb1 = new SB1File(input);
-                const json = sb1.json;
-                json.projectVersion = 2;
-                return Promise.resolve([json, sb1.zip]);
-            } catch (sb1Error) {
-                if (sb1Error instanceof ValidationError) {
-                    // The input does not validate as a Scratch 1 file.
-                } else {
-                    // The project appears to be a Scratch 1 file but it
-                    // could not be successfully translated into a Scratch 2
-                    // project.
-                    return Promise.reject(sb1Error);
-                }
-            }
-            // Throw original error since the input does not appear to be
-            // an SB1File.
-            return Promise.reject(error);
-        });
+        return repairProjectInput(input).then((repairedInput) => {
+            const validationPromise = new Promise((resolve, reject) => {
+                const validate = require("scratch-parser");
+                // The second argument of false below indicates to the validator that the
+                // input should be parsed/validated as an entire project (and not a single sprite)
+                validate(repairedInput, false, (error, res) => {
+                    if (error) return reject(error);
+                    resolve(res);
+                });
+            }).catch((error) => {
+                const {
+                    SB1File,
+                    ValidationError,
+                } = require("scratch-sb1-converter");
 
-        return validationPromise
-            .then((validatedInput) =>
-                this.deserializeProject(validatedInput[0], validatedInput[1])
-            )
-            .then(() => this.runtime.emitProjectLoaded())
-            .catch((error) => {
-                // Intentionally rejecting here (want errors to be handled by caller)
-                if (error.hasOwnProperty("validationError")) {
-                    return Promise.reject(JSON.stringify(error));
+                try {
+                    const sb1 = new SB1File(repairedInput);
+                    const json = sb1.json;
+                    json.projectVersion = 2;
+                    return Promise.resolve([json, sb1.zip]);
+                } catch (sb1Error) {
+                    if (sb1Error instanceof ValidationError) {
+                        // The input does not validate as a Scratch 1 file.
+                    } else {
+                        // The project appears to be a Scratch 1 file but it
+                        // could not be successfully translated into a Scratch 2
+                        // project.
+                        return Promise.reject(sb1Error);
+                    }
                 }
+                // Throw original error since the input does not appear to be
+                // an SB1File.
                 return Promise.reject(error);
             });
+
+            return validationPromise
+                .then((validatedInput) =>
+                    this.deserializeProject(validatedInput[0], validatedInput[1])
+                )
+                .then(() => this.runtime.emitProjectLoaded())
+                .catch((error) => {
+                    // Intentionally rejecting here (want errors to be handled by caller)
+                    if (error.hasOwnProperty("validationError")) {
+                        return Promise.reject(JSON.stringify(error));
+                    }
+                    return Promise.reject(error);
+                });
+        });
     }
 
     /**
@@ -573,6 +577,11 @@ class VirtualMachine extends EventEmitter {
         });
 
         targets = targets.filter((target) => !!target);
+        const {
+            normalizeTargetsForInstall,
+            pickDefaultEditingTarget,
+        } = require("./util/stage-merge");
+        targets = normalizeTargetsForInstall(this, targets);
 
         return Promise.all(extensionPromises).then(() => {
             targets.forEach((target) => {
@@ -591,9 +600,9 @@ class VirtualMachine extends EventEmitter {
                 delete target.layerOrder;
             });
 
-            // Select the first target for editing, e.g., the first sprite.
-            if (wholeProject && targets.length > 1) {
-                this.editingTarget = targets[1];
+            // Select the sprite that contains the main program (most blocks).
+            if (wholeProject) {
+                this.editingTarget = pickDefaultEditingTarget(targets);
             } else {
                 this.editingTarget = targets[0];
             }
@@ -1467,8 +1476,13 @@ class VirtualMachine extends EventEmitter {
      * of the current editing target's blocks.
      */
     emitWorkspaceUpdate() {
+        const stage = this.runtime.getTargetForStage();
+        if (!stage || !this.editingTarget) {
+            return;
+        }
+
         // Create a list of broadcast message Ids according to the stage variables
-        const stageVariables = this.runtime.getTargetForStage().variables;
+        const stageVariables = stage.variables;
         let messageIds = [];
         for (const varId in stageVariables) {
             if (
@@ -1497,12 +1511,9 @@ class VirtualMachine extends EventEmitter {
         // Anything left in messageIds is not referenced by a block, so delete it.
         for (let i = 0; i < messageIds.length; i++) {
             const id = messageIds[i];
-            delete this.runtime.getTargetForStage().variables[id];
+            delete stage.variables[id];
         }
-        const globalVarMap = Object.assign(
-            {},
-            this.runtime.getTargetForStage().variables
-        );
+        const globalVarMap = Object.assign({}, stage.variables);
         const localVarMap = this.editingTarget.isStage
             ? Object.create(null)
             : Object.assign({}, this.editingTarget.variables);
