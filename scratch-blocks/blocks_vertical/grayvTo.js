@@ -428,3 +428,67 @@ Blockly.Blocks["grayv2_set_pid"] = {
     });
   },
 };
+
+Blockly.Blocks["grayv2_set_find_line_ch"] = {
+  init: function () {
+    this.jsonInit({
+      type: "grayv2_set_find_line_ch",
+      message0: Blockly.Msg.GRAYV2_SET_FIND_LINE_CH,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "grayv2.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "field_dropdown",
+          name: "LINDEX",
+          options: [
+            ["3", "2"],
+            ["1", "0"],
+            ["2", "1"],
+            ["4", "3"],
+            ["5", "4"],
+            ["6", "5"],
+            ["7", "6"],
+          ],
+        },
+        {
+          type: "field_dropdown",
+          name: "MINDEX",
+          options: [
+            ["4", "3"],
+            ["1", "0"],
+            ["2", "1"],
+            ["3", "2"],
+            ["5", "4"],
+            ["6", "5"],
+            ["7", "6"],
+          ],
+        },
+        {
+          type: "field_dropdown",
+          name: "RINDEX",
+          options: [
+            ["5", "4"],
+            ["1", "0"],
+            ["2", "1"],
+            ["3", "2"],
+            ["4", "3"],
+            ["6", "5"],
+            ["7", "6"],
+          ],
+        },
+      ],
+      category: Blockly.Categories.grayv2,
+      extensions: ["colours_grayv2", "shape_statement"],
+    });
+  },
+};

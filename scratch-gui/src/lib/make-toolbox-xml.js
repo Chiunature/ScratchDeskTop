@@ -1072,6 +1072,12 @@ const grayv2 = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="grayv2_set_find_line_ch">
+            <value name="PORT">
+                <shadow type="grayv2_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
     </category>
     `;
 };
@@ -1104,7 +1110,7 @@ const makeToolboxXML = function (
     costumeName = "",
     backdropName = "",
     soundName = "",
-    colors = defaultColors
+    colors = defaultColors,
 ) {
     isStage = isInitialSetup || isStage;
     const gap = [categorySeparator];
@@ -1116,7 +1122,7 @@ const makeToolboxXML = function (
     categoriesXML = categoriesXML.slice();
     const moveCategory = (categoryId) => {
         const index = categoriesXML.findIndex(
-            (categoryInfo) => categoryInfo.id === categoryId
+            (categoryInfo) => categoryInfo.id === categoryId,
         );
         if (index >= 0) {
             // remove the category from categoriesXML and return its XML

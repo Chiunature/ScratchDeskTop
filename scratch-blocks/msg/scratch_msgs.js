@@ -7414,6 +7414,8 @@ Blockly.ScratchMsgs.locales["en"] = {
   GRAYV2_SET_THRESHOLD: "%1 The threshold for %3 of %2 is set to %4",
   GRAYV2_SET_RGB: "%1 Set all colors of %2 to %3",
   GRAYV2_SET_PID: "%1 %2 Set the patrol line KP to %3 and KD to %4",
+  GRAYV2_SET_FIND_LINE_CH:
+    "%1 %2 Set the patrol line channel to left channel %3 middle channel %4 right channel %5",
   CHANNEL_1: "Channel 1",
   CHANNEL_2: "Channel 2",
   CHANNEL_3: "Channel 3",
@@ -23791,6 +23793,8 @@ Blockly.ScratchMsgs.locales["pt"] = {
   GRAYV2_SET_THRESHOLD: "%1 %2 definir limiar de %3 como %4",
   GRAYV2_SET_RGB: "%1 %2 definir todas as cores como %3",
   GRAYV2_SET_PID: "%1 %2 definir KP do seguidor como %3 e KD como %4",
+  GRAYV2_SET_FIND_LINE_CH:
+    "%1 %2 definir canal de seguidor como canal esquerdo %3 canal médio %4 canal direito %5",
   DEFAULT: "Padrão",
   FAST: "rapido",
   BALANCE: "saldo",
@@ -24384,6 +24388,8 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
   GRAYV2_SET_THRESHOLD: "%1 %2 definir limiar de %3 como %4",
   GRAYV2_SET_RGB: "%1 %2 definir todas as cores como %3",
   GRAYV2_SET_PID: "%1 %2 definir KP do seguidor como %3 e KD como %4",
+  GRAYV2_SET_FIND_LINE_CH:
+    "%1 %2 definir canal de seguidor como canal esquerdo %3 canal médio %4 canal direito %5",
 };
 
 Blockly.ScratchMsgs.locales["rap"] = {
@@ -30169,6 +30175,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   GRAYV2_SET_THRESHOLD: "%1 %2 %3 阈值设置为 %4",
   GRAYV2_SET_RGB: "%1 %2 全部颜色设为 %3",
   GRAYV2_SET_PID: "%1 %2 设置巡线KP为%3 KD为%4",
+  GRAYV2_SET_FIND_LINE_CH: "%1 %2 设置巡线通道为左通道%3 中通道%4 右通道%5",
 };
 
 Blockly.ScratchMsgs.locales["zh-tw"] = {
@@ -30720,5 +30727,6 @@ Blockly.ScratchMsgs.locales["zh-tw"] = {
   GRAYV2_SET_THRESHOLD: "%1 %2 %3 閾值設定為 %4",
   GRAYV2_SET_RGB: "%1 %2 全部顏色設為 %3",
   GRAYV2_SET_PID: "%1 %2 設定巡線KP為%3 KD為%4",
+  GRAYV2_SET_FIND_LINE_CH: "%1 %2 設定巡線通道為左通道%3 中通道%4 右通道%5",
 };
 // End of combined translations

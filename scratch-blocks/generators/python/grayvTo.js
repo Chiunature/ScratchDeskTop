@@ -33,7 +33,7 @@ Blockly.Python["grayv2_if_ch_black"] = function (block) {
   const channel = block.getFieldValue("CHANNEL");
   const code = Blockly.Python.handleResult(
     `if_ch_black(${portValue}, ${channel})`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -45,7 +45,7 @@ Blockly.Python["grayv2_read_ch"] = function (block) {
   const channel = block.getFieldValue("CHANNEL");
   const code = Blockly.Python.handleResult(
     `read_ch(${portValue}, ${channel})`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -57,7 +57,7 @@ Blockly.Python["grayv2_if_all_ch_way_state"] = function (block) {
   const intersectionType = block.getFieldValue("INTERSECTION_TYPE");
   const code = Blockly.Python.handleResult(
     `if_all_ch_way_state(${portValue}, ${intersectionType})`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
@@ -70,18 +70,18 @@ Blockly.Python["grayv2_power_find_if_ch_state"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "LEFT_SPEED",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "0";
   const rightSpeed =
     Blockly.Python.valueToCode(
       block,
       "RIGHT_SPEED",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "0";
   const channel = block.getFieldValue("CHANNEL");
   const code = Blockly.Python.handleResult(
     `power_find_if_ch_state(${portValue}, ${leftSpeed}, ${rightSpeed}, ${channel})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -98,11 +98,11 @@ Blockly.Python["grayv2_power_find_way_type"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "CODE_VALUE",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "0";
   const code = Blockly.Python.handleResult(
     `power_find_way_type(${portValue}, ${speed}, ${intersection}, ${codeValue})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -116,7 +116,7 @@ Blockly.Python["grayv2_power_find_line"] = function (block) {
     "0";
   const code = Blockly.Python.handleResult(
     `power_find_line(${portValue}, ${speed})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -132,11 +132,11 @@ Blockly.Python["grayv2_power_find_line_encord"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "ENCODER_VALUE",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "0";
   const code = Blockly.Python.handleResult(
     `power_find_line_encord(${portValue}, ${speed}, ${encoderValue})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -152,11 +152,11 @@ Blockly.Python["grayv2_power_find_line_ms"] = function (block) {
     Blockly.Python.valueToCode(
       block,
       "MILLISECONDS",
-      Blockly.Python.ORDER_NONE
+      Blockly.Python.ORDER_NONE,
     ) || "0";
   const code = Blockly.Python.handleResult(
     `power_find_line_ms(${portValue}, ${speed}, ${ms})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -167,7 +167,7 @@ Blockly.Python["grayv2_start_calibrate"] = function (block) {
   const portValue = Blockly.Python["grayvTo_port_to_number"](port);
   const code = Blockly.Python.handleResult(
     `start_calibrate(${portValue})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -182,7 +182,7 @@ Blockly.Python["grayv2_set_threshold"] = function (block) {
     "0";
   const code = Blockly.Python.handleResult(
     `set_threshold(${portValue}, ${channel}, ${range})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -194,7 +194,7 @@ Blockly.Python["grayv2_set_rgb"] = function (block) {
   const r = block.getFieldValue("R");
   const code = Blockly.Python.handleResult(
     `set_rgb(${portValue}, ${r})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };
@@ -209,7 +209,21 @@ Blockly.Python["grayv2_set_pid"] = function (block) {
     Blockly.Python.valueToCode(block, "KI", Blockly.Python.ORDER_NONE) || "0";
   const code = Blockly.Python.handleResult(
     `set_pid(${portValue}, ${kp}, ${ki})\n`,
-    Blockly.Python.GRAYV2_TYPE
+    Blockly.Python.GRAYV2_TYPE,
+  );
+  return code;
+};
+
+Blockly.Python["grayv2_set_find_line_ch"] = function (block) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
+  const portValue = Blockly.Python["grayvTo_port_to_number"](port);
+  const lindex = block.getFieldValue("LINDEX");
+  const mindex = block.getFieldValue("MINDEX");
+  const rindex = block.getFieldValue("RINDEX");
+  const code = Blockly.Python.handleResult(
+    `set_find_line_ch(${portValue}, ${lindex}, ${mindex}, ${rindex})\n`,
+    Blockly.Python.GRAYV2_TYPE,
   );
   return code;
 };

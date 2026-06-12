@@ -607,6 +607,8 @@ Blockly.Msg.GRAYV2_START_CALIBRATE =
 Blockly.Msg.GRAYV2_SET_THRESHOLD = "%1 The threshold for %3 of %2 is set to %4";
 Blockly.Msg.GRAYV2_SET_RGB = "%1 Set all colors of %2 to %3";
 Blockly.Msg.GRAYV2_SET_PID = "%1 %2 Set the patrol line KP to %3 and KD to %4";
+Blockly.Msg.GRAYV2_SET_FIND_LINE_CH =
+  "%1 %2 Set the patrol line channel to left channel %3 middle channel %4 right channel %5";
 // Variables
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.CHANGE_VALUE_TITLE = "Change value:";
