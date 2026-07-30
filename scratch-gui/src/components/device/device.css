@@ -438,6 +438,34 @@ ul {
     gap: 10px 20px;
 }
 
+/* DeviceBox — 摄像头 configs 目标分组 */
+.camera-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.camera-mode-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+    background: #f8fafc;
+    border-radius: 4px;
+}
+
+.camera-target {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.camera-target-title {
+    color: #8e9aaf;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .sensor-grid-cell {
     border: 1px solid #dbe6f6;
 }

@@ -238,6 +238,31 @@
     color: red;
 }
 
+.alert-danger {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 0.5rem;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #fef0f0;
+    border: 1px solid #f56c6c;
+    color: #f56c6c;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.option-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.inp-disabled {
+    cursor: not-allowed !important;
+    background-color: #f5f7fa;
+}
+
 .alert-warning.is-light {
     background-color: #fdf6ec;
     color: #e6a23c;

@@ -427,32 +427,10 @@ export class Common {
    */
   _processCamera(item) {
     this._setDeviceInfo(item, 8);
+    // 统一挂到 camer，兼容上报字段名为 camera 的新协议
     const camera = item.camer || item.camera;
-
-    if (camera && camera.mode) {
-      // 根据不同的 mode 处理数据
-      switch (camera.mode) {
-        case 1:
-          // 数据已完整，无需额外处理
-          break;
-        case 3:
-          //颜色检测
-          break;
-        case 4:
-          //巡线
-          break;
-        case 6:
-          //人脸识别
-          break;
-        case 16:
-          //特征点检测
-          break;
-        case 12:
-          //Apriltag模式
-          break;
-        default:
-          break;
-      }
+    if (camera && !item.camer) {
+      item.camer = camera;
     }
   }
   /**

@@ -9,9 +9,49 @@ import Input from "../forms/input.jsx";
 import message from "../device/deviceMsg";
 import { ipc as ipc_Render, verifyTypeConfig } from "est-link";
 
+/** 可强制更新的传感器类型 id（与 Cascader 选项 id 对应） */
+const UPDATABLE_DEVICE_IDS = ["a1", "a5", "a6", "a2", "a7", "b0"];
+
+/** 空设备 / 异常占位：允许自选任意类型更新 */
+function isEmptyOrAbnormal(deviceEntry) {
+    if (!deviceEntry) {
+        return true;
+    }
+    const deviceId = deviceEntry.deviceId;
+    const sensing = deviceEntry.sensing_device;
+    if (
+        deviceId === "dev_null" ||
+        deviceId === 0 ||
+        deviceId === "0" ||
+        !deviceId ||
+        sensing === "deviceAbnormal" ||
+        sensing === "noDevice"
+    ) {
+        return true;
+    }
+    return false;
+}
+
+/** 选项是否与监控识别到的设备类型一致（a1 通用电机兼容大电机 a5） */
+function matchesDeviceType(optionId, deviceId) {
+    if (!optionId || deviceId == null) {
+        return false;
+    }
+    const id = String(deviceId).toLowerCase();
+    const opt = String(optionId).toLowerCase();
+    if (opt === id) {
+        return true;
+    }
+    if (id === "a1" && opt === "a5") {
+        return true;
+    }
+    return false;
+}
+
 function CascaderPanelModalCom(props) {
     let [list, setList] = useState([]);
     let [valList, setValList] = useState([]);
+    let [hasEmptySelection, setHasEmptySelection] = useState(false);
 
     useEffect(() => {
         clearCheckAndInit();
@@ -42,29 +82,33 @@ function CascaderPanelModalCom(props) {
             }
         }
         setList(newList);
+        setHasEmptySelection(false);
     }
 
-    function onlyCheck(childIndex, fatherIndex) {
+    function applyCheck(childIndex, fatherIndex) {
         if (!list[fatherIndex]) {
             return;
         }
-        const newList = [...list];
-        const arr = newList[fatherIndex];
-        for (let i = 0; i < arr.children.length; i++) {
-            const child = arr.children[i];
-            if (childIndex === i) {
-                child["checked"] = !child["checked"];
-            } else {
-                child["checked"] = false;
+        const newList = list.map((port, pIndex) => {
+            if (pIndex !== fatherIndex) {
+                return port;
             }
-        }
+            return {
+                ...port,
+                children: port.children.map((child, i) => ({
+                    ...child,
+                    checked: i === childIndex ? !child.checked : false,
+                })),
+            };
+        });
         setList(newList);
+        changeVal(newList);
     }
 
-    function changeVal() {
-        const newList = [...list];
+    function changeVal(nextList = list) {
         const result = [];
-        for (const item of newList) {
+        let emptySelected = false;
+        for (const item of nextList) {
             const arr = [];
             if (!item["children"]) {
                 continue;
@@ -72,6 +116,12 @@ function CascaderPanelModalCom(props) {
             for (const subItem of item["children"]) {
                 if (subItem["checked"]) {
                     arr.push(subItem.father, subItem.value);
+                    const portIndex = getIndex(subItem.father);
+                    const deviceEntry =
+                        props?.deviceObj?.deviceList?.[portIndex];
+                    if (isEmptyOrAbnormal(deviceEntry)) {
+                        emptySelected = true;
+                    }
                 }
             }
             if (arr.length > 0) {
@@ -79,45 +129,52 @@ function CascaderPanelModalCom(props) {
             }
         }
         setValList(result);
+        setHasEmptySelection(emptySelected);
+    }
+
+    function getDeviceEntryForOption(el) {
+        const index = getIndex(el.father);
+        return props?.deviceObj?.deviceList?.[index];
+    }
+
+    function isOptionAllowed(el) {
+        const deviceEntry = getDeviceEntryForOption(el);
+        if (isEmptyOrAbnormal(deviceEntry)) {
+            return true;
+        }
+        const deviceId = deviceEntry.deviceId;
+        // 已识别但类型不在可更新列表内：该口不可强制更新
+        if (!UPDATABLE_DEVICE_IDS.includes(String(deviceId).toLowerCase())) {
+            return false;
+        }
+        return matchesDeviceType(el.id, deviceId);
     }
 
     function handleCheck(item, childIndex, fatherIndex) {
         if (!item.checked) {
-            const hasDevice = checkPorts(item);
-            if (!hasDevice) {
+            if (!isOptionAllowed(item)) {
+                const deviceEntry = getDeviceEntryForOption(item);
+                if (
+                    deviceEntry &&
+                    !isEmptyOrAbnormal(deviceEntry) &&
+                    !UPDATABLE_DEVICE_IDS.includes(
+                        String(deviceEntry.deviceId).toLowerCase()
+                    )
+                ) {
+                    alert("该端口设备类型不支持强制更新!");
+                } else {
+                    alert("已识别设备只能选择当前类型进行更新!");
+                }
+                window.myAPI.ipcRender({ sendName: "mainOnFocus" });
                 return;
             }
         }
-        onlyCheck(childIndex, fatherIndex);
-        changeVal();
+        applyCheck(childIndex, fatherIndex);
     }
 
     function getIndex(data) {
         const portList = ["A", "B", "C", "D", "E", "F", "G", "H"];
         return portList.indexOf(data);
-    }
-
-    function checkPorts(el) {
-        const index = getIndex(el.father);
-        const devices = ["a1", "a5", "a6", "a2", "a7", "b0"];
-        const deviceEntry = props?.deviceObj?.deviceList?.[index];
-        const deviceId = deviceEntry?.deviceId;
-
-        // 占位/异常设备：不拦截，允许用户自行选择端口类型后强制更新
-        const allowUnspecified =
-            deviceId === "dev_null" ||
-            deviceEntry?.sensing_device === "deviceAbnormal";
-        const hasDevice =
-            allowUnspecified || (!!deviceId && devices.includes(deviceId));
-        if (!hasDevice) {
-            alert("该端口没有连接对应设备!");
-            window.myAPI.ipcRender({ sendName: "mainOnFocus" });
-        }
-        if (el.id != deviceId) {
-            alert("请选择正确连接的设备!");
-            return false;
-        }
-        return hasDevice;
     }
 
     function update() {
@@ -237,15 +294,28 @@ function CascaderPanelModalCom(props) {
                                 <ul>
                                     {el?.children &&
                                         el.children.map((item, childIndex) => {
+                                            const allowed = isOptionAllowed(item);
                                             return (
-                                                <li key={childIndex}>
+                                                <li
+                                                    key={childIndex}
+                                                    className={classNames(
+                                                        !allowed && styles.optionDisabled
+                                                    )}
+                                                    title={
+                                                        allowed
+                                                            ? undefined
+                                                            : "已识别设备只能选择当前类型"
+                                                    }
+                                                >
                                                     <Input
-                                                        className={
-                                                            styles.inpSpan
-                                                        }
+                                                        className={classNames(
+                                                            styles.inpSpan,
+                                                            !allowed && styles.inpDisabled
+                                                        )}
                                                         type="radio"
                                                         readOnly
                                                         checked={item.checked}
+                                                        disabled={!allowed}
                                                         onClick={() =>
                                                             handleCheck(
                                                                 item,
@@ -264,9 +334,15 @@ function CascaderPanelModalCom(props) {
                 </Box>
                 <Box className={styles.bottomArea}>
                     <Box className={styles.alert}>
-                        注意:
-                        *更新过程中请勿拔插端口数据线，否则易造成更新错误等不可逆状况。(请勿重复点击强制更新按钮)
+                        注意：
+                        *已识别设备只能选择当前类型更新；空设备/异常设备可选任意类型，但选错可能导致无法刷回。
+                        *更新过程中请勿拔插端口数据线，请勿重复点击强制更新按钮。
                     </Box>
+                    {hasEmptySelection && (
+                        <Box className={styles.alertDanger}>
+                            当前包含空设备/异常端口：请确认所选传感器类型正确，选错可能无法恢复！
+                        </Box>
+                    )}
                     <Box
                         className={classNames(
                             styles.bottomAreaItem,

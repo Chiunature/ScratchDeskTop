@@ -48,22 +48,60 @@ const DEVICE_DATA_FIELDS = {
     nfc: "nfc",
 };
 
+/** 将 camera.configs 扁平化为下拉可选字段：如 "1.id" / "2.x" */
+const flattenCameraForSensing = (camera) => {
+    if (!camera || typeof camera !== "object") return null;
+    if (Array.isArray(camera.configs)) {
+        const flat = {};
+        camera.configs.forEach((cfg, index) => {
+            if (!cfg || typeof cfg !== "object") return;
+            const target = index + 1;
+            Object.keys(cfg).forEach((key) => {
+                const field = /^id\d+$/i.test(key) ? "id" : key;
+                flat[`${target}.${field}`] = cfg[key];
+            });
+        });
+        return Object.keys(flat).length > 0 ? flat : null;
+    }
+    // 旧格式：去掉 mode，其余字段直接展示
+    const { mode, ...rest } = camera;
+    return Object.keys(rest).length > 0 ? rest : null;
+};
+
 const getType = (item) => {
+    if (item.sensing_device === "camer") {
+        return flattenCameraForSensing(item.camer || item.camera);
+    }
     const field = DEVICE_DATA_FIELDS[item.sensing_device];
     return field ? item[field] || null : null;
 };
 
-// ─── 摄像头各 mode 的字段标签表 ──────────────────────────────────────────────
+// ─── 摄像头字段标签（与 deviceBoxCamera / cam_data 积木一致）────────────────
 const CAMERA_MODE_TITLES = {
-    1: "Mode",
-    3: "颜色检测",
-    4: "巡线",
-    6: "人脸识别",
-    16: "特征点检测",
+    1: "模式",
+    2: "相机",
+    3: "人脸识别",
+    4: "标签识别",
+    5: "物体识别",
+    6: "颜色识别",
+    7: "道路识别",
     12: "Apriltag模式",
+    16: "手势识别",
+    17: "人体识别",
+    18: "物体分类",
+    19: "图像分类",
 };
 
-const CAMERA_MODE_LABELS = {
+const CAMERA_CONFIG_LABELS = {
+    id: "ID",
+    x: "X坐标",
+    y: "Y坐标",
+    w: "宽度",
+    h: "高度",
+    pp: "大小",
+};
+
+const LEGACY_CAMERA_MODE_LABELS = {
     1: { state: "是否找到", x: "X坐标", y: "Y坐标", pixel: "像素点" },
     3: { r: "红色值", g: "绿色值", b: "蓝色值" },
     4: { state: "是否找到", sig: "显著性", cm: "垂度", theta: "角度" },
@@ -80,9 +118,15 @@ const CAMERA_MODE_LABELS = {
 };
 
 const getCameraLabel = (keyName, camera) => {
+    // 新格式扁平键：如 "1.id" → "目标1 ID"
+    if (typeof keyName === "string" && keyName.includes(".")) {
+        const [target, field] = keyName.split(".");
+        const fieldLabel = CAMERA_CONFIG_LABELS[field] || field;
+        return `目标${target} ${fieldLabel}`;
+    }
     if (!camera?.mode) return keyName;
     if (keyName === "mode") return CAMERA_MODE_TITLES[camera.mode] || keyName;
-    return CAMERA_MODE_LABELS[camera.mode]?.[keyName] || keyName;
+    return LEGACY_CAMERA_MODE_LABELS[camera.mode]?.[keyName] || keyName;
 };
 
 // ─── NFC 字段标签 ─────────────────────────────────────────────────────────────
