@@ -19,13 +19,24 @@ const GenComponent = ({
     let [containerWidth, setContainerWidth] = useState(0);
 
     useEffect(() => {
-        if (containerWidth === 0) {
+        if (containerWidth === 0 || isDrag) {
+            return undefined;
+        }
+        const handleClick = e => {
+            if (!genRef.current || genRef.current.contains(e.target)) {
+                return;
+            }
+            const menuBarGen = document.getElementById('menuBarGen');
+            if (menuBarGen && menuBarGen.contains(e.target)) {
+                return;
+            }
+            onSetGen(false);
+        };
+        document.addEventListener('mouseup', handleClick);
+        return () => {
             document.removeEventListener('mouseup', handleClick);
-        }
-        if(containerWidth > 0 && !isDrag) {
-            document.addEventListener('mouseup', handleClick);
-        }
-    }, [containerWidth, isDrag]);
+        };
+    }, [containerWidth, isDrag, onSetGen]);
 
     let newIsGen = useMemo(() => {
         if (!isDrag) {
@@ -37,16 +48,6 @@ const GenComponent = ({
         }
         return isGen;
     }, [isGen]);
-
-    function handleClick(e) {
-        if (!isDrag && !genRef.current.contains(e.target)) {
-            const menuBarGen = document.getElementById("menuBarGen");
-            if (menuBarGen.contains(e.target)) {
-                return;
-            }
-            onSetGen(false);
-        }
-    }
 
     function handleDragStart() {
         setIsDrag(true);
