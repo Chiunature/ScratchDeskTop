@@ -955,6 +955,18 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
+        <block type="cameraRecognition_changer_camer_mode">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_cam_data">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}
     </category>
     `;
 };

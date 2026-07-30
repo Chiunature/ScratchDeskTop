@@ -870,3 +870,96 @@ Blockly.Blocks["cameraRecognition_set_color_block_mode"] = {
     });
   },
 };
+
+/*
+钟鸣新函数，不确定要不要
+ */
+Blockly.Blocks["cameraRecognition_changer_camer_mode"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_changer_camer_mode",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_CHANGER_CAMER_MODE,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "field_dropdown",
+          name: "MODE",
+          options: [
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_CAMERA, "2"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_FACE_DETECT, "3"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_TAG_DETECT, "4"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_OBJECT_DETECT, "5"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_COLOR_DETECT, "6"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_ROAD_DETECT, "7"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_GESTURE_DETECT, "16"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_BODY_DETECT, "17"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_OBJECT_CLASSIFY, "18"],
+            [Blockly.Msg.CAMERA_RECOGNITION_MODE_IMAGE_CLASSIFY, "19"],
+          ],
+        },
+      ],
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["cameraRecognition_cam_data"] = {
+  init: function () {
+    this.jsonInit({
+      type: "cameraRecognition_cam_data",
+      message0: Blockly.Msg.CAMERA_RECOGNITION_CAM_DATA,
+      args0: [
+        {
+          type: "field_image",
+          src: Blockly.mainWorkspace.options.pathToMedia + "camera.svg",
+          width: 32,
+          height: 32,
+          alt: "*",
+          flipRtl: false,
+        },
+        {
+          type: "input_value",
+          name: "PORT",
+        },
+        {
+          type: "field_dropdown",
+          name: "OBJ_ID",
+          options: [
+            ["0", "0"],
+            ["1", "1"],
+            ["2", "2"],
+            ["3", "3"],
+          ],
+        },
+        {
+          type: "field_dropdown",
+          name: "DATA",
+          options: [
+            [Blockly.Msg.CAM_DATA_ID, "0"],
+            [Blockly.Msg.CAM_DATA_X_POINT, "1"],
+            [Blockly.Msg.CAM_DATA_Y_POINT, "2"],
+            [Blockly.Msg.CAM_DATA_WIDTH, "3"],
+            [Blockly.Msg.CAM_DATA_HEIGHT, "4"],
+            [Blockly.Msg.CAM_DATA_SIZE, "5"],
+            [Blockly.Msg.CAM_DATA_CONFIDENCE_LEVEL, "6"],
+          ],
+        },
+      ],
+
+      category: Blockly.Categories.cameraRecognition,
+      extensions: ["colours_cameraRecognition", "output_number"],
+    });
+  },
+};
