@@ -504,7 +504,7 @@ Blockly.Python["read_retreat_right_offset"] = function (block) {
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python["set_color_threshold_value"] = function (block) {
+Blockly.Python["sensing_set_color_threshold_value"] = function (block) {
   const port = Blockly.Python.valueToCode(
     block,
     "PORT",

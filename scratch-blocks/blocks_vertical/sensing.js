@@ -1069,10 +1069,10 @@ Blockly.Blocks["read_retreat_right_offset"] = {
     });
   },
 };
-Blockly.Blocks["set_color_threshold_value"] = {
+Blockly.Blocks["sensing_set_color_threshold_value"] = {
   init: function () {
     this.jsonInit({
-      type: "set_color_threshold_value",
+      type: "sensing_set_color_threshold_value",
       message0: Blockly.Msg.SET_COLOR_THRESHOLD_VALUE,
       args0: [
         {

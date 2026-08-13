@@ -307,7 +307,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                 </value>
             </block>
             ${blockSeparator}
-            <block type="set_color_threshold_value">
+            <block type="sensing_set_color_threshold_value">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
                 </value>
