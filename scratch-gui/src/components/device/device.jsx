@@ -28,6 +28,7 @@ const Device = (props) => {
                         list={newLeftList}
                         intl={props.intl}
                         messages={messages}
+                        baseIndex={0}
                     />
                 </div>
                 <div className={styles.midPart}>
@@ -38,6 +39,7 @@ const Device = (props) => {
                         list={newRightList}
                         intl={props.intl}
                         messages={messages}
+                        baseIndex={4}
                     />
                 </div>
             </div>

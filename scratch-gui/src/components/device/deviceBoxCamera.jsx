@@ -1,113 +1,84 @@
-import React from "react";
-import styles from "./device.css";
+import PropTypes from 'prop-types';
+import React, {useCallback, useState} from 'react';
+import styles from './device.css';
+import {
+    getCameraConfigFieldLabel,
+    getCameraLegacyLabel,
+    getCameraModeTitle
+} from './camera-data.js';
 
-// 摄像头 mode 标题（与积木 changer_camer_mode 对应）
-const CAMERA_MODE_TITLES = {
-    1: "模式",
-    2: "相机",
-    3: "人脸识别",
-    4: "标签识别",
-    5: "物体识别",
-    6: "颜色识别",
-    7: "道路识别",
-    12: "Apriltag模式",
-    16: "手势识别",
-    17: "人体识别",
-    18: "物体分类",
-    19: "图像分类",
-};
+const CAMERA_MODE_LABEL = '模式';
+const CAMERA_DATA_TITLE = '摄像头数据';
+const CAMERA_DATA_BUTTON_LABEL = '查看摄像头数据';
+const CLOSE_LABEL = '关闭';
 
-// configs 单项字段标签（与 cam_data 积木字段对应）
-const CAMERA_CONFIG_LABELS = {
-    id: "ID",
-    x: "X坐标",
-    y: "Y坐标",
-    w: "宽度",
-    h: "高度",
-    pp: "大小",
-};
+const cameraPropType = PropTypes.shape({
+    mode: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    configs: PropTypes.arrayOf(PropTypes.object)
+});
 
-/** id1 / id2 … 统一按 ID 显示 */
-const normalizeConfigField = (keyName) =>
-    /^id\d+$/i.test(keyName) ? "id" : keyName;
-
-const getConfigFieldLabel = (keyName) =>
-    CAMERA_CONFIG_LABELS[normalizeConfigField(keyName)] || keyName;
-
-/** 旧版扁平字段标签（兼容无 configs 的数据） */
-const LEGACY_MODE_LABELS = {
-    1: { state: "是否找到", x: "X坐标", y: "Y坐标", pixel: "像素点" },
-    3: { r: "红色值", g: "绿色值", b: "蓝色值" },
-    4: { state: "是否找到", sig: "显著性", cm: "垂度", theta: "角度" },
-    6: { state: "是否找到", x: "X坐标", y: "Y坐标" },
-    16: { state: "是否找到", matchine: "匹配度", angle: "角度" },
-    12: {
-        state: "是否找到",
-        id: "标签ID",
-        x: "X坐标",
-        y: "Y坐标",
-        angle: "角度",
-        cm: "距离",
-    },
-};
-
-const getLegacyLabel = (keyName, camera) => {
-    if (!camera?.mode) return keyName;
-    if (keyName === "mode") return CAMERA_MODE_TITLES[camera.mode] || keyName;
-    return LEGACY_MODE_LABELS[camera.mode]?.[keyName] || keyName;
-};
-
-const DeviceBoxCamera = ({ camera }) => {
-    if (!camera || Object.keys(camera).length === 0) return null;
-
+const CameraDataPanel = ({camera}) => {
     const configs = Array.isArray(camera.configs) ? camera.configs : null;
 
-    // 新格式：mode + configs[]
     if (configs) {
         return (
-            <div className={styles.cameraCard}>
-                {camera.mode != null && (
+            <div className={styles.cameraDataPanel}>
+                {camera.mode !== null && typeof camera.mode !== 'undefined' && (
                     <div className={styles.cameraModeRow}>
-                        <span className={styles.sensorLabel}>模式</span>
+                        <span className={styles.sensorLabel}>
+                            {CAMERA_MODE_LABEL}
+                        </span>
                         <span className={styles.sensorValue}>
-                            {CAMERA_MODE_TITLES[camera.mode] || camera.mode}
+                            {getCameraModeTitle(camera.mode)}
                         </span>
                     </div>
                 )}
-                {configs.map((cfg, index) => (
-                    <section key={index} className={styles.cameraTarget}>
-                        <div className={styles.cameraTargetTitle}>
-                            {`目标${index + 1}`}
-                        </div>
-                        <div
-                            className={`${styles.sensorGrid} ${styles.sensorGridCamera}`}
+                <div className={styles.cameraConfigsScroll}>
+                    {configs.map((cfg, index) => (
+                        <section
+                            key={index}
+                            className={styles.cameraTarget}
                         >
-                            {Object.keys(cfg).map((keyName) => (
-                                <div key={keyName} className={styles.sensorCard}>
-                                    <span className={styles.sensorLabel}>
-                                        {getConfigFieldLabel(keyName)}
-                                    </span>
-                                    <span className={styles.sensorValue}>
-                                        {cfg[keyName]}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                ))}
+                            <div className={styles.cameraTargetTitle}>
+                                {`目标${index + 1}`}
+                            </div>
+                            <div
+                                className={`${styles.sensorGrid} ${styles.sensorGridCamera}`}
+                            >
+                                {Object.keys(cfg).map(keyName => (
+                                    <div
+                                        key={keyName}
+                                        className={styles.sensorCard}
+                                    >
+                                        <span className={styles.sensorLabel}>
+                                            {getCameraConfigFieldLabel(keyName)}
+                                        </span>
+                                        <span className={styles.sensorValue}>
+                                            {cfg[keyName]}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                </div>
             </div>
         );
     }
 
-    // 旧格式：扁平字段
     return (
-        <div className={`${styles.sensorGrid} ${styles.sensorGridCamera}`}>
-            {Object.keys(camera).map((keyName) => {
-                if (keyName === "mode") return null;
+        <div
+            className={`${styles.sensorGrid} ${styles.sensorGridCamera} ${styles.cameraDataPanel}`}
+        >
+            {Object.keys(camera).map(keyName => {
+                if (keyName === 'mode') return null;
                 return (
-                    <div key={keyName} className={styles.sensorCard}>
+                    <div
+                        key={keyName}
+                        className={styles.sensorCard}
+                    >
                         <span className={styles.sensorLabel}>
-                            {getLegacyLabel(keyName, camera)}
+                            {getCameraLegacyLabel(keyName, camera)}
                         </span>
                         <span className={styles.sensorValue}>
                             {camera[keyName]}
@@ -119,4 +90,80 @@ const DeviceBoxCamera = ({ camera }) => {
     );
 };
 
+const CameraDataDetailButton = ({
+    camera,
+    buttonLabel = CAMERA_DATA_BUTTON_LABEL,
+    buttonClassName = styles.cameraDataButton
+}) => {
+    const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+    const openDataModal = useCallback(() => setIsDataModalOpen(true), []);
+    const closeDataModal = useCallback(() => setIsDataModalOpen(false), []);
+    const stopModalClick = useCallback(event => event.stopPropagation(), []);
+
+    if (!camera || Object.keys(camera).length === 0) return null;
+
+    return (
+        <>
+            <button
+                className={buttonClassName}
+                type="button"
+                onClick={openDataModal}
+            >
+                {buttonLabel}
+            </button>
+
+            {isDataModalOpen && (
+                <div
+                    className={styles.cameraDataModalMask}
+                    onClick={closeDataModal}
+                >
+                    <div
+                        className={styles.cameraDataModal}
+                        onClick={stopModalClick}
+                    >
+                        <div className={styles.cameraDataModalHeader}>
+                            <span>{CAMERA_DATA_TITLE}</span>
+                            <button
+                                className={styles.cameraDataCloseButton}
+                                type="button"
+                                onClick={closeDataModal}
+                            >
+                                {CLOSE_LABEL}
+                            </button>
+                        </div>
+                        <CameraDataPanel camera={camera} />
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
+const DeviceBoxCamera = ({camera}) => {
+    if (!camera || Object.keys(camera).length === 0) return null;
+
+    return (
+        <div className={styles.cameraCard}>
+            <div className={styles.cameraActionRow}>
+                <CameraDataDetailButton camera={camera} />
+            </div>
+        </div>
+    );
+};
+
+CameraDataPanel.propTypes = {
+    camera: cameraPropType.isRequired
+};
+
+CameraDataDetailButton.propTypes = {
+    buttonClassName: PropTypes.string,
+    buttonLabel: PropTypes.string,
+    camera: cameraPropType
+};
+
+DeviceBoxCamera.propTypes = {
+    camera: cameraPropType
+};
+
+export {CameraDataDetailButton};
 export default DeviceBoxCamera;

@@ -52,9 +52,10 @@ const hasDevNullMarker = (el) => {
     );
 };
 
-const DeviceBox = ({ list, intl, messages }) => (
+const DeviceBox = ({ list, intl, messages, baseIndex = 0 }) => (
     <>
         {list.map((el, index) => {
+            const deviceIndex = baseIndex + index;
             const isNoDeviceCard =
                 el?.sensing_device === "noDevice" && !hasConnectedData(el);
             const isAbnormalCard =
@@ -130,7 +131,11 @@ const DeviceBox = ({ list, intl, messages }) => (
                     )}
 
                     {!isCompactCard && (
-                        <DeviceBoxCamera camera={el.camer || el.camera} />
+                        <DeviceBoxCamera
+                            camera={el.camer || el.camera}
+                            deviceId={el.deviceId}
+                            deviceIndex={deviceIndex}
+                        />
                     )}
 
                     {!isCompactCard && <DeviceBoxNfc nfc={el.nfc} />}

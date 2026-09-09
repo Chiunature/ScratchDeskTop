@@ -10,7 +10,7 @@
 
 ### 当前固件版本
 
-- **固件版本**: 318(LB_FWLIB/version/Version.txt)
+- **固件版本**: 320(LB_FWLIB/version/Version.txt)
 - **配置版本**: v1.3.1 (hotVersion.json)
 - **ATC 版本**: v179
 - **LB 版本**: v227

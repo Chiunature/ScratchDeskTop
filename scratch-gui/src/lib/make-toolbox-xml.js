@@ -757,9 +757,44 @@ const cameraRecognition = function ({ colors }) {
             </value>
         </block>
         ${categorySeparator}
-        <block type="cameraRecognition_cam_data">
+        <block type="cameraRecognition_changer_waite_camer_mode">
             <value name="PORT">
                 <shadow type="cameraRecognition_menu" />
+            </value>
+        </block>
+        ${categorySeparator}        <block type="cameraRecognition_cam_dis_obj_id">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+            <value name="OBJ_ID">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_cam_dis_obj_name">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+            <value name="OBJ_ID">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_cam_dis_id">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+            <value name="ID">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+        </block>
+        ${categorySeparator}
+        <block type="cameraRecognition_cam_dis_name">
+            <value name="PORT">
+                <shadow type="cameraRecognition_menu" />
+            </value>
+            <value name="ID">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
             </value>
         </block>
         ${categorySeparator}

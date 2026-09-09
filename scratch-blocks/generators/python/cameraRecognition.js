@@ -450,14 +450,71 @@ Blockly.Python["cameraRecognition_changer_camer_mode"] = function (block) {
   return code;
 };
 
-Blockly.Python["cameraRecognition_cam_data"] = function (block) {
+Blockly.Python["cameraRecognition_cam_dis_obj_id"] = function (block) {
   const port =
     Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
   const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
-  const objId = parseInt(block.getFieldValue("OBJ_ID"), 10);
+  const objId =
+    Blockly.Python.valueToCode(block, "OBJ_ID", Blockly.Python.ORDER_NONE) ||
+    "0";
   const data = parseInt(block.getFieldValue("DATA"), 10);
   const code = Blockly.Python.handleResult(
-    `cam_data(${portValue}, ${objId}, ${data})`,
+    `cam_dis_obj_id(${portValue}, ${objId}, ${data})`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE,
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["cameraRecognition_changer_waite_camer_mode"] = function (
+  block,
+) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const mode = parseInt(block.getFieldValue("MODE"), 10);
+  const code = Blockly.Python.handleResult(
+    `changer_waite_camer_mode(${portValue}, ${mode})\n`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE,
+  );
+  return code;
+};
+
+Blockly.Python["cameraRecognition_cam_dis_obj_name"] = function (block) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const objId =
+    Blockly.Python.valueToCode(block, "OBJ_ID", Blockly.Python.ORDER_NONE) ||
+    "0";
+  const code = Blockly.Python.handleResult(
+    `cam_dis_obj_name(${portValue}, ${objId})`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE,
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["cameraRecognition_cam_dis_id"] = function (block) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const id =
+    Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "0";
+  const data = parseInt(block.getFieldValue("DATA"), 10);
+  const code = Blockly.Python.handleResult(
+    `cam_dis_id(${portValue}, ${id}, ${data})`,
+    Blockly.Python.CAMERA_RECOGNITION_TYPE,
+  );
+  return [code.trim(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["cameraRecognition_cam_dis_name"] = function (block) {
+  const port =
+    Blockly.Python.valueToCode(block, "PORT", Blockly.Python.ORDER_NONE) || "A";
+  const portValue = Blockly.Python["cameraRecognition_port_to_number"](port);
+  const id =
+    Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "0";
+  const code = Blockly.Python.handleResult(
+    `cam_dis_name(${portValue}, ${id})`,
     Blockly.Python.CAMERA_RECOGNITION_TYPE,
   );
   return [code.trim(), Blockly.Python.ORDER_ATOMIC];

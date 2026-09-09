@@ -346,6 +346,27 @@ ul {
     overflow: hidden;
 }
 
+.camera-sensing-detail-button {
+    flex-shrink: 0;
+    height: 20px;
+    min-width: 34px;
+    padding: 0 6px;
+    margin-right: 4px;
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #2563eb;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.camera-sensing-detail-button:hover {
+    background: #1d4ed8;
+}
+
 .hide {
     display: none !important;
 }
@@ -438,32 +459,195 @@ ul {
     gap: 10px 20px;
 }
 
-/* DeviceBox — 摄像头 configs 目标分组 */
-.camera-card {
+/* DeviceBox — 摄像头数据展示 */
+.camera-configs-scroll {
+    max-height: 390px;
+    overflow-y: auto;
+    padding: 2px 4px 2px 2px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #93c5fd #eef6ff;
+}
+
+.camera-configs-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.camera-configs-scroll::-webkit-scrollbar-track {
+    background: #eef6ff;
+    border-radius: 999px;
+}
+
+.camera-configs-scroll::-webkit-scrollbar-thumb {
+    background: #93c5fd;
+    border-radius: 999px;
+    border: 2px solid #eef6ff;
 }
 
 .camera-mode-row {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 4px;
-    background: #f8fafc;
-    border-radius: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fbff 100%);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.08);
 }
 
 .camera-target {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
 }
 
 .camera-target-title {
-    color: #8e9aaf;
-    font-size: 14px;
-    font-weight: 600;
+    width: fit-content;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    padding: 4px 10px;
+}
+
+.camera-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.camera-action-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+}
+
+.camera-data-button,
+.camera-data-close-button {
+    border: 0;
+    border-radius: 10px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.camera-data-button {
+    min-width: 120px;
+    padding: 12px;
+}
+
+.camera-data-button:hover,
+.camera-data-close-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
+    transform: translateY(-1px);
+}
+
+.camera-data-modal-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.38);
+}
+
+.camera-data-modal {
+    width: min(760px, calc(100vw - 48px));
+    max-height: min(700px, calc(100vh - 48px));
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    border: 1px solid rgba(191, 219, 254, 0.9);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.26);
+    box-sizing: border-box;
+}
+
+.camera-data-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #0f172a;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+.camera-data-close-button {
+    padding: 8px 14px;
+}
+
+.camera-data-panel {
+    min-height: 0;
+}
+
+.camera-data-modal .camera-mode-row .sensor-label {
+    margin-bottom: 0;
+}
+
+.camera-data-modal .camera-mode-row .sensor-value {
+    color: #0f172a;
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.camera-data-modal .sensor-grid-camera {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+}
+
+.camera-data-modal .sensor-card {
+    min-height: 76px;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.camera-data-modal .sensor-label {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.camera-data-modal .sensor-value {
+    color: #0f172a;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 800;
 }
 
 .sensor-grid-cell {

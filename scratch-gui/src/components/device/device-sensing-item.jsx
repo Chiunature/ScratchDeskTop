@@ -1,21 +1,25 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
-import styles from "./device.css";
-import dropdownCaret from "../menu-bar/dropdown-caret.svg";
+import PropTypes from 'prop-types';
+import React, {useState, useMemo, useEffect, useCallback} from 'react';
+import styles from './device.css';
+import dropdownCaret from '../menu-bar/dropdown-caret.svg';
+import {CameraDataDetailButton} from './deviceBoxCamera.jsx';
 
 // 判断值是否为有效数据（非 null/undefined）
-const isValid = (val) =>
-    val !== undefined && val !== null;
+const isValid = val =>
+    typeof val !== 'undefined' && val !== null;
 
 // 颜色识别对象是否含 lux 字段（决定默认优先展示 lux）
-const isColorWithLux = (obj) =>
-    obj && "lux" in obj && ("r" in obj || "g" in obj || "b" in obj);
+const isColorWithLux = obj =>
+    obj && 'lux' in obj && ('r' in obj || 'g' in obj || 'b' in obj);
 
 // 电机类型的 sensing_device 名称集合
-const MOTOR_TYPES = new Set(["motor", "big_motor", "small_motor"]);
+const MOTOR_TYPES = new Set(['motor', 'big_motor', 'small_motor']);
+const CAMERA_TYPES = new Set(['camer', 'camera']);
+const CAMERA_DETAIL_LABEL = '详情';
 
 // 从本地存储读取当前端口的已保存单位
 const getSavedUnit = (index, deviceId) => {
-    const raw = window.myAPI.getStoreValue("sensing-unit-list");
+    const raw = window.myAPI.getStoreValue('sensing-unit-list');
     if (!raw) return null;
     try {
         const list = JSON.parse(raw);
@@ -28,11 +32,11 @@ const getSavedUnit = (index, deviceId) => {
 
 // 取默认单位：颜色识别优先 lux，电机取第 3 个字段（pos），其余取第 1 个
 const getDefaultUnit = (obj, sensingDevice) => {
-    if (isColorWithLux(obj)) return "lux";
+    if (isColorWithLux(obj)) return 'lux';
     const keys = Object.keys(obj);
-    return MOTOR_TYPES.has(sensingDevice)
-        ? (keys[2] !== undefined ? keys[2] : keys[0])
-        : keys[0];
+    return MOTOR_TYPES.has(sensingDevice) ?
+        (keys.length > 2 ? keys[2] : keys[0]) :
+        keys[0];
 };
 
 const DeviceSensingItem = ({
@@ -42,7 +46,7 @@ const DeviceSensingItem = ({
     getType,
     DistinguishTypes,
     index,
-    changeUnitList,
+    changeUnitList
 }) => {
     const [unit, setUnit] = useState(null);
 
@@ -59,9 +63,9 @@ const DeviceSensingItem = ({
 
         const saved = getSavedUnit(index, item.deviceId);
         const next =
-            saved && saved in obj
-                ? saved
-                : getDefaultUnit(obj, item.sensing_device);
+            saved && saved in obj ?
+                saved :
+                getDefaultUnit(obj, item.sensing_device);
 
         setUnit(next);
         changeUnitList(next, index, item.deviceId);
@@ -91,7 +95,8 @@ const DeviceSensingItem = ({
     }, [showData, unit, item]);
 
     const handleSelectUnit = useCallback(
-        (key) => {
+        event => {
+            const key = event.currentTarget.getAttribute('data-unit');
             if (key === unit) return;
             setUnit(key);
             changeUnitList(key, index, item.deviceId);
@@ -100,42 +105,79 @@ const DeviceSensingItem = ({
     );
 
     const options = obj ? Object.keys(obj) : [];
+    const isCamera = CAMERA_TYPES.has(item.sensing_device);
+    const camera = isCamera ? item.camer || item.camera : null;
 
     return (
         <li>
             <div className={styles.deviceSensingText}>{getPort(index)}</div>
             <div className={styles.deviceSensingContent}>
-                <img src={getSensing(item.sensing_device)} alt="" />
+                <img
+                    src={getSensing(item.sensing_device)}
+                    alt=""
+                />
                 <div className={styles.showUnit}>
                     <label>{label}</label>
-                    <img
-                        className={styles.dropdownCaret}
-                        src={dropdownCaret}
-                        alt=""
-                    />
+                    {camera && (
+                        <CameraDataDetailButton
+                            buttonClassName={styles.cameraSensingDetailButton}
+                            buttonLabel={CAMERA_DETAIL_LABEL}
+                            camera={camera}
+                        />
+                    )}
+                    {!isCamera && (
+                        <img
+                            className={styles.dropdownCaret}
+                            src={dropdownCaret}
+                            alt=""
+                        />
+                    )}
                 </div>
-                <div className={styles.deviceSensingUnit}>
-                    <div>
-                        {options.map((key) => {
-                            if (key === "Not_Run") {
-                                return <span key={key}>Error</span>;
-                            }
-                            const text = DistinguishTypes(key, item);
-                            if (!text) return null;
-                            return (
-                                <span
-                                    key={key}
-                                    onClick={() => handleSelectUnit(key)}
-                                >
-                                    {text}
-                                </span>
-                            );
-                        })}
+                {!isCamera && (
+                    <div className={styles.deviceSensingUnit}>
+                        <div>
+                            {options.map(key => {
+                                if (key === 'Not_Run') {
+                                    return <span key={key}>{'Error'}</span>;
+                                }
+                                const text = DistinguishTypes(key, item);
+                                if (!text) return null;
+                                return (
+                                    <span
+                                        key={key}
+                                        data-unit={key}
+                                        onClick={handleSelectUnit}
+                                    >
+                                        {text}
+                                    </span>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </li>
     );
+};
+
+const cameraDataPropType = PropTypes.shape({
+    configs: PropTypes.arrayOf(PropTypes.shape({})),
+    mode: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+});
+
+DeviceSensingItem.propTypes = {
+    DistinguishTypes: PropTypes.func.isRequired,
+    changeUnitList: PropTypes.func.isRequired,
+    getPort: PropTypes.func.isRequired,
+    getSensing: PropTypes.func.isRequired,
+    getType: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    item: PropTypes.shape({
+        camera: cameraDataPropType,
+        camer: cameraDataPropType,
+        deviceId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        sensing_device: PropTypes.string
+    }).isRequired
 };
 
 export default DeviceSensingItem;

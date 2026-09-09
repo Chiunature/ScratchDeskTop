@@ -586,9 +586,12 @@ Blockly.Msg.CAMERA_RECOGNITION_CMP_COLOR = "%1 %2 颜色是否为 %3";
 Blockly.Msg.CAMERA_RECOGNITION_SET_COLOR_BLOCK_MODE =
   "%1 设置%2 颜色为%3 %4 %5 百分比为 %6";
 Blockly.Msg.CAMERA_RECOGNITION_CHANGER_CAMER_MODE = "%1 端口 %2 切換算法到 %3";
+Blockly.Msg.CAMERA_RECOGNITION_CHANGER_WAITE_CAMER_MODE =
+  "%1 等待端口 %2 切换算法到 %3";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_CAMERA = "相机";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_FACE_DETECT = "人脸识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_TAG_DETECT = "标签识别";
+Blockly.Msg.CAMERA_RECOGNITION_MODE_QR_DETECT = "二维码识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_OBJECT_DETECT = "物体识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_COLOR_DETECT = "颜色识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_ROAD_DETECT = "道路识别";
@@ -596,13 +599,17 @@ Blockly.Msg.CAMERA_RECOGNITION_MODE_GESTURE_DETECT = "手势识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_BODY_DETECT = "人体识别";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_OBJECT_CLASSIFY = "物体分类";
 Blockly.Msg.CAMERA_RECOGNITION_MODE_IMAGE_CLASSIFY = "图像分类";
-Blockly.Msg.CAMERA_RECOGNITION_CAM_DATA = "%1 端口 %2 识别 第%3个目标的 %4";
+Blockly.Msg.CAMERA_RECOGNITION_CAM_DIS_OBJ_ID =
+  "%1 端口 %2 识别 第%3个目标的 %4";
+Blockly.Msg.CAMERA_RECOGNITION_CAM_DIS_OBJ_NAME =
+  "%1 端口 %2 识别 第%3个目标的名称";
+Blockly.Msg.CAMERA_RECOGNITION_CAM_DIS_ID = "%1 端口 %2 识别ID %3 的%4";
+Blockly.Msg.CAMERA_RECOGNITION_CAM_DIS_NAME = "%1 端口 %2 识别ID %3 的名称";
 Blockly.Msg.CAM_DATA_ID = "ID";
 Blockly.Msg.CAM_DATA_X_POINT = "X坐标";
 Blockly.Msg.CAM_DATA_Y_POINT = "Y坐标";
 Blockly.Msg.CAM_DATA_WIDTH = "宽度";
 Blockly.Msg.CAM_DATA_HEIGHT = "高度";
-Blockly.Msg.CAM_DATA_SIZE = "大小";
 Blockly.Msg.CAM_DATA_CONFIDENCE_LEVEL = "置信度";
 
 // GrayV2 blocks
