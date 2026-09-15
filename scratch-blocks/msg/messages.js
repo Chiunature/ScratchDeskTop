@@ -209,7 +209,7 @@ Blockly.Msg.STARTING_MOTOR = "%1 %2 %3 starting motor";
 Blockly.Msg.RELATIVE_POSITION =
   "%1 %2 Set the relative position of the motor %3";
 Blockly.Msg.SPECIFIED_MANNER = "%1 %2 When setting the motor to stop %3";
-Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 Set the motor %2 %3 to %4 %%";
+Blockly.Msg.MOTOR_STARTWITHPOWER = "%1 Starter motor %2 %3 to %4 %%";
 Blockly.Msg.MOTOR_ACCELERATION =
   "%1 Set the motor's acceleration of %2 to P %3, I %4, D %5";
 Blockly.Msg.MOTOR_SETSTILL =
