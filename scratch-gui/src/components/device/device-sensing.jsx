@@ -120,9 +120,9 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         gray: (keyName) => getGrayLabel(keyName),
         gray_v2: (keyName) => getGrayLabel(keyName),
         camer: (keyName, item) =>
-            getCameraSensingLabel(keyName, item.camer || item.camera),
+            getCameraSensingLabel(keyName, item.camer || item.camera, intl),
         camera: (keyName, item) =>
-            getCameraSensingLabel(keyName, item.camer || item.camera),
+            getCameraSensingLabel(keyName, item.camer || item.camera, intl),
         nfc: (keyName) => getNfcLabel(keyName),
     };
 

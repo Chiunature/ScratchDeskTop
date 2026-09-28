@@ -1,23 +1,25 @@
 import PropTypes from 'prop-types';
 import React, {useCallback, useState} from 'react';
+import {injectIntl, intlShape} from 'react-intl';
 import styles from './device.css';
+import msg from './camera-messages.js';
 import {
     getCameraConfigFieldLabel,
     getCameraLegacyLabel,
     getCameraModeTitle
 } from './camera-data.js';
 
-const CAMERA_MODE_LABEL = '模式';
-const CAMERA_DATA_TITLE = '摄像头数据';
-const CAMERA_DATA_BUTTON_LABEL = '查看摄像头数据';
-const CLOSE_LABEL = '关闭';
+const messageDescriptorPropType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    defaultMessage: PropTypes.string
+});
 
 const cameraPropType = PropTypes.shape({
     mode: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     configs: PropTypes.arrayOf(PropTypes.object)
 });
 
-const CameraDataPanel = ({camera}) => {
+const CameraDataPanel = ({camera, intl}) => {
     const configs = Array.isArray(camera.configs) ? camera.configs : null;
 
     if (configs) {
@@ -26,10 +28,10 @@ const CameraDataPanel = ({camera}) => {
                 {camera.mode !== null && typeof camera.mode !== 'undefined' && (
                     <div className={styles.cameraModeRow}>
                         <span className={styles.sensorLabel}>
-                            {CAMERA_MODE_LABEL}
+                            {intl.formatMessage(msg.mode)}
                         </span>
                         <span className={styles.sensorValue}>
-                            {getCameraModeTitle(camera.mode)}
+                            {getCameraModeTitle(camera.mode, intl)}
                         </span>
                     </div>
                 )}
@@ -40,7 +42,7 @@ const CameraDataPanel = ({camera}) => {
                             className={styles.cameraTarget}
                         >
                             <div className={styles.cameraTargetTitle}>
-                                {`目标${index + 1}`}
+                                {intl.formatMessage(msg.target, {number: index + 1})}
                             </div>
                             <div
                                 className={`${styles.sensorGrid} ${styles.sensorGridCamera}`}
@@ -51,7 +53,7 @@ const CameraDataPanel = ({camera}) => {
                                         className={styles.sensorCard}
                                     >
                                         <span className={styles.sensorLabel}>
-                                            {getCameraConfigFieldLabel(keyName)}
+                                            {getCameraConfigFieldLabel(keyName, intl)}
                                         </span>
                                         <span className={styles.sensorValue}>
                                             {cfg[keyName]}
@@ -78,7 +80,7 @@ const CameraDataPanel = ({camera}) => {
                         className={styles.sensorCard}
                     >
                         <span className={styles.sensorLabel}>
-                            {getCameraLegacyLabel(keyName, camera)}
+                            {getCameraLegacyLabel(keyName, camera, intl)}
                         </span>
                         <span className={styles.sensorValue}>
                             {camera[keyName]}
@@ -92,8 +94,9 @@ const CameraDataPanel = ({camera}) => {
 
 const CameraDataDetailButton = ({
     camera,
-    buttonLabel = CAMERA_DATA_BUTTON_LABEL,
-    buttonClassName = styles.cameraDataButton
+    intl,
+    buttonClassName = styles.cameraDataButton,
+    buttonLabel = msg.dataButton
 }) => {
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
     const openDataModal = useCallback(() => setIsDataModalOpen(true), []);
@@ -109,7 +112,7 @@ const CameraDataDetailButton = ({
                 type="button"
                 onClick={openDataModal}
             >
-                {buttonLabel}
+                {intl.formatMessage(buttonLabel)}
             </button>
 
             {isDataModalOpen && (
@@ -122,16 +125,19 @@ const CameraDataDetailButton = ({
                         onClick={stopModalClick}
                     >
                         <div className={styles.cameraDataModalHeader}>
-                            <span>{CAMERA_DATA_TITLE}</span>
+                            <span>{intl.formatMessage(msg.dataTitle)}</span>
                             <button
                                 className={styles.cameraDataCloseButton}
                                 type="button"
                                 onClick={closeDataModal}
                             >
-                                {CLOSE_LABEL}
+                                {intl.formatMessage(msg.close)}
                             </button>
                         </div>
-                        <CameraDataPanel camera={camera} />
+                        <CameraDataPanel
+                            camera={camera}
+                            intl={intl}
+                        />
                     </div>
                 </div>
             )}
@@ -139,31 +145,39 @@ const CameraDataDetailButton = ({
     );
 };
 
-const DeviceBoxCamera = ({camera}) => {
+const DeviceBoxCamera = ({camera, intl}) => {
     if (!camera || Object.keys(camera).length === 0) return null;
 
     return (
         <div className={styles.cameraCard}>
             <div className={styles.cameraActionRow}>
-                <CameraDataDetailButton camera={camera} />
+                <CameraDataDetailButton
+                    camera={camera}
+                    intl={intl}
+                />
             </div>
         </div>
     );
 };
 
 CameraDataPanel.propTypes = {
-    camera: cameraPropType.isRequired
+    camera: cameraPropType.isRequired,
+    intl: intlShape.isRequired
 };
 
 CameraDataDetailButton.propTypes = {
     buttonClassName: PropTypes.string,
-    buttonLabel: PropTypes.string,
-    camera: cameraPropType
+    buttonLabel: messageDescriptorPropType,
+    camera: cameraPropType,
+    intl: intlShape.isRequired
 };
 
 DeviceBoxCamera.propTypes = {
-    camera: cameraPropType
+    camera: cameraPropType,
+    intl: intlShape.isRequired
 };
 
-export {CameraDataDetailButton};
-export default DeviceBoxCamera;
+const CameraDataDetailButtonWithIntl = injectIntl(CameraDataDetailButton);
+
+export {CameraDataDetailButtonWithIntl as CameraDataDetailButton};
+export default injectIntl(DeviceBoxCamera);

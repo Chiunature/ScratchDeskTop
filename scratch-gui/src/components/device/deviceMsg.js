@@ -195,6 +195,171 @@ const messages = defineMessages({
         description: "Gray sensor binary channel status",
         defaultMessage: "参数b",
     },
+    cameraMode: {
+        id: "gui.device.cameraMode",
+        description: "Camera mode",
+        defaultMessage: "Mode",
+    },
+    cameraData: {
+        id: "gui.device.cameraData",
+        description: "Camera data",
+        defaultMessage: "Camera Data",
+    },
+    viewCameraData: {
+        id: "gui.device.viewCameraData",
+        description: "View camera data button",
+        defaultMessage: "View Camera Data",
+    },
+    close: {
+        id: "gui.device.close",
+        description: "Close button",
+        defaultMessage: "Close",
+    },
+    target: {
+        id: "gui.device.target",
+        description: "Target prefix for camera detection",
+        defaultMessage: "Target",
+    },
+    xCoordinate: {
+        id: "gui.device.xCoordinate",
+        description: "X coordinate",
+        defaultMessage: "X Coordinate",
+    },
+    yCoordinate: {
+        id: "gui.device.yCoordinate",
+        description: "Y coordinate",
+        defaultMessage: "Y Coordinate",
+    },
+    width: {
+        id: "gui.device.width",
+        description: "Width",
+        defaultMessage: "Width",
+    },
+    height: {
+        id: "gui.device.height",
+        description: "Height",
+        defaultMessage: "Height",
+    },
+    size: {
+        id: "gui.device.size",
+        description: "Size",
+        defaultMessage: "Size",
+    },
+    cameraModeColor: {
+        id: "gui.device.cameraModeColor",
+        description: "Color recognition mode",
+        defaultMessage: "Color Recognition",
+    },
+    cameraModeCamera: {
+        id: "gui.device.cameraModeCamera",
+        description: "Camera mode",
+        defaultMessage: "Camera",
+    },
+    cameraModeFace: {
+        id: "gui.device.cameraModeFace",
+        description: "Face recognition mode",
+        defaultMessage: "Face Recognition",
+    },
+    cameraModeTag: {
+        id: "gui.device.cameraModeTag",
+        description: "Tag recognition mode",
+        defaultMessage: "Tag Recognition",
+    },
+    cameraModeObject: {
+        id: "gui.device.cameraModeObject",
+        description: "Object recognition mode",
+        defaultMessage: "Object Recognition",
+    },
+    cameraModeColorRec: {
+        id: "gui.device.cameraModeColorRec",
+        description: "Color recognition mode",
+        defaultMessage: "Color Recognition",
+    },
+    cameraModeRoad: {
+        id: "gui.device.cameraModeRoad",
+        description: "Road recognition mode",
+        defaultMessage: "Road Recognition",
+    },
+    cameraModeAprilTag: {
+        id: "gui.device.cameraModeAprilTag",
+        description: "AprilTag mode",
+        defaultMessage: "AprilTag Mode",
+    },
+    cameraModeGesture: {
+        id: "gui.device.cameraModeGesture",
+        description: "Gesture recognition mode",
+        defaultMessage: "Gesture Recognition",
+    },
+    cameraModeBody: {
+        id: "gui.device.cameraModeBody",
+        description: "Body recognition mode",
+        defaultMessage: "Body Recognition",
+    },
+    cameraModeObjectClass: {
+        id: "gui.device.cameraModeObjectClass",
+        description: "Object classification mode",
+        defaultMessage: "Object Classification",
+    },
+    cameraModeImageClass: {
+        id: "gui.device.cameraModeImageClass",
+        description: "Image classification mode",
+        defaultMessage: "Image Classification",
+    },
+    cameraFound: {
+        id: "gui.device.cameraFound",
+        description: "Whether found",
+        defaultMessage: "Found",
+    },
+    cameraPixel: {
+        id: "gui.device.cameraPixel",
+        description: "Pixel value",
+        defaultMessage: "Pixel",
+    },
+    cameraRed: {
+        id: "gui.device.cameraRed",
+        description: "Red value",
+        defaultMessage: "Red",
+    },
+    cameraGreen: {
+        id: "gui.device.cameraGreen",
+        description: "Green value",
+        defaultMessage: "Green",
+    },
+    cameraBlue: {
+        id: "gui.device.cameraBlue",
+        description: "Blue value",
+        defaultMessage: "Blue",
+    },
+    cameraSig: {
+        id: "gui.device.cameraSig",
+        description: "Significance",
+        defaultMessage: "Significance",
+    },
+    cameraCm: {
+        id: "gui.device.cameraCm",
+        description: "Distance in cm",
+        defaultMessage: "Distance",
+    },
+    cameraTheta: {
+        id: "gui.device.cameraTheta",
+        description: "Theta angle",
+        defaultMessage: "Angle",
+    },
+    cameraMatchine: {
+        id: "gui.device.cameraMatchine",
+        description: "Match confidence",
+        defaultMessage: "Match",
+    },
+    cameraAngle: {
+        id: "gui.device.cameraAngle",
+        description: "Angle",
+        defaultMessage: "Angle",
+    },
+    cameraTagId: {
+        id: "gui.device.cameraTagId",
+        description: "Tag ID",
+        defaultMessage: "Tag ID",
+    },
 });
 
 export default messages;

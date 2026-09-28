@@ -212,6 +212,7 @@
     "wedo2.tiltDirection.up": "up",
     "wedo2.whenDistance": "when distance [OP] [REFERENCE]",
     "wedo2.whenTilted": "when tilted [TILT_DIRECTION_ANY]",
+    "camera.categoryName": "Camera",
     "camera.sensing_camera_find_color_block": "[PORT] Search color block R [R] G [G] B [B] Tolerance [TOLERANCE]",
     "camera.sensing_camera_find_color_state": "Get the current state of the color block search",
     "camera.sensing_camera_find_color_block_x": "Get the x coordinate system of the current color block",

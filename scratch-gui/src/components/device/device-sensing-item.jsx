@@ -3,6 +3,7 @@ import React, {useState, useMemo, useEffect, useCallback} from 'react';
 import styles from './device.css';
 import dropdownCaret from '../menu-bar/dropdown-caret.svg';
 import {CameraDataDetailButton} from './deviceBoxCamera.jsx';
+import cameraMessages from './camera-messages.js';
 
 // 判断值是否为有效数据（非 null/undefined）
 const isValid = val =>
@@ -15,7 +16,6 @@ const isColorWithLux = obj =>
 // 电机类型的 sensing_device 名称集合
 const MOTOR_TYPES = new Set(['motor', 'big_motor', 'small_motor']);
 const CAMERA_TYPES = new Set(['camer', 'camera']);
-const CAMERA_DETAIL_LABEL = '详情';
 
 // 从本地存储读取当前端口的已保存单位
 const getSavedUnit = (index, deviceId) => {
@@ -121,7 +121,7 @@ const DeviceSensingItem = ({
                     {camera && (
                         <CameraDataDetailButton
                             buttonClassName={styles.cameraSensingDetailButton}
-                            buttonLabel={CAMERA_DETAIL_LABEL}
+                            buttonLabel={cameraMessages.detailButton}
                             camera={camera}
                         />
                     )}

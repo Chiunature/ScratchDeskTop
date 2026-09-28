@@ -1,57 +1,68 @@
-// 摄像头 mode 标题（与积木 changer_camer_mode 对应）
-export const CAMERA_MODE_TITLES = {
-    1: '模式',
-    2: '相机',
-    3: '人脸识别',
-    4: '标签识别',
-    5: '物体识别',
-    6: '颜色识别',
-    7: '道路识别',
-    12: 'Apriltag模式',
-    16: '手势识别',
-    17: '人体识别',
-    18: '物体分类',
-    19: '图像分类'
+import msg from './camera-messages.js';
+
+// mode 编号（与积木 changer_camer_mode 对应）→ 标题
+const MODE_TITLES = {
+    1: msg.modeGeneric,
+    2: msg.modeCamera,
+    3: msg.modeFace,
+    4: msg.modeTag,
+    5: msg.modeObject,
+    6: msg.modeColor,
+    7: msg.modeRoad,
+    12: msg.modeAprilTag,
+    16: msg.modeGesture,
+    17: msg.modeBody,
+    18: msg.modeObjectClass,
+    19: msg.modeImageClass
 };
 
-export const CAMERA_CONFIG_LABELS = {
-    id: 'ID',
-    x: 'X坐标',
-    y: 'Y坐标',
-    w: '宽度',
-    h: '高度',
-    pp: '大小'
+// 新协议：configs[] 中每个目标的字段 → 标签
+const CONFIG_FIELD_LABELS = {
+    id: msg.fieldId,
+    x: msg.fieldX,
+    y: msg.fieldY,
+    w: msg.fieldW,
+    h: msg.fieldH,
+    pp: msg.fieldPp,
+    conf: msg.fieldConf,
+    learned: msg.fieldLearned,
+    name: msg.fieldName
 };
 
-export const LEGACY_CAMERA_MODE_LABELS = {
-    1: {state: '是否找到', x: 'X坐标', y: 'Y坐标', pixel: '像素点'},
-    3: {r: '红色值', g: '绿色值', b: '蓝色值'},
-    4: {state: '是否找到', sig: '显著性', cm: '垂度', theta: '角度'},
-    6: {state: '是否找到', x: 'X坐标', y: 'Y坐标'},
-    16: {state: '是否找到', matchine: '匹配度', angle: '角度'},
+// 旧协议：mode → 扁平字段 → 标签（同名字段在不同 mode 下含义不同，如 cm）
+const LEGACY_FIELD_LABELS = {
+    1: {state: msg.legacyState, x: msg.fieldX, y: msg.fieldY, pixel: msg.legacyPixel},
+    3: {r: msg.legacyR, g: msg.legacyG, b: msg.legacyB},
+    4: {state: msg.legacyState, sig: msg.legacySig, cm: msg.legacyCm, theta: msg.legacyTheta},
+    6: {state: msg.legacyState, x: msg.fieldX, y: msg.fieldY},
     12: {
-        state: '是否找到',
-        id: '标签ID',
-        x: 'X坐标',
-        y: 'Y坐标',
-        angle: '角度',
-        cm: '距离'
-    }
+        state: msg.legacyState,
+        id: msg.legacyTagId,
+        x: msg.fieldX,
+        y: msg.fieldY,
+        angle: msg.legacyAngle,
+        cm: msg.legacyDistance
+    },
+    16: {state: msg.legacyState, matchine: msg.legacyMatchine, angle: msg.legacyAngle}
 };
 
 export const normalizeCameraConfigField = keyName =>
     (/^id\d+$/i.test(keyName) ? 'id' : keyName);
 
-export const getCameraModeTitle = mode =>
-    CAMERA_MODE_TITLES[mode] || mode;
+// 未登记的 mode / 字段原样显示，固件新增字段时不会空白或报错
+const formatOr = (intl, descriptor, fallback) =>
+    (descriptor ? intl.formatMessage(descriptor) : fallback);
 
-export const getCameraConfigFieldLabel = keyName =>
-    CAMERA_CONFIG_LABELS[normalizeCameraConfigField(keyName)] || keyName;
+export const getCameraModeTitle = (mode, intl) =>
+    formatOr(intl, MODE_TITLES[mode], mode);
 
-export const getCameraLegacyLabel = (keyName, camera) => {
+export const getCameraConfigFieldLabel = (keyName, intl) =>
+    formatOr(intl, CONFIG_FIELD_LABELS[normalizeCameraConfigField(keyName)], keyName);
+
+export const getCameraLegacyLabel = (keyName, camera, intl) => {
     if (!camera?.mode) return keyName;
-    if (keyName === 'mode') return getCameraModeTitle(camera.mode);
-    return LEGACY_CAMERA_MODE_LABELS[camera.mode]?.[keyName] || keyName;
+    if (keyName === 'mode') return getCameraModeTitle(camera.mode, intl);
+    return formatOr(intl, LEGACY_FIELD_LABELS[camera.mode]?.[keyName], keyName);
 };
 
 export const flattenCameraForSensing = camera => {
@@ -73,12 +84,16 @@ export const flattenCameraForSensing = camera => {
     return Object.keys(rest).length > 0 ? rest : null;
 };
 
-export const getCameraSensingLabel = (keyName, camera) => {
+// 传感器下拉菜单的 key：新协议为 "目标序号.字段"（见 flattenCameraForSensing），旧协议为原字段名
+export const getCameraSensingLabel = (keyName, camera, intl) => {
     if (typeof keyName === 'string' && keyName.includes('.')) {
-        const [target, field] = keyName.split('.');
-        return `目标${target} ${getCameraConfigFieldLabel(field)}`;
+        const [number, field] = keyName.split('.');
+        return intl.formatMessage(msg.targetField, {
+            number,
+            field: getCameraConfigFieldLabel(field, intl)
+        });
     }
-    return getCameraLegacyLabel(keyName, camera);
+    return getCameraLegacyLabel(keyName, camera, intl);
 };
 
 export const getSavedCameraSensingUnit = ({sensingData, deviceIndex, deviceId}) => {
