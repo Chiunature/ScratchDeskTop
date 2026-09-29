@@ -104,6 +104,7 @@ Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.STR_TYPE = "str";
 Blockly.Python.NFC_TYPE = "nfc";
 Blockly.Python.GRAYV2_TYPE = "grayv2";
+Blockly.Python.ELECT_SENSOR_TYPE = "elect_sensor";
 Blockly.Python.CAMERA_RECOGNITION_TYPE = "cameraRecognition";
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
@@ -556,6 +557,11 @@ Blockly.Python.toStr = function (val) {
   return matches && matches.length > 0;
 };
 
+Blockly.Python.portToNumber = function (port) {
+  const portMap = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7 };
+  return port in portMap ? portMap[port] : port;
+};
+
 Blockly.Python.handleResult = function (code, type) {
   let result = code;
   switch (type) {
@@ -613,6 +619,9 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.GRAYV2_TYPE:
       result = "_grayv2." + result;
+      break;
+    case Blockly.Python.ELECT_SENSOR_TYPE:
+      result = "_elect_sensor." + result;
       break;
     default:
       break;

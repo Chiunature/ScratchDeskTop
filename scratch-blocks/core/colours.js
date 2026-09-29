@@ -82,6 +82,11 @@ Blockly.Colours = {
     secondary: "#ff266b",
     tertiary: "#e20048",
   },
+  electSensor: {
+    primary: "#344d88",
+    secondary: "#293f6e",
+    tertiary: "#1f3154",
+  },
   pen: {
     primary: "#0fBD8C",
     secondary: "#0DA57A",

@@ -524,6 +524,7 @@ Blockly.Msg.CATEGORY_VARIABLES = "Variables";
 Blockly.Msg.CATEGORY_MYBLOCKS = "My Blocks";
 Blockly.Msg.CATEGORY_SENSING_CAMERA = "Camera";
 Blockly.Msg.CATEGORY_GRAYV2 = "GrayV2";
+Blockly.Msg.CATEGORY_ELECT_SENSOR = "Electromagnetic Sensor";
 // Context menus
 Blockly.Msg.COPY = "Copy";
 Blockly.Msg.PASTE = "Paste";
@@ -542,6 +543,10 @@ Blockly.Msg.EDIT_PROCEDURE = "Edit";
 Blockly.Msg.SHOW_PROCEDURE_DEFINITION = "Go to definition";
 Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = "Say something...";
 Blockly.Msg.CATEGORY_CAMERA_RECOGNITION = "Camera Recognition";
+Blockly.Msg.ELECT_SENSOR_SET_STATE =
+  "%1 set electromagnetic sensor %2 state to %3";
+Blockly.Msg.ELECT_SENSOR_STATE_DISCONNECTED = "disconnected";
+Blockly.Msg.ELECT_SENSOR_STATE_ENGAGED = "engaged";
 // Color
 Blockly.Msg.COLOUR_HUE_LABEL = "Color";
 Blockly.Msg.COLOUR_SATURATION_LABEL = "Saturation";

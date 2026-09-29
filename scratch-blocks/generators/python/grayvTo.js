@@ -17,13 +17,7 @@ Blockly.Python["grayv2_menu"] = function (block) {
 };
 
 Blockly.Python["grayvTo_port_to_number"] = function (port) {
-  const portMap = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7 };
-
-  if (port in portMap) {
-    return portMap[port];
-  } else {
-    return port;
-  }
+  return Blockly.Python.portToNumber(port);
 };
 
 Blockly.Python["grayv2_if_ch_black"] = function (block) {

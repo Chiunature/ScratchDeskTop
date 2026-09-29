@@ -13,6 +13,7 @@ const operatorsIcon = "static/LeftBuildingIcon/operation.svg";
 const variablesIcon = "static/LeftBuildingIcon/variable.svg";
 const myBlocksIcon = "static/LeftBuildingIcon/HomemadeBlocks.svg";
 const grayv2Icon = "static/LeftBuildingIcon/grayv2.svg";
+const electSensorIcon = "static/LeftBuildingIcon/elect_sensor.svg";
 
 const categorySeparator = '<sep gap="36"/>';
 
@@ -925,6 +926,22 @@ const grayv2 = function ({ colors }) {
     `;
 };
 
+const electSensor = function ({ colors }) {
+    return `
+    <category name="%{BKY_CATEGORY_ELECT_SENSOR}" id="elect_sensor" colour="${colors.primary}"
+        secondaryColour="${colors.tertiary}" iconURI="${electSensorIcon}">
+        ${categorySeparator}
+        <block type="elect_sensor_set_state">
+            <value name="PORT">
+                <shadow type="elect_sensor_menu" />
+            </value>
+            <field name="STATE">0</field>
+        </block>
+        ${categorySeparator}
+    </category>
+    `;
+};
+
 /* eslint-enable no-unused-vars */
 
 const xmlOpen = '<xml style="display: none">';
@@ -1009,6 +1026,9 @@ const makeToolboxXML = function (
         cameraRecognition({ colors: colors.cameraRecognition });
     const grayv2XML =
         moveCategory("grayv2") || grayv2({ colors: colors.grayv2 });
+    const electSensorXML =
+        moveCategory("elect_sensor") ||
+        electSensor({ colors: colors.electSensor });
     const sensingXML =
         moveCategory("sensing") ||
         sensing({ isInitialSetup, isStage, targetId, colors: colors.sensing });
@@ -1038,6 +1058,8 @@ const makeToolboxXML = function (
         cameraRecognitionXML, // 添加这一行
         gap,
         grayv2XML,
+        gap,
+        electSensorXML,
         gap,
         operatorsXML,
         gap,

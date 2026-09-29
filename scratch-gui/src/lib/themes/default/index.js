@@ -77,6 +77,12 @@ const blockColors = {
         tertiary: "#e20048",
         quaternary: "#e20048",
     },
+    electSensor: {
+        primary: "#344d88",
+        secondary: "#293f6e",
+        tertiary: "#1f3154",
+        quaternary: "#1f3154",
+    },
     data: {
         primary: "#FF8C1A",
         secondary: "#FF8000",

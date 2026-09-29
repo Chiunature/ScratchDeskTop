@@ -7292,6 +7292,7 @@ Blockly.ScratchMsgs.locales["en"] = {
   CATEGORY_LOOKS: "Looks",
   CATEGORY_SOUND: "Sound",
   CATEGORY_GRAYV2: "GrayV2",
+  CATEGORY_ELECT_SENSOR: "Electromagnetic Sensor",
   CATEGORY_CAMERA_RECOGNITION: "Camera Recognition",
   CATEGORY_EVENTS: "Events",
   CATEGORY_CONTROL: "Control",
@@ -7441,6 +7442,9 @@ Blockly.ScratchMsgs.locales["en"] = {
   GRAYV2_SET_PID: "%1 %2 Set the patrol line KP to %3 and KD to %4",
   GRAYV2_SET_FIND_LINE_CH:
     "%1 %2 Set the patrol line channel to left channel %3 middle channel %4 right channel %5",
+  ELECT_SENSOR_SET_STATE: "%1 set electromagnetic sensor %2 state to %3",
+  ELECT_SENSOR_STATE_DISCONNECTED: "disconnected",
+  ELECT_SENSOR_STATE_ENGAGED: "engaged",
   CHANNEL_1: "Channel 1",
   CHANNEL_2: "Channel 2",
   CHANNEL_3: "Channel 3",
@@ -23655,6 +23659,7 @@ Blockly.ScratchMsgs.locales["pt"] = {
   SOUND_SETPLAYSPEED: "definir velocidade de reprodução para %1",
   SOUND_PLAYMUSIC: "tocar nota %1 por %2 tempos",
   CATEGORY_GRAYV2: "Cartão Seguidor de Linha V2",
+  CATEGORY_ELECT_SENSOR: "Sensor eletromagnético",
   CATEGORY_SENSING_CAMERA: "Câmera",
   CATEGORY_CAMERA_RECOGNITION: "Reconhecimento de Câmera",
   COPY: "Copiar",
@@ -23845,6 +23850,10 @@ Blockly.ScratchMsgs.locales["pt"] = {
   GRAYV2_SET_PID: "%1 %2 definir KP do seguidor como %3 e KD como %4",
   GRAYV2_SET_FIND_LINE_CH:
     "%1 %2 definir canal de seguidor como canal esquerdo %3 canal médio %4 canal direito %5",
+  ELECT_SENSOR_SET_STATE:
+    "%1 definir o estado do sensor eletromagnético %2 como %3",
+  ELECT_SENSOR_STATE_DISCONNECTED: "desconectado",
+  ELECT_SENSOR_STATE_ENGAGED: "engatado",
   DEFAULT: "Padrão",
   FAST: "rapido",
   BALANCE: "saldo",
@@ -24275,6 +24284,7 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
   SOUND_SETPLAYSPEED: "definir velocidade de reprodução para %1",
   SOUND_PLAYMUSIC: "tocar nota %1 por %2 tempos",
   CATEGORY_GRAYV2: "Cartão Seguidor de Linha V2",
+  CATEGORY_ELECT_SENSOR: "Sensor eletromagnético",
   CATEGORY_SENSING_CAMERA: "Câmera",
   CATEGORY_CAMERA_RECOGNITION: "Reconhecimento de Câmera",
   COPY: "Copiar",
@@ -24465,6 +24475,10 @@ Blockly.ScratchMsgs.locales["pt-br"] = {
   GRAYV2_SET_PID: "%1 %2 definir KP do seguidor como %3 e KD como %4",
   GRAYV2_SET_FIND_LINE_CH:
     "%1 %2 definir canal de seguidor como canal esquerdo %3 canal médio %4 canal direito %5",
+  ELECT_SENSOR_SET_STATE:
+    "%1 defina o estado do sensor eletromagnético %2 como %3",
+  ELECT_SENSOR_STATE_DISCONNECTED: "desconectado",
+  ELECT_SENSOR_STATE_ENGAGED: "engatado",
 };
 
 Blockly.ScratchMsgs.locales["rap"] = {
@@ -30139,6 +30153,7 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   CATEGORY_LOOKS: "外观",
   CATEGORY_SOUND: "声音",
   CATEGORY_GRAYV2: "巡线卡V2",
+  CATEGORY_ELECT_SENSOR: "电磁传感器",
   CATEGORY_EVENTS: "事件",
   CATEGORY_CONTROL: "控制",
   CATEGORY_SENSING: "侦测",
@@ -30274,6 +30289,9 @@ Blockly.ScratchMsgs.locales["zh-cn"] = {
   GRAYV2_SET_RGB: "%1 %2 全部颜色设为 %3",
   GRAYV2_SET_PID: "%1 %2 设置巡线KP为%3 KD为%4",
   GRAYV2_SET_FIND_LINE_CH: "%1 %2 设置巡线通道为左通道%3 中通道%4 右通道%5",
+  ELECT_SENSOR_SET_STATE: "%1 设置电磁传感器 %2 状态为 %3",
+  ELECT_SENSOR_STATE_DISCONNECTED: "断开",
+  ELECT_SENSOR_STATE_ENGAGED: "吸合",
 };
 
 Blockly.ScratchMsgs.locales["zh-tw"] = {

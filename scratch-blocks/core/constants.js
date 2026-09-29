@@ -274,7 +274,8 @@ Blockly.Categories = {
   "more": "more",
   "motor": "motor",
   "combined_motor": "combined_motor",
-  "matrix": "matrix"
+  "matrix": "matrix",
+  "elect_sensor": "elect_sensor"
 };
 
 /**
