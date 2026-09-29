@@ -185,6 +185,31 @@ const messages = defineMessages({
         description: "NFC",
         defaultMessage: "NFC",
     },
+    elect_sensor: {
+        id: "gui.device.elect_sensor",
+        description: "Electromagnetic sensor",
+        defaultMessage: "Electromagnetic sensor",
+    },
+    electSensorState: {
+        id: "gui.device.electSensorState",
+        description: "Electromagnetic sensor state",
+        defaultMessage: "State",
+    },
+    electSensorDisconnected: {
+        id: "gui.device.electSensorDisconnected",
+        description: "Electromagnetic sensor disconnected state",
+        defaultMessage: "Disconnected",
+    },
+    electSensorEngaged: {
+        id: "gui.device.electSensorEngaged",
+        description: "Electromagnetic sensor engaged state",
+        defaultMessage: "Engaged",
+    },
+    electSensorSoftwareVersion: {
+        id: "gui.device.electSensorSoftwareVersion",
+        description: "Electromagnetic sensor software version",
+        defaultMessage: "Software version",
+    },
     grayRawParams: {
         id: "gui.device.grayRawParams",
         description: "Gray sensor multi-level raw parameters",

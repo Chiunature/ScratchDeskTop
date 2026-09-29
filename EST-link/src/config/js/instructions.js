@@ -26,6 +26,7 @@ export const deviceIdMap = {
   a8: "camer",
   a9: "nfc",
   b0: "gray_v2",
+  e0: "elect_sensor",
   /** 下位机上报端口异常占位（如 "dev null"）时与 sensing_device 对应 */
   dev_null: "deviceAbnormal",
 };

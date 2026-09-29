@@ -45,6 +45,7 @@ const DeviceSensingItem = ({
     getSensing,
     getType,
     DistinguishTypes,
+    FormatValue,
     index,
     changeUnitList
 }) => {
@@ -91,7 +92,8 @@ const DeviceSensingItem = ({
     // 组合显示文案："标签: 数值"
     const label = useMemo(() => {
         const typeName = DistinguishTypes(unit, item);
-        return typeName ? `${typeName}: ${showData}` : `${showData}`;
+        const displayValue = FormatValue(unit, showData, item);
+        return typeName ? `${typeName}: ${displayValue}` : `${displayValue}`;
     }, [showData, unit, item]);
 
     const handleSelectUnit = useCallback(
@@ -171,6 +173,7 @@ DeviceSensingItem.propTypes = {
     getPort: PropTypes.func.isRequired,
     getSensing: PropTypes.func.isRequired,
     getType: PropTypes.func.isRequired,
+    FormatValue: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     item: PropTypes.shape({
         camera: cameraDataPropType,

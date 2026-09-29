@@ -422,6 +422,16 @@ export class Common {
   }
 
   /**
+   * 处理电磁传感器数据
+   * @param {Object} item - 设备项
+   */
+  _processElectSensor(item) {
+    const deviceIdIndex = this.deviceIdList.indexOf("e0");
+    if (deviceIdIndex < 0) return;
+    this._setDeviceInfo(item, deviceIdIndex);
+  }
+
+  /**
    * 处理nfc数据
    * @param {Object} item - 设备项
    */
@@ -452,6 +462,8 @@ export class Common {
         this._processColorSensor(item);
       } else if (item.big_motor || item.small_motor) {
         this._processMotor(item);
+      } else if (item.elect_sensor) {
+        this._processElectSensor(item);
       } else if (item.ultrasion) {
         this._setDeviceInfo(item, 3);
       } else if (item.touch) {

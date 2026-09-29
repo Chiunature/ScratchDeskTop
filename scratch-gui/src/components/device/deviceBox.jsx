@@ -8,6 +8,7 @@ import DeviceBoxColor from "./deviceBoxColor.jsx";
 import DeviceBoxGray from "./deviceBoxGray.jsx";
 import DeviceBoxCamera from "./deviceBoxCamera.jsx";
 import DeviceBoxNfc from "./deviceBoxNfc.jsx";
+import DeviceBoxElectSensor from "./deviceBoxElectSensor.jsx";
 import styles from "./device.css";
 
 const cardStyle = {
@@ -33,6 +34,7 @@ const hasConnectedData = (device) => {
         "camera",
         "camer",
         "nfc",
+        "elect_sensor",
     ];
     return dataKeys.some((key) => {
         const value = device[key];
@@ -139,6 +141,14 @@ const DeviceBox = ({ list, intl, messages, baseIndex = 0 }) => (
                     )}
 
                     {!isCompactCard && <DeviceBoxNfc nfc={el.nfc} />}
+
+                    {!isCompactCard && (
+                        <DeviceBoxElectSensor
+                            electSensor={el.elect_sensor}
+                            intl={intl}
+                            messages={messages}
+                        />
+                    )}
                 </div>
             );
         })}

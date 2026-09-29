@@ -671,5 +671,10 @@
     "gui.device.grayBinaryStatus": "Parâmetro b",
     "gui.device.firmwareVersion": "Versão do firmware",
     "gui.device.nfc": "NFC",
-    "gui.device.camer": "Câmera"
+    "gui.device.camer": "Câmera",
+    "gui.device.elect_sensor": "Sensor eletromagnético",
+    "gui.device.electSensorState": "Estado",
+    "gui.device.electSensorDisconnected": "Desconectado",
+    "gui.device.electSensorEngaged": "Acionado",
+    "gui.device.electSensorSoftwareVersion": "Versão do software"
 }

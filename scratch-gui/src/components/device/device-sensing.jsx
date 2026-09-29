@@ -7,6 +7,7 @@ import superSoundIcon from "scratch-blocks/media/super_sound.svg";
 import touchPressIcon from "scratch-blocks/media/touch_press.svg";
 import cameraSensingIcon from "scratch-blocks/media/camera.svg";
 import nfcSensingIcon from "scratch-blocks/media/nfc.svg";
+import electSensorSensingIcon from "scratch-blocks/media/elect_sensor.svg";
 import messages from "./deviceMsg";
 import DeviceSensingItem from "./device-sensing-item.jsx";
 import grayv2SensingIcon from "scratch-blocks/media/grayv2.svg";
@@ -34,6 +35,7 @@ const DEVICE_ICONS = {
     camer: cameraSensingIcon,
     camera: cameraSensingIcon,
     nfc: nfcSensingIcon,
+    elect_sensor: electSensorSensingIcon,
 };
 
 const getSensing = (sensingDevice) => DEVICE_ICONS[sensingDevice] || null;
@@ -52,6 +54,7 @@ const DEVICE_DATA_FIELDS = {
     camer: "camer",
     camera: "camera",
     nfc: "nfc",
+    elect_sensor: "elect_sensor",
 };
 
 const getType = (item) => {
@@ -124,6 +127,26 @@ const DeviceSensing = ({ deviceObj, intl }) => {
         camera: (keyName, item) =>
             getCameraSensingLabel(keyName, item.camer || item.camera, intl),
         nfc: (keyName) => getNfcLabel(keyName),
+        elect_sensor: (keyName) => {
+            if (keyName === "state") return fmt("electSensorState");
+            if (keyName === "SoftwareVersion") {
+                return fmt("electSensorSoftwareVersion");
+            }
+            return keyName;
+        },
+    };
+
+    const FormatValue = (keyName, value, item) => {
+        if (item.sensing_device !== "elect_sensor" || keyName !== "state") {
+            return value;
+        }
+        if (String(value) === "0") {
+            return fmt("electSensorDisconnected");
+        }
+        if (String(value) === "1") {
+            return fmt("electSensorEngaged");
+        }
+        return value;
     };
 
     const DistinguishTypes = (keyName, item) => {
@@ -160,6 +183,7 @@ const DeviceSensing = ({ deviceObj, intl }) => {
                             getSensing={getSensing}
                             getType={getType}
                             DistinguishTypes={DistinguishTypes}
+                            FormatValue={FormatValue}
                         />
                     ) : null
                 )}
