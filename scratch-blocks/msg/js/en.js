@@ -304,6 +304,15 @@ Blockly.Msg["SENSING_ULTRASONIC_JUDGMENT"] =
 Blockly.Msg["SENSING_ULTRASONIC_DETECTION"] =
   "Ultrasonic %1 get distance value";
 Blockly.Msg["SENSING_SOUND_INTENSITY"] = "Get sound intensity";
+Blockly.Msg["SENSING_INFRARED_SET_COLOR"] =
+  "%1 %2 set infrared sensor %3 light to %4";
+Blockly.Msg["SENSING_INFRARED_ALT"] = "infrared sensor";
+Blockly.Msg["TOOLBOX_LABEL_TOUCH_SENSOR"] = "Touch sensor";
+Blockly.Msg["TOOLBOX_LABEL_GRAYSCALE_SENSOR"] = "Grayscale sensor";
+Blockly.Msg["TOOLBOX_LABEL_INFRARED_SENSOR"] = "Infrared sensor";
+Blockly.Msg["TOOLBOX_LABEL_ULTRASONIC_SENSOR"] = "Ultrasonic sensor";
+Blockly.Msg["TOOLBOX_LABEL_REMOTE_CONTROL"] = "Remote control";
+Blockly.Msg["TOOLBOX_LABEL_OTHERS"] = "Others";
 Blockly.Msg["SENSING_KEY_JUDGMENT"] = "Key %1 %2";
 Blockly.Msg["SENSING_KEY_PRESS"] = "%1 key %2";
 Blockly.Msg["SENSING_GYROSCOPE_ACCELERATION"] = "%1 Acceleration";

@@ -10,7 +10,7 @@
 
 ### 当前固件版本
 
-- **固件版本**: v110 (LB_FWLIB/version/Version.txt)
+- **固件版本**: v111 (LB_FWLIB/version/Version.txt)
 
 ### 固件资源组件
 

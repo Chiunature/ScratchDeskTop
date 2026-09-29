@@ -104,6 +104,7 @@ Blockly.Python.MSG_TYPE = "msg";
 Blockly.Python.MATH_TYPE = "math";
 Blockly.Python.NFC_TYPE = "nfc";
 Blockly.Python.CAMERA_RECOGNITION_TYPE = "cameraRecognition";
+Blockly.Python.IR_REMOTE_TYPE = "irRemote";
 Blockly.Python.firstLoop = true;
 Blockly.Python.soundslist = [];
 /**
@@ -672,6 +673,9 @@ Blockly.Python.handleResult = function (code, type) {
       break;
     case Blockly.Python.CAMERA_RECOGNITION_TYPE:
       result = "_camer." + result;
+      break;
+    case Blockly.Python.IR_REMOTE_TYPE:
+      result = "_ir_remote." + result;
       break;
     default:
       break;

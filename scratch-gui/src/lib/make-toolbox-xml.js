@@ -1,6 +1,6 @@
 // import ScratchBlocks from "scratch-blocks";
 import { defaultColors } from "./themes";
-// 使用运行时路径，而不是 import，避免 webpack 构建时解析错误
+// Use a runtime path instead of an import to avoid webpack resolution errors
 const motorIcon = "static/LeftBuildingIcon/generator.svg";
 const combinedMotorIcon = "static/LeftBuildingIcon/combination.svg";
 const matrixIcon = "static/LeftBuildingIcon/lighting.svg";
@@ -285,13 +285,13 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="${colors.primary}"
         secondaryColour="${colors.tertiary}" iconURI="${sensingIcon}">
-            <label text="触碰传感器" web-class="letter-spacing" />
+            <label text="%{BKY_TOOLBOX_LABEL_TOUCH_SENSOR}" web-class="letter-spacing" />
             <block type="sensing_key_judgment">
                 <value name="PORT">
                     <shadow type="touching_menu" />
                 </value>
             </block>
-            <label text="灰度传感器" web-class="letter-spacing" />
+            <label text="%{BKY_TOOLBOX_LABEL_GRAYSCALE_SENSOR}" web-class="letter-spacing" />
             <block type="sensing_reflected_light_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -342,7 +342,14 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="math_number"><field name="NUM">1</field></shadow>
                 </value>
             </block>
-            <label text="超声波传感器" web-class="letter-spacing" />
+            ${blockSeparator}
+            <label text="%{BKY_TOOLBOX_LABEL_INFRARED_SENSOR}" web-class="letter-spacing" />
+            <block type="sensing_infrared_set_color">
+                <value name="PORT">
+                    <shadow type="sensing_menu" />
+                </value>
+            </block>
+            <label text="%{BKY_TOOLBOX_LABEL_ULTRASONIC_SENSOR}" web-class="letter-spacing" />
             <block type="sensing_ultrasonic_judgment">
                 <value name="PORT">
                     <shadow type="sensing_menu" />
@@ -357,7 +364,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
                     <shadow type="sensing_menu" />
                 </value>
             </block>
-            <label text="遥控器" web-class="letter-spacing" />
+            <label text="%{BKY_TOOLBOX_LABEL_REMOTE_CONTROL}" web-class="letter-spacing" />
             <block type="sensing_isHandling">
                 <value name="PORT">
                     <shadow type="handShank_menu" />
@@ -390,7 +397,7 @@ const sensing = function ({ isInitialSetup, isStage, targetId, colors }) {
             ${blockSeparator}
             <block type="read_retreat_right_offset"></block>
             ${blockSeparator}
-            <label text="其他" web-class="letter-spacing" />
+            <label text="%{BKY_TOOLBOX_LABEL_OTHERS}" web-class="letter-spacing" />
             ${blockSeparator}
             <block type="sensing_mainIsPress"></block>
             ${categorySeparator}
@@ -917,7 +924,7 @@ const makeToolboxXML = function (
     const controlXML =
         moveCategory("control") ||
         control({ isInitialSetup, isStage, targetId, colors: colors.control });
-    // 在 sensing_cameraXML 之后添加
+    // Insert after sensing_cameraXML
     const cameraRecognitionXML =
         moveCategory("cameraRecognition") ||
         cameraRecognition({ colors: colors.cameraRecognition });
