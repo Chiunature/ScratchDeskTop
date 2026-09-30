@@ -10,7 +10,7 @@ import message from "../device/deviceMsg";
 import { ipc as ipc_Render, verifyTypeConfig } from "est-link";
 
 /** 可强制更新的传感器类型 id（与 Cascader 选项 id 对应） */
-const UPDATABLE_DEVICE_IDS = ["a1", "a5", "a6", "a2", "a7", "b0"];
+const UPDATABLE_DEVICE_IDS = ["a1", "a5", "a6", "a2", "a7", "b0", "e0"];
 
 /** 空设备 / 异常占位：允许自选任意类型更新 */
 function isEmptyOrAbnormal(deviceEntry) {
@@ -201,6 +201,9 @@ function CascaderPanelModalCom(props) {
                 case props.intl.formatMessage(message.gray_v2):
                     dataList[index] = 0xb0; //176
                     break;
+                case props.intl.formatMessage(message.elect_sensor):
+                    dataList[index] = 0xe0; //224
+                    break;
                 default:
                     break;
             }
@@ -276,6 +279,13 @@ function CascaderPanelModalCom(props) {
                                             defaultMessage="Gray sensor V2"
                                             description="Gray sensor V2"
                                             id="gui.device.gray_v2"
+                                        />
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            defaultMessage="Electromagnetic sensor"
+                                            description="Electromagnetic sensor"
+                                            id="gui.device.elect_sensor"
                                         />
                                     </li>
                                 </ul>

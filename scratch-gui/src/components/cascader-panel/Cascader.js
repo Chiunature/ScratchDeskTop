@@ -95,6 +95,13 @@ export async function initOptions(intl) {
                 checked: false,
                 father: el.label,
             },
+            {
+                value: intl.formatMessage(message.elect_sensor),
+                label: intl.formatMessage(message.elect_sensor),
+                id: "e0",
+                checked: false,
+                father: el.label,
+            },
         ];
         el["children"] = children;
     }
