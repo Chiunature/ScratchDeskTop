@@ -68,6 +68,7 @@ const CORE_EXTENSIONS = [
     "matrix",
     "cameraRecognition",
     "grayv2",
+    "elect_sensor",
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,
@@ -290,13 +291,18 @@ const compressInputTree = function (block, blocks) {
  * @return {?string} The extension ID, if it exists and is not a core extension.
  */
 const getExtensionIdForOpcode = function (opcode) {
+    // 先匹配完整的内置命名空间，因为部分内置 ID 包含下划线。
+    const isCoreOpcode = CORE_EXTENSIONS.some(
+        extensionId =>
+            opcode === extensionId || opcode.startsWith(`${extensionId}_`),
+    );
+    if (isCoreOpcode) return;
+
     // Allowed ID characters are those matching the regular expression [\w-]: A-Z, a-z, 0-9, and hyphen ("-").
     const index = opcode.indexOf("_");
     const forbiddenSymbols = /[^\w-]/g;
     const prefix = opcode.substring(0, index).replace(forbiddenSymbols, "-");
-    if (CORE_EXTENSIONS.indexOf(prefix) === -1) {
-        if (prefix !== "") return prefix;
-    }
+    if (prefix !== "") return prefix;
 };
 
 /**
@@ -343,7 +349,7 @@ const serializeBlocks = function (blocks) {
             [VAR_PRIMITIVE, LIST_PRIMITIVE].indexOf(serializedBlock[0]) < 0
         ) {
             log.warn(
-                `Found an unexpected top level primitive with block ID: ${blockID}; deleting it from serialized blocks.`
+                `Found an unexpected top level primitive with block ID: ${blockID}; deleting it from serialized blocks.`,
             );
             delete obj[blockID];
         }
@@ -483,12 +489,12 @@ const serializeTarget = function (target, extensions) {
         target.currentCostume >= target.costumes.length
     ) {
         log.warn(
-            `currentCostume property for target ${target.name} is out of range`
+            `currentCostume property for target ${target.name} is out of range`,
         );
         target.currentCostume = MathUtil.clamp(
             target.currentCostume,
             0,
-            target.costumes.length - 1
+            target.costumes.length - 1,
         );
     }
 
@@ -574,11 +580,11 @@ const serialize = function (runtime, targetId) {
         : runtime.targets.filter((target) => target.isOriginal);
 
     const layerOrdering = getSimplifiedLayerOrdering(
-        originalTargetsToSerialize
+        originalTargetsToSerialize,
     );
 
     const flattenedOriginalTargets = originalTargetsToSerialize.map((t) =>
-        t.toJSON()
+        t.toJSON(),
     );
 
     // If the renderer is attached, and we're serializing a whole project (not a sprite)
@@ -590,7 +596,7 @@ const serialize = function (runtime, targetId) {
     }
 
     const serializedTargets = flattenedOriginalTargets.map((t) =>
-        serializeTarget(t, extensions)
+        serializeTarget(t, extensions),
     );
 
     if (targetId) {
@@ -641,7 +647,7 @@ const deserializeInputDesc = function (
     inputDescOrId,
     parentId,
     isShadow,
-    blocks
+    blocks,
 ) {
     if (!Array.isArray(inputDescOrId)) return inputDescOrId;
     const primitiveObj = Object.create(null);
@@ -780,8 +786,8 @@ const deserializeInputDesc = function (
         default: {
             log.error(
                 `Found unknown primitive type during deserialization: ${JSON.stringify(
-                    inputDescOrId
-                )}`
+                    inputDescOrId,
+                )}`,
             );
             return null;
         }
@@ -816,14 +822,14 @@ const deserializeInputs = function (inputs, parentId, blocks) {
                 inputDescArr[1],
                 parentId,
                 true,
-                blocks
+                blocks,
             );
         } else if (blockShadowInfo === INPUT_BLOCK_NO_SHADOW) {
             block = deserializeInputDesc(
                 inputDescArr[1],
                 parentId,
                 false,
-                blocks
+                blocks,
             );
         } else {
             // assume INPUT_DIFF_BLOCK_SHADOW
@@ -831,13 +837,13 @@ const deserializeInputs = function (inputs, parentId, blocks) {
                 inputDescArr[1],
                 parentId,
                 false,
-                blocks
+                blocks,
             );
             shadow = deserializeInputDesc(
                 inputDescArr[2],
                 parentId,
                 true,
-                blocks
+                blocks,
             );
         }
         obj[inputName] = {
@@ -966,7 +972,7 @@ const parseScratchAssets = function (object, runtime, zip) {
         // any translation that needs to happen will happen in the process
         // of building up the costume object into an sb3 format
         return deserializeCostume(costume, runtime, zip).then(() =>
-            loadCostume(costumeMd5Ext, costume, runtime)
+            loadCostume(costumeMd5Ext, costume, runtime),
         );
         // Only attempt to load the costume after the deserialization
         // process has been completed
@@ -992,7 +998,7 @@ const parseScratchAssets = function (object, runtime, zip) {
         // any translation that needs to happen will happen in the process
         // of building up the costume object into an sb3 format
         return deserializeSound(sound, runtime, zip).then(() =>
-            loadSound(sound, runtime, assets.soundBank)
+            loadSound(sound, runtime, assets.soundBank),
         );
         // Only attempt to load the sound after the deserialization
         // process has been completed.
@@ -1050,7 +1056,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
     const target = sprite.createClone(
         object.isStage
             ? StageLayering.BACKGROUND_LAYER
-            : StageLayering.SPRITE_LAYER
+            : StageLayering.SPRITE_LAYER,
     );
     // Load target properties from JSON.
     if (object.hasOwnProperty("tempo")) {
@@ -1084,7 +1090,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
                 varId, // var id is the index of the variable desc array in the variables obj
                 variable[0], // name of the variable
                 Variable.SCALAR_TYPE, // type of the variable
-                isCloud
+                isCloud,
             );
             if (isCloud) runtime.addCloudVariable();
             newVariable.value = variable[1];
@@ -1098,7 +1104,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
                 listId,
                 list[0],
                 Variable.LIST_TYPE,
-                false
+                false,
             );
             newList.value = list[1];
             target.variables[newList.id] = newList;
@@ -1111,7 +1117,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
                 broadcastId,
                 broadcast,
                 Variable.BROADCAST_MESSAGE_TYPE,
-                false
+                false,
             );
             // no need to explicitly set the value, variable constructor
             // sets the value to the same as the name for broadcast msgs
@@ -1128,7 +1134,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
                 comment.y,
                 comment.width,
                 comment.height,
-                comment.minimized
+                comment.minimized,
             );
             if (comment.blockId) {
                 newComment.blockId = comment.blockId;
@@ -1155,7 +1161,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
         target.currentCostume = MathUtil.clamp(
             object.currentCostume,
             0,
-            object.costumes.length - 1
+            object.costumes.length - 1,
         );
     }
     if (object.hasOwnProperty("rotationStyle")) {
@@ -1182,7 +1188,7 @@ const parseScratchObject = function (object, runtime, extensions, zip, assets) {
         sprite.soundBank = soundBank || null;
     });
     return Promise.all(costumePromises.concat(soundPromises)).then(
-        () => target
+        () => target,
     );
 };
 
@@ -1190,20 +1196,20 @@ const deserializeMonitor = function (
     monitorData,
     runtime,
     targets,
-    extensions
+    extensions,
 ) {
     // If the serialized monitor has spriteName defined, look up the sprite
     // by name in the given list of targets and update the monitor's targetId
     // to match the sprite's id.
     if (monitorData.spriteName) {
         const filteredTargets = targets.filter(
-            (t) => t.sprite.name === monitorData.spriteName
+            (t) => t.sprite.name === monitorData.spriteName,
         );
         if (filteredTargets && filteredTargets.length > 0) {
             monitorData.targetId = filteredTargets[0].id;
         } else {
             log.warn(
-                `Tried to deserialize sprite specific monitor ${monitorData.opcode} but could not find sprite ${monitorData.spriteName}.`
+                `Tried to deserialize sprite specific monitor ${monitorData.opcode} but could not find sprite ${monitorData.spriteName}.`,
             );
         }
     }
@@ -1222,7 +1228,7 @@ const deserializeMonitor = function (
             listTarget &&
             Object.prototype.hasOwnProperty.call(
                 listTarget.variables,
-                monitorData.id
+                monitorData.id,
             )
         ) {
             monitorData.params.LIST = listTarget.variables[monitorData.id].name;
@@ -1362,7 +1368,7 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
     // then sort by the layer order property before parsing the targets
     // so that their corresponding render drawables can be created in
     // their layer order (e.g. back to front)
-  let targetObjects = (isSingleSprite ? [json] : json.targets) || [];
+    let targetObjects = (isSingleSprite ? [json] : json.targets) || [];
     if (!isSingleSprite) {
         targetObjects = dedupeSerializedTargets(targetObjects);
     } else if (json.isStage) {
@@ -1378,8 +1384,8 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
     return (
         Promise.resolve(
             targetObjects.map((target) =>
-                parseScratchAssets(target, runtime, zip)
-            )
+                parseScratchAssets(target, runtime, zip),
+            ),
         )
             // Force this promise to wait for the next loop in the js tick. Let
             // storage have some time to send off asset requests.
@@ -1392,10 +1398,10 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
                             runtime,
                             extensions,
                             zip,
-                            assets[index]
-                        )
-                    )
-                )
+                            assets[index],
+                        ),
+                    ),
+                ),
             )
             .then((targets) =>
                 targets // Re-sort targets back into original sprite-pane ordering
@@ -1412,7 +1418,7 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
                         // sprite pane ordering and stage layer ordering
                         delete t.targetPaneOrder;
                         return t;
-                    })
+                    }),
             )
             .then((targets) => replaceUnsafeCharsInVariableIds(targets))
             .then((targets) => {
@@ -1421,8 +1427,8 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
                         monitorDesc,
                         runtime,
                         targets,
-                        extensions
-                    )
+                        extensions,
+                    ),
                 );
                 return targets;
             })
